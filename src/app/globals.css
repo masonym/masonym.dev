@@ -41,33 +41,30 @@
   --card-border-rgb: 131, 134, 135;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+:root[data-theme='dark'] {
+	--primary-bright:	#ffffff;
+	--primary:		#d9d9d9;
+	--primary-dim:		#666666;
+	--primary-dark:		#202020;
+	--secondary: 		#ffed7f;
+	--secondary-bright: 	#ffea5f;
+	--background: 		hsl(0, 0%, 15%);
+	
+	/* Asks browser to behave in dark mode */
+	color-scheme: dark;
+} 
 
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(to bottom right,
-        rgba(1, 65, 255, 0),
-        rgba(1, 65, 255, 0),
-        rgba(1, 65, 255, 0.3));
-
-    --tile-start-rgb: 2, 13, 46;
-    --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(#ffffff80,
-        #ffffff40,
-        #ffffff30,
-        #ffffff20,
-        #ffffff10,
-        #ffffff10,
-        #ffffff80);
-
-    --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200;
-  }
+/*
+ * Light mode theme 
+ */
+:root[data-theme='light'] {
+	--primary-bright:	#000000;
+	--primary: 		#252b31;
+	--primary-dim:		#121315;
+	--primary-dark:		#efefef;
+	--secondary: 		#002aff;
+	--secondary-bright:	#4800ff;
+	--background: 		hsl(0, 10%, 85%);
 }
 
 html,
@@ -76,6 +73,7 @@ body {
   overflow-x: hidden;
   font-family: 'maplestory', sans-serif;
   margin: 0;
+  background-color: var(--background);
 }
 
 div {
@@ -96,4 +94,12 @@ a {
 ul {
   list-style-type: none;
   padding-left: 0
+}
+
+p {
+  color: var(--primary)
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+  color: var(--primary-bright);
 }

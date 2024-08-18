@@ -1,6 +1,10 @@
 .headerContainer {
-    background-color: #6b6b6b;
+    background-color: var(--primary-dark);
     padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logoContainer {
@@ -8,4 +12,8 @@
     flex-direction: row;
     align-items: center;
     gap: 10px;
+}
+
+.headerTitle {
+    color: var(--primary)
 }

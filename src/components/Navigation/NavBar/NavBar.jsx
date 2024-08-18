@@ -3,6 +3,7 @@ import styles from './NavBar.module.css'
 import Logo from '@/assets/Eqp_Zakum_Helmet.png' // 36 x 34
 import Image from 'next/image'
 import Link from 'next/link'
+import ModeToggle from '../ModeToggle/ModeToggle'
 
 const NavBar = () => {
   return (
@@ -14,8 +15,9 @@ const NavBar = () => {
           height={34}
           alt="Zakum Helmet as a logo"
         />
-        <h3>mason's maple matrix</h3>
+        <h3 className={styles.headerTitle}>mason's maple matrix</h3>
       </Link>
+      <ModeToggle/>
     </div>
   )
 }

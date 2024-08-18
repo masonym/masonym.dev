@@ -1,12 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./page.module.css";
 import SalesPic from '../assets/upcoming-sales.png'
 
 export default function Home() {
   return (
     <div className={styles.App}>
-        <title>masonym's maple matrix</title>
-        <meta name="og:description" content="hi its my website =)" />
+      {/* <title>masonym's maple matrix</title>
+      <meta name="og:description" content="hi its my website =)" /> */}
       <header className={styles.header}>
         <h1>nothing to see here, really</h1>
       </header>
@@ -26,10 +27,10 @@ export default function Home() {
         <section className={styles.projects}>
           <h2>Tools</h2>
           <h4>Upcoming Cash Shop Sales</h4>
-          <a href="/ms-upcoming-sales">
-          <img src={SalesPic.src} alt="Upcoming sales site">
+          <Link href="/cash-shop">
+          <img src={SalesPic.src} alt="Cash shop sales site">
           </img>
-          </a>
+          </Link>
           <p><i>A handy tool for checking the upcoming Cash Shop sales for MapleStory</i></p>
 
         </section>
