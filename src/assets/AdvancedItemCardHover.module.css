@@ -1,0 +1,112 @@
+.hoverCard {
+    background-color: rgba(0, 0, 0, 0.85);
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'maplestory', sans-serif;
+    font-weight: lighter;
+    color: #eee;
+    overflow-y: auto;
+}
+
+.desktopHoverCard {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    max-width: 35%;
+    min-width: 25%;
+}
+
+.mobileHoverCard {
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-height: 90vh;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: url('../assets/cursorClick.png'), auto;
+}
+
+
+.saleTimes p {
+    margin: 0.25em 0;
+}
+
+.itemFlexContainer {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.itemImageContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.itemImage {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+
+.hoverCard h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.hoverCard p {
+    color: whitesmoke;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.saleTimes p {
+    text-align: center;
+    color: #e67f13;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.hoverCard hr {
+    height: 0;
+    border: 0;
+    margin: 2.5% 0;
+    border-top: 2px dotted #eee;
+    background-color: transparent;
+}
+
+
+@media (max-width: 1400px) {
+    .desktopHoverCard {
+        max-width: 45%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .desktopHoverCard {
+        max-width: 45%;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobileHoverCard {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,30 @@
+.footer {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    color: #333;
+    margin-top: 5px;
+    z-index: 2;
+}
+
+.footerItem {
+    margin: 0;
+}
+
+.footerItem a {
+    color: #2c5f2d;
+    text-decoration: none;
+}
+
+.footerItem a:hover {
+    text-decoration: underline;
+}

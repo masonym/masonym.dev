@@ -1,0 +1,94 @@
+.itemListMain {
+    position: relative;
+  }
+  
+  .header {
+    padding: 20px;
+    position: relative;
+  }
+  
+  .advancedView .header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background-image: url('./backgrnd_cr.png');
+    background-position: center;
+    z-index: -1;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 24px;
+    color: white;
+  }
+  
+  .toggleContainer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .toggleSwitch {
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 15px;
+    position: relative;
+    cursor: url('../assets/cursorClick.png'), auto;
+  }
+  
+  .slider {
+    width: 26px;
+    height: 26px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .left {
+    left: 2px;
+  }
+  
+  .right {
+    right: 2px;
+  }
+  
+  .icon {
+    font-size: 16px;
+  }
+  
+  .label {
+    margin-left: 10px;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+  
+  .simpleLabel {
+    color: #4a90e2;
+  }
+  
+  .advancedLabel {
+    color: #e24a4a;
+  }
+  
+  .content {
+    padding: 0px;
+  }
+  
+  @media (max-width: 600px) {
+    .toggleContainer {
+      top: 5px;
+      right: 5px;
+    }
+  }

@@ -1,12 +1,15 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import React from 'react';
+import styles from '../assets/HomePage.module.css';
 import SalesPic from '../assets/upcoming-sales.png'
+import { Helmet } from 'react-helmet';
 
-export default function Home() {
+function App() {
   return (
     <div className={styles.App}>
+      <Helmet>
         <title>Home Page</title>
         <meta name="og:description" content="hi its my website =)" />
+      </Helmet>
       <header className={styles.header}>
         <h1>nothing to see here, really</h1>
       </header>
@@ -37,3 +40,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default App;

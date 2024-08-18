@@ -1,0 +1,340 @@
+.h1 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: whitesmoke;
+    font-weight: bold;
+    margin-top: 60px;
+}
+
+.h4 {
+    font-size: 1.25rem;
+    text-align: center;
+    margin: 20px 0;
+    font-style: italic;
+    margin-bottom: 30px;
+    color: whitesmoke;
+}
+
+
+.sortControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #4a90e2;
+}
+
+.sortControls label,
+.sortControls select {
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.sortControls option {
+    color: #333;
+}
+
+.dropdown {
+    margin-right: 12px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    width: auto;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: url('../assets/cursorClick.png'), auto;
+    text-align: center;
+    color: whitesmoke;
+}
+
+.controlsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filterButtons {
+    display: inline-flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 10px 10px 10px
+}
+
+.filterButton {
+    width: 33%;
+    font-family: inherit;
+    padding: 10px 20px;
+    border: 2px solid #d2b48c;
+    border-radius: 25px;
+    background-color: #8abf88;
+    color: #2e4d2e;
+    cursor: url('../assets/cursorClick.png'), auto;
+    transition: background-color 0.3s, transform 0.3s;
+    text-align: center;
+}
+
+.filterButton:hover {
+    background-color: #6fa96d;
+    transform: scale(1.05);
+}
+
+.filterButton.active {
+    background-color: #679d66;
+    transform: scale(1.05);
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.searchInput {
+    width: 100%;
+    font-family: inherit;
+    padding: 6px 12px;
+    border: 2px solid #d2b48c;
+    border-radius: 25px;
+    background-color: #fff5e6;
+    color: #2e4d2e;
+    outline: none;
+}
+
+.checkboxContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    cursor: url('../assets/cursorClick.png'), auto;
+    user-select: none;
+    color: whitesmoke;
+}
+
+.checkboxInput {
+    margin-right: 8px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    cursor: url('../assets/cursorClick.png'), auto;
+    appearance: none;
+    background-color: #fff;
+    position: relative;
+}
+
+.checkboxInput:checked {
+    border: 2px solid #007bff;
+}
+
+.checkboxInput:checked::before {
+    content: '✓';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-40%, -65%);
+    color: #000;
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1;
+    /* Prevents font rendering issues */
+    -webkit-font-smoothing: antialiased;
+}
+
+.itemFlexContainer {
+    display: flex;
+    align-items: center;
+}
+
+.itemImage {
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 2px solid black;
+    background-color: #caffbf;
+    padding: 10px;
+}
+
+.gameWorldContainer {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 2px;
+    width: 25%;
+    margin: 0 auto;
+}
+
+.gameWorld {
+    width: 100%;
+    height: auto;
+    max-height: 2em;
+    max-width: 34px;
+}
+
+.packageContents li {
+    padding: 4px 0;
+}
+
+.packageItems {
+    list-style: none;
+    padding-left: 0;
+}
+
+.itemImageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.itemImageBase {
+    width: 4cqb;
+    height: 4cqb;
+}
+
+.packageItems li {
+    padding-bottom: 4px;
+    border-radius: 20px;
+    border: 1px solid #eeeeee;
+    padding: 5px;
+    margin: 5px;
+}
+
+.packageItemFlexContainer {
+    display: flex;
+    align-items: flex-start;
+}
+
+.packageItemImage {
+    position: absolute;
+    width: 3cqb;
+    height: 3cqb;
+    object-fit: contain;
+}
+
+
+.hidePastItemsButton {
+    margin-left: 16px;
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: url('../assets/cursorClick.png'), auto;
+}
+
+.hidePastItemsButton:hover {
+    background-color: #0056b3;
+}
+
+.noItemsMessage {
+    color: #ff0000;
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+.categoryHeader {
+    display: flex;
+    align-items: center;
+    cursor: url('../assets/cursorClick.png'), auto;
+    user-select: none;
+    transition: background-color 0.2s;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    justify-content: center;
+    text-align: center;
+}
+
+.categoryHeader:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.categoryToggle {
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 0.8em;
+}
+
+.categoryDate {
+    flex-grow: 0;
+}
+
+.itemList {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px 5%;
+    align-items: center;
+    justify-content: center;
+}
+
+.mainContent {
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.saleTimes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #e67f13;
+    margin-top: 10px;
+}
+
+.saleTimes p {
+    margin: 0.25em;
+    text-align: center;
+}
+
+.noItemsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.noItemsImage {
+    width: 202px;
+    height: 118px;
+}
+
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.loadingContainer p {
+    margin: 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
