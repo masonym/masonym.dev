@@ -8,7 +8,8 @@ import FilterControls from '../../components/CashShop/FilterControls';
 import AdvancedItemCard from '../../components/CashShop/AdvancedItemCard';
 import { formatDate } from '../../utils';
 import Footer from '../../components/Footer';
-import background from '../../assets/backgrnd_cr.png';
+import backgroundDark from '../../assets/backgrnd_cr.png';
+import backgroundLight from '@/assets/backgrnd_cr_light.png'
 import noItemsImage from '../../assets/noItem_mini.png';
 
 
@@ -29,7 +30,8 @@ function AdvancedItemList() {
     const [isTouchDevice, setIsTouchDevice] = useState(false);
     const [collapsedCategories, setCollapsedCategories] = useState({});
     const [apiParams, setApiParams] = useState({});
-    const [loading, setLoading] = useState(true);  // Add loading state
+    const [loading, setLoading] = useState(true);
+    const [backgroundImage, setBackgroundImage] = useState(backgroundDark);
 
     const handleSortKeyChange = (event) => setSortKey(event.target.value);
     const handleSortOrderChange = (event) => setSortOrder(event.target.value);
@@ -199,9 +201,31 @@ function AdvancedItemList() {
         }
     };
 
+    useEffect(() => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        setBackgroundImage(currentTheme === 'light' ? backgroundLight : backgroundDark);
+    }, []);
+
+    useEffect(() => {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'data-theme') {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    setBackgroundImage(currentTheme === 'light' ? backgroundLight : backgroundDark);
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <div className={advancedStyles.mainContent} style={{
-            backgroundImage: `url(${background.src})`,
+            backgroundImage: `url(${backgroundImage.src})`,
             backgroundAttachment: 'fixed',
         }}>
             <title>Cash Shop</title>
