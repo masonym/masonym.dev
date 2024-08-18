@@ -5,7 +5,7 @@ import SalesPic from '../assets/upcoming-sales.png'
 export default function Home() {
   return (
     <div className={styles.App}>
-        <title>Home Page</title>
+        <title>masonym's maple matrix</title>
         <meta name="og:description" content="hi its my website =)" />
       <header className={styles.header}>
         <h1>nothing to see here, really</h1>
@@ -20,7 +20,7 @@ export default function Home() {
         <section className={styles.links}>
           <h2>Links</h2>
           <ul>
-            <li><a href="https://www.youtube.com/channel/UCdSDc5DnBUS6bWJgPfwfYSA">YouTube</a></li>
+            <li><a href="https://www.youtube.com/channel/UCdSDc5DnBUS6bWJgPfwfYSA" target="_blank">YouTube</a></li>
           </ul>
         </section>
         <section className={styles.projects}>

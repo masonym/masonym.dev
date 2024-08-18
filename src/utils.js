@@ -82,18 +82,18 @@ export function calculateDateDifference(date1, date2) {
 
 export const magicText = (itemID) => {
   let magicText = ""
-  // if (itemID.startsWith("500")) {
-  //   magicText = "Magic "
-  // }
-  // console.log(itemID)
+  if (itemID.startsWith("500")) {
+    magicText = "Magic "
+  }
+  console.log(itemID)
   return magicText
 }
 
-export const formatPriceDisplay = (originalPrice, price, itemKey, discount) => {
+export const formatPriceDisplay = (originalPrice, price, sn_id, discount) => {
   const formatNumber = (number) => number.toLocaleString(); // Add your number formatting logic here if needed
   const originalPriceNum = Number(originalPrice);
   const priceNum = Number(price);
-  const currency = itemKey.startsWith('870') ? ' Mesos' : ' NX';
+  const currency = sn_id.startsWith('870') ? ' Mesos' : ' NX';
 
   if (discount == 1) {
     const discountPercentage = Math.round(((originalPriceNum - priceNum) / originalPriceNum) * 100);

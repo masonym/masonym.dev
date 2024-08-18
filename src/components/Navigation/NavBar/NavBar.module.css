@@ -1,0 +1,11 @@
+.headerContainer {
+    background-color: #6b6b6b;
+    padding: 20px;
+}
+
+.logoContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}

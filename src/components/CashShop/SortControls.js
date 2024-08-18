@@ -1,6 +1,6 @@
 import React from 'react';
-import itemListStyles from '../assets/ItemList.module.css';
-import advancedItemListStyles from '../assets/AdvancedItemList.module.css';
+import itemListStyles from './ItemList.module.css';
+import advancedItemListStyles from './AdvancedItemList.module.css';
 
 const SortControls = ({ sortKey, sortOrder, onSortKeyChange, onSortOrderChange, className }) => {
     const styles = className === advancedItemListStyles ? advancedItemListStyles : itemListStyles;

@@ -1,13 +1,13 @@
 import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import styles from '../assets/AdvancedItemCard.module.css';
-import { formatNumber } from '../utils';
-import background from '../assets/productBg.png';
+import styles from './AdvancedItemCard.module.css';
+import { formatNumber } from '../../utils';
+import background from '../../assets/productBg.png';
 import AdvancedItemCardHover from './AdvancedItemCardHover';
 
 const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images"
 
-const AdvancedItemCard = ({ itemKey, item, isOpen, onItemClick, isTouchDevice }) => {
+const AdvancedItemCard = ({ item, isOpen, onItemClick, isTouchDevice }) => {
     const [isHovering, setIsHovering] = useState(false);
     const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
     const hoverCardRef = useRef(null);
@@ -76,14 +76,13 @@ const AdvancedItemCard = ({ itemKey, item, isOpen, onItemClick, isTouchDevice })
                     <p className={styles.itemName}>{item.name}{item.count > 1 ? ` (x${item.count})` : ''}</p>
                     <p className={styles.itemPrice}>
                         {formatNumber(item.price)}
-                        {itemKey.toString().startsWith('870') ? ' Mesos' : ' NX'}
-                        {item.discount == 1 ? <><br /><s>{formatNumber(item.originalPrice)}{itemKey.toString().startsWith('870') ? ' Mesos' : ' NX'}</s></> : ''}
+                        {item.sn_id.toString().startsWith('870') ? ' Mesos' : ' NX'}
+                        {item.discount == 1 ? <><br /><s>{formatNumber(item.originalPrice)}{item.sn_id.toString().startsWith('870') ? ' Mesos' : ' NX'}</s></> : ''}
                     </p>
                 </div>
             </div>
             {(isHovering || (isTouchDevice && isOpen)) && (
                 <AdvancedItemCardHover
-                    itemKey={itemKey}
                     item={item}
                     position={hoverPosition}
                     isTouchDevice={isTouchDevice}

@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../assets/AdvancedItemList.module.css';
-import { convertNewlinesToBreaks, magicText } from '../utils';
-import itemBase from '../assets/itemBase.png';
+import styles from './AdvancedItemList.module.css';
+import { convertNewlinesToBreaks, magicText } from '../../utils';
+import itemBase from '../../assets/itemBase.png';
 
 const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images"
 

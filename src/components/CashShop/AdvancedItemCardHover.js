@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
-import styles from '../assets/AdvancedItemCardHover.module.css';
-import { formatPriceDisplay, convertNewlinesToBreaks, formatSaleTimesDate, calculateDateDifference, magicText, worldNumbersToString } from '../utils';
+import styles from './AdvancedItemCardHover.module.css';
+import { formatPriceDisplay, convertNewlinesToBreaks, formatSaleTimesDate, calculateDateDifference, magicText, worldNumbersToString } from '../../utils';
 import AdvancedPackageContents from './AdvancedPackageContents';
-import itemBase from '../assets/itemBase.png';
+import itemBase from '../../assets/itemBase.png';
 import Image from 'next/image';
 
 const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images"
@@ -50,7 +50,7 @@ const AdvancedItemCardHover = ({ itemKey, item, position, isTouchDevice, hoverCa
             <AdvancedPackageContents contents={item.packageContents} />
             <hr className={styles.hr} />
             <p>
-                {formatPriceDisplay(item.originalPrice, item.price, itemKey, item.discount)}
+                {formatPriceDisplay(item.originalPrice, item.price, item.sn_id, item.discount)}
             </p>
             <p style={{ marginTop: '10px' }}>
                 {worldNumbersToString(item.gameWorld)}
