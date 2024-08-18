@@ -4,7 +4,7 @@ Site for my published MapleStory Tools
 
 # Todo
 
-- [ ] Rename cs path
+- [x] Rename cs path
 - [ ] Add hexa calc
-- [ ] Fix css
-- [ ] Refactor asset structures
+- [x] Fix css
+- [x] Refactor asset structures
