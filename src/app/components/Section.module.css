@@ -1,7 +1,9 @@
 .section {
     border: 1px solid var(--primary-dim);
     border-radius: 4px;
-    margin: 2em 10em;
+    /* margin: 2em 10em; */
+    width: 65%;
+    margin-top: 2em;
     text-align: left;
     padding: 0px 0px 0px 20px
 }
