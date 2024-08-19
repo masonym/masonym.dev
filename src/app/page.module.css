@@ -91,3 +91,16 @@
   display: grid;
   grid-template-columns: 3;
 }
+
+.pageButton {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  padding-inline-end: 64px;
+  height: 32px;
+}
+
+.pageButton:hover {
+  background-color: var(--primary-dark);
+  border-radius: 8px;
+}

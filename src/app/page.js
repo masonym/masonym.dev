@@ -11,7 +11,13 @@ export default function Home() {
       <div>
         {navigationItems.map((section, index) => (
           <Section key={index} title={section.title}>
-            <NavigationList items={section.items} alignItemsProp="center" flexDirectionProp="row" showImages={true} />
+            <NavigationList
+              items={section.items}
+              alignItemsProp="center"
+              flexDirectionProp="row"
+              showImages={true}
+              rowGapProp={32}
+            />
           </Section>
         ))}
 

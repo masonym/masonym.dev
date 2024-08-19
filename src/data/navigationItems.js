@@ -4,8 +4,8 @@ export const navigationItems = [
     {
         title: "Info",
         items: [
-            { name: "Flames", href: "/flames" },
-            { name: "Potentials", href: "/potentials" },
+            { name: "Flames", href: "/flames", image: "/images/flames.png" },
+            { name: "Potentials", href: "/potentials", image: "/images/potentials.png" },
             { name: "Familiars", href: "/familiars" },
             { name: "Souls", href: "/souls" },
             { name: "MAPLE Daily Gift", href: "/maple-daily-gift" },
