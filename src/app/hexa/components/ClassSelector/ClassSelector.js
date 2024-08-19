@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { classes } from "@/data/classes";
+import { InputGrid } from "../InputGrid/InputGrid";
 
 const ClassSelector = () => {
   const [selectedClass, setSelectedClass] = useState("");
@@ -70,26 +71,7 @@ const ClassSelector = () => {
           </ul>
         )}
       </div>
-      {classDetails && (
-        <div>
-          <h3>Origin Skill:</h3>
-          <p>{classDetails.originSkill}</p>
-
-          <h3>Mastery Skills:</h3>
-          <ul>
-            {classDetails.masterySkills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
-
-          <h3>Boost Skills:</h3>
-          <ul>
-            {classDetails.boostSkills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {classDetails && <InputGrid classDetails={classDetails}></InputGrid>}
     </div>
   );
 };
