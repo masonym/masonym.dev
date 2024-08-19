@@ -1,6 +1,6 @@
 # masonym.dev
-Site for my published MapleStory Tools
-Very much a work in progress for now.
+Site for my published MapleStory Tools  
+Very much a work in progress for now. Not connected to any domain yet.
 
 Built with React/Next.js
 
@@ -26,3 +26,7 @@ Built with React/Next.js
   - [ ] Apply styling
   - [ ] Results section
 - [ ] Headers on hamburger menu should be collapsed aside from curr category
+
+# Run
+
+```npm run dev```
