@@ -9,7 +9,7 @@ export const InputGrid = ({ classDetails }) => {
                     Enter in your current Hexa Levels:
                 </div>
                 <div className={styles.gridHexaLevels}>
-                    {/* origin */}``7788787
+                    {/* origin */}
                     <div className={styles.item}>
                         {classDetails.originSkill}
                     </div>
