@@ -18,7 +18,8 @@ const NavBar = () => {
 
   return (
     <div className={styles.headerContainer}>
-      <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
+      {/* menu + logo + title */}
+      <div className={styles.leftSection}>
         <button onClick={toggleMenu} className={styles.menuButton}>
           <Menu color='var(--primary)' />
         </button>
@@ -33,7 +34,14 @@ const NavBar = () => {
           <h3 className={styles.headerTitle}>mason's maple matrix</h3>
         </Link>
       </div>
-      <ModeToggle />
+      <div className={styles.centerSection}>
+        <Link href="/about">
+          About
+        </Link>
+      </div>
+      <div className={styles.rightSection}>
+        <ModeToggle />
+      </div>
     </div>
   )
 }

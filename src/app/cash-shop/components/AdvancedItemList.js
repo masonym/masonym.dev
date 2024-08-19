@@ -24,46 +24,50 @@ function AdvancedItemList() {
     const [openItemId, setOpenItemId] = useState(null);
     const [isTouchDevice, setIsTouchDevice] = useState(false);
     const [collapsedCategories, setCollapsedCategories] = useState({});
-    const [apiParams, setApiParams] = useState({});
     const [loading, setLoading] = useState(true);  // Add loading state
-
+    
     const handleSortKeyChange = (event) => setSortKey(event.target.value);
     const handleSortOrderChange = (event) => setSortOrder(event.target.value);
-
+    
     const toggleHidePastItems = useCallback((event) => {
         setHidePastItems(event.target.checked);
         if (event.target.checked) {
             setShowCurrentItems(false);
         }
     }, []);
-
+    
     const toggleShowCurrentItems = useCallback((event) => {
         setShowCurrentItems(event.target.checked);
         if (event.target.checked) {
             setHidePastItems(false);
         }
     }, []);
-
+    
     const toggleCategory = (dateKey) => {
         setCollapsedCategories(prev => ({
             ...prev,
             [dateKey]: !prev[dateKey]
         }));
     }
-
+    
     const handleSearchTermChange = (event) => setSearchTerm(event.target.value.toLowerCase());
     const handleWorldFilterChange = (filter) => setWorldFilter(filter);
-
+    
     const parseDate = (dateString) => {
         const [datePart, timePart] = dateString.split(' ');
         const [month, day, year] = datePart.split('-');
         const [hour, minute] = timePart.split(':');
         return new Date(Date.UTC(year, month - 1, day, hour, minute));
     };
-
+    
     const formatDateForAPI = (date) => {
         return `${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}-${date.getFullYear()}`;
     };
+
+    const [apiParams, setApiParams] = useState(() => {
+        const now = new Date();
+        return { startDate: formatDateForAPI(now) };
+    });
 
     const categorizeItems = (items) => {
         const categorized = {};
@@ -81,6 +85,22 @@ function AdvancedItemList() {
         return categorized;
     };
 
+    useEffect(() => {
+        const now = new Date();
+
+        let params = {};
+
+        if (hidePastItems) {
+            params.endDate = formatDateForAPI(now);
+        } else if (showCurrentItems) {
+            params.currentItems = 'true';
+        } else {
+            params.startDate = formatDateForAPI(now);
+        }
+
+        setApiParams(params);
+    }, [hidePastItems, showCurrentItems]);
+    
     const fetchItems = useCallback(async () => {
         setLoading(true);  // Set loading to true before the API call
         try {
@@ -98,24 +118,7 @@ function AdvancedItemList() {
         }
     }, [apiParams]);
 
-    useEffect(() => {
-        const now = new Date();
-        const oneMonthLater = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
-        const oneMonthEarlier = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-
-        let params = {};
-
-        if (hidePastItems) {
-            params.endDate = formatDateForAPI(now);
-        } else if (showCurrentItems) {
-            params.currentItems = 'true';
-        } else {
-            params.startDate = formatDateForAPI(now);
-        }
-
-        setApiParams(params);
-    }, [hidePastItems, showCurrentItems]);
-
+    
     useEffect(() => {
         fetchItems();
     }, [fetchItems]);

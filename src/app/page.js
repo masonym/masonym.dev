@@ -7,8 +7,6 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <div className={styles.App}>
-      {/* <title>masonym's maple matrix</title>
-      <meta name="og:description" content="hi its my website =)" /> */}
       <header className={styles.header}>
         <h1>nothing to see here, really</h1>
       </header>

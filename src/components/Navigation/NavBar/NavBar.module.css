@@ -2,8 +2,20 @@
     background-color: var(--primary-dark);
     padding: 20px;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+}
+
+.leftSection, .rightSection {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.centerSection {
+    flex: 1;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
@@ -20,5 +32,10 @@
 
 .menuButton {
     background-color: transparent;
-    border: none
+    border: none;
+    margin-right: 10px;
+}
+
+.rightSection {
+    justify-content: flex-end;
 }
