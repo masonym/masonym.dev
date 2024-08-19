@@ -1,6 +1,6 @@
 import React from 'react';
-import itemListStyles from './ItemList.module.css';
-import advancedItemListStyles from './AdvancedItemList.module.css';
+import itemListStyles from '../assets/ItemList.module.css';
+import advancedItemListStyles from '../assets/AdvancedItemList.module.css';
 
 const FilterControls = ({ searchTerm, hidePastItems, showCurrentItems, worldFilter, onSearchTermChange, onHidePastItemsChange, onShowCurrentItemsChange, onWorldFilterChange, className }) => {
     const styles = className === advancedItemListStyles ? advancedItemListStyles : itemListStyles;

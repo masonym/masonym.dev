@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import advancedStyles from './assets/AdvancedItemList.module.css';
-import { Helmet } from 'react-helmet';
-import SortControls from './SortControls';
+import advancedStyles from '../assets/AdvancedItemList.module.css';
 import FilterControls from './FilterControls';
-import Footer from '../Footer';
-import { formatDate } from '../../utils';
+import Footer from '@/components/Footer';
+import { formatDate } from '@/utils';
 import AdvancedItemCard from './AdvancedItemCard';
-import background from '../../assets/backgrnd_cr.png';
-import noItemsImage from '../../assets/noItem_mini.png';
+import background from '../assets/backgrnd_cr.png';
+import noItemsImage from '../assets/noItem_mini.png';
 
 const intWorlds = [0, 1, 17, 18, 30, 48, 49];
 const heroWorlds = [45, 46, 70];
@@ -202,22 +200,17 @@ function AdvancedItemList() {
             backgroundImage: `url(${background.src})`,
             backgroundAttachment: 'fixed',
         }}>
-            <Helmet>
-                <title>Upcoming MapleStory Cash Shop Sales</title>
-                <meta property="og:title" content="Upcoming MapleStory Cash Shop Sales" />
-                <meta property="og:description" content="A tool to see upcoming items going on sale in MapleStory's cash shop!" />
-                <meta property="twitter:title" content="Upcoming MapleStory Cash Shop Sales" />
-                <meta property="twitter:description" content="A tool to see upcoming items going on sale in MapleStory's cash shop!" />
-            </Helmet>
-            <h1 className={advancedStyles.h1}>MapleStory Upcoming Cash Shop Sales</h1>
+            <title>Cash Shop</title>
+            <meta name="og:description" content="hi its my website =)" />
+            <h1 className={advancedStyles.h1}>Cash Shop</h1>
             <h4 className={advancedStyles.h4}> Last Updated for v.252 (July 17th, 2024) </h4>
-            <SortControls
+            {/* <SortControls
                 sortKey={sortKey}
                 sortOrder={sortOrder}
                 onSortKeyChange={handleSortKeyChange}
                 onSortOrderChange={handleSortOrderChange}
                 className={advancedStyles}
-            />
+            /> */}
             <FilterControls
                 searchTerm={searchTerm}
                 hidePastItems={hidePastItems}

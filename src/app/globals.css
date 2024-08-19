@@ -10,6 +10,7 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace; */
   font-family: 'maplestory', sans-serif;
+  cursor: url('../assets/defaultCursor.png'), auto;
 
 
   --foreground-rgb: 0, 0, 0;
@@ -85,6 +86,7 @@ div {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: url('../assets/cursorClick.png'), auto;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -104,4 +106,8 @@ p {
 
 :is(h1, h2, h3, h4, h5, h6) {
   color: var(--primary-bright);
+}
+
+button {
+  cursor: url('../assets/cursorClick.png'), auto;
 }

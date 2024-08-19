@@ -1,8 +1,8 @@
 import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import styles from './AdvancedItemCard.module.css';
-import { formatNumber } from '../../utils';
-import background from '../../assets/productBg.png';
+import styles from '../assets/AdvancedItemCard.module.css';
+import { formatNumber } from '@/utils';
+import background from '../assets/productBg.png';
 import AdvancedItemCardHover from './AdvancedItemCardHover';
 
 const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images"

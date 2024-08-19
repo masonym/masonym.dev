@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
-import styles from './AdvancedItemCardHover.module.css';
-import { formatPriceDisplay, convertNewlinesToBreaks, formatSaleTimesDate, calculateDateDifference, magicText, worldNumbersToString } from '../../utils';
+import styles from '../assets/AdvancedItemCardHover.module.css';
+import { formatPriceDisplay, convertNewlinesToBreaks, formatSaleTimesDate, calculateDateDifference, magicText, worldNumbersToString } from '@/utils';
 import AdvancedPackageContents from './AdvancedPackageContents';
-import itemBase from '../../assets/itemBase.png';
+import itemBase from '../assets/itemBase.png';
 import Image from 'next/image';
 
 const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images"
