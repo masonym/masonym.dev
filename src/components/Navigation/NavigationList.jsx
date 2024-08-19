@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from '@/app/page.module.css'
 
-const NavigationList = ({ items, showImages = false, alignItemsProp = 'flex-start', flexDirectionProp = "column", rowGapProp = 0 }) => {
+const NavigationList = ({ items, onClose, showImages = false, alignItemsProp = 'flex-start', flexDirectionProp = "column", rowGapProp = 0 }) => {
     return (
         <ul style={{
             display: 'flex',
@@ -14,7 +14,7 @@ const NavigationList = ({ items, showImages = false, alignItemsProp = 'flex-star
             rowGap: rowGapProp
         }}>
             {items.map((item, index) => (
-                <Link key={item.href} href={item.href}>
+                <Link key={item.href} href={item.href} onClick={onClose}>
                     <li key={index} className={styles.pageButton}>
                         {showImages && item.image && (
                             <Image

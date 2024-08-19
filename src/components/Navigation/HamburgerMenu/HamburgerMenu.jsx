@@ -36,7 +36,7 @@ const HamburgerMenu = ({ isOpen, onClose }) => {
                         <hr></hr>
                         {navigationItems.map((section, index) => (
                             <Collapsible key={index} title={section.title}>
-                                <NavigationList items={section.items} flexDirectionProp='column' />
+                                <NavigationList items={section.items} onClose={onClose} flexDirectionProp='column' />
                             </Collapsible>
                         ))}
                     </ul>
