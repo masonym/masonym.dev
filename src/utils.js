@@ -119,14 +119,26 @@ export const worldNumbersToString = (worldNumbers) => {
   if (worldNumbers == "0/1/17/18/30/45/46/70/48/49") {
     worldText += "Interactive and Heroic worlds"
   }
-  
+
   else if (worldNumbers == "45/46/70") {
     worldText += "Heroic worlds only"
   }
-  
+
   else {
     worldText += "Interactive worlds only"
   }
 
   return worldText;
 };
+
+export const formatSkillPath = (skillName) => {
+  skillName = skillName.replace(/:/g, '');
+
+  let words = skillName.split(' ');
+
+  // Filter out the word "Boost"
+  words = words.filter(word => word.toLowerCase() !== 'boost');
+
+  // Join the remaining words with underscores
+  return words.join('_');
+}

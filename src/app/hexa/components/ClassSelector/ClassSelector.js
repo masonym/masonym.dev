@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { classes } from "@/data/classes";
 import { InputGrid } from "../InputGrid/InputGrid";
+import styles from './ClassSelector.module.css'
 
 const ClassSelector = () => {
   const [selectedClass, setSelectedClass] = useState("");
@@ -24,7 +25,7 @@ const ClassSelector = () => {
   const classDetails = selectedClass ? classes[selectedClass] : null;
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2>Select your class</h2>
       <div>
         <input
@@ -71,7 +72,7 @@ const ClassSelector = () => {
           </ul>
         )}
       </div>
-      {classDetails && <InputGrid classDetails={classDetails}></InputGrid>}
+      {classDetails && <InputGrid classKey={selectedClass} classDetails={classDetails}></InputGrid>}
     </div>
   );
 };

@@ -22,7 +22,6 @@ export const classes = {
           "HEXA Nightshade Explosion"
       ],
       "boostSkills": [
-          "Dark Bident",
           "Spear of Darkness Boost",
           "Radiant Evil Boost",
           "Calamitous Cyclone Boost",
@@ -38,7 +37,6 @@ export const classes = {
           "HEXA Divine Mark"
       ],
       "boostSkills": [
-          "Falling Justice",
           "Divine Echo Boost",
           "Hammers of the Righteous Boost",
           "Grand Guardian Boost",
@@ -224,7 +222,6 @@ export const classes = {
           "HEXA Cosmic Shower"
       ],
       "boostSkills": [
-          "Equinox Power",
           "Cosmos Boost",
           "Rift of Damnation Boost",
           "Soul Eclipse Boost",
@@ -341,7 +338,6 @@ export const classes = {
           "HEXA Mille Aiguilles: Fortune"
       ],
       "boostSkills": [
-          "Fate Shuffle",
           "Luck of the Draw Boost",
           "Ace in the Hole Boost",
           "Phantom's Mark Boost",
@@ -355,7 +351,6 @@ export const classes = {
           "HEXA Reflection"
       ],
       "boostSkills": [
-          "Endless Darkness",
           "Gate of Light Boost",
           "Aether Conduit Boost",
           "Baptism of Light and Darkness Boost",
@@ -413,7 +408,6 @@ export const classes = {
           "HEXA Bunker Buster Explosion"
       ],
       "boostSkills": [
-          "Burst Pile Bunker",
           "Rocket Punch Boost",
           "Gatling Punch Boost",
           "Bullet Blast Boost",
@@ -617,7 +611,6 @@ export const classes = {
           "HEXA Unbridled Chaos"
       ],
       "boostSkills": [
-          "Awakened Abyss",
           "Abyssal Recall Boost",
           "Infinity Spell Boost",
           "Devious Nightmare/Devious Dream Boost",
@@ -662,28 +655,13 @@ export const classes = {
       "originSkill": "Sage: Apotheosis",
       "masterySkills": [
           "HEXA Heaven: Consuming Flames",
-          "HEXA Heaven: Consuming Flames (Enhanced)",
-          "HEXA Consuming Flames (Clone/True)",
-          "HEXA Consuming Flames (Clone/True) (Enhanced)",
           "HEXA Earth: Stone Tremor",
-          "HEXA Earth: Stone Tremor (Enhanced)",
-          "HEXA Stone Tremor (Clone/True)",
-          "HEXA Stone Tremor (Clone/True) (Enhanced)",
           "HEXA Humanity: Gold-Banded Cudgel",
-          "HEXA Humanity: Gold-Banded Cudgel (Enhanced)",
           "HEXA Heaven: Iron Fan Gale",
-          "HEXA Heaven: Iron Fan Gale (Enhanced)",
-          "HEXA Heaven: Iron Fan Gale (Clone/True)",
-          "HEXA Heaven: Iron Fan Gale (Clone/True) (Enhanced)",
           "HEXA Earth: Ground-Shattering Wave",
-          "HEXA Earth: Ground-Shattering Wave (Enhanced)",
-          "HEXA Earth: Ground-Shattering Wave (Clone/True)",
-          "HEXA Earth: Ground-Shattering Wave (Clone/True) (Enhanced)",
           "HEXA Humanity: As-You-Will Fan",
-          "HEXA Humanity: As-You-Will Fan (Enhanced)"
       ],
       "boostSkills": [
-          "Universal Harmony",
           "Sage: Clone Rampage Boost",
           "Scroll: Tiger of Songyu Boost",
           "Sage: Wrath of Gods Boost",
@@ -756,3 +734,4 @@ export const classes = {
       ]
   }
 }
+
