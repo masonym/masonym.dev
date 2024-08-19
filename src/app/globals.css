@@ -49,6 +49,7 @@
 	--secondary: 		#ffed7f;
 	--secondary-bright: 	#ffea5f;
 	--background: 		hsl(0, 0%, 15%);
+  --footer-text: #2c5f2d;
 	
 	/* Asks browser to behave in dark mode */
 	color-scheme: dark;
@@ -65,6 +66,7 @@
 	--secondary: 		#002aff;
 	--secondary-bright:	#4800ff;
 	--background: 		hsl(0, 10%, 85%);
+  --footer-text: #2c5f2d;
 }
 
 html,

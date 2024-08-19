@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 import SalesPic from '../assets/upcoming-sales.png'
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
 
         </section>
       </main>
+      <Footer/>
     </div>
   );
 }

@@ -17,3 +17,8 @@
 .headerTitle {
     color: var(--primary)
 }
+
+.menuButton {
+    background-color: transparent;
+    border: none
+}
