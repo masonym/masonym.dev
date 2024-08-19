@@ -4,7 +4,6 @@ Site for my published MapleStory Tools
 
 # Todo
 
-- [x] Rename cs path
+- [ ] Add info pages
 - [ ] Add hexa calc
-- [x] Fix css
-- [x] Refactor asset structures
+- [ ] Headers on hamburger menu should be collapsed aside from curr category
