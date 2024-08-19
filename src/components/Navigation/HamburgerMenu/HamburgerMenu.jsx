@@ -3,6 +3,8 @@
 import React, { useEffect, useRef } from 'react';
 import styles from './HamburgerMenu.module.css';
 import Collapsible from '../Collapsible/Collapsible';
+import { navigationItems } from '@/data/navigationItems.js'
+import NavigationList from '../NavigationList';
 
 const HamburgerMenu = ({ isOpen, onClose }) => {
     const menuRef = useRef(null);
@@ -32,21 +34,11 @@ const HamburgerMenu = ({ isOpen, onClose }) => {
                     <ul>
                         <h1>Navigation</h1>
                         <hr></hr>
-                        <Collapsible title="Tools">
-                            <li><a href="/cash-shop">Cash Shop Sales</a></li>
-                        </Collapsible>
-                        <Collapsible title="Calculators">
-                            <li><a>Hexa</a></li>
-                        </Collapsible>
-                        <Collapsible title="Info">
-                            <li><a>Flames</a></li>
-                            <li><a>Potentials</a></li>
-                            <li><a>Familiars</a></li>
-                            <li><a>Souls</a></li>
-                            <li><a>MAPLE Daily Gift</a></li>
-                            <li><a>Inner Ability</a></li>
-                            <li><a>Formulas</a></li>
-                        </Collapsible>
+                        {navigationItems.map((section, index) => (
+                            <Collapsible key={index} title={section.title}>
+                                <NavigationList items={section.items} flexDirectionProp='column' />
+                            </Collapsible>
+                        ))}
                     </ul>
                 </nav>
             </div>
