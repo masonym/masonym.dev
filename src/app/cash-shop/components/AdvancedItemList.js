@@ -5,7 +5,8 @@ import FilterControls from './FilterControls';
 import Footer from '@/components/Footer';
 import { formatDate } from '@/utils';
 import AdvancedItemCard from './AdvancedItemCard';
-import background from '../assets/backgrnd_cr.png';
+import backgroundDark from '../assets/backgrnd_cr.png';
+import backgroundLight from '../assets/backgrnd_cr_light.png'
 import noItemsImage from '../assets/noItem_mini.png';
 
 const intWorlds = [0, 1, 17, 18, 30, 48, 49];
@@ -24,10 +25,30 @@ function AdvancedItemList() {
     const [openItemId, setOpenItemId] = useState(null);
     const [isTouchDevice, setIsTouchDevice] = useState(false);
     const [collapsedCategories, setCollapsedCategories] = useState({});
-    const [loading, setLoading] = useState(true);  // Add loading state
-    
-    const handleSortKeyChange = (event) => setSortKey(event.target.value);
-    const handleSortOrderChange = (event) => setSortOrder(event.target.value);
+    const [loading, setLoading] = useState(true);
+    const [backgroundImage, setBackgroundImage] = useState(backgroundDark);
+
+    useEffect(() => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        setBackgroundImage(currentTheme === 'light' ? backgroundLight : backgroundDark);
+    }, []);
+
+    useEffect(() => {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'data-theme') {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    setBackgroundImage(currentTheme === 'light' ? backgroundLight : backgroundDark);
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+        });
+
+        return () => observer.disconnect();
+    }, []);
     
     const toggleHidePastItems = useCallback((event) => {
         setHidePastItems(event.target.checked);
@@ -200,7 +221,7 @@ function AdvancedItemList() {
 
     return (
         <div className={advancedStyles.mainContent} style={{
-            backgroundImage: `url(${background.src})`,
+            backgroundImage: `url(${backgroundImage.src})`,
             backgroundAttachment: 'fixed',
         }}>
             <title>Cash Shop</title>

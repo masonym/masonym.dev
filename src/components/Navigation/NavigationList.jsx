@@ -14,7 +14,7 @@ const NavigationList = ({ items, showImages = false, alignItemsProp = 'flex-star
             rowGap: rowGapProp
         }}>
             {items.map((item, index) => (
-                <Link href={item.href}>
+                <Link key={item.href} href={item.href}>
                     <li key={index} className={styles.pageButton}>
                         {showImages && item.image && (
                             <Image
