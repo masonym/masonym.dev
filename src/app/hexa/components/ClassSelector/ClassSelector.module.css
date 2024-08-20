@@ -7,24 +7,28 @@
 .dropdownContainer {
     position: relative;
     width: 30%;
+    z-index: 100;
 }
 
 .input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    border: 1px solid var(--primary-dim);
     border-radius: 4px;
+    background-color: var(--primary-dark);
+    color: var(--primary);
+    font-family: inherit;
 }
 
+
 .dropdown {
-    position: absolute;
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
     max-height: 150px;
     overflow-y: auto;
-    background-color: white;
+    background-color: var(--primary-dark);
     margin: 0;
     padding: 0;
     list-style-type: none;
@@ -33,9 +37,9 @@
 
 .dropdownItem {
     padding: 8px;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-    color: var(--primary-dim);
+    cursor: var(--cursorClick);
+    border-bottom: 1px solid var(--primary-dim);
+    color: var(--primary-bright);
 }
 
 .dropdownItem:last-child {
@@ -43,5 +47,5 @@
 }
 
 .highlighted {
-    background-color: #f0f0f0;
+    background-color: var(--background-bright);
 }

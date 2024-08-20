@@ -95,7 +95,7 @@ export const classes = {
       ],
       "boostSkills": [
           "Nova Blast Boost",
-          "Raven Tempest/Fury of the Wild Tempest Boost",
+          "Raven Tempest Boost",
           "Obsidian Barrier Boost",
           "Relic Unbound Boost"
       ]
@@ -193,7 +193,6 @@ export const classes = {
           "HEXA Nautilus Strike"
       ],
       "boostSkills": [
-          "Super Octopunch",
           "Lightning Form Boost",
           "Lord of the Deep Boost",
           "Serpent Vortex Boost",
@@ -613,7 +612,7 @@ export const classes = {
       "boostSkills": [
           "Abyssal Recall Boost",
           "Infinity Spell Boost",
-          "Devious Nightmare/Devious Dream Boost",
+          "Devious Nightmare Boost",
           "Endlessly Starving Beast Boost"
       ]
   },
@@ -713,7 +712,6 @@ export const classes = {
           "HEXA Rolling Assault"
       ],
       "boostSkills": [
-          "Time Piece",
           "Chrono Break Boost",
           "Twin Blades of Time Boost",
           "Shadow Flash Boost",

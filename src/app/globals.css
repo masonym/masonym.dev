@@ -12,6 +12,8 @@
   font-family: 'maplestory', sans-serif;
   cursor: url('../assets/defaultCursor.png'), auto;
 
+  --cursorClick: url('../assets/cursorClick.png'), auto;
+
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -50,7 +52,14 @@
 	--secondary: 		#ffed7f;
 	--secondary-bright: 	#ffea5f;
 	--background: 		hsl(0, 0%, 15%);
+  --background-dim: hsl(0, 0%, 5%);
+  --background-bright: hsl(0, 0%, 25%);
   --footer-text: #2c5f2d;
+
+  --originItem:  hsl(300, 49%, 20%);
+  --masteryItem: hsl(0, 50%, 30%);
+  --boostItem: hsl(0, 29%, 30%);
+  --janusItem:  hsl(189, 28%, 40%);
 	
 	/* Asks browser to behave in dark mode */
 	color-scheme: dark;
@@ -62,12 +71,19 @@
 :root[data-theme='light'] {
 	--primary-bright:	#000000;
 	--primary: 		#252b31;
-	--primary-dim:		#121315;
+	--primary-dim:		#5f646e;
 	--primary-dark:		#efefef;
 	--secondary: 		#002aff;
 	--secondary-bright:	#4800ff;
 	--background: 		hsl(0, 10%, 85%);
+  --background-dim: hsl(0, 10%, 75%);
+  --background-bright: hsl(0, 10%, 75%);
   --footer-text: #2c5f2d;
+
+  --originItem:  hsl(300, 45%, 50%);
+  --masteryItem: hsl(0, 50%, 60%);
+  --boostItem: hsl(0, 29%, 60%);
+  --janusItem:  hsl(189, 28%, 70%);
 }
 
 html,

@@ -22,7 +22,8 @@ const Collapsible = ({ title, children, isOpenDefault = true }) => {
                     marginBottom: "5px",
                     display: "flex",
                     alignItems: "center",
-                    gap: "4px"
+                    gap: "4px",
+                    color: "var(--primary-bright)"
                 }}
             >
                 {isOpen ? <ListFilter /> : <ListCollapse />} {title}

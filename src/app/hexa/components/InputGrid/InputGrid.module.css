@@ -42,7 +42,7 @@
 }
 
 .gridOriginLevels .item {
-    background-color: hsl(300, 49%, 20%);
+    background-color: var(--originItem);
 
 }
 
@@ -53,7 +53,7 @@
 }
 
 .gridMasteryLevels .item {
-    background-color: hsl(0, 50%, 30%);
+    background-color: var(--masteryItem)
 
 }
 
@@ -64,7 +64,7 @@
 }
 
 .gridBoostLevels .item {
-    background-color: hsl(0, 30%, 30%);
+    background-color: var(--boostItem)
 }
 
 .gridCommonLevels {
@@ -73,7 +73,7 @@
 }
 
 .gridCommonLevels .item {
-    background-color: hsl(189, 28%, 40%);
+    background-color: var(--janusItem)
 }
 
 @media (max-width: 600px) {

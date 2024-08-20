@@ -29,7 +29,7 @@ export const InputGrid = ({ classKey, classDetails }) => {
                     <h1>{classKey}</h1>
                 </div>
                 <div style={{ marginBottom: "30px" }}>
-                    Enter in your current Hexa Levels:
+                    <p>Enter in your current Hexa Levels:</p>
                 </div>
                 <div className={styles.gridHexaLevels}>
                     {/* origin */}

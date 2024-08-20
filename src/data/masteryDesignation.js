@@ -25,7 +25,7 @@ export const masteryDesignation = {
             "HEXA Divine Mark"
         ]
     },
-    "Arch Mage IL": {
+    "Arch Mage (Ice, Lightning)": {
         "firstMastery": [
             "HEXA Chain Lightning"
         ],
@@ -34,7 +34,7 @@ export const masteryDesignation = {
             "HEXA Blizzard"
         ]
     },
-    "Arch Mage FP": {
+    "Arch Mage (Fire, Poison)": {
         "firstMastery": [
             "HEXA Flame Sweep"
         ],
@@ -132,7 +132,7 @@ export const masteryDesignation = {
     },
     "Dawn Warrior": {
         "firstMastery": [
-            "HEXA Lunar Divide",
+            "HEXA Luna Divide",
             "HEXA Solar Slash"
         ],
         "secondMastery": [
@@ -230,7 +230,7 @@ export const masteryDesignation = {
             "HEXA Spirit Claw"
         ],
         "secondMastery": [
-            "HEXA Sprit Frenzy"
+            "HEXA Spirit Frenzy"
         ]
     },
     "Battle Mage": {
@@ -384,8 +384,8 @@ export const masteryDesignation = {
             "HEXA Winged Echanted Javelin"
         ],
         "secondMastery": [
-            "HEXA Reaction: Domination",
-            "HEXA Reaction: Destruction",
+            "HEXA Reaction - Domination",
+            "HEXA Reaction - Destruction",
             "HEXA Wings of Glory"
         ]
     },
@@ -418,9 +418,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Dragon Vein Eruption",
-            "Heaving River",
-            "Whirlwind",
-            "Sunrise Well"
+            "HEXA Heaving River",
+            "HEXA Whirlwind",
+            "HEXA Sunrise Well"
         ]
     },
     "Kinesis": {

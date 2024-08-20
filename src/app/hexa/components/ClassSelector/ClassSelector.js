@@ -91,7 +91,10 @@ const ClassSelector = () => {
           </ul>
         )}
       </div>
-      {classDetails && <InputGrid classKey={selectedClass} classDetails={classDetails} />}
+      <div>
+        {classDetails && <InputGrid classKey={selectedClass} classDetails={classDetails} />}
+
+      </div>
     </div>
   );
 };
