@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './SkillItem.module.css'; // New CSS module for SkillItem
 
-export const SkillItem = ({ skills, altText, classKey, isCommon, itemStyle, onInputChange }) => {
-    const [inputValue, setInputValue] = useState(null);
+export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: initialInputValue, itemStyle, onInputChange }) => {
+    const [inputValue, setInputValue] = useState(initialInputValue);
+
+    useEffect(() => {
+        setInputValue(initialInputValue);
+    }, [initialInputValue]);
 
     // image handling for common cores
     const imagePath = isCommon
@@ -23,7 +27,7 @@ export const SkillItem = ({ skills, altText, classKey, isCommon, itemStyle, onIn
         }
 
         setInputValue(value);
-        onInputChange && onInputChange(altText, value); 
+        onInputChange && onInputChange(altText, value);
     };
 
     return (
