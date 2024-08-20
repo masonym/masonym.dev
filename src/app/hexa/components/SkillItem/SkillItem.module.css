@@ -1,7 +1,6 @@
 .item {
     text-align: center;
     align-content: center;
-    color: #fff;
     padding: 10px;
     border-radius: 5px;
     display: flex;
@@ -10,9 +9,22 @@
     gap: 5%;
     width: 100%;
     height: auto;
+    justify-content: space-between;
 }
 
 .item p {
     justify-content: flex-end;
     margin: 0.5em 0 0 0;
+}
+
+.levelInput {
+    font-family: inherit;
+    color: #000;
+    margin-top: 4px;
+    border-radius: 4px;
+    align-content: center;
+    text-align: center;
+    width: 40px;
+    background-color: #cecece;
+    cursor: var(--cursorClick)
 }
