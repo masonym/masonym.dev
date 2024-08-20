@@ -22,11 +22,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /* justify-content: space-between; */
     gap: 5%;
     width: 100%;
     height: auto;
     
+}
+
+
+.item p {
+    justify-content: flex-end;
+    margin: 0.5em 0 0 0;
 }
 
 .gridOriginLevels {
@@ -68,4 +74,13 @@
 
 .gridCommonLevels .item {
     background-color: hsl(189, 28%, 40%);
+}
+
+@media (max-width: 600px) {
+    .gridBoostLevels {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5%;
+        margin-bottom: 10px;
+    }
 }

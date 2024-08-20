@@ -1,21 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { classes } from "@/data/classes";
 import { InputGrid } from "../InputGrid/InputGrid";
-import styles from './ClassSelector.module.css'
+import styles from './ClassSelector.module.css';
 
 const ClassSelector = () => {
   const [selectedClass, setSelectedClass] = useState("");
   const [query, setQuery] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const inputRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);
+    setIsOpen(true);
+    setHighlightedIndex(-1);
   };
 
   const handleItemClick = (className) => {
     setSelectedClass(className);
-    setQuery("");
+    setQuery(className);
+    setIsOpen(false);
   };
 
   const filteredClasses = Object.keys(classes).filter((className) =>
@@ -24,47 +31,59 @@ const ClassSelector = () => {
 
   const classDetails = selectedClass ? classes[selectedClass] : null;
 
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setHighlightedIndex((prevIndex) =>
+        prevIndex < filteredClasses.length - 1 ? prevIndex + 1 : prevIndex
+      );
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setHighlightedIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      if (highlightedIndex >= 0 && highlightedIndex < filteredClasses.length) {
+        handleItemClick(filteredClasses[highlightedIndex]);
+      }
+    } else if (event.key === "Escape") {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !inputRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <h2>Select your class</h2>
-      <div>
+      <div className={styles.dropdownContainer}>
         <input
+          ref={inputRef}
           type="text"
           value={query}
           onChange={handleInputChange}
-          placeholder="Type to search..."
-          style={{
-            width: "100%",
-            padding: "8px",
-            boxSizing: "border-box",
-          }}
+          onKeyDown={handleKeyDown}
+          onClick={() => setIsOpen(true)}
+          placeholder="Search..."
+          className={styles.input}
         />
-        {query && filteredClasses.length > 0 && (
-          <ul
-            style={{
-              position: "absolute",
-              width: "100%",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              maxHeight: "150px",
-              overflowY: "auto",
-              backgroundColor: "white",
-              margin: 0,
-              padding: 0,
-              listStyleType: "none",
-              zIndex: 1000,
-            }}
-          >
+        {isOpen && (
+          <ul ref={dropdownRef} className={styles.dropdown}>
             {filteredClasses.map((className, index) => (
               <li
                 key={index}
                 onClick={() => handleItemClick(className)}
-                style={{
-                  padding: "8px",
-                  cursor: "pointer",
-                  borderBottom: "1px solid #eee",
-                  color: "var(--primary-dim)"
-                }}
+                className={`${styles.dropdownItem} ${index === highlightedIndex ? styles.highlighted : ''}`}
               >
                 {className}
               </li>
@@ -72,7 +91,7 @@ const ClassSelector = () => {
           </ul>
         )}
       </div>
-      {classDetails && <InputGrid classKey={selectedClass} classDetails={classDetails}></InputGrid>}
+      {classDetails && <InputGrid classKey={selectedClass} classDetails={classDetails} />}
     </div>
   );
 };

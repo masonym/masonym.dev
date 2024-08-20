@@ -41,7 +41,7 @@ export const InputGrid = ({ classKey, classDetails }) => {
                                 width={50}
                                 height={50}
                             />
-                            {classDetails.originSkill}
+                            <p>{classDetails.originSkill}</p>
                         </div>
                     </div>
                     {/* mastery nodes */}
@@ -55,9 +55,8 @@ export const InputGrid = ({ classKey, classDetails }) => {
                                         width={50}
                                         height={50}
                                     />
-                                    {console.log(formatSkillPath(getFirstSkill(skills)))}
                                     <span style={{ whiteSpace: 'pre-line' }}>
-                                        {formatMasterySkills(skills)}
+                                        <p>{formatMasterySkills(skills)}</p>
                                     </span>
                                 </div>
                             )
@@ -73,7 +72,7 @@ export const InputGrid = ({ classKey, classDetails }) => {
                                     width={50}
                                     height={50}
                                 />
-                                {skill}
+                                <p>{skill}</p>
                             </div>
                         ))}
                     </div>
@@ -86,7 +85,7 @@ export const InputGrid = ({ classKey, classDetails }) => {
                                 width={50}
                                 height={50}
                             />
-                            Sol Janus
+                            <p>Sol Janus</p>
                         </div>
                     </div>
                 </div>

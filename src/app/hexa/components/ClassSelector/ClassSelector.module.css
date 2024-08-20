@@ -3,3 +3,45 @@
     flex-direction: column;
     align-items: center;
 }
+
+.dropdownContainer {
+    position: relative;
+    width: 30%;
+}
+
+.input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.dropdown {
+    position: absolute;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    z-index: 1000;
+}
+
+.dropdownItem {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    color: var(--primary-dim);
+}
+
+.dropdownItem:last-child {
+    border-bottom: none;
+}
+
+.highlighted {
+    background-color: #f0f0f0;
+}
