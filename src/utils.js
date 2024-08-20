@@ -131,16 +131,3 @@ export const worldNumbersToString = (worldNumbers) => {
   return worldText;
 };
 
-export const formatSkillPath = (skillName) => {
-  skillName = skillName.replace(/:/g, '');
-
-  skillName = skillName.replace('\'', "")
-
-  let words = skillName.split(' ');
-
-  // Filter out the word "Boost"
-  words = words.filter(word => word.toLowerCase() !== 'boost');
-
-  // Join the remaining words with underscores
-  return words.join('_');
-}

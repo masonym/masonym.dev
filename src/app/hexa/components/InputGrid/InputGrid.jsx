@@ -1,26 +1,11 @@
 import React from 'react';
 import styles from './InputGrid.module.css';
 import { masteryDesignation } from '@/data/masteryDesignation';
-import Image from 'next/image';
-import { formatSkillPath } from '@/utils';
+import { SkillGroup } from '../SkillGroup/SkillGroup';
 
 export const InputGrid = ({ classKey, classDetails }) => {
-    const firstMasterySkills = masteryDesignation[classKey]?.firstMastery;
-    const secondMasterySkills = masteryDesignation[classKey]?.secondMastery;
-
-    const formatMasterySkills = (skills) => {
-        if (Array.isArray(skills)) {
-            return skills.join('\n');
-        }
-        return skills || '';
-    };
-
-    const getFirstSkill = (skills) => {
-        if (Array.isArray(skills)) {
-            return skills[0];
-        }
-        return skills;
-    };
+    const firstMasterySkills = masteryDesignation[classKey]?.firstMastery || [];
+    const secondMasterySkills = masteryDesignation[classKey]?.secondMastery || [];
 
     return (
         <div>
@@ -32,62 +17,35 @@ export const InputGrid = ({ classKey, classDetails }) => {
                     <p>Enter in your current Hexa Levels:</p>
                 </div>
                 <div className={styles.gridHexaLevels}>
-                    {/* origin */}
-                    <div className={styles.gridOriginLevels}>
-                        <div className={styles.item}>
-                            <Image
-                                src={`/classImages/${classKey}/Skill_${formatSkillPath(classDetails.originSkill)}.png`}
-                                alt={classDetails.originSkill}
-                                width={50}
-                                height={50}
-                            />
-                            <p>{classDetails.originSkill}</p>
-                        </div>
-                    </div>
-                    {/* mastery nodes */}
-                    <div className={styles.gridMasteryLevels}>
-                        {[firstMasterySkills, secondMasterySkills].map((skills, index) => (
-                            skills && (
-                                <div className={styles.item} key={index}>
-                                    <Image
-                                        src={`/classImages/${classKey}/Skill_${formatSkillPath(getFirstSkill(skills))}.png`}
-                                        alt={getFirstSkill(skills)}
-                                        width={50}
-                                        height={50}
-                                    />
-                                    <span style={{ whiteSpace: 'pre-line' }}>
-                                        <p>{formatMasterySkills(skills)}</p>
-                                    </span>
-                                </div>
-                            )
-                        ))}
-                    </div>
-                    {/* boost nodes */}
-                    <div className={styles.gridBoostLevels}>
-                        {classDetails.boostSkills.map((skill, index) => (
-                            <div className={styles.item} key={index}>
-                                <Image
-                                    src={`/classImages/${classKey}/Skill_${formatSkillPath(skill)}.png`}
-                                    alt={skill}
-                                    width={50}
-                                    height={50}
-                                />
-                                <p>{skill}</p>
-                            </div>
-                        ))}
-                    </div>
-                    {/* common cores (janus) */}
-                    <div className={styles.gridCommonLevels}>
-                        <div className={styles.item}>
-                            <Image
-                                src="/common/janus.png"
-                                alt="Sol Janus"
-                                width={50}
-                                height={50}
-                            />
-                            <p>Sol Janus</p>
-                        </div>
-                    </div>
+                    {/* Origin Skill */}
+                    <SkillGroup 
+                        skills={[classDetails.originSkill]} 
+                        classKey={classKey} 
+                        itemStyle={styles.originItem} 
+                    />
+
+                    {/* Mastery Skills - Pass all skills but only render the first skill's image */}
+                    <SkillGroup 
+                        skills={[firstMasterySkills, secondMasterySkills]} 
+                        classKey={classKey} 
+                        itemStyle={styles.masteryItem} 
+                        columns={2} 
+                    />
+
+                    {/* Boost Skills */}
+                    <SkillGroup 
+                        skills={classDetails.boostSkills} 
+                        classKey={classKey} 
+                        itemStyle={styles.boostItem} 
+                        columns={4} 
+                    />
+
+                    {/* Common Core (Janus) - Use the isCommon prop */}
+                    <SkillGroup 
+                        skills={['Sol Janus']} 
+                        isCommon={true} 
+                        itemStyle={styles.commonItem} 
+                    />
                 </div>
             </div>
         </div>
