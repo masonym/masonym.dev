@@ -134,6 +134,8 @@ export const worldNumbersToString = (worldNumbers) => {
 export const formatSkillPath = (skillName) => {
   skillName = skillName.replace(/:/g, '');
 
+  skillName = skillName.replace('\'', "")
+
   let words = skillName.split(' ');
 
   // Filter out the word "Boost"

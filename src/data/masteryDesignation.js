@@ -1,4 +1,4 @@
-const masteryDesignation = {
+export const masteryDesignation = {
     "Hero": {
         "firstMastery": [
             "HEXA Raging Blow"
