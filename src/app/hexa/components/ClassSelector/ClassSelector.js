@@ -6,12 +6,20 @@ import { InputGrid } from "../InputGrid/InputGrid";
 import styles from './ClassSelector.module.css';
 
 const ClassSelector = () => {
-  const [selectedClass, setSelectedClass] = useState("");
+  // Initialize selectedClass from localStorage or as an empty string
+  const [selectedClass, setSelectedClass] = useState(() => {
+    return localStorage.getItem('selectedClass') || "";
+  });
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    // Save the selected class to localStorage whenever it changes
+    localStorage.setItem('selectedClass', selectedClass);
+  }, [selectedClass]);
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);
@@ -93,7 +101,6 @@ const ClassSelector = () => {
       </div>
       <div>
         {classDetails && <InputGrid classKey={selectedClass} classDetails={classDetails} />}
-
       </div>
     </div>
   );
