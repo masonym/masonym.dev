@@ -4,32 +4,44 @@ import { formatSkillPath } from '../../utils';
 import styles from './SkillGroup.module.css'; // New CSS module for SkillGroup
 
 export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, columns = 1 }) => {
+    // localStorage.clear()
     const [inputValues, setInputValues] = useState({});
+    // Caching inputs
+    const storageKey = `skillGroup_${classKey}_${isCommon ? 'common' : 'specific'}`;
+    // console.log(storageKey)
 
-    // caching inputs
-    const storageKey = `skillGroup_${classKey}`;
-
-    // load cached data
-
+    // Load cached data
     useEffect(() => {
         const savedValues = localStorage.getItem(storageKey);
-        if (savedValues) {
-            setInputValues(JSON.parse(savedValues));
-        }
-    }, [storageKey]);
+        // console.log(savedValues)
+        const defaultValues = skills.reduce((acc, skillSet) => {
+            const skillName = Array.isArray(skillSet) ? formatSkillPath(skillSet[0]) : formatSkillPath(skillSet);
+            acc[skillName] = 0; // Default to zero
+            return acc;
+        }, {});
 
-    
+        // Merge cached values with default values
+        if (savedValues) {
+            setInputValues({
+                ...defaultValues,
+                ...JSON.parse(savedValues)
+            });
+        } else {
+            setInputValues(defaultValues);
+        }
+    }, [storageKey, skills]);
+
     const handleInputChange = (skillName, value) => {
         const updatedValues = {
             ...inputValues,
             [skillName]: value,
         };
         setInputValues(updatedValues);
-        localStorage.setItem(storageKey, JSON.stringify(updatedValues))
+        localStorage.setItem(storageKey, JSON.stringify(updatedValues));
     };
 
     const calculateTotalPoints = () => {
-        return Object.values(inputValues)
+        return Object.values(inputValues).reduce((total, value) => total + Number(value), 0);
     };
 
     return (
@@ -55,4 +67,3 @@ export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, colu
         </div>
     );
 };
-
