@@ -3,7 +3,7 @@ import styles from './InputGrid.module.css';
 import { masteryDesignation } from '@/data/masteryDesignation';
 import { SkillGroup } from '../SkillGroup/SkillGroup';
 
-export const InputGrid = ({ classKey, classDetails }) => {
+export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLevels }) => {
     const firstMasterySkills = masteryDesignation[classKey]?.firstMastery || [];
     const secondMasterySkills = masteryDesignation[classKey]?.secondMastery || [];
 
@@ -18,35 +18,43 @@ export const InputGrid = ({ classKey, classDetails }) => {
                 </div>
                 <div className={styles.gridHexaLevels}>
                     {/* Origin Skill */}
-                    <SkillGroup 
-                        skills={[classDetails.originSkill]} 
-                        classKey={classKey} 
-                        itemStyle={styles.originItem} 
-                    />
-
-                    {/* Mastery Skills - Pass all skills but only render the first skill's image */}
-                    <SkillGroup 
-                        skills={[firstMasterySkills, secondMasterySkills]} 
-                        classKey={classKey} 
-                        itemStyle={styles.masteryItem} 
-                        columns={2} 
-                    />
-
-                    {/* Boost Skills */}
-                    <SkillGroup 
-                        skills={classDetails.boostSkills} 
-                        classKey={classKey} 
-                        itemStyle={styles.boostItem} 
-                        columns={4} 
-                    />
-
-
-                    {/* Common Core (Janus) - Use the isCommon prop */}
-                    <SkillGroup 
-                        skills={classDetails.commonSkills} 
+                    <SkillGroup
+                        skills={[classDetails.originSkill]}
                         classKey={classKey}
-                        isCommon={true} 
-                        itemStyle={styles.commonItem} 
+                        itemStyle={styles.originItem}
+                        skillLevels={skillLevels}
+                        updateSkillLevels={updateSkillLevels}
+                        skillType="origin"
+                    />
+
+                    <SkillGroup
+                        skills={[firstMasterySkills, secondMasterySkills]}
+                        classKey={classKey}
+                        itemStyle={styles.masteryItem}
+                        columns={2}
+                        skillLevels={skillLevels}
+                        updateSkillLevels={updateSkillLevels}
+                        skillType="mastery"
+                    />
+
+                    <SkillGroup
+                        skills={classDetails.boostSkills}
+                        classKey={classKey}
+                        itemStyle={styles.boostItem}
+                        columns={4}
+                        skillLevels={skillLevels}
+                        updateSkillLevels={updateSkillLevels}
+                        skillType="enhancement"
+                    />
+
+                    <SkillGroup
+                        skills={classDetails.commonSkills}
+                        classKey={classKey}
+                        isCommon={true}
+                        itemStyle={styles.commonItem}
+                        skillLevels={skillLevels}
+                        updateSkillLevels={updateSkillLevels}
+                        skillType="common"
                     />
                 </div>
             </div>

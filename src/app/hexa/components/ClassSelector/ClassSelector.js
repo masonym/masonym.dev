@@ -4,8 +4,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { classes } from "@/data/classes";
 import { InputGrid } from "../InputGrid/InputGrid";
 import styles from './ClassSelector.module.css';
+import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+
+
 
 const ClassSelector = () => {
+
+  // localStorage.clear()
+
   // Initialize selectedClass from localStorage or as an empty string
   const [selectedClass, setSelectedClass] = useState(() => {
     return localStorage.getItem('selectedClass') || "";
@@ -71,6 +77,77 @@ const ClassSelector = () => {
     };
   }, []);
 
+  const [skillLevels, setSkillLevels] = useState({});
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedSkillLevels = localStorage.getItem(`skillLevels_${selectedClass}`);
+      setSkillLevels(savedSkillLevels ? JSON.parse(savedSkillLevels) : {});
+    }
+  }, [selectedClass]);
+
+  const updateSkillLevels = (newLevels, skillType) => {
+    setSkillLevels(prevLevels => {
+      const updatedLevels = Object.keys(newLevels).reduce((acc, skillName) => {
+        acc[skillName] = {
+          level: newLevels[skillName],
+          type: skillType
+        };
+        return acc;
+      }, {...prevLevels});
+      
+      localStorage.setItem(`skillLevels_${selectedClass}`, JSON.stringify(updatedLevels));
+      return updatedLevels;
+    });
+  };
+
+  const calculateTotalSolErda = () => {
+    let totalSolErda = 0;
+    
+    Object.values(skillLevels).forEach(({ level, type }) => {
+      const costTable = getCostTable(type);
+      
+      for (let i = 0; i < level; i++) {
+        const cost = costTable[i][i + 1].solErda;
+        totalSolErda += cost;
+      }
+    });
+  
+    return totalSolErda;
+  };
+  
+  const calculateTotalFrags = () => {
+    let totalFrags = 0;
+    
+    Object.values(skillLevels).forEach(({ level, type }) => {
+      const costTable = getCostTable(type);
+      
+      for (let i = 0; i < level; i++) {
+        const cost = costTable[i][i + 1].frags;
+        totalFrags += cost;
+      }
+    });
+  
+    return totalFrags;
+  };
+  
+  const getCostTable = (skillType) => {
+    switch (skillType) {
+      case 'origin':
+        return originUpgradeCost;
+      case 'mastery':
+        return masteryUpgradeCost;
+      case 'common':
+        return commonUpgradeCost;
+      case 'enhancement':
+        return enhancementUpgradeCost; // Assuming boost skills use the same cost as mastery skills
+      default:
+        console.error('Unknown skill type');
+        return originUpgradeCost; // Default to origin cost if unknown
+    }
+  };
+
+
   return (
     <div className={styles.container}>
       <h2>Select your class</h2>
@@ -100,7 +177,18 @@ const ClassSelector = () => {
         )}
       </div>
       <div>
-        {classDetails && <InputGrid classKey={selectedClass} classDetails={classDetails} />}
+        {classDetails && (
+          <InputGrid
+            classKey={selectedClass}
+            classDetails={classDetails}
+            skillLevels={skillLevels}
+            updateSkillLevels={updateSkillLevels}
+          />
+        )}
+      </div>
+      <div>
+        <h3>Total Sol Erda Cost: {calculateTotalSolErda()}</h3>
+        <h3>Total Sol Erda Fragments Cost: {calculateTotalFrags()}</h3>
       </div>
     </div>
   );
