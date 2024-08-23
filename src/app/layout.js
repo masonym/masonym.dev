@@ -1,8 +1,6 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/Navigation/NavBar/NavBar";
-
-const inter = Inter({ subsets: ["latin"] });
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "mason's maple matrix",
@@ -16,11 +14,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-      {/* navbar goes here  */}
-      <NavBar/>
+      <body>
+        {/* navbar goes here  */}
+        <NavBar />
 
-      {children}
+        {children}
+        <Footer />
       </body>
     </html>
   );

@@ -291,7 +291,6 @@ function AdvancedItemList() {
                     ))}
                 </div>
             )}
-            <Footer />
         </div>
     );
 }

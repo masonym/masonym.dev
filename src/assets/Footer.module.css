@@ -14,15 +14,18 @@
     color: #333;
     margin-top: 5px;
     z-index: 2;
+    font-family: inherit;
 }
 
 .footerItem {
     margin: 0;
+    font-family: inherit;
 }
 
 .footerItem a {
     color: var(--footer-text);
     text-decoration: none;
+    font-family: inherit;
 }
 
 .footerItem a:hover {

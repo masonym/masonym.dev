@@ -40,9 +40,11 @@ export const InputGrid = ({ classKey, classDetails }) => {
                         columns={4} 
                     />
 
+
                     {/* Common Core (Janus) - Use the isCommon prop */}
                     <SkillGroup 
-                        skills={['Sol Janus']} 
+                        skills={classDetails.commonSkills} 
+                        classKey={classKey}
                         isCommon={true} 
                         itemStyle={styles.commonItem} 
                     />

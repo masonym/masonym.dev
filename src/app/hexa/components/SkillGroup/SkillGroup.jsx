@@ -7,7 +7,7 @@ export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, colu
     const [inputValues, setInputValues] = useState({});
 
     // caching inputs
-    const storageKey = `skillGroup_${classKey}_${isCommon}`;
+    const storageKey = `skillGroup_${classKey}`;
 
     // load cached data
 
@@ -29,7 +29,7 @@ export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, colu
     };
 
     const calculateTotalPoints = () => {
-        return Object.values(inputValues).reduce((total, value) => total + value, 0);
+        return Object.values(inputValues)
     };
 
     return (
@@ -50,7 +50,7 @@ export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, colu
                     />
                 );
             })}
-            <div>Total Points: {calculateTotalPoints()}</div>
+            {/* <div>Total Points: {calculateTotalPoints()}</div> */}
 
         </div>
     );
