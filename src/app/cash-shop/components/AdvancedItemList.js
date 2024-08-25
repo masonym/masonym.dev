@@ -219,10 +219,8 @@ function AdvancedItemList() {
 
     return (
         <div className="flex flex-col min-h-screen pb-20" style={{ backgroundImage: `url(${backgroundImage.src})`, backgroundAttachment: 'fixed' }}>
-            <title>Cash Shop</title>
-            <meta name="og:description" content="hi its my website =)" />
-            <h1 className="text-center mb-4 mt-16 text-primary font-bold">Cash Shop</h1>
-            <h4 className="text-center text-xl my-5 mb-7 italic text-primary">
+            <h1 className="text-center text-3xl mb-0 mt-16 text-primary-bright font-bold">Upcoming Cash Shop Sales</h1>
+            <h4 className="text-center text-xl my-5 mb-8 italic text-primary">
                 Last Updated for v.252 (July 17th, 2024)
             </h4>
 
