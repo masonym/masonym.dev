@@ -1,13 +1,12 @@
-import React from 'react'
-import styles from './Section.module.css'
+import React from 'react';
 
-const Section = ({title, children}) => {
+const Section = ({ title, children }) => {
   return (
-    <div className={styles.section}>
-        <h2>{title}</h2>
-        {children}
+    <div className="border border-primary-dim rounded-md w-[65%] mt-8 text-left px-5">
+      <h2>{title}</h2>
+      {children}
     </div>
-  )
-}
+  );
+};
 
-export default Section
+export default Section;
