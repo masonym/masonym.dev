@@ -5,6 +5,10 @@ import { classes } from "@/data/classes";
 import { InputGrid } from "../InputGrid/InputGrid";
 import styles from './ClassSelector.module.css';
 import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+import Image from "next/image";
+
+import sol_erda_fragment from "../../assets/sol_erda_fragment.png"
+import sol_erda from '../../assets/sol_erda.png'
 
 
 
@@ -94,8 +98,8 @@ const ClassSelector = () => {
           type: skillType
         };
         return acc;
-      }, {...prevLevels});
-      
+      }, { ...prevLevels });
+
       localStorage.setItem(`skillLevels_${selectedClass}`, JSON.stringify(updatedLevels));
       return updatedLevels;
     });
@@ -103,34 +107,34 @@ const ClassSelector = () => {
 
   const calculateTotalSolErda = () => {
     let totalSolErda = 0;
-    
+
     Object.values(skillLevels).forEach(({ level, type }) => {
       const costTable = getCostTable(type);
-      
+
       for (let i = 0; i < level; i++) {
         const cost = costTable[i][i + 1].solErda;
         totalSolErda += cost;
       }
     });
-  
+
     return totalSolErda;
   };
-  
+
   const calculateTotalFrags = () => {
     let totalFrags = 0;
-    
+
     Object.values(skillLevels).forEach(({ level, type }) => {
       const costTable = getCostTable(type);
-      
+
       for (let i = 0; i < level; i++) {
         const cost = costTable[i][i + 1].frags;
         totalFrags += cost;
       }
     });
-  
+
     return totalFrags;
   };
-  
+
   const getCostTable = (skillType) => {
     switch (skillType) {
       case 'origin':
@@ -140,10 +144,10 @@ const ClassSelector = () => {
       case 'common':
         return commonUpgradeCost;
       case 'enhancement':
-        return enhancementUpgradeCost; // Assuming boost skills use the same cost as mastery skills
+        return enhancementUpgradeCost;
       default:
         console.error('Unknown skill type');
-        return originUpgradeCost; // Default to origin cost if unknown
+        return ""
     }
   };
 
@@ -176,19 +180,40 @@ const ClassSelector = () => {
           </ul>
         )}
       </div>
-      <div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {classDetails && (
-          <InputGrid
-            classKey={selectedClass}
-            classDetails={classDetails}
-            skillLevels={skillLevels}
-            updateSkillLevels={updateSkillLevels}
-          />
+          <>
+            <InputGrid
+              classKey={selectedClass}
+              classDetails={classDetails}
+              skillLevels={skillLevels}
+              updateSkillLevels={updateSkillLevels}
+            />
+            <h2>Total Costs:</h2>
+            <div className={styles.costContainer}>
+              <div>
+                <Image
+                  src={sol_erda}
+                  width={64}
+                  height={64}
+                  alt={"Sol Erda Energy"}
+                />
+
+                <h3>{calculateTotalSolErda()}</h3>
+              </div>
+              <div>
+
+                <Image
+                  src={sol_erda_fragment}
+                  width={64}
+                  height={64}
+                  alt={"Sol Erda Fragment"}
+                />
+                <h3>{calculateTotalFrags()}</h3>
+              </div>
+            </div>
+          </>
         )}
-      </div>
-      <div>
-        <h3>Total Sol Erda Cost: {calculateTotalSolErda()}</h3>
-        <h3>Total Sol Erda Fragments Cost: {calculateTotalFrags()}</h3>
       </div>
     </div>
   );
