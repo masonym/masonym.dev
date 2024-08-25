@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-import styles from './HamburgerMenu.module.css';
 import Collapsible from '../Collapsible/Collapsible';
-import { navigationItems } from '@/data/navigationItems.js'
+import { navigationItems } from '@/data/navigationItems.js';
 import NavigationList from '../NavigationList';
 
 const HamburgerMenu = ({ isOpen, onClose }) => {
@@ -28,12 +27,12 @@ const HamburgerMenu = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className={styles.overlay}>
-            <div ref={menuRef} className={styles.menu}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex z-[1000]">
+            <div ref={menuRef} className="bg-background w-[300px] h-full p-5 shadow-[2px_0_5px_rgba(0,0,0,0.1)] animate-slideIn">
                 <nav>
-                    <ul>
+                    <ul className="list-none p-0">
                         <h1>Navigation</h1>
-                        <hr></hr>
+                        <hr />
                         {navigationItems.map((section, index) => (
                             <Collapsible key={index} title={section.title}>
                                 <NavigationList items={section.items} onClose={onClose} flexDirectionProp='column' />
