@@ -1,57 +1,60 @@
 import React from 'react';
-import itemListStyles from '../assets/ItemList.module.css';
-import advancedItemListStyles from '../assets/AdvancedItemList.module.css';
 
-const FilterControls = ({ searchTerm, hidePastItems, showCurrentItems, worldFilter, onSearchTermChange, onHidePastItemsChange, onShowCurrentItemsChange, onWorldFilterChange, className }) => {
-    const styles = className === advancedItemListStyles ? advancedItemListStyles : itemListStyles;
-
+const FilterControls = ({ searchTerm, hidePastItems, showCurrentItems, worldFilter, onSearchTermChange, onHidePastItemsChange, onShowCurrentItemsChange, onWorldFilterChange }) => {
     return (
-        <div className={styles.controlsContainer}>
-            <div className={styles.filterButtons}>
-                <button
-                    className={`${styles.filterButton} ${worldFilter === '' ? styles.active : ''}`}
-                    onClick={() => onWorldFilterChange('')}>
-                    All Worlds
-                </button>
-                <button
-                    className={`${styles.filterButton} ${worldFilter === 'intWorlds' ? styles.active : ''}`}
-                    onClick={() => onWorldFilterChange('intWorlds')}>
-                    Interactive Worlds
-                </button>
-                <button
-                    className={`${styles.filterButton} ${worldFilter === 'heroWorlds' ? styles.active : ''}`}
-                    onClick={() => onWorldFilterChange('heroWorlds')}>
-                    Heroic Worlds
-                </button>
+        <div className="flex flex-col items-center mb-5 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 m-0 mb-2.5 w-full max-w-3xl">
+                {[
+                    { text: 'All Worlds', filter: '' },
+                    { text: 'Interactive Worlds', filter: 'intWorlds' },
+                    { text: 'Heroic Worlds', filter: 'heroWorlds' }
+                ].map((button) => (
+                    <button
+                        key={button.filter}
+                        className={`
+                    h-14 sm:h-20 w-full font-inherit py-2 px-3 border-2 border-[#d2b48c] rounded-full 
+                    text-[#2e4d2e] transition-all duration-300 text-center 
+                    flex items-center justify-center text-sm whitespace-normal 
+                    hover:scale-105
+                    ${worldFilter === button.filter
+                                ? 'bg-[#5a8859] text-white' // Darker color for selected button
+                                : 'bg-[#8abf88] hover:bg-[#6fa96d]' // Normal state and hover color
+                            }
+                `}
+                        onClick={() => onWorldFilterChange(button.filter)}
+                    >
+                        {button.text}
+                    </button>
+                ))}
             </div>
-            <div className={styles.searchBar}>
+            <div className="flex items-center justify-center mt-2.5">
                 <input
                     type="text"
                     name="search"
                     placeholder="Search by name"
                     onChange={onSearchTermChange}
                     value={searchTerm}
-                    className={styles.searchInput}
+                    className="w-full font-inherit py-1.5 px-3 border-2 border-[#d2b48c] rounded-full bg-[#fff5e6] text-[#2e4d2e] outline-none"
                 />
             </div>
-            <div className={styles.checkboxContainer}>
-                <label className={styles.checkboxLabel}>
+            <div className="flex justify-center items-center mt-2.5">
+                <label className="flex items-center cursor-custom-click select-none text-primary">
                     <input
                         type="checkbox"
                         checked={hidePastItems}
                         onChange={onHidePastItemsChange}
-                        className={styles.checkboxInput}
+                        className="mr-2 w-[18px] h-[18px] rounded-full border-2 border-[#007bff] cursor-custom-click appearance-none bg-white relative checked:border-[#007bff] checked:before:content-['✓'] checked:before:absolute checked:before:left-1/2 checked:before:top-1/2 checked:before:-translate-x-1/2 checked:before:-translate-y-1/2 checked:before:text-black checked:before:text-[14px] checked:before:font-bold checked:before:leading-none checked:before:antialiased"
                     />
                     Show Past Items
                 </label>
             </div>
-            <div className={styles.checkboxContainer}>
-                <label className={styles.checkboxLabel}>
+            <div className="flex justify-center items-center mt-2.5">
+                <label className="flex items-center cursor-pointer select-none text-primary">
                     <input
                         type="checkbox"
                         checked={showCurrentItems}
                         onChange={onShowCurrentItemsChange}
-                        className={styles.checkboxInput}
+                        className="mr-2 w-[18px] h-[18px] rounded-full border-2 border-[#007bff] cursor-custom-click appearance-none bg-white relative checked:border-[#007bff] checked:before:content-['✓'] checked:before:absolute checked:before:left-1/2 checked:before:top-1/2 checked:before:-translate-x-1/2 checked:before:-translate-y-1/2 checked:before:text-black checked:before:text-[14px] checked:before:font-bold checked:before:leading-none checked:before:antialiased"
                     />
                     Show Current Items
                 </label>

@@ -20,6 +20,9 @@ module.exports = {
         footer: 'var(--footer-text)',
         // Add other custom properties as needed
       },
+      cursor: {
+        'custom-click': 'url("../assets/cursorClick.png"), auto'
+      }
     },
   },
   plugins: [],
