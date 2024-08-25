@@ -6,7 +6,21 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: 'var(--primary)',
+        'primary-bright': 'var(--primary-bright)',
+        'primary-dim': 'var(--primary-dim)',
+        'primary-dark': 'var(--primary-dark)',
+        secondary: 'var(--secondary)',
+        'secondary-bright': 'var(--secondary-bright)',
+        background: 'var(--background)',
+        'background-dim': 'var(--background-dim)',
+        'background-bright': 'var(--background-bright)',
+        footer: 'var(--footer-text)',
+        // Add other custom properties as needed
+      },
+    },
   },
   plugins: [],
 }

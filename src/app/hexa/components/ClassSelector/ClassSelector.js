@@ -3,13 +3,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { classes } from "@/data/classes";
 import { InputGrid } from "../InputGrid/InputGrid";
-import styles from './ClassSelector.module.css';
-import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import Image from "next/image";
-
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
 import CalcRoute from "../CalcRoute/CalcRoute";
+import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 
 const ClassSelector = () => {
   const [isClient, setIsClient] = useState(false);
@@ -155,7 +153,7 @@ const ClassSelector = () => {
         return enhancementUpgradeCost;
       default:
         console.error('Unknown skill type');
-        return ""
+        return "";
     }
   };
 
@@ -164,9 +162,9 @@ const ClassSelector = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="flex flex-col items-center">
       <h2>Select your class</h2>
-      <div className={styles.dropdownContainer}>
+      <div className="relative w-1/3 z-10">
         <input
           ref={inputRef}
           type="text"
@@ -175,15 +173,17 @@ const ClassSelector = () => {
           onKeyDown={handleKeyDown}
           onClick={() => setIsOpen(true)}
           placeholder="Search..."
-          className={styles.input}
+          className="w-full p-2 box-border border border-primary-dim rounded bg-primary-dark text-primary"
         />
         {isOpen && (
-          <ul ref={dropdownRef} className={styles.dropdown}>
-            {filteredClasses.map((className) => (
+          <ul ref={dropdownRef} className="w-full border border-gray-300 rounded max-h-[150px] overflow-y-auto bg-primary-dark m-0 p-0 list-none z-50">
+            {filteredClasses.map((className, index) => (
               <li
-                key={className} // Ensure a unique key
+                key={className}
                 onClick={() => handleItemClick(className)}
-                className={`${styles.dropdownItem} ${highlightedIndex === filteredClasses.indexOf(className) ? styles.highlighted : ''}`}
+                className={`p-2 cursor-pointer border-b border-primary-dim text-primary-bright ${
+                  highlightedIndex === index ? 'bg-background-bright' : ''
+                }`}
               >
                 {className}
               </li>
@@ -191,7 +191,7 @@ const ClassSelector = () => {
           </ul>
         )}
       </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div className="flex flex-col items-center">
         {classDetails && (
           <>
             <InputGrid
@@ -201,8 +201,8 @@ const ClassSelector = () => {
               updateSkillLevels={updateSkillLevels}
             />
             <h2>Total Costs:</h2>
-            <div className={styles.costContainer}>
-              <div>
+            <div className="flex flex-row justify-between items-center w-fit gap-[50px]">
+              <div className="flex flex-col items-center">
                 <Image
                   src={sol_erda}
                   width={64}
@@ -211,7 +211,7 @@ const ClassSelector = () => {
                 />
                 <h3>{calculateTotalSolErda()}</h3>
               </div>
-              <div>
+              <div className="flex flex-col items-center">
                 <Image
                   src={sol_erda_fragment}
                   width={64}
