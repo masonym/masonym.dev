@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import advancedStyles from '../assets/AdvancedItemList.module.css';
 import FilterControls from './FilterControls';
 import Footer from '@/components/Footer';
 import { formatDate } from '@/utils';
 import AdvancedItemCard from './AdvancedItemCard';
 import backgroundDark from '../assets/backgrnd_cr.png';
-import backgroundLight from '../assets/backgrnd_cr_light.png'
+import backgroundLight from '../assets/backgrnd_cr_light.png';
 import noItemsImage from '../assets/noItem_mini.png';
 
 const intWorlds = [0, 1, 17, 18, 30, 48, 49];
@@ -49,38 +48,38 @@ function AdvancedItemList() {
 
         return () => observer.disconnect();
     }, []);
-    
+
     const toggleHidePastItems = useCallback((event) => {
         setHidePastItems(event.target.checked);
         if (event.target.checked) {
             setShowCurrentItems(false);
         }
     }, []);
-    
+
     const toggleShowCurrentItems = useCallback((event) => {
         setShowCurrentItems(event.target.checked);
         if (event.target.checked) {
             setHidePastItems(false);
         }
     }, []);
-    
+
     const toggleCategory = (dateKey) => {
         setCollapsedCategories(prev => ({
             ...prev,
             [dateKey]: !prev[dateKey]
         }));
-    }
-    
+    };
+
     const handleSearchTermChange = (event) => setSearchTerm(event.target.value.toLowerCase());
     const handleWorldFilterChange = (filter) => setWorldFilter(filter);
-    
+
     const parseDate = (dateString) => {
         const [datePart, timePart] = dateString.split(' ');
         const [month, day, year] = datePart.split('-');
         const [hour, minute] = timePart.split(':');
         return new Date(Date.UTC(year, month - 1, day, hour, minute));
     };
-    
+
     const formatDateForAPI = (date) => {
         return `${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}-${date.getFullYear()}`;
     };
@@ -121,7 +120,7 @@ function AdvancedItemList() {
 
         setApiParams(params);
     }, [hidePastItems, showCurrentItems]);
-    
+
     const fetchItems = useCallback(async () => {
         setLoading(true);  // Set loading to true before the API call
         try {
@@ -139,7 +138,6 @@ function AdvancedItemList() {
         }
     }, [apiParams]);
 
-    
     useEffect(() => {
         fetchItems();
     }, [fetchItems]);
@@ -220,21 +218,15 @@ function AdvancedItemList() {
     };
 
     return (
-        <div className={advancedStyles.mainContent} style={{
-            backgroundImage: `url(${backgroundImage.src})`,
-            backgroundAttachment: 'fixed',
-        }}>
+        <div className="flex flex-col min-h-screen pb-20" style={{ backgroundImage: `url(${backgroundImage.src})`, backgroundAttachment: 'fixed' }}>
             <title>Cash Shop</title>
             <meta name="og:description" content="hi its my website =)" />
-            <h1 className={advancedStyles.h1}>Cash Shop</h1>
-            <h4 className={advancedStyles.h4}> Last Updated for v.252 (July 17th, 2024) </h4>
-            {/* <SortControls
-                sortKey={sortKey}
-                sortOrder={sortOrder}
-                onSortKeyChange={handleSortKeyChange}
-                onSortOrderChange={handleSortOrderChange}
-                className={advancedStyles}
-            /> */}
+            <h1 className="text-center mb-4 mt-16 text-primary font-bold">Cash Shop</h1>
+            <h4 className="text-center text-xl my-5 mb-7 italic text-primary">
+                Last Updated for v.252 (July 17th, 2024)
+            </h4>
+
+            {/* Filter Controls */}
             <FilterControls
                 searchTerm={searchTerm}
                 hidePastItems={hidePastItems}
@@ -244,18 +236,18 @@ function AdvancedItemList() {
                 onHidePastItemsChange={toggleHidePastItems}
                 onShowCurrentItemsChange={toggleShowCurrentItems}
                 onWorldFilterChange={handleWorldFilterChange}
-                className={advancedStyles}
             />
+
             {loading ? (
-                <div className={advancedStyles.loadingContainer}>
-                    <p>Loading items...</p>
+                <div className="flex justify-center items-center h-screen w-full text-center text-2xl text-gray-700 bg-white bg-opacity-80 absolute top-0 left-0 z-50">
+                    <p className="m-0 p-5 bg-white rounded-lg shadow-md">Loading items...</p>
                 </div>
             ) : noItems ? (
-                <div className={advancedStyles.noItemsContainer}>
+                <div className="flex justify-center items-center h-52">
                     <img
                         src={noItemsImage.src}
                         alt="No items found"
-                        className={advancedStyles.noItemsImage}
+                        className="w-[202px] h-[118px]"
                     />
                 </div>
             ) : (
@@ -263,18 +255,14 @@ function AdvancedItemList() {
                     {Object.keys(categorizedItems).map((dateKey) => (
                         <div key={dateKey}>
                             <h2
-                                className={advancedStyles.categoryHeader}
+                                className="flex items-center text-[28px] font-bold justify-center p-2 cursor-pointer select-none transition-colors duration-200 rounded-md text-primary-bright text-center hover:bg-primary-dark"
                                 onClick={() => toggleCategory(dateKey)}
                             >
-                                <span className={advancedStyles.categoryDate}>
-                                    {formatDate(dateKey)}
-                                </span>
-                                <span className={advancedStyles.categoryToggle}>
-                                    {collapsedCategories[dateKey] ? '▶' : '▼'}
-                                </span>
+                                <span className="flex-grow-0">{formatDate(dateKey)}</span>
+                                <span className="mx-2 text-xs">{collapsedCategories[dateKey] ? '▶' : '▼'}</span>
                             </h2>
                             {!collapsedCategories[dateKey] && (
-                                <ul className={advancedStyles.itemList}>
+                                <ul className="flex flex-wrap justify-center items-center mx-[5%]">
                                     {categorizedItems[dateKey].map(({ key, item }) => (
                                         <AdvancedItemCard
                                             key={key}

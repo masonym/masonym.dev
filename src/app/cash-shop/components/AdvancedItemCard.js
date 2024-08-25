@@ -1,11 +1,10 @@
 import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import styles from '../assets/AdvancedItemCard.module.css';
+import AdvancedItemCardHover from './AdvancedItemCardHover';
 import { formatNumber } from '@/utils';
 import background from '../assets/productBg.png';
-import AdvancedItemCardHover from './AdvancedItemCardHover';
 
-const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images"
+const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images";
 
 const AdvancedItemCard = ({ item, isOpen, onItemClick, isTouchDevice }) => {
     const [isHovering, setIsHovering] = useState(false);
@@ -56,28 +55,38 @@ const AdvancedItemCard = ({ item, isOpen, onItemClick, isTouchDevice }) => {
 
     return (
         <li
-            className={styles.item}
+            className="list-none m-[0.5%] p-0 flex flex-col items-center justify-center"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onMouseMove={handleMouseMove}
             onClick={handleClick}
         >
-            <div className={styles.itemFlexContainer} style={{ backgroundImage: `url(${background.src})` }}>
+            <div
+                className="flex flex-col items-center justify-start w-[178.5px] h-[234px] bg-no-repeat bg-cover relative pt-[2rem]"
+                style={{ backgroundImage: `url(${background.src})` }}
+            >
                 <Image
                     src={`${CLOUDFRONT_URL}/${item.itemID}.png`}
-                    className={styles.itemImage}
                     alt={item.name}
                     width={50}
                     height={50}
+                    className="w-[40%] h-[40%] object-contain absolute top-[46%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
                     onError={(e) => { e.target.style.display = 'none'; }}
                     priority
                 />
-                <div className={styles.itemDetails}>
-                    <p className={styles.itemName}>{item.name}{item.count > 1 ? ` (x${item.count})` : ''}</p>
-                    <p className={styles.itemPrice}>
+                <div className="relative top-[60%] w-[95%] text-center">
+                    <p className="text-[13.5px] m-0 px-[5%] leading-[1.2em] h-[2.4em] max-h-[2.4em] overflow-hidden text-black">
+                        {item.name}{item.count > 1 ? ` (x${item.count})` : ''}
+                    </p>
+                    <p className="text-[12px] text-[#8e8e8e] m-0 pt-[0.25em]">
                         {formatNumber(item.price)}
                         {item.sn_id.toString().startsWith('870') ? ' Mesos' : ' NX'}
-                        {item.discount == 1 ? <><br /><s>{formatNumber(item.originalPrice)}{item.sn_id.toString().startsWith('870') ? ' Mesos' : ' NX'}</s></> : ''}
+                        {item.discount == 1 ? (
+                            <>
+                                <br />
+                                <s>{formatNumber(item.originalPrice)}{item.sn_id.toString().startsWith('870') ? ' Mesos' : ' NX'}</s>
+                            </>
+                        ) : null}
                     </p>
                 </div>
             </div>
