@@ -7,19 +7,24 @@ import styles from './ClassSelector.module.css';
 import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import Image from "next/image";
 
-import sol_erda_fragment from "../../assets/sol_erda_fragment.png"
-import sol_erda from '../../assets/sol_erda.png'
-
-
+import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
+import sol_erda from '../../assets/sol_erda.png';
+import CalcRoute from "../CalcRoute/CalcRoute";
 
 const ClassSelector = () => {
+  const [isClient, setIsClient] = useState(false);
 
-  // localStorage.clear()
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
-  // Initialize selectedClass from localStorage or as an empty string
   const [selectedClass, setSelectedClass] = useState(() => {
-    return localStorage.getItem('selectedClass') || "";
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('selectedClass') || "";
+    }
+    return "";
   });
+
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -27,8 +32,9 @@ const ClassSelector = () => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    // Save the selected class to localStorage whenever it changes
-    localStorage.setItem('selectedClass', selectedClass);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('selectedClass', selectedClass);
+    }
   }, [selectedClass]);
 
   const handleInputChange = (event) => {
@@ -84,11 +90,11 @@ const ClassSelector = () => {
   const [skillLevels, setSkillLevels] = useState({});
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (isClient) {
       const savedSkillLevels = localStorage.getItem(`skillLevels_${selectedClass}`);
       setSkillLevels(savedSkillLevels ? JSON.parse(savedSkillLevels) : {});
     }
-  }, [selectedClass]);
+  }, [selectedClass, isClient]);
 
   const updateSkillLevels = (newLevels, skillType) => {
     setSkillLevels(prevLevels => {
@@ -100,7 +106,9 @@ const ClassSelector = () => {
         return acc;
       }, { ...prevLevels });
 
-      localStorage.setItem(`skillLevels_${selectedClass}`, JSON.stringify(updatedLevels));
+      if (isClient) {
+        localStorage.setItem(`skillLevels_${selectedClass}`, JSON.stringify(updatedLevels));
+      }
       return updatedLevels;
     });
   };
@@ -151,6 +159,9 @@ const ClassSelector = () => {
     }
   };
 
+  if (!isClient) {
+    return null; // Or a loading spinner
+  }
 
   return (
     <div className={styles.container}>
@@ -168,11 +179,11 @@ const ClassSelector = () => {
         />
         {isOpen && (
           <ul ref={dropdownRef} className={styles.dropdown}>
-            {filteredClasses.map((className, index) => (
+            {filteredClasses.map((className) => (
               <li
-                key={index}
+                key={className} // Ensure a unique key
                 onClick={() => handleItemClick(className)}
-                className={`${styles.dropdownItem} ${index === highlightedIndex ? styles.highlighted : ''}`}
+                className={`${styles.dropdownItem} ${highlightedIndex === filteredClasses.indexOf(className) ? styles.highlighted : ''}`}
               >
                 {className}
               </li>
@@ -198,11 +209,9 @@ const ClassSelector = () => {
                   height={64}
                   alt={"Sol Erda Energy"}
                 />
-
                 <h3>{calculateTotalSolErda()}</h3>
               </div>
               <div>
-
                 <Image
                   src={sol_erda_fragment}
                   width={64}
@@ -212,6 +221,7 @@ const ClassSelector = () => {
                 <h3>{calculateTotalFrags()}</h3>
               </div>
             </div>
+            <CalcRoute />
           </>
         )}
       </div>

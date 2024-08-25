@@ -4,7 +4,9 @@ import ClassSelector from './components/ClassSelector/ClassSelector'
 
 const page = () => {
     return (
+        <>
         <ClassSelector/>
+        </>
     )
 }
 
