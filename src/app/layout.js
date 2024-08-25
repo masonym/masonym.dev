@@ -14,10 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className="min-h-screen">
         {/* navbar goes here  */}
         <NavBar />
-
         {children}
         <Footer />
       </body>

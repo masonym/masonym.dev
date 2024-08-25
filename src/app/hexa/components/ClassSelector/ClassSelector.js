@@ -163,7 +163,7 @@ const ClassSelector = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h2>Select your class</h2>
+      <h2 className="bold-20 my-4">Select your class</h2>
       <div className="relative w-1/3 z-10">
         <input
           ref={inputRef}
@@ -200,7 +200,7 @@ const ClassSelector = () => {
               skillLevels={skillLevels}
               updateSkillLevels={updateSkillLevels}
             />
-            <h2>Total Costs:</h2>
+            <h2 className="mb-4">Total Costs:</h2>
             <div className="flex flex-row justify-between items-center w-fit gap-[50px]">
               <div className="flex flex-col items-center">
                 <Image
