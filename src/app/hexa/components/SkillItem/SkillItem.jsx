@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import styles from './SkillItem.module.css'; // New CSS module for SkillItem
 
 export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: initialInputValue, itemStyle, onInputChange }) => {
     const [inputValue, setInputValue] = useState(initialInputValue);
@@ -9,12 +8,10 @@ export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: ini
         setInputValue(initialInputValue);
     }, [initialInputValue]);
 
-    // image handling for common cores
     const imagePath = isCommon
         ? `/common/${altText}.png`
         : `/classImages/${classKey}/Skill_${altText}.png`;
 
-    // input field
     const handleInputChange = (event) => {
         let value = parseInt(event.target.value, 10);
 
@@ -31,23 +28,22 @@ export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: ini
     };
 
     return (
-        <div className={`${styles.item} ${itemStyle}`}>
+        <div className={`text-center p-2.5 rounded-md flex flex-col items-center gap-[5%] w-full h-auto justify-between ${itemStyle}`}>
             <Image
                 src={imagePath}
                 alt={altText}
                 width={50}
                 height={50}
             />
-            <span style={{ whiteSpace: 'pre-line' }}>
-                <p>{Array.isArray(skills) ? skills.join('\n') : skills}</p>
+            <span className="whitespace-pre-line">
+                <p className="mt-2 mb-0">{Array.isArray(skills) ? skills.join('\n') : skills}</p>
             </span>
             <input
-                // type="number"
                 value={inputValue}
                 onChange={handleInputChange}
                 min={0}
                 max={30}
-                className={styles.levelInput}
+                className="font-inherit text-black mt-1 rounded text-center w-10 bg-[#cecece] cursor-[var(--cursorClick)]"
             />
         </div>
     );
