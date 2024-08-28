@@ -2,9 +2,10 @@ import { Container } from 'postcss'
 import React, { useState } from 'react'
 import Optimizer from './Optimizer'
 import CostCalc from './CostCalc'
+import { InputGrid } from '../InputGrid/InputGrid'
 // import styles from './CalcRoute.module.css'
 
-const CalcRoute = () => {
+const CalcRoute = ({ selectedClass, classDetails, skillLevels }) => {
   const [selected, setSelected] = useState(null)
   return (
     <div className="flex flex-col">
@@ -16,12 +17,21 @@ const CalcRoute = () => {
       </div>
       <div className="flex flex-col mb-4">
         {
-          (selected == 'costCalc') ? <CostCalc /> : null
+          (selected == 'costCalc') ?
+            <CostCalc
+              selectedClass={selectedClass}
+              classDetails={classDetails}
+              skillLevels={skillLevels}
+            >
+
+            </CostCalc> : null
         }
         {
           (selected == 'optimizer') ? <Optimizer /> : null
         }
       </div>
+
+
     </div>
   )
 }

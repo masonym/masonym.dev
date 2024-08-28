@@ -129,7 +129,7 @@ const ClassSelector = () => {
   const calculateTotalFrags = () => {
     let totalFrags = 0;
 
-    Object.values(skillLevels).forEach(({ level, type }) => {
+  Object.values(skillLevels).forEach(({ level, type }) => {
       const costTable = getCostTable(type);
 
       for (let i = 0; i < level; i++) {
@@ -221,7 +221,11 @@ const ClassSelector = () => {
                 <h3>{calculateTotalFrags()}</h3>
               </div>
             </div>
-            <CalcRoute />
+            <CalcRoute
+            selectedClass={selectedClass}
+            classDetails={classDetails}
+            skillLevels={skillLevels} >
+            </CalcRoute>
           </>
         )}
       </div>

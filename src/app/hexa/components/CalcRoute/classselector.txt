@@ -1,0 +1,97 @@
+classselector
+    inputgrid -- { selectedClass, classDetails (skills origin/mastery/boost/common), skillLevels, updateSkillLevels } --
+        skillgroup
+            skillitem
+    calcroute -- { selectedClass, classDetails, skillLevels }
+        calccost -- { selectedClass, classDetails, skillLevels, update func?}
+            inputGrid -- {  same params, skillelvels & update func should be diff
+                            updateSkillLevels function in calccost will mutate dependency array of object 
+                            object will calc diff between skillLevels (passed down frm calcroute -> calccost)
+                            pass inputgrid values upwards, don't do calc in inputgrid func
+                         }
+
+
+
+IN CALCCOST:
+
+we have two objects:
+
+desiredSkillLevels:
+
+{
+    "Super_Cannon_Explosion": {
+        "level": 30,
+        "type": "origin"
+    },
+    "HEXA_Cannon_Barrage": {
+        "level": 30,
+        "type": "mastery"
+    },
+    "HEXA_Cannon_Bazooka": {
+        "level": 30,
+        "type": "mastery"
+    },
+    "Cannon_of_Mass_Destruction": {
+        "level": 30,
+        "type": "enhancement"
+    },
+    "The_Nuclear_Option": {
+        "level": 30,
+        "type": "enhancement"
+    },
+    "Monkey_Business": {
+        "level": 30,
+        "type": "enhancement"
+    },
+    "Poolmaker": {
+        "level": 30,
+        "type": "enhancement"
+    },
+    "Sol_Janus": {
+        "level": 3,
+        "type": "common"
+    }
+}
+
+and skillLevels:
+
+{
+    "Super_Cannon_Explosion": {
+        "level": 30,
+        "type": "origin"
+    },
+    "HEXA_Cannon_Barrage": {
+        "level": 29,
+        "type": "mastery"
+    },
+    "HEXA_Cannon_Bazooka": {
+        "level": 29,
+        "type": "mastery"
+    },
+    "Cannon_of_Mass_Destruction": {
+        "level": 30,
+        "type": "enhancement"
+    },
+    "The_Nuclear_Option": {
+        "level": 10,
+        "type": "enhancement"
+    },
+    "Monkey_Business": {
+        "level": 10,
+        "type": "enhancement"
+    },
+    "Poolmaker": {
+        "level": 10,
+        "type": "enhancement"
+    },
+    "Sol_Janus": {
+        "level": 30,
+        "type": "common"
+    }
+}
+
+
+We need to somehow get the matching skill in each object and do calculateFragCost on both of them
+then calculate the difference.
+technically it would probably be more efficient to mutate the skillLevels array but i dont want to do that 
+    
