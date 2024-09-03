@@ -94,4 +94,15 @@ and skillLevels:
 We need to somehow get the matching skill in each object and do calculateFragCost on both of them
 then calculate the difference.
 technically it would probably be more efficient to mutate the skillLevels array but i dont want to do that 
-    
+
+
+in terms of design, we'll probably modify the GoalInputGrid to show frags/erda on each card
+
+"Cost remaining: "
+"Cost to next"?
+
+maybe a whole new section idk.... UI is hard
+
+could do rows 
+cause we want cost to next level too i think; that might be helpful. idk for now we can avoid that 
+[ Skill Image ] [ Skill Name ] [ Remaining: ] [ Erda Cost ] [ Frag Cost] 

@@ -3,9 +3,7 @@ import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUp
 import { GoalInputGrid } from './GoalInputGrid';
 
 const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
-  // skillLevels is an object of objects(?)
   const [desiredSkillLevels, setDesiredSkillLevels] = useState({});
-
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -32,12 +30,9 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
       if (isClient) {
         localStorage.setItem(`desiredSkillLevels_${selectedClass}`, JSON.stringify(updatedLevels));
       }
-      console.log("Local storage: ",localStorage)
-      console.log("Updated levels: ", updatedLevels)
       return updatedLevels;
     });
   };
-
 
   const getCostTable = (skillType) => {
     switch (skillType) {
@@ -51,29 +46,34 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
         return enhancementUpgradeCost;
       default:
         console.error('Unknown skill type');
-        return "";
+        return [];
     }
   };
 
   const calculateSkillFragCost = (skill) => {
     let totalFrags = 0;
-    const costTable = getCostTable(skill[1].type);
-    const level = skill[1].level
+    const costTable = getCostTable(skill.type);
+    const level = skill.level;
 
     for (let i = 0; i < level; i++) {
       const cost = costTable[i][i + 1].frags;
       totalFrags += cost;
     }
-    
-    return totalFrags
-  }
 
-  const calculateCostDiff = ({skill, goalSkill}) => {
-    const finalCost = calculateSkillFragCost(goalSkill)
-    const currentSpent = calculateSkillFragCost(skill)
+    return totalFrags;
+  };
 
-    return (finalCost - currentSpent)
-  }
+  const calculateCostDiff = (skillName) => {
+    const currentSkill = skillLevels[skillName];
+    const desiredSkill = desiredSkillLevels[skillName];
+
+    if (!currentSkill || !desiredSkill) return 0;
+
+    const finalCost = calculateSkillFragCost(desiredSkill);
+    const currentSpent = calculateSkillFragCost(currentSkill);
+
+    return finalCost - currentSpent;
+  };
 
   return (
     <div className="flex flex-col">
@@ -83,11 +83,16 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
         skillLevels={desiredSkillLevels}
         updateSkillLevels={updateSkillLevels}
       />
-      {/* <p>{Object.entries(skillLevels)}</p> */}
-      {console.log("Current skill levels: \n", skillLevels)}
-      {console.log("Desired skill levels: \n",desiredSkillLevels)}
+      <div className="mt-4">
+        <h2 className="text-xl font-bold mb-2">Skill Upgrade Costs:</h2>
+        {Object.keys(desiredSkillLevels).map((skillName) => (
+          <div key={skillName} className="mb-2">
+            <span className="font-semibold">{skillName}:</span> {calculateCostDiff(skillName)} fragments
+          </div>
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default CostCalc
+export default CostCalc;

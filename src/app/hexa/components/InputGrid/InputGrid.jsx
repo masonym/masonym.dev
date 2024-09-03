@@ -14,7 +14,7 @@ export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLeve
                     <h1 className="text-[32px]">{classKey}</h1>
                 </div>
                 <div className="my-4">
-                    <p>Enter in your current Hexa Levels:</p>
+                    <p>Enter in your current Hexa levels:</p>
                 </div>
                 <div className={styles.gridHexaLevels}>
                     {/* Origin Skill */}

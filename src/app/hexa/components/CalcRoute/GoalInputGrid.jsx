@@ -11,7 +11,7 @@ export const GoalInputGrid = ({ classKey, classDetails, skillLevels, updateSkill
         <div>
             <div className={styles.container}>
                 <div className="my-4">
-                    <p>Enter in your desired Hexa Levels:</p>
+                    <p>Enter in your desired Hexa levels:</p>
                 </div>
                 <div className={styles.gridHexaLevels}>
                     {/* Origin Skill */}
