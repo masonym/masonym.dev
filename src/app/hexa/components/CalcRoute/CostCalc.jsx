@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import { GoalInputGrid } from './GoalInputGrid';
 import { formatSkillName } from '../../utils';
+import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
+import sol_erda from '../../assets/sol_erda.png';
 
 const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   const [desiredSkillLevels, setDesiredSkillLevels] = useState({});
@@ -70,9 +72,9 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     const desiredSkill = desiredSkillLevels[skillName];
 
     if (!currentSkill) {
-      currentSkill = { 'level': 0, type: desiredSkill.type}
+      currentSkill = { 'level': 0, type: desiredSkill.type }
     }
-    
+
     if (!currentSkill || !desiredSkill) {
       return { current: { solErda: 0, frags: 0 }, remaining: { solErda: 0, frags: 0 }, levels: { current: 0, desired: 0 } };
     }
@@ -126,15 +128,53 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h3 className="text-sm font-medium text-gray-600">Current Resources Spent:</h3>
-                  <p className="text-blue-600">{costs.current.solErda} Sol Erda</p>
-                  <p className="text-green-600">{costs.current.frags} Fragments</p>
+                <div className="items-start flex flex-col">
+                  <div className="flex flex-col items-center justify-center">
+                    <h3 className="text-sm font-medium text-gray-600">Current Resources Spent:</h3>
+                    <div className="items-center self-start flex flex-col">
+                      <div className="flex flex-col items-center gap-2 w-fit my-2">
+                        <Image
+                          src={sol_erda}
+                          width={32}
+                          height={32}
+                          alt={"Sol Erda Energy"}
+                        />
+                        <p className="text-blue-600">{costs.current.solErda}</p>
+                      </div>
+                      <div className="flex flex-col items-center gap-2 w-fit my-2 ">
+                        <Image
+                          src={sol_erda_fragment}
+                          width={32}
+                          height={32}
+                          alt={"Sol Erda Fragment"}
+                        />
+                        <p className="text-green-600">{costs.current.frags}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <h3 className="text-sm font-medium text-gray-600">Remaining:</h3>
-                  <p className="text-blue-600">{costs.remaining.solErda} Sol Erda</p>
-                  <p className="text-green-600">{costs.remaining.frags} Fragments</p>
+                <div className="items-end flex flex-col">
+                  <div className="flex flex-col items-center justify-center">
+                    <h3 className="text-sm font-medium text-gray-600">Remaining:</h3>
+                    <div className="flex flex-col items-center gap-2 w-fit my-2">
+                      <Image
+                        src={sol_erda}
+                        width={32}
+                        height={32}
+                        alt={"Sol Erda Energy"}
+                      />
+                      <p className="text-blue-600">{costs.remaining.solErda}</p>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 w-fit my-2 ">
+                      <Image
+                        src={sol_erda_fragment}
+                        width={32}
+                        height={32}
+                        alt={"Sol Erda Fragment"}
+                      />
+                      <p className="text-green-600">{costs.remaining.frags}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
