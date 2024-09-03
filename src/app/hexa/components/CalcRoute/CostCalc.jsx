@@ -180,6 +180,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
             </div>
           );
         })}
+      <p>Total resources remaining:</p>
       </div>
     </div>
   );

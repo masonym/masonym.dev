@@ -8,11 +8,13 @@ import { InputGrid } from '../InputGrid/InputGrid'
 const CalcRoute = ({ selectedClass, classDetails, skillLevels }) => {
   const [selected, setSelected] = useState(null)
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center gap-4">
 
-      <div className="flex flex-row flexBetween max-container">
-        <button className="text-red-500 bg-blue-100 rounded-lg px-8 py-4" onClick={() => { setSelected('costCalc') }}>Cost Calculator</button>
-        <button className="text-red-500 bg-blue-100 rounded-lg px-8 py-4" onClick={() => { setSelected('optimizer') }}>Optimizer</button>
+      <h3 className="mt-4 text-[20px]">Select the calculator you'd like to use:</h3>
+      <div className="flex flex-row flexBetween max-container mt-2 gap-4">
+
+        <button className="text-primary-dark bg-primary rounded-lg px-8 py-4" onClick={() => { setSelected('costCalc') }}>Cost Calculator</button>
+        <button className="text-primary-dark bg-primary rounded-lg px-8 py-4" onClick={() => { setSelected('optimizer') }}>Optimizer</button>
 
       </div>
       <div className="flex flex-col mb-4">
