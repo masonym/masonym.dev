@@ -106,3 +106,11 @@ maybe a whole new section idk.... UI is hard
 could do rows 
 cause we want cost to next level too i think; that might be helpful. idk for now we can avoid that 
 [ Skill Image ] [ Skill Name ] [ Remaining: ] [ Erda Cost ] [ Frag Cost] 
+
+colour of item should be a progress bar that fills based on percent.
+
+edge case: if user has not entered a current value for a skill, but has entered a desired value, it will say 0 -> 0
+
+solutions: 
+
+1. initialize currentLevels to 0s

@@ -57,7 +57,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     const costTable = getCostTable(skill.type);
     const level = skill.level;
 
-    for (let i = 1; i < level; i++) {
+    for (let i = 0; i < level; i++) {
       const cost = costTable[i][i + 1][costType];
       totalCost += cost;
     }
@@ -66,10 +66,16 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   };
 
   const calculateCosts = (skillName) => {
-    const currentSkill = skillLevels[skillName];
+    var currentSkill = skillLevels[skillName];
     const desiredSkill = desiredSkillLevels[skillName];
 
-    if (!currentSkill || !desiredSkill) return { current: { solErda: 0, frags: 0 }, remaining: { solErda: 0, frags: 0 }, levels: { current: 0, desired: 0 } };
+    if (!currentSkill) {
+      currentSkill = { 'level': 0, type: desiredSkill.type}
+    }
+    
+    if (!currentSkill || !desiredSkill) {
+      return { current: { solErda: 0, frags: 0 }, remaining: { solErda: 0, frags: 0 }, levels: { current: 0, desired: 0 } };
+    }
 
     const currentSolErdaSpent = calculateSkillCost(currentSkill, 'solErda');
     const currentFragSpent = calculateSkillCost(currentSkill, 'frags');
@@ -100,12 +106,12 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
         updateSkillLevels={updateSkillLevels}
       />
       <div className="mt-4 flex items-center flex-col">
-        <h2 className="text-xl font-bold mb-2">Skill Upgrade Costs:</h2>
+        <h2 className="text-xl font-bold mb-2">Progress:</h2>
         {Object.keys(desiredSkillLevels).map((skillName) => {
           const costs = calculateCosts(skillName);
           const skillType = desiredSkillLevels[skillName].type;
           return (
-            <div key={skillName} className="mb-4 p-4 bg-gray-100 rounded-lg w-[75%]">
+            <div key={skillName} className="mb-4 p-4 bg-primary-dark rounded-lg w-[75%]">
               <div className="flex items-center mb-2">
                 <Image
                   src={getSkillImage(skillName, skillType)}
@@ -121,12 +127,12 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-600">Current Level Costs:</h3>
+                  <h3 className="text-sm font-medium text-gray-600">Current Resources Spent:</h3>
                   <p className="text-blue-600">{costs.current.solErda} Sol Erda</p>
                   <p className="text-green-600">{costs.current.frags} Fragments</p>
                 </div>
                 <div className="text-right">
-                  <h3 className="text-sm font-medium text-gray-600">Remaining Costs:</h3>
+                  <h3 className="text-sm font-medium text-gray-600">Remaining:</h3>
                   <p className="text-blue-600">{costs.remaining.solErda} Sol Erda</p>
                   <p className="text-green-600">{costs.remaining.frags} Fragments</p>
                 </div>
