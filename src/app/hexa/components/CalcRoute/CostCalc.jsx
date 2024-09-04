@@ -6,14 +6,23 @@ import { formatSkillName, formatSkillPath } from '../../utils';
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
 import { masteryDesignation } from '@/data/masteryDesignation';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   const [desiredSkillLevels, setDesiredSkillLevels] = useState({});
   const [isClient, setIsClient] = useState(false);
+  const [collapsedCards, setCollapsedCards] = useState({});
+  const [allExpanded, setAllExpanded] = useState(true);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(desiredSkillLevels).length > 0) {
+      setCollapsedCards({});  // All cards expanded by default
+    }
+  }, [desiredSkillLevels]);
 
   useEffect(() => {
     if (isClient) {
@@ -112,13 +121,13 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
       return `/classImages/${selectedClass}/Skill_${skillName}.png`;
     }
   };
-  
+
   const getOrderedSkills = (classDetails, desiredSkillLevels) => {
     if (!classDetails || !desiredSkillLevels) return [];
-    
+
     const orderedSkills = [];
     const classMasteryDesignation = masteryDesignation[selectedClass];
-    
+
     if (!classMasteryDesignation) return [];
 
     // Origin skill
@@ -162,6 +171,29 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     return orderedSkills;
   };
 
+  const toggleCard = (skillName) => {
+    setCollapsedCards(prev => ({
+      ...prev,
+      [skillName]: !prev[skillName]
+    }));
+  };
+
+  const toggleAllCards = () => {
+    setAllExpanded(prev => !prev);
+    if (allExpanded) {
+      // Collapse all cards
+      setCollapsedCards(
+        Object.keys(desiredSkillLevels).reduce((acc, skillName) => {
+          acc[skillName] = true;
+          return acc;
+        }, {})
+      );
+    } else {
+      // Expand all cards
+      setCollapsedCards({});
+    }
+  };
+
   const totalRemaining = calculateTotal();
   const orderedSkills = getOrderedSkills(classDetails, desiredSkillLevels);
 
@@ -178,13 +210,26 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
         updateSkillLevels={updateSkillLevels}
       />
       <div className="mt-4 flex items-center flex-col">
-        <h2 className="text-xl font-bold mb-2">Progress:</h2>
+        <div className="w-full flex justify-center gap-4 items-center mb-4">
+          <h2 className="text-xl font-bold">Progress:</h2>
+        </div>
+        <div className="mb-4 self-center w-[75%]">
+          <button
+            onClick={toggleAllCards}
+            className="bg-primary-dark text-primary px-4 py-2 rounded hover:bg-primary-dim transition-colors"
+          >
+            {allExpanded ? 'Collapse All' : 'Expand All'}
+          </button>
+        </div>
         {orderedSkills.map((skillName) => {
           const costs = calculateCosts(skillName);
-          const skillType = desiredSkillLevels[skillName].type;
+          const skillType = desiredSkillLevels[skillName]?.type || 'enhancement';
           return (
             <div key={skillName} className="mb-4 p-4 bg-primary-dark rounded-lg w-[75%]">
-              <div className="flex items-center mb-2">
+              <div
+                className="flex items-center mb-2 cursor-pointer"
+                onClick={() => toggleCard(skillName)}
+              >
                 <Image
                   src={getSkillImage(skillName, skillType)}
                   alt={skillName}
@@ -192,16 +237,42 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                   height={40}
                   className="mr-3"
                 />
-                <span className="flex-1 font-semibold text-primary">{formatSkillName(skillName)}</span>
-                <span className="text-sm font-medium text-primary">
-                  Level: {costs.levels.current} → {costs.levels.desired}
+                <span className="flex font-semibold text-primary">{formatSkillName(skillName)}</span>
+                <span className="ml-2 flex-1">{collapsedCards[skillName] ? <ChevronDown /> : <ChevronRight />}</span>
+                <span className="text-lg font-medium text-primary">
+                  Level {costs.levels.current} → {costs.levels.desired}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="items-start flex flex-col">
-                  <div className="flex flex-col items-center justify-center">
-                    <h3 className="text-sm font-medium text-primary">Current Resources Spent:</h3>
-                    <div className="items-center self-start flex flex-col">
+              {!collapsedCards[skillName] && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="items-start flex flex-col">
+                    <div className="flex flex-col items-center justify-center">
+                      <h3 className="text-sm font-medium text-primary">Current Resources Spent:</h3>
+                      <div className="items-center self-start flex flex-col">
+                        <div className="flex flex-col items-center gap-2 w-fit my-2">
+                          <Image
+                            src={sol_erda}
+                            width={32}
+                            height={32}
+                            alt={"Sol Erda Energy"}
+                          />
+                          <p className="text-blue-600">{costs.current.solErda}</p>
+                        </div>
+                        <div className="flex flex-col items-center gap-2 w-fit my-2 ">
+                          <Image
+                            src={sol_erda_fragment}
+                            width={32}
+                            height={32}
+                            alt={"Sol Erda Fragment"}
+                          />
+                          <p className="text-green-600">{costs.current.frags}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="items-end flex flex-col">
+                    <div className="flex flex-col items-center justify-center">
+                      <h3 className="text-sm font-medium text-primary">Remaining:</h3>
                       <div className="flex flex-col items-center gap-2 w-fit my-2">
                         <Image
                           src={sol_erda}
@@ -209,7 +280,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                           height={32}
                           alt={"Sol Erda Energy"}
                         />
-                        <p className="text-blue-600">{costs.current.solErda}</p>
+                        <p className="text-blue-600">{costs.remaining.solErda}</p>
                       </div>
                       <div className="flex flex-col items-center gap-2 w-fit my-2 ">
                         <Image
@@ -218,42 +289,18 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                           height={32}
                           alt={"Sol Erda Fragment"}
                         />
-                        <p className="text-green-600">{costs.current.frags}</p>
+                        <p className="text-green-600">{costs.remaining.frags}</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="items-end flex flex-col">
-                  <div className="flex flex-col items-center justify-center">
-                    <h3 className="text-sm font-medium text-primary">Remaining:</h3>
-                    <div className="flex flex-col items-center gap-2 w-fit my-2">
-                      <Image
-                        src={sol_erda}
-                        width={32}
-                        height={32}
-                        alt={"Sol Erda Energy"}
-                      />
-                      <p className="text-blue-600">{costs.remaining.solErda}</p>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 w-fit my-2 ">
-                      <Image
-                        src={sol_erda_fragment}
-                        width={32}
-                        height={32}
-                        alt={"Sol Erda Fragment"}
-                      />
-                      <p className="text-green-600">{costs.remaining.frags}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
           );
         })}
         <h2 className="text-lg font-bold mb-2">Total Remaining:</h2>
         <div className="flex gap-4">
           <div className="flex flex-col items-center">
-
             <Image
               src={sol_erda}
               width={48}
