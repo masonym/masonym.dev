@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import { GoalInputGrid } from './GoalInputGrid';
-import { formatSkillName } from '../../utils';
+import { formatSkillName, formatSkillPath } from '../../utils';
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
+import { masteryDesignation } from '@/data/masteryDesignation';
 
 const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   const [desiredSkillLevels, setDesiredSkillLevels] = useState({});
@@ -91,6 +92,19 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     };
   };
 
+  const calculateTotal = () => {
+    let totalRemainingSolErda = 0;
+    let totalRemainingFrags = 0;
+
+    Object.keys(desiredSkillLevels).forEach((skillName) => {
+      const costs = calculateCosts(skillName);
+      totalRemainingSolErda += costs.remaining.solErda;
+      totalRemainingFrags += costs.remaining.frags;
+    });
+
+    return { solErda: totalRemainingSolErda, frags: totalRemainingFrags };
+  };
+
   const getSkillImage = (skillName, skillType) => {
     if (skillType === 'common') {
       return `/common/${skillName}.png`;
@@ -98,6 +112,62 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
       return `/classImages/${selectedClass}/Skill_${skillName}.png`;
     }
   };
+  
+  const getOrderedSkills = (classDetails, desiredSkillLevels) => {
+    if (!classDetails || !desiredSkillLevels) return [];
+    
+    const orderedSkills = [];
+    const classMasteryDesignation = masteryDesignation[selectedClass];
+    
+    if (!classMasteryDesignation) return [];
+
+    // Origin skill
+    const formattedOriginSkill = formatSkillPath(classDetails.originSkill);
+    if (desiredSkillLevels[formattedOriginSkill]) {
+      orderedSkills.push(formattedOriginSkill);
+    }
+
+    // First Mastery skills
+    classMasteryDesignation.firstMastery.forEach(skill => {
+      const formattedSkill = formatSkillPath(skill);
+      if (desiredSkillLevels[formattedSkill]) {
+        orderedSkills.push(formattedSkill);
+      }
+    });
+
+    // Second Mastery skills
+    classMasteryDesignation.secondMastery.forEach(skill => {
+      const formattedSkill = formatSkillPath(skill);
+      if (desiredSkillLevels[formattedSkill]) {
+        orderedSkills.push(formattedSkill);
+      }
+    });
+
+    // Boost skills
+    classDetails.boostSkills.forEach(skill => {
+      const formattedSkill = formatSkillPath(skill);
+      if (desiredSkillLevels[formattedSkill]) {
+        orderedSkills.push(formattedSkill);
+      }
+    });
+
+    // Common skills
+    classDetails.commonSkills.forEach(skill => {
+      const formattedSkill = formatSkillPath(skill);
+      if (desiredSkillLevels[formattedSkill]) {
+        orderedSkills.push(formattedSkill);
+      }
+    });
+
+    return orderedSkills;
+  };
+
+  const totalRemaining = calculateTotal();
+  const orderedSkills = getOrderedSkills(classDetails, desiredSkillLevels);
+
+  if (!classDetails || !desiredSkillLevels || Object.keys(desiredSkillLevels).length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col">
@@ -109,7 +179,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
       />
       <div className="mt-4 flex items-center flex-col">
         <h2 className="text-xl font-bold mb-2">Progress:</h2>
-        {Object.keys(desiredSkillLevels).map((skillName) => {
+        {orderedSkills.map((skillName) => {
           const costs = calculateCosts(skillName);
           const skillType = desiredSkillLevels[skillName].type;
           return (
@@ -122,15 +192,15 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                   height={40}
                   className="mr-3"
                 />
-                <span className="flex-1 font-semibold text-gray-600">{formatSkillName(skillName)}</span>
-                <span className="text-sm font-medium text-gray-600">
+                <span className="flex-1 font-semibold text-primary">{formatSkillName(skillName)}</span>
+                <span className="text-sm font-medium text-primary">
                   Level: {costs.levels.current} → {costs.levels.desired}
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="items-start flex flex-col">
                   <div className="flex flex-col items-center justify-center">
-                    <h3 className="text-sm font-medium text-gray-600">Current Resources Spent:</h3>
+                    <h3 className="text-sm font-medium text-primary">Current Resources Spent:</h3>
                     <div className="items-center self-start flex flex-col">
                       <div className="flex flex-col items-center gap-2 w-fit my-2">
                         <Image
@@ -155,7 +225,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                 </div>
                 <div className="items-end flex flex-col">
                   <div className="flex flex-col items-center justify-center">
-                    <h3 className="text-sm font-medium text-gray-600">Remaining:</h3>
+                    <h3 className="text-sm font-medium text-primary">Remaining:</h3>
                     <div className="flex flex-col items-center gap-2 w-fit my-2">
                       <Image
                         src={sol_erda}
@@ -180,7 +250,28 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
             </div>
           );
         })}
-      <p>Total resources remaining:</p>
+        <h2 className="text-lg font-bold mb-2">Total Remaining:</h2>
+        <div className="flex gap-4">
+          <div className="flex flex-col items-center">
+
+            <Image
+              src={sol_erda}
+              width={48}
+              height={48}
+              alt={"Sol Erda Energy"}
+            />
+            <p className="text-blue-600 font-medium text-[24px]">{totalRemaining.solErda}</p>
+          </div>
+          <div className="flex flex-col items-center">
+            <Image
+              src={sol_erda_fragment}
+              width={48}
+              height={48}
+              alt={"Sol Erda Fragment"}
+            />
+            <p className="text-green-600 font-medium text-[24px]">{totalRemaining.frags}</p>
+          </div>
+        </div>
       </div>
     </div>
   );

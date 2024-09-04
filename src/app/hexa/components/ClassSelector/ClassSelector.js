@@ -200,7 +200,7 @@ const ClassSelector = () => {
               skillLevels={skillLevels}
               updateSkillLevels={updateSkillLevels}
             />
-            <h2 className="mb-4">Total Costs:</h2>
+            <h2 className="mb-4 text-[32px] text-center p-4 pb-2 text-primary-bright border-b-2 border-b-primary-bright">Materials Spent:</h2>
             <div className="flex flex-row justify-between items-center w-fit gap-[50px]">
               <div className="flex flex-col items-center">
                 <Image
