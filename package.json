@@ -12,6 +12,7 @@
     "axios": "^1.7.4",
     "lucide-react": "^0.428.0",
     "next": "14.2.5",
+    "next-sitemap": "^4.2.3",
     "react": "^18.3.1",
     "react-dom": "^18",
     "react-widgets": "^5.8.4",

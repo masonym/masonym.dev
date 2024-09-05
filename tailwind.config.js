@@ -18,7 +18,10 @@ module.exports = {
         'background-dim': 'var(--background-dim)',
         'background-bright': 'var(--background-bright)',
         footer: 'var(--footer-text)',
-        // Add other custom properties as needed
+        'progress-red': 'var(--progress-red)',
+        'progress-orange': 'var(--progress-orange)',
+        'progress-yellow': 'var(--progress-yellow)',
+        'progress-green': 'var(--progress-green)'
       },
       cursor: {
         'custom-click': 'url("../assets/cursorClick.png"), auto'

@@ -211,9 +211,10 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   };
 
   const getProgressColor = (progress) => {
-    if (progress < 33) return 'bg-red-500';
-    if (progress < 66) return 'bg-yellow-500';
-    return 'bg-green-500';
+    if (progress < 33) return 'bg-progress-red';
+    if (progress < 66) return 'bg-progress-orange';
+    if (progress < 100) return 'bg-progress-yellow';
+    return 'bg-progress-green';
   };
 
   const totalRemaining = calculateTotal();
@@ -231,53 +232,103 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
         skillLevels={desiredSkillLevels}
         updateSkillLevels={updateSkillLevels}
       />
-      <div className="mt-4 flex items-center flex-col">
-        <div className="w-full flex justify-center gap-4 items-center mb-4">
-          <h2 className="text-xl font-bold">Progress:</h2>
-        </div>
-        <div className="mb-4 self-center w-[75%]">
-          <button
-            onClick={toggleAllCards}
-            className="bg-primary-dark text-primary px-4 py-2 rounded hover:bg-primary-dim transition-colors"
-          >
-            {allExpanded ? 'Collapse All' : 'Expand All'}
-          </button>
-        </div>
-        {orderedSkills.map((skillName) => {
-          const costs = calculateCosts(skillName);
-          const skillType = desiredSkillLevels[skillName]?.type || 'enhancement';
-          const progress = calculateProgress(costs);
-          const progressColor = getProgressColor(progress);
-          return (
-            <div key={skillName} className="mb-4 p-4 bg-primary-dark rounded-lg w-[75%] relative overflow-hidden">
-              <div
-                className={`absolute top-0 left-0 h-full ${progressColor} opacity-25 transition-all duration-500 ease-in-out`}
-                style={{ width: `${progress}%` }}
-              ></div>
-              <div className="relative z-10">
+      {Object.values(desiredSkillLevels).some(skill => skill.level > 0) && (
+
+
+
+        <div className="mt-4 flex items-center flex-col">
+
+          <h2 className="text-xl font-bold mb-2">Total Remaining:</h2>
+          <div className="flex gap-4">
+            <div className="flex flex-col items-center">
+              <Image
+                src={sol_erda}
+                width={48}
+                height={48}
+                alt={"Sol Erda Energy"}
+              />
+              <p className="text-blue-600 font-medium text-[24px]">{totalRemaining.solErda}</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <Image
+                src={sol_erda_fragment}
+                width={48}
+                height={48}
+                alt={"Sol Erda Fragment"}
+              />
+              <p className="text-green-600 font-medium text-[24px]">{totalRemaining.frags}</p>
+            </div>
+          </div>
+          {/* <div className="w-full flex justify-center gap-4 items-center mb-4"> */}
+            {/* <h2 className="text-xl font-bold">Progress:</h2> */}
+          {/* </div> */}
+          <div className="mb-4 self-center w-[75%]">
+            <button
+              onClick={toggleAllCards}
+              className="bg-primary-dark text-primary px-4 py-2 rounded hover:bg-primary-dim transition-colors"
+            >
+              {allExpanded ? 'Collapse All' : 'Expand All'}
+            </button>
+          </div>
+          {orderedSkills.map((skillName) => {
+            const costs = calculateCosts(skillName);
+            const skillType = desiredSkillLevels[skillName]?.type || 'enhancement';
+            const progress = calculateProgress(costs);
+            const progressColor = getProgressColor(progress);
+            return (
+              <div key={skillName} className="mb-4 p-4 bg-primary-dark rounded-lg w-[75%] relative overflow-hidden">
                 <div
-                  className="flex items-center mb-2 cursor-pointer"
-                  onClick={() => toggleCard(skillName)}
-                >
-                  <Image
-                    src={getSkillImage(skillName, skillType)}
-                    alt={skillName}
-                    width={40}
-                    height={40}
-                    className="mr-3"
-                  />
-                  <span className="flex font-semibold text-primary">{formatSkillName(skillName)}</span>
-                  <span className="ml-2 flex-1">{collapsedCards[skillName] ? <ChevronDown /> : <ChevronRight />}</span>
-                  <span className="text-lg font-medium text-primary">
-                    Level {costs.levels.current} → {costs.levels.desired}
-                  </span>
-                </div>
-                {!collapsedCards[skillName] && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="items-start flex flex-col">
-                      <div className="flex flex-col items-center justify-center">
-                        <h3 className="text-sm font-medium text-primary">Current Resources Spent:</h3>
-                        <div className="items-center self-start flex flex-col">
+                  className={`absolute top-0 left-0 h-full ${progressColor} opacity-25 transition-all duration-500 ease-in-out`}
+                  style={{ width: `${progress}%` }}
+                ></div>
+                <div className="relative z-10">
+                  <div
+                    className="flex items-center mb-2 cursor-pointer"
+                    onClick={() => toggleCard(skillName)}
+                  >
+                    <Image
+                      src={getSkillImage(skillName, skillType)}
+                      alt={skillName}
+                      width={40}
+                      height={40}
+                      className="mr-3"
+                    />
+                    <span className="flex font-semibold text-primary">{formatSkillName(skillName)}</span>
+                    <span className="ml-2 flex-1">{collapsedCards[skillName] ? <ChevronDown /> : <ChevronRight />}</span>
+                    <span className="text-lg font-medium text-primary">
+                      Level {costs.levels.current} → {costs.levels.desired}
+                    </span>
+                  </div>
+                  {!collapsedCards[skillName] && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="items-start flex flex-col">
+                        <div className="flex flex-col items-center justify-center">
+                          <h3 className="text-sm font-medium text-primary">Current Resources Spent:</h3>
+                          <div className="items-center self-start flex flex-col">
+                            <div className="flex flex-col items-center gap-2 w-fit my-2">
+                              <Image
+                                src={sol_erda}
+                                width={32}
+                                height={32}
+                                alt={"Sol Erda Energy"}
+                              />
+                              <p className="text-blue-600">{costs.current.solErda}</p>
+                            </div>
+                            <div className="flex flex-col items-center gap-2 w-fit my-2 ">
+                              <Image
+                                src={sol_erda_fragment}
+                                width={32}
+                                height={32}
+                                alt={"Sol Erda Fragment"}
+                              />
+                              <p className="text-green-600">{costs.current.frags}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="items-end flex flex-col">
+                        <div className="flex flex-col items-center justify-center">
+                          <h3 className="text-sm font-medium text-primary">Remaining:</h3>
                           <div className="flex flex-col items-center gap-2 w-fit my-2">
                             <Image
                               src={sol_erda}
@@ -285,7 +336,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                               height={32}
                               alt={"Sol Erda Energy"}
                             />
-                            <p className="text-blue-600">{costs.current.solErda}</p>
+                            <p className="text-blue-600">{costs.remaining.solErda}</p>
                           </div>
                           <div className="flex flex-col items-center gap-2 w-fit my-2 ">
                             <Image
@@ -294,62 +345,18 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                               height={32}
                               alt={"Sol Erda Fragment"}
                             />
-                            <p className="text-green-600">{costs.current.frags}</p>
+                            <p className="text-green-600">{costs.remaining.frags}</p>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="items-end flex flex-col">
-                      <div className="flex flex-col items-center justify-center">
-                        <h3 className="text-sm font-medium text-primary">Remaining:</h3>
-                        <div className="flex flex-col items-center gap-2 w-fit my-2">
-                          <Image
-                            src={sol_erda}
-                            width={32}
-                            height={32}
-                            alt={"Sol Erda Energy"}
-                          />
-                          <p className="text-blue-600">{costs.remaining.solErda}</p>
-                        </div>
-                        <div className="flex flex-col items-center gap-2 w-fit my-2 ">
-                          <Image
-                            src={sol_erda_fragment}
-                            width={32}
-                            height={32}
-                            alt={"Sol Erda Fragment"}
-                          />
-                          <p className="text-green-600">{costs.remaining.frags}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
-        <h2 className="text-lg font-bold mb-2">Total Remaining:</h2>
-        <div className="flex gap-4">
-          <div className="flex flex-col items-center">
-            <Image
-              src={sol_erda}
-              width={48}
-              height={48}
-              alt={"Sol Erda Energy"}
-            />
-            <p className="text-blue-600 font-medium text-[24px]">{totalRemaining.solErda}</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <Image
-              src={sol_erda_fragment}
-              width={48}
-              height={48}
-              alt={"Sol Erda Fragment"}
-            />
-            <p className="text-green-600 font-medium text-[24px]">{totalRemaining.frags}</p>
-          </div>
+            );
+          })}
         </div>
-      </div>
+      )}
     </div>
   );
 };

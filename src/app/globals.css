@@ -59,6 +59,11 @@
   --background-dim: hsl(0, 0%, 5%);
   --background-bright: hsl(0, 0%, 25%);
   --footer-text: #2c5f2d;
+  
+  --progress-red: hsl(0, 50%, 50%);
+  --progress-orange: hsl(26, 93%, 65%);;
+  --progress-yellow: hsl(54, 50%, 50%);
+  --progress-green: hsl(126, 60%, 50%);
 
   --originItem:  hsl(300, 49%, 20%);
   --masteryItem: hsl(0, 50%, 30%);
@@ -83,6 +88,11 @@
   --background-dim: hsl(0, 10%, 75%);
   --background-bright: hsl(0, 10%, 75%);
   --footer-text: #2c5f2d;
+
+  --progress-red: hsl(189, 28%, 40%);
+  --progress-orange: #ffffff;
+  --progress-yellow: #ffffff;
+  --progress-green: #ffffff;
 
   --originItem:  hsl(300, 45%, 50%);
   --masteryItem: hsl(0, 50%, 60%);
