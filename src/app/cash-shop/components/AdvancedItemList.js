@@ -4,21 +4,23 @@ import FilterControls from './FilterControls';
 import Footer from '@/components/Footer';
 import { formatDate } from '@/utils';
 import AdvancedItemCard from './AdvancedItemCard';
-import backgroundDark from '../assets/backgrnd_cr.png';
-import backgroundLight from '../assets/backgrnd_cr_light.png';
-import noItemsImage from '../assets/noItem_mini.png';
 import Image from 'next/image';
+import noItemsImage from '../assets/noItem_mini.png';
 
-const intWorlds = [0, 1, 17, 18, 30, 48, 49];
-const heroWorlds = [45, 46, 70];
+const INT_WORLDS = [0, 1, 17, 18, 30, 48, 49];
+const HERO_WORLDS = [45, 46, 70];
+
+const API_URL = 'https://yaiphhwge8.execute-api.us-west-2.amazonaws.com/prod/query-items-by-date';
 
 function AdvancedItemList() {
     const [items, setItems] = useState({});
     const [categorizedItems, setCategorizedItems] = useState({});
-    const [hidePastItems, setHidePastItems] = useState(false);
-    const [showCurrentItems, setShowCurrentItems] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [worldFilter, setWorldFilter] = useState('');
+    const [filters, setFilters] = useState({
+        hidePastItems: false,
+        showCurrentItems: false,
+        searchTerm: '',
+        worldFilter: '',
+    });
     const [noItems, setNoItems] = useState(false);
     const [openItemId, setOpenItemId] = useState(null);
     const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -26,29 +28,24 @@ function AdvancedItemList() {
     const [loading, setLoading] = useState(true);
     const [filteredCategories, setFilteredCategories] = useState({});
 
-    const toggleHidePastItems = useCallback((event) => {
-        setHidePastItems(event.target.checked);
-        if (event.target.checked) {
-            setShowCurrentItems(false);
-        }
-    }, []);
-
-    const toggleShowCurrentItems = useCallback((event) => {
-        setShowCurrentItems(event.target.checked);
-        if (event.target.checked) {
-            setHidePastItems(false);
-        }
-    }, []);
-
-    const toggleCategory = (dateKey) => {
-        setCollapsedCategories(prev => ({
-            ...prev,
-            [dateKey]: !prev[dateKey]
-        }));
+    const updateFilter = (key, value) => {
+        setFilters(prev => {
+            const newFilters = { ...prev, [key]: value };
+            
+            // Ensure mutual exclusivity between hidePastItems and showCurrentItems
+            if (key === 'hidePastItems' && value) {
+                newFilters.showCurrentItems = false;
+            } else if (key === 'showCurrentItems' && value) {
+                newFilters.hidePastItems = false;
+            }
+            
+            return newFilters;
+        });
     };
 
-    const handleSearchTermChange = (event) => setSearchTerm(event.target.value.toLowerCase());
-    const handleWorldFilterChange = (filter) => setWorldFilter(filter);
+    const toggleCategory = (dateKey) => {
+        setCollapsedCategories(prev => ({ ...prev, [dateKey]: !prev[dateKey] }));
+    };
 
     const parseDate = (dateString) => {
         const [datePart, timePart] = dateString.split(' ');
@@ -61,124 +58,81 @@ function AdvancedItemList() {
         return `${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}-${date.getFullYear()}`;
     };
 
-    const [apiParams, setApiParams] = useState(() => {
+    const getApiParams = useCallback(() => {
         const now = new Date();
-        return { startDate: formatDateForAPI(now) };
-    });
+        if (filters.hidePastItems) {
+            return { endDate: formatDateForAPI(now) };
+        } else if (filters.showCurrentItems) {
+            return { currentItems: 'true' };
+        } else {
+            return { startDate: formatDateForAPI(now) };
+        }
+    }, [filters.hidePastItems, filters.showCurrentItems]);
 
     const categorizeAndSortItems = useMemo(() => (items) => {
-        console.log('Raw items:', items);
-
-        const categorized = {};
-        
-        Object.keys(items).forEach((key) => {
-            const item = items[key];
+        const categorized = Object.entries(items).reduce((acc, [key, item]) => {
             const startDate = parseDate(item.termStart);
-            const dateKey = `${startDate.getUTCFullYear()}-${(startDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${startDate.getUTCDate().toString().padStart(2, '0')}`;
+            const dateKey = startDate.toISOString().split('T')[0];
+            if (!acc[dateKey]) acc[dateKey] = [];
+            acc[dateKey].push({ key, item });
+            return acc;
+        }, {});
 
-            if (!categorized[dateKey]) {
-                categorized[dateKey] = [];
-            }
-            categorized[dateKey].push({ key, item });
-        });
-
-        Object.keys(categorized).forEach(dateKey => {
-            categorized[dateKey].sort((a, b) => {
-                const nameA = (a.item.name || '').toString().toLowerCase();
-                const nameB = (b.item.name || '').toString().toLowerCase();
-                return nameA.localeCompare(nameB);
-            });
-        });
-
-        console.log('Categorized and sorted items:', categorized);
+        Object.values(categorized).forEach(category => 
+            category.sort((a, b) => a.item.name.localeCompare(b.item.name))
+        );
 
         return categorized;
     }, []);
 
-
-    useEffect(() => {
-        const now = new Date();
-
-        let params = {};
-
-        if (hidePastItems) {
-            params.endDate = formatDateForAPI(now);
-        } else if (showCurrentItems) {
-            params.currentItems = 'true';
-        } else {
-            params.startDate = formatDateForAPI(now);
-        }
-
-        setApiParams(params);
-    }, [hidePastItems, showCurrentItems]);
-
     const fetchItems = useCallback(async () => {
         setLoading(true);
         try {
-            const response = await axios.get('https://yaiphhwge8.execute-api.us-west-2.amazonaws.com/prod/query-items-by-date', {
-                params: apiParams
-            });
-            const allItems = response.data;
-            console.log('Fetched items:', allItems); // Log fetched items
-            setItems(allItems);
-            const sortedAndCategorized = categorizeAndSortItems(allItems);
-            setCategorizedItems(sortedAndCategorized);
+            const { data } = await axios.get(API_URL, { params: getApiParams() });
+            setItems(data);
+            setCategorizedItems(categorizeAndSortItems(data));
         } catch (error) {
             console.error('Error fetching items:', error);
         } finally {
             setLoading(false);
         }
-    }, [apiParams, categorizeAndSortItems]);
+    }, [getApiParams, categorizeAndSortItems]);
 
     useEffect(() => {
         fetchItems();
     }, [fetchItems]);
 
     useEffect(() => {
-        const filterAndSortItems = () => {
+        const filterItems = () => {
             const now = new Date();
-
-            const filteredCategories = {};
-            Object.keys(categorizedItems).forEach(dateKey => {
-                const filteredItems = categorizedItems[dateKey].filter(({ item }) => {
+            const filtered = Object.entries(categorizedItems).reduce((acc, [dateKey, items]) => {
+                const filteredItems = items.filter(({ item }) => {
                     const termStart = parseDate(item.termStart);
                     const termEnd = parseDate(item.termEnd);
-
                     let dateCondition;
-                    if (hidePastItems) {
-                        // Show items that have ended (past items)
+                    if (filters.hidePastItems) {
                         dateCondition = termEnd < now;
-                    } else if (showCurrentItems) {
-                        // Show items that are currently active
+                    } else if (filters.showCurrentItems) {
                         dateCondition = termStart <= now && termEnd > now;
                     } else {
-                        // Default view: show future items
                         dateCondition = termStart > now;
                     }
-
-                    const nameCondition = item.name.toLowerCase().includes(searchTerm);
-
-                    const worldCondition = !worldFilter || (
-                        worldFilter === 'intWorlds' ? item.gameWorld.split('/').some(id => intWorlds.includes(Number(id))) :
-                        worldFilter === 'heroWorlds' ? item.gameWorld.split('/').some(id => heroWorlds.includes(Number(id))) :
-                        true
-                    );
-
+                    const nameCondition = item.name.toLowerCase().includes(filters.searchTerm.toLowerCase());
+                    const worldCondition = !filters.worldFilter ||
+                        (filters.worldFilter === 'intWorlds' ? item.gameWorld.split('/').some(id => INT_WORLDS.includes(Number(id))) :
+                         filters.worldFilter === 'heroWorlds' ? item.gameWorld.split('/').some(id => HERO_WORLDS.includes(Number(id))) :
+                         true);
                     return dateCondition && nameCondition && worldCondition;
                 });
-
-                if (filteredItems.length > 0) {
-                    filteredCategories[dateKey] = filteredItems;
-                }
-            });
-
-            setNoItems(Object.keys(filteredCategories).length === 0);
-            setFilteredCategories(filteredCategories);
+                if (filteredItems.length > 0) acc[dateKey] = filteredItems;
+                return acc;
+            }, {});
+            setNoItems(Object.keys(filtered).length === 0);
+            setFilteredCategories(filtered);
         };
 
-        filterAndSortItems();
-    }, [categorizedItems, hidePastItems, showCurrentItems, searchTerm, worldFilter]);
-
+        filterItems();
+    }, [categorizedItems, filters]);
 
     useEffect(() => {
         setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
@@ -197,16 +151,9 @@ function AdvancedItemList() {
                 Last Updated for v.253 (August 28th, 2024)
             </h4>
 
-            {/* Filter Controls */}
             <FilterControls
-                searchTerm={searchTerm}
-                hidePastItems={hidePastItems}
-                showCurrentItems={showCurrentItems}
-                worldFilter={worldFilter}
-                onSearchTermChange={handleSearchTermChange}
-                onHidePastItemsChange={toggleHidePastItems}
-                onShowCurrentItemsChange={toggleShowCurrentItems}
-                onWorldFilterChange={handleWorldFilterChange}
+                filters={filters}
+                onFilterChange={updateFilter}
             />
 
             {loading ? (
@@ -223,7 +170,7 @@ function AdvancedItemList() {
                 </div>
             ) : (
                 <div>
-                    {Object.keys(filteredCategories).sort().map((dateKey) => (
+                    {Object.entries(filteredCategories).sort().map(([dateKey, items]) => (
                         <div key={dateKey}>
                             <h2
                                 className="flex items-center text-[28px] font-bold justify-center p-2 cursor-pointer select-none transition-colors duration-200 rounded-md text-primary-bright text-center hover:bg-primary-dark"
@@ -234,7 +181,7 @@ function AdvancedItemList() {
                             </h2>
                             {!collapsedCategories[dateKey] && (
                                 <ul className="flex flex-wrap justify-center items-center mx-[5%]">
-                                    {filteredCategories[dateKey].map(({ key, item }) => (
+                                    {items.map(({ key, item }) => (
                                         <AdvancedItemCard
                                             key={key}
                                             itemKey={key}

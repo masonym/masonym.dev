@@ -34,21 +34,19 @@ const AdvancedItemCardHover = ({ itemKey, item, position, isTouchDevice, hoverCa
             </div>
             <p className="text-white">{magicText(item.itemID)}Duration: {item.period === '0' ? 'Permanent' : `${item.period} days`}</p>
             <div className="flex items-start mb-2.5">
-                <div className="relative flex items-center justify-center" style={{ width: '128px', height: '128px' }}>
+                <div className="relative flex items-center justify-center" style={{ width: '96px', height: '96px' }}>
                     <Image
                         src={itemBase.src}
                         alt="Item Base"
-                        layout="fill"
+                        fill
                         className="object-contain"
                     />
                     <div className="absolute inset-0 flex items-center justify-center">
                         <Image
                             src={`${CLOUDFRONT_URL}/${item.itemID}.png`}
                             alt={item.name}
-                            layout="intrinsic"
-                            width={80} // Adjust width as needed
-                            height={80} // Adjust height as needed
-                            className="object-contain"
+                            fill
+                            className="object-contain p-4"
                         />
                     </div>
                 </div>

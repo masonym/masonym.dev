@@ -26,17 +26,15 @@ const AdvancedPackageContents = ({ contents }) => {
                                         <Image
                                             src={itemBase.src}
                                             alt="Item Base"
-                                            layout="fill"
+                                            fill
                                             className="object-contain"
                                         />
                                         <div className="absolute inset-0 flex items-center justify-center">
                                             <Image
                                                 src={`${CLOUDFRONT_URL}/${itemDetails.itemID}.png`}
                                                 alt={itemDetails.name}
-                                                layout="intrinsic"
-                                                width={48} // Adjust width as needed
-                                                height={48} // Adjust height as needed
-                                                className="object-contain"
+                                                fill
+                                                className="object-contain p-2"
                                             />
                                         </div>
                                     </div>

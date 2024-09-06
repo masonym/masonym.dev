@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FilterControls = ({ searchTerm, hidePastItems, showCurrentItems, worldFilter, onSearchTermChange, onHidePastItemsChange, onShowCurrentItemsChange, onWorldFilterChange }) => {
+const FilterControls = ({ filters, onFilterChange }) => {
     return (
         <div className="flex flex-col items-center mb-5 w-full">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 m-0 mb-2.5 w-full max-w-3xl">
@@ -12,16 +12,16 @@ const FilterControls = ({ searchTerm, hidePastItems, showCurrentItems, worldFilt
                     <button
                         key={button.filter}
                         className={`
-                    h-14 sm:h-20 w-full font-inherit py-2 px-3 border-2 border-[#d2b48c] rounded-full 
-                    text-[#2e4d2e] transition-all duration-300 text-center 
-                    flex items-center justify-center text-sm whitespace-normal 
-                    hover:scale-105
-                    ${worldFilter === button.filter
-                                ? 'bg-[#5a8859] text-white' // Darker color for selected button
-                                : 'bg-[#8abf88] hover:bg-[#6fa96d]' // Normal state and hover color
+                            h-14 sm:h-20 w-full font-inherit py-2 px-3 border-2 border-[#d2b48c] rounded-full 
+                            text-[#2e4d2e] transition-all duration-300 text-center 
+                            flex items-center justify-center text-sm whitespace-normal 
+                            hover:scale-105
+                            ${filters.worldFilter === button.filter
+                                ? 'bg-[#5a8859] text-white'
+                                : 'bg-[#8abf88] hover:bg-[#6fa96d]'
                             }
-                `}
-                        onClick={() => onWorldFilterChange(button.filter)}
+                        `}
+                        onClick={() => onFilterChange('worldFilter', button.filter)}
                     >
                         {button.text}
                     </button>
@@ -32,8 +32,8 @@ const FilterControls = ({ searchTerm, hidePastItems, showCurrentItems, worldFilt
                     type="text"
                     name="search"
                     placeholder="Search by name"
-                    onChange={onSearchTermChange}
-                    value={searchTerm}
+                    onChange={(e) => onFilterChange('searchTerm', e.target.value)}
+                    value={filters.searchTerm}
                     className="w-full font-inherit py-1.5 px-3 border-2 border-[#d2b48c] rounded-full bg-[#fff5e6] text-[#2e4d2e] outline-none"
                 />
             </div>
@@ -41,8 +41,8 @@ const FilterControls = ({ searchTerm, hidePastItems, showCurrentItems, worldFilt
                 <label className="flex items-center cursor-custom-click select-none text-primary">
                     <input
                         type="checkbox"
-                        checked={hidePastItems}
-                        onChange={onHidePastItemsChange}
+                        checked={filters.hidePastItems}
+                        onChange={(e) => onFilterChange('hidePastItems', e.target.checked)}
                         className="mr-2 w-[18px] h-[18px] rounded-full border-2 border-[#007bff] cursor-custom-click appearance-none bg-white relative checked:border-[#007bff] checked:before:content-['✓'] checked:before:absolute checked:before:left-1/2 checked:before:top-1/2 checked:before:-translate-x-1/2 checked:before:-translate-y-1/2 checked:before:text-black checked:before:text-[14px] checked:before:font-bold checked:before:leading-none checked:before:antialiased"
                     />
                     Show Past Items
@@ -52,8 +52,8 @@ const FilterControls = ({ searchTerm, hidePastItems, showCurrentItems, worldFilt
                 <label className="flex items-center cursor-pointer select-none text-primary">
                     <input
                         type="checkbox"
-                        checked={showCurrentItems}
-                        onChange={onShowCurrentItemsChange}
+                        checked={filters.showCurrentItems}
+                        onChange={(e) => onFilterChange('showCurrentItems', e.target.checked)}
                         className="mr-2 w-[18px] h-[18px] rounded-full border-2 border-[#007bff] cursor-custom-click appearance-none bg-white relative checked:border-[#007bff] checked:before:content-['✓'] checked:before:absolute checked:before:left-1/2 checked:before:top-1/2 checked:before:-translate-x-1/2 checked:before:-translate-y-1/2 checked:before:text-black checked:before:text-[14px] checked:before:font-bold checked:before:leading-none checked:before:antialiased"
                     />
                     Show Current Items
