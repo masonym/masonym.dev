@@ -26,7 +26,7 @@ export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, colu
                             classKey={classKey}
                             isCommon={isCommon}
                             itemStyle={`${itemStyle} p-4 rounded-lg shadow-md h-full`}
-                            inputValue={skillLevels[skillName]?.level || 0}
+                            inputValue={skillLevels[skillName]?.level || ''}
                             onInputChange={handleInputChange}
                         />
                     </div>

@@ -83,7 +83,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
       totalCost += cost;
     }
 
-    return Math.min(totalCost, 0);
+    return Math.max(totalCost, 0);
   };
 
   const calculateCosts = (skillName) => {
@@ -103,9 +103,12 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     const finalSolErdaCost = calculateSkillCost(desiredSkill, 'solErda');
     const finalFragCost = calculateSkillCost(desiredSkill, 'frags');
 
+    const remainingSolErda = Math.max(0, finalSolErdaCost - currentSolErdaSpent);
+    const remainingFrags = Math.max(0, finalFragCost - currentFragSpent);
+
     return {
       current: { solErda: currentSolErdaSpent, frags: currentFragSpent },
-      remaining: { solErda: finalSolErdaCost - currentSolErdaSpent, frags: finalFragCost - currentFragSpent },
+      remaining: { solErda: remainingSolErda, frags: remainingFrags },
       levels: { current: currentSkill.level, desired: desiredSkill.level }
     };
   };
@@ -223,6 +226,9 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   // if (!classDetails || !desiredSkillLevels || Object.keys(desiredSkillLevels).length === 0) {
   //   return <div>Loading...</div>;
   // }
+
+  console.log("curr", skillLevels)
+  console.log("desi", desiredSkillLevels)
 
   return (
     <div className="flex flex-col">

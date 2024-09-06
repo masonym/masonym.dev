@@ -44,6 +44,7 @@ export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: ini
                 min={0}
                 max={30}
                 className="font-inherit text-black mt-1 rounded text-center w-10 bg-[#cecece] cursor-[var(--cursorClick)]"
+                placeholder='0'
             />
         </div>
     );
