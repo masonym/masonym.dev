@@ -91,10 +91,10 @@
   --background-bright: hsl(0, 10%, 75%);
   --footer-text: #2c5f2d;
 
-  --progress-red: hsl(189, 28%, 40%);
-  --progress-orange: #ffffff;
-  --progress-yellow: #ffffff;
-  --progress-green: #ffffff;
+  --progress-red: hsl(0, 100%, 50%);
+  --progress-orange: hsl(26, 100%, 45%);;
+  --progress-yellow: hsl(54, 100%, 50%);
+  --progress-green: hsl(120, 100%, 45%);
 
   --originItem:  hsl(300, 45%, 50%);
   --masteryItem: hsl(0, 50%, 60%);
