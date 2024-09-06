@@ -1,21 +1,24 @@
 import "./globals.css";
 import NavBar from "@/components/Navigation/NavBar/NavBar";
 import Footer from "@/components/Footer";
+import DynamicFavicon from "./components/DynamicFavicon";
 
 export const metadata = {
-  title: "mason's maple matrix",
+  title:  {
+    default: "mason's maple matrix",
+    template: '%s'
+  },
   description: "A repository for the MapleStory tools I've written",
-  icons: {
-    icon: ['/favicon.ico'],
-    apple: ['/apple-touch-icon.png'],
-  }
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link id="favicon" rel="icon" href="/favicon.ico" />
+      </head>
       <body className="min-h-screen">
-        {/* navbar goes here  */}
+        <DynamicFavicon />
         <NavBar />
         {children}
         {/* <Footer /> */}
