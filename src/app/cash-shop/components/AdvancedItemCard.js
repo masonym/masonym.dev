@@ -62,7 +62,7 @@ const AdvancedItemCard = ({ item, isOpen, onItemClick, isTouchDevice }) => {
             onClick={handleClick}
         >
             <div
-                className="flex flex-col items-center justify-start w-[178.5px] h-[234px] bg-no-repeat bg-cover relative pt-[2rem]"
+                className="flex flex-col items-center justify-start w-[178.5px] h-[262.8px] bg-[length:100%_100%] bg-center bg-no-repeat relative pt-[3rem]"
                 style={{ backgroundImage: `url(${background.src})` }}
             >
                 <Image
