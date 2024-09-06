@@ -25,6 +25,9 @@ module.exports = {
       },
       cursor: {
         'custom-click': 'url("../assets/cursorClick.png"), auto'
+      },
+      backgroundImage: {
+        'cs-bg': "var(--cs-bg)",
       }
     },
   },

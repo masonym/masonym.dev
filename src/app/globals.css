@@ -69,6 +69,8 @@
   --masteryItem: hsl(0, 50%, 30%);
   --boostItem: hsl(0, 29%, 30%);
   --janusItem:  hsl(189, 28%, 40%);
+
+  --cs-bg: url('./cash-shop/assets/backgrnd_cr.png');
 	
 	/* Asks browser to behave in dark mode */
 	color-scheme: dark;
@@ -98,6 +100,8 @@
   --masteryItem: hsl(0, 50%, 60%);
   --boostItem: hsl(0, 29%, 60%);
   --janusItem:  hsl(189, 28%, 70%);
+
+  --cs-bg: url('./cash-shop/assets/backgrnd_cr_light.png');
 }
 
 html,

@@ -15,8 +15,6 @@ const heroWorlds = [45, 46, 70];
 function AdvancedItemList() {
     const [items, setItems] = useState({});
     const [categorizedItems, setCategorizedItems] = useState({});
-    const [sortKey, setSortKey] = useState('termStart');
-    const [sortOrder, setSortOrder] = useState('asc');
     const [hidePastItems, setHidePastItems] = useState(false);
     const [showCurrentItems, setShowCurrentItems] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -26,28 +24,10 @@ function AdvancedItemList() {
     const [isTouchDevice, setIsTouchDevice] = useState(false);
     const [collapsedCategories, setCollapsedCategories] = useState({});
     const [loading, setLoading] = useState(true);
-    const [backgroundImage, setBackgroundImage] = useState(backgroundDark);
 
     useEffect(() => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         setBackgroundImage(currentTheme === 'light' ? backgroundLight : backgroundDark);
-    }, []);
-
-    useEffect(() => {
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.attributeName === 'data-theme') {
-                    const currentTheme = document.documentElement.getAttribute('data-theme');
-                    setBackgroundImage(currentTheme === 'light' ? backgroundLight : backgroundDark);
-                }
-            });
-        });
-
-        observer.observe(document.documentElement, {
-            attributes: true,
-        });
-
-        return () => observer.disconnect();
     }, []);
 
     const toggleHidePastItems = useCallback((event) => {
@@ -90,19 +70,40 @@ function AdvancedItemList() {
         return { startDate: formatDateForAPI(now) };
     });
 
-    const categorizeItems = useMemo(() => (items) => {
+    const categorizeAndSortItems = useMemo(() => (items) => {
+        console.log('Raw items:', items); // Log raw items for debugging
+
         const categorized = {};
+        
+        // First, categorize items by date
         Object.keys(items).forEach((key) => {
-            const startDate = parseDate(items[key].termStart);
+            const item = items[key];
+            const startDate = parseDate(item.termStart);
             const dateKey = `${startDate.getUTCFullYear()}-${(startDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${startDate.getUTCDate().toString().padStart(2, '0')}`;
 
             if (!categorized[dateKey]) {
                 categorized[dateKey] = [];
             }
-            categorized[dateKey].push({ key, item: items[key] });
+            categorized[dateKey].push({ key, item });
         });
+
+        console.log('Categorized items before sorting:', categorized); // Log categorized items before sorting
+
+        // Then, sort items alphabetically within each category
+        Object.keys(categorized).forEach(dateKey => {
+            categorized[dateKey].sort((a, b) => {
+                // Ensure we're comparing strings
+                const nameA = (a.item.name || '').toString().toLowerCase();
+                const nameB = (b.item.name || '').toString().toLowerCase();
+                return nameA.localeCompare(nameB);
+            });
+        });
+
+        console.log('Categorized and sorted items:', categorized); // Log final result
+
         return categorized;
     }, []);
+    
 
     useEffect(() => {
         const now = new Date();
@@ -121,90 +122,63 @@ function AdvancedItemList() {
     }, [hidePastItems, showCurrentItems]);
 
     const fetchItems = useCallback(async () => {
-        setLoading(true);  // Set loading to true before the API call
+        setLoading(true);
         try {
             const response = await axios.get('https://yaiphhwge8.execute-api.us-west-2.amazonaws.com/prod/query-items-by-date', {
                 params: apiParams
             });
             const allItems = response.data;
+            console.log('Fetched items:', allItems); // Log fetched items
             setItems(allItems);
-            const categorized = categorizeItems(allItems);
-            setCategorizedItems(categorized);
+            const sortedAndCategorized = categorizeAndSortItems(allItems);
+            setCategorizedItems(sortedAndCategorized);
         } catch (error) {
-            console.error(error);
+            console.error('Error fetching items:', error);
         } finally {
-            setLoading(false);  // Set loading to false after the API call
+            setLoading(false);
         }
-    }, [apiParams, categorizeItems]);
+    }, [apiParams, categorizeAndSortItems]);
 
     useEffect(() => {
         fetchItems();
     }, [fetchItems]);
 
     useEffect(() => {
-        const sortAndFilterItems = () => {
+        const filterAndSortItems = () => {
             const now = new Date();
 
-            const filteredKeys = Object.keys(items).filter(key => {
-                const termStart = parseDate(items[key].termStart);
-                const termEnd = parseDate(items[key].termEnd);
+            const filteredCategories = {};
+            Object.keys(categorizedItems).forEach(dateKey => {
+                const filteredItems = categorizedItems[dateKey].filter(({ item }) => {
+                    const termStart = parseDate(item.termStart);
+                    const termEnd = parseDate(item.termEnd);
 
-                if (hidePastItems) {
-                    return termEnd < now;
-                } else if (showCurrentItems) {
-                    return termStart <= now && termEnd >= now;
-                } else {
-                    return termStart > now;
-                }
-            })
-                .filter(key => items[key].name.toLowerCase().includes(searchTerm))
-                .filter(key => {
-                    if (!worldFilter) return true;
-                    const worldIds = items[key].gameWorld.split('/').map(Number);
-                    if (worldFilter === 'intWorlds') {
-                        return worldIds.some(id => intWorlds.includes(id));
-                    }
-                    if (worldFilter === 'heroWorlds') {
-                        return worldIds.some(id => heroWorlds.includes(id));
-                    }
-                    return true;
+                    const dateCondition = hidePastItems ? termEnd >= now :
+                                          showCurrentItems ? (termStart <= now && termEnd >= now) :
+                                          termStart > now;
+
+                    const nameCondition = item.name.toLowerCase().includes(searchTerm);
+
+                    const worldCondition = !worldFilter || (
+                        worldFilter === 'intWorlds' ? item.gameWorld.split('/').some(id => intWorlds.includes(Number(id))) :
+                        worldFilter === 'heroWorlds' ? item.gameWorld.split('/').some(id => heroWorlds.includes(Number(id))) :
+                        true
+                    );
+
+                    return dateCondition && nameCondition && worldCondition;
                 });
 
-            filteredKeys.sort((a, b) => {
-                let valA = items[a][sortKey];
-                let valB = items[b][sortKey];
-
-                if (sortKey === 'termStart' || sortKey === 'termEnd') {
-                    valA = parseDate(valA).getTime();
-                    valB = parseDate(valB).getTime();
+                if (filteredItems.length > 0) {
+                    filteredCategories[dateKey] = filteredItems;
                 }
-
-                if (sortKey === 'price') {
-                    valA = Number(valA);
-                    valB = Number(valB);
-                }
-
-                if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
-                if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
-                return 0;
             });
 
-            setNoItems(filteredKeys.length === 0);
-
-            const sortedAndFilteredItems = {};
-            filteredKeys.forEach(key => {
-                const startDate = parseDate(items[key].termStart);
-                const dateKey = `${startDate.getUTCFullYear()}-${(startDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${startDate.getUTCDate().toString().padStart(2, '0')}`;
-                if (!sortedAndFilteredItems[dateKey]) {
-                    sortedAndFilteredItems[dateKey] = [];
-                }
-                sortedAndFilteredItems[dateKey].push({ key, item: items[key] });
-            });
-
-            setCategorizedItems(sortedAndFilteredItems);
+            setNoItems(Object.keys(filteredCategories).length === 0);
+            setCategorizedItems(filteredCategories);
         };
-        sortAndFilterItems();
-    }, [sortKey, sortOrder, items, hidePastItems, showCurrentItems, searchTerm, worldFilter]);
+
+        filterAndSortItems();
+    }, [categorizedItems, hidePastItems, showCurrentItems, searchTerm, worldFilter]);
 
     useEffect(() => {
         setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
@@ -217,7 +191,7 @@ function AdvancedItemList() {
     };
 
     return (
-        <div className="flex flex-col min-h-dvh h-auto pb-20" style={{ backgroundImage: `url(${backgroundImage.src})`, backgroundAttachment: 'fixed' }}>
+        <div className="flex flex-col min-h-dvh h-auto pb-20 bg-cs-bg" style={{ backgroundAttachment: 'fixed' }}>
             <h1 className="text-center text-3xl mb-0 mt-16 text-primary-bright font-bold">Upcoming Cash Shop Sales</h1>
             <h4 className="text-center text-xl my-5 mb-8 italic text-primary">
                 Last Updated for v.253 (August 28th, 2024)
