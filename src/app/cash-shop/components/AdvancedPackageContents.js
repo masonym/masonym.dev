@@ -27,6 +27,7 @@ const AdvancedPackageContents = ({ contents }) => {
                                             src={itemBase.src}
                                             alt="Item Base"
                                             fill
+                                            sizes='(max-width: 64px)'
                                             className="object-contain"
                                         />
                                         <div className="absolute inset-0 flex items-center justify-center">
@@ -34,6 +35,7 @@ const AdvancedPackageContents = ({ contents }) => {
                                                 src={`${CLOUDFRONT_URL}/${itemDetails.itemID}.png`}
                                                 alt={itemDetails.name}
                                                 fill
+                                                sizes='(max-width: 64px)'
                                                 className="object-contain p-2"
                                             />
                                         </div>

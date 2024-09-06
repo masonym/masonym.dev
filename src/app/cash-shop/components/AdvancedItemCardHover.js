@@ -39,6 +39,7 @@ const AdvancedItemCardHover = ({ itemKey, item, position, isTouchDevice, hoverCa
                         src={itemBase.src}
                         alt="Item Base"
                         fill
+                        sizes='(max-width: 64px)'
                         className="object-contain"
                     />
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -46,6 +47,7 @@ const AdvancedItemCardHover = ({ itemKey, item, position, isTouchDevice, hoverCa
                             src={`${CLOUDFRONT_URL}/${item.itemID}.png`}
                             alt={item.name}
                             fill
+                            sizes='(max-width: 64px)'
                             className="object-contain p-4"
                         />
                     </div>
