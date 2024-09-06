@@ -83,7 +83,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
       totalCost += cost;
     }
 
-    return totalCost;
+    return Math.min(totalCost, 0);
   };
 
   const calculateCosts = (skillName) => {
