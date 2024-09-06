@@ -4,10 +4,7 @@ import Footer from "@/components/Footer";
 import DynamicFavicon from "./components/DynamicFavicon";
 
 export const metadata = {
-  title:  {
-    default: "mason's maple matrix",
-    template: '%s'
-  },
+  title: "mason's maple matrix",
   description: "A repository for the MapleStory tools I've written",
 };
 
