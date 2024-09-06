@@ -24,11 +24,7 @@ function AdvancedItemList() {
     const [isTouchDevice, setIsTouchDevice] = useState(false);
     const [collapsedCategories, setCollapsedCategories] = useState({});
     const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        setBackgroundImage(currentTheme === 'light' ? backgroundLight : backgroundDark);
-    }, []);
+    const [filteredCategories, setFilteredCategories] = useState({});
 
     const toggleHidePastItems = useCallback((event) => {
         setHidePastItems(event.target.checked);
@@ -71,11 +67,10 @@ function AdvancedItemList() {
     });
 
     const categorizeAndSortItems = useMemo(() => (items) => {
-        console.log('Raw items:', items); // Log raw items for debugging
+        console.log('Raw items:', items);
 
         const categorized = {};
         
-        // First, categorize items by date
         Object.keys(items).forEach((key) => {
             const item = items[key];
             const startDate = parseDate(item.termStart);
@@ -87,23 +82,19 @@ function AdvancedItemList() {
             categorized[dateKey].push({ key, item });
         });
 
-        console.log('Categorized items before sorting:', categorized); // Log categorized items before sorting
-
-        // Then, sort items alphabetically within each category
         Object.keys(categorized).forEach(dateKey => {
             categorized[dateKey].sort((a, b) => {
-                // Ensure we're comparing strings
                 const nameA = (a.item.name || '').toString().toLowerCase();
                 const nameB = (b.item.name || '').toString().toLowerCase();
                 return nameA.localeCompare(nameB);
             });
         });
 
-        console.log('Categorized and sorted items:', categorized); // Log final result
+        console.log('Categorized and sorted items:', categorized);
 
         return categorized;
     }, []);
-    
+
 
     useEffect(() => {
         const now = new Date();
@@ -153,9 +144,17 @@ function AdvancedItemList() {
                     const termStart = parseDate(item.termStart);
                     const termEnd = parseDate(item.termEnd);
 
-                    const dateCondition = hidePastItems ? termEnd >= now :
-                                          showCurrentItems ? (termStart <= now && termEnd >= now) :
-                                          termStart > now;
+                    let dateCondition;
+                    if (hidePastItems) {
+                        // Show items that have ended (past items)
+                        dateCondition = termEnd < now;
+                    } else if (showCurrentItems) {
+                        // Show items that are currently active
+                        dateCondition = termStart <= now && termEnd > now;
+                    } else {
+                        // Default view: show future items
+                        dateCondition = termStart > now;
+                    }
 
                     const nameCondition = item.name.toLowerCase().includes(searchTerm);
 
@@ -174,11 +173,12 @@ function AdvancedItemList() {
             });
 
             setNoItems(Object.keys(filteredCategories).length === 0);
-            setCategorizedItems(filteredCategories);
+            setFilteredCategories(filteredCategories);
         };
 
         filterAndSortItems();
     }, [categorizedItems, hidePastItems, showCurrentItems, searchTerm, worldFilter]);
+
 
     useEffect(() => {
         setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
@@ -223,7 +223,7 @@ function AdvancedItemList() {
                 </div>
             ) : (
                 <div>
-                    {Object.keys(categorizedItems).map((dateKey) => (
+                    {Object.keys(filteredCategories).sort().map((dateKey) => (
                         <div key={dateKey}>
                             <h2
                                 className="flex items-center text-[28px] font-bold justify-center p-2 cursor-pointer select-none transition-colors duration-200 rounded-md text-primary-bright text-center hover:bg-primary-dark"
@@ -234,7 +234,7 @@ function AdvancedItemList() {
                             </h2>
                             {!collapsedCategories[dateKey] && (
                                 <ul className="flex flex-wrap justify-center items-center mx-[5%]">
-                                    {categorizedItems[dateKey].map(({ key, item }) => (
+                                    {filteredCategories[dateKey].map(({ key, item }) => (
                                         <AdvancedItemCard
                                             key={key}
                                             itemKey={key}
