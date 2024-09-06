@@ -260,7 +260,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
             </div>
           </div>
           {/* <div className="w-full flex justify-center gap-4 items-center mb-4"> */}
-            {/* <h2 className="text-xl font-bold">Progress:</h2> */}
+          {/* <h2 className="text-xl font-bold">Progress:</h2> */}
           {/* </div> */}
           <div className="mb-4 self-center w-[75%]">
             <button
@@ -291,11 +291,13 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                       alt={skillName}
                       width={40}
                       height={40}
-                      className="mr-3"
+                      className="mr-3 flex-shrink-0"
                     />
-                    <span className="flex font-semibold text-primary">{formatSkillName(skillName)}</span>
-                    <span className="ml-2 flex-1">{collapsedCards[skillName] ? <ChevronDown /> : <ChevronRight />}</span>
-                    <span className="text-lg font-medium text-primary">
+                    <div className="flex flex-1 items-center min-w-0">
+                      <span className="inline-block font-semibold text-primary text-wrap mr-2">{formatSkillName(skillName)}</span>
+                      <span className="flex-shrink-0">{collapsedCards[skillName] ? <ChevronDown /> : <ChevronRight />}</span>
+                    </div>
+                    <span className="text-lg font-medium text-primary ml-2 flex-shrink-0">
                       Level {costs.levels.current} → {costs.levels.desired}
                     </span>
                   </div>

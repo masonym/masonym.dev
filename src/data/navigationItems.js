@@ -2,7 +2,7 @@ export const navigationItems = [
     {
         title: "Calculators",
         items: [
-            { name: "Hexa", href: "/hexa" }]
+            { name: "Hexa", href: "/hexa", image: '/images/hexa.png' }]
     },
     {
         title: "Tools",
