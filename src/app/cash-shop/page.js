@@ -1,5 +1,3 @@
-"use client";
-
 import AdvancedItemList from "./components/AdvancedItemList";
 
 import React from 'react'
