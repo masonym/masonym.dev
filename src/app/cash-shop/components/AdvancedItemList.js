@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import FilterControls from './FilterControls';
