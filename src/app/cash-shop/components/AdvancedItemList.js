@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import FilterControls from './FilterControls';
 import Footer from '@/components/Footer';
@@ -7,6 +7,7 @@ import AdvancedItemCard from './AdvancedItemCard';
 import backgroundDark from '../assets/backgrnd_cr.png';
 import backgroundLight from '../assets/backgrnd_cr_light.png';
 import noItemsImage from '../assets/noItem_mini.png';
+import Image from 'next/image';
 
 const intWorlds = [0, 1, 17, 18, 30, 48, 49];
 const heroWorlds = [45, 46, 70];
@@ -89,9 +90,8 @@ function AdvancedItemList() {
         return { startDate: formatDateForAPI(now) };
     });
 
-    const categorizeItems = (items) => {
+    const categorizeItems = useMemo(() => (items) => {
         const categorized = {};
-
         Object.keys(items).forEach((key) => {
             const startDate = parseDate(items[key].termStart);
             const dateKey = `${startDate.getUTCFullYear()}-${(startDate.getUTCMonth() + 1).toString().padStart(2, '0')}-${startDate.getUTCDate().toString().padStart(2, '0')}`;
@@ -101,9 +101,8 @@ function AdvancedItemList() {
             }
             categorized[dateKey].push({ key, item: items[key] });
         });
-
         return categorized;
-    };
+    }, []);
 
     useEffect(() => {
         const now = new Date();
@@ -136,7 +135,7 @@ function AdvancedItemList() {
         } finally {
             setLoading(false);  // Set loading to false after the API call
         }
-    }, [apiParams]);
+    }, [apiParams, categorizeItems]);
 
     useEffect(() => {
         fetchItems();
@@ -242,8 +241,8 @@ function AdvancedItemList() {
                 </div>
             ) : noItems ? (
                 <div className="flex justify-center items-center h-52">
-                    <img
-                        src={noItemsImage.src}
+                    <Image
+                        src={noItemsImage}
                         alt="No items found"
                         className="w-[202px] h-[118px]"
                     />
