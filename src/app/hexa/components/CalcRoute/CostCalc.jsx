@@ -300,11 +300,13 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                       height={40}
                       className="mr-3 flex-shrink-0"
                     />
+                    {/* skill name & collapse arrow */}
                     <div className="flex flex-1 items-center min-w-0">
-                      <span className="inline-block font-semibold text-primary text-wrap mr-2">{formatSkillName(skillName)}</span>
+                      <span className="text-xs md:text-lg inline-block font-semibold text-primary text-wrap mr-2">{formatSkillName(skillName)}</span>
                       <span className="flex-shrink-0">{collapsedCards[skillName] ? <ChevronDown /> : <ChevronRight />}</span>
                     </div>
-                    <span className="text-lg font-medium text-primary ml-2 flex-shrink-0">
+                    {/* level display (curr -> desired ) */}
+                    <span className="text-xs md:text-lg font-medium text-primary ml-2 flex-shrink-0">
                       Level {costs.levels.current} → {costs.levels.desired}
                     </span>
                   </div>
@@ -312,6 +314,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="items-start flex flex-col">
                         <div className="flex flex-col items-center justify-center">
+                          {/* inner (left) resources spent */}
                           <h3 className="text-sm font-medium text-primary">Current Resources Spent:</h3>
                           <div className="items-center self-start flex flex-col">
                             <div className="flex flex-col items-center gap-2 w-fit my-2">
@@ -335,6 +338,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                           </div>
                         </div>
                       </div>
+                      {/* inner (right) remaining count */}
                       <div className="items-end flex flex-col">
                         <div className="flex flex-col items-center justify-center">
                           <h3 className="text-sm font-medium text-primary">Remaining:</h3>
