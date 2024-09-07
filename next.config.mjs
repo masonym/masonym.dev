@@ -7,6 +7,8 @@ const nextConfig = {
                 hostname: 'dkxt2zgwekugu.cloudfront.net',
             },
         ],
+        loader: 'custom',
+        loaderFile: '/imageLoader.js'
     },
 };
 
