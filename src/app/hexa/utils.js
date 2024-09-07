@@ -31,3 +31,10 @@ export const getFirstSkill = (skills) => {
     }
     return skills;
 };
+
+export function formatClassName(className) {
+    // Replace spaces with underscores in the class name
+    const formattedClassName = className.replace(/ /g, '_');
+
+    return formattedClassName;
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { formatClassName } from '../../utils';
 
 export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: initialInputValue, itemStyle, onInputChange }) => {
     const [inputValue, setInputValue] = useState(initialInputValue);
@@ -8,9 +9,11 @@ export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: ini
         setInputValue(initialInputValue);
     }, [initialInputValue]);
 
+    const formattedClassName = formatClassName(classKey)
+
     const imagePath = isCommon
         ? `/common/${altText}.png`
-        : `/classImages/${classKey}/Skill_${altText}.png`;
+        : `/classImages/${formattedClassName}/Skill_${altText}.png`;
 
     const handleInputChange = (event) => {
         let value = parseInt(event.target.value, 10);

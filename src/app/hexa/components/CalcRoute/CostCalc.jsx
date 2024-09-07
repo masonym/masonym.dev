@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import { GoalInputGrid } from './GoalInputGrid';
-import { formatSkillName, formatSkillPath } from '../../utils';
+import { formatClassName, formatSkillName, formatSkillPath } from '../../utils';
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
 import { masteryDesignation } from '@/data/masteryDesignation';
@@ -126,11 +126,12 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     return { solErda: totalRemainingSolErda, frags: totalRemainingFrags };
   };
 
+  const formattedClassName = formatClassName(selectedClass)
   const getSkillImage = (skillName, skillType) => {
     if (skillType === 'common') {
       return `/common/${skillName}.png`;
     } else {
-      return `/classImages/${selectedClass}/Skill_${skillName}.png`;
+      return `/classImages/${formattedClassName}/Skill_${skillName}.png`;
     }
   };
 
