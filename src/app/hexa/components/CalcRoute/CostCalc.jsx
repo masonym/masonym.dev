@@ -13,6 +13,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   const [isClient, setIsClient] = useState(false);
   const [collapsedCards, setCollapsedCards] = useState({});
   const [allExpanded, setAllExpanded] = useState(true);
+  const [hideCompleted, setHideCompleted] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -209,6 +210,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     });
   };
 
+
   const calculateProgress = (costs) => {
     const totalFrags = costs.current.frags + costs.remaining.frags;
     return totalFrags > 0 ? (costs.current.frags / totalFrags) * 100 : 0;
@@ -223,13 +225,6 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
 
   const totalRemaining = calculateTotal();
   const orderedSkills = getOrderedSkills(classDetails, desiredSkillLevels);
-
-  // if (!classDetails || !desiredSkillLevels || Object.keys(desiredSkillLevels).length === 0) {
-  //   return <div>Loading...</div>;
-  // }
-
-  console.log("curr", skillLevels)
-  console.log("desi", desiredSkillLevels)
 
   return (
     <div className="flex flex-col">
@@ -269,12 +264,18 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
           {/* <div className="w-full flex justify-center gap-4 items-center mb-4"> */}
           {/* <h2 className="text-xl font-bold">Progress:</h2> */}
           {/* </div> */}
-          <div className="mb-4 self-center w-[75%]">
+          <div className="mb-4 self-center flex justify-between gap-4 w-[75%]">
             <button
               onClick={toggleAllCards}
               className="bg-primary-dark text-primary px-4 py-2 rounded hover:bg-primary-dim transition-colors"
             >
               {allExpanded ? 'Collapse All' : 'Expand All'}
+            </button>
+            <button
+              onClick={() => setHideCompleted(prev => !prev)}
+              className="bg-primary-dark text-primary px-4 py-2 rounded hover:bg-primary-dim transition-colors"
+            >
+              {hideCompleted ? 'Show Completed Skills' : 'Hide Completed Skills'}
             </button>
           </div>
           {orderedSkills.map((skillName) => {
@@ -282,6 +283,11 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
             const skillType = desiredSkillLevels[skillName]?.type || 'enhancement';
             const progress = calculateProgress(costs);
             const progressColor = getProgressColor(progress);
+
+            if (hideCompleted && progress === 100) {
+              return null;
+            }
+
             return (
               <div key={skillName} className="mb-4 p-4 bg-primary-dark rounded-lg w-[75%] relative overflow-hidden">
                 <div
