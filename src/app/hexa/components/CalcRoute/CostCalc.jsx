@@ -323,7 +323,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                     {/* skill name & collapse arrow */}
                     <div className="flex flex-1 items-center min-w-0">
                       <span className="text-xs md:text-lg inline-block font-semibold text-primary text-wrap mr-2">{formatSkillName(skillName)}</span>
-                      <span className="flex-shrink-0">{collapsedCards[skillName] ? <ChevronDown /> : <ChevronRight />}</span>
+                      <span className="flex-shrink-0">{collapsedCards[skillName] ? <ChevronDown color='var(--primary)' /> : <ChevronRight />}</span>
                     </div>
                     {/* level display (curr -> desired ) */}
                     <span className="text-xs md:text-lg font-medium text-primary ml-2 flex-shrink-0">
