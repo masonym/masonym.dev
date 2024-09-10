@@ -14,7 +14,7 @@ const CalcRoute = ({ selectedClass, classDetails, skillLevels }) => {
       <div className="flex flex-col md:flex-row flexBetween max-container mt-2 gap-4 text-nowrap">
 
         <button className="flex-1 text-[24px] text-primary bg-primary-dark border-primary-dim border-[1px] hover:bg-primary-dim transition-all duration-300 rounded-lg px-8 py-4" onClick={() => { setSelected('costCalc') }}>Cost Calculator</button>
-        <button className="flex-1 text-[24px] text-primary bg-primary-dark border-primary-dim border-[1px] hover:bg-primary-dim transition-all duration-300 rounded-lg px-8 py-4" onClick={() => { setSelected('optimizer') }}>Optimizer</button>
+        <button className="flex-1 text-[24px] text-primary bg-primary-dark border-primary-dim border-[1px] hover:bg-primary-dim transition-all duration-300 rounded-lg px-8 py-4" onClick={() => { setSelected('optimizer') }}>Level Priority</button>
 
       </div>
       <div className="flex flex-col mb-4">
