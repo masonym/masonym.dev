@@ -25,6 +25,11 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
       const parsedSkillLevels = savedSkillLevels ? JSON.parse(savedSkillLevels) : {};
       setDesiredSkillLevels(parsedSkillLevels);
 
+      const savedHideCompleted = localStorage.getItem('hideCompletedSkills');
+      if (savedHideCompleted !== null) {
+        setHideCompleted(JSON.parse(savedHideCompleted));
+      }
+
       const savedCollapsedCards = localStorage.getItem(`collapsedCards_${selectedClass}`);
       const parsedCollapsedCards = savedCollapsedCards ? JSON.parse(savedCollapsedCards) : {};
 
@@ -210,6 +215,15 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     });
   };
 
+  const toggleHideCompleted = () => {
+    setHideCompleted(prev => {
+      const newValue = !prev;
+      localStorage.setItem('hideCompletedSkills', JSON.stringify(newValue));
+      return newValue;
+    });
+
+  }
+
 
   const calculateProgress = (costs) => {
     const totalFrags = costs.current.frags + costs.remaining.frags;
@@ -272,7 +286,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
               {allExpanded ? 'Collapse All' : 'Expand All'}
             </button>
             <button
-              onClick={() => setHideCompleted(prev => !prev)}
+              onClick={toggleHideCompleted}
               className="bg-primary-dark text-primary px-4 py-2 rounded hover:bg-primary-dim transition-colors"
             >
               {hideCompleted ? 'Show Completed Skills' : 'Hide Completed Skills'}
