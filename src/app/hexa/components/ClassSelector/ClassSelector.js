@@ -11,29 +11,53 @@ import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUp
 
 const ClassSelector = () => {
   const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const [selectedClass, setSelectedClass] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('selectedClass') || "";
-    }
-    return "";
-  });
-
+  const [selectedClass, setSelectedClass] = useState("");
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [skillLevels, setSkillLevels] = useState({});
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('selectedClass', selectedClass);
+    setIsClient(true);
+    const savedClass = localStorage.getItem('selectedClass');
+    if (savedClass) {
+      setSelectedClass(savedClass);
+      loadSkillLevels(savedClass);
     }
-  }, [selectedClass]);
+  }, []);
+
+  useEffect(() => {
+    if (isClient && selectedClass) {
+      localStorage.setItem('selectedClass', selectedClass);
+      loadSkillLevels(selectedClass);
+    }
+  }, [selectedClass, isClient]);
+
+  const loadSkillLevels = (classKey) => {
+    const savedSkillLevels = localStorage.getItem(`skillLevels_${classKey}`);
+    if (savedSkillLevels) {
+      setSkillLevels(JSON.parse(savedSkillLevels));
+    } else {
+      // Initialize with default levels if no saved data
+      const classDetails = classes[classKey];
+      if (classDetails) {
+        const initialLevels = {};
+        initialLevels[classDetails.originSkill] = { level: 1, type: 'origin' };
+        classDetails.masterySkills.forEach(skill => {
+          initialLevels[skill] = { level: 1, type: 'mastery' };
+        });
+        classDetails.boostSkills.forEach(skill => {
+          initialLevels[skill] = { level: 1, type: 'enhancement' };
+        });
+        classDetails.commonSkills.forEach(skill => {
+          initialLevels[skill] = { level: 1, type: 'common' };
+        });
+        setSkillLevels(initialLevels);
+      }
+    }
+  };
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);
@@ -50,8 +74,6 @@ const ClassSelector = () => {
   const filteredClasses = Object.keys(classes).filter((className) =>
     className.toLowerCase().includes(query.toLowerCase())
   );
-
-  const classDetails = selectedClass ? classes[selectedClass] : null;
 
   const handleKeyDown = (event) => {
     if (event.key === "ArrowDown") {
@@ -85,24 +107,18 @@ const ClassSelector = () => {
     };
   }, []);
 
-  const [skillLevels, setSkillLevels] = useState({});
-
-  useEffect(() => {
-    if (isClient) {
-      const savedSkillLevels = localStorage.getItem(`skillLevels_${selectedClass}`);
-      setSkillLevels(savedSkillLevels ? JSON.parse(savedSkillLevels) : {});
-    }
-  }, [selectedClass, isClient]);
-
   const updateSkillLevels = (newLevels, skillType) => {
     setSkillLevels(prevLevels => {
-      const updatedLevels = Object.keys(newLevels).reduce((acc, skillName) => {
-        acc[skillName] = {
-          level: newLevels[skillName],
-          type: skillType
-        };
-        return acc;
-      }, { ...prevLevels });
+      const updatedLevels = {
+        ...prevLevels,
+        ...Object.keys(newLevels).reduce((acc, skillName) => {
+          acc[skillName] = {
+            level: newLevels[skillName],
+            type: skillType
+          };
+          return acc;
+        }, {})
+      };
 
       if (isClient) {
         localStorage.setItem(`skillLevels_${selectedClass}`, JSON.stringify(updatedLevels));
@@ -129,7 +145,7 @@ const ClassSelector = () => {
   const calculateTotalFrags = () => {
     let totalFrags = 0;
 
-  Object.values(skillLevels).forEach(({ level, type }) => {
+    Object.values(skillLevels).forEach(({ level, type }) => {
       const costTable = getCostTable(type);
 
       for (let i = 0; i < level; i++) {
@@ -153,7 +169,7 @@ const ClassSelector = () => {
         return enhancementUpgradeCost;
       default:
         console.error('Unknown skill type');
-        return "";
+        return [];
     }
   };
 
@@ -192,11 +208,11 @@ const ClassSelector = () => {
         )}
       </div>
       <div className="flex flex-col items-center">
-        {classDetails && (
+        {selectedClass && classes[selectedClass] && (
           <>
             <InputGrid
               classKey={selectedClass}
-              classDetails={classDetails}
+              classDetails={classes[selectedClass]}
               skillLevels={skillLevels}
               updateSkillLevels={updateSkillLevels}
             />
@@ -222,10 +238,10 @@ const ClassSelector = () => {
               </div>
             </div>
             <CalcRoute
-            selectedClass={selectedClass}
-            classDetails={classDetails}
-            skillLevels={skillLevels} >
-            </CalcRoute>
+              selectedClass={selectedClass}
+              classDetails={classes[selectedClass]}
+              skillLevels={skillLevels}
+            />
           </>
         )}
       </div>

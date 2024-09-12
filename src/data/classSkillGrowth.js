@@ -154,7 +154,7 @@ export const classSkillGrowth = {
             { "name": "HEXA Cannon Barrage", "level1": 1550, "growthPerLevel": 15 },
             { "name": "HEXA Cannon Bazooka", "level1": 1650, "growthPerLevel": 15 },
             { "name": "HEXA Monkey Mortar", "level1": 1750, "growthPerLevel": 15 },
-            { "name": "HEXA Anchors Away", "level1": 1850, "growthPerLevel": 15 },
+            { "name": "HEXA Anchors Aweigh", "level1": 1850, "growthPerLevel": 15 },
             { "name": "HEXA Nautilus Strike", "level1": 1950, "growthPerLevel": 15 }
         ]
     },
