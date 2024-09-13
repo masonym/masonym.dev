@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { masteryDesignation } from '@/data/masteryDesignation';
 import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost } from "@/data/solErda";
@@ -8,6 +8,8 @@ import { formatSkillPath } from '../../utils';
 
 const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   const [skills, setSkills] = useState([]);
+  const skillsRef = useRef(skills);
+  const [isLoading, setIsLoading] = useState(true);
   const [solErdaFragments, setSolErdaFragments] = useState(1000);
   const [damagePercent, setDamagePercent] = useState(0);
   const [iedPercent, setIedPercent] = useState(0);
@@ -35,31 +37,23 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   }, []);
 
   useEffect(() => {
-    if (selectedClass && classDetails) {
+    if (selectedClass && classDetails && skillLevels) {
       const masteryData = masteryDesignation[selectedClass];
 
       const newSkills = [
-        { type: 'Origin', skill: classDetails.originSkill, type: 'origin', level: skillLevels[formatSkillPath(classDetails.originSkill)]?.level || 1 },
-        ...masteryData.firstMastery.map(skill => ({ type: 'Mastery', skill, type: 'mastery', level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
-        ...masteryData.secondMastery.map(skill => ({ type: 'Mastery', skill, type: 'mastery', level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
-        ...classDetails.boostSkills.map(skill => ({ type: 'Boost', skill, type: 'enhancement', level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
+        { type: 'Origin', skill: classDetails.originSkill, level: skillLevels[formatSkillPath(classDetails.originSkill)]?.level || 1 },
+        ...masteryData.firstMastery.map(skill => ({ type: 'Mastery', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
+        ...masteryData.secondMastery.map(skill => ({ type: 'Mastery', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
+        ...classDetails.boostSkills.map(skill => ({ type: 'Boost', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
       ];
       setSkills(newSkills);
-      console.log("setting new skills", skills)
-      console.log("new skills", newSkills)
-
-      // Initialize damage distribution
-      setDamageDistribution(prevDistribution => {
-        const newDistribution = { ...prevDistribution };
-        newSkills.forEach(skill => {
-          if (!(skill.skill in newDistribution)) {
-            newDistribution[skill.skill] = 0;
-          }
-        });
-        return newDistribution;
-      });
+      setIsLoading(false);
     }
   }, [selectedClass, classDetails, skillLevels]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const getCost = (skillType, level) => {
     const costTable = {
@@ -70,17 +64,6 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
     return costTable[level - 1]?.[level]?.frags || 0;
   };
-
-  useEffect(() => {
-    const stateToSave = {
-      solErdaFragments,
-      damagePercent,
-      iedPercent,
-      bossDefense,
-      damageDistribution
-    };
-    localStorage.setItem('optimizerState', JSON.stringify(stateToSave));
-  }, [solErdaFragments, damagePercent, iedPercent, bossDefense, damageDistribution]);
 
   const getGrowth = (skill, level) => {
     if (!classSkillGrowth[selectedClass]) {
@@ -171,10 +154,6 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return upgrades;
   };
 
-  useEffect(() => {
-    const upgrades = upgradeSkills();
-    setUpgradeData(upgrades);
-  }, [solErdaFragments, damagePercent, iedPercent, bossDefense, damageDistribution]);
 
   const handleDamageDistributionChange = (skill, value) => {
     setDamageDistribution(prev => ({
@@ -184,68 +163,56 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   };
 
   return (
-    <div classtype="p-4">
-      <h2 classtype="text-2xl font-bold mb-4">Hexa Skill Optimizer</h2>
-
-      <div classtype="mb-4">
-        <label classtype="block mb-2">Sol Erda Fragments:</label>
-        <input
-          type="number"
-          value={solErdaFragments}
-          onChange={(e) => setSolErdaFragments(Number(e.target.value))}
-          classtype="border p-2 rounded"
-        />
-      </div>
-
-      <div classtype="mb-4">
-        <label classtype="block mb-2">Damage %:</label>
+    <div className="flex flex-col p-4">
+      <h2 className="">Enter the following values aaaaaaaaaaaaaaaaaaaaaaaa</h2>
+      <div className="mb-4">
+        <label className="block mb-2">Damage + Boss Damage %:</label>
         <input
           type="number"
           value={damagePercent}
           onChange={(e) => setDamagePercent(Number(e.target.value))}
-          classtype="border p-2 rounded"
+          className="border p-2 rounded"
         />
       </div>
 
-      <div classtype="mb-4">
-        <label classtype="block mb-2">IED %:</label>
+      <div className="mb-4">
+        <label className="block mb-2">IED %:</label>
         <input
           type="number"
           value={iedPercent}
           onChange={(e) => setIedPercent(Number(e.target.value))}
-          classtype="border p-2 rounded"
+          className="border p-2 rounded"
         />
       </div>
 
-      <div classtype="mb-4">
-        <label classtype="block mb-2">Boss Defense:</label>
+      <div className="mb-4">
+        <label className="block mb-2">Boss Defense:</label>
         <input
           type="number"
           value={bossDefense}
           onChange={(e) => setBossDefense(Number(e.target.value))}
-          classtype="border p-2 rounded"
+          className="border p-2 rounded"
         />
       </div>
 
-      <h3 classtype="text-xl font-bold mt-6 mb-2">Damage Distribution</h3>
-      <div classtype="grid grid-cols-2 gap-4 mb-6">
+      <h3 className="text-xl font-bold mt-6 mb-2">Enter in your rotation's skill damage distribution</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
         {skills.map((skill, index) => (
-          <div key={index} classtype="border p-2 rounded">
-            <h3 classtype="font-bold">{skill.skill}</h3>
-            <div>Type: {skill.type}</div>
-            <div>Level: {skill.level}</div>
-            <label classtype="block mt-2">Damage Contribution %:</label>
+          <div key={index} className="border p-2 rounded">
+            <h3 className="font-bold">{skill.skill}</h3>
+            <div>Current Level: {skill.level}</div>
+            <label className="block mt-2">Damage Contribution %:</label>
             <input
               type="number"
               value={damageDistribution[skill.skill]}
               onChange={(e) => handleDamageDistributionChange(skill.skill, e.target.value)}
-              classtype="border p-1 mt-1 w-full"
+              className="border p-1 mt-1 w-full"
             />
           </div>
         ))}
       </div>
 
-      <h3 classtype="text-xl font-bold mt-4 mb-2">Upgrade Path</h3>
+      <h3 className="text-xl font-bold mt-4 mb-2">Upgrade Path</h3>
       <LineChart width={600} height={300} data={upgradeData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="level" />
