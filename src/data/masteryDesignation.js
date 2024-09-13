@@ -109,7 +109,7 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Cannon Bazooka",
             "HEXA Monkey Mortar",
-            "HEXA Anchors Aweigh",
+            "HEXA Anchors Away",
             "HEXA Nautilus Strike"
         ]
     },
