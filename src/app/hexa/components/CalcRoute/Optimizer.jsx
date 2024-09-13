@@ -47,6 +47,13 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         ...classDetails.boostSkills.map(skill => ({ type: 'Boost', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
       ];
       setSkills(newSkills);
+
+      const newDistribution = newSkills.reduce((acc, skill) => {
+        acc[skill.skill] = damageDistribution[skill.skill] || 0;
+        return acc;
+      }, {});
+      setDamageDistribution(newDistribution);
+
       setIsLoading(false);
     }
   }, [selectedClass, classDetails, skillLevels]);
@@ -163,51 +170,65 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   };
 
   return (
-    <div className="flex flex-col p-4">
-      <h2 className="">Enter the following values aaaaaaaaaaaaaaaaaaaaaaaa</h2>
-      <div className="mb-4">
-        <label className="block mb-2">Damage + Boss Damage %:</label>
-        <input
-          type="number"
-          value={damagePercent}
-          onChange={(e) => setDamagePercent(Number(e.target.value))}
-          className="border p-2 rounded"
-        />
-      </div>
+    <div className="flex flex-col items-center p-4">
+      <h3 className="text-xl font-bold mt-6 mb-2">Enter in the following values</h3>
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="mb-4 relative ">
+          <label className="block mb-2">Damage + Boss Damage</label>
+          <div className="relative">
+            <input
+              type="number"
+              value={damagePercent}
+              onChange={(e) => setDamagePercent(Number(e.target.value))}
+              className="border p-2 pr-6 rounded w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
+          </div>
+        </div>
 
-      <div className="mb-4">
-        <label className="block mb-2">IED %:</label>
-        <input
-          type="number"
-          value={iedPercent}
-          onChange={(e) => setIedPercent(Number(e.target.value))}
-          className="border p-2 rounded"
-        />
-      </div>
+        <div className="mb-4 relative">
+          <label className="block mb-2">IED</label>
+          <div className="relative">
+            <input
+              type="number"
+              value={iedPercent}
+              onChange={(e) => setIedPercent(Number(e.target.value))}
+              className="border p-2 pr-6 rounded w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
+          </div>
+        </div>
 
-      <div className="mb-4">
-        <label className="block mb-2">Boss Defense:</label>
-        <input
-          type="number"
-          value={bossDefense}
-          onChange={(e) => setBossDefense(Number(e.target.value))}
-          className="border p-2 rounded"
-        />
+        <div className="mb-4 relative">
+          <label className="block mb-2">Boss Defense</label>
+          <div className="relative">
+            <input
+              type="number"
+              value={bossDefense}
+              onChange={(e) => setBossDefense(Number(e.target.value))}
+              className="border p-2 pr-6 rounded w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
+          </div>
+        </div>
       </div>
-
       <h3 className="text-xl font-bold mt-6 mb-2">Enter in your rotation's skill damage distribution</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
         {skills.map((skill, index) => (
           <div key={index} className="border p-2 rounded">
             <h3 className="font-bold">{skill.skill}</h3>
-            <div>Current Level: {skill.level}</div>
-            <label className="block mt-2">Damage Contribution %:</label>
-            <input
-              type="number"
-              value={damageDistribution[skill.skill]}
-              onChange={(e) => handleDamageDistributionChange(skill.skill, e.target.value)}
-              className="border p-1 mt-1 w-full"
-            />
+            {/* <div>Current Level: {skill.level}</div> */}
+            <label className="block mt-2">Damage Contribution</label>
+            <div className="relative">
+
+              <input
+                type="number"
+                value={damageDistribution[skill.skill]}
+                onChange={(e) => handleDamageDistributionChange(skill.skill, e.target.value)}
+                className="border p-2 pr-6 rounded w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              />
+              <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
+            </div>
           </div>
         ))}
       </div>
