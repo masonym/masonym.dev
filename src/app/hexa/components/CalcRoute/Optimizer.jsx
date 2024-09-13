@@ -42,8 +42,8 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
       const newSkills = [
         { type: 'Origin', skill: classDetails.originSkill, level: skillLevels[formatSkillPath(classDetails.originSkill)]?.level || 1 },
-        ...masteryData.firstMastery.map(skill => ({ type: 'Mastery', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
-        ...masteryData.secondMastery.map(skill => ({ type: 'Mastery', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
+        ...classDetails.masterySkills.map(skill => ({ type: 'Mastery', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
+        // ...masteryData.secondMastery.map(skill => ({ type: 'Mastery', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
         ...classDetails.boostSkills.map(skill => ({ type: 'Boost', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
       ];
       setSkills(newSkills);
