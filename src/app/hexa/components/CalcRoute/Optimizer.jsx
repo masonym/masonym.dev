@@ -15,21 +15,59 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   const [damageDistribution, setDamageDistribution] = useState({});
 
   useEffect(() => {
-    const savedState = localStorage.getItem('optimizerState');
-    if (savedState) {
-      const {
-        damagePercent: savedDamage,
-        iedPercent: savedIed,
-        bossDefense: savedDefense,
-        damageDistribution: savedDistribution
-      } = JSON.parse(savedState);
+    const loadFromLocalStorage = () => {
+      const savedState = localStorage.getItem(`optimizerState_${selectedClass}`);
+      if (savedState) {
+        const {
+          damagePercent: savedDamage,
+          iedPercent: savedIed,
+          bossDefense: savedDefense,
+          damageDistribution: savedDistribution
+        } = JSON.parse(savedState);
 
-      setDamagePercent(savedDamage);
-      setIedPercent(savedIed);
-      setBossDefense(savedDefense);
-      setDamageDistribution(savedDistribution);
-    }
-  }, []);
+
+        setDamagePercent(savedDamage || 0);
+        setIedPercent(savedIed || 0);
+        setBossDefense(savedDefense || 300);
+        setDamageDistribution(savedDistribution);
+      }
+    };
+
+    loadFromLocalStorage();
+  }, [selectedClass]);
+
+  // Update local storage functions
+  const updateLocalStorage = (key, value) => {
+    const currentState = JSON.parse(localStorage.getItem(`optimizerState_${selectedClass}`) || '{}');
+    const newState = { ...currentState, [key]: value };
+    localStorage.setItem(`optimizerState_${selectedClass}`, JSON.stringify(newState));
+  };
+
+  // Modified state setters
+  const setDamagePercentWithStorage = (value) => {
+    setDamagePercent(value);
+    updateLocalStorage('damagePercent', value);
+  };
+
+  const setIedPercentWithStorage = (value) => {
+    setIedPercent(value);
+    updateLocalStorage('iedPercent', value);
+  };
+
+  const setBossDefenseWithStorage = (value) => {
+    setBossDefense(value);
+    updateLocalStorage('bossDefense', value);
+  };
+
+  const handleDamageDistributionChange = (skill, value) => {
+    const newDistribution = {
+      ...damageDistribution,
+      [skill]: Number(value)
+    };
+    setDamageDistribution(newDistribution);
+    updateLocalStorage('damageDistribution', newDistribution);
+  };
+
 
   useEffect(() => {
     if (selectedClass && classDetails && skillLevels) {
@@ -63,11 +101,15 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       ];
       setSkills(newSkills);
 
-      const newDistribution = newSkills.reduce((acc, skill) => {
-        acc[skill.skill] = damageDistribution[skill.skill] || 0;
-        return acc;
-      }, {});
-      setDamageDistribution(newDistribution);
+      // if (Object.keys(damageDistribution).length === 0) {
+      //   console.log("true")
+      //   const newDistribution = newSkills.reduce((acc, skill) => {
+      //     acc[skill.skill] = 0;
+      //     return acc;
+      //   }, {});
+      //   setDamageDistribution(newDistribution);
+      //   updateLocalStorage('damageDistribution', newDistribution);
+      // }
 
       setIsLoading(false);
     }
@@ -126,7 +168,8 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     const damageIncrease = (growthIncrease + extraBoost) * skillContribution;
 
     // Factor in IED and boss defense
-    const currentDamageMultiplier = 1 - (bossDefense / 100) * (1 - iedPercent / 100);
+    // const currentDamageMultiplier = 1 - (bossDefense / 100) * (1 - iedPercent / 100);
+    const currentDamageMultiplier = 1
     const effectiveDamageIncrease = damageIncrease * currentDamageMultiplier;
 
     // Calculate efficiency
@@ -150,14 +193,12 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     currentSkills.forEach(skill => {
       if (skill.level < 30) {
         const efficiency = calculateEfficiency(skill, skill.level);
-        console.log("eff: ", efficiency)
         if (efficiency > bestEfficiency) {
           bestEfficiency = efficiency;
           bestSkill = skill;
         }
       }
     });
-    console.log("is there a best skill?", bestSkill)
     return bestSkill;
   };
 
@@ -197,13 +238,6 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     setUpgradePath(path);
   };
 
-  const handleDamageDistributionChange = (skill, value) => {
-    setDamageDistribution(prev => ({
-      ...prev,
-      [skill]: Number(value)
-    }));
-  };
-
   const handleGenerateUpgradePath = () => {
     generateUpgradePath();
   };
@@ -222,7 +256,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
             <input
               type="number"
               value={damagePercent}
-              onChange={(e) => setDamagePercent(Number(e.target.value))}
+              onChange={(e) => setDamagePercentWithStorage(Number(e.target.value))}
               className="border p-2 pr-6 rounded w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
@@ -235,7 +269,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
             <input
               type="number"
               value={iedPercent}
-              onChange={(e) => setIedPercent(Number(e.target.value))}
+              onChange={(e) => setIedPercentWithStorage(Number(e.target.value))}
               className="border p-2 pr-6 rounded w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
@@ -248,7 +282,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
             <input
               type="number"
               value={bossDefense}
-              onChange={(e) => setBossDefense(Number(e.target.value))}
+              onChange={(e) => setBossDefenseWithStorage(Number(e.target.value))}
               className="border p-2 pr-6 rounded w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
@@ -262,7 +296,6 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
           <div key={index} className="border p-2 rounded">
             <h3 className="font-bold">{skill.skill}</h3>
             <label className="block mt-2">Damage Contribution</label>
-            <p>{skill.level}</p>
             <div className="relative">
               <input
                 type="number"
@@ -290,7 +323,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-primary-dim">
-                  <th className="border p-2">Step</th>
+                  {/* <th className="border p-2">Step</th> */}
                   <th className="border p-2">Skill</th>
                   <th className="border p-2">New Level</th>
                   <th className="border p-2">Cost</th>
@@ -300,7 +333,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
               <tbody>
                 {upgradePath.map((upgrade, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-primary-dark' : 'bg-primary-dim'}>
-                    <td className="border p-2">{index + 1}</td>
+                    {/* <td className="border p-2">{index + 1}</td> */}
                     <td className="border p-2">{upgrade.skill}</td>
                     <td className="border p-2">{upgrade.newLevel}</td>
                     <td className="border p-2">{upgrade.cost}</td>

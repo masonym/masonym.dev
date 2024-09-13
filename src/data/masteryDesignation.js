@@ -96,7 +96,8 @@ export const masteryDesignation = {
     },
     "Night Lord": {
         "firstMastery": [
-            "HEXA Quad Star"
+            "HEXA Quad Star",
+            "Enhanced HEXA Quad Star"
         ],
         "secondMastery": [
             "HEXA Assassin's Mark"
