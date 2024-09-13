@@ -33,10 +33,33 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
   useEffect(() => {
     if (selectedClass && classDetails && skillLevels) {
+      const classDesignation = masteryDesignation[selectedClass];
+
+      // Initialize mastery levels
+      const firstMasteryLevel = Math.max(
+        ...classDesignation.firstMastery.map(skill => skillLevels[formatSkillPath(skill)]?.level || 0)
+      );
+      const secondMasteryLevel = Math.max(
+        ...classDesignation.secondMastery.map(skill => skillLevels[formatSkillPath(skill)]?.level || 0)
+      );
+
       const newSkills = [
-        { type: 'Origin', skill: classDetails.originSkill, level: skillLevels[formatSkillPath(classDetails.originSkill)]?.level || 1 },
-        ...classDetails.masterySkills.map(skill => ({ type: 'Mastery', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
-        ...classDetails.boostSkills.map(skill => ({ type: 'Boost', skill, level: skillLevels[formatSkillPath(skill)]?.level || 0 })),
+        {
+          type: 'Origin',
+          skill: classDetails.originSkill,
+          level: skillLevels[formatSkillPath(classDetails.originSkill)]?.level || 1
+        },
+        ...classDetails.masterySkills.map(skill => ({
+          type: 'Mastery',
+          skill,
+          level: classDesignation.firstMastery.includes(skill) ? firstMasteryLevel : secondMasteryLevel,
+          category: classDesignation.firstMastery.includes(skill) ? 'firstMastery' : 'secondMastery'
+        })),
+        ...classDetails.boostSkills.map(skill => ({
+          type: 'Boost',
+          skill,
+          level: skillLevels[formatSkillPath(skill)]?.level || 0
+        })),
       ];
       setSkills(newSkills);
 
@@ -109,13 +132,13 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     // Calculate efficiency
     const efficiency = cost > 0 ? effectiveDamageIncrease / cost : 0;
 
-    console.log("skill: ", skill)
-    console.log("Current Growth: ", currentGrowth)
-    console.log("Next Growth: ", nextGrowth)
-    console.log("Damage increase: ", damageIncrease)
-    console.log("Cost: ", cost)
-    console.log("Current damage multiplier: ", currentDamageMultiplier)
-    console.log("Effective damage increase: ", effectiveDamageIncrease)
+    // console.log("skill: ", skill)
+    // console.log("Current Growth: ", currentGrowth)
+    // console.log("Next Growth: ", nextGrowth)
+    // console.log("Damage increase: ", damageIncrease)
+    // console.log("Cost: ", cost)
+    // console.log("Current damage multiplier: ", currentDamageMultiplier)
+    // console.log("Effective damage increase: ", effectiveDamageIncrease)
 
     return efficiency;
   };
@@ -150,11 +173,19 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       const cost = getCost(skillToUpgrade.type, skillToUpgrade.level);
       totalCost += cost;
 
-      const skillIndex = currentSkills.findIndex(s => s.skill === skillToUpgrade.skill);
-      currentSkills[skillIndex] = { ...skillToUpgrade, level: skillToUpgrade.level + 1 };
+      // Update all skills in the same category for Mastery skills
+      currentSkills = currentSkills.map(skill => {
+        if (skill.type === 'Mastery' && skill.category === skillToUpgrade.category) {
+          return { ...skill, level: skill.level + 1 };
+        } else if (skill.skill === skillToUpgrade.skill) {
+          return { ...skill, level: skill.level + 1 };
+        }
+        return skill;
+      });
+
       path.push({
         skill: skillToUpgrade.skill,
-        newLevel: currentSkills[skillIndex].level,
+        newLevel: skillToUpgrade.level + 1,
         cost,
         totalCost
       });
@@ -231,6 +262,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
           <div key={index} className="border p-2 rounded">
             <h3 className="font-bold">{skill.skill}</h3>
             <label className="block mt-2">Damage Contribution</label>
+            <p>{skill.level}</p>
             <div className="relative">
               <input
                 type="number"
