@@ -133,6 +133,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     if (skill.type === 'Origin') {
       const originData = classSkillGrowth[selectedClass].originSkill;
       if (originData && originData.name === skill.skill) {
+        // Origin skills start at level 1
         return originData.level1 + (level - 1) * originData.growthPerLevel;
       }
     } else if (skill.type === 'Mastery') {
@@ -140,11 +141,16 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       if (Array.isArray(masteryData)) {
         const skillData = masteryData.find(s => s.name === skill.skill);
         if (skillData) {
-          return skillData.level1 + (level - 1) * skillData.growthPerLevel;
+          if (level === 0 && 'level0' in skillData) {
+            return skillData.level0;
+          } else {
+            return skillData.level1 + (level - 1) * skillData.growthPerLevel;
+          }
         }
       }
     } else if (skill.type === 'Boost') {
-      return parseFloat(boostGrowth[level]?.[level] || '0');
+      // Convert percentage to multiplier (e.g., 11% becomes 1.11)
+      return 1 + (parseFloat(boostGrowth[level - 1]?.[level] || '0') / 100);
     }
 
     console.warn(`No growth data found for skill: ${skill.skill}`);
@@ -160,9 +166,12 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     if (skill.type === 'Boost') {
       // For Boost skills, calculate the relative increase
       growthIncrease = nextGrowth / currentGrowth - 1;
+    } else if (skill.type === 'Mastery' && currentLevel === 0) {
+      // For Mastery skills at level 0, calculate the relative increase from level0 to level1
+      growthIncrease = nextGrowth / currentGrowth - 1;
     } else {
-      // For other skills, use the absolute increase
-      growthIncrease = nextGrowth - currentGrowth;
+      // For other skills and Mastery skills above level 0, use the absolute increase
+      growthIncrease = (nextGrowth - currentGrowth) / currentGrowth;
     }
 
     let extraBoost = 0;
