@@ -219,6 +219,11 @@ export const classSkillGrowth = {
                 name: "Poolmaker Boost",
                 iedGrowthPerLevel: 0,
                 bossDamageGrowthPerLevel: 0,
+                auxiliaryBoost: {
+                    threshold: 3,
+                    increase: 0.03 // 3% increase every 3 levels
+                  }
+            
             },
         ]
     },

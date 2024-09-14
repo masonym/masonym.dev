@@ -137,6 +137,15 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return costTable[level]?.[level + 1]?.frags || 0;
   };
 
+  const getAuxiliaryBoost = (skillData, level) => {
+    if (skillData.auxiliaryBoost) {
+      const { threshold, increase } = skillData.auxiliaryBoost;
+      const baseMultiplier = 1 + Math.floor((level - 1) / threshold) * increase;
+      return baseMultiplier;
+    }
+    return 1; // Default: no auxiliary boost
+  };
+
   const getSkillDamage = (skill, level) => {
     const classData = classSkillGrowth[selectedClass];
     let skillData;
@@ -149,10 +158,9 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }, 0);
 
       const { totalIED, bossDamageBoost } = getOriginSkillBoosts(level, iedPercent);
-
-      // Apply total damage (damagePercent + bossDamageBoost)
+      
       const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
-
+      
       return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
     } else if (skill.type === 'Mastery') {
       skillData = classData.masterySkills.find(s => s.name === skill.skill);
@@ -165,10 +173,11 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     } else if (skill.type === 'Boost') {
       skillData = classData.boostSkills.find(s => s.name === skill.skill);
       const baseBoost = 1 + (parseFloat(boostGrowth[level]?.[level] || '0') / 100);
+      const auxiliaryBoost = getAuxiliaryBoost(skillData, level);
       const { iedBoost, bossDamageBoost } = getProgressiveBoosts(skillData, level);
       const totalIED = calculateIED(iedPercent / 100, iedBoost / 100) * 100;
       const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
-      return baseBoost * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
+      return baseBoost * auxiliaryBoost * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
     }
 
     return 0;
