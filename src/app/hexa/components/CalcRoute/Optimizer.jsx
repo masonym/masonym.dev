@@ -150,7 +150,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }
     } else if (skill.type === 'Boost') {
       // Convert percentage to multiplier (e.g., 11% becomes 1.11)
-      return 1 + (parseFloat(boostGrowth[level - 1]?.[level] || '0') / 100);
+      return 1 + (parseFloat(boostGrowth[level]?.[level] || '0') / 100);
     }
 
     console.warn(`No growth data found for skill: ${skill.skill}`);
@@ -161,11 +161,16 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     const cost = getCost(skill.type, currentLevel);
     const currentGrowth = getGrowth(skill, currentLevel);
     const nextGrowth = getGrowth(skill, currentLevel + 1);
-    
+
     let growthIncrease;
     if (skill.type === 'Boost') {
-      // For Boost skills, calculate the relative increase
-      growthIncrease = nextGrowth / currentGrowth - 1;
+      if (currentLevel === 0) {
+        // Special case for Boost skills going from level 0 to 1
+        growthIncrease = 0.11; // 11% increase
+      } else {
+        // For Boost skills above level 0, calculate the relative increase
+        growthIncrease = nextGrowth / currentGrowth - 1;
+      }
     } else if (skill.type === 'Mastery' && currentLevel === 0) {
       // For Mastery skills at level 0, calculate the relative increase from level0 to level1
       growthIncrease = nextGrowth / currentGrowth - 1;
