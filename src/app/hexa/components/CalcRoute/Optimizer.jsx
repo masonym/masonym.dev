@@ -170,9 +170,11 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       const { totalIED, bossDamageBoost } = getOriginSkillBoosts(level, iedPercent);
 
       // Apply IED and Boss Damage boosts
-      const effectiveDamageMultiplier = (1 + damagePercent / 100) * bossDamageBoost;
+      const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
 
-      return baseDamage * effectiveDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
+      console.log(totalDamageMultiplier)
+
+      return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
     } else if (skill.type === 'Mastery') {
       skillData = classData.masterySkills.find(s => s.name === skill.skill);
       if (level === 0) return skillData.level0;
@@ -190,15 +192,15 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
   const getOriginSkillBoosts = (level, baseIED) => {
     let totalIED = baseIED / 100;
-    let bossDamageBoost = 1;
+    let bossDamageBoost = 0;
 
     if (level >= 30) {
       totalIED = calculateIED(totalIED, 0.3);
       totalIED = calculateIED(totalIED, 0.2);
-      bossDamageBoost += 0.5; // 20% + 30%
+      bossDamageBoost += 50; // 20% + 30%
     } else if (level >= 20) {
       totalIED = calculateIED(totalIED, 0.2);
-      bossDamageBoost += 0.2;
+      bossDamageBoost += 20;
     } else if (level >= 10) {
       totalIED = calculateIED(totalIED, 0.2);
     }
@@ -230,7 +232,6 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
     return totalCost > 0 ? damageIncrease / totalCost : 0;
   };
-// TODO: figure out why origin is over-prioritized
   const calculateEfficiency = (skill, currentLevel) => {
     const singleStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 1);
 
