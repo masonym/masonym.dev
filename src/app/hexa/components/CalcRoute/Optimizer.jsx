@@ -183,46 +183,75 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return nextDamage / currentDamage;
   };
 
-  const calculateEfficiency = (skill, currentLevel, lookAhead = 4) => {
-    let totalEfficiency = 0;
+  const calculateMultiStepEfficiency = (skill, currentLevel, steps) => {
     let totalCost = 0;
-    let cumulativeGrowth = 1;
+    let totalGrowth = 1;
 
-    for (let i = 0; i < lookAhead; i++) {
+    for (let i = 0; i < steps; i++) {
       const level = currentLevel + i;
       if (level >= 30) break;
-
-      const cost = getCost(skill.type, level);
-      const growth = getGrowth(skill, level);
       
-      cumulativeGrowth *= growth;
-      
-      const levelEfficiency = (cumulativeGrowth - 1) / (totalCost + cost);
-      totalEfficiency += levelEfficiency;
-      totalCost += cost;
+      totalCost += getCost(skill.type, level);
+      totalGrowth *= getGrowth(skill, level);
     }
 
+    const growthIncrease = totalGrowth - 1;
     const skillContribution = damageDistribution[skill.skill] / 100;
-    const currentDamageMultiplier = 1 - (bossDefense / 100) * (1 - iedPercent / 100);
+    const damageIncrease = growthIncrease * skillContribution;
 
-    return totalEfficiency * skillContribution * currentDamageMultiplier;
+    // Factor in IED and boss defense
+    const currentDamageMultiplier = 1 - (bossDefense / 100) * (1 - iedPercent / 100);
+    const effectiveDamageIncrease = damageIncrease * currentDamageMultiplier;
+
+    return totalCost > 0 ? effectiveDamageIncrease / totalCost : 0;
+  };
+
+  const calculateEfficiency = (skill, currentLevel) => {
+    const singleStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 1);
+    
+    let maxEfficiency = singleStepEfficiency;
+    let optimalSteps = 1;
+
+    // Look ahead up to 10 steps
+    for (let steps = 2; steps <= 10; steps++) {
+      if (currentLevel + steps > 30) break;
+
+      const multiStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, steps);
+      if (multiStepEfficiency > maxEfficiency) {
+        maxEfficiency = multiStepEfficiency;
+        optimalSteps = steps;
+      }
+    }
+
+    // Special consideration for boost skills near breakpoints
+    if (skill.type === 'Boost' && [9, 19, 29].includes(currentLevel)) {
+      const breakpointEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 31 - currentLevel);
+      if (breakpointEfficiency > maxEfficiency) {
+        maxEfficiency = breakpointEfficiency;
+        optimalSteps = 31 - currentLevel;
+      }
+    }
+
+    return { efficiency: maxEfficiency, steps: optimalSteps };
   };
 
   const findOptimalUpgrade = (currentSkills) => {
     let bestSkill = null;
     let bestEfficiency = 0;
+    let bestSteps = 1;
 
     currentSkills.forEach(skill => {
       if (skill.level < 30) {
-        const efficiency = calculateEfficiency(skill, skill.level);
+        const { efficiency, steps } = calculateEfficiency(skill, skill.level);
         if (efficiency > bestEfficiency) {
           bestEfficiency = efficiency;
           bestSkill = skill;
+          bestSteps = steps;
         }
       }
     });
 
-    return bestSkill;
+    return { skill: bestSkill, steps: bestSteps };
   };
 
   const generateUpgradePath = () => {
@@ -231,33 +260,42 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     let totalCost = 0;
 
     while (true) {
-      const skillToUpgrade = findOptimalUpgrade(currentSkills);
+      const { skill: skillToUpgrade, steps } = findOptimalUpgrade(currentSkills);
       if (!skillToUpgrade) break;
 
-      const cost = getCost(skillToUpgrade.type, skillToUpgrade.level);
-      totalCost += cost;
+      let upgradeCost = 0;
+      const startLevel = skillToUpgrade.level;
+      const endLevel = Math.min(startLevel + steps, 30);
 
-      // Update all skills in the same category for Mastery skills
+      for (let level = startLevel; level < endLevel; level++) {
+        upgradeCost += getCost(skillToUpgrade.type, level);
+      }
+      totalCost += upgradeCost;
+
+      // Update skills
       currentSkills = currentSkills.map(skill => {
         if (skillToUpgrade.type === 'Mastery' && skill.category === skillToUpgrade.category) {
-          return { ...skill, level: skill.level + 1 };
+          return { ...skill, level: endLevel };
         } else if (skill.skill === skillToUpgrade.skill) {
-          return { ...skill, level: skill.level + 1 };
+          return { ...skill, level: endLevel };
         }
         return skill;
       });
 
-      // Add to path, consolidating consecutive upgrades
+      // Add to path, consolidating upgrades
       if (path.length > 0 && path[path.length - 1].skill === skillToUpgrade.skill) {
-        path[path.length - 1].newLevel = skillToUpgrade.level + 1;
-        path[path.length - 1].cost += cost;
+        const lastUpgrade = path[path.length - 1];
+        lastUpgrade.newLevel = endLevel;
+        lastUpgrade.cost += upgradeCost;
+        lastUpgrade.totalCost = totalCost;
       } else {
         path.push({
           skill: skillToUpgrade.skill,
           type: skillToUpgrade.type,
           category: skillToUpgrade.category,
-          newLevel: skillToUpgrade.level + 1,
-          cost,
+          startLevel: startLevel,
+          newLevel: endLevel,
+          cost: upgradeCost,
           totalCost
         });
       }
@@ -360,7 +398,9 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
                   type: upgrade.type,
                   category: upgrade.category
                 }}
-                level={upgrade.newLevel}
+                // not sure which to use
+                // level={`${upgrade.newLevel}`} 
+                level={`${upgrade.startLevel} → ${upgrade.newLevel}`} 
                 classKey={selectedClass}
                 masterySkills={masterySkills}
               />
