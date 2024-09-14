@@ -155,7 +155,15 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     const cost = getCost(skill.type, currentLevel);
     const currentGrowth = getGrowth(skill, currentLevel);
     const nextGrowth = getGrowth(skill, currentLevel + 1);
-    const growthIncrease = nextGrowth / currentGrowth - 1; // Relative increase
+    
+    let growthIncrease;
+    if (skill.type === 'Boost') {
+      // For Boost skills, calculate the relative increase
+      growthIncrease = nextGrowth / currentGrowth - 1;
+    } else {
+      // For other skills, use the absolute increase
+      growthIncrease = nextGrowth - currentGrowth;
+    }
 
     let extraBoost = 0;
     if (skill.type === 'Origin' && [10, 20, 30].includes(currentLevel + 1)) {
@@ -175,10 +183,10 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     // Calculate efficiency
     const efficiency = cost > 0 ? effectiveDamageIncrease / cost : 0;
 
-    // console.log("skill: ", skill)
-    // console.log("Current Growth: ", currentGrowth)
-    // console.log("Next Growth: ", nextGrowth)
-    // console.log("Damage increase: ", damageIncrease)
+    console.log("skill: ", skill)
+    console.log("Current Growth: ", currentGrowth)
+    console.log("Next Growth: ", nextGrowth)
+    console.log("Damage increase: ", damageIncrease)
     // console.log("Cost: ", cost)
     // console.log("Current damage multiplier: ", currentDamageMultiplier)
     // console.log("Effective damage increase: ", effectiveDamageIncrease)
@@ -323,7 +331,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-primary-dim">
-                  {/* <th className="border p-2">Step</th> */}
+                  <th className="border p-2">Step</th>
                   <th className="border p-2">Skill</th>
                   <th className="border p-2">New Level</th>
                   <th className="border p-2">Cost</th>
@@ -333,7 +341,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
               <tbody>
                 {upgradePath.map((upgrade, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-primary-dark' : 'bg-primary-dim'}>
-                    {/* <td className="border p-2">{index + 1}</td> */}
+                    <td className="border p-2">{index + 1}</td>
                     <td className="border p-2">{upgrade.skill}</td>
                     <td className="border p-2">{upgrade.newLevel}</td>
                     <td className="border p-2">{upgrade.cost}</td>

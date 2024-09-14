@@ -147,13 +147,13 @@ export const classSkillGrowth = {
     "Cannoneer": {
         "originSkill": {
             "name": "Super Cannon Explosion",
-            "level1": 1450,
-            "growthPerLevel": 15
+            "level1": 1147,
+            "growthPerLevel": 37
         },
         "masterySkills": [
-            { "name": "HEXA Cannon Barrage", "level1": 1550, "growthPerLevel": 15 },
+            { "name": "HEXA Cannon Barrage", "level0": 10, "level1": 1550, "growthPerLevel": 15 },
             { "name": "HEXA Cannon Bazooka", "level1": 1650, "growthPerLevel": 15 },
-            { "name": "HEXA Monkey Mortar", "level1": 1750, "growthPerLevel": 15 },
+            { "name": "HEXA Monkey Mortar", "level0": 360, "level1": 1129, "growthPerLevel": 19 },
             { "name": "HEXA Anchors Away", "level1": 1850, "growthPerLevel": 15 },
             { "name": "HEXA Nautilus Strike", "level1": 1950, "growthPerLevel": 15 }
         ]
