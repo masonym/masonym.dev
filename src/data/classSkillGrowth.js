@@ -148,46 +148,46 @@ export const classSkillGrowth = {
         originSkill: {
             name: "Super Cannon Explosion",
             components: [
-              { damage: 992, attacks: 4, triggers: 68, growthPerLevel: 32 },
-              { damage: 1147, attacks: 5, triggers: 52, growthPerLevel: 37 }
+                { damage: 992, attacks: 4, triggers: 68, growthPerLevel: 32 },
+                { damage: 1147, attacks: 5, triggers: 52, growthPerLevel: 37 }
             ]
-          },
+        },
         masterySkills: [
             {
                 name: "HEXA Cannon Barrage",
-                level0: 360, // Assuming it starts at 0 before first level
+                level0: 780, // Assuming it starts at 0 before first level
                 level1: 863,
                 attacks: 4,
                 growthPerLevel: 13
-              },
-              {
+            },
+            {
                 name: "HEXA Cannon Bazooka",
                 level0: 800,
                 level1: 1129,
                 attacks: 4,
                 growthPerLevel: 19
-              },
-              {
+            },
+            {
                 name: "HEXA Monkey Mortar",
                 level0: 360,
-                level1: 880,
-                attacks: 4,
+                level1: 1129,
+                attacks: 5,
                 growthPerLevel: 19
-              },
-              {
+            },
+            {
                 name: "HEXA Anchors Away",
                 level0: 300,
                 level1: 600,
                 attacks: 1,
                 growthPerLevel: 19
-              },
-              {
+            },
+            {
                 name: "HEXA Nautilus Strike",
                 level0: 300,
                 level1: 600,
                 attacks: 1,
                 growthPerLevel: 19
-              },
+            },
         ],
         boostSkills: ["Cannon of Mass Destruction Boost", "The Nuclear Option Boost", "Monkey Business Boost", "Poolmaker Boost"]
     },
