@@ -28,6 +28,9 @@ module.exports = {
       },
       backgroundImage: {
         'cs-bg': "var(--cs-bg)",
+      },
+      gridTemplateColumns: {
+        '16': 'repeat(16, minmax(0, 1fr))',
       }
     },
   },

@@ -3,7 +3,26 @@ import { masteryDesignation } from '@/data/masteryDesignation';
 import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost } from "@/data/solErda";
 import { classSkillGrowth } from '@/data/classSkillGrowth';
 import { boostGrowth } from '@/data/boostGrowth';
-import { formatSkillPath } from '../../utils';
+import { formatSkillName, formatSkillPath } from '../../utils';
+import Image from 'next/image';
+
+const SkillIcon = ({ skill, level }) => {
+  const iconPath = `/classImages/${skill.classKey}/Skill_${formatSkillPath(skill.skill)}.png`;
+  console.log(iconPath)
+  return (
+    <div className="flex flex-col items-center m-1">
+      <div className="relative w-12 h-12">
+        <Image
+          src={iconPath}
+          alt={skill.skill}
+          fill
+        />
+      </div>
+      <span className="text-xs mt-1">{level}</span>
+    </div>
+  );
+};
+
 
 const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   const [skills, setSkills] = useState([]);
@@ -197,10 +216,10 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     // Calculate efficiency
     const efficiency = cost > 0 ? effectiveDamageIncrease / cost : 0;
 
-    console.log("skill: ", skill)
-    console.log("Current Growth: ", currentGrowth)
-    console.log("Next Growth: ", nextGrowth)
-    console.log("Damage increase: ", damageIncrease)
+    // console.log("skill: ", skill)
+    // console.log("Current Growth: ", currentGrowth)
+    // console.log("Next Growth: ", nextGrowth)
+    // console.log("Damage increase: ", damageIncrease)
     // console.log("Cost: ", cost)
     // console.log("Current damage multiplier: ", currentDamageMultiplier)
     // console.log("Effective damage increase: ", effectiveDamageIncrease)
@@ -238,7 +257,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
       // Update all skills in the same category for Mastery skills
       currentSkills = currentSkills.map(skill => {
-        if (skill.type === 'Mastery' && skill.category === skillToUpgrade.category) {
+        if (skillToUpgrade.type === 'Mastery' && skill.category === skillToUpgrade.category) {
           return { ...skill, level: skill.level + 1 };
         } else if (skill.skill === skillToUpgrade.skill) {
           return { ...skill, level: skill.level + 1 };
@@ -246,12 +265,20 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         return skill;
       });
 
-      path.push({
-        skill: skillToUpgrade.skill,
-        newLevel: skillToUpgrade.level + 1,
-        cost,
-        totalCost
-      });
+      // Add to path, consolidating consecutive upgrades
+      if (path.length > 0 && path[path.length - 1].skill === skillToUpgrade.skill) {
+        path[path.length - 1].newLevel = skillToUpgrade.level + 1;
+        path[path.length - 1].cost += cost;
+      } else {
+        path.push({
+          skill: skillToUpgrade.skill,
+          type: skillToUpgrade.type,
+          category: skillToUpgrade.category,
+          newLevel: skillToUpgrade.level + 1,
+          cost,
+          totalCost
+        });
+      }
 
       // Stop if all skills are at level 30
       if (currentSkills.every(skill => skill.level === 30)) break;
@@ -341,29 +368,18 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       {upgradePath.length > 0 && (
         <div className="mt-6 w-full">
           <h3 className="text-xl font-bold mb-2">Recommended Upgrade Path</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-primary-dim">
-                  <th className="border p-2">Step</th>
-                  <th className="border p-2">Skill</th>
-                  <th className="border p-2">New Level</th>
-                  <th className="border p-2">Cost</th>
-                  <th className="border p-2">Total Cost</th>
-                </tr>
-              </thead>
-              <tbody>
-                {upgradePath.map((upgrade, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-primary-dark' : 'bg-primary-dim'}>
-                    <td className="border p-2">{index + 1}</td>
-                    <td className="border p-2">{upgrade.skill}</td>
-                    <td className="border p-2">{upgrade.newLevel}</td>
-                    <td className="border p-2">{upgrade.cost}</td>
-                    <td className="border p-2">{upgrade.totalCost}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-16">
+            {upgradePath.map((upgrade, index) => (
+              <SkillIcon
+                key={index}
+                skill={{
+                  skill: upgrade.skill,
+                  type: upgrade.type,
+                  classKey: selectedClass
+                }}
+                level={upgrade.newLevel}
+              />
+            ))}
           </div>
         </div>
       )}
