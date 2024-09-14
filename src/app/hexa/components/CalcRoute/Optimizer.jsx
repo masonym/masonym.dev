@@ -5,18 +5,21 @@ import { classSkillGrowth } from '@/data/classSkillGrowth';
 import { boostGrowth } from '@/data/boostGrowth';
 import { formatSkillName, formatSkillPath } from '../../utils';
 import Image from 'next/image';
+const SkillIcon = ({ skill, level, classKey, masterySkills }) => {
+  let iconPath;
+  if (skill.type === 'Mastery') {
+    // For mastery skills, use the first skill in the category
+    const categorySkills = masterySkills[skill.category];
+    const firstSkillInCategory = categorySkills[0];
+    iconPath = `/classImages/${classKey}/Skill_${formatSkillPath(firstSkillInCategory)}.png`;
+  } else {
+    iconPath = `/classImages/${classKey}/Skill_${formatSkillPath(skill.skill)}.png`;
+  }
 
-const SkillIcon = ({ skill, level }) => {
-  const iconPath = `/classImages/${skill.classKey}/Skill_${formatSkillPath(skill.skill)}.png`;
-  console.log(iconPath)
   return (
     <div className="flex flex-col items-center m-1">
       <div className="relative w-12 h-12">
-        <Image
-          src={iconPath}
-          alt={skill.skill}
-          fill
-        />
+        <Image src={iconPath} alt={skill.skill} fill sizes='(max-width: 768px) 32px, (max-width: 1200px) 64px, 64px' />
       </div>
       <span className="text-xs mt-1">{level}</span>
     </div>
@@ -32,6 +35,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   const [bossDefense, setBossDefense] = useState(300);
   const [upgradePath, setUpgradePath] = useState([]);
   const [damageDistribution, setDamageDistribution] = useState({});
+  const [masterySkills, setMasterySkills] = useState({});
 
   useEffect(() => {
     const loadFromLocalStorage = () => {
@@ -134,6 +138,15 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     }
   }, [selectedClass, classDetails, skillLevels]);
 
+  useEffect(() => {
+    if (selectedClass && masteryDesignation[selectedClass]) {
+      setMasterySkills({
+        firstMastery: masteryDesignation[selectedClass].firstMastery,
+        secondMastery: masteryDesignation[selectedClass].secondMastery
+      });
+    }
+  }, [selectedClass]);
+
   const getCost = (skillType, level) => {
     const costTable = {
       'Origin': originUpgradeCost,
@@ -178,24 +191,37 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
   const calculateEfficiency = (skill, currentLevel) => {
     const cost = getCost(skill.type, currentLevel);
-    const currentGrowth = getGrowth(skill, currentLevel);
-    const nextGrowth = getGrowth(skill, currentLevel + 1);
+    let totalGrowthIncrease = 0;
+    let totalSkillContribution = 0;
 
-    let growthIncrease;
-    if (skill.type === 'Boost') {
-      if (currentLevel === 0) {
-        // Special case for Boost skills going from level 0 to 1
-        growthIncrease = 0.11; // 11% increase
-      } else {
-        // For Boost skills above level 0, calculate the relative increase
-        growthIncrease = nextGrowth / currentGrowth - 1;
-      }
-    } else if (skill.type === 'Mastery' && currentLevel === 0) {
-      // For Mastery skills at level 0, calculate the relative increase from level0 to level1
-      growthIncrease = nextGrowth / currentGrowth - 1;
+    if (skill.type === 'Mastery') {
+      // Combine growth and contribution for all skills in the same mastery category
+      skills.filter(s => s.type === 'Mastery' && s.category === skill.category).forEach(s => {
+        const currentGrowth = getGrowth(s, currentLevel);
+        const nextGrowth = getGrowth(s, currentLevel + 1);
+        const growthIncrease = (nextGrowth - currentGrowth) / currentGrowth;
+        const skillContribution = damageDistribution[s.skill] / 100;
+        
+        totalGrowthIncrease += growthIncrease * skillContribution;
+        totalSkillContribution += skillContribution;
+      });
     } else {
-      // For other skills and Mastery skills above level 0, use the absolute increase
-      growthIncrease = (nextGrowth - currentGrowth) / currentGrowth;
+      const currentGrowth = getGrowth(skill, currentLevel);
+      const nextGrowth = getGrowth(skill, currentLevel + 1);
+      
+      let growthIncrease;
+      if (skill.type === 'Boost') {
+        if (currentLevel === 0) {
+          growthIncrease = 0.11; // 11% increase from 0 to 1
+        } else {
+          growthIncrease = nextGrowth / currentGrowth - 1;
+        }
+      } else {
+        growthIncrease = (nextGrowth - currentGrowth) / currentGrowth;
+      }
+      
+      totalGrowthIncrease = growthIncrease;
+      totalSkillContribution = damageDistribution[skill.skill] / 100;
     }
 
     let extraBoost = 0;
@@ -203,22 +229,19 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       extraBoost = 0.1; // 10% extra boost at levels 10, 20, 30
     }
 
-    const skillContribution = damageDistribution[skill.skill] / 100;
-
     // Calculate the effective damage increase
-    const damageIncrease = (growthIncrease + extraBoost) * skillContribution;
+    const damageIncrease = (totalGrowthIncrease + extraBoost) * totalSkillContribution;
 
     // Factor in IED and boss defense
-    // const currentDamageMultiplier = 1 - (bossDefense / 100) * (1 - iedPercent / 100);
-    const currentDamageMultiplier = 1
+    const currentDamageMultiplier = 1 - (bossDefense / 100) * (1 - iedPercent / 100);
     const effectiveDamageIncrease = damageIncrease * currentDamageMultiplier;
 
     // Calculate efficiency
     const efficiency = cost > 0 ? effectiveDamageIncrease / cost : 0;
-
+    
     // console.log("skill: ", skill)
     // console.log("Current Growth: ", currentGrowth)
-    // console.log("Next Growth: ", nextGrowth)
+    // console.log("Skill contribution: ", totalSkillContribution)
     // console.log("Damage increase: ", damageIncrease)
     // console.log("Cost: ", cost)
     // console.log("Current damage multiplier: ", currentDamageMultiplier)
@@ -230,16 +253,19 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   const findOptimalUpgrade = (currentSkills) => {
     let bestSkill = null;
     let bestEfficiency = 0;
-
+    console.log("Finding optimal upgrade -----------")
     currentSkills.forEach(skill => {
       if (skill.level < 30) {
         const efficiency = calculateEfficiency(skill, skill.level);
+        console.log(`Efficiency for ${skill.skill} at level ${skill.level}: ${parseFloat(efficiency * 10000000).toFixed(2)}`)
         if (efficiency > bestEfficiency) {
           bestEfficiency = efficiency;
           bestSkill = skill;
+          console.log(`New best skill found: ${skill.skill} at ${parseFloat(efficiency * 10000000).toFixed(2)} efficiency`)
         }
       }
     });
+    console.log("Best skill: ", bestSkill.skill, "----")
     return bestSkill;
   };
 
@@ -266,12 +292,12 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       });
 
       // Add to path, consolidating consecutive upgrades
-      if (path.length > 0 && path[path.length - 1].skill === skillToUpgrade.skill) {
+      if (path.length > 0 && path[path.length - 1].category === skillToUpgrade.category) {
         path[path.length - 1].newLevel = skillToUpgrade.level + 1;
         path[path.length - 1].cost += cost;
       } else {
         path.push({
-          skill: skillToUpgrade.skill,
+          skill: skillToUpgrade.type === 'Mastery' ? `${skillToUpgrade.category} Skills` : skillToUpgrade.skill,
           type: skillToUpgrade.type,
           category: skillToUpgrade.category,
           newLevel: skillToUpgrade.level + 1,
@@ -375,9 +401,11 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
                 skill={{
                   skill: upgrade.skill,
                   type: upgrade.type,
-                  classKey: selectedClass
+                  category: upgrade.category
                 }}
                 level={upgrade.newLevel}
+                classKey={selectedClass}
+                masterySkills={masterySkills}
               />
             ))}
           </div>
