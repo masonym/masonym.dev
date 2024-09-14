@@ -282,10 +282,11 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return { skill: bestSkill, steps: bestSteps };
   };
 
-  const calculateRelativeDamageIncrease = (skill, startLevel, endLevel) => {
+  const calculateTotalDamageIncrease = (skill, startLevel, endLevel, damageContribution) => {
     const startDamage = getSkillDamage(skill, startLevel);
     const endDamage = getSkillDamage(skill, endLevel);
-    return (endDamage / startDamage) - 1; // Relative increase
+    const skillIncrease = (endDamage / startDamage) - 1;
+    return skillIncrease * (damageContribution / 100);
   };
 
   const generateUpgradePath = () => {
@@ -307,8 +308,11 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }
       totalCost += upgradeCost;
 
-      const relativeIncrease = calculateRelativeDamageIncrease(skillToUpgrade, startLevel, endLevel);
-      cumulativeDamageIncrease *= (1 + relativeIncrease);
+      const damageContribution = damageDistribution[skillToUpgrade.skill] || 0;
+      const totalDamageIncrease = calculateTotalDamageIncrease(skillToUpgrade, startLevel, endLevel, damageContribution);
+      cumulativeDamageIncrease *= (1 + totalDamageIncrease);
+
+      const efficiency = totalDamageIncrease / (upgradeCost / 100);
 
       // Update skills
       currentSkills = currentSkills.map(skill => {
@@ -320,16 +324,15 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         return skill;
       });
 
-      const efficiency = relativeIncrease / (upgradeCost / 100); // Efficiency per 100 fragments
-
       // Add to path, consolidating upgrades
       if (path.length > 0 && path[path.length - 1].skill === skillToUpgrade.skill) {
         const lastUpgrade = path[path.length - 1];
         lastUpgrade.newLevel = endLevel;
         lastUpgrade.cost += upgradeCost;
         lastUpgrade.totalCost = totalCost;
-        lastUpgrade.relativeIncrease = (1 + lastUpgrade.relativeIncrease) * (1 + relativeIncrease) - 1;
-        lastUpgrade.efficiency = lastUpgrade.relativeIncrease / (lastUpgrade.cost / 100);
+        lastUpgrade.totalDamageIncrease = (1 + lastUpgrade.totalDamageIncrease) * (1 + totalDamageIncrease) - 1;
+        lastUpgrade.efficiency = lastUpgrade.totalDamageIncrease / (lastUpgrade.cost / 100);
+        lastUpgrade.cumulativeDamageIncrease = cumulativeDamageIncrease;
       } else {
         path.push({
           skill: skillToUpgrade.skill,
@@ -339,7 +342,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
           newLevel: endLevel,
           cost: upgradeCost,
           totalCost,
-          relativeIncrease,
+          totalDamageIncrease,
           efficiency,
           cumulativeDamageIncrease
         });
@@ -435,7 +438,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         <div className="mt-6 w-full">
           <h3 className="text-xl font-bold mb-2">Recommended Upgrade Path</h3>
           <div className="grid grid-cols-16">
-          {upgradePath.map((upgrade, index) => (
+            {upgradePath.map((upgrade, index) => (
               <SkillIcon
                 key={index}
                 skill={{

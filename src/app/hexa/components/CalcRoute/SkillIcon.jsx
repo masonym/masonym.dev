@@ -58,24 +58,20 @@ const SkillIcon = ({ skill, level, classKey, masterySkills, upgrade }) => {
             {showTooltip && upgrade && (
                 <div
                     ref={tooltipRef}
-                    className="fixed bg-gray-800 text-white p-2 rounded z-50 w-64 text-xs"
+                    className="fixed bg-primary-bright text-primary-dark p-2 rounded z-50 w-fit px-2 text-sm"
                     style={{ pointerEvents: 'none' }}
                 >
                     <div className="flex justify-between">
-                        <span>Levels:</span>
-                        <span>{upgrade.startLevel} → {upgrade.newLevel}</span>
-                    </div>
-                    <div className="flex justify-between">
                         <span>Damage Increase:</span>
-                        <span>{(upgrade.relativeIncrease * 100).toFixed(2)}%</span>
+                        <span>{(upgrade.totalDamageIncrease * 100).toFixed(2)}%</span>
                     </div>
                     <div className="flex justify-between">
                         <span>Cost:</span>
                         <span>{upgrade.cost.toLocaleString()} fragments</span>
                     </div>
                     <div className="flex justify-between">
-                        <span>Efficiency:</span>
-                        <span>{(upgrade.efficiency * 100).toFixed(4)} per 100 fragments</span>
+                        <span className="pr-2">Efficiency: </span>
+                        <span> {(upgrade.efficiency * 100).toFixed(2)}% per 100 fragments</span>
                     </div>
                 </div>
             )}
