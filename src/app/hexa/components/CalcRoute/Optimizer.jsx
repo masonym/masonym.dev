@@ -168,19 +168,26 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }, 0);
 
       const { totalIED, bossDamageBoost } = getOriginSkillBoosts(level, iedPercent);
-
-      // Apply IED and Boss Damage boosts
+      
+      // Apply total damage (damagePercent + bossDamageBoost)
       const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
-
-      console.log(totalDamageMultiplier)
-
+      
       return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
     } else if (skill.type === 'Mastery') {
       skillData = classData.masterySkills.find(s => s.name === skill.skill);
       if (level === 0) return skillData.level0;
-      return skillData.level1 + (level - 1) * skillData.growthPerLevel;
+      const baseDamage = skillData.level1 + (level - 1) * skillData.growthPerLevel;
+      const { iedBoost, bossDamageBoost } = getProgressiveBoosts(skillData, level);
+      const totalIED = calculateIED(iedPercent / 100, iedBoost / 100) * 100;
+      const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
+      return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
     } else if (skill.type === 'Boost') {
-      return 1 + (parseFloat(boostGrowth[level]?.[level] || '0') / 100);
+      skillData = classData.boostSkills.find(s => s.name === skill.skill);
+      const baseBoost = 1 + (parseFloat(boostGrowth[level]?.[level] || '0') / 100);
+      const { iedBoost, bossDamageBoost } = getProgressiveBoosts(skillData, level);
+      const totalIED = calculateIED(iedPercent / 100, iedBoost / 100) * 100;
+      const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
+      return baseBoost * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
     }
 
     return 0;
@@ -212,6 +219,12 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     const currentDamage = getSkillDamage(skill, level);
     const nextDamage = getSkillDamage(skill, level + 1);
     return nextDamage / currentDamage;
+  };
+
+  const getProgressiveBoosts = (skill, level) => {
+    const iedBoost = (skill.iedGrowthPerLevel || 0) * level;
+    const bossDamageBoost = (skill.bossDamageGrowthPerLevel || 0) * level;
+    return { iedBoost, bossDamageBoost };
   };
 
   const calculateMultiStepEfficiency = (skill, currentLevel, steps) => {

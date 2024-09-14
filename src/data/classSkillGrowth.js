@@ -158,38 +158,69 @@ export const classSkillGrowth = {
                 level0: 780, // Assuming it starts at 0 before first level
                 level1: 863,
                 attacks: 4,
-                growthPerLevel: 13
+                growthPerLevel: 13,
+                iedGrowthPerLevel: 0.33,
+                bossDamageGrowthPerLevel: 0,
             },
             {
                 name: "HEXA Cannon Bazooka",
                 level0: 800,
                 level1: 1129,
                 attacks: 4,
-                growthPerLevel: 19
+                growthPerLevel: 19,
+                iedGrowthPerLevel: 0,
+                bossDamageGrowthPerLevel: 0,
             },
             {
                 name: "HEXA Monkey Mortar",
                 level0: 360,
                 level1: 1129,
                 attacks: 5,
-                growthPerLevel: 19
+                growthPerLevel: 19,
+                iedGrowthPerLevel: 0,
+                bossDamageGrowthPerLevel: 0,
             },
             {
                 name: "HEXA Anchors Away",
                 level0: 300,
                 level1: 600,
                 attacks: 1,
-                growthPerLevel: 19
+                growthPerLevel: 19,
+                iedGrowthPerLevel: 0,
+                bossDamageGrowthPerLevel: 0,
             },
             {
                 name: "HEXA Nautilus Strike",
                 level0: 300,
                 level1: 600,
                 attacks: 1,
-                growthPerLevel: 19
+                growthPerLevel: 19,
+                iedGrowthPerLevel: 0,
+                bossDamageGrowthPerLevel: 0,
             },
         ],
-        boostSkills: ["Cannon of Mass Destruction Boost", "The Nuclear Option Boost", "Monkey Business Boost", "Poolmaker Boost"]
+        boostSkills: [
+            {
+                name: "Cannon of Mass Destruction Boost",
+                iedGrowthPerLevel: 0,
+                bossDamageGrowthPerLevel: 0,
+            },
+            {
+                name: "The Nuclear Option Boost",
+                iedGrowthPerLevel: 0,
+                bossDamageGrowthPerLevel: 0,
+            },
+            {
+                name: "Monkey Business Boost",
+                iedGrowthPerLevel: 0,
+                bossDamageGrowthPerLevel: 0,
+            },
+            {
+                name: "Poolmaker Boost",
+                iedGrowthPerLevel: 0,
+                bossDamageGrowthPerLevel: 0,
+            },
+        ]
     },
     "Buccaneer": {
         "originSkill": {
