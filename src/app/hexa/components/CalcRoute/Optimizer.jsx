@@ -4,27 +4,8 @@ import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost } from "@
 import { classSkillGrowth } from '@/data/classSkillGrowth';
 import { boostGrowth } from '@/data/boostGrowth';
 import { formatSkillName, formatSkillPath } from '../../utils';
-import Image from 'next/image';
-const SkillIcon = ({ skill, level, classKey, masterySkills }) => {
-  let iconPath;
-  if (skill.type === 'Mastery') {
-    // For mastery skills, use the first skill in the category
-    const categorySkills = masterySkills[skill.category];
-    const firstSkillInCategory = categorySkills[0];
-    iconPath = `/classImages/${classKey}/Skill_${formatSkillPath(firstSkillInCategory)}.png`;
-  } else {
-    iconPath = `/classImages/${classKey}/Skill_${formatSkillPath(skill.skill)}.png`;
-  }
+import SkillIcon from './SkillIcon';
 
-  return (
-    <div className="flex flex-col items-center m-1">
-      <div className="relative w-12 h-12">
-        <Image src={iconPath} alt={skill.skill} fill sizes='(max-width: 768px) 32px, (max-width: 1200px) 64px, 64px' />
-      </div>
-      <span className="text-xs mt-1">{level}</span>
-    </div>
-  );
-};
 
 
 const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
@@ -168,10 +149,10 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }, 0);
 
       const { totalIED, bossDamageBoost } = getOriginSkillBoosts(level, iedPercent);
-      
+
       // Apply total damage (damagePercent + bossDamageBoost)
       const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
-      
+
       return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
     } else if (skill.type === 'Mastery') {
       skillData = classData.masterySkills.find(s => s.name === skill.skill);
@@ -301,10 +282,17 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return { skill: bestSkill, steps: bestSteps };
   };
 
+  const calculateRelativeDamageIncrease = (skill, startLevel, endLevel) => {
+    const startDamage = getSkillDamage(skill, startLevel);
+    const endDamage = getSkillDamage(skill, endLevel);
+    return (endDamage / startDamage) - 1; // Relative increase
+  };
+
   const generateUpgradePath = () => {
     const path = [];
     let currentSkills = [...skills];
     let totalCost = 0;
+    let cumulativeDamageIncrease = 1;
 
     while (true) {
       const { skill: skillToUpgrade, steps } = findOptimalUpgrade(currentSkills);
@@ -319,6 +307,9 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }
       totalCost += upgradeCost;
 
+      const relativeIncrease = calculateRelativeDamageIncrease(skillToUpgrade, startLevel, endLevel);
+      cumulativeDamageIncrease *= (1 + relativeIncrease);
+
       // Update skills
       currentSkills = currentSkills.map(skill => {
         if (skillToUpgrade.type === 'Mastery' && skill.category === skillToUpgrade.category) {
@@ -329,12 +320,16 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         return skill;
       });
 
+      const efficiency = relativeIncrease / (upgradeCost / 100); // Efficiency per 100 fragments
+
       // Add to path, consolidating upgrades
       if (path.length > 0 && path[path.length - 1].skill === skillToUpgrade.skill) {
         const lastUpgrade = path[path.length - 1];
         lastUpgrade.newLevel = endLevel;
         lastUpgrade.cost += upgradeCost;
         lastUpgrade.totalCost = totalCost;
+        lastUpgrade.relativeIncrease = (1 + lastUpgrade.relativeIncrease) * (1 + relativeIncrease) - 1;
+        lastUpgrade.efficiency = lastUpgrade.relativeIncrease / (lastUpgrade.cost / 100);
       } else {
         path.push({
           skill: skillToUpgrade.skill,
@@ -343,7 +338,10 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
           startLevel: startLevel,
           newLevel: endLevel,
           cost: upgradeCost,
-          totalCost
+          totalCost,
+          relativeIncrease,
+          efficiency,
+          cumulativeDamageIncrease
         });
       }
 
@@ -437,7 +435,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         <div className="mt-6 w-full">
           <h3 className="text-xl font-bold mb-2">Recommended Upgrade Path</h3>
           <div className="grid grid-cols-16">
-            {upgradePath.map((upgrade, index) => (
+          {upgradePath.map((upgrade, index) => (
               <SkillIcon
                 key={index}
                 skill={{
@@ -445,11 +443,10 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
                   type: upgrade.type,
                   category: upgrade.category
                 }}
-                // not sure which to use
-                // level={`${upgrade.newLevel}`} 
                 level={`${upgrade.startLevel} → ${upgrade.newLevel}`}
                 classKey={selectedClass}
                 masterySkills={masterySkills}
+                upgrade={upgrade}
               />
             ))}
           </div>
