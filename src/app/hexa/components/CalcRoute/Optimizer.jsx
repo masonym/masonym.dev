@@ -162,10 +162,17 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
     if (skill.type === 'Origin') {
       skillData = classData.originSkill;
-      return skillData.components.reduce((total, component) => {
+      let baseDamage = skillData.components.reduce((total, component) => {
         const levelDamage = component.damage + (level - 1) * component.growthPerLevel;
-        return total + levelDamage * component.attacks * (component.bombardments || component.explosions || component.chaseCuts || component.largeThrowingStars || 1);
+        return total + levelDamage * component.attacks * (component.triggers || 1);
       }, 0);
+
+      const { totalIED, bossDamageBoost } = getOriginSkillBoosts(level, iedPercent);
+
+      // Apply IED and Boss Damage boosts
+      const effectiveDamageMultiplier = (1 + damagePercent / 100) * bossDamageBoost;
+
+      return baseDamage * effectiveDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
     } else if (skill.type === 'Mastery') {
       skillData = classData.masterySkills.find(s => s.name === skill.skill);
       if (level === 0) return skillData.level0;
@@ -175,6 +182,28 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     }
 
     return 0;
+  };
+
+  const calculateIED = (currentIED, newIED) => {
+    return currentIED + (newIED * (1 - currentIED));
+  };
+
+  const getOriginSkillBoosts = (level, baseIED) => {
+    let totalIED = baseIED / 100;
+    let bossDamageBoost = 1;
+
+    if (level >= 30) {
+      totalIED = calculateIED(totalIED, 0.3);
+      totalIED = calculateIED(totalIED, 0.2);
+      bossDamageBoost += 0.5; // 20% + 30%
+    } else if (level >= 20) {
+      totalIED = calculateIED(totalIED, 0.2);
+      bossDamageBoost += 0.2;
+    } else if (level >= 10) {
+      totalIED = calculateIED(totalIED, 0.2);
+    }
+
+    return { totalIED: totalIED * 100, bossDamageBoost };
   };
 
   const getGrowth = (skill, level) => {
@@ -190,7 +219,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     for (let i = 0; i < steps; i++) {
       const level = currentLevel + i;
       if (level >= 30) break;
-      
+
       totalCost += getCost(skill.type, level);
       totalGrowth *= getGrowth(skill, level);
     }
@@ -199,16 +228,12 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     const skillContribution = damageDistribution[skill.skill] / 100;
     const damageIncrease = growthIncrease * skillContribution;
 
-    // Factor in IED and boss defense
-    const currentDamageMultiplier = 1 - (bossDefense / 100) * (1 - iedPercent / 100);
-    const effectiveDamageIncrease = damageIncrease * currentDamageMultiplier;
-
-    return totalCost > 0 ? effectiveDamageIncrease / totalCost : 0;
+    return totalCost > 0 ? damageIncrease / totalCost : 0;
   };
-
+// TODO: figure out why origin is over-prioritized
   const calculateEfficiency = (skill, currentLevel) => {
     const singleStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 1);
-    
+
     let maxEfficiency = singleStepEfficiency;
     let optimalSteps = 1;
 
@@ -225,6 +250,14 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
     // Special consideration for boost skills near breakpoints
     if (skill.type === 'Boost' && [9, 19, 29].includes(currentLevel)) {
+      const breakpointEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 31 - currentLevel);
+      if (breakpointEfficiency > maxEfficiency) {
+        maxEfficiency = breakpointEfficiency;
+        optimalSteps = 31 - currentLevel;
+      }
+    }
+
+    if (skill.type === 'Origin' && [9, 19, 29].includes(currentLevel)) {
       const breakpointEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 31 - currentLevel);
       if (breakpointEfficiency > maxEfficiency) {
         maxEfficiency = breakpointEfficiency;
@@ -400,7 +433,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
                 }}
                 // not sure which to use
                 // level={`${upgrade.newLevel}`} 
-                level={`${upgrade.startLevel} → ${upgrade.newLevel}`} 
+                level={`${upgrade.startLevel} → ${upgrade.newLevel}`}
                 classKey={selectedClass}
                 masterySkills={masterySkills}
               />
