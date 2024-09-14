@@ -156,37 +156,31 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return costTable[level]?.[level + 1]?.frags || 0;
   };
 
-  const getGrowth = (skill, level) => {
-    if (!classSkillGrowth[selectedClass]) {
-      console.error(`No growth data for class: ${selectedClass}`);
-      return 0;
-    }
+  const getSkillDamage = (skill, level) => {
+    const classData = classSkillGrowth[selectedClass];
+    let skillData;
 
     if (skill.type === 'Origin') {
-      const originData = classSkillGrowth[selectedClass].originSkill;
-      if (originData && originData.name === skill.skill) {
-        // Origin skills start at level 1
-        return originData.level1 + (level - 1) * originData.growthPerLevel;
-      }
+      skillData = classData.originSkill;
+      return skillData.components.reduce((total, component) => {
+        const levelDamage = component.damage + (level - 1) * component.growthPerLevel;
+        return total + levelDamage * component.attacks * (component.triggers || 1);
+      }, 0);
     } else if (skill.type === 'Mastery') {
-      const masteryData = classSkillGrowth[selectedClass].masterySkills;
-      if (Array.isArray(masteryData)) {
-        const skillData = masteryData.find(s => s.name === skill.skill);
-        if (skillData) {
-          if (level === 0 && 'level0' in skillData) {
-            return skillData.level0;
-          } else {
-            return skillData.level1 + (level - 1) * skillData.growthPerLevel;
-          }
-        }
-      }
+      skillData = classData.masterySkills.find(s => s.name === skill.skill);
+      if (level === 0) return skillData.level0;
+      return skillData.level1 + (level - 1) * skillData.growthPerLevel;
     } else if (skill.type === 'Boost') {
-      // Convert percentage to multiplier (e.g., 11% becomes 1.11)
       return 1 + (parseFloat(boostGrowth[level]?.[level] || '0') / 100);
     }
 
-    console.warn(`No growth data found for skill: ${skill.skill}`);
     return 0;
+  };
+
+  const getGrowth = (skill, level) => {
+    const currentDamage = getSkillDamage(skill, level);
+    const nextDamage = getSkillDamage(skill, level + 1);
+    return nextDamage / currentDamage;
   };
 
   const calculateEfficiency = (skill, currentLevel) => {
@@ -194,33 +188,21 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     let totalGrowthIncrease = 0;
     let totalSkillContribution = 0;
 
+    const calculateGrowthIncrease = (s, level) => {
+      const growth = getGrowth(s, level);
+      return growth - 1; // Convert to percentage increase
+    };
+
     if (skill.type === 'Mastery') {
-      // Combine growth and contribution for all skills in the same mastery category
       skills.filter(s => s.type === 'Mastery' && s.category === skill.category).forEach(s => {
-        const currentGrowth = getGrowth(s, currentLevel);
-        const nextGrowth = getGrowth(s, currentLevel + 1);
-        const growthIncrease = (nextGrowth - currentGrowth) / currentGrowth;
+        const growthIncrease = calculateGrowthIncrease(s, currentLevel);
         const skillContribution = damageDistribution[s.skill] / 100;
         
         totalGrowthIncrease += growthIncrease * skillContribution;
         totalSkillContribution += skillContribution;
       });
     } else {
-      const currentGrowth = getGrowth(skill, currentLevel);
-      const nextGrowth = getGrowth(skill, currentLevel + 1);
-      
-      let growthIncrease;
-      if (skill.type === 'Boost') {
-        if (currentLevel === 0) {
-          growthIncrease = 0.11; // 11% increase from 0 to 1
-        } else {
-          growthIncrease = nextGrowth / currentGrowth - 1;
-        }
-      } else {
-        growthIncrease = (nextGrowth - currentGrowth) / currentGrowth;
-      }
-      
-      totalGrowthIncrease = growthIncrease;
+      totalGrowthIncrease = calculateGrowthIncrease(skill, currentLevel);
       totalSkillContribution = damageDistribution[skill.skill] / 100;
     }
 
@@ -229,25 +211,11 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       extraBoost = 0.1; // 10% extra boost at levels 10, 20, 30
     }
 
-    // Calculate the effective damage increase
     const damageIncrease = (totalGrowthIncrease + extraBoost) * totalSkillContribution;
-
-    // Factor in IED and boss defense
     const currentDamageMultiplier = 1 - (bossDefense / 100) * (1 - iedPercent / 100);
     const effectiveDamageIncrease = damageIncrease * currentDamageMultiplier;
 
-    // Calculate efficiency
-    const efficiency = cost > 0 ? effectiveDamageIncrease / cost : 0;
-    
-    // console.log("skill: ", skill)
-    // console.log("Current Growth: ", currentGrowth)
-    // console.log("Skill contribution: ", totalSkillContribution)
-    // console.log("Damage increase: ", damageIncrease)
-    // console.log("Cost: ", cost)
-    // console.log("Current damage multiplier: ", currentDamageMultiplier)
-    // console.log("Effective damage increase: ", effectiveDamageIncrease)
-
-    return efficiency;
+    return cost > 0 ? effectiveDamageIncrease / cost : 0;
   };
 
   const findOptimalUpgrade = (currentSkills) => {
@@ -265,7 +233,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         }
       }
     });
-    console.log("Best skill: ", bestSkill.skill, "----")
+    // console.log("Best skill: ", bestSkill.skill, "----")
     return bestSkill;
   };
 
