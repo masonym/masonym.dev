@@ -61,7 +61,7 @@ const SkillIcon = ({ skill, level, classKey, masterySkills, upgrade }) => {
                     className="fixed bg-primary-bright text-primary-dark p-2 rounded z-50 w-fit px-2 text-sm"
                     style={{ pointerEvents: 'none' }}
                 >
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center gap-2">
                         <span className="font-bold text-lg">{skill.skill}</span>
                         <span className="font-bold text-sm">{upgrade.startLevel} → {upgrade.newLevel}</span>
                     </div>
