@@ -138,7 +138,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   };
 
   const getAuxiliaryBoost = (skillData, level) => {
-    if (skillData.auxiliaryBoost) {
+    if (skillData?.auxiliaryBoost) {
       const { threshold, increase } = skillData.auxiliaryBoost;
       const baseMultiplier = 1 + Math.floor((level - 1) / threshold) * increase;
       return baseMultiplier;
@@ -212,8 +212,8 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   };
 
   const getProgressiveBoosts = (skill, level) => {
-    const iedBoost = (skill.iedGrowthPerLevel || 0) * level;
-    const bossDamageBoost = (skill.bossDamageGrowthPerLevel || 0) * level;
+    const iedBoost = (skill?.iedGrowthPerLevel || 0) * level;
+    const bossDamageBoost = (skill?.bossDamageGrowthPerLevel || 0) * level;
     return { iedBoost, bossDamageBoost };
   };
 
