@@ -146,7 +146,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return 1; // Default: no auxiliary boost
   };
 
-  const getSkillDamage = (skill, level) => {
+  const getSkillDamage = (skill, level, currentSkills) => {
     const classData = classSkillGrowth[selectedClass];
     let skillData;
 
@@ -158,18 +158,38 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }, 0);
 
       const { totalIED, bossDamageBoost } = getOriginSkillBoosts(level, iedPercent);
-      
+
       const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
-      
+
       return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
+
     } else if (skill.type === 'Mastery') {
       skillData = classData.masterySkills.find(s => s.name === skill.skill);
       if (level === 0) return skillData.level0;
-      const baseDamage = skillData.level1 + (level - 1) * skillData.growthPerLevel;
+      let baseDamage = skillData.level1 + (level - 1) * skillData.growthPerLevel;
+
+      // Apply additional effects from other skills
+      currentSkills.forEach(otherSkill => {
+        if (otherSkill.type === 'Mastery') {
+          const otherSkillData = classData.masterySkills.find(s => s.name === otherSkill.skill);
+          if (otherSkillData.additionalEffects) {
+            otherSkillData.additionalEffects.forEach(effect => {
+              if (effect.targetSkill === skill.skill) {
+                if (effect.effectType === 'flatDamageIncrease') {
+                  baseDamage += effect.baseValue + (otherSkill.level - 1) * effect.growthPerLevel;
+                }
+                // Add other effect types as needed
+              }
+            });
+          }
+        }
+      });
+
       const { iedBoost, bossDamageBoost } = getProgressiveBoosts(skillData, level);
       const totalIED = calculateIED(iedPercent / 100, iedBoost / 100) * 100;
       const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
       return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
+
     } else if (skill.type === 'Boost') {
       skillData = classData.boostSkills.find(s => s.name === skill.skill);
       const baseBoost = 1 + (parseFloat(boostGrowth[level]?.[level] || '0') / 100);
@@ -217,16 +237,25 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return { iedBoost, bossDamageBoost };
   };
 
-  const calculateMultiStepEfficiency = (skill, currentLevel, steps) => {
+  const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills) => {
     let totalCost = 0;
     let totalGrowth = 1;
+
+    const updatedSkills = [...currentSkills];
+    const skillIndex = updatedSkills.findIndex(s => s.skill === skill.skill);
 
     for (let i = 0; i < steps; i++) {
       const level = currentLevel + i;
       if (level >= 30) break;
 
       totalCost += getCost(skill.type, level);
-      totalGrowth *= getGrowth(skill, level);
+
+      // Update the skill level for damage calculation
+      updatedSkills[skillIndex] = { ...updatedSkills[skillIndex], level: level + 1 };
+
+      const currentDamage = getSkillDamage(skill, level, currentSkills);
+      const nextDamage = getSkillDamage(skill, level + 1, updatedSkills);
+      totalGrowth *= nextDamage / currentDamage;
     }
 
     const growthIncrease = totalGrowth - 1;
@@ -235,8 +264,9 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
     return totalCost > 0 ? damageIncrease / totalCost : 0;
   };
-  const calculateEfficiency = (skill, currentLevel) => {
-    const singleStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 1);
+
+  const calculateEfficiency = (skill, currentLevel, currentSkills) => {
+    const singleStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 1, currentSkills);
 
     let maxEfficiency = singleStepEfficiency;
     let optimalSteps = 1;
@@ -245,24 +275,16 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     for (let steps = 2; steps <= 10; steps++) {
       if (currentLevel + steps > 30) break;
 
-      const multiStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, steps);
+      const multiStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, steps, currentSkills);
       if (multiStepEfficiency > maxEfficiency) {
         maxEfficiency = multiStepEfficiency;
         optimalSteps = steps;
       }
     }
 
-    // Special consideration for boost skills near breakpoints
-    if (skill.type === 'Boost' && [9, 19, 29].includes(currentLevel)) {
-      const breakpointEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 31 - currentLevel);
-      if (breakpointEfficiency > maxEfficiency) {
-        maxEfficiency = breakpointEfficiency;
-        optimalSteps = 31 - currentLevel;
-      }
-    }
-
-    if (skill.type === 'Origin' && [9, 19, 29].includes(currentLevel)) {
-      const breakpointEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 31 - currentLevel);
+    // Special consideration for boost skills and origin skills near breakpoints
+    if ((skill.type === 'Boost' || skill.type === 'Origin') && [9, 19, 29].includes(currentLevel)) {
+      const breakpointEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 31 - currentLevel, currentSkills);
       if (breakpointEfficiency > maxEfficiency) {
         maxEfficiency = breakpointEfficiency;
         optimalSteps = 31 - currentLevel;
@@ -272,6 +294,13 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return { efficiency: maxEfficiency, steps: optimalSteps };
   };
 
+  const calculateTotalDamageIncrease = (skill, startLevel, endLevel, damageContribution) => {
+    const startDamage = getSkillDamage(skill, startLevel);
+    const endDamage = getSkillDamage(skill, endLevel);
+    const skillIncrease = (endDamage / startDamage) - 1;
+    return skillIncrease * (damageContribution / 100);
+  };
+
   const findOptimalUpgrade = (currentSkills) => {
     let bestSkill = null;
     let bestEfficiency = 0;
@@ -279,7 +308,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
     currentSkills.forEach(skill => {
       if (skill.level < 30) {
-        const { efficiency, steps } = calculateEfficiency(skill, skill.level);
+        const { efficiency, steps } = calculateEfficiency(skill, skill.level, currentSkills);
         if (efficiency > bestEfficiency) {
           bestEfficiency = efficiency;
           bestSkill = skill;
@@ -289,13 +318,6 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     });
 
     return { skill: bestSkill, steps: bestSteps };
-  };
-
-  const calculateTotalDamageIncrease = (skill, startLevel, endLevel, damageContribution) => {
-    const startDamage = getSkillDamage(skill, startLevel);
-    const endDamage = getSkillDamage(skill, endLevel);
-    const skillIncrease = (endDamage / startDamage) - 1;
-    return skillIncrease * (damageContribution / 100);
   };
 
   const generateUpgradePath = () => {
@@ -318,7 +340,9 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       totalCost += upgradeCost;
 
       const damageContribution = damageDistribution[skillToUpgrade.skill] || 0;
-      const totalDamageIncrease = calculateTotalDamageIncrease(skillToUpgrade, startLevel, endLevel, damageContribution);
+      const startDamage = getSkillDamage(skillToUpgrade, startLevel, currentSkills);
+      const endDamage = getSkillDamage(skillToUpgrade, endLevel, currentSkills);
+      const totalDamageIncrease = ((endDamage / startDamage) - 1) * (damageContribution / 100);
       cumulativeDamageIncrease *= (1 + totalDamageIncrease);
 
       const efficiency = totalDamageIncrease / (upgradeCost / 100);

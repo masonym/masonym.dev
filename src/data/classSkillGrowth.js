@@ -34,7 +34,15 @@ export const classSkillGrowth = {
                 "attacks": 32,
                 "growthPerLevel": 4,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Raging Blow",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 32,
+                        "growthPerLevel": 4
+                    }
+                ]
             }
         ],
         "boostSkills": [
