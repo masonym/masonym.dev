@@ -156,53 +156,67 @@ export const classSkillGrowth = {
             "name": "Sacred Bastion",
             "components": [
                 {
-                    "damage": 1400,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 12
+                    "damage": 410,
+                    "attacks": 9,
+                    "triggers": 28,
+                    "growthPerLevel": 13
+                },
+                {
+                    "damage": 460,
+                    "attacks": 14,
+                    "triggers": 17,
+                    "growthPerLevel": 15
+                },
+                {
+                    "damage": 640,
+                    "attacks": 13,
+                    "triggers": 60,
+                    "growthPerLevel": 20
                 }
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Blast",
-                "level0": 1350,
-                "level1": 1500,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 305,
+                "level1": 349,
+                "attacks": 10,
+                "growthPerLevel": 4,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Divine Judgment",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 550,
+                "level1": 600,
+                "attacks": 10,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "staticIED": 20,
             },
             {
                 "name": "HEXA Divine Charge",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 410,
+                "level1": 463,
+                "attacks": 4,
+                "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Divine Mark",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 420,
+                "level1": 488,
+                "attacks": 7,
+                "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
         ],
         "boostSkills": [
             {
+                // i have no idea how to calculate this
                 "name": "Divine Echo Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
