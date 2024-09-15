@@ -62,6 +62,10 @@ const SkillIcon = ({ skill, level, classKey, masterySkills, upgrade }) => {
                     style={{ pointerEvents: 'none' }}
                 >
                     <div className="flex justify-between">
+                        <span className="font-bold text-lg">{skill.skill}</span>
+                        <span className="font-bold text-sm">{upgrade.startLevel} → {upgrade.newLevel}</span>
+                    </div>
+                    <div className="flex justify-between">
                         <span>Damage Increase:</span>
                         <span>{(upgrade.totalDamageIncrease * 100).toFixed(2)}%</span>
                     </div>
