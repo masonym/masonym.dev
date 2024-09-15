@@ -33,13 +33,27 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         setDamagePercent(savedDamage || 0);
         setIedPercent(savedIed || 0);
         setBossDefense(savedDefense || 300);
-        setDamageDistribution(savedDistribution || {});
         setUpgradePath(savedUpgradePath || []);
+
+        // Only set damageDistribution if it's not empty
+        if (savedDistribution && Object.keys(savedDistribution).length > 0) {
+          setDamageDistribution(savedDistribution);
+        } else {
+          // Reset damageDistribution if it's empty in localStorage
+          setDamageDistribution({});
+        }
+      } else {
+        // Reset all state if no saved data for this class
+        setDamagePercent(0);
+        setIedPercent(0);
+        setBossDefense(300);
+        setUpgradePath([]);
+        setDamageDistribution({});
       }
     };
 
     loadFromLocalStorage();
-    setIsLoading(false);
+    setIsLoading(true);
   }, [selectedClass]);
 
   // Effect for saving data to local storage
@@ -106,15 +120,18 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       ];
       setSkills(newSkills);
 
-      // if (Object.keys(damageDistribution).length === 0) {
-      //   console.log("true")
-      //   const newDistribution = newSkills.reduce((acc, skill) => {
-      //     acc[skill.skill] = 0;
-      //     return acc;
-      //   }, {});
-      //   setDamageDistribution(newDistribution);
-      //   updateLocalStorage('damageDistribution', newDistribution);
-      // }
+      // Initialize or update damage distribution
+      setDamageDistribution(prevDistribution => {
+        const newDistribution = newSkills.reduce((acc, skill) => {
+          acc[skill.skill] = prevDistribution[skill.skill] || 0;
+          return acc;
+        }, {});
+        
+        // Save the new distribution to localStorage
+        saveToLocalStorage('damageDistribution', newDistribution);
+        
+        return newDistribution;
+      });
 
       setIsLoading(false);
     }
