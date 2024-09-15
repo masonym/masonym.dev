@@ -294,11 +294,10 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     return { efficiency: maxEfficiency, steps: optimalSteps };
   };
 
-  const calculateTotalDamageIncrease = (skill, startLevel, endLevel, damageContribution) => {
-    const startDamage = getSkillDamage(skill, startLevel);
-    const endDamage = getSkillDamage(skill, endLevel);
-    const skillIncrease = (endDamage / startDamage) - 1;
-    return skillIncrease * (damageContribution / 100);
+  const calculateDamageIncrease = (skill, startLevel, endLevel, currentSkills) => {
+    const startDamage = getSkillDamage(skill, startLevel, currentSkills);
+    const endDamage = getSkillDamage(skill, endLevel, currentSkills);
+    return (endDamage / startDamage) - 1;
   };
 
   const findOptimalUpgrade = (currentSkills) => {
@@ -326,15 +325,6 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     let totalCost = 0;
     let cumulativeDamageIncrease = 1;
 
-    const calculateTotalDamage = (skills) => {
-      return skills.reduce((total, skill) => {
-        const damageContribution = damageDistribution[skill.skill] || 0;
-        return total + getSkillDamage(skill, skill.level, skills) * (damageContribution / 100);
-      }, 0);
-    };
-
-    const initialTotalDamage = calculateTotalDamage(currentSkills);
-
     while (true) {
       const { skill: skillToUpgrade, steps } = findOptimalUpgrade(currentSkills);
       if (!skillToUpgrade) break;
@@ -348,8 +338,16 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }
       totalCost += upgradeCost;
 
+      const damageIncrease = calculateDamageIncrease(skillToUpgrade, startLevel, endLevel, currentSkills);
+      const damageContribution = damageDistribution[skillToUpgrade.skill] || 0;
+      const weightedDamageIncrease = damageIncrease * (damageContribution / 100);
+      
+      cumulativeDamageIncrease *= (1 + weightedDamageIncrease);
+
+      const efficiency = weightedDamageIncrease / (upgradeCost / 100);
+
       // Update skills
-      const updatedSkills = currentSkills.map(skill => {
+      currentSkills = currentSkills.map(skill => {
         if (skillToUpgrade.type === 'Mastery' && skill.category === skillToUpgrade.category) {
           return { ...skill, level: endLevel };
         } else if (skill.skill === skillToUpgrade.skill) {
@@ -357,12 +355,6 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         }
         return skill;
       });
-
-      const newTotalDamage = calculateTotalDamage(updatedSkills);
-      const damageIncrease = newTotalDamage / initialTotalDamage;
-      cumulativeDamageIncrease = damageIncrease;
-
-      const efficiency = (cumulativeDamageIncrease - 1) / (upgradeCost / 100);
 
       // Add to path, consolidating upgrades
       if (path.length > 0 && path[path.length - 1].skill === skillToUpgrade.skill) {
@@ -382,11 +374,10 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
           cost: upgradeCost,
           totalCost,
           cumulativeDamageIncrease,
-          efficiency
+          efficiency,
+          damageIncrease: weightedDamageIncrease
         });
       }
-
-      currentSkills = updatedSkills;
 
       // Stop if all skills are at level 30
       if (currentSkills.every(skill => skill.level === 30)) break;
@@ -394,6 +385,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
     setUpgradePath(path);
   };
+
 
 
   const handleGenerateUpgradePath = () => {

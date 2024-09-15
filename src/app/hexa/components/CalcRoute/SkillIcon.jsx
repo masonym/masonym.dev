@@ -67,7 +67,7 @@ const SkillIcon = ({ skill, level, classKey, masterySkills, upgrade }) => {
                     </div>
                     <div className="flex justify-between">
                         <span>Damage Increase:</span>
-                        <span>{((upgrade.cumulativeDamageIncrease - 1) * 100).toFixed(2)}%</span>
+                        <span>{(upgrade.damageIncrease * 100).toFixed(3)}%</span>
                     </div>
                     <div className="flex justify-between">
                         <span>Cost:</span>
