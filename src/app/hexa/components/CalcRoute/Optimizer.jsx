@@ -43,22 +43,35 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   }, [selectedClass]);
 
   // Effect for saving data to local storage
-  useEffect(() => {
-    const saveToLocalStorage = () => {
-      const stateToSave = {
-        damagePercent,
-        iedPercent,
-        bossDefense,
-        damageDistribution,
-        upgradePath
-      };
-      localStorage.setItem(`optimizerState_${selectedClass}`, JSON.stringify(stateToSave));
-    };
+  const saveToLocalStorage = (key, value) => {
+    const currentState = JSON.parse(localStorage.getItem(`optimizerState_${selectedClass}`) || '{}');
+    const newState = { ...currentState, [key]: value };
+    localStorage.setItem(`optimizerState_${selectedClass}`, JSON.stringify(newState));
+  };
 
-    if (!isLoading) {
-      saveToLocalStorage();
-    }
-  }, [selectedClass, damagePercent, iedPercent, bossDefense, damageDistribution, upgradePath, isLoading]);
+  const setDamagePercentWithStorage = (value) => {
+    setDamagePercent(value);
+    saveToLocalStorage('damagePercent', value);
+  };
+
+  const setIedPercentWithStorage = (value) => {
+    setIedPercent(value);
+    saveToLocalStorage('iedPercent', value);
+  };
+
+  const setBossDefenseWithStorage = (value) => {
+    setBossDefense(value);
+    saveToLocalStorage('bossDefense', value);
+  };
+
+  const handleDamageDistributionChange = (skill, value) => {
+    const newDistribution = {
+      ...damageDistribution,
+      [skill]: Number(value)
+    };
+    setDamageDistribution(newDistribution);
+    saveToLocalStorage('damageDistribution', newDistribution);
+  };
 
 
   useEffect(() => {
@@ -382,6 +395,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     }
 
     setUpgradePath(path);
+    saveToLocalStorage('upgradePath', path);
   };
 
 
