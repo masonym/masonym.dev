@@ -6,7 +6,7 @@ const CalcRoute = ({ selectedClass, classDetails, skillLevels }) => {
   const [selected, setSelected] = useState(null)
 
   useEffect(() => {
-    const savedCalculator = localStorage.getItem('selectedCalculator')
+    const savedCalculator = localStorage.getItem(`selectedCalculator_${selectedClass}`)
     if (savedCalculator) {
       setSelected(savedCalculator)
     }
@@ -14,7 +14,7 @@ const CalcRoute = ({ selectedClass, classDetails, skillLevels }) => {
 
   const handleSelectCalculator = (calculator) => {
     setSelected(calculator)
-    localStorage.setItem('selectedCalculator', calculator)
+    localStorage.setItem(`selectedCalculator_${selectedClass}`, calculator)
   }
 
   return (
