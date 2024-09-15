@@ -73,40 +73,59 @@ export const classSkillGrowth = {
             "name": "Dead Space",
             "components": [
                 {
-                    "damage": 1500,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
+                    "damage": 620,
+                    "attacks": 6,
+                    "triggers": 6,
+                    "growthPerLevel": 20
+                },
+                {
+                    "damage": 542,
+                    "attacks": 14,
+                    "triggers": 58,
+                    "growthPerLevel": 17
                 }
             ]
         },
         "masterySkills": [
             {
+                // do we need to increase this by 10% 
+                // gungnir: 110% of max hp for every attack
+                // hexa gungnir: 120% of map hp
                 "name": "HEXA Gungnir's Descent",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 15,
-                "iedGrowthPerLevel": 0,
+                "level0": 225,
+                "level1": 245,
+                "attacks": 12,
+                "growthPerLevel": 5,
+                "iedGrowthPerLevel": 0.33,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Dark Impale",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 280,
+                "level1": 307,
+                "attacks": 6,
+                "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Nightshade Explosion",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 330,
+                "level1": 348,
+                "attacks": 12,
+                "growthPerLevel": 8,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "staticIED": 60,
+                "staticBossDamage": 30,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Gungnir's Descent",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 58,
+                        "growthPerLevel": 3
+                    }
+                ]
             }
         ],
         "boostSkills": [
@@ -857,6 +876,7 @@ export const classSkillGrowth = {
                 "name": "Poolmaker Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0,
+                // 3% FD increase every 3 levels
                 "auxiliaryBoost": {
                     "threshold": 3,
                     "increase": 0.03

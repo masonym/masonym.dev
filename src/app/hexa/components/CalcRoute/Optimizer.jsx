@@ -163,7 +163,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
       return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
 
-    }else if (skill.type === 'Mastery') {
+    } else if (skill.type === 'Mastery') {
       skillData = classData.masterySkills.find(s => s.name === skill.skill);
       if (level === 0) return skillData.level0;
       let baseDamage = skillData.level1 + (level - 1) * skillData.growthPerLevel;
@@ -186,8 +186,18 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       });
 
       const { iedBoost, bossDamageBoost } = getProgressiveBoosts(skillData, level);
-      const totalIED = calculateIED(iedPercent / 100, iedBoost / 100) * 100;
-      const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
+      let totalIED = calculateIED(iedPercent / 100, iedBoost / 100);
+      if (skillData.staticIED) {
+        totalIED = calculateIED(totalIED, skillData.staticIED / 100);
+      }
+      totalIED *= 100;
+
+      let totalBossDamage = damagePercent + bossDamageBoost;
+      if (skillData.staticBossDamage) {
+        totalBossDamage += skillData.staticBossDamage;
+      }
+
+      const totalDamageMultiplier = 1 + totalBossDamage / 100;
       return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
 
     } else if (skill.type === 'Boost') {
