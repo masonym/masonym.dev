@@ -243,40 +243,80 @@ export const classSkillGrowth = {
             "name": "Frozen Lightning",
             "components": [
                 {
-                    "damage": 1250,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 11
+                    "damage": 409,
+                    "attacks": 7,
+                    "triggers": 32,
+                    "growthPerLevel": 14
+                },
+                {
+                    "damage": 412,
+                    "attacks": 12,
+                    "triggers": 24,
+                    "growthPerLevel": 14
+                },
+                {
+                    "damage": 896,
+                    "attacks": 15,
+                    "triggers": 15,
+                    "growthPerLevel": 28
                 }
+
             ]
         },
         "masterySkills": [
             {
+                // we're putting an extra bit of sauce on the level 1 here due to Current Zone 
+                // https://maplestorywiki.net/w/HEXA_Chain_Lightning
+                // current zone has a 20% chance to appear, and does 4 hits of 82% at level 1
+                // so we're adding around 21%?
+                // (248 * 10) / (.2 * 4 * 82) = 37
+                // 
                 "name": "HEXA Chain Lightning",
-                "level0": 1215,
-                "level1": 1350,
-                "attacks": 1,
-                "growthPerLevel": 11,
+                "level0": 220,
+                "level1": 268,
+                "attacks": 10,
+                "growthPerLevel": 3.1,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Frozen Orb",
-                "level0": 1305,
-                "level1": 1450,
-                "attacks": 1,
-                "growthPerLevel": 11,
+                "level0": 220,
+                "level1": 254,
+                "attacks": 20,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Blizzard",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 11,
+                "level0": 340,
+                "level1": 522,
+                "attacks": 12,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // this may need adjusting
+                // lightning orb has two components
+                // hold damage and explosion damage
+                // lightning orb also isn't affected by its own mastery
+                // meaning it won't show up in our damage distribution.....
+                // fml
+                "additionalEffects": [
+                    {
+                        "targetSkill": "Lightning Orb",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 26,
+                        "growthPerLevel": 0.5
+                    },
+                    {
+                        "targetSkill": "Lightning Orb",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 37.5,
+                        "growthPerLevel": 1
+                    },
+                    
+                ]
             }
         ],
         "boostSkills": [
@@ -307,40 +347,69 @@ export const classSkillGrowth = {
             "name": "Infernal Venom",
             "components": [
                 {
-                    "damage": 1250,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 11
-                }
+                    "damage": 279,
+                    "attacks": 12,
+                    "triggers": 17,
+                    "growthPerLevel": 9
+                },
+                {
+                    "damage": 269,
+                    "attacks": 15,
+                    "triggers": 142,
+                    "growthPerLevel": 9
+                },
+                
             ]
         },
         "masterySkills": [
             {
+                // this skill has an extra trigger which is annoying
+                // because i dont know how often it triggers
+
+                // giant flame ember happens every 3rd hit
+                // giant flame ember causes debuff that does (143 * 8) dmg when mist eruption hits
+                // mist eruption has a 10s cd 
+                // so this hits uhhhhh 1/10th as often? idk
                 "name": "HEXA Flame Sweep",
-                "level0": 1215,
-                "level1": 1350,
-                "attacks": 1,
-                "growthPerLevel": 11,
+                "level0": 391, // 220 + 171 -- (171 comes from 240% burn * 5, divided by the 7 attack count of the normal skill)
+                "level1": 425, // 239 + (261 * 5 / 7)
+                "attacks": 7,
+                "growthPerLevel": 8.2, // 4 + (6 * 5 / 7) = 8.2
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // great flame sweep damage
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Flame Sweep",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 16.3, // (143 * 8 / 7) / 10
+                        "growthPerLevel": 0.9, // (8 * 8 / 7) / 10
+                    },
+                    
+                ]
             },
             {
+                // need to verify if the continuous damage procs once per second
                 "name": "HEXA Flame Haze",
-                "level0": 1305,
-                "level1": 1450,
-                "attacks": 1,
-                "growthPerLevel": 11,
+                "level0": 335, // (202 + (200 * 10 / 15))
+                "level1": 358, // (219 + (209 * 10 / 15))
+                "attacks": 15,
+                "growthPerLevel": 6.7, // (4 + (4 * 10 / 15))
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // this skill gives 170% fd vs the 4th job's 125% fd
+            // so all values should be multiplied by 1.36?
+            // skill explodes twice
             {
                 "name": "HEXA Mist Eruption",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 11,
+                "level0": 250,
+                "level1": 348,
+                "attacks": 10,
+                "growthPerLevel": 4.08,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "staticIED": 45,
             }
         ],
         "boostSkills": [
