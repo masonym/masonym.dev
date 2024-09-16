@@ -315,7 +315,7 @@ export const classSkillGrowth = {
                         "baseValue": 37.5,
                         "growthPerLevel": 1
                     },
-                    
+
                 ]
             }
         ],
@@ -358,7 +358,7 @@ export const classSkillGrowth = {
                     "triggers": 142,
                     "growthPerLevel": 9
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -385,7 +385,7 @@ export const classSkillGrowth = {
                         "baseValue": 16.3, // (143 * 8 / 7) / 10
                         "growthPerLevel": 0.9, // (8 * 8 / 7) / 10
                     },
-                    
+
                 ]
             },
             {
@@ -440,44 +440,96 @@ export const classSkillGrowth = {
             "name": "Holy Advent",
             "components": [
                 {
-                    "damage": 1300,
-                    "attacks": 1,
-                    "triggers": 1,
+                    "damage": 280,
+                    "attacks": 8,
+                    "triggers": 25,
+                    "growthPerLevel": 10
+                },
+                {
+                    "damage": 243,
+                    "attacks": 12,
+                    "triggers": 35,
+                    "growthPerLevel": 8
+                },
+                // archangel of balance
+                {
+                    "damage": 254,
+                    "attacks": 14,
+                    "triggers": 20,
+                    "growthPerLevel": 9
+                },
+                // avenging archangel 
+                {
+                    "damage": 268,
+                    "attacks": 12,
+                    "triggers": 12,
                     "growthPerLevel": 13
-                }
+                },
+                // archangel of benevolence
+                {
+                    "damage": 310,
+                    "attacks": 12,
+                    "triggers": 15,
+                    "growthPerLevel": 10
+                },
+
             ]
         },
         "masterySkills": [
+            // every 12 hits, Angel of Judgment appears
             {
                 "name": "HEXA Angel Ray",
-                "level0": 1260,
-                "level1": 1400,
-                "attacks": 1,
+                "level0": 225,
+                "level1": 239,
+                "attacks": 14,
                 "growthPerLevel": 13,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // triggers every 12 hits
+                // 10 attacks instead of 14
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Angel Ray",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 33.5, // (559 * 10 / 14) / 12
+                        "growthPerLevel": 0.5, // (9 * 10 / 14) / 12
+                    },
+                ]
             },
             {
+                // holy explosion triggers every 6s
                 "name": "HEXA Big Bang",
-                "level0": 1350,
-                "level1": 1500,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 480,
+                "level1": 530,
+                "attacks": 4,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Big Bang",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 113.5, // (454 * 6 / 4) / 6
+                        "growthPerLevel": 2.25, // (9 * 6 / 4) / 6
+                    },
+                ]
             },
             {
+                // 100% uptime?
+                // 4th job: 4 feathers * 230% * 4 attacks
+                // 6th job: 6 feathers * 396% * 4 attacks
                 "name": "HEXA Triumph Feather",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 920,
+                "level1": 1386, // fd reduced by half for subsequent hits, so 396 + (396 / 2 * 5)
+                "attacks": 4,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
         ],
         "boostSkills": [
             {
+                // needs edge case; increases FD when using bene
                 "name": "Benediction Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
