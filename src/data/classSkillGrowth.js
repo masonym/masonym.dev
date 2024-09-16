@@ -556,47 +556,83 @@ export const classSkillGrowth = {
             "name": "Forsaken Relic",
             "components": [
                 {
-                    "damage": 1270,
-                    "attacks": 1,
+                    "damage": 801,
+                    "attacks": 9,
+                    "triggers": 24,
+                    "growthPerLevel": 26
+                },
+                {
+                    "damage": 791,
+                    "attacks": 14,
+                    "triggers": 30,
+                    "growthPerLevel": 26
+                },
+                // TODO:
+                // relic liberation
+                // may need to adjust this
+                // has scaling FD and idk how many times it procs in 30s
+                {
+                    "damage": 837,
+                    "attacks": 5,
                     "triggers": 1,
-                    "growthPerLevel": 12
-                }
+                    "growthPerLevel": 27
+                },
+                // ancient wrath
+                {
+                    "damage": 671,
+                    "attacks": 15,
+                    "triggers": 9,
+                    "growthPerLevel": 21
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Cardinal Burst",
-                "level0": 1233,
-                "level1": 1370,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 200,
+                "level1": 671,
+                "attacks": 5,
+                "growthPerLevel": 11,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Bountiful Burst",
-                "level0": 1323,
-                "level1": 1470,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 300, // 150 * 2 arrows
+                "level1": 413, // 243 + (243 * .7)
+                "attacks": 3,
+                "growthPerLevel": 6, // 3% * 2 arrows
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // TODO: scale num cursed arrows
+                // triggers every 20s
+                // the num of cursed arrows also increases with level
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Bountiful Burst",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 48.8, // 122 * 6 * 4 / 3 / 20
+                        "growthPerLevel": 0.8, // 2 * 6 * 4 / 3 / 20
+                    },
+                ]
             },
             {
+                // 4 magic arrows instead of 3
                 "name": "HEXA Cardinal Deluge",
-                "level0": 1413,
-                "level1": 1570,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 200, // 
+                "level1": 330, //
+                "attacks": 3,
+                "growthPerLevel": 5,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Bountiful Deluge",
-                "level0": 1503,
-                "level1": 1670,
+                "level0": 300, // 100 * 3 arrows
+                "level1": 582, // 188 * + (188 * .7) * 3 
                 "attacks": 1,
-                "growthPerLevel": 12,
+                "growthPerLevel": 3,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -613,6 +649,8 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // TODO:
+                // does this need to be modified? not sure
                 "name": "Obsidian Barrier Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
