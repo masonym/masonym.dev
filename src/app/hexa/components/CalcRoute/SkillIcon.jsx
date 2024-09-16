@@ -1,19 +1,21 @@
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react'
-import { formatSkillName, formatSkillPath } from '../../utils';
+import { formatClassName, formatSkillName, formatSkillPath } from '../../utils';
 
 const SkillIcon = ({ skill, level, classKey, masterySkills, upgrade }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const iconRef = useRef(null);
     const tooltipRef = useRef(null);
 
+    const formattedClassName = formatClassName(classKey)
+
     let iconPath;
     if (skill.type === 'Mastery') {
         const categorySkills = masterySkills[skill.category];
         const firstSkillInCategory = categorySkills[0];
-        iconPath = `/classImages/${classKey}/Skill_${formatSkillPath(firstSkillInCategory)}.png`;
+        iconPath = `/classImages/${formattedClassName}/Skill_${formatSkillPath(firstSkillInCategory)}.png`;
     } else {
-        iconPath = `/classImages/${classKey}/Skill_${formatSkillPath(skill.skill)}.png`;
+        iconPath = `/classImages/${formattedClassName}/Skill_${formatSkillPath(skill.skill)}.png`;
     }
 
     useEffect(() => {
