@@ -856,31 +856,63 @@ export const classSkillGrowth = {
             "name": "Karma Blade",
             "components": [
                 {
-                    "damage": 1430,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 496,
+                    "attacks": 5,
+                    "triggers": 6,
+                    "growthPerLevel": 16
+                },
+                {
+                    "damage": 465,
+                    "attacks": 7,
+                    "triggers": 20,
+                    "growthPerLevel": 15
+                },
+                // karma blade; procs 50 times
+                {
+                    "damage": 451,
+                    "attacks": 7,
+                    "triggers": 50,
+                    "growthPerLevel": 16
+                },
+                // god of hellfire
+                {
+                    "damage": 578,
+                    "attacks": 7,
+                    "triggers": 30,
+                    "growthPerLevel": 18
+                },
+                
+                
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Phantom Blow",
-                "level0": 1377,
+                "level0": 330,
                 "level1": 1530,
-                "attacks": 1,
-                "growthPerLevel": 14,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "attacks": 6,
+                "growthPerLevel": 6,
+                "iedGrowthPerLevel": 0.3,
+                "bossDamageGrowthPerLevel": 0,
+                "staticIED": 31,
             },
             {
                 "name": "HEXA Asura's Anger",
-                "level0": 1467,
+                "level0": 693,
                 "level1": 1630,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "attacks": 5,
+                "growthPerLevel": 21,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Phantom Blow",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 48,
+                        "growthPerLevel": 2
+                    }
+                ]
             }
         ],
         "boostSkills": [
@@ -911,44 +943,77 @@ export const classSkillGrowth = {
             "name": "Halve Cut",
             "components": [
                 {
-                    "damage": 1320,
-                    "attacks": 1,
-                    "triggers": 1,
+                    "damage": 496,
+                    "attacks": 6,
+                    "triggers": 23,
+                    "growthPerLevel": 16
+                },
+                {
+                    "damage": 405,
+                    "attacks": 6,
+                    "triggers": 32,
                     "growthPerLevel": 13
-                }
+                },
+                {
+                    "damage": 444,
+                    "attacks": 7,
+                    "triggers": 55,
+                    "growthPerLevel": 14
+                },
+                
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Assassinate",
-                "level0": 1278,
-                "level1": 1420,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 380, // 270 / 2 + 490 / 2
+                "level1": 139.5, // 217 / 2
+                "attacks": 6,
+                "growthPerLevel": 2,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // every other hit
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Assassinate",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 258, // 516 / 2
+                        "growthPerLevel": 3
+                    }
+                ]
             },
             {
                 "name": "HEXA Pulverize",
-                "level0": 1368,
-                "level1": 1520,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 380,
+                "level1": 153, // 306 / 2
+                "attacks": 6,
+                "growthPerLevel": 3,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Pulverize",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 301.5, // 603 / 2
+                        "growthPerLevel": 4
+                    }
+                ]
             },
             {
                 "name": "HEXA Meso Explosion",
-                "level0": 1458,
-                "level1": 1620,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 100,
+                "level1": 155,
+                "attacks": 2,
+                "growthPerLevel": 5,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0.3,
+                "staticBossDamage": 31
             }
         ],
         "boostSkills": [
             {
+                // TODO: maybe account for cooldown reduction & consecutive uses
                 "name": "Shadow Assault Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
