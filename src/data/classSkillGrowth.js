@@ -1336,29 +1336,36 @@ export const classSkillGrowth = {
             "name": "The Dreadnought",
             "components": [
                 {
-                    "damage": 1400,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 13
-                }
+                    "damage": 661,
+                    "attacks": 12,
+                    "triggers": 52,
+                    "growthPerLevel": 21
+                },
+                {
+                    "damage": 775,
+                    "attacks": 8,
+                    "triggers": 80,
+                    "growthPerLevel": 25
+                },
             ]
         },
         "masterySkills": [
+            // TODO: this skill affects Majestic Presence; non hexa skill
             {
                 "name": "HEXA Rapid Fire",
-                "level0": 1350,
-                "level1": 1500,
+                "level0": 375,
+                "level1": 381,
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Broadside",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 400,
+                "level1": 550,
+                "attacks": 3,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
