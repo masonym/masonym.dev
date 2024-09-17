@@ -783,37 +783,47 @@ export const classSkillGrowth = {
             "components": [
                 {
                     "damage": 1380,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 13
-                }
+                    "attacks": 14,
+                    "triggers": 39,
+                    "growthPerLevel": 24
+                },
+                {
+                    "damage": 789,
+                    "attacks": 8,
+                    "triggers": 70,
+                    "growthPerLevel": 26
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Hurricane",
-                "level0": 1332,
-                "level1": 1480,
+                "level0": 350,
+                "level1": 372,
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 7,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // TODO: also increases final attack damage
             {
                 "name": "HEXA Arrow Stream",
-                "level0": 1422,
-                "level1": 1580,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 350,
+                "level1": 436,
+                "attacks": 5,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // idk what to put as the attack number for this
+            // i think 1 is fine
             {
                 "name": "HEXA Arrow Blaster",
-                "level0": 1512,
-                "level1": 1680,
+                "level0": 181,
+                "level1": 208,
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 8,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
