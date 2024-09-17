@@ -88,7 +88,8 @@ export const masteryDesignation = {
     },
     "Shadower": {
         "firstMastery": [
-            "HEXA Assassinate"
+            "HEXA Assassinate",
+            "HEXA Pulverize"
         ],
         "secondMastery": [
             "HEXA Meso Explosion"

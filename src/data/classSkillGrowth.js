@@ -1040,38 +1040,46 @@ export const classSkillGrowth = {
             "name": "Life and Death",
             "components": [
                 {
-                    "damage": 1350,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 13
-                }
+                    "damage": 600,
+                    "attacks": 7,
+                    "triggers": 33,
+                    "growthPerLevel": 20
+                },
+                {
+                    "damage": 607,
+                    "attacks": 35,
+                    "triggers": 31,
+                    "growthPerLevel": 19
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Quad Star",
-                "level0": 1305,
-                "level1": 1450,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 540,
+                "level1": 547,
+                "attacks": 4,
+                "growthPerLevel": 7,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "Enhanced HEXA Quad Star",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 0,
+                "level1": 700,
+                "attacks": 4,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // % of mark goes up from 4th to 6th but does not scale
             {
                 "name": "HEXA Assassin's Mark",
-                "level0": 1485,
-                "level1": 1650,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 300, // 150 * 2
+                "level1": 383,
+                "attacks": 3,
+                "growthPerLevel": 8,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
