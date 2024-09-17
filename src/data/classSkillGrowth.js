@@ -1137,10 +1137,10 @@ export const classSkillGrowth = {
             },
             {
                 "name": "HEXA Cannon Bazooka",
-                "level0": 800,
-                "level1": 1129,
+                "level0": 545,
+                "level1": 608,
                 "attacks": 4,
-                "growthPerLevel": 19,
+                "growthPerLevel": 8,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
@@ -1155,19 +1155,19 @@ export const classSkillGrowth = {
             },
             {
                 "name": "HEXA Anchors Away",
-                "level0": 300,
-                "level1": 600,
+                "level0": 460,
+                "level1": 810,
                 "attacks": 1,
-                "growthPerLevel": 19,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Nautilus Strike",
-                "level0": 300,
-                "level1": 600,
-                "attacks": 1,
-                "growthPerLevel": 19,
+                "level0": 510,
+                "level1": 567,
+                "attacks": 5,
+                "growthPerLevel": 7,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -1205,29 +1205,96 @@ export const classSkillGrowth = {
             "name": "Unleash Neptunus",
             "components": [
                 {
+                    "damage": 713,
+                    "attacks": 13,
+                    "triggers": 4,
+                    "growthPerLevel": 23
+                },
+                {
+                    "damage": 589,
+                    "attacks": 15,
+                    "triggers": 22,
+                    "growthPerLevel": 19
+                },
+                {
                     "damage": 1380,
                     "attacks": 1,
                     "triggers": 1,
                     "growthPerLevel": 14
-                }
+                },
+                // neptunus enrage - procs 7 times?
+                // 1st hit
+                {
+                    "damage": 897,
+                    "attacks": 12,
+                    "triggers": 7,
+                    "growthPerLevel": 27
+                },
+                // 2nd hit
+                {
+                    "damage": 930,
+                    "attacks": 13,
+                    "triggers": 7,
+                    "growthPerLevel": 30
+                },
+                // 3rd hit
+                {
+                    "damage": 992,
+                    "attacks": 15,
+                    "triggers": 7,
+                    "growthPerLevel": 32
+                },
+                // 4th hit
+                {
+                    "damage": 992,
+                    "attacks": 15,
+                    "triggers": 7,
+                    "growthPerLevel": 32
+                },
+                // 5th hit
+                {
+                    "damage": 1136,
+                    "attacks": 15,
+                    "triggers": 7,
+                    "growthPerLevel": 36
+                },
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Octopunch",
-                "level0": 1332,
-                "level1": 1480,
+                "level0": 320,
+                "level1": 339,
+                "attacks": 10,
+                "growthPerLevel": 4,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            // 2-part skill so we're consolidating
+            {
+                "name": "Super Octopunch",
+                "level0": 3200,
+                "level1": 3939, // (183 * 3) + (339 * 10)
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 49,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
-                "name": "HEXA Sea Serpent",
-                "level0": 1422,
-                "level1": 1580,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "name": "HEXA Sea Serpent Burst",
+                "level0": 425,
+                "level1": 483,
+                "attacks": 8,
+                "growthPerLevel": 13,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Sea Serpent's Rage",
+                "level0": 430,
+                "level1": 493,
+                "attacks": 6,
+                "growthPerLevel": 13,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },

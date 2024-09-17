@@ -226,7 +226,8 @@ export const classes = {
         "originSkill": "Unleash Neptunus",
         "masterySkills": [
             "HEXA Octopunch",
-            "HEXA Sea Serpent",
+            "HEXA Sea Serpent Burst",
+            "HEXA Sea Serpent's Rage",
             "HEXA Nautilus Strike"
         ],
         "boostSkills": [

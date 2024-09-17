@@ -117,10 +117,12 @@ export const masteryDesignation = {
     },
     "Buccaneer": {
         "firstMastery": [
-            "HEXA Octopunch"
+            "HEXA Octopunch",
+            "Super Octopunch"
         ],
         "secondMastery": [
-            "HEXA Sea Serpent",
+            "HEXA Sea Serpent Burst",
+            "HEXA Sea Serpent's Rage",
             "HEXA Nautilus Strike"
         ]
     },
