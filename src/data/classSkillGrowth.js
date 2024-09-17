@@ -667,31 +667,91 @@ export const classSkillGrowth = {
             "name": "Final Aim",
             "components": [
                 {
-                    "damage": 1400,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 806,
+                    "attacks": 7,
+                    "triggers": 35,
+                    "growthPerLevel": 26
+                },
+                {
+                    "damage": 869,
+                    "attacks": 13,
+                    "triggers": 35,
+                    "growthPerLevel": 29
+                },
+                // split shot x13
+                {
+                    "damage": 1320,
+                    "attacks": 5,
+                    "triggers": 13,
+                    "growthPerLevel": 0
+                },
+                
             ]
         },
         "masterySkills": [
             {
+                // first snipe: Snipe
+                // second snipe: Empowered Snipe
+                // third snipe: Snipe?
+                // fourth snipe: Ultimate Snipe x2
+
+                
+                // snipe: 487 * 9 ; scales 2%
+                // empowered: 489 * 10 + 322 * 5 ; scales 4%
+                // ultimate: (257 * 10 * 2) + (322 * 5) ; scales 4%
+                // additional hit (322 *5) ; scales 2% 
+                
+                // so every 4 hits:
+                // ((487 * 9) * 2) + (489 + 10) + (257 * 10 * 2) + (322 * 5 * 2)
+                // level 2
+                // ((489 * 9) * 2) + (491 + 10) + (259 * 10 * 2) + (324 * 5 * 2)
+
                 "name": "HEXA Snipe",
-                "level0": 1350,
-                "level1": 1500,
+                "level0": 4320,
+                "level1": 4406, // average snipe 
                 "attacks": 1,
-                "growthPerLevel": 14,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "growthPerLevel": 24.5, // 98 / 4
+                "iedGrowthPerLevel": 0.333,
+                "bossDamageGrowthPerLevel": 0,
+                "staticIED": 30,
             },
             {
+                // same concept as snipe
+                // first piercing arrow: piercing arrow
+                // second: empowered
+                // third: piercing arrow
+                // fourth: ultimate
+
+                // piercing arrow: (381 * 5) ; scale 6 + (392 * 4) ; scales 7
+                // empowered: (467 * 6) ; scales 7 + (309 * 10) ; scales 4
+                // ultimate: (477 * 6) ; scales 7 + (324 * 10) ; scales 4
+
+                // so every 4 hits:
+                // ((381 * 5) + (392 * 4) * 2)  -- PA x2
+                // + (467 * 6) + (309 * 10) -- empwoered PA
+                // + (477 * 6) + (324 * 10) -- ultimate PA
+                // ((381 * 5) + (392 * 4) * 2) + (467 * 6) + (309 * 10) + (477 * 6) + (324 * 10)
+                // scales (6 + 7 + 7 + 4 + 7 + 4 + 6 + 7) = 48
+                // ((387 * 5) + (399 * 4) * 2) + (477 * 6) + (313 * 10) + (484 * 6) + (328 * 10)
+
+                // avg: 4258.75 + 67*level
+
+                // TODO: double check exploding arrow fragments
                 "name": "HEXA Piercing Arrow",
-                "level0": 1440,
-                "level1": 1600,
+                "level0": 520,
+                "level1": 4258.75,
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 67,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Snipe",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 30, // 12 / 4 * 10?
+                        "growthPerLevel": 30, // 
+                    },
+                ]
             }
         ],
         "boostSkills": [
