@@ -1882,8 +1882,8 @@ export const classSkillGrowth = {
                     "triggers": 48, // 12 triggers * 4 shockwaves
                     "growthPerLevel": 14
                 },
-                
-                
+
+
             ]
         },
         "masterySkills": [
@@ -1991,41 +1991,64 @@ export const classSkillGrowth = {
     // yay i get to re-do this class soon
     "Aran": {
         "originSkill": {
+            // this skill is mega confusing >:(
             "name": "Adrenaline Surge",
             "components": [
+                // final blow
+                // 1000 combo = +20 triggrers
+                // 29 by default
+                // 
                 {
-                    "damage": 1450,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 1071,
+                    "attacks": 14,
+                    "triggers": 49,
+                    "growthPerLevel": 34
+                },
+                // TODO: add howling swing
             ]
         },
         "masterySkills": [
             {
+                // average hits i guess
                 "name": "HEXA Beyond Blade",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 310, // 295 + 311 + 326 / 3
+                "level1": 337,
+                "attacks": 5,
+                "growthPerLevel": 7,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Finisher - Hunter's Prey",
-                "level0": 1485,
-                "level1": 1650,
+                "level0": 112350, // 15 * 1070 * 7
+                "level1": 167600, // (960 * 15 * 6) + (406 * 10 * 20)
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 2100,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Beyond Blade",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 48,
+                        "growthPerLevel": 3
+                    }
+                ]
             }
         ],
         "boostSkills": [
             {
                 "name": "Maha's Fury Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                //  While active, Final Damage: +1%. every 6 levels
+                // this istn really accurate cause its +fd to all skills not just this one but idk
+                // just a way to weight it i guess
+                // TODO: maybe check uptime & scale based on this
+                "auxiliaryBoost": {
+                    "threshold": 6,
+                    "increase": 0.01
+                }
             },
             {
                 "name": "Maha's Carnage Boost",
