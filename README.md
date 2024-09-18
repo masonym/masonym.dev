@@ -1,6 +1,5 @@
 # masonym.dev
 Site for my published MapleStory Tools  
-Very much a work in progress for now. Not connected to any domain yet.
 
 Built with React/Next.js
 
