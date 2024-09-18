@@ -1398,37 +1398,43 @@ export const classSkillGrowth = {
             "name": "Astral Blitz",
             "components": [
                 {
-                    "damage": 1450,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 1085,
+                    "attacks": 5,
+                    "triggers": 48,
+                    "growthPerLevel": 35
+                },
+                {
+                    "damage": 1076,
+                    "attacks": 7,
+                    "triggers": 24,
+                    "growthPerLevel": 34
+                },
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Luna Divide",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 485,
+                "level1": 540,
+                "attacks": 6,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Solar Slash",
-                "level0": 1485,
-                "level1": 1650,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 485,
+                "level1": 540,
+                "attacks": 6,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Cosmic Shower",
-                "level0": 1575,
-                "level1": 1750,
-                "attacks": 1,
+                "level0": 210,
+                "level1": 305,
+                "attacks": 3,
                 "growthPerLevel": 15,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
