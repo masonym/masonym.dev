@@ -1588,7 +1588,13 @@ export const classSkillGrowth = {
                 // duration increase 
                 "name": "Greater Dark Servant Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // duration increase every 3 levels
+                // putting this as 1.75% fd every 3 levels for now. may not be accurate
+                "auxiliaryBoost": {
+                    "threshold": 3,
+                    "increase": 0.0175
+                }
             },
             {
                 "name": "Shadow Bite Boost",
