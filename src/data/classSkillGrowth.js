@@ -1854,90 +1854,127 @@ export const classSkillGrowth = {
     "Mercedes": {
         "originSkill": {
             "name": "Unfading Glory",
+            //  The total number of attacks is 21, and under normal circumstances, enhanced attacks are activated about 12 times. The calculation formula is (1,440×15×4×12)+(2,200×15×9)=1,036,800+297,000=1,333,800%.
+            // source: namu wiki
             "components": [
                 {
-                    "damage": 1400,
-                    "attacks": 1,
-                    "triggers": 1,
+                    "damage": 434,
+                    "attacks": 10,
+                    "triggers": 36,
                     "growthPerLevel": 14
-                }
+                },
+                {
+                    "damage": 435,
+                    "attacks": 15,
+                    "triggers": 28,
+                    "growthPerLevel": 15
+                },
+                {
+                    "damage": 1156,
+                    "attacks": 15,
+                    "triggers": 9,
+                    "growthPerLevel": 14
+                },
+                // ??? enhanced attack
+                {
+                    "damage": 744,
+                    "attacks": 15,
+                    "triggers": 48, // 12 triggers * 4 shockwaves
+                    "growthPerLevel": 14
+                },
+                
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Ishtar's Ring",
-                "level0": 1350,
-                "level1": 1500,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 316,
+                "level1": 351,
+                "attacks": 2,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // TODO: enhances Ishtar's Mark creation damage; non hexa skill
             {
                 "name": "HEXA Wrath of Enlil",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 515,
+                "level1": 560,
+                "attacks": 10,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Wrath of Enlil: Spirit Enchant",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 515,
+                "level1": 616,
+                "attacks": 10,
+                "growthPerLevel": 11,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Spikes Royale",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 630,
+                "level1": 707,
+                "attacks": 4,
+                "growthPerLevel": 12,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Spikes Royale: Spirit Enchant",
-                "level0": 1710,
-                "level1": 1900,
-                "attacks": 1,
+                "level0": 630,
+                "level1": 754,
+                "attacks": 4,
                 "growthPerLevel": 14,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Leaf Tornado",
-                "level0": 1800,
-                "level1": 2000,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 260,
+                "level1": 519,
+                "attacks": 4,
+                "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Leaf Tornado: Spirit Enchant",
-                "level0": 1890,
-                "level1": 2100,
+                "level0": 260,
+                "level1": 599,
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
         ],
         "boostSkills": [
             {
+                // spirits final damage scales +1% every 2 levels?
                 "name": "Spirit of Elluel Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "auxiliaryBoost": {
+                    "threshold": 2,
+                    "increase": 0.01
+                }
             },
             {
                 "name": "Sylvidia's Flight Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                //  While active, Final Damage: +1%. every 6 levels
+                // this istn really accurate cause its +fd to all skills not just this one but idk
+                // just a way to weight it i guess
+                // TODO: maybe check uptime & scale based on this
+                "auxiliaryBoost": {
+                    "threshold": 6,
+                    "increase": 0.01
+                }
             },
             {
                 "name": "Irkalla's Wrath Boost",
@@ -1951,6 +1988,7 @@ export const classSkillGrowth = {
             }
         ]
     },
+    // yay i get to re-do this class soon
     "Aran": {
         "originSkill": {
             "name": "Adrenaline Surge",
