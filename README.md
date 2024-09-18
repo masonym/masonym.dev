@@ -16,14 +16,16 @@ Built with React/Next.js
 
 # Todo
 
-- [ ] Fill about page
+- [x] Fill about page
 - [ ] Add info pages
-- [ ] Add hexa calc
-  - [ ] Map which hexa skills are mastery 1/2 per class
-  - [ ] Display skill icons
-  - [ ] Add constants for upgrade costs
-  - [ ] Apply styling
-  - [ ] Results section
+- [x] Add hexa calc
+  - [x] Map which hexa skills are mastery 1/2 per class
+  - [x] Display skill icons
+  - [x] Add constants for upgrade costs
+  - [x] Apply styling
+  - [x] Results section
+  - [ ] Add level route optimizer
+    - [ ] Manually input growth data for all 50 classes skills
 - [ ] Headers on hamburger menu should be collapsed aside from curr category
 
 # Run
