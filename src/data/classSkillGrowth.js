@@ -584,7 +584,7 @@ export const classSkillGrowth = {
                     "triggers": 9,
                     "growthPerLevel": 21
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -685,7 +685,7 @@ export const classSkillGrowth = {
                     "triggers": 13,
                     "growthPerLevel": 0
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -695,12 +695,12 @@ export const classSkillGrowth = {
                 // third snipe: Snipe?
                 // fourth snipe: Ultimate Snipe x2
 
-                
+
                 // snipe: 487 * 9 ; scales 2%
                 // empowered: 489 * 10 + 322 * 5 ; scales 4%
                 // ultimate: (257 * 10 * 2) + (322 * 5) ; scales 4%
                 // additional hit (322 *5) ; scales 2% 
-                
+
                 // so every 4 hits:
                 // ((487 * 9) * 2) + (489 + 10) + (257 * 10 * 2) + (322 * 5 * 2)
                 // level 2
@@ -793,7 +793,7 @@ export const classSkillGrowth = {
                     "triggers": 70,
                     "growthPerLevel": 26
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -881,9 +881,9 @@ export const classSkillGrowth = {
                     "triggers": 30,
                     "growthPerLevel": 18
                 },
-                
-                
-                
+
+
+
             ]
         },
         "masterySkills": [
@@ -960,8 +960,8 @@ export const classSkillGrowth = {
                     "triggers": 55,
                     "growthPerLevel": 14
                 },
-                
-                
+
+
             ]
         },
         "masterySkills": [
@@ -1051,7 +1051,7 @@ export const classSkillGrowth = {
                     "triggers": 31,
                     "growthPerLevel": 19
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -1605,7 +1605,7 @@ export const classSkillGrowth = {
                     "threshold": 19,
                     "increase": 0.01
                 }
-                
+
             },
             {
                 "name": "Rapid Throw Boost",
@@ -1646,7 +1646,7 @@ export const classSkillGrowth = {
                     "triggers": 18, // 3 * 6
                     "growthPerLevel": 21
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -1710,7 +1710,7 @@ export const classSkillGrowth = {
                     "triggers": 15, // 30 seconds of procs, proc every ? seconds maybe 10-15 procs???
                     "growthPerLevel": 62
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -1770,44 +1770,63 @@ export const classSkillGrowth = {
             "name": "Durendal",
             "components": [
                 {
-                    "damage": 1500,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 775,
+                    "attacks": 7,
+                    "triggers": 6,
+                    "growthPerLevel": 25
+                },
+                {
+                    "damage": 712,
+                    "attacks": 6,
+                    "triggers": 30,
+                    "growthPerLevel": 22
+                },
+                {
+                    "damage": 708,
+                    "attacks": 14,
+                    "triggers": 24,
+                    "growthPerLevel": 23
+                },
+
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Radiant Cross",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 530,
+                "level1": 594,
+                "attacks": 4,
+                "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Radiant Cross - Assault",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 326,
+                "level1": 356,
+                "attacks": 10,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // this skill has 5 diff options
+            // idk how to deal with that
+            // so we're going with 3rd time i guess lol
             {
                 "name": "HEXA Royal Guard",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 470,
+                "level1": 833,
+                "attacks": 6,
+                "growthPerLevel": 23,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
         ],
         "boostSkills": [
             {
+                // TODO: 
+                // this skill receives +1% fd at 1/9/10/19/20/29/40
+                // needs custom logic entirely
                 "name": "Shield of Light Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
@@ -1823,6 +1842,9 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // TODO: 
+                // this skill receives +1% fd at 1/9/10/19/20/29/40
+                // needs custom logic entirely
                 "name": "Light of Courage Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
