@@ -1619,29 +1619,52 @@ export const classSkillGrowth = {
             "name": "Mistral Spring",
             "components": [
                 {
-                    "damage": 1280,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 12
-                }
+                    "damage": 858,
+                    "attacks": 10,
+                    "triggers": 13,
+                    "growthPerLevel": 28
+                },
+                //  ---- these seem low. has a duration of 20s and cd of 3s, so maybe they trigger 6 times?
+                // spirit arrows
+                {
+                    "damage": 682,
+                    "attacks": 5,
+                    "triggers": 78, // 13 * 6
+                    "growthPerLevel": 22
+                },
+                // excited spirit arrows
+                {
+                    "damage": 744,
+                    "attacks": 6,
+                    "triggers": 30, // 5 * 6
+                    "growthPerLevel": 24
+                },
+                // strong spirit arrows
+                {
+                    "damage": 666,
+                    "attacks": 7,
+                    "triggers": 18, // 3 * 6
+                    "growthPerLevel": 21
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Song of Heaven",
-                "level0": 1242,
-                "level1": 1380,
+                "level0": 390,
+                "level1": 554,
                 "attacks": 1,
-                "growthPerLevel": 12,
+                "growthPerLevel": 14,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Trifling Wind",
-                "level0": 1332,
-                "level1": 1480,
+                "level0": 390,
+                "level1": 431,
                 "attacks": 1,
-                "growthPerLevel": 12,
+                "growthPerLevel": 11,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -1658,6 +1681,8 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // TODO:
+                // duration increases; meaning fd goes up a little. leaving blank for now
                 "name": "Gale Barrier Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
