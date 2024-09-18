@@ -1468,29 +1468,36 @@ export const classSkillGrowth = {
             "name": "Thunder Wall Sea Wave",
             "components": [
                 {
-                    "damage": 1500,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 723,
+                    "attacks": 5,
+                    "triggers": 32,
+                    "growthPerLevel": 23
+                },
+                {
+                    "damage": 703,
+                    "attacks": 7,
+                    "triggers": 62,
+                    "growthPerLevel": 23
+                },
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Annihilate",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 335,
+                "level1": 354,
+                "attacks": 7,
+                "growthPerLevel": 4,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // TODO: enhances Lightnight Strike's Massive Thunderbolt +%p
             {
                 "name": "HEXA Thunderbolt",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 320,
+                "level1": 341,
+                "attacks": 5,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -1499,7 +1506,12 @@ export const classSkillGrowth = {
             {
                 "name": "Lightning Cascade Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // 1 fd every 7.5 levels
+                "auxiliaryBoost": {
+                    "threshold": 7.5,
+                    "increase": 0.01
+                }
             },
             {
                 "name": "Shark Torpedo Boost",
