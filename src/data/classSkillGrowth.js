@@ -1699,56 +1699,45 @@ export const classSkillGrowth = {
             "name": "Eternity",
             "components": [
                 {
-                    "damage": 1440,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 1085,
+                    "attacks": 10,
+                    "triggers": 38,
+                    "growthPerLevel": 35
+                },
+                {
+                    "damage": 1902,
+                    "attacks": 13,
+                    "triggers": 15, // 30 seconds of procs, proc every ? seconds maybe 10-15 procs???
+                    "growthPerLevel": 62
+                },
+                
             ]
         },
         "masterySkills": [
             {
-                "name": "HEXA Orbital Flame[2]",
-                "level0": 1386,
-                "level1": 1540,
-                "attacks": 1,
-                "growthPerLevel": 14,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
-            },
-            {
-                "name": "HEXA Orbital Flame[3]",
-                "level0": 1476,
-                "level1": 1640,
-                "attacks": 1,
-                "growthPerLevel": 14,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
-            },
-            {
-                "name": "HEXA Orbital Flame[4]",
-                "level0": 1566,
-                "level1": 1740,
-                "attacks": 1,
-                "growthPerLevel": 14,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
-            },
-            {
-                "name": "HEXA Orbital Flame[5]",
-                "level0": 1656,
-                "level1": 1840,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                // man fuck you
+                // for now we're just using the base + enahnced skill I GUESS >:(
+
+                // 4th: 3 * (330 * 2) + 1 * (430 * 2)
+                //  1420 per 4 hits twice
+
+                // 6th: 3 * 411 + 646 * 1
+                // 1879 per 4 hits
+                // level 30: 1995 per 4
+                "name": "HEXA Orbital Flame",
+                "level0": 355, // 1420 / 4
+                "level1": 469.75,
+                "attacks": 2,
+                "growthPerLevel": 1,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Blazing Extinction",
-                "level0": 1746,
-                "level1": 1940,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 310,
+                "level1": 655,
+                "attacks": 4,
+                "growthPerLevel": 15,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }

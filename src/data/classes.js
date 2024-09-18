@@ -327,10 +327,7 @@ export const classes = {
     "Blaze Wizard": {
         "originSkill": "Eternity",
         "masterySkills": [
-            "HEXA Orbital Flame[2]",
-            "HEXA Orbital Flame[3]",
-            "HEXA Orbital Flame[4]",
-            "HEXA Orbital Flame[5]",
+            "HEXA Orbital Flame",
             "HEXA Blazing Extinction"
         ],
         "boostSkills": [
