@@ -1535,38 +1535,45 @@ export const classSkillGrowth = {
             "name": "Silence",
             "components": [
                 {
-                    "damage": 1300,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 13
-                }
+                    "damage": 481,
+                    "attacks": 12,
+                    "triggers": 34,
+                    "growthPerLevel": 16
+                },
+                {
+                    "damage": 465,
+                    "attacks": 60, // 12 attacks, 5 bounces
+                    "triggers": 30, // activates 10 times, 3 shurikens
+                    "growthPerLevel": 15
+                },
             ]
         },
         "masterySkills": [
             {
+                // do i need to add Jet Black? idk
                 "name": "HEXA Quintuple Star",
-                "level0": 1260,
-                "level1": 1400,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 253,
+                "level1": 272,
+                "attacks": 4,
+                "growthPerLevel": 2,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Shadow Bat",
-                "level0": 1350,
-                "level1": 1500,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 150,
+                "level1": 910,
+                "attacks": 3,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Ravenous Bat",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 480,
+                "level1": 748,
+                "attacks": 2,
+                "growthPerLevel": 8,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -1578,6 +1585,7 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // duration increase 
                 "name": "Greater Dark Servant Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
@@ -1585,7 +1593,13 @@ export const classSkillGrowth = {
             {
                 "name": "Shadow Bite Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // 1 fd every 19 levels??
+                "auxiliaryBoost": {
+                    "threshold": 19,
+                    "increase": 0.01
+                }
+                
             },
             {
                 "name": "Rapid Throw Boost",
