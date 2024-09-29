@@ -2072,29 +2072,36 @@ export const classSkillGrowth = {
             "name": "Defying Fate",
             "components": [
                 {
-                    "damage": 1350,
-                    "attacks": 1,
-                    "triggers": 1,
+                    "damage": 403,
+                    "attacks": 15,
+                    "triggers": 57,
                     "growthPerLevel": 13
-                }
+                },
+                {
+                    "damage": 321,
+                    "attacks": 15,
+                    "triggers": 50, // activates 50 times in 30 seconds
+                    "growthPerLevel": 11
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Tempest",
-                "level0": 1305,
-                "level1": 1450,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 455,
+                "level1": 492,
+                "attacks": 4,
+                "growthPerLevel": 12,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Mille Aiguilles",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 160,
+                "level1": 305,
+                "attacks": 3,
+                "growthPerLevel": 5,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
