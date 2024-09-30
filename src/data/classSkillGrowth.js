@@ -2143,21 +2143,28 @@ export const classSkillGrowth = {
             "name": "Harmonic Paradox",
             "components": [
                 {
-                    "damage": 1400,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 1550,
+                    "attacks": 7,
+                    "triggers": 17,
+                    "growthPerLevel": 50
+                },
+                {
+                    "damage": 784,
+                    "attacks": 7,
+                    "triggers": 39,
+                    "growthPerLevel": 26
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Ender",
-                "level0": 1350,
-                "level1": 1500,
-                "attacks": 1,
-                "growthPerLevel": 14,
-                "iedGrowthPerLevel": 0,
+                "level0": 455,
+                "level1": 492,
+                "attacks": 7,
+                "growthPerLevel": 7,
+                "iedGrowthPerLevel": 0.133,
                 "bossDamageGrowthPerLevel": 0
             },
             {
@@ -2168,7 +2175,33 @@ export const classSkillGrowth = {
                 "growthPerLevel": 14,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
-            }
+            },
+            {
+                "name": "HEXA Reflection",
+                "level0": 0,
+                "level1": 855,
+                "attacks": 5,
+                "growthPerLevel": 25,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0,
+            },
+            {
+                "name": "Endless Darkness",
+                "level0": 440,
+                "level1": 491,
+                "attacks": 4,
+                "growthPerLevel": 11,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Reflection",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 43,
+                        "growthPerLevel": 3
+                    }
+                ]
+            },
         ],
         "boostSkills": [
             {

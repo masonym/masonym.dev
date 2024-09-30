@@ -415,7 +415,8 @@ export const classes = {
         "originSkill": "Harmonic Paradox",
         "masterySkills": [
             "HEXA Ender",
-            "HEXA Reflection"
+            "HEXA Reflection",
+            "Endless Darkness"
         ],
         "boostSkills": [
             "Gate of Light Boost",
