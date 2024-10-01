@@ -215,7 +215,8 @@ export const masteryDesignation = {
             "HEXA Ender"
         ],
         "secondMastery": [
-            "HEXA Reflection"
+            "HEXA Reflection",
+            "Endless Darkness"
         ]
     },
     "Evan": {
