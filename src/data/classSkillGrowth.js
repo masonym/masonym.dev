@@ -2232,60 +2232,70 @@ export const classSkillGrowth = {
             "components": [
                 {
                     "damage": 1300,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 12
-                }
+                    "attacks": 15,
+                    "triggers": 24,
+                    "growthPerLevel": 18
+                },
+                // meteor shower
+                {
+                    "damage": 558,
+                    "attacks": 8,
+                    "triggers": 135, // 9 * 15
+                    "growthPerLevel": 18
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Mana Burst",
-                "level0": 1260,
-                "level1": 1400,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 330,
+                "level1": 364,
+                "attacks": 4,
+                "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Thunder Circle",
-                "level0": 1350,
-                "level1": 1500,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 320, // 170 + 150?
+                "level1": 469,
+                "attacks": 5,
+                "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Dragon Flash",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 465, // 95 + 50 + 320
+                "level1": 558,
+                "attacks": 4,
+                "growthPerLevel": 8,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Thunder Flash",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 1345, // 400 + 150 (dd) + 745 (db)
+                "level1": 1430,
+                "attacks": 9,
+                "growthPerLevel": 30,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Wind Flash",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
+                // dragon dive: +30; dragon breath: +160;
+                "level0": 245, // these skills all get +%p damage from a lot of sources which is annoying
+                "level1": 526,
+                "attacks": 2,
                 "growthPerLevel": 12,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
         ],
         "boostSkills": [
+            // TODO: this skill gains cooldown reduction every x levels?
             {
                 "name": "Elemental Barrage Boost",
                 "iedGrowthPerLevel": 0,
