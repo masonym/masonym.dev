@@ -2385,38 +2385,49 @@ export const classSkillGrowth = {
             "name": "Crimson Pact",
             "components": [
                 {
-                    "damage": 1380,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 13
-                }
+                    "damage": 931,
+                    "attacks": 11,
+                    "triggers": 48,
+                    "growthPerLevel": 29
+                },
+                {
+                    "damage": 1471,
+                    "attacks": 14,
+                    "triggers": 22,
+                    "growthPerLevel": 48
+                },
             ]
         },
         "masterySkills": [
             {
+                // this skill is kind of annoying because idk how often it procs
+                // has two sections with different scaling
+                // TODO: maybe double check this.
                 "name": "HEXA Condemnation",
-                "level0": 1332,
-                "level1": 1480,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 500,
+                "level1": 524, // we're gonna assume this procs 1/6th of the time? idk
+                "attacks": 12,
+                "growthPerLevel": 14,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // this skill gives flat damage to Ambassador Scythe but it doesn't scale so im omitting it
                 "name": "HEXA Finishing Blow",
-                "level0": 1422,
-                "level1": 1580,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 330,
+                "level1": 376,
+                "attacks": 6,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "staticIED": 2,
             },
             {
                 "name": "HEXA Sweeping Staff",
-                "level0": 1512,
-                "level1": 1680,
+                "level0": 4550, // 720 * 2 + 180 * 20?
+                "level1": 5040,
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 314,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
