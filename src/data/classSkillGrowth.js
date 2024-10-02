@@ -2286,7 +2286,7 @@ export const classSkillGrowth = {
             {
                 "name": "HEXA Wind Flash",
                 // dragon dive: +30; dragon breath: +160;
-                "level0": 245, // these skills all get +%p damage from a lot of sources which is annoying
+                "level0": 245, // these skills all get +%p damage from a lot of sources which is annoying (nvm its not that annoying)
                 "level1": 526,
                 "attacks": 2,
                 "growthPerLevel": 12,
@@ -2320,37 +2320,44 @@ export const classSkillGrowth = {
     },
     "Shade": {
         "originSkill": {
+            // this skill fucking sucks ass to calculate
+            // its duration goes up which means the # of triggers goes up too by level
             "name": "Advent of the Fox",
             "components": [
+                // i think im just gonna do it all in one hit
+                // calculation source:
+                // https://docs.google.com/spreadsheets/d/1wMbh_K-8xifj9aD4oF3Pug9pO_jRkOTMHEvytcTn7pI/edit?gid=1966259110#gid=1966259110
                 {
-                    "damage": 1480,
+                    "damage": 1556461,
                     "attacks": 1,
                     "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "growthPerLevel": 44585
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Spirit Claw",
-                "level0": 1422,
-                "level1": 1580,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 265,
+                "level1": 301,
+                "attacks": 12,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Spirit Frenzy",
-                "level0": 1512,
-                "level1": 1680,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 175,
+                "level1": 183,
+                "attacks": 5,
+                "growthPerLevel": 3,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
         ],
         "boostSkills": [
+            // TODO: duration increase
             {
                 "name": "Spirit Flow Boost",
                 "iedGrowthPerLevel": 0,
