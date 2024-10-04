@@ -2625,80 +2625,99 @@ export const classSkillGrowth = {
             "name": "Nature's Truth",
             "components": [
                 {
-                    "damage": 1350,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 13
-                }
+                    "damage": 1022,
+                    "attacks": 7,
+                    "triggers": 12,
+                    "growthPerLevel": 32
+                },
+                {
+                    "damage": 1085,
+                    "attacks": 14,
+                    "triggers": 23,
+                    "growthPerLevel": 35
+                },
+                {
+                    // 30 seconds
+                    "damage": 1022,
+                    "attacks": 10,
+                    "triggers": 84, // 6 * 14?
+                    "growthPerLevel": 32
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Wild Arrow Blast",
-                "level0": 1305,
-                "level1": 1450,
+                "level0": 370,
+                "level1": 385,
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 5,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0.167
             },
+            // [Passive Effect - Summon Jaguar and Swipe Damage: +30% points, Another Bite Damage: +15% points]
+            // [Passive Effect - Summon Jaguar, Swipe, and Dash 'n Slash Damage: +40% points, Another Bite Damage: +15% points]
+            // [Passive Effect - Summon Jaguar, Swipe, Dash 'n Slash, and Sonic Roar Damage: +50% points, Another Bite Damage: +20% points]
+            // [Passive Effect - Summon Jaguar, Swipe, Dash 'n Slash, Sonic Roar, and Jaguar Soul Damage: +150%p, Another Bite Damage: +40%p]
             {
                 "name": "HEXA Swipe",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 500, // +50 (soul), +30 (dash), +40 (sonic), +150 (jaguar ramp)
+                "level1": 526,
+                "attacks": 4,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Dash 'n Slash",
-                "level0": 1485,
-                "level1": 1650,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 525, // +240
+                "level1": 561,
+                "attacks": 2,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Sonic Roar",
-                "level0": 1575,
-                "level1": 1750,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 520, // 320 + 50 + 150
+                "level1": 554,
+                "attacks": 6,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Jaguar Soul",
-                "level0": 1665,
-                "level1": 1850,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 330,
+                "level1": 346,
+                "attacks": 12,
+                "growthPerLevel": 4,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Jaguar Rampage",
-                "level0": 1755,
-                "level1": 1950,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 800,
+                "level1": 830,
+                "attacks": 9,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Exploding Arrows",
-                "level0": 1845,
-                "level1": 2050,
+                "level0": 380,
+                "level1": 443,
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 7,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
         ],
         "boostSkills": [
             {
+                // TODO: idk
                 "name": "Jaguar Storm Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
