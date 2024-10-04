@@ -2083,7 +2083,7 @@ export const classSkillGrowth = {
                     "triggers": 50, // activates 50 times in 30 seconds
                     "growthPerLevel": 11
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -2154,7 +2154,7 @@ export const classSkillGrowth = {
                     "triggers": 39,
                     "growthPerLevel": 26
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -2243,7 +2243,7 @@ export const classSkillGrowth = {
                     "triggers": 135, // 9 * 15
                     "growthPerLevel": 18
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -2333,7 +2333,7 @@ export const classSkillGrowth = {
                     "triggers": 1,
                     "growthPerLevel": 44585
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -2471,7 +2471,7 @@ export const classSkillGrowth = {
                     "triggers": 30,
                     "growthPerLevel": 26
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -2643,7 +2643,7 @@ export const classSkillGrowth = {
                     "triggers": 84, // 6 * 14?
                     "growthPerLevel": 32
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -2757,7 +2757,7 @@ export const classSkillGrowth = {
                     "triggers": 96, // COOLDOWN 1.8 seconds??  so 6 * 16
                     "growthPerLevel": 18
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -2839,9 +2839,10 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0,
                 // TODO:
                 // 8.33 fd over 30 levels applies to all skills so idk how accurate this is.
-                "auxiliaryBoost": {
-                    "threshold": 1,
-                    "increase": 0.028
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.0833, // 8.33% increase
+                    "growthPerLevel": 0.002777 // 8.33% / 30 levels
                 }
             },
             {
@@ -2861,11 +2862,26 @@ export const classSkillGrowth = {
             "name": "Nightmare",
             "components": [
                 {
-                    "damage": 1420,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 1550,
+                    "attacks": 4,
+                    "triggers": 6,
+                    "growthPerLevel": 50
+                },
+                // demon's territory
+                {
+                    "damage": 1156,
+                    "attacks": 7,
+                    "triggers": 66, // up to 66 times according to namu
+                    "growthPerLevel": 37
+                },
+                {
+                    "damage": 1378.5, // 919 * 1.5
+                    "attacks": 7,
+                    "triggers": 46,
+                    "growthPerLevel": 43.5 // 29 * 1.5
+                },
+
+
             ]
         },
         "masterySkills": [

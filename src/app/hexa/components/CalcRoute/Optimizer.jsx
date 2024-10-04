@@ -168,6 +168,19 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     const classData = classSkillGrowth[selectedClass];
     let skillData;
 
+    let globalFinalDamageMultiplier = 1;
+
+    // Calculate global effects from boost skills
+    currentSkills.forEach(currentSkill => {
+      if (currentSkill.type === 'Boost') {
+        const boostSkillData = classData.boostSkills.find(s => s.name === currentSkill.skill);
+        if (boostSkillData.globalEffect && boostSkillData.globalEffect.type === 'finalDamage') {
+          globalFinalDamageMultiplier *= (1 + boostSkillData.globalEffect.value + 
+            (currentSkill.level - 1) * boostSkillData.globalEffect.growthPerLevel);
+        }
+      }
+    });
+
     if (skill.type === 'Origin') {
       skillData = classData.originSkill;
       let baseDamage = skillData.components.reduce((total, component) => {
@@ -179,7 +192,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
 
       const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
 
-      return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
+      return baseDamage * totalDamageMultiplier * globalFinalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
 
     } else if (skill.type === 'Mastery') {
       skillData = classData.masterySkills.find(s => s.name === skill.skill);
@@ -216,7 +229,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }
 
       const totalDamageMultiplier = 1 + totalBossDamage / 100;
-      return baseDamage * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
+      return baseDamage * totalDamageMultiplier * globalFinalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
 
     } else if (skill.type === 'Boost') {
       skillData = classData.boostSkills.find(s => s.name === skill.skill);
@@ -225,7 +238,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       const { iedBoost, bossDamageBoost } = getProgressiveBoosts(skillData, level);
       const totalIED = calculateIED(iedPercent / 100, iedBoost / 100) * 100;
       const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
-      return baseBoost * auxiliaryBoost * totalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
+      return baseBoost * auxiliaryBoost * totalDamageMultiplier * globalFinalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
     }
 
     return 0;
