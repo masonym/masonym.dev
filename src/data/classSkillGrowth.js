@@ -2743,86 +2743,87 @@ export const classSkillGrowth = {
         "originSkill": {
             "name": "Artificial Evolution",
             "components": [
+                // seems like most of the damage actually comes from the ability to proc othjer skills during evolution.
+                // interesting.
                 {
-                    "damage": 1500,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 362,
+                    "attacks": 7,
+                    "triggers": 31, // duration 30s. this gotta be a lotta procs surely
+                    "growthPerLevel": 12
+                },
+                {
+                    "damage": 558,
+                    "attacks": 5,
+                    "triggers": 96, // COOLDOWN 1.8 seconds??  so 6 * 16
+                    "growthPerLevel": 18
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Mecha Purge: Snipe",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 350,
+                "level1": 394,
+                "attacks": 7,
+                "growthPerLevel": 4,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Mecha Purge: Execute",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 15,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "level0": 350,
+                "level1": 243,
+                "attacks": 21,
+                "growthPerLevel": 3,
+                "iedGrowthPerLevel": 0.3,
+                "bossDamageGrowthPerLevel": 0,
+                "staticIED": 30
             },
             {
                 "name": "HEXA Mecha Purge: Bombardment",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 405,
+                "level1": 452,
+                "attacks": 5,
+                "growthPerLevel": 7,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Mecha Purge: Fire",
-                "level0": 1710,
-                "level1": 1900,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 405,
+                "level1": 452,
+                "attacks": 7,
+                "growthPerLevel": 7,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Hypogram Field: Penetrate",
-                "level0": 1800,
-                "level1": 2000,
+                "level0": 213,
+                "level1": 250,
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Hypogram Field: Force Field",
-                "level0": 1890,
-                "level1": 2100,
+                "level0": 400,
+                "level1": 710,
                 "attacks": 1,
-                "growthPerLevel": 15,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
-            },
-            {
-                "name": "HEXA Hypogram Field: Support",
-                "level0": 1980,
-                "level1": 2200,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Triangulation",
-                "level0": 2070,
-                "level1": 2300,
+                "level0": 1020, // 340 * 3 = 
+                "level1": 2222, // 0.3 chance of proccing (265 * 3); scale 5. each attack does 16 * 124; scale 4
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 68, // 4209 - 2222) / 29
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
             }
         ],
         "boostSkills": [
@@ -2831,10 +2832,17 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // At level 30, supply energy is recharged to 50 in 15 seconds . Compared to the existing Overload mode, the recharge time is reduced by 5 seconds, and the final damage increases by 8.33% and all stats by 10%. Of course, the final damage of 60% in the skill description only applies to plasma current, and is unrelated to the increase in final damage due to excess surplus energy.
             {
                 "name": "Core Overload Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // TODO:
+                // 8.33 fd over 30 levels applies to all skills so idk how accurate this is.
+                "auxiliaryBoost": {
+                    "threshold": 1,
+                    "increase": 0.028
+                }
             },
             {
                 "name": "Hypogram Field: Fusion Boost",
