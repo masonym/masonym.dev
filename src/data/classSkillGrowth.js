@@ -2541,38 +2541,58 @@ export const classSkillGrowth = {
             "name": "Ground Zero",
             "components": [
                 {
-                    "damage": 1400,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 1054,
+                    "attacks": 8,
+                    "triggers": 10,
+                    "growthPerLevel": 34
+                },
+                {
+                    "damage": 1023,
+                    "attacks": 15,
+                    "triggers": 32,
+                    "growthPerLevel": 33
+                },
+                // missiles for 30 seconds. idk what interval
+                {
+                    "damage": 1496,
+                    "attacks": 15,
+                    "triggers": 20, // lets say every 1.5 seconds
+                    "growthPerLevel": 48
+                },
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Heavy Salvo Plus",
-                "level0": 1350,
-                "level1": 1500,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 390,
+                "level1": 426,
+                "attacks": 4,
+                "growthPerLevel": 11,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // 1st explosion: 338 * 6 ; 8 per level
+                // 2nd explosion: 187 * 3; 7 per level
+                // 338 * 6 + 187 * 3
+                // = 2589 per hit at level 1
+                // 570 * 6 + 390 * 3
+                // = 4590 per hit at level 30
+                // 1 hit; 69 per level
                 "name": "HEXA AP Salvo Plus",
-                "level0": 1440,
-                "level1": 1600,
+                "level0": 2060, // (285 * 6) + (350 * 1)
+                "level1": 2589,
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 69,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Homing Beacon",
-                "level0": 1530,
-                "level1": 1700,
+                "level0": 300, // homing beacon is 210 but advanced is +300; but i think it starts at 300 not 210 + 300
+                "level1": 405,
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 5,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
