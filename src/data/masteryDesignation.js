@@ -253,7 +253,8 @@ export const masteryDesignation = {
             "HEXA Double Blast"
         ],
         "secondMastery": [
-            "HEXA Bunker Buster Explosion"
+            "HEXA Bunker Buster Explosion",
+            "Burst Pile Bunker"
         ]
     },
     "Mechanic": {

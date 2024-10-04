@@ -2460,38 +2460,55 @@ export const classSkillGrowth = {
             "name": "Final Destroyer",
             "components": [
                 {
-                    "damage": 1500,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 775,
+                    "attacks": 10,
+                    "triggers": 43,
+                    "growthPerLevel": 25
+                },
+                {
+                    "damage": 796,
+                    "attacks": 14,
+                    "triggers": 30,
+                    "growthPerLevel": 26
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Magnum Punch",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 546, // 100 + 100 (bobbing) + 130 (weaving) + 216 (muzzle flash)
+                "level1": 608,
+                "attacks": 3,
+                "growthPerLevel": 13,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Double Blast",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
+                "level0": 460, // 150 + 130 (hammer smash) + 180 (shotgun punch)
+                "level1": 516,
+                "attacks": 4,
+                "growthPerLevel": 11,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                // TODO: does not include shockwave damage. may be important to add
+                "name": "HEXA Bunker Buster Explosion",
+                "level0": 405, // 100 + 40 + 80 +  185? 
+                "level1": 725,
+                "attacks": 8,
                 "growthPerLevel": 15,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
-                "name": "HEXA Bunker Buster Explosion",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "name": "Burst Pile Bunker",
+                "level0": 500,
+                "level1": 500,
+                "attacks": 6,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }

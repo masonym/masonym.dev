@@ -485,7 +485,8 @@ export const classes = {
         "masterySkills": [
             "HEXA Magnum Punch",
             "HEXA Double Blast",
-            "HEXA Bunker Buster Explosion"
+            "HEXA Bunker Buster Explosion",
+            "Burst Pile Bunker"
         ],
         "boostSkills": [
             "Rocket Punch Boost",
