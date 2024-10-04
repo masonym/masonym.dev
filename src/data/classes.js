@@ -519,7 +519,6 @@ export const classes = {
         "originSkill": "Nature's Truth",
         "masterySkills": [
             "HEXA Wild Arrow Blast",
-            "HEXA Wild Arrow Blast[1]",
             "HEXA Swipe",
             "HEXA Wild Lure",
             "HEXA Dash 'n Slash",
@@ -547,7 +546,6 @@ export const classes = {
             "HEXA Mecha Purge: Fire",
             "HEXA Hypogram Field: Penetrate",
             "HEXA Hypogram Field: Force Field",
-            "HEXA Hypogram Field: Support",
             "HEXA Triangulation"
         ],
         "boostSkills": [
