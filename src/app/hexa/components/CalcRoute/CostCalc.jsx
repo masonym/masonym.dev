@@ -263,7 +263,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                 height={48}
                 alt={"Sol Erda Energy"}
               />
-              <p className="text-blue-600 font-medium text-[24px]">{totalRemaining.solErda}</p>
+              <p className="text-blue-600 font-medium text-[24px]">{totalRemaining.solErda.toLocaleString()}</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -272,7 +272,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                 height={48}
                 alt={"Sol Erda Fragment"}
               />
-              <p className="text-green-600 font-medium text-[24px]">{totalRemaining.frags}</p>
+              <p className="text-green-600 font-medium text-[24px]">{totalRemaining.frags.toLocaleString()}</p>
             </div>
           </div>
           {/* <div className="w-full flex justify-center gap-4 items-center mb-4"> */}
@@ -344,7 +344,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                                 height={32}
                                 alt={"Sol Erda Energy"}
                               />
-                              <p className="text-blue-600">{costs.current.solErda}</p>
+                              <p className="text-blue-600">{costs.current.solErda.toLocaleString()}</p>
                             </div>
                             <div className="flex flex-col items-center gap-2 w-fit my-2 ">
                               <Image
@@ -353,7 +353,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                                 height={32}
                                 alt={"Sol Erda Fragment"}
                               />
-                              <p className="text-green-600">{costs.current.frags}</p>
+                              <p className="text-green-600">{costs.current.frags.toLocaleString()}</p>
                             </div>
                           </div>
                         </div>
@@ -369,7 +369,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                               height={32}
                               alt={"Sol Erda Energy"}
                             />
-                            <p className="text-blue-600">{costs.remaining.solErda}</p>
+                            <p className="text-blue-600">{costs.remaining.solErda.toLocaleString()}</p>
                           </div>
                           <div className="flex flex-col items-center gap-2 w-fit my-2 ">
                             <Image
@@ -378,7 +378,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                               height={32}
                               alt={"Sol Erda Fragment"}
                             />
-                            <p className="text-green-600">{costs.remaining.frags}</p>
+                            <p className="text-green-600">{costs.remaining.frags.toLocaleString()}</p>
                           </div>
                         </div>
                       </div>

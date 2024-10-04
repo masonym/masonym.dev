@@ -46,13 +46,13 @@ const ClassSelector = () => {
         const initialLevels = {};
         initialLevels[classDetails.originSkill] = { level: 1, type: 'origin' };
         classDetails.masterySkills.forEach(skill => {
-          initialLevels[skill] = { level: 1, type: 'mastery' };
+          initialLevels[skill] = { level: 0, type: 'mastery' };
         });
         classDetails.boostSkills.forEach(skill => {
-          initialLevels[skill] = { level: 1, type: 'enhancement' };
+          initialLevels[skill] = { level: 0, type: 'enhancement' };
         });
         classDetails.commonSkills.forEach(skill => {
-          initialLevels[skill] = { level: 1, type: 'common' };
+          initialLevels[skill] = { level: 0, type: 'common' };
         });
         setSkillLevels(initialLevels);
       }
@@ -139,7 +139,7 @@ const ClassSelector = () => {
       }
     });
 
-    return totalSolErda;
+    return totalSolErda.toLocaleString();
   };
 
   const calculateTotalFrags = () => {
@@ -154,7 +154,7 @@ const ClassSelector = () => {
       }
     });
 
-    return totalFrags;
+    return totalFrags.toLocaleString();
   };
 
   const getCostTable = (skillType) => {
