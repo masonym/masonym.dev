@@ -181,6 +181,8 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       }
     });
 
+    // console.log(globalFinalDamageMultiplier)
+
     if (skill.type === 'Origin') {
       skillData = classData.originSkill;
       let baseDamage = skillData.components.reduce((total, component) => {
@@ -237,10 +239,30 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       const auxiliaryBoost = getAuxiliaryBoost(skillData, level);
       const { iedBoost, bossDamageBoost } = getProgressiveBoosts(skillData, level);
       const totalIED = calculateIED(iedPercent / 100, iedBoost / 100) * 100;
-      const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
-      return baseBoost * auxiliaryBoost * totalDamageMultiplier * globalFinalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
+      let totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost) / 100;
+  
+      // Calculate global effects
+      let globalFinalDamageMultiplier = 1;
+      currentSkills.forEach(currentSkill => {
+        if (currentSkill.type === 'Boost') {
+          const boostSkillData = classData.boostSkills.find(s => s.name === currentSkill.skill);
+          if (boostSkillData.globalEffect && boostSkillData.globalEffect.type === 'finalDamage') {
+            globalFinalDamageMultiplier *= (1 + boostSkillData.globalEffect.value + 
+              (currentSkill.level - 1) * boostSkillData.globalEffect.growthPerLevel);
+          }
+        }
+      });
+  
+      // Include the skill's own global effect if it has one
+      if (skillData.globalEffect && skillData.globalEffect.type === 'finalDamage') {
+        globalFinalDamageMultiplier *= (1 + skillData.globalEffect.value + 
+          (level - 1) * skillData.globalEffect.growthPerLevel);
+      }
+  
+      return baseBoost * auxiliaryBoost * totalDamageMultiplier * globalFinalDamageMultiplier * 
+        (1 - (bossDefense / 100) * (1 - totalIED / 100));
     }
-
+  
     return 0;
   };
 
@@ -281,28 +303,53 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills) => {
     let totalCost = 0;
     let totalGrowth = 1;
-
+    let globalEffectIncrease = 0;
+  
     const updatedSkills = [...currentSkills];
     const skillIndex = updatedSkills.findIndex(s => s.skill === skill.skill);
-
+    const classData = classSkillGrowth[selectedClass];
+  
+    // Get the boost skill data
+    const boostSkillData = skill.type === 'Boost' ? classData.boostSkills.find(s => s.name === skill.skill) : null;
+    
+    // Calculate the initial global effect value
+    let initialGlobalEffect = 0;
+    if (boostSkillData?.globalEffect && boostSkillData.globalEffect.type === 'finalDamage') {
+      initialGlobalEffect = boostSkillData.globalEffect.value;
+    }
+  
     for (let i = 0; i < steps; i++) {
       const level = currentLevel + i;
       if (level >= 30) break;
-
+  
       totalCost += getCost(skill.type, level);
-
+  
       // Update the skill level for damage calculation
       updatedSkills[skillIndex] = { ...updatedSkills[skillIndex], level: level + 1 };
-
+  
       const currentDamage = getSkillDamage(skill, level, currentSkills);
       const nextDamage = getSkillDamage(skill, level + 1, updatedSkills);
       totalGrowth *= nextDamage / currentDamage;
+  
+      // Calculate global effect increase
+      if (boostSkillData?.globalEffect && boostSkillData.globalEffect.type === 'finalDamage') {
+        globalEffectIncrease += boostSkillData.globalEffect.growthPerLevel;
+      }
     }
-
+  
     const growthIncrease = totalGrowth - 1;
     const skillContribution = damageDistribution[skill.skill] / 100;
-    const damageIncrease = growthIncrease * skillContribution;
-
+    
+    // Combine skill-specific damage increase with global effect
+    let damageIncrease;
+    if (currentLevel === 0) {
+      // For the first level, include the initial global effect value
+      damageIncrease = (growthIncrease * skillContribution) + initialGlobalEffect + globalEffectIncrease;
+    } else {
+      // For subsequent levels, only include the growth
+      damageIncrease = (growthIncrease * skillContribution) + globalEffectIncrease;
+    }
+  
     return totalCost > 0 ? damageIncrease / totalCost : 0;
   };
 

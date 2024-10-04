@@ -2841,8 +2841,8 @@ export const classSkillGrowth = {
                 // 8.33 fd over 30 levels applies to all skills so idk how accurate this is.
                 "globalEffect": {
                     "type": "finalDamage",
-                    "value": 0.0833, // 8.33% increase
-                    "growthPerLevel": 0.002777 // 8.33% / 30 levels
+                    "value": 0.01,
+                    "growthPerLevel": 0.003
                 }
             },
             {
