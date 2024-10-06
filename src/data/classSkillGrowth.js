@@ -2976,31 +2976,44 @@ export const classSkillGrowth = {
             "name": "Requiem",
             "components": [
                 {
-                    "damage": 1480,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 620,
+                    "attacks": 10,
+                    "triggers": 50,
+                    "growthPerLevel": 20
+                },
+                {
+                    "damage": 1168,
+                    "attacks": 12,
+                    "triggers": 7, // every 2 seconds, 7 times
+                    "growthPerLevel": 38
+                },
+                {
+                    "damage": 646,
+                    "attacks": 14,
+                    "triggers": 16,
+                    "growthPerLevel": 21
+                },
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Nether Shield",
-                "level0": 1422,
-                "level1": 1580,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 500,
+                "level1": 521,
+                "attacks": 2,
+                "growthPerLevel": 11,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Exceed: Execution",
-                "level0": 1512,
-                "level1": 1680,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 540,
+                "level1": 603,
+                "attacks": 4,
+                "growthPerLevel": 13,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "staticIED": 5
             }
         ],
         "boostSkills": [
@@ -3020,6 +3033,7 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // TODO: duration increase
                 "name": "Revenant Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
