@@ -3189,29 +3189,44 @@ export const classSkillGrowth = {
             "name": "Chain Arts: Grand Arsenal",
             "components": [
                 {
-                    "damage": 1350,
-                    "attacks": 1,
-                    "triggers": 1,
+                    "damage": 352,
+                    "attacks": 8,
+                    "triggers": 54,
+                    "growthPerLevel": 12
+                },
+                {
+                    "damage": 382,
+                    "attacks": 9,
+                    "triggers": 17,
+                    "growthPerLevel": 12
+                },
+                {
+                    "damage": 403,
+                    "attacks": 60,
+                    "triggers": 14,
                     "growthPerLevel": 13
-                }
+                },
+                
             ]
         },
         "masterySkills": [
             {
+                // fd for 1 skill scales after this..... grr
+                // TODO: shockwave & fd scaling
                 "name": "HEXA Chain Arts: Thrash",
-                "level0": 1305,
-                "level1": 1450,
+                "level0": 600, // 150 * 2 + 150 * 2
+                "level1": 2385, // 155 * 2 + 415 * 5 + 
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 35,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Muscle Memory",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 350,
+                "level1": 457,
+                "attacks": 4,
+                "growthPerLevel": 7,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
