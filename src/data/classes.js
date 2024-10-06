@@ -597,7 +597,6 @@ export const classes = {
         "masterySkills": [
             "HEXA Trinity",
             "HEXA Soul Seeker",
-            "HEXA Soul Seeker Expert"
         ],
         "boostSkills": [
             "Sparkle Burst Boost",

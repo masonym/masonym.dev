@@ -3044,42 +3044,49 @@ export const classSkillGrowth = {
         "originSkill": {
             "name": "Grand Finale",
             "components": [
+                // Sound Waves
                 {
-                    "damage": 1550,
+                    "damage": 346,
+                    "attacks": 9,
+                    "triggers": 12,
+                    "growthPerLevel": 12
+                },
+                // Cannon Roars
+                {
+                    "damage": 355,
+                    "attacks": 14,
+                    "triggers": 38,
+                    "growthPerLevel": 12
+                },
+                // https://github.com/Auxilism/Auxilism.github.io/blob/main/ab_hexa_op/hexa-origin-node.js
+                // Cheering Balloons
+                {
+                    "damage": 345986,
                     "attacks": 1,
                     "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "growthPerLevel": 5916
+                },
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Trinity",
-                "level0": 1485,
-                "level1": 1650,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 630,
+                "level1": 643,
+                "attacks": 6,
+                "growthPerLevel": 13,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Soul Seeker",
-                "level0": 1575,
-                "level1": 1750,
+                "level0": 320,
+                "level1": 345,
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 3,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
-            {
-                "name": "HEXA Soul Seeker Expert",
-                "level0": 1665,
-                "level1": 1850,
-                "attacks": 1,
-                "growthPerLevel": 15,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
-            }
         ],
         "boostSkills": [
             {

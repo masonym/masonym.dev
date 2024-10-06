@@ -310,7 +310,6 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Soul Seeker",
-            "HEXA Soul Seeker Expert"
         ]
     },
     "Kaiser": {
