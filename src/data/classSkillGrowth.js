@@ -2842,7 +2842,7 @@ export const classSkillGrowth = {
                 "globalEffect": {
                     "type": "finalDamage",
                     "value": 0.01,
-                    "growthPerLevel": 0.003
+                    "growthPerLevel": 0.0022
                 }
             },
             {
@@ -2887,39 +2887,65 @@ export const classSkillGrowth = {
         "masterySkills": [
             {
                 "name": "HEXA Demon Impact",
-                "level0": 1368,
-                "level1": 1520,
-                "attacks": 1,
-                "growthPerLevel": 14,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "level0": 460,
+                "level1": 487,
+                "attacks": 6,
+                "growthPerLevel": 7,
+                "iedGrowthPerLevel": 0.333,
+                "bossDamageGrowthPerLevel": 0.166666667
             },
             {
                 "name": "HEXA Demon Impact: Demon Chain",
-                "level0": 1458,
-                "level1": 1620,
-                "attacks": 1,
-                "growthPerLevel": 14,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "level0": 460,
+                "level1": 639,
+                "attacks": 6,
+                "growthPerLevel": 9,
+                "iedGrowthPerLevel": 0.333,
+                "bossDamageGrowthPerLevel": 0.166666667,
             },
             {
+                // TODO: enhances non-hexa skill
+                // TODO: may need to mess with dmg numbers here
                 "name": "HEXA Demon Lash",
-                "level0": 1548,
-                "level1": 1720,
+                "level0": 1140, // 110; 110; 100; 100 ----- 220; 220; 300; 400
+                "level1": 2359, //224; 224; 209; 209 ------ 448; 448; 627; 836
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 44,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "Demon Awakening's Enhanced Demon Lash",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 32,
+                        "growthPerLevel": 2
+                    }
+                ]
             },
             {
+                // TODO: enhances non-hexa skill
                 "name": "HEXA Infernal Concussion",
-                "level0": 1638,
-                "level1": 1820,
+                "level0": 400,
+                "level1": 324,
                 "attacks": 1,
                 "growthPerLevel": 14,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "Demon Impact",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 12,
+                        "growthPerLevel": 2
+                    },
+                    {
+                        "targetSkill": "Demon Chain",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 32,
+                        "growthPerLevel": 2
+                    },
+                    
+                ]
             }
         ],
         "boostSkills": [
