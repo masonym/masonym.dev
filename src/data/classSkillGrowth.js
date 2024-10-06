@@ -3116,38 +3116,47 @@ export const classSkillGrowth = {
             "name": "Nova Triumphant",
             "components": [
                 {
-                    "damage": 1600,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 16
-                }
+                    "damage": 1226,
+                    "attacks": 8,
+                    "triggers": 14,
+                    "growthPerLevel": 39
+                },
+                {
+                    "damage": 981,
+                    "attacks": 13,
+                    "triggers": 47,
+                    "growthPerLevel": 32
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Gigas Wave",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 16,
+                "level0": 360,
+                "level1": 406,
+                "attacks": 9,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Blade Burst",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
-                "growthPerLevel": 16,
+                "level0": 480,
+                "level1": 540,
+                "attacks": 5,
+                "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // Dragon Blow does a fuckload of damage and triggers after 2 tempest hits 
+                // the math here i'm doing is just adding an extra hit basically cause 5 sword starst & scales similarly to dragon blow
                 "name": "HEXA Tempest Blades",
-                "level0": 1710,
-                "level1": 1900,
-                "attacks": 1,
-                "growthPerLevel": 16,
+                "level0": 2250, // 450 * 5
+                "level1": 2715, // 543 * 5 + 
+                "attacks": 5,
+                "growthPerLevel": 40, // 8 * 5
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
