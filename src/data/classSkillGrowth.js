@@ -3473,38 +3473,52 @@ export const classSkillGrowth = {
             "name": "Jin Quick Draw",
             "components": [
                 {
-                    "damage": 1420,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 1130,
+                    "attacks": 8,
+                    "triggers": 10,
+                    "growthPerLevel": 30
+                },
+                // first + second + third strike
+                {
+                    "damage": 920,
+                    "attacks": 10,
+                    "triggers": 15, // 5 * 3
+                    "growthPerLevel": 20
+                },
+                {
+                    "damage": 2480,
+                    "attacks": 15,
+                    "triggers": 10,
+                    "growthPerLevel": 80
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Rai Sanrenzan",
-                "level0": 1368,
-                "level1": 1520,
+                "level0": 3960, // (330 * 4) * 3
+                "level1": 4512, // (366 * 4) + (376 * 4) + (386 * 4)
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 72, // growth of 6 * 4 * 3
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Rai Blade Flash",
-                "level0": 1458,
-                "level1": 1620,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 340,
+                "level1": 366,
+                "attacks": 8,
+                "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Shinsoku",
-                "level0": 1548,
-                "level1": 1720,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 1010,
+                "level1": 1584,
+                "attacks": 10,
+                "growthPerLevel": 34,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
