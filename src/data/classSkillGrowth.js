@@ -3399,29 +3399,42 @@ export const classSkillGrowth = {
             "name": "Hakumenkonmou Juubi",
             "components": [
                 {
-                    "damage": 1300,
-                    "attacks": 1,
-                    "triggers": 1,
+                    "damage": 1640,
+                    "attacks": 8,
+                    "triggers": 10,
                     "growthPerLevel": 12
-                }
+                },
+                {
+                    "damage": 355,
+                    "attacks": 5,
+                    "triggers": 50, // 5 * 10?
+                    "growthPerLevel": 12
+                },
+                {
+                    "damage": 3100, // 3100 to 6000
+                    "attacks": 15,
+                    "triggers": 12,
+                    "growthPerLevel": 100
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Shikigami Haunting",
-                "level0": 1260,
-                "level1": 1400,
+                "level0": 3800, // (250 * 4) + (300 * 4) + (400 * 4)
+                "level1": 4512, // (346 * 4) + (376 * 4) + (406 * 4)
                 "attacks": 1,
-                "growthPerLevel": 12,
+                "growthPerLevel": 72, // 6 growth per level * 3 hits * 4 attacks
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Vanquisher's Charm",
-                "level0": 1350,
-                "level1": 1500,
+                "level0": 127050, // 330 * 5 * 77
+                "level1": 170093, // (434 * 5 * 77) + (195 * 77 * ((20 + 0) / 100)) vs (608 * 5 * 77) + (195 * 77 * ((50) / 100))
                 "attacks": 1,
-                "growthPerLevel": 12,
+                "growthPerLevel": 2465.32759, // 241587.5 - 170093 ) / 29
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -3433,9 +3446,15 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // TODO: double check efficiency of domain
                 "name": "Spirit's Domain Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.003
+                }
             },
             {
                 "name": "Liberated Spirit Circle Boost",
