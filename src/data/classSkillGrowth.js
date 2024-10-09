@@ -3290,7 +3290,7 @@ export const classSkillGrowth = {
         "masterySkills": [
             {
                 "name": "HEXA Falling Dust",
-                "level0": 0,
+                "level0": 451,
                 "level1": 504,
                 "attacks": 8,
                 "growthPerLevel": 14,
@@ -3300,7 +3300,7 @@ export const classSkillGrowth = {
             {
                 "name": "[Possess] HEXA Falling Dust",
                 // has a follow-up
-                "level0": 0,
+                "level0": 10700,
                 "level1": 11765, // (566 * 10) + (407 * 15)
                 "attacks": 1,
                 "growthPerLevel": 340,
@@ -3309,7 +3309,7 @@ export const classSkillGrowth = {
             },
             {
                 "name": "[Execute] HEXA Poison Needle",
-                "level0": 0,
+                "level0": 8536,
                 "level1": 11970, // (391 * 8) + (289 * 8) + (330 * 12) + (257 * 10)
                 "attacks": 1,
                 "growthPerLevel": 350,
@@ -3318,7 +3318,7 @@ export const classSkillGrowth = {
             },
             {
                 "name": "HEXA Strike Arrow",
-                "level0": 0,
+                "level0": 3000, // idk lol
                 "level1": 3880, // (409 * 5) + (367 * 5)
                 "attacks": 1,
                 "growthPerLevel": 80,
@@ -3327,7 +3327,7 @@ export const classSkillGrowth = {
             },
             {
                 "name": "HEXA [Possess] Strike Arrow",
-                "level0": 0,
+                "level0": 440, // +220p
                 "level1": 614,
                 "attacks": 8,
                 "growthPerLevel": 14,
@@ -3336,7 +3336,7 @@ export const classSkillGrowth = {
             },
             {
                 "name": "HEXA Scattering Shot",
-                "level0": 0,
+                "level0": 3108, // (222 * 4) + (222 * 0.5 * 5 * 4)
                 "level1": 3836, // (274 * 4) + (274 * 0.5 * 5 * 4)
                 "attacks": 1,
                 "growthPerLevel": 84,
@@ -3345,7 +3345,7 @@ export const classSkillGrowth = {
             },
             {
                 "name": "HEXA [Possess] Scattering Shot",
-                "level0": 0,
+                "level0": 4690, // (335 * 4) + (335 * 4 * 0.5 * 5)
                 "level1": 6896, // (431 * 4) + (431 * 4 * 0.5 * 6)
                 "attacks": 1,
                 "growthPerLevel": 176,
@@ -3354,7 +3354,7 @@ export const classSkillGrowth = {
             },
             {
                 "name": "HEXA [Execute] Tearing Knife",
-                "level0": 0,
+                "level0": 468,
                 "level1": 513, // 
                 "attacks": 7,
                 "growthPerLevel": 13,
@@ -3363,7 +3363,7 @@ export const classSkillGrowth = {
             },
             {
                 "name": "HEXA [Execute] Chain Sickle",
-                "level0": 0,
+                "level0": 5520,
                 "level1": 6006, // (322 * 6) + (291 * 14)
                 "attacks": 1,
                 "growthPerLevel": 154,
