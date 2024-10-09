@@ -3257,94 +3257,116 @@ export const classSkillGrowth = {
     "Kain": {
         "originSkill": {
             "name": "Total Annihilation",
+            // unsure if this damage is accurate
             "components": [
                 {
-                    "damage": 1450,
-                    "attacks": 1,
-                    "triggers": 1,
+                    "damage": 424,
+                    "attacks": 8,
+                    "triggers": 33,
                     "growthPerLevel": 14
-                }
+                },
+                {
+                    "damage": 578,
+                    "attacks": 14,
+                    "triggers": 12,
+                    "growthPerLevel": 18
+                },
+                // malice's territory
+                {
+                    "damage": 494,
+                    "attacks": 15,
+                    "triggers": 20, // 20 stacks?
+                    "growthPerLevel": 9
+                },
+                // death blessing proc (dargon breath)
+                {
+                    "damage": 682,
+                    "attacks": 15,
+                    "triggers": 40, // 2 * 20
+                    "growthPerLevel": 22
+                },
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Falling Dust",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
+                "level0": 0,
+                "level1": 504,
+                "attacks": 8,
                 "growthPerLevel": 14,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "[Possess] HEXA Falling Dust",
-                "level0": 1485,
-                "level1": 1650,
+                // has a follow-up
+                "level0": 0,
+                "level1": 11765, // (566 * 10) + (407 * 15)
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 340,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "[Execute] HEXA Poison Needle",
-                "level0": 1575,
-                "level1": 1750,
+                "level0": 0,
+                "level1": 11970, // (391 * 8) + (289 * 8) + (330 * 12) + (257 * 10)
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 350,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Strike Arrow",
-                "level0": 1665,
-                "level1": 1850,
+                "level0": 0,
+                "level1": 3880, // (409 * 5) + (367 * 5)
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 80,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA [Possess] Strike Arrow",
-                "level0": 1755,
-                "level1": 1950,
-                "attacks": 1,
+                "level0": 0,
+                "level1": 614,
+                "attacks": 8,
                 "growthPerLevel": 14,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Scattering Shot",
-                "level0": 1845,
-                "level1": 2050,
+                "level0": 0,
+                "level1": 3836, // (274 * 4) + (274 * 0.5 * 5 * 4)
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 84,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA [Possess] Scattering Shot",
-                "level0": 1935,
-                "level1": 2150,
+                "level0": 0,
+                "level1": 6896, // (431 * 4) + (431 * 4 * 0.5 * 6)
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 176,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA [Execute] Tearing Knife",
-                "level0": 2025,
-                "level1": 2250,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 0,
+                "level1": 513, // 
+                "attacks": 7,
+                "growthPerLevel": 13,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA [Execute] Chain Sickle",
-                "level0": 2115,
-                "level1": 2350,
+                "level0": 0,
+                "level1": 6006, // (322 * 6) + (291 * 14)
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 154,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
