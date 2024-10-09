@@ -702,7 +702,6 @@ export const classes = {
         "masterySkills": [
             "HEXA Cleave",
             "HEXA Magic Dispatch",
-            "HEXA Aetherial Arms",
             "HEXA Hunting Decree",
             "HEXA Plummet"
         ],

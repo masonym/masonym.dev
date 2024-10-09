@@ -3551,56 +3551,56 @@ export const classSkillGrowth = {
             "name": "Maestro",
             "components": [
                 {
-                    "damage": 1500,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 703,
+                    "attacks": 10,
+                    "triggers": 29,
+                    "growthPerLevel": 23
+                },
+                {
+                    "damage": 703,
+                    "attacks": 14,
+                    "triggers": 57,
+                    "growthPerLevel": 23
+                },
+                
             ]
         },
         "masterySkills": [
             {
+                // TODO: this has an enhanced version every 6s... idk how to account for that
+                // ignoring for now.
                 "name": "HEXA Cleave",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 375,
+                "level1": 402,
+                "attacks": 6,
+                "growthPerLevel": 12,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Magic Dispatch",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 15,
-                "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
-            },
-            {
-                "name": "HEXA Aetherial Arms",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 450, // 80 + 30 + 115 + 225
+                "level1": 488,
+                "attacks": 15, // 3 * 5?
+                "growthPerLevel": 8,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Hunting Decree",
-                "level0": 1710,
-                "level1": 1900,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 360, // 240 + 120
+                "level1": 394,
+                "attacks": 2,
+                "growthPerLevel": 14,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Plummet",
-                "level0": 1800,
-                "level1": 2000,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 550,
+                "level1": 583,
+                "attacks": 6,
+                "growthPerLevel": 8,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -3617,9 +3617,15 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // TODO: check if this seems right
                 "name": "Legacy Restoration Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.003
+                }
             },
             {
                 "name": "Storm Boost",
