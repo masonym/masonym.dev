@@ -3639,74 +3639,117 @@ export const classSkillGrowth = {
             "name": "Primordial Abyss",
             "components": [
                 {
-                    "damage": 1550,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 579,
+                    "attacks": 14,
+                    "triggers": 68,
+                    "growthPerLevel": 18
+                },
+                // abyssal grips?
+                // supposedly 9 attacks, 15 triggers
+                {
+                    "damage": 889,
+                    "attacks": 9,
+                    "triggers": 15, 
+                    "growthPerLevel": 29
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Basic Charge Drive",
-                "level0": 1485,
-                "level1": 1650,
+                "level0": 2570, // ((100 + 260 + 250) * 3) + ((50 + 160 + 160) * 2)
+                "level1": 2672, // (610 * 3) + (421 * 2)
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 42,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Scarlet Charge Drive",
-                "level0": 1575,
-                "level1": 1750,
+                "level0": 3200, // ((80 + 100 + 170) * 3 * 2) + ((90 + 90 + 40) * 5)
+                "level1": 3541, // (391 * 3 * 2) + (239 * 5)
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 56,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Gust Charge Drive",
-                "level0": 1665,
-                "level1": 1850,
+                "level0": 3320, // ((205 + 195) * 6) + ((200 + 30) * 4)
+                "level1": 3668, // (442 * 6) + (254 * 4)
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 58,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Abyssal Charge Drive",
-                "level0": 1755,
-                "level1": 1950,
+                "level0": 3960, // (340 * 4) + (410 * 6) + (2 * 70) 
+                "level1": 4418, // (376 * 4) + (457 * 6) + (86 * 2)
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 68,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "Awakened Abyss",
+                "level0": 996, // ??? idk
+                "level1": 996, // 
+                "attacks": 3,
+                "growthPerLevel": 16,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Grievous Wound",
-                "level0": 1845,
-                "level1": 2050,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 490, // 150 + 160 + 180
+                "level1": 642,
+                "attacks": 6,
+                "growthPerLevel": 12,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // TODO: flat dmg increase to non-hexa
+                "additionalEffects": [
+                    {
+                        "targetSkill": "Vengeful Hate",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 130,
+                        "growthPerLevel": 10
+                    }
+                ]
             },
             {
                 "name": "HEXA Insatiable Hunger",
-                "level0": 1935,
-                "level1": 2150,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 490, // 300 +  190 + 
+                "level1": 661,
+                "attacks": 7,
+                "growthPerLevel": 11,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                // TODO: flat dmg increase to non-hexa
+                "additionalEffects": [
+                    {
+                        "targetSkill": "Unstoppable Impulse",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 47,
+                        "growthPerLevel": 7
+                    },
+                    {
+                        "targetSkill": "Tenacious Instinct",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 47,
+                        "growthPerLevel": 7
+                    },
+                    
+                ]
             },
             {
                 "name": "HEXA Unbridled Chaos",
-                "level0": 2025,
-                "level1": 2250,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 440,
+                "level1": 619,
+                "attacks": 12,
+                "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -3717,6 +3760,8 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // TODO:
+            // gives impending death 7 flat damage FUCKKKKKKKKKK
             {
                 "name": "Infinity Spell Boost",
                 "iedGrowthPerLevel": 0,

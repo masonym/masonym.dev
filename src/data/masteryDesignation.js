@@ -373,7 +373,8 @@ export const masteryDesignation = {
             "HEXA Basic Charge Drive",
             "HEXA Scarlet Charge Drive",
             "HEXA Gust Charge Drive",
-            "HEXA Abyssal Charge Dive"
+            "HEXA Abyssal Charge Dive",
+            "Awakened Abyss"
         ],
         "secondMastery": [
             "HEXA Grievous Wound",

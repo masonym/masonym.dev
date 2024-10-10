@@ -722,6 +722,7 @@ export const classes = {
             "HEXA Scarlet Charge Drive",
             "HEXA Gust Charge Drive",
             "HEXA Abyssal Charge Drive",
+            "Awakened Abyss",
             "HEXA Grievous Wound",
             "HEXA Insatiable Hunger",
             "HEXA Unbridled Chaos"
