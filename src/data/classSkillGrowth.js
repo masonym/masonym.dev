@@ -2944,7 +2944,7 @@ export const classSkillGrowth = {
                         "baseValue": 32,
                         "growthPerLevel": 2
                     },
-                    
+
                 ]
             }
         ],
@@ -3127,7 +3127,7 @@ export const classSkillGrowth = {
                     "triggers": 47,
                     "growthPerLevel": 32
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -3206,7 +3206,7 @@ export const classSkillGrowth = {
                     "triggers": 14,
                     "growthPerLevel": 13
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -3416,7 +3416,7 @@ export const classSkillGrowth = {
                     "triggers": 12,
                     "growthPerLevel": 100
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -3491,7 +3491,7 @@ export const classSkillGrowth = {
                     "triggers": 10,
                     "growthPerLevel": 80
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -3562,7 +3562,7 @@ export const classSkillGrowth = {
                     "triggers": 57,
                     "growthPerLevel": 23
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -3634,6 +3634,8 @@ export const classSkillGrowth = {
             }
         ]
     },
+    // ba 
+    // https://www.youtube.com/watch?v=FIXGgJEu0SE
     "Ark": {
         "originSkill": {
             "name": "Primordial Abyss",
@@ -3649,10 +3651,10 @@ export const classSkillGrowth = {
                 {
                     "damage": 889,
                     "attacks": 9,
-                    "triggers": 15, 
+                    "triggers": 15,
                     "growthPerLevel": 29
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -3741,7 +3743,7 @@ export const classSkillGrowth = {
                         "baseValue": 47,
                         "growthPerLevel": 7
                     },
-                    
+
                 ]
             },
             {
@@ -3752,7 +3754,8 @@ export const classSkillGrowth = {
                 "growthPerLevel": 9,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
-            }
+            },
+
         ],
         "boostSkills": [
             {
@@ -3761,11 +3764,16 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             // TODO:
-            // gives impending death 7 flat damage FUCKKKKKKKKKK
+            // gives impending death 7 flat damage per level
             {
                 "name": "Infinity Spell Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "flatDamageBoost": {
+                    "targetSkill": "Impending Death",
+                    "baseValue": 0,
+                    "growthPerLevel": 7
+                }
             },
             {
                 "name": "Devious Nightmare Boost",
@@ -3776,6 +3784,23 @@ export const classSkillGrowth = {
                 "name": "Endlessly Starving Beast Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
+            }
+        ],
+        "nonHexaSkills": [
+            {
+                "name": "Impending Death",
+                "baseDamage": 450, 
+                "attacks": 2,
+            },
+            {
+              "name": "Unstoppable Impulse",
+              "baseDamage": 435, // 110 + 150 + 175
+              "attacks": 5,    
+            },
+            {
+              "name": "Tenacious Instinct",
+              "baseDamage": 460, // 135 + 150 + 175
+              "attacks": 6,    
             }
         ]
     },
