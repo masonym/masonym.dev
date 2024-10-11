@@ -3809,79 +3809,128 @@ export const classSkillGrowth = {
             "name": "Mytocrystal Expanse",
             "components": [
                 {
-                    "damage": 1320,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 13
-                }
+                    "damage": 620,
+                    "attacks": 8,
+                    "triggers": 12,
+                    "growthPerLevel": 20 // 1200 - 620 ) / 29 = 20
+                },
+                {
+                    "damage": 692,
+                    "attacks": 10,
+                    "triggers": 13,
+                    "growthPerLevel": (1330 - 692) / 29
+                },
+                {
+                    "damage": 775,
+                    "attacks": 15,
+                    "triggers": 16,
+                    "growthPerLevel": (1500 - 775) / 29
+                },
+                //  mytocrystals resonance
+                {
+                    "damage": 992,
+                    "attacks": 15,
+                    "triggers": 16,
+                    "growthPerLevel": (1920 - 992) / 29
+                },
+                // resonance procs?
+                {
+                    "damage": 620,
+                    "attacks": 2,
+                    "triggers": 25 * 4, // 4 triggers; 25 crystals
+                    "growthPerLevel": (1200 - 620) / 29
+                },
+                
+                
+                
             ]
         },
         "masterySkills": [
             {
+                // stupid ass ENHANCED JAVELIN
                 "name": "HEXA Radiant Javelin",
-                "level0": 1278,
-                "level1": 1420,
+                "level0": (95 + 200) + (130 * 2),
+                "level1": (435 * 3) + (2 * 142),
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 19,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // stupid ass ENHANCED JAVELIN
                 "name": "HEXA Radiant Enchanted Javelin",
-                "level0": 1368,
-                "level1": 1520,
+                "level0": (95 + 200) + (130 * 2),
+                "level1": (((435 * 3) + (435 * 3 * 2 * 0.5))) + (2 * 142 * 3), // 3462
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 42,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Winged Javelin",
-                "level0": 1458,
-                "level1": 1620,
+                "level0": 4200,
+                "level1": (751 * 6) + (259 * 3), // 5283
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": (6675 - 5283) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Winged Enchanted Javelin",
-                "level0": 1548,
-                "level1": 1720,
+                "level0": 4200,
+                "level1": (((751 * 6) + (751 * 6 * 2 * 0.5))) + (259 * 3 * 3), // 11343
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": 108,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Reaction - Destruction",
-                "level0": 1638,
-                "level1": 1820,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": ((610 + 135) * 2 * 4) / 12,
+                "level1": 797,
+                "attacks": 12,
+                "growthPerLevel": (1145 - 797) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Reaction - Domination",
-                "level0": 1728,
-                "level1": 1920,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": ((610 + 135) * 2) / 5,
+                "level1": 567,
+                "attacks": 5,
+                "growthPerLevel": (915 - 567) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Vortex Wings",
-                "level0": 1818,
-                "level1": 2020,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 1070,
+                "level1": 1620,
+                "attacks": 15,
+                "growthPerLevel": (2200 - 1620) / 29,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Winged Enchanted Javelin",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": (54 * 3) + (54 * 3 * 2 * 0.5),
+                        "growthPerLevel": 696 / 29
+                    },
+                    {
+                        "targetSkill": "HEXA Radiant Enchanted Javelin",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": (54 * 6) + (54 * 6 * 2 * 0.5),
+                        "growthPerLevel": 1392 / 29
+                    },
+                    
+                ]
             }
         ],
         "boostSkills": [
+            // TODO: this boost applies to Spectral Blast as well
+            // Need to figure out how to account for that.
+            // Initial idea is to maybe just have players input them both in the same box.
             {
                 "name": "Crystal Ignition Boost",
                 "iedGrowthPerLevel": 0,
@@ -3892,11 +3941,13 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // TODO: this skill is funky idk. maybe just add fd
             {
                 "name": "Crystalline Spirit Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // TODO: duration increase & matk buff
             {
                 "name": "Crystal Gate Boost",
                 "iedGrowthPerLevel": 0,
@@ -3909,56 +3960,69 @@ export const classSkillGrowth = {
             "name": "Hex: Sandstorm",
             "components": [
                 {
-                    "damage": 1400,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 393,
+                    "attacks": 15,
+                    "triggers": 30, // TODO: how many times does this proc? lets say 30 :)
+                    "growthPerLevel": (770 - 393) / 29
+                },
+                {
+                    "damage": 424,
+                    "attacks": 10,
+                    "triggers": 13,
+                    "growthPerLevel": (830 - 424) / 29
+                },
+                {
+                    "damage": 414,
+                    "attacks": 14,
+                    "triggers": 34,
+                    "growthPerLevel": (820 - 414) / 29
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Arts: Flurry",
-                "level0": 1350,
-                "level1": 1500,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 290,
+                "level1": 324,
+                "attacks": 7,
+                "growthPerLevel": (585 - 324) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Arts: Crescentum",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 230 + 120 + 130, // = 480
+                "level1": 540,
+                "attacks": 4,
+                "growthPerLevel": (975 - 540) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Void Rush",
-                "level0": 1530,
-                "level1": 1700,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 0,
+                "level1": 254,
+                "attacks": 4,
+                "growthPerLevel": (370 - 254) / 29, // = 4
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Void Blitz",
-                "level0": 1620,
-                "level1": 1800,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": (210 * 4 * 4) / 5, // = 672
+                "level1": 190 * 4, // = 760
+                "attacks": 5,
+                "growthPerLevel": (335 - 190) / 29, // = 5
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Hex: Chakram Split",
-                "level0": 1710,
-                "level1": 1900,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 245 * 4 * 4, // = 3920
+                "level1": 268 * 4 * 4, // = 4288
+                "attacks": 5,
+                "growthPerLevel": (500 - 268) / 29, // = 8
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
