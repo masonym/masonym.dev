@@ -3789,18 +3789,18 @@ export const classSkillGrowth = {
         "nonHexaSkills": [
             {
                 "name": "Impending Death",
-                "baseDamage": 450, 
+                "baseDamage": 450,
                 "attacks": 2,
             },
             {
-              "name": "Unstoppable Impulse",
-              "baseDamage": 435, // 110 + 150 + 175
-              "attacks": 5,    
+                "name": "Unstoppable Impulse",
+                "baseDamage": 435, // 110 + 150 + 175
+                "attacks": 5,
             },
             {
-              "name": "Tenacious Instinct",
-              "baseDamage": 460, // 135 + 150 + 175
-              "attacks": 6,    
+                "name": "Tenacious Instinct",
+                "baseDamage": 460, // 135 + 150 + 175
+                "attacks": 6,
             }
         ]
     },
@@ -3840,9 +3840,9 @@ export const classSkillGrowth = {
                     "triggers": 25 * 4, // 4 triggers; 25 crystals
                     "growthPerLevel": (1200 - 620) / 29
                 },
-                
-                
-                
+
+
+
             ]
         },
         "masterySkills": [
@@ -3923,7 +3923,7 @@ export const classSkillGrowth = {
                         "baseValue": (54 * 6) + (54 * 6 * 2 * 0.5),
                         "growthPerLevel": 1392 / 29
                     },
-                    
+
                 ]
             }
         ],
@@ -3977,7 +3977,7 @@ export const classSkillGrowth = {
                     "triggers": 34,
                     "growthPerLevel": (820 - 414) / 29
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -4050,6 +4050,8 @@ export const classSkillGrowth = {
             }
         ]
     },
+    // https://www.youtube.com/watch?v=7PvO8m5hTUg
+    // ba video
     "Hoyoung": {
         "originSkill": {
             "name": "Sage: Apotheosis",
@@ -4072,7 +4074,7 @@ export const classSkillGrowth = {
                     "triggers": 61,
                     "growthPerLevel": (1077 - 555) / 29
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -4169,7 +4171,7 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
-                        {
+            {
                 "name": "HEXA Humanity: Gold-Banded Cudgel (Enhanced)",
                 "level0": (282 * 10) + (458 * 8), // = 6484
                 "level1": (435 * 10) + (798 * 8) + (506 * 8), // = 14782
@@ -4299,56 +4301,83 @@ export const classSkillGrowth = {
             "name": "Universe in Bloom",
             "components": [
                 {
-                    "damage": 1350,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 13
-                }
+                    "damage": 1085,
+                    "attacks": 7,
+                    "triggers": 8,
+                    "growthPerLevel": (2100 - 1085) / 29
+                },
+                {
+                    "damage": 718,
+                    "attacks": 14,
+                    "triggers": 64,
+                    "growthPerLevel": (1385 - 718) / 29
+                },
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Essence Sprinkle",
-                "level0": 1305,
-                "level1": 1450,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 340 + 50 + 80, // 470
+                "level1": 492,
+                "attacks": 4,
+                "growthPerLevel": (840 - 492) / 29,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "Mountain Kid",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 80,
+                        "growthPerLevel": (660 - 80) / 29 // 20
+                    },
+                    {
+                        "targetSkill": "Mountain Seeds",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 80,
+                        "growthPerLevel": (660 - 80) / 29 // 20
+                    },
+                ]
             },
             {
+                // TODO: non-hexa FD% increase?
+                // real todo, not that fake todo shiiiiiiiiiiii
+                // this skill does no damage!!!!
                 "name": "HEXA Dragon Vein Eruption",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 0,
+                "level1": 0,
+                "attacks": 0,
+                "growthPerLevel": 0,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                // TODO: ???
+                // idk if the math here works well
+                // because the skill lasts for 18 seconds
+                // but whatever
                 "name": "HEXA Eruption: Heaving River",
-                "level0": 1485,
-                "level1": 1650,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 260 * 4,
+                "level1": (760 * 5) + (872 * 8), // 10776
+                "attacks": 9,
+                "growthPerLevel": (15010 - 10776) / 29, // 146
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Eruption: Whirlwind",
-                "level0": 1575,
-                "level1": 1750,
-                "attacks": 1,
-                "growthPerLevel": 13,
+                "level0": 90,
+                "level1": 454,
+                "attacks": 25,
+                "growthPerLevel": (628 - 454) / 29, // 6
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Eruption: Sunrise Well",
-                "level0": 1665,
-                "level1": 1850,
+                "level0": (145 * 6) + (110 * 16) + (4 * 95 * 3), // 3770
+                "level1": (758 * 6) + (425 * 18) + (5 * 465 * 3), // 26568
                 "attacks": 1,
-                "growthPerLevel": 13,
+                "growthPerLevel": (26568 - 19173) / 29, // 257
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -4374,6 +4403,34 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
+        ],
+        "nonHexaSkills": [
+            {
+                "name": "Mountain Kid",
+                "baseDamage": 85 + (208 + 260), // = 553
+                "attacks": 3,
+            },
+            {
+                "name": "Mountain Seeds",
+                "baseDamage": 55 + 265, // 320
+                "attacks": 1,
+            },
+            {
+                "name": "Absoprtion: River Puddle Douse",
+                "baseDamage": 510,
+                "attacks": 10,
+            },
+            {
+                "name": "Absoprtion: Fierce Wind",
+                "baseDamage": 250,
+                "attacks": 3,
+            },
+            {
+                "name": "Absoprtion: Sunlit Grain",
+                "baseDamage": 265,
+                "attacks": 1,    
+              },
+              
         ]
     },
     "Kinesis": {
