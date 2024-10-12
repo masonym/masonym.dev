@@ -856,6 +856,7 @@ export const classes = {
             "HEXA Wind Cutter",
             "HEXA Wind Striker",
             "HEXA Storm Break",
+            "Time Piece",
             "HEXA Spin Driver",
             "HEXA Wheel Wind",
             "HEXA Rolling Cross",

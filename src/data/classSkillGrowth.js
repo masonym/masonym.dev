@@ -1,3 +1,5 @@
+// TODO: make sure everyones skills are in the second mastery section gahhh
+
 export const classSkillGrowth = {
     "Hero": {
         "originSkill": {
@@ -4508,106 +4510,130 @@ export const classSkillGrowth = {
             "name": "End Time",
             "components": [
                 {
-                    "damage": 1500,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 15
-                }
+                    "damage": 733,
+                    "attacks": 6,
+                    "triggers": 17,
+                    "growthPerLevel": (1400 - 733) / 29
+                },
+                {
+                    "damage": 733,
+                    "attacks": 8,
+                    "triggers": 22,
+                    "growthPerLevel": (1400 - 733) / 29
+                },
+                {
+                    "damage": 734,
+                    "attacks": 14,
+                    "triggers": 32,
+                    "growthPerLevel": (1430 - 734) / 29
+                },
+                
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Giga Crash",
-                "level0": 1440,
-                "level1": 1600,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 250,
+                "level1": 284,
+                "attacks": 6,
+                "growthPerLevel": (400 - 284) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Falling Star",
-                "level0": 1530,
-                "level1": 1700,
+                "level0": (225 * 6) + (225 * 3),
+                "level1": (244 * 6) + (244 * 3),
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": 36,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Groundbreaker",
-                "level0": 1620,
-                "level1": 1800,
+                "level0": (380 * 10) + (285 * 10) + (340 * 1), // 6990
+                "level1": (436 * 10) + (310 * 10) + (371 * 5), // 9315
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": (13375 - 9315) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Wind Cutter",
-                "level0": 1710,
-                "level1": 1900,
+                "level0": (165 * 8) + (110 * 3 * 6), // 3300
+                "level1": (178 * 8) + (117 * 3 * 6), // 3530
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": (5270 - 3530) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Wind Striker",
-                "level0": 1800,
-                "level1": 2000,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 250,
+                "level1": 284,
+                "attacks": 8,
+                "growthPerLevel": (400 - 284) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Storm Break",
-                "level0": 1890,
-                "level1": 2100,
+                "level0": (335 * 10) + (335 * 4 * 6) + (230 * 3), // 12080
+                "level1": (361 * 10) + (361 * 6 * 4) + (254 * 4), // 13290
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": (19670 - 13290) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
+                "name": "Time Crystal",
+                "level0": 1,
+                "level1": 976,
+                "attacks": 4,
+                "growthPerLevel": (1440 - 976) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            
+            {
                 "name": "HEXA Spin Driver",
-                "level0": 1980,
-                "level1": 2200,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 260,
+                "level1": 291,
+                "attacks": 6,
+                "growthPerLevel": (465 - 291) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Wheel Wind",
-                "level0": 2070,
-                "level1": 2300,
-                "attacks": 1,
-                "growthPerLevel": 15,
+                "level0": 120,
+                "level1": 220,
+                "attacks": 2,
+                "growthPerLevel": (365 - 220) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Rolling Cross",
-                "level0": 2160,
-                "level1": 2400,
+                "level0": (365 * 12) + (350 * 2),
+                "level1": (404 * 12) + (465 * 3 * 2) + (465 * 3 * 2 * 0.3),
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": (14610 - 8335.5) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Rolling Assault",
-                "level0": 2250,
-                "level1": 2500,
+                "level0": (375 * 12) + (250 * 3),
+                "level1": (419 * 12) + (510 * 4 * 2) + (510 * 4 * 2 * 0.3), // 10332
                 "attacks": 1,
-                "growthPerLevel": 15,
+                "growthPerLevel": (19496 - 10332) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
         ],
         "boostSkills": [
+            // TODO: duration & fd increase
             {
                 "name": "Chrono Break Boost",
                 "iedGrowthPerLevel": 0,
@@ -4635,29 +4661,29 @@ export const classSkillGrowth = {
             "name": "Source Flow",
             "components": [
                 {
-                    "damage": 1200,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 12
+                    "damage": 558,
+                    "attacks": 12,
+                    "triggers": 54,
+                    "growthPerLevel": (1080 - 558) / 29
                 }
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Strike",
-                "level0": 1170,
-                "level1": 1300,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 315,
+                "level1": 340,
+                "attacks": 6,
+                "growthPerLevel": (485 - 340) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Sneak Attack",
-                "level0": 1260,
-                "level1": 1400,
-                "attacks": 1,
-                "growthPerLevel": 12,
+                "level0": 680,
+                "level1": 700,
+                "attacks": 8,
+                "growthPerLevel": (1280 - 700) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
@@ -4673,11 +4699,13 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // same concept as bene
             {
                 "name": "[Focus] Awaken Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
+            // TODO: all stat increase
             {
                 "name": "Nature's Grace Boost",
                 "iedGrowthPerLevel": 0,

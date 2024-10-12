@@ -445,7 +445,8 @@ export const masteryDesignation = {
             "HEXA Groundbreaker",
             "HEXA Wind Cutter",
             "HEXA Wind Striker",
-            "HEXA Storm Break"
+            "HEXA Storm Break",
+            "Time Piece",
         ],
         "secondMastery": [
             "HEXA Spin Driver",
