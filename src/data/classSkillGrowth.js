@@ -4055,29 +4055,99 @@ export const classSkillGrowth = {
             "name": "Sage: Apotheosis",
             "components": [
                 {
-                    "damage": 1450,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 520,
+                    "attacks": 8,
+                    "triggers": 1, // ? ; 5 seconds of keydown
+                    "growthPerLevel": (1013 - 520) / 29
+                },
+                {
+                    "damage": 651,
+                    "attacks": 15,
+                    "triggers": 1, // same triggers as keydown? maybe?
+                    "growthPerLevel": (1240 - 651) / 29
+                },
+                {
+                    "damage": 555,
+                    "attacks": 14,
+                    "triggers": 61,
+                    "growthPerLevel": (1077 - 555) / 29
+                },
+                
             ]
         },
         "masterySkills": [
             {
+                // TODO: not sure which of these actually appear on the BA 
+                // Clone/True skills seem to be a separate skill
+                // Enhanced seem to be not; unsure if they appear on BA though
                 "name": "HEXA Heaven: Consuming Flames",
-                "level0": 1395,
-                "level1": 1550,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 370,
+                "level1": 410,
+                "attacks": 6,
+                "growthPerLevel": (555 - 410) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Heaven: Consuming Flames (Enhanced)",
+                "level0": 370,
+                "level1": 607,
+                "attacks": 6 + 2, // flame emblem x2? 
+                "growthPerLevel": (810 - 607) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Heaven: Consuming Flames (Clone/True)",
+                "level0": 370,
+                "level1": 410,
+                "attacks": 6,
+                "growthPerLevel": (555 - 410) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Heaven: Consuming Flames (Clone/True) (Enhanced)",
+                "level0": 370,
+                "level1": 607,
+                "attacks": 6,
+                "growthPerLevel": (810 - 607) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Earth: Stone Tremor",
-                "level0": 1485,
-                "level1": 1650,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 180 + 245, // = 425
+                "level1": 476,
+                "attacks": 6,
+                "growthPerLevel": (650 - 476) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Earth: Stone Tremor (Enhanced)",
+                "level0": 425,
+                "level1": 749 + ((527 * 5) / 6), // bright moon = 527 * 5
+                "attacks": 6,
+                "growthPerLevel": (1010 - 749) / 29, // = 9
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Earth: Stone Tremor (Clone/True)",
+                "level0": 425,
+                "level1": 476,
+                "attacks": 6,
+                "growthPerLevel": (650 - 476) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Earth: Stone Tremor (Clone/True) (Enhanced)",
+                "level0": 425,
+                "level1": 820,
+                "attacks": 6,
+                "growthPerLevel": (1110 - 820) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
@@ -4091,35 +4161,118 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
-                "name": "HEXA Heaven: Iron Fan Gale",
-                "level0": 1665,
-                "level1": 1850,
+                "name": "HEXA Humanity: Gold-Banded Cudgel",
+                "level0": (282 * 10) + (458 * 8), // = 6484
+                "level1": (281 * 10) + (511 * 8), // = 6898
                 "attacks": 1,
-                "growthPerLevel": 14,
+                "growthPerLevel": 148,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+                        {
+                "name": "HEXA Humanity: Gold-Banded Cudgel (Enhanced)",
+                "level0": (282 * 10) + (458 * 8), // = 6484
+                "level1": (435 * 10) + (798 * 8) + (506 * 8), // = 14782
+                "attacks": 1,
+                "growthPerLevel": (24410 - 14782) / 29, // = 332
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            // TODO: add universal harmony here? not sure.
+            {
+                "name": "HEXA Heaven: Iron Fan Gale",
+                "level0": 150 + 141, // = 291
+                "level1": 304,
+                "attacks": 5,
+                "growthPerLevel": (420 - 304) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Heaven: Iron Fan Gale (Enhanced)",
+                "level0": 291,
+                "level1": 465,
+                "attacks": 5,
+                "growthPerLevel": (610 - 465) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Heaven: Iron Fan Gale (Clone/True)",
+                "level0": 291,
+                "level1": 304,
+                "attacks": 5,
+                "growthPerLevel": (420 - 304) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Heaven: Iron Fan Gale (Clone/True) (Enhanced)",
+                "level0": 291,
+                "level1": 465,
+                "attacks": 5,
+                "growthPerLevel": (610 - 465) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Earth: Ground-Shattering Wave",
-                "level0": 1755,
-                "level1": 1950,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 100 + 220, // 320
+                "level1": 460,
+                "attacks": 4,
+                "growthPerLevel": (750 - 460) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Earth: Ground-Shattering Wave (Enhanced)",
+                "level0": 320,
+                "level1": 699,
+                "attacks": 4,
+                "growthPerLevel": (960 - 699) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Earth: Ground-Shattering Wave (Clone/True)",
+                "level0": 320,
+                "level1": 460,
+                "attacks": 4,
+                "growthPerLevel": (750 - 460) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Earth: Ground-Shattering Wave (Clone/True) (Enhanced)",
+                "level0": 320,
+                "level1": 699,
+                "attacks": 4,
+                "growthPerLevel": (960 - 699) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Humanity: As-You-Will Fan",
-                "level0": 1845,
-                "level1": 2050,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 90 + 307, // 397
+                "level1": 626,
+                "attacks": 5,
+                "growthPerLevel": (858 - 626) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Humanity: As-You-Will Fan (Enhanced)",
+                "level0": 397,
+                "level1": 969,
+                "attacks": 5,
+                "growthPerLevel": (1230 - 969) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
         ],
         "boostSkills": [
             {
+                // TODO: enhances clone with the damage that increased bla bla bla???
                 "name": "Sage: Clone Rampage Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0

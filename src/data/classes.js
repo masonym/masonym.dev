@@ -780,12 +780,26 @@ export const classes = {
     "Hoyoung": {
         "originSkill": "Sage: Apotheosis",
         "masterySkills": [
-            "HEXA Heaven: Consuming Flames",
-            "HEXA Earth: Stone Tremor",
-            "HEXA Humanity: Gold-Banded Cudgel",
-            "HEXA Heaven: Iron Fan Gale",
-            "HEXA Earth: Ground-Shattering Wave",
-            "HEXA Humanity: As-You-Will Fan"
+          "HEXA Heaven: Consuming Flames",
+          "HEXA Heaven: Consuming Flames (Enhanced)",
+          "HEXA Consuming Flames (Clone/True)",
+          "HEXA Consuming Flames (Clone/True) (Enhanced)",
+          "HEXA Earth: Stone Tremor",
+          "HEXA Earth: Stone Tremor (Enhanced)",
+          "HEXA Stone Tremor (Clone/True)",
+          "HEXA Stone Tremor (Clone/True) (Enhanced)",
+          "HEXA Humanity: Gold-Banded Cudgel",
+          "HEXA Humanity: Gold-Banded Cudgel (Enhanced)",
+          "HEXA Heaven: Iron Fan Gale",
+          "HEXA Heaven: Iron Fan Gale (Enhanced)",
+          "HEXA Heaven: Iron Fan Gale (Clone/True)",
+          "HEXA Heaven: Iron Fan Gale (Clone/True) (Enhanced)",
+          "HEXA Earth: Ground-Shattering Wave",
+          "HEXA Earth: Ground-Shattering Wave (Enhanced)",
+          "HEXA Earth: Ground-Shattering Wave (Clone/True)",
+          "HEXA Earth: Ground-Shattering Wave (Clone/True) (Enhanced)",
+          "HEXA Humanity: As-You-Will Fan",
+          "HEXA Humanity: As-You-Will Fan (Enhanced)"
         ],
         "boostSkills": [
             "Sage: Clone Rampage Boost",
