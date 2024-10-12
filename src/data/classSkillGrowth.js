@@ -4438,38 +4438,44 @@ export const classSkillGrowth = {
             "name": "From Another Realm",
             "components": [
                 {
-                    "damage": 1480,
-                    "attacks": 1,
-                    "triggers": 1,
-                    "growthPerLevel": 14
-                }
+                    "damage": 821,
+                    "attacks": 12,
+                    "triggers": 32,
+                    "growthPerLevel": (1575 - 821) / 29
+                },
+                {
+                    "damage": 832,
+                    "attacks": 13,
+                    "triggers": 44,
+                    "growthPerLevel": (1586 - 832) / 29
+                },
             ]
         },
         "masterySkills": [
             {
                 "name": "HEXA Ultimate - Metal Press",
-                "level0": 1422,
-                "level1": 1580,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": 120 + 130 + 140 + 310, // 700
+                "level1": 773,
+                "attacks": 10,
+                "growthPerLevel": (1295 - 773) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Psychic Grab",
-                "level0": 1512,
-                "level1": 1680,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": (340 * 3) / 5, // 204
+                "level1": 512,
+                "attacks": 5,
+                "growthPerLevel": (1034 - 512) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
             {
                 "name": "HEXA Ultimate - Psychic Shot",
-                "level0": 1602,
-                "level1": 1780,
-                "attacks": 1,
-                "growthPerLevel": 14,
+                "level0": (300 * 3) / 4,
+                "level1": 504,
+                "attacks": 4,
+                "growthPerLevel": (765 - 504) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
