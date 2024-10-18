@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { bossData } from '@/data/bossData';
-import { formatLongformNumber } from '@/utils';
+import { bossNameToImage, formatLongformNumber } from '@/utils';
 import Image from 'next/image';
 
 const DifficultyImage = ({ difficulty, afSacRequirement, level, pdr }) => {
@@ -97,7 +97,7 @@ const BossList = () => {
                                 </div>
                                 <div className="w-full h-24 mt-4 relative">
                                     <Image
-                                        src={`/bossImages/${boss.name.toLowerCase()}.png`}
+                                        src={`/bossImages/${bossNameToImage(boss.name.toLowerCase())}.png`}
                                         alt={boss.name}
                                         fill
                                         className="rounded-lg object-contain"
