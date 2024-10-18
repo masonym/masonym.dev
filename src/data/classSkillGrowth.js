@@ -531,10 +531,16 @@ export const classSkillGrowth = {
         ],
         "boostSkills": [
             {
-                // needs edge case; increases FD when using bene
+                // TODO: check value
                 "name": "Benediction Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.003
+                }
+                
             },
             {
                 "name": "Angel of Balance Boost",
@@ -569,14 +575,14 @@ export const classSkillGrowth = {
                     "triggers": 30,
                     "growthPerLevel": 26
                 },
-                // TODO:
+                // TODO_LOW_PRIORITY: scale relic liberation
                 // relic liberation
                 // may need to adjust this
                 // has scaling FD and idk how many times it procs in 30s
                 {
                     "damage": 837,
                     "attacks": 5,
-                    "triggers": 1,
+                    "triggers": 30, // lets just say it procs 30 times idk
                     "growthPerLevel": 27
                 },
                 // ancient wrath
@@ -607,9 +613,9 @@ export const classSkillGrowth = {
                 "growthPerLevel": 6, // 3% * 2 arrows
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0,
-                // TODO: scale num cursed arrows
                 // triggers every 20s
                 // the num of cursed arrows also increases with level
+                // every 3 levels, gain 6% fd?
                 "additionalEffects": [
                     {
                         "targetSkill": "HEXA Bountiful Burst",
@@ -651,7 +657,6 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
-                // TODO:
                 // does this need to be modified? not sure
                 "name": "Obsidian Barrier Boost",
                 "iedGrowthPerLevel": 0,
@@ -738,7 +743,6 @@ export const classSkillGrowth = {
 
                 // avg: 4258.75 + 67*level
 
-                // TODO: double check exploding arrow fragments
                 "name": "HEXA Piercing Arrow",
                 "level0": 520,
                 "level1": 4258.75,
@@ -808,7 +812,6 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
-            // TODO: also increases final attack damage
             {
                 "name": "HEXA Arrow Stream",
                 "level0": 350,
@@ -816,10 +819,13 @@ export const classSkillGrowth = {
                 "attacks": 5,
                 "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "flatDamageBoost": {
+                    "targetSkill": "Advanced Final Attack",
+                    "baseValue": 117,
+                    "growthPerLevel": (320 - 117) / 29 // 7
+                }
             },
-            // idk what to put as the attack number for this
-            // i think 1 is fine
             {
                 "name": "HEXA Arrow Blaster",
                 "level0": 181,
@@ -851,6 +857,13 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
+        ],
+        "nonHexaSkills": [
+            {
+                "name": "Advanced Final Attack",
+                "baseDamage": 210,
+                "attacks": 1,
+            },
         ]
     },
     "Dual Blade": {
@@ -1015,7 +1028,7 @@ export const classSkillGrowth = {
         ],
         "boostSkills": [
             {
-                // TODO: maybe account for cooldown reduction & consecutive uses
+                // TODO_LOW_PRIORITY: maybe account for cooldown reduction & consecutive uses
                 "name": "Shadow Assault Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
@@ -1352,7 +1365,6 @@ export const classSkillGrowth = {
             ]
         },
         "masterySkills": [
-            // TODO: this skill affects Majestic Presence; non hexa skill
             {
                 "name": "HEXA Rapid Fire",
                 "level0": 375,
@@ -1360,7 +1372,15 @@ export const classSkillGrowth = {
                 "attacks": 1,
                 "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "Majestic Presence",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 29,
+                        "growthPerLevel": (145 - 29) / 29
+                    }
+                ]
             },
             {
                 "name": "HEXA Broadside",
@@ -1393,6 +1413,14 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
+        ],
+        "nonHexaSkills": [
+            {
+                // this is their final attack
+                "name": "Majestic Presence",
+                "baseDamage": 275,
+                "attacks": 1,
+            },
         ]
     },
     "Dawn Warrior": {
@@ -1493,7 +1521,15 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
-            // TODO: enhances Lightnight Strike's Massive Thunderbolt +%p
+            {
+                "name": "HEXA Annihilate Lightning Strike",
+                "level0": 103,
+                "level1": 103,
+                "attacks": 3,
+                "growthPerLevel": (190 - 103) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
             {
                 "name": "HEXA Thunderbolt",
                 "level0": 320,
@@ -1501,7 +1537,15 @@ export const classSkillGrowth = {
                 "attacks": 5,
                 "growthPerLevel": 6,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    {
+                        "targetSkill": "HEXA Annihilate Lightning Strike",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 99,
+                        "growthPerLevel": (360 - 99) / 29
+                    }
+                ]
             }
         ],
         "boostSkills": [
@@ -1552,12 +1596,20 @@ export const classSkillGrowth = {
         },
         "masterySkills": [
             {
-                // do i need to add Jet Black? idk
                 "name": "HEXA Quintuple Star",
                 "level0": 253,
-                "level1": 272,
-                "attacks": 4,
-                "growthPerLevel": 2,
+                "level1": (272 * 4) + (1088 * 1), // = 2176
+                "attacks": 1,
+                "growthPerLevel": (2640 - 2176) / 29,
+                "iedGrowthPerLevel": 0,
+                "bossDamageGrowthPerLevel": 0
+            },
+            {
+                "name": "HEXA Quintuple Star - Jet Black",
+                "level0": (272 * 4) + (213 * 7),
+                "level1": (272 * 4) + (213 * 7), // = 2579
+                "attacks": 1,
+                "growthPerLevel": (3420 - 2579) / 29,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
@@ -1826,12 +1878,15 @@ export const classSkillGrowth = {
         ],
         "boostSkills": [
             {
-                // TODO: 
                 // this skill receives +1% fd at 1/9/10/19/20/29/40
-                // needs custom logic entirely
                 "name": "Shield of Light Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01, // 1%
+                    "growthPerLevel": 0.002 // 2% every 10 levels roughly?. maybe need to increase.
+                }
             },
             {
                 "name": "Sword of Light Boost",
@@ -1844,12 +1899,17 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
-                // TODO: 
                 // this skill receives +1% fd at 1/9/10/19/20/29/40
                 // needs custom logic entirely
                 "name": "Light of Courage Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "bossDamage",
+                    "value": 0, // idk if this field even changes anything
+                    // may need to change this vvvv
+                    "growthPerLevel": 0.075 // 15% over 30 levels + 35% duration increase. 
+                }                
             }
         ]
     },
@@ -1898,7 +1958,6 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
-            // TODO: enhances Ishtar's Mark creation damage; non hexa skill
             {
                 "name": "HEXA Wrath of Enlil",
                 "level0": 515,
@@ -1906,7 +1965,16 @@ export const classSkillGrowth = {
                 "attacks": 10,
                 "growthPerLevel": 10,
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "additionalEffects": [
+                    // TODO: gotta adjust this to provide adequate boost to ishtar's ring
+                    {
+                        "targetSkill": "HEXA Ishtar's Ring",
+                        "effectType": "flatDamageIncrease",
+                        "baseValue": 40,
+                        "growthPerLevel": 3
+                    }
+                ]
             },
             {
                 "name": "HEXA Wrath of Enlil: Spirit Enchant",
@@ -1971,11 +2039,10 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0,
                 //  While active, Final Damage: +1%. every 6 levels
                 // this istn really accurate cause its +fd to all skills not just this one but idk
-                // just a way to weight it i guess
-                // TODO: maybe check uptime & scale based on this
-                "auxiliaryBoost": {
-                    "threshold": 6,
-                    "increase": 0.01
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.001
                 }
             },
             {
@@ -1988,7 +2055,7 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             }
-        ]
+        ],
     },
     // yay i get to re-do this class soon
     "Aran": {
@@ -2006,7 +2073,7 @@ export const classSkillGrowth = {
                     "triggers": 49,
                     "growthPerLevel": 34
                 },
-                // TODO: add howling swing
+                // TODO: add howling swing maybe
             ]
         },
         "masterySkills": [
@@ -2046,10 +2113,10 @@ export const classSkillGrowth = {
                 //  While active, Final Damage: +1%. every 6 levels
                 // this istn really accurate cause its +fd to all skills not just this one but idk
                 // just a way to weight it i guess
-                // TODO: maybe check uptime & scale based on this
-                "auxiliaryBoost": {
-                    "threshold": 6,
-                    "increase": 0.01
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.002
                 }
             },
             {
@@ -2297,11 +2364,14 @@ export const classSkillGrowth = {
             }
         ],
         "boostSkills": [
-            // TODO: this skill gains cooldown reduction every x levels?
             {
                 "name": "Elemental Barrage Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "auxiliaryBoost": {
+                    "threshold": 10,
+                    "increase": 0.02
+                }
             },
             {
                 "name": "Dragon Slam Boost",
@@ -2363,7 +2433,12 @@ export const classSkillGrowth = {
             {
                 "name": "Spirit Flow Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.02
+                }
             },
             {
                 "name": "Spiritgate Boost",
@@ -2722,7 +2797,11 @@ export const classSkillGrowth = {
                 // TODO: idk
                 "name": "Jaguar Storm Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "auxiliaryBoost": {
+                    "threshold": 1,
+                    "increase": 0.01
+                }
             },
             {
                 "name": "Primal Fury Boost",
@@ -2906,8 +2985,6 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0.166666667,
             },
             {
-                // TODO: enhances non-hexa skill
-                // TODO: may need to mess with dmg numbers here
                 "name": "HEXA Demon Lash",
                 "level0": 1140, // 110; 110; 100; 100 ----- 220; 220; 300; 400
                 "level1": 2359, //224; 224; 209; 209 ------ 448; 448; 627; 836
@@ -2917,15 +2994,14 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0,
                 "additionalEffects": [
                     {
-                        "targetSkill": "Demon Awakening's Enhanced Demon Lash",
+                        "targetSkill": "Enhanced Demon Lash",
                         "effectType": "flatDamageIncrease",
-                        "baseValue": 32,
-                        "growthPerLevel": 2
+                        "baseValue": (22 * 3 * 4),
+                        "growthPerLevel": (2 * 3 * 4)
                     }
                 ]
             },
             {
-                // TODO: enhances non-hexa skill
                 "name": "HEXA Infernal Concussion",
                 "level0": 400,
                 "level1": 324,
@@ -2935,13 +3011,13 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0,
                 "additionalEffects": [
                     {
-                        "targetSkill": "Demon Impact",
+                        "targetSkill": "HEXA Demon Impact",
                         "effectType": "flatDamageIncrease",
                         "baseValue": 12,
                         "growthPerLevel": 2
                     },
                     {
-                        "targetSkill": "Demon Chain",
+                        "targetSkill": "HEXA Demon Impact: Demon Chain",
                         "effectType": "flatDamageIncrease",
                         "baseValue": 32,
                         "growthPerLevel": 2
@@ -2970,6 +3046,23 @@ export const classSkillGrowth = {
                 "name": "Demon Bane Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
+            }
+        ],
+        "nonHexaSkills": [
+            {
+                "name": "Enhanced Demon Lash",
+                "baseDamage": (600 * 3) + (600 * 3) + (700 * 3) + (800 * 3),
+                "attacks": 1,
+            },
+            {
+                "name": "HEXA Demon Impact",
+                "baseDamage": 487,
+                "attacks": 6
+            },
+            {
+                "name": "HEXA Demon Impact: Demon Chain",
+                "baseDamage": 639,
+                "attacks": 6
             }
         ]
     },
@@ -3765,7 +3858,6 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
-            // TODO:
             // gives impending death 7 flat damage per level
             {
                 "name": "Infinity Spell Boost",
@@ -3803,8 +3895,13 @@ export const classSkillGrowth = {
                 "name": "Tenacious Instinct",
                 "baseDamage": 460, // 135 + 150 + 175
                 "attacks": 6,
+            },
+            {
+                "name": "Vengeful Hate",
+                "baseDamage": 210 + 110, // 150 + 150 + 100
+                "attacks": 6,
             }
-        ]
+        ],
     },
     "Illium": {
         "originSkill": {
@@ -3943,17 +4040,27 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
-            // TODO: this skill is funky idk. maybe just add fd
+            // TODO: this skill is funky idk. maybe just add fd. check value
             {
                 "name": "Crystalline Spirit Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.003
+                }
             },
             // TODO: duration increase & matk buff
             {
                 "name": "Crystal Gate Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.003
+                }
             }
         ]
     },
@@ -4279,7 +4386,12 @@ export const classSkillGrowth = {
                 // TODO: enhances clone with the damage that increased bla bla bla???
                 "name": "Sage: Clone Rampage Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.003
+                }
             },
             {
                 "name": "Scroll: Tiger of Songyu Boost",
@@ -4586,7 +4698,7 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
-                "name": "Time Crystal",
+                "name": "Time Piece",
                 "level0": 1,
                 "level1": 976,
                 "attacks": 4,

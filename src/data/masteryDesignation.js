@@ -153,7 +153,8 @@ export const masteryDesignation = {
     },
     "Night Walker": {
         "firstMastery": [
-            "HEXA Quintuple Star"
+            "HEXA Quintuple Star",
+            "HEXA Quintuple Star - Jet Black"
         ],
         "secondMastery": [
             "HEXA Shadow Bat",

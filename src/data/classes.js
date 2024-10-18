@@ -278,6 +278,7 @@ export const classes = {
         "originSkill": "Thunder Wall Sea Wave",
         "masterySkills": [
             "HEXA Annihilate",
+            "HEXA Annihilate Lightning Strike",
             "HEXA Thunderbolt"
         ],
         "boostSkills": [
@@ -294,7 +295,7 @@ export const classes = {
         "originSkill": "Silence",
         "masterySkills": [
             "HEXA Quintuple Star",
-            "HEXA Quintuple Star[1]",
+            "HEXA Quintuple Star - Jet Black",
             "HEXA Shadow Bat",
             "HEXA Ravenous Bat"
         ],
