@@ -9,12 +9,16 @@ const SkillIcon = ({ skill, level, classKey, masterySkills, upgrade }) => {
 
     const formattedClassName = formatClassName(classKey)
 
+    let skillName;
     let iconPath;
+
     if (skill.type === 'Mastery') {
         const categorySkills = masterySkills[skill.category];
         const firstSkillInCategory = categorySkills[0];
+        skillName = formatSkillName(firstSkillInCategory);
         iconPath = `/classImages/${formattedClassName}/Skill_${formatSkillPath(firstSkillInCategory)}.png`;
     } else {
+        skillName = formatSkillName(skill.skill);
         iconPath = `/classImages/${formattedClassName}/Skill_${formatSkillPath(skill.skill)}.png`;
     }
 
@@ -46,12 +50,13 @@ const SkillIcon = ({ skill, level, classKey, masterySkills, upgrade }) => {
         }
     }, [showTooltip]);
 
+
     return (
         <div className="flex flex-col items-center m-1 relative">
             <div ref={iconRef} className="relative w-12 h-12">
                 <Image
                     src={iconPath}
-                    alt={skill.skill}
+                    alt={skillName}
                     fill
                     sizes='(max-width: 768px) 32px, (max-width: 1200px) 64px, 64px'
                 />
@@ -64,7 +69,7 @@ const SkillIcon = ({ skill, level, classKey, masterySkills, upgrade }) => {
                     style={{ pointerEvents: 'none' }}
                 >
                     <div className="flex justify-between items-center gap-2">
-                        <span className="font-bold text-lg">{skill.skill}</span>
+                        <span className="font-bold text-lg">{skillName}</span>
                         <span className="font-bold text-sm">{upgrade.startLevel} → {upgrade.newLevel}</span>
                     </div>
                     <div className="flex justify-between">

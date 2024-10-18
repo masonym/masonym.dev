@@ -211,7 +211,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
     if (skillData.additionalEffects) {
       skillData.additionalEffects.forEach(effect => {
         if (effect.effectType === 'flatDamageIncrease') {
-          const targetSkill = classData.nonHexaSkills.find(s => s.name === effect.targetSkill);
+          const targetSkill = classData.nonHexaSkills?.find(s => s.name === effect.targetSkill);
           if (targetSkill) {
             additionalDamage += (effect.baseValue + (level - 1) * effect.growthPerLevel) * targetSkill.attacks;
           }
@@ -263,7 +263,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       return baseBoost * auxiliaryBoost * totalDamageMultiplier * globalFinalDamageMultiplier * 
         (1 - (bossDefense / 100) * (1 - totalIED / 100));
     } else if (skill.type === 'NonHEXA') {
-      const nonHexaSkillData = classData.nonHexaSkills.find(s => s.name === skill.skill);
+      const nonHexaSkillData = classData.nonHexaSkills?.find(s => s.name === skill.skill);
       if (nonHexaSkillData) {
         let totalDamage = nonHexaSkillData.baseDamage * nonHexaSkillData.attacks;
   
@@ -418,7 +418,7 @@ const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills)
       }
 
       affectedSkills.forEach(affectedSkillName => {
-        const affectedSkillData = classData.nonHexaSkills.find(s => s.name === affectedSkillName);
+        const affectedSkillData = classData.nonHexaSkills?.find(s => s.name === affectedSkillName);
         if (affectedSkillData) {
           const currentDamage = getSkillDamage({ type: 'NonHEXA', skill: affectedSkillName }, 0, currentSkills);
           const nextDamage = getSkillDamage({ type: 'NonHEXA', skill: affectedSkillName }, 0, updatedSkills);
