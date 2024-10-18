@@ -582,6 +582,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       <p className="text-lg text-center">This tool is currently a <b>work in progress.</b></p>
       <p className="text-lg text-center">Please use this tool as a <b>guide</b> and not as a <b>definitive answer.</b></p>
       <p className="text-md mx-auto w-[80vw] max-w-[420px]">I currently cannot guarantee that this tool will provide <b>your</b> optimal upgrade. For some classes, I expect it should be pretty accurate. However, some classes have skill logic for their origin, mastery, or boost skills that is quite complex.</p>
+      <p className="text-md mx-auto w-[80vw] max-w-[420px]">Furthermore, there may be some UX decisions that seem unintuitive or annoying. These will be improved in the future.</p>
       <p className="text-md mx-auto w-[80vw] max-w-[420px]">If you have any feedback, suggestions, or concerns, please feel free to reach out to me on Discord at <b>@masonym</b> or by email at <b>
         <Link href="mailto:contact@masonym.dev" target="_blank" className="text-blue-500 underline">
         contact@masonym.dev
