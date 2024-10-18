@@ -131,3 +131,34 @@ export const worldNumbersToString = (worldNumbers) => {
   return worldText;
 };
 
+
+export const formatShortformNumber = (text) => {
+  const unitMultipliers = {
+    'K': 1e3,   // Thousand
+    'M': 1e6,   // Million
+    'B': 1e9,   // Billion
+    'T': 1e12,  // Trillion
+    'Q': 1e15,  // Quadrillion
+  };
+
+  // Extract the numeric part and the unit part
+  const numberPart = parseFloat(text);
+  const unitPart = text.replace(/[0-9.]/g, '').toUpperCase();
+
+  // If the unit part exists in the unitMultipliers, multiply the number part
+  if (unitMultipliers[unitPart]) {
+    return numberPart * unitMultipliers[unitPart];
+  }
+
+  // If no unit, just return the number part
+  return numberPart;
+}
+
+export const formatLongformNumber = (number) => {
+  if (number < 1e3) return number;
+  if (number < 1e6) return `${(number / 1e3).toFixed(1)} K`;
+  if (number < 1e9) return `${(number / 1e6).toFixed(1)} M`;
+  if (number < 1e12) return `${(number / 1e9).toFixed(1)} B`;
+  if (number < 1e15) return `${(number / 1e12).toFixed(1)} T`;
+  return `${(number / 1e15).toFixed(1) }Q`;
+}
