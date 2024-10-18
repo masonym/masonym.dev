@@ -5,6 +5,8 @@ import { classSkillGrowth } from '@/data/classSkillGrowth';
 import { boostGrowth } from '@/data/boostGrowth';
 import { formatSkillName, formatSkillPath } from '../../utils';
 import SkillIcon from './SkillIcon';
+import { Mail } from 'lucide-react';
+import Link from 'next/link';
 
 
 
@@ -174,39 +176,39 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   const getSkillDamage = (skill, level, currentSkills) => {
     const classData = classSkillGrowth[selectedClass];
     let skillData;
-  
+
     let globalFinalDamageMultiplier = 1;
     let globalBossDamageBoost = 0;
-  
+
     // Calculate global effects from boost skills
     currentSkills.forEach(currentSkill => {
       if (currentSkill.type === 'Boost') {
         const boostSkillData = classData.boostSkills.find(s => s.name === currentSkill.skill);
         if (boostSkillData?.globalEffect) {
           if (boostSkillData.globalEffect.type === 'finalDamage') {
-            globalFinalDamageMultiplier *= (1 + boostSkillData.globalEffect.value + 
+            globalFinalDamageMultiplier *= (1 + boostSkillData.globalEffect.value +
               (currentSkill.level - 1) * boostSkillData.globalEffect.growthPerLevel);
           } else if (boostSkillData.globalEffect.type === 'bossDamage') {
-            globalBossDamageBoost += boostSkillData.globalEffect.value + 
+            globalBossDamageBoost += boostSkillData.globalEffect.value +
               (currentSkill.level - 1) * boostSkillData.globalEffect.growthPerLevel;
           }
         }
       }
     });
-  
+
     if (skill.type === 'Origin') {
       skillData = classData.originSkill;
       let baseDamage = skillData.components.reduce((total, component) => {
         const levelDamage = component.damage + (level - 1) * component.growthPerLevel;
         return total + levelDamage * component.attacks * (component.triggers || 1);
       }, 0);
-  
+
       const { totalIED, bossDamageBoost } = getOriginSkillBoosts(level, iedPercent);
-  
+
       const totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost + globalBossDamageBoost) / 100;
-  
+
       return baseDamage * totalDamageMultiplier * globalFinalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
-  
+
     } else if (skill.type === 'Mastery') {
       skillData = classData.masterySkills.find(s => s.name === skill.skill);
       if (level === 0) return skillData.level0;
@@ -224,22 +226,22 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
           }
         });
       }
-  
+
       const { iedBoost, bossDamageBoost } = getProgressiveBoosts(skillData, level);
       let totalIED = calculateIED(iedPercent / 100, iedBoost / 100);
       if (skillData.staticIED) {
         totalIED = calculateIED(totalIED, skillData.staticIED / 100);
       }
       totalIED *= 100;
-  
+
       let totalBossDamage = damagePercent + bossDamageBoost + globalBossDamageBoost;
       if (skillData.staticBossDamage) {
         totalBossDamage += skillData.staticBossDamage;
       }
-  
+
       const totalDamageMultiplier = 1 + totalBossDamage / 100;
       return baseDamage * totalDamageMultiplier * globalFinalDamageMultiplier * (1 - (bossDefense / 100) * (1 - totalIED / 100));
-  
+
     } else if (skill.type === 'Boost') {
       skillData = classData.boostSkills.find(s => s.name === skill.skill);
       const baseBoost = 1 + (parseFloat(boostGrowth[level]?.[level] || '0') / 100);
@@ -247,25 +249,25 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       const { iedBoost, bossDamageBoost } = getProgressiveBoosts(skillData, level);
       const totalIED = calculateIED(iedPercent / 100, iedBoost / 100) * 100;
       let totalDamageMultiplier = 1 + (damagePercent + bossDamageBoost + globalBossDamageBoost) / 100;
-  
+
       // Include the skill's own global effect if it has one
       if (skillData.globalEffect) {
         if (skillData.globalEffect.type === 'finalDamage') {
-          globalFinalDamageMultiplier *= (1 + skillData.globalEffect.value + 
+          globalFinalDamageMultiplier *= (1 + skillData.globalEffect.value +
             (level - 1) * skillData.globalEffect.growthPerLevel);
         } else if (skillData.globalEffect.type === 'bossDamage') {
-          totalDamageMultiplier += (skillData.globalEffect.value + 
+          totalDamageMultiplier += (skillData.globalEffect.value +
             (level - 1) * skillData.globalEffect.growthPerLevel) / 100;
         }
       }
-  
-      return baseBoost * auxiliaryBoost * totalDamageMultiplier * globalFinalDamageMultiplier * 
+
+      return baseBoost * auxiliaryBoost * totalDamageMultiplier * globalFinalDamageMultiplier *
         (1 - (bossDefense / 100) * (1 - totalIED / 100));
     } else if (skill.type === 'NonHEXA') {
       const nonHexaSkillData = classData.nonHexaSkills?.find(s => s.name === skill.skill);
       if (nonHexaSkillData) {
         let totalDamage = nonHexaSkillData.baseDamage * nonHexaSkillData.attacks;
-  
+
         // Apply effects from Boost skills
         classData.boostSkills.forEach(boostSkill => {
           if (boostSkill.flatDamageBoost && boostSkill.flatDamageBoost.targetSkill === skill.skill) {
@@ -273,7 +275,7 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
             totalDamage += (boostSkill.flatDamageBoost.baseValue + boostSkill.flatDamageBoost.growthPerLevel * boostLevel) * nonHexaSkillData.attacks;
           }
         });
-  
+
         // Apply effects from Mastery skills
         classData.masterySkills.forEach(masterySkill => {
           if (masterySkill.additionalEffects) {
@@ -285,12 +287,12 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
             });
           }
         });
-  
+
         const totalDamageMultiplier = 1 + (damagePercent + globalBossDamageBoost) / 100;
         return totalDamage * totalDamageMultiplier * globalFinalDamageMultiplier;
       }
     }
-  
+
     return 0;
   };
 
@@ -329,126 +331,126 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
   };
 
   const calculateEfficiency = (skill, currentLevel, currentSkills) => {
-  const classData = classSkillGrowth[selectedClass];
-  const skillData = classData.boostSkills.find(s => s.name === skill.skill) || 
-                    classData.masterySkills.find(s => s.name === skill.skill);
+    const classData = classSkillGrowth[selectedClass];
+    const skillData = classData.boostSkills.find(s => s.name === skill.skill) ||
+      classData.masterySkills.find(s => s.name === skill.skill);
 
-  // Check if the skill has flat damage increases
-  const hasFlatDamageIncrease = skillData && (
-    (skillData.flatDamageBoost && skillData.flatDamageBoost.growthPerLevel) ||
-    (skillData.additionalEffects && skillData.additionalEffects.some(effect => effect.effectType === 'flatDamageIncrease'))
-  );
+    // Check if the skill has flat damage increases
+    const hasFlatDamageIncrease = skillData && (
+      (skillData.flatDamageBoost && skillData.flatDamageBoost.growthPerLevel) ||
+      (skillData.additionalEffects && skillData.additionalEffects.some(effect => effect.effectType === 'flatDamageIncrease'))
+    );
 
-  if (hasFlatDamageIncrease) {
-    // For skills with flat damage increases, only consider single-level upgrades
-    return {
-      efficiency: calculateMultiStepEfficiency(skill, currentLevel, 1, currentSkills),
-      steps: 1
-    };
-  }
-
-  // For other skills, use the original multi-step calculation
-  const singleStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 1, currentSkills);
-
-  let maxEfficiency = singleStepEfficiency;
-  let optimalSteps = 1;
-
-  // Look ahead up to 10 steps
-  for (let steps = 2; steps <= 10; steps++) {
-    if (currentLevel + steps > 30) break;
-
-    const multiStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, steps, currentSkills);
-    if (multiStepEfficiency > maxEfficiency) {
-      maxEfficiency = multiStepEfficiency;
-      optimalSteps = steps;
+    if (hasFlatDamageIncrease) {
+      // For skills with flat damage increases, only consider single-level upgrades
+      return {
+        efficiency: calculateMultiStepEfficiency(skill, currentLevel, 1, currentSkills),
+        steps: 1
+      };
     }
-  }
 
-  // Special consideration for boost skills and origin skills near breakpoints
-  if ((skill.type === 'Boost' || skill.type === 'Origin') && [9, 19, 29].includes(currentLevel)) {
-    const breakpointEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 31 - currentLevel, currentSkills);
-    if (breakpointEfficiency > maxEfficiency) {
-      maxEfficiency = breakpointEfficiency;
-      optimalSteps = 31 - currentLevel;
+    // For other skills, use the original multi-step calculation
+    const singleStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 1, currentSkills);
+
+    let maxEfficiency = singleStepEfficiency;
+    let optimalSteps = 1;
+
+    // Look ahead up to 10 steps
+    for (let steps = 2; steps <= 10; steps++) {
+      if (currentLevel + steps > 30) break;
+
+      const multiStepEfficiency = calculateMultiStepEfficiency(skill, currentLevel, steps, currentSkills);
+      if (multiStepEfficiency > maxEfficiency) {
+        maxEfficiency = multiStepEfficiency;
+        optimalSteps = steps;
+      }
     }
-  }
 
-  return { efficiency: maxEfficiency, steps: optimalSteps };
-};
+    // Special consideration for boost skills and origin skills near breakpoints
+    if ((skill.type === 'Boost' || skill.type === 'Origin') && [9, 19, 29].includes(currentLevel)) {
+      const breakpointEfficiency = calculateMultiStepEfficiency(skill, currentLevel, 31 - currentLevel, currentSkills);
+      if (breakpointEfficiency > maxEfficiency) {
+        maxEfficiency = breakpointEfficiency;
+        optimalSteps = 31 - currentLevel;
+      }
+    }
 
-const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills) => {
-  let totalCost = 0;
-  let totalDamageIncrease = 0;
-  let globalEffectIncrease = 0;
+    return { efficiency: maxEfficiency, steps: optimalSteps };
+  };
 
-  const updatedSkills = [...currentSkills];
-  const skillIndex = updatedSkills.findIndex(s => s.skill === skill.skill);
-  const classData = classSkillGrowth[selectedClass];
+  const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills) => {
+    let totalCost = 0;
+    let totalDamageIncrease = 0;
+    let globalEffectIncrease = 0;
 
-  for (let i = 0; i < steps; i++) {
-    const level = currentLevel + i;
-    if (level >= 30) break;
+    const updatedSkills = [...currentSkills];
+    const skillIndex = updatedSkills.findIndex(s => s.skill === skill.skill);
+    const classData = classSkillGrowth[selectedClass];
 
-    totalCost += getCost(skill.type, level);
+    for (let i = 0; i < steps; i++) {
+      const level = currentLevel + i;
+      if (level >= 30) break;
 
-    // Update the skill level for damage calculation
-    updatedSkills[skillIndex] = { ...updatedSkills[skillIndex], level: level + 1 };
+      totalCost += getCost(skill.type, level);
 
-    if (skill.type === 'Boost' || skill.type === 'Mastery') {
-      // Calculate damage increase for the skill itself
-      const currentSkillDamage = getSkillDamage(skill, level, currentSkills);
-      const nextSkillDamage = getSkillDamage(skill, level + 1, updatedSkills);
-      const skillDamageIncrease = (nextSkillDamage - currentSkillDamage) / currentSkillDamage;
-      const skillContribution = damageDistribution[skill.skill] / 100;
-      totalDamageIncrease += skillDamageIncrease * skillContribution;
+      // Update the skill level for damage calculation
+      updatedSkills[skillIndex] = { ...updatedSkills[skillIndex], level: level + 1 };
 
-      // Calculate damage increase for affected non-HEXA skills
-      let affectedSkills = [];
-      if (skill.type === 'Boost') {
-        const boostSkillData = classData.boostSkills.find(s => s.name === skill.skill);
-        if (boostSkillData?.globalEffect) {
-          if (boostSkillData.globalEffect.type === 'finalDamage') {
-            globalEffectIncrease += boostSkillData.globalEffect.growthPerLevel;
-          } else if (boostSkillData.globalEffect.type === 'bossDamage') {
-            globalEffectIncrease += boostSkillData.globalEffect.growthPerLevel / 100;
+      if (skill.type === 'Boost' || skill.type === 'Mastery') {
+        // Calculate damage increase for the skill itself
+        const currentSkillDamage = getSkillDamage(skill, level, currentSkills);
+        const nextSkillDamage = getSkillDamage(skill, level + 1, updatedSkills);
+        const skillDamageIncrease = (nextSkillDamage - currentSkillDamage) / currentSkillDamage;
+        const skillContribution = damageDistribution[skill.skill] / 100;
+        totalDamageIncrease += skillDamageIncrease * skillContribution;
+
+        // Calculate damage increase for affected non-HEXA skills
+        let affectedSkills = [];
+        if (skill.type === 'Boost') {
+          const boostSkillData = classData.boostSkills.find(s => s.name === skill.skill);
+          if (boostSkillData?.globalEffect) {
+            if (boostSkillData.globalEffect.type === 'finalDamage') {
+              globalEffectIncrease += boostSkillData.globalEffect.growthPerLevel;
+            } else if (boostSkillData.globalEffect.type === 'bossDamage') {
+              globalEffectIncrease += boostSkillData.globalEffect.growthPerLevel / 100;
+            }
+          }
+        } else if (skill.type === 'Mastery') {
+          const masterySkillData = classData.masterySkills.find(s => s.name === skill.skill);
+          if (masterySkillData?.additionalEffects) {
+            affectedSkills = masterySkillData.additionalEffects
+              .filter(effect => effect.effectType === 'flatDamageIncrease')
+              .map(effect => effect.targetSkill);
           }
         }
-      } else if (skill.type === 'Mastery') {
-        const masterySkillData = classData.masterySkills.find(s => s.name === skill.skill);
-        if (masterySkillData?.additionalEffects) {
-          affectedSkills = masterySkillData.additionalEffects
-            .filter(effect => effect.effectType === 'flatDamageIncrease')
-            .map(effect => effect.targetSkill);
-        }
+
+        affectedSkills.forEach(affectedSkillName => {
+          const affectedSkillData = classData.nonHexaSkills?.find(s => s.name === affectedSkillName);
+          if (affectedSkillData) {
+            const currentDamage = getSkillDamage({ type: 'NonHEXA', skill: affectedSkillName }, 0, currentSkills);
+            const nextDamage = getSkillDamage({ type: 'NonHEXA', skill: affectedSkillName }, 0, updatedSkills);
+            const damageIncrease = (nextDamage - currentDamage) / currentDamage;
+            const affectedSkillContribution = damageDistribution[affectedSkillName] / 100;
+            totalDamageIncrease += damageIncrease * affectedSkillContribution;
+          }
+        });
+      } else {
+        // For other skill types (Origin, NonHEXA)
+        const currentDamage = getSkillDamage(skill, level, currentSkills);
+        const nextDamage = getSkillDamage(skill, level + 1, updatedSkills);
+        const damageIncrease = (nextDamage - currentDamage) / currentDamage;
+        const skillContribution = damageDistribution[skill.skill] / 100;
+        totalDamageIncrease += damageIncrease * skillContribution;
       }
-
-      affectedSkills.forEach(affectedSkillName => {
-        const affectedSkillData = classData.nonHexaSkills?.find(s => s.name === affectedSkillName);
-        if (affectedSkillData) {
-          const currentDamage = getSkillDamage({ type: 'NonHEXA', skill: affectedSkillName }, 0, currentSkills);
-          const nextDamage = getSkillDamage({ type: 'NonHEXA', skill: affectedSkillName }, 0, updatedSkills);
-          const damageIncrease = (nextDamage - currentDamage) / currentDamage;
-          const affectedSkillContribution = damageDistribution[affectedSkillName] / 100;
-          totalDamageIncrease += damageIncrease * affectedSkillContribution;
-        }
-      });
-    } else {
-      // For other skill types (Origin, NonHEXA)
-      const currentDamage = getSkillDamage(skill, level, currentSkills);
-      const nextDamage = getSkillDamage(skill, level + 1, updatedSkills);
-      const damageIncrease = (nextDamage - currentDamage) / currentDamage;
-      const skillContribution = damageDistribution[skill.skill] / 100;
-      totalDamageIncrease += damageIncrease * skillContribution;
     }
-  }
-  const totalIncrease = totalDamageIncrease + globalEffectIncrease;
+    const totalIncrease = totalDamageIncrease + globalEffectIncrease;
 
-  return totalCost > 0 ? totalIncrease / totalCost : 0;
-};
+    return totalCost > 0 ? totalIncrease / totalCost : 0;
+  };
   const calculateNonHexaDamage = (targetSkillData, boostSkillData, boostLevel) => {
     const baseDamage = targetSkillData.baseDamage;
-    const boostDamage = boostSkillData.flatDamageBoost.baseValue + 
-                        (boostSkillData.flatDamageBoost.growthPerLevel * boostLevel);
+    const boostDamage = boostSkillData.flatDamageBoost.baseValue +
+      (boostSkillData.flatDamageBoost.growthPerLevel * boostLevel);
     return (baseDamage + boostDamage) * targetSkillData.attacks;
   };
 
@@ -462,12 +464,12 @@ const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills)
     let bestSkill = null;
     let bestEfficiency = 0;
     let bestSteps = 1;
-  
+
     currentSkills.forEach(skill => {
       if (skill.level < 30) {
         const { efficiency, steps } = calculateEfficiency(skill, skill.level, currentSkills);
         const hasGlobalEffect = classSkillGrowth[selectedClass].boostSkills.find(s => s.name === skill.skill)?.globalEffect;
-        
+
         // Consider skills with global effects even if their damage contribution is 0
         if (efficiency > bestEfficiency || (efficiency === 0 && hasGlobalEffect)) {
           bestEfficiency = efficiency;
@@ -476,7 +478,7 @@ const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills)
         }
       }
     });
-  
+
     return { skill: bestSkill, steps: bestSteps };
   };
 
@@ -485,24 +487,24 @@ const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills)
     let currentSkills = [...skills];
     let totalCost = 0;
     let cumulativeDamageIncrease = 1;
-  
+
     while (true) {
       const { skill: skillToUpgrade, steps } = findOptimalUpgrade(currentSkills);
       if (!skillToUpgrade) break;
-  
+
       let upgradeCost = 0;
       const startLevel = skillToUpgrade.level;
       const endLevel = Math.min(startLevel + steps, 30);
-  
+
       for (let level = startLevel; level < endLevel; level++) {
         upgradeCost += getCost(skillToUpgrade.type, level);
       }
       totalCost += upgradeCost;
-  
+
       const damageIncrease = calculateDamageIncrease(skillToUpgrade, startLevel, endLevel, currentSkills);
       const damageContribution = damageDistribution[skillToUpgrade.skill] || 0;
       const weightedDamageIncrease = damageIncrease * (damageContribution / 100);
-  
+
       // Calculate global effect increase
       let globalEffectIncrease = 0;
       if (skillToUpgrade.type === 'Boost') {
@@ -515,12 +517,12 @@ const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills)
           }
         }
       }
-  
+
       const totalIncrease = weightedDamageIncrease + globalEffectIncrease;
       cumulativeDamageIncrease *= (1 + totalIncrease);
-  
+
       const efficiency = totalIncrease / (upgradeCost / 100);
-  
+
       // Update skills
       currentSkills = currentSkills.map(skill => {
         if (skillToUpgrade.type === 'Mastery' && skill.category === skillToUpgrade.category) {
@@ -530,7 +532,7 @@ const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills)
         }
         return skill;
       });
-  
+
       // Add to path, consolidating upgrades
       if (path.length > 0 && path[path.length - 1].skill === skillToUpgrade.skill) {
         const lastUpgrade = path[path.length - 1];
@@ -555,11 +557,11 @@ const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills)
           globalEffectIncrease
         });
       }
-  
+
       // Stop if all skills are at level 30
       if (currentSkills.every(skill => skill.level === 30)) break;
     }
-  
+
     setUpgradePath(path);
     saveToLocalStorage('upgradePath', path);
   };
@@ -576,6 +578,15 @@ const calculateMultiStepEfficiency = (skill, currentLevel, steps, currentSkills)
 
   return (
     <div className="flex flex-col items-center p-4">
+      <h3 className='text-3xl font-bold'>DISCLAIMER:</h3>
+      <p className="text-lg text-center">This tool is currently a <b>work in progress.</b></p>
+      <p className="text-lg text-center">Please use this tool as a <b>guide</b> and not as a <b>definitive answer.</b></p>
+      <p className="text-md mx-auto w-[80vw] max-w-[420px]">I currently cannot guarantee that this tool will provide <b>your</b> optimal upgrade. For some classes, I expect it should be pretty accurate. However, some classes have skill logic for their origin, mastery, or boost skills that is quite complex.</p>
+      <p className="text-md mx-auto w-[80vw] max-w-[420px]">If you have any feedback, suggestions, or concerns, please feel free to reach out to me on Discord at <b>@masonym</b> or by email at <b>
+        <Link href="mailto:contact@masonym.dev" target="_blank" className="text-blue-500 underline">
+        contact@masonym.dev
+      </Link></b>
+      .</p>
       <h3 className="text-xl font-bold mt-6 mb-2">Enter your current stats</h3>
       <div className="flex flex-col md:flex-row gap-4">
         <div className="mb-4 relative">
