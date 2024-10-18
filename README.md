@@ -25,8 +25,8 @@ Built with React/Next.js
   - [x] Add constants for upgrade costs
   - [x] Apply styling
   - [x] Results section
-  - [ ] Add level route optimizer
-    - [ ] Manually input growth data for all 50 classes skills
+  - [x] Add level route optimizer
+    - [x] Manually input growth data for all 50 classes skills
 - [ ] Headers on hamburger menu should be collapsed aside from curr category
 
 # Run
