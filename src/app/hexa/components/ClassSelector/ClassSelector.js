@@ -8,6 +8,7 @@ import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
 import CalcRoute from "../CalcRoute/CalcRoute";
 import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+import { formatSkillToUnderscores } from "../../utils";
 
 const ClassSelector = () => {
   const [isClient, setIsClient] = useState(false);
@@ -44,15 +45,15 @@ const ClassSelector = () => {
       const classDetails = classes[classKey];
       if (classDetails) {
         const initialLevels = {};
-        initialLevels[classDetails.originSkill] = { level: 1, type: 'origin' };
+        initialLevels[formatSkillToUnderscores(classDetails.originSkill)] = { level: 1, type: 'origin' };
         classDetails.masterySkills.forEach(skill => {
-          initialLevels[skill] = { level: 0, type: 'mastery' };
+          initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'mastery' };
         });
         classDetails.boostSkills.forEach(skill => {
-          initialLevels[skill] = { level: 0, type: 'enhancement' };
+          initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'enhancement' };
         });
         classDetails.commonSkills.forEach(skill => {
-          initialLevels[skill] = { level: 0, type: 'common' };
+          initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'common' };
         });
         setSkillLevels(initialLevels);
       }
