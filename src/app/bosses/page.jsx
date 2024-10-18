@@ -18,17 +18,17 @@ const DifficultyImage = ({ difficulty, afSacRequirement, level, pdr }) => {
             />
             <div className="flex flex-row items-end gap-2 text-center justify-start">
                 {level && (
-                    <span className="text-sm font-medium bg-primary-dim text-primary-bright px-2 py-1 rounded">
+                    <span className="text-sm font-medium bg-background-bright text-primary-bright px-2 py-1 rounded">
                         Level: {level}
                     </span>
                 )}
                 {pdr && (
-                    <span className="text-sm font-medium bg-primary-dim text-primary-bright px-2 py-1 rounded">
+                    <span className="text-sm font-medium bg-background-bright text-primary-bright px-2 py-1 rounded">
                         PDR: {pdr}
                     </span>
                 )}
                 {afSacRequirement && (
-                    <span className="text-sm font-medium bg-primary-dim text-primary-bright px-2 py-1 rounded">
+                    <span className="text-sm font-medium bg-background-bright text-primary-bright px-2 py-1 rounded">
                         AF/SAC: {afSacRequirement}
                     </span>
                 )}
@@ -82,14 +82,14 @@ const BossList = () => {
                                 <div className="flex justify-between">
                                     <div className="min-h-[24px]">
                                         {boss.level && (
-                                            <span className="text-sm font-medium bg-primary-dim text-primary-bright px-2 py-1 rounded">
+                                            <span className="text-sm font-medium bg-background-bright text-primary-bright px-2 py-1 rounded">
                                                 Level {boss.level}
                                             </span>
                                         )}
                                     </div>
                                     <div>
                                         {boss.pdr && (
-                                            <span className="text-sm font-medium bg-primary-dim text-primary-bright px-2 py-1 rounded">
+                                            <span className="text-sm font-medium bg-background-bright text-primary-bright px-2 py-1 rounded">
                                                 PDR: {boss.pdr}
                                             </span>
                                         )}
@@ -115,11 +115,11 @@ const BossList = () => {
                                             pdr={difficulty.pdr || (boss.pdr ? undefined : difficulty.pdr)}
                                         />
                                     </h3>
-                                    <div className="bg-primary-dim rounded p-3">
-                                        <p className="text-primary mb-1">
+                                    <div className="bg-background-bright rounded p-3">
+                                        <p className="text-primary-bright mb-1">
                                             HP: {formatLongformNumber(difficulty.hp)}
                                         </p>
-                                        <p className="text-primary">
+                                        <p className="text-primary-bright">
                                             Blue Dot: {formatLongformNumber(calculateHPThreshold(difficulty.hp, 5))}
                                         </p>
                                     </div>
