@@ -4815,13 +4815,23 @@ export const classSkillGrowth = {
             {
                 "name": "[Focus] Awaken Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.003
+                }
             },
             // TODO: all stat increase
             {
                 "name": "Nature's Grace Boost",
                 "iedGrowthPerLevel": 0,
-                "bossDamageGrowthPerLevel": 0
+                "bossDamageGrowthPerLevel": 0,
+                "globalEffect": {
+                    "type": "finalDamage",
+                    "value": 0.01,
+                    "growthPerLevel": 0.003
+                }
             }
         ]
     }
