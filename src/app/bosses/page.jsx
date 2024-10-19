@@ -38,7 +38,7 @@ const DifficultyImage = ({ difficulty, afSacRequirement, level, pdr }) => {
 };
 
 const BossList = () => {
-    const [hideUnder1T, setHideUnder1T] = useState(false);
+    const [hideUnder1T, setHideUnder1T] = useState(true);
 
     const calculateHPThreshold = (hp, percentage) => {
         return Number((hp * percentage / 100).toFixed(1));
