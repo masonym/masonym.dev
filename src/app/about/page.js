@@ -2,26 +2,14 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Mail } from 'lucide-react';
+import CharacterImage from './components/CharacterImage';
 
 const AboutPage = () => {
   return (
     <div className="flex flex-col items-center p-8">
       <h1 className="text-4xl font-bold mb-6">About Me</h1>
 
-      <div className="w-48 h-48 relative mb-6">
-        <Link
-          href="https://mapleranks.com/u/Zakum"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Image
-            src="/images/zakum.png"
-            alt="My MapleStory Character"
-            fill
-            className="rounded-full"
-          />
-        </Link>
-      </div>
+      <CharacterImage />
 
       <section className="mb-8 text-center max-w-2xl">
         <h2 className="text-2xl font-semibold mb-4">Hi, I'm Mason</h2>

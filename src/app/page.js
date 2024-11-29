@@ -11,10 +11,7 @@ export default function Home() {
           <Section key={index} title={section.title}>
             <NavigationList
               items={section.items}
-              alignItemsProp="center"
-              flexDirectionProp="row"
-              showImages={true}
-              rowGapProp={32}
+              layout="column"
             />
           </Section>
         ))}

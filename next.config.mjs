@@ -6,6 +6,10 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'dkxt2zgwekugu.cloudfront.net',
             },
+            {
+                protocol: 'https',
+                hostname: 'msavatar1.nexon.net',
+            }
         ],
     },
 };

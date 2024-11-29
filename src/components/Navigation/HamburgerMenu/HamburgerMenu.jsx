@@ -27,18 +27,25 @@ const HamburgerMenu = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex z-[1000]">
-            <div ref={menuRef} className="bg-background w-[300px] h-full p-5 shadow-[2px_0_5px_rgba(0,0,0,0.1)] animate-slideIn">
-                <nav>
-                    <ul className="list-none p-0">
-                        <h1>Navigation</h1>
-                        <hr />
+        <div className="fixed inset-0 bg-black/50 flex z-[1000] backdrop-blur-sm">
+            <div 
+                ref={menuRef} 
+                className="bg-background w-[300px] h-full shadow-lg animate-slideIn overflow-y-auto"
+            >
+                <nav className="p-6">
+                    <h2 className="text-xl font-semibold mb-4">Navigation</h2>
+                    <div className="space-y-4">
                         {navigationItems.map((section, index) => (
-                            <Collapsible key={index} title={section.title}>
-                                <NavigationList items={section.items} onClose={onClose} flexDirectionProp='column' />
+                            <Collapsible 
+                                key={index} 
+                                title={section.title}
+                            >
+                                <div className="pt-2">
+                                    <NavigationList items={section.items} onClose={onClose} layout="row" />
+                                </div>
                             </Collapsible>
                         ))}
-                    </ul>
+                    </div>
                 </nav>
             </div>
         </div>
