@@ -84,7 +84,7 @@
 	--primary: 		#252b31;
 	--primary-dim:		#5f646e;
 	--primary-dark:		#efefef;
-	--secondary: 		#002aff;
+	--secondary: 		hsl(200, 100%, 50%);
 	--secondary-bright:	#4800ff;
 	--background: 		hsl(0, 10%, 85%);
   --background-dim: hsl(0, 10%, 75%);

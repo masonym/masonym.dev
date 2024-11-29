@@ -1,5 +1,5 @@
 import React from 'react'
-import ClassSelector from './components/ClassSelector/ClassSelector'
+import CalculatorSelector from './components/CalculatorSelector/CalculatorSelector'
 
 export const metadata = {
     title: "Hexa Calculator | mason's maple matrix",
@@ -9,7 +9,7 @@ export const metadata = {
 const page = () => {
     return (
         <>
-            <ClassSelector />
+            <CalculatorSelector />
         </>
     )
 }

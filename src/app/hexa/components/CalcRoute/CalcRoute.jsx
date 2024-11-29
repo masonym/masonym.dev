@@ -22,12 +22,23 @@ const CalcRoute = ({ selectedClass, classDetails, skillLevels }) => {
       <h3 className="mt-4 text-[20px] text-center">Select the calculator you'd like to use:</h3>
       <div className="flex flex-col md:flex-row flexBetween max-container mt-2 gap-4 text-nowrap">
         <button
-          className="flex-1 text-[24px] text-primary bg-primary-dark border-primary-dim border-[1px] hover:bg-primary-dim transition-all duration-300 rounded-lg px-8 py-4"
-          onClick={() => { handleSelectCalculator('costCalc') }}>
+          onClick={() => { handleSelectCalculator('costCalc') }}
+          className={`px-6 py-3 rounded-lg transition-colors ${
+            selected === 'costCalc'
+              ? 'bg-[color:var(--secondary)] text-[color:var(--primary-dark)]'
+              : 'bg-[color:var(--background)] text-[color:var(--primary)]'
+          }`}
+        >
           Cost Calculator
         </button>
-        <button className="flex-1 text-[24px] text-primary bg-primary-dark border-primary-dim border-[1px] hover:bg-primary-dim transition-all duration-300 rounded-lg px-8 py-4"
-          onClick={() => { handleSelectCalculator('optimizer') }}>
+        <button
+          onClick={() => { handleSelectCalculator('optimizer') }}
+          className={`px-6 py-3 rounded-lg transition-colors ${
+            selected === 'optimizer'
+              ? 'bg-[color:var(--secondary)] text-[color:var(--primary-dark)]'
+              : 'bg-[color:var(--background)] text-[color:var(--primary)]'
+          }`}
+        >
           Level Priority
         </button>
       </div>
