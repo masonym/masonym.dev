@@ -2,6 +2,7 @@ export const navigationItems = [
     {
         title: "Calculators",
         items: [
+            { name: "Star Force", href: "/star-force", image: '/images/star-force.png' },
             { name: "Hexa", href: "/hexa", image: '/images/hexa.png' }]
     },
     {
