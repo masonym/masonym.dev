@@ -248,7 +248,7 @@ export default function HexaStatCalculator() {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-[color:var(--primary)]">
-                            Fragment Cost (Mesos, max 500B)
+                            Fragment Cost (Mesos per fragment)
                         </label>
                         <input
                             type="text"
