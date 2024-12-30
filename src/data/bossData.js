@@ -234,19 +234,19 @@ export const bossData = [
             {
                 name: "Easy",
                 hp: formatShortformNumber("16.8T"),
-                level: 235,        
+                level: 235,
                 afSacRequirement: 560,
             },
             {
                 name: "Normal",
                 hp: formatShortformNumber("25.2T"),
-                level: 250,   
+                level: 250,
                 afSacRequirement: 760,
             },
             {
                 name: "Hard",
                 hp: formatShortformNumber("126T"),
-                level: 250,   
+                level: 250,
                 afSacRequirement: 760,
             }
         ]
@@ -385,7 +385,41 @@ export const bossData = [
                 afSacRequirement: 480,
                 level: 285,
             },
-            
+
+        ]
+    },
+    {
+        name: "Limbo",
+        pdr: '380%',
+        afSacRequirement: 500,
+        difficulties: [
+            {
+                name: "Normal",
+                hp: formatShortformNumber("6.525Q"),
+                level: 285,
+            },
+            {
+                name: "Hard",
+                hp: formatShortformNumber("14Q"),
+                level: 285,
+            }
+        ]
+    },
+    {
+        name: "Black Mage",
+        pdr: "300%",
+        afSacRequirement: 1320,
+        difficulties: [
+            {
+                name: "Hard",
+                hp: formatShortformNumber("472.5T"),
+                level: 275,
+            },
+            {
+                name: "Extreme",
+                hp: formatShortformNumber("4.8Q"),
+                level: 280,
+            }
         ]
     }
 ];
