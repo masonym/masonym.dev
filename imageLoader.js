@@ -3,8 +3,8 @@ const normalizeSrc = (src) => {
     if (src.includes('cloudfront.net')) {
         return src;
     }
-    // Otherwise, handle relative paths
-    return src.startsWith('/') ? src.slice(1) : src;
+    // For local public images, ensure they start with a forward slash
+    return src.startsWith('/') ? src : `/${src}`;
 };
 
 export default function imageLoader({ src, width, quality }) {
@@ -13,9 +13,10 @@ export default function imageLoader({ src, width, quality }) {
         return src;
     }
 
-    // For other images, you can still use Cloudflare's optimization
+    // For local public images
+    const normalizedSrc = normalizeSrc(src);
     const params = ['format=auto', `width=${width}`];
     if (quality) params.push(`quality=${quality}`);
     const paramsString = params.join(',');
-    return `https://masonym.dev/cdn-cgi/image/${paramsString}/${normalizeSrc(src)}`;
+    return `${process.env.NEXT_PUBLIC_SITE_URL || ''}/cdn-cgi/image/${paramsString}${normalizedSrc}`;
 }
