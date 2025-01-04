@@ -13,10 +13,7 @@ export default function imageLoader({ src, width, quality }) {
         return src;
     }
 
-    // For local public images
+    // For local public images, serve directly from the public directory
     const normalizedSrc = normalizeSrc(src);
-    const params = ['format=auto', `width=${width}`];
-    if (quality) params.push(`quality=${quality}`);
-    const paramsString = params.join(',');
-    return `${process.env.NEXT_PUBLIC_SITE_URL || ''}/cdn-cgi/image/${paramsString}${normalizedSrc}`;
+    return normalizedSrc;
 }
