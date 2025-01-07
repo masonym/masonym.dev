@@ -15,6 +15,7 @@
     "next-sitemap": "^4.2.3",
     "react": "^18.3.1",
     "react-dom": "^18",
+    "react-dropzone": "^14.3.5",
     "react-widgets": "^5.8.4",
     "recharts": "^2.12.7",
     "sharp": "^0.33.5",
