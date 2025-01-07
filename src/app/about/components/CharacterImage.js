@@ -14,7 +14,7 @@ const CharacterImage = () => {
         setIsLoading(true);
         const response = await fetch('/api/character');
         const data = await response.json();
-        
+
         if (data.ranks && data.ranks[0] && data.ranks[0].characterImgURL) {
           setImageUrl(data.ranks[0].characterImgURL);
         }
@@ -45,6 +45,7 @@ const CharacterImage = () => {
           src={imageUrl}
           alt="My MapleStory Character"
           fill
+          unoptimized
           className={`rounded-full transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'}`}
         />
       </Link>
