@@ -540,7 +540,7 @@ export const classSkillGrowth = {
                     "value": 0.01,
                     "growthPerLevel": 0.003
                 }
-                
+
             },
             {
                 "name": "Angel of Balance Boost",
@@ -1909,7 +1909,7 @@ export const classSkillGrowth = {
                     "value": 0, // idk if this field even changes anything
                     // may need to change this vvvv
                     "growthPerLevel": 0.075 // 15% over 30 levels + 35% duration increase. 
-                }                
+                }
             }
         ]
     },
@@ -2061,18 +2061,24 @@ export const classSkillGrowth = {
     "Aran": {
         "originSkill": {
             // this skill is mega confusing >:(
-            "name": "Adrenaline Surge",
+            "name": "Endgame",
             "components": [
                 // final blow
                 // 1000 combo = +20 triggrers
                 // 29 by default
                 // 
                 {
-                    "damage": 1071,
+                    "damage": 775,
                     "attacks": 14,
-                    "triggers": 49,
-                    "growthPerLevel": 34
+                    "triggers": 50,
+                    "growthPerLevel": 25
                 },
+                {
+                    "damage": 837,
+                    "attacks": 15,
+                    "triggers": 30,
+                    "growthPerLevel": 27
+                }
                 // TODO: add howling swing maybe
             ]
         },
@@ -2107,7 +2113,7 @@ export const classSkillGrowth = {
         ],
         "boostSkills": [
             {
-                "name": "Maha's Fury Boost",
+                "name": "Finisher - Adrenaline Surge Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0,
                 //  While active, Final Damage: +1%. every 6 levels
@@ -2125,7 +2131,7 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
-                "name": "Fenrir Crash Boost",
+                "name": "Final Beyond Blade - White Tiger Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
@@ -4542,9 +4548,9 @@ export const classSkillGrowth = {
             {
                 "name": "Absoprtion: Sunlit Grain",
                 "baseDamage": 265,
-                "attacks": 1,    
-              },
-              
+                "attacks": 1,
+            },
+
         ]
     },
     "Kinesis": {
@@ -4639,7 +4645,7 @@ export const classSkillGrowth = {
                     "triggers": 32,
                     "growthPerLevel": (1430 - 734) / 29
                 },
-                
+
             ]
         },
         "masterySkills": [
@@ -4706,7 +4712,7 @@ export const classSkillGrowth = {
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
             },
-            
+
             {
                 "name": "HEXA Spin Driver",
                 "level0": 260,

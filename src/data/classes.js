@@ -380,15 +380,15 @@ export const classes = {
         ]
     },
     "Aran": {
-        "originSkill": "Adrenaline Surge",
+        "originSkill": "Endgame",
         "masterySkills": [
             "HEXA Beyond Blade",
             "HEXA Finisher - Hunter's Prey"
         ],
         "boostSkills": [
-            "Maha's Fury Boost",
+            "Finisher - Adrenaline Surge Boost",
             "Maha's Carnage Boost",
-            "Fenrir Crash Boost",
+            "Final Beyond Blade - White Tiger Boost",
             "Blizzard Tempest Boost"
         ],
         "commonSkills": [
@@ -781,26 +781,26 @@ export const classes = {
     "Hoyoung": {
         "originSkill": "Sage: Apotheosis",
         "masterySkills": [
-          "HEXA Heaven: Consuming Flames",
-          "HEXA Heaven: Consuming Flames (Enhanced)",
-          "HEXA Consuming Flames (Clone/True)",
-          "HEXA Consuming Flames (Clone/True) (Enhanced)",
-          "HEXA Earth: Stone Tremor",
-          "HEXA Earth: Stone Tremor (Enhanced)",
-          "HEXA Stone Tremor (Clone/True)",
-          "HEXA Stone Tremor (Clone/True) (Enhanced)",
-          "HEXA Humanity: Gold-Banded Cudgel",
-          "HEXA Humanity: Gold-Banded Cudgel (Enhanced)",
-          "HEXA Heaven: Iron Fan Gale",
-          "HEXA Heaven: Iron Fan Gale (Enhanced)",
-          "HEXA Heaven: Iron Fan Gale (Clone/True)",
-          "HEXA Heaven: Iron Fan Gale (Clone/True) (Enhanced)",
-          "HEXA Earth: Ground-Shattering Wave",
-          "HEXA Earth: Ground-Shattering Wave (Enhanced)",
-          "HEXA Earth: Ground-Shattering Wave (Clone/True)",
-          "HEXA Earth: Ground-Shattering Wave (Clone/True) (Enhanced)",
-          "HEXA Humanity: As-You-Will Fan",
-          "HEXA Humanity: As-You-Will Fan (Enhanced)"
+            "HEXA Heaven: Consuming Flames",
+            "HEXA Heaven: Consuming Flames (Enhanced)",
+            "HEXA Consuming Flames (Clone/True)",
+            "HEXA Consuming Flames (Clone/True) (Enhanced)",
+            "HEXA Earth: Stone Tremor",
+            "HEXA Earth: Stone Tremor (Enhanced)",
+            "HEXA Stone Tremor (Clone/True)",
+            "HEXA Stone Tremor (Clone/True) (Enhanced)",
+            "HEXA Humanity: Gold-Banded Cudgel",
+            "HEXA Humanity: Gold-Banded Cudgel (Enhanced)",
+            "HEXA Heaven: Iron Fan Gale",
+            "HEXA Heaven: Iron Fan Gale (Enhanced)",
+            "HEXA Heaven: Iron Fan Gale (Clone/True)",
+            "HEXA Heaven: Iron Fan Gale (Clone/True) (Enhanced)",
+            "HEXA Earth: Ground-Shattering Wave",
+            "HEXA Earth: Ground-Shattering Wave (Enhanced)",
+            "HEXA Earth: Ground-Shattering Wave (Clone/True)",
+            "HEXA Earth: Ground-Shattering Wave (Clone/True) (Enhanced)",
+            "HEXA Humanity: As-You-Will Fan",
+            "HEXA Humanity: As-You-Will Fan (Enhanced)"
         ],
         "boostSkills": [
             "Sage: Clone Rampage Boost",
