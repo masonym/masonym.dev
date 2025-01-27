@@ -452,10 +452,10 @@ export const classes = {
         "originSkill": "Advent of the Fox",
         "masterySkills": [
             "HEXA Spirit Claw",
-            "HEXA Spirit Frenzy"
+            "HEXA Fox Spirits"
         ],
         "boostSkills": [
-            "Spirit Flow Boost",
+            "Fox God Flash",
             "Spiritgate Boost",
             "True Spirit Claw Boost",
             "Smashing Multipunch Boost"

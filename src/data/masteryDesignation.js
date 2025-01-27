@@ -236,7 +236,7 @@ export const masteryDesignation = {
             "HEXA Spirit Claw"
         ],
         "secondMastery": [
-            "HEXA Spirit Frenzy"
+            "HEXA Fox Spirits"
         ]
     },
     "Battle Mage": {

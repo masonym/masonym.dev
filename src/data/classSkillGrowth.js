@@ -2425,10 +2425,10 @@ export const classSkillGrowth = {
                 "bossDamageGrowthPerLevel": 0
             },
             {
-                "name": "HEXA Spirit Frenzy",
-                "level0": 175,
-                "level1": 183,
-                "attacks": 5,
+                "name": "HEXA Fox Spirits",
+                "level0": 120,
+                "level1": 265,
+                "attacks": 2,
                 "growthPerLevel": 3,
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0
@@ -2437,7 +2437,7 @@ export const classSkillGrowth = {
         "boostSkills": [
             // TODO: duration increase
             {
-                "name": "Spirit Flow Boost",
+                "name": "Fox God Flash Boost",
                 "iedGrowthPerLevel": 0,
                 "bossDamageGrowthPerLevel": 0,
                 "globalEffect": {
