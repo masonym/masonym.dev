@@ -33,14 +33,14 @@ function AdvancedItemList() {
     const updateFilter = (key, value) => {
         setFilters(prev => {
             const newFilters = { ...prev, [key]: value };
-            
+
             // Ensure mutual exclusivity between hidePastItems and showCurrentItems
             if (key === 'hidePastItems' && value) {
                 newFilters.showCurrentItems = false;
             } else if (key === 'showCurrentItems' && value) {
                 newFilters.hidePastItems = false;
             }
-            
+
             return newFilters;
         });
     };
@@ -80,7 +80,7 @@ function AdvancedItemList() {
             return acc;
         }, {});
 
-        Object.values(categorized).forEach(category => 
+        Object.values(categorized).forEach(category =>
             category.sort((a, b) => a.item.name.localeCompare(b.item.name))
         );
 
@@ -122,8 +122,8 @@ function AdvancedItemList() {
                     const nameCondition = item.name.toLowerCase().includes(filters.searchTerm.toLowerCase());
                     const worldCondition = !filters.worldFilter ||
                         (filters.worldFilter === 'intWorlds' ? item.gameWorld.split('/').some(id => INT_WORLDS.includes(Number(id))) :
-                         filters.worldFilter === 'heroWorlds' ? item.gameWorld.split('/').some(id => HERO_WORLDS.includes(Number(id))) :
-                         true);
+                            filters.worldFilter === 'heroWorlds' ? item.gameWorld.split('/').some(id => HERO_WORLDS.includes(Number(id))) :
+                                true);
                     return dateCondition && nameCondition && worldCondition;
                 });
                 if (filteredItems.length > 0) acc[dateKey] = filteredItems;
@@ -150,7 +150,7 @@ function AdvancedItemList() {
         <div className="flex flex-col min-h-dvh h-auto pb-20 bg-cs-bg" style={{ backgroundAttachment: 'fixed' }}>
             <h1 className="text-center text-3xl mb-0 mt-16 text-primary-bright font-bold">Upcoming Cash Shop Sales</h1>
             <h4 className="text-center text-xl my-5 mb-8 italic text-primary">
-                Last Updated for v.256 (December 17th, 2024)
+                Last Updated for v.257 (February 12th, 2025)
             </h4>
 
             <FilterControls
