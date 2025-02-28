@@ -160,7 +160,7 @@ export const formatLongformNumber = (number) => {
   if (number < 1e9) return `${(number / 1e6).toFixed(1)} M`;
   if (number < 1e12) return `${(number / 1e9).toFixed(1)} B`;
   if (number < 1e15) return `${(number / 1e12).toFixed(1)} T`;
-  return `${(number / 1e15).toFixed(1) }Q`;
+  return `${(number / 1e15).toFixed(1)} Q`;
 }
 
 export const bossNameToImage = (bossName) => {

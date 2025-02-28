@@ -320,7 +320,7 @@ export const bossData = [
             },
             {
                 name: "Extreme",
-                hp: formatShortformNumber("7.28Q"),
+                hp: formatShortformNumber("6.48Q"),
                 afSacRequirement: 200,
                 level: 280,
             }
@@ -345,13 +345,13 @@ export const bossData = [
             },
             {
                 name: "Chaos",
-                hp: formatShortformNumber("1.2Q") + formatShortformNumber("4.55Q"), // 4.55Q * 4
+                hp: formatShortformNumber("1.06Q") + formatShortformNumber("4.06Q"), // 4.55Q * 4
                 level: 285,
                 afSacRequirement: 330,
             },
             {
                 name: "Extreme",
-                hp: formatShortformNumber("6.72Q") + formatShortformNumber("17.6Q"), // 17.6Q * 4
+                hp: formatShortformNumber("5.97Q") + formatShortformNumber("15.6Q"), // 17.6Q * 4
                 level: 285,
                 afSacRequirement: 440,
             }
@@ -375,13 +375,13 @@ export const bossData = [
             },
             {
                 name: "Hard",
-                hp: formatShortformNumber("17.78Q"),
+                hp: (formatShortformNumber("1.2Q") * 3) + formatShortformNumber("1.86Q") + (formatShortformNumber("2.42Q") * 3) + formatShortformNumber("3.24Q"),
                 afSacRequirement: 350,
                 level: 285,
             },
             {
                 name: "Extreme",
-                hp: formatShortformNumber("98.6Q"),
+                hp: (formatShortformNumber("7.35Q") * 3) + formatShortformNumber("8.4Q") + (formatShortformNumber("8.4Q") * 3) + formatShortformNumber("10.5Q"),
                 afSacRequirement: 480,
                 level: 285,
             },
@@ -400,7 +400,7 @@ export const bossData = [
             },
             {
                 name: "Hard",
-                hp: formatShortformNumber("14Q"),
+                hp: formatShortformNumber("3.78Q") + formatShortformNumber("1.89Q") + formatShortformNumber("1.89Q") + formatShortformNumber("4.993Q"),
                 level: 285,
             }
         ]
