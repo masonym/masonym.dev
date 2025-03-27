@@ -397,28 +397,31 @@ export const bossData = [
                 name: "Normal",
                 hp: formatShortformNumber("6.525Q"),
                 level: 285,
+                afSacRequirement: 500,
             },
             {
                 name: "Hard",
                 hp: formatShortformNumber("3.78Q") + formatShortformNumber("1.89Q") + formatShortformNumber("1.89Q") + formatShortformNumber("4.993Q"),
                 level: 285,
+                afSacRequirement: 500,
             }
         ]
     },
     {
         name: "Black Mage",
         pdr: "300%",
-        afSacRequirement: 1320,
         difficulties: [
             {
                 name: "Hard",
                 hp: formatShortformNumber("472.5T"),
                 level: 275,
+                afSacRequirement: 1320,
             },
             {
                 name: "Extreme",
                 hp: formatShortformNumber("4.8Q"),
                 level: 280,
+                afSacRequirement: 1320,
             }
         ]
     }
