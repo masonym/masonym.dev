@@ -26,7 +26,7 @@ Detailed boss breakdowns with HP, level, PDR, required Arcane/Sacred power, and 
 
 ## Architecture
 
-- **Frontend**: Next.js (App Router), TypeScript, Tailwind CSS  
+- **Frontend**: Next.js (App Router), JavaScript, Tailwind CSS  
 - **Backend**: AWS API Gateway + Lambda (REST API), serving data from DynamoDB  
 - **Assets**: AWS S3 (images, JSON dumps), distributed via CloudFront  
 - **Deployment**: Hosted on Cloudflare for caching and DDoS protection  
@@ -49,6 +49,8 @@ The data powering the platform is sourced via a proprietary ETL process:
 
 3. **API Exposure**  
    A RESTful API built on AWS Lambda + API Gateway exposes the data to the frontend.
+
+Special mention: [WZ Dumper](https://github.com/Xterminatorz/WZ-Dumper) and [MapleLib](https://github.com/Xterminatorz/MapleLib). These tools were greatly helpful for understanding how to work with the WZ file format and extracting data from the client.
 
 ## Performance
 
