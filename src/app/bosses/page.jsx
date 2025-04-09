@@ -46,7 +46,7 @@ const HPBar = ({ hpPhases }) => {
                 <div className="mb-1"> Total HP</div>
                 <div className="w-full h-6 bg-gray-700 rounded overflow-hidden flex text-[14px] text-primary-bright font-mono">
                     <div
-                        className="flex-1 border-r border-gray-900 last:border-r-0 bg-red-500 flex items-center justify-center"
+                        className="flex-1 border-r border-gray-900 last:border-r-0 bg-progress-red flex items-center justify-center"
                     >
                         {hpPhases}
                     </div>
@@ -72,7 +72,7 @@ const HPBar = ({ hpPhases }) => {
                             {Array.from({ length: segments }).map((_, j) => (
                                 <div
                                     key={j}
-                                    className="flex-1 border-r border-gray-900 last:border-r-0 bg-red-500 flex items-center justify-center"
+                                    className="flex-1 border-r border-gray-900 last:border-r-0 bg-progress-red flex items-center justify-center"
                                 >
                                     {formatLongformNumber(perSegmentHP)}
                                 </div>
