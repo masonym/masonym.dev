@@ -113,6 +113,9 @@ const BossList = () => {
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-4xl font-bold text-center mb-8 text-primary-bright">Boss List</h1>
 
+            <h2 className="text-xl text-balance max-w-3xl mx-auto font-bold text-center mb-4 text-primary-bright">
+                Dislaimer: Boss HP values are fetched from the <a href="https://maplestorywiki.net/" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">MapleStory Wiki</a> and are estimated values; they may not be 100% accurate.
+            </h2>
             <div className="flex justify-center mb-6">
                 <label className="flex items-center cursor-pointer">
                     <div className="relative">
