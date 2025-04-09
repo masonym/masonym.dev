@@ -38,6 +38,22 @@ const DifficultyImage = ({ difficulty, afSacRequirement, level, pdr }) => {
 };
 
 const HPBar = ({ hpPhases }) => {
+    console.log(typeof hpPhases, hpPhases);
+    // if hpPhases is a string, it means it's a single value from formatLongformNumber
+    if (typeof hpPhases === 'string') {
+        return (
+            <div className="flex flex-col items-center justify-between text-md text-primary-bright">
+                <div className="mb-1"> Total HP</div>
+                <div className="w-full h-6 bg-gray-700 rounded overflow-hidden flex text-[14px] text-gray-100 font-mono">
+                    <div
+                        className="flex-1 border-r border-gray-900 last:border-r-0 bg-red-500 flex items-center justify-center"
+                    >
+                        {hpPhases}
+                    </div>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="flex flex-col gap-2 w-full">
             {hpPhases.map((phase, i) => {
@@ -47,10 +63,12 @@ const HPBar = ({ hpPhases }) => {
                 return (
                     <div key={i} className="flex flex-col gap-1">
                         <div className="flex justify-between text-xs text-primary-bright">
-                            <span>Phase {i + 1}</span>
-                            <span>{formatLongformNumber(phase.hp)}</span>
+                            {phase.note ? (<span>{phase.note}</span>)
+                                : (
+                                    <span>Phase {i + 1}</span>
+                                )}
                         </div>
-                        <div className="w-full h-6 bg-gray-700 rounded overflow-hidden flex text-[10px] text-white font-mono">
+                        <div className={`w-full h-6 bg-gray-700 rounded overflow-hidden flex text-gray-200 font-mono ${segments > 3 ? 'text-[10px]' : 'text-[14px]'}`}>
                             {Array.from({ length: segments }).map((_, j) => (
                                 <div
                                     key={j}
@@ -117,7 +135,24 @@ const BossList = () => {
                 {sortedAndFilteredBossData.map((boss, index) => (
                     <div key={index} className="bg-primary-dark rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-200">
                         <div className="p-5 flex flex-col gap-4">
-                            <div className="w-full h-24 relative">
+
+                            <div className="min-h-[32px]">
+                                {(boss.level || boss.pdr || boss.afSacRequirement) && (
+                                    <div className="flex flex-wrap gap-2 text-sm text-primary-bright mb-2">
+                                        {boss.level && (
+                                            <span className="bg-background-bright px-2 py-0.5 rounded">Level {boss.level}</span>
+                                        )}
+                                        {boss.pdr && (
+                                            <span className="bg-background-bright px-2 py-0.5 rounded">PDR: {boss.pdr}</span>
+                                        )}
+                                        {boss.afSacRequirement && (
+                                            <span className="bg-background-bright px-2 py-0.5 rounded">AF/SAC: {boss.afSacRequirement}</span>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="w-full h-12 relative">
                                 <Image
                                     src={`/bossImages/${bossNameToImage(boss.name.toLowerCase())}.png`}
                                     alt={boss.name}
@@ -125,6 +160,7 @@ const BossList = () => {
                                     className="rounded-md object-contain"
                                 />
                             </div>
+
 
                             {boss.difficulties.map((difficulty, idx) => {
                                 const totalHP = calculateTotalHP(difficulty.hpPhases);
@@ -140,12 +176,21 @@ const BossList = () => {
                                         />
 
                                         <div className="bg-background-bright rounded p-3">
-                                            <p className="text-primary-bright text-sm mb-1">
-                                                Total HP: {formatLongformNumber(totalHP)}
-                                            </p>
-                                            <p className="text-primary-bright text-sm mb-3">
-                                                Blue Dot: {formatLongformNumber(blueDotHP)}
-                                            </p>
+                                            <div className="text-primary-bright text-sm mb-1">
+                                                <HPBar hpPhases={formatLongformNumber(totalHP)} />
+                                            </div>
+                                            <div className="flex items-center text-xs justify-center gap-2 text-primary-bright my-2">
+                                                <Image
+                                                    src="/bossDifficulties/blue_dot.png"
+                                                    alt="Blue Dot HP"
+                                                    width={16}
+                                                    height={16}
+                                                    className="h-4 w-4"
+                                                />
+                                                <p className="text-primary-bright text-sm">
+                                                    {formatLongformNumber(blueDotHP)}
+                                                </p>
+                                            </div>
                                             <HPBar hpPhases={difficulty.hpPhases} />
                                         </div>
                                     </div>
