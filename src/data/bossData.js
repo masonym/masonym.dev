@@ -1,4 +1,5 @@
 import { formatShortformNumber } from '@/utils';
+// "UI.wz\UIWindow2.img\UserList"
 
 export const bossData = [
     {
@@ -7,19 +8,31 @@ export const bossData = [
         difficulties: [
             {
                 name: 'Normal',
-                hp: formatShortformNumber("1.575T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("470B") },
+                    { hp: formatShortformNumber("470B") },
+                    { hp: formatShortformNumber("630B") },
+                ],
                 level: 210,
                 pdr: '300%'
             },
             {
                 name: 'Hard',
-                hp: formatShortformNumber("33.7T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("10T") },
+                    { hp: formatShortformNumber("10T") },
+                    { hp: formatShortformNumber("13.5T") },
+                ],
                 level: 210,
                 pdr: '300%'
             },
             {
                 name: 'Extreme',
-                hp: formatShortformNumber("1.8Q"),
+                hpPhases: [
+                    { hp: formatShortformNumber("545T") },
+                    { hp: formatShortformNumber("545T") },
+                    { hp: formatShortformNumber("720T") },
+                ],
                 level: 285,
                 pdr: '380%'
             }
@@ -33,11 +46,17 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                hp: formatShortformNumber("840B") + formatShortformNumber("360B"),
+                hpPhases: [
+                    { hp: formatShortformNumber("840B") },
+                    { hp: formatShortformNumber("360B") },
+                ],
             },
             {
                 name: "Hard",
-                hp: formatShortformNumber("25.2T") + formatShortformNumber("10.8T")
+                hpPhases: [
+                    { hp: formatShortformNumber("25.2T") },
+                    { hp: formatShortformNumber("10.8T") },
+                ],
             }
         ]
     },
@@ -49,11 +68,15 @@ export const bossData = [
         difficulties: [
             {
                 name: "Easy",
-                hp: formatShortformNumber("10.5B")
+                hpPhases: [
+                    { hp: formatShortformNumber("10.5B") },
+                ],
             },
             {
                 name: "Normal",
-                hp: formatShortformNumber("63B")
+                hpPhases: [
+                    { hp: formatShortformNumber("63B") },
+                ],
             }
         ]
     },
@@ -65,7 +88,9 @@ export const bossData = [
         difficulties: [
             {
                 name: "Hard",
-                hp: formatShortformNumber("16.8B")
+                hpPhases: [
+                    { hp: formatShortformNumber("16.8B") },
+                ],
             }
         ]
     },
@@ -77,7 +102,9 @@ export const bossData = [
         difficulties: [
             {
                 name: "Chaos",
-                hp: formatShortformNumber("69.3B")
+                hpPhases: [
+                    { hp: formatShortformNumber("69.3B") },
+                ],
             }
         ]
     },
@@ -89,7 +116,9 @@ export const bossData = [
         difficulties: [
             {
                 name: "Chaos",
-                hp: formatShortformNumber("84B")
+                hpPhases: [
+                    { hp: formatShortformNumber("84B") },
+                ],
             }
         ]
     },
@@ -101,7 +130,9 @@ export const bossData = [
         difficulties: [
             {
                 name: "Chaos",
-                hp: formatShortformNumber("80B")
+                hpPhases: [
+                    { hp: formatShortformNumber("80B") },
+                ],
             }
         ]
     },
@@ -113,7 +144,9 @@ export const bossData = [
         difficulties: [
             {
                 name: "Chaos",
-                hp: formatShortformNumber("100B")
+                hpPhases: [
+                    { hp: formatShortformNumber("100B") },
+                ],
             }
         ]
     },
@@ -125,7 +158,9 @@ export const bossData = [
         difficulties: [
             {
                 name: "Chaos",
-                hp: formatShortformNumber("140B")
+                hpPhases: [
+                    { hp: formatShortformNumber("140B") },
+                ],
             }
         ]
     },
@@ -137,7 +172,9 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                hp: formatShortformNumber("200B")
+                hpPhases: [
+                    { hp: formatShortformNumber("200B") },
+                ],
             }
         ]
     },
@@ -149,7 +186,9 @@ export const bossData = [
         difficulties: [
             {
                 name: "Hard",
-                hp: formatShortformNumber("120B")
+                hpPhases: [
+                    { hp: formatShortformNumber("120B") },
+                ],
             }
         ]
     },
@@ -161,7 +200,9 @@ export const bossData = [
         difficulties: [
             {
                 name: "Chaos",
-                hp: formatShortformNumber("200B")
+                hpPhases: [
+                    { hp: formatShortformNumber("200B") },
+                ],
             }
         ]
     },
@@ -173,7 +214,10 @@ export const bossData = [
         difficulties: [
             {
                 name: "Chaos",
-                hp: formatShortformNumber("504B")
+                hpPhases: [
+                    { hp: formatShortformNumber("378B") },
+                    { hp: formatShortformNumber("126B") },
+                ],
             }
         ]
     },
@@ -185,7 +229,10 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                hp: formatShortformNumber("304B")
+                hpPhases: [
+                    { hp: formatShortformNumber("152B") },
+                    { hp: formatShortformNumber("152B") },
+                ],
             }
         ]
     },
@@ -197,11 +244,15 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                hp: formatShortformNumber("5T")
+                hpPhases: [
+                    { hp: formatShortformNumber("5T") },
+                ],
             },
             {
                 name: "Chaos",
-                hp: formatShortformNumber("90T")
+                hpPhases: [
+                    { hp: formatShortformNumber("90T") },
+                ],
             }
         ]
     },
@@ -212,17 +263,27 @@ export const bossData = [
         difficulties: [
             {
                 name: "Easy",
-                hp: formatShortformNumber("12T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("6T") },
+                    { hp: formatShortformNumber("6T") },
+                ],
                 afSacRequirement: 360,
             },
             {
                 name: "Normal",
-                hp: formatShortformNumber("24T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("12T") },
+                    { hp: formatShortformNumber("12T") },
+                ],
                 afSacRequirement: 360,
             },
             {
                 name: "Hard",
-                hp: formatShortformNumber("117.6T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("50.8T") },
+                    { hp: formatShortformNumber("54T") },
+                    { hp: formatShortformNumber("12.8T") },
+                ],
                 afSacRequirement: 360,
             }
         ]
@@ -233,19 +294,34 @@ export const bossData = [
         difficulties: [
             {
                 name: "Easy",
-                hp: formatShortformNumber("16.8T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("2.8T"), segments: 3, note: "Phase 1: Blue Dimension" },
+                    { hp: formatShortformNumber("2.8T"), segments: 3, note: "Phase 1: Purple Dimension" },
+                    { hp: formatShortformNumber("4.2T"), segments: 2 },
+                    { hp: formatShortformNumber("7T") },
+                ],
                 level: 235,
                 afSacRequirement: 560,
             },
             {
                 name: "Normal",
-                hp: formatShortformNumber("25.2T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("4.2T"), segments: 3, note: "Phase 1: Blue Dimension" },
+                    { hp: formatShortformNumber("4.2T"), segments: 3, note: "Phase 1: Purple Dimension" },
+                    { hp: formatShortformNumber("6.3T"), segments: 2 },
+                    { hp: formatShortformNumber("10.5T") },
+                ],
                 level: 250,
                 afSacRequirement: 760,
             },
             {
                 name: "Hard",
-                hp: formatShortformNumber("126T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("21T"), segments: 3, note: "Phase 1: Blue Dimension" },
+                    { hp: formatShortformNumber("21T"), segments: 3, note: "Phase 1: Purple Dimension" },
+                    { hp: formatShortformNumber("31.5T"), segments: 2 },
+                    { hp: formatShortformNumber("52.5T") },
+                ],
                 level: 250,
                 afSacRequirement: 760,
             }
@@ -258,12 +334,16 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                hp: formatShortformNumber("26T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("25.5T") }
+                ],
                 afSacRequirement: 730,
             },
             {
                 name: "Chaos",
-                hp: formatShortformNumber("126T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("127.5T") }
+                ],
                 afSacRequirement: 730,
             }
         ]
@@ -275,12 +355,16 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                hp: formatShortformNumber("26T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("26T") }
+                ],
                 afSacRequirement: 850,
             },
             {
                 name: "Hard",
-                hp: formatShortformNumber("160T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("157.5T") }
+                ],
                 afSacRequirement: 850,
             }
         ]
@@ -292,12 +376,16 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                hp: formatShortformNumber("88T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("88T"), segments: 4 }
+                ],
                 afSacRequirement: 820,
             },
             {
                 name: "Hard",
-                hp: formatShortformNumber("176T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("176T"), segments: 4 }
+                ],
                 afSacRequirement: 900,
             }
         ]
@@ -309,18 +397,28 @@ export const bossData = [
             {
                 name: "Normal",
                 hp: formatShortformNumber("208T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("52.5T") },
+                    { hp: formatShortformNumber("155.5T") }
+                ],
                 afSacRequirement: 200,
                 level: 275,
             },
             {
                 name: "Hard",
-                hp: formatShortformNumber("483T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("126T") },
+                    { hp: formatShortformNumber("357T") }
+                ],
                 afSacRequirement: 200,
                 level: 275,
             },
             {
                 name: "Extreme",
-                hp: formatShortformNumber("6.48Q"),
+                hpPhases: [
+                    { hp: formatShortformNumber("1.32Q") },
+                    { hp: formatShortformNumber("5.16Q") }
+                ],
                 afSacRequirement: 200,
                 level: 280,
             }
@@ -333,25 +431,38 @@ export const bossData = [
         difficulties: [
             {
                 name: "Easy",
-                hp: formatShortformNumber("94.5T") + formatShortformNumber("262.5T"), // 262.5T * 4
+                hpPhases: [
+                    { hp: formatShortformNumber("94.5T") },
+                    { hp: formatShortformNumber("262.5T"), segments: 4 }
+                ],
                 level: 270,
                 afSacRequirement: 200,
             },
             {
                 name: "Normal",
-                hp: formatShortformNumber("336T") + formatShortformNumber("720T"), // 720T * 4
+                hpPhases: [
+                    { hp: formatShortformNumber("336T") },
+                    { hp: formatShortformNumber("720T"), segments: 4 }
+                ],
                 level: 280,
                 afSacRequirement: 300,
             },
             {
                 name: "Chaos",
-                hp: formatShortformNumber("1.06Q") + formatShortformNumber("4.06Q"), // 4.55Q * 4
+                hpPhases: [
+                    { hp: formatShortformNumber("1.06Q") },
+                    { hp: formatShortformNumber("4.06Q"), segments: 4 }
+                ],
                 level: 285,
                 afSacRequirement: 330,
             },
             {
                 name: "Extreme",
-                hp: formatShortformNumber("5.97Q") + formatShortformNumber("15.6Q"), // 17.6Q * 4
+                hpPhases: [
+                    { hp: formatShortformNumber("5.97Q") },
+                    { hp: formatShortformNumber("15.6Q"), segments: 4 }
+                ],
+
                 level: 285,
                 afSacRequirement: 440,
             }
@@ -363,25 +474,45 @@ export const bossData = [
         difficulties: [
             {
                 name: "Easy",
-                hp: formatShortformNumber("921T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("288T"), segments: 3, note: "Phase 1: Perils" },
+                    { hp: formatShortformNumber("105T") },
+                    { hp: formatShortformNumber("150T"), note: "Phase 3: Kaling" },
+                    { hp: formatShortformNumber("378T"), segments: 3, note: "Phase 3: Perils" }
+                ],
                 afSacRequirement: 230,
                 level: 275,
             },
             {
                 name: "Normal",
-                hp: formatShortformNumber("3.812Q"),
+                hpPhases: [
+                    { hp: formatShortformNumber("1.2Q"), segments: 3, note: "Phase 1: Perils" },
+                    { hp: formatShortformNumber("468T") },
+                    { hp: formatShortformNumber("722T"), note: "Phase 3: Kaling" },
+                    { hp: formatShortformNumber("1.536Q"), segments: 3, note: "Phase 3: Perils" }
+                ],
                 afSacRequirement: 330,
                 level: 285,
             },
             {
                 name: "Hard",
-                hp: (formatShortformNumber("1.2Q") * 3) + formatShortformNumber("1.86Q") + (formatShortformNumber("2.42Q") * 3) + formatShortformNumber("3.24Q"),
+                hpPhases: [
+                    { hp: formatShortformNumber("3.6Q"), segments: 3, note: "Phase 1: Perils" },
+                    { hp: formatShortformNumber("1.86Q") },
+                    { hp: formatShortformNumber("3.24Q"), note: "Phase 3: Kaling" },
+                    { hp: formatShortformNumber("7.26Q"), segments: 3, note: "Phase 3: Perils" }
+                ],
                 afSacRequirement: 350,
                 level: 285,
             },
             {
                 name: "Extreme",
-                hp: (formatShortformNumber("7.35Q") * 3) + formatShortformNumber("8.4Q") + (formatShortformNumber("8.4Q") * 3) + formatShortformNumber("10.5Q"),
+                hpPhases: [
+                    { hp: formatShortformNumber("22.05Q"), segments: 3, note: "Phase 1: Perils" },
+                    { hp: formatShortformNumber("8.4Q") },
+                    { hp: formatShortformNumber("10.5Q"), note: "Phase 3: Kaling" },
+                    { hp: formatShortformNumber("25.2Q"), segments: 3, note: "Phase 3: Perils" }
+                ],
                 afSacRequirement: 480,
                 level: 285,
             },
@@ -395,13 +526,21 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                hp: formatShortformNumber("6.525Q"),
+                hpPhases: [
+                    { hp: formatShortformNumber("1.94Q") },
+                    { hp: formatShortformNumber("1.94Q"), segments: 2 },
+                    { hp: formatShortformNumber("2.6Q") },
+                ],
                 level: 285,
                 afSacRequirement: 500,
             },
             {
                 name: "Hard",
-                hp: formatShortformNumber("3.78Q") + formatShortformNumber("1.89Q") + formatShortformNumber("1.89Q") + formatShortformNumber("4.993Q"),
+                hpPhases: [
+                    { hp: formatShortformNumber("3.78Q") },
+                    { hp: formatShortformNumber("3.78Q"), segments: 2 },
+                    { hp: formatShortformNumber("4.99Q") },
+                ],
                 level: 285,
                 afSacRequirement: 500,
             }
@@ -413,13 +552,23 @@ export const bossData = [
         difficulties: [
             {
                 name: "Hard",
-                hp: formatShortformNumber("472.5T"),
+                hpPhases: [
+                    { hp: formatShortformNumber("63T") },
+                    { hp: formatShortformNumber("115.5T") },
+                    { hp: formatShortformNumber("157.5T") },
+                    { hp: formatShortformNumber("136.5T") },
+                ],
                 level: 275,
                 afSacRequirement: 1320,
             },
             {
                 name: "Extreme",
-                hp: formatShortformNumber("4.8Q"),
+                hpPhases: [
+                    { hp: formatShortformNumber("1.18Q") },
+                    { hp: formatShortformNumber("1.19Q") },
+                    { hp: formatShortformNumber("1.285Q") },
+                    { hp: formatShortformNumber("1.152Q") },
+                ],
                 level: 280,
                 afSacRequirement: 1320,
             }
