@@ -44,7 +44,7 @@ const HPBar = ({ hpPhases }) => {
         return (
             <div className="flex flex-col items-center justify-between text-md text-primary-bright">
                 <div className="mb-1"> Total HP</div>
-                <div className="w-full h-6 bg-gray-700 rounded overflow-hidden flex text-[14px] text-gray-100 font-mono">
+                <div className="w-full h-6 bg-gray-700 rounded overflow-hidden flex text-[14px] text-primary-bright font-mono">
                     <div
                         className="flex-1 border-r border-gray-900 last:border-r-0 bg-red-500 flex items-center justify-center"
                     >
@@ -68,7 +68,7 @@ const HPBar = ({ hpPhases }) => {
                                     <span>Phase {i + 1}</span>
                                 )}
                         </div>
-                        <div className={`w-full h-6 bg-gray-700 rounded overflow-hidden flex text-gray-200 font-mono ${segments > 3 ? 'text-[10px]' : 'text-[14px]'}`}>
+                        <div className={`w-full h-6 bg-gray-700 rounded overflow-hidden flex text-primary-bright font-mono ${segments > 3 ? 'text-[10px]' : 'text-[14px]'}`}>
                             {Array.from({ length: segments }).map((_, j) => (
                                 <div
                                     key={j}
