@@ -68,7 +68,7 @@ const HPBar = ({ hpPhases }) => {
                                     <span>Phase {i + 1}</span>
                                 )}
                         </div>
-                        <div className={`w-full h-6 bg-gray-700 rounded overflow-hidden flex text-primary-bright font-mono ${segments > 3 ? 'text-[10px]' : 'text-[14px]'}`}>
+                        <div className={`w-full h-6 bg-gray-700 rounded overflow-hidden flex text-primary-bright text-center text-nowrap font-mono text-10px ${segments > 3 ? 'text-[8px] sm:text-[11px]' : 'text-[10px] sm:text-[14px]'}`}>
                             {Array.from({ length: segments }).map((_, j) => (
                                 <div
                                     key={j}
