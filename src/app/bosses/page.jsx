@@ -38,7 +38,6 @@ const DifficultyImage = ({ difficulty, afSacRequirement, level, pdr }) => {
 };
 
 const HPBar = ({ hpPhases }) => {
-    console.log(typeof hpPhases, hpPhases);
     // if hpPhases is a string, it means it's a single value from formatLongformNumber
     if (typeof hpPhases === 'string') {
         return (
