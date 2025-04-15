@@ -155,6 +155,7 @@ const BossList = () => {
                             </div>
 
                             <div className="w-full h-12 relative">
+                                <span className="absolute top-0 left-0 right-0 text-center text-primary-bright font-bold text-lg">{boss.name}</span>
                                 <Image
                                     src={`/bossImages/${bossNameToImage(boss.name.toLowerCase())}.png`}
                                     alt={boss.name}
