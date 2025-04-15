@@ -1,7 +1,59 @@
 import { formatShortformNumber } from '@/utils';
-// "UI.wz\UIWindow2.img\UserList"
+// "UI.wz\UIWindow2.img\UserList" for little square images
+// 
+//"C:\Users\Mason\Downloads\UI dump\UI.wz\_Canvas\UIBoss.img" // for banner images
 
 export const bossData = [
+    {
+        name: 'Gollux',
+        afSacRequirement: null,
+        difficulties: [
+            {
+                name: 'Easy',
+                level: 180,
+                pdr: '10%',
+                hpPhases: [
+
+                    { hp: formatShortformNumber("50M") },
+                    { hp: formatShortformNumber("50M") },
+                    { hp: formatShortformNumber("10M") },
+                ],
+            },
+            {
+                name: 'Normal',
+                level: 180,
+                pdr: '?%',
+                hpPhases: [
+
+                    { hp: formatShortformNumber("3B") },
+                    { hp: formatShortformNumber("3B") },
+                    { hp: formatShortformNumber("600M") },
+                ],
+            },
+            {
+                name: 'Hard',
+                level: 190,
+                pdr: '150%',
+                hpPhases: [
+
+                    { hp: formatShortformNumber("75B") },
+                    { hp: formatShortformNumber("75B") },
+                    { hp: formatShortformNumber("15B") },
+                ],
+            },
+            {
+                name: 'Chaos',
+                level: 200,
+                pdr: '250%',
+                hpPhases: [
+
+                    { hp: formatShortformNumber("350B") },
+                    { hp: formatShortformNumber("350B") },
+                    { hp: formatShortformNumber("70B") },
+                ],
+            },
+        ],
+    },
     {
         name: 'Lotus',
         afSacRequirement: null,
