@@ -9,28 +9,6 @@ export const bossData = [
         afSacRequirement: null,
         difficulties: [
             {
-                name: 'Easy',
-                level: 180,
-                pdr: '10%',
-                hpPhases: [
-
-                    { hp: formatShortformNumber("50M") },
-                    { hp: formatShortformNumber("50M") },
-                    { hp: formatShortformNumber("10M") },
-                ],
-            },
-            {
-                name: 'Normal',
-                level: 180,
-                pdr: '?%',
-                hpPhases: [
-
-                    { hp: formatShortformNumber("3B") },
-                    { hp: formatShortformNumber("3B") },
-                    { hp: formatShortformNumber("600M") },
-                ],
-            },
-            {
                 name: 'Hard',
                 level: 190,
                 pdr: '150%',
