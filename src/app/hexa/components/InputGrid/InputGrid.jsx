@@ -6,6 +6,8 @@ import { SkillGroup } from '../SkillGroup/SkillGroup';
 export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLevels }) => {
     const firstMasterySkills = masteryDesignation[classKey]?.firstMastery || [];
     const secondMasterySkills = masteryDesignation[classKey]?.secondMastery || [];
+    const thirdMasterySkills = masteryDesignation[classKey]?.thirdMastery || [];
+    const fourthMasterySkills = masteryDesignation[classKey]?.fourthMastery || [];
 
     return (
         <div>
@@ -28,10 +30,10 @@ export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLeve
                     />
 
                     <SkillGroup
-                        skills={[firstMasterySkills, secondMasterySkills]}
+                        skills={[firstMasterySkills, secondMasterySkills, thirdMasterySkills, fourthMasterySkills]}
                         classKey={classKey}
                         itemStyle={styles.masteryItem}
-                        columns={2}
+                        columns={4}
                         skillLevels={skillLevels}
                         updateSkillLevels={updateSkillLevels}
                         skillType="mastery"

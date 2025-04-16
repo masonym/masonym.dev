@@ -171,6 +171,22 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
       }
     });
 
+    // Third Mastery skills
+    classMasteryDesignation.thirdMastery.forEach(skill => {
+      const formattedSkill = formatSkillPath(skill);
+      if (desiredSkillLevels[formattedSkill]) {
+        orderedSkills.push(formattedSkill);
+      }
+    });
+
+    // Fourth Mastery skills
+    classMasteryDesignation.fourthMastery.forEach(skill => {
+      const formattedSkill = formatSkillPath(skill);
+      if (desiredSkillLevels[formattedSkill]) {
+        orderedSkills.push(formattedSkill);
+      }
+    });
+
     // Boost skills
     classDetails.boostSkills.forEach(skill => {
       const formattedSkill = formatSkillPath(skill);
