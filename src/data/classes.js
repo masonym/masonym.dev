@@ -3,7 +3,12 @@ export const classes = {
         "originSkill": "Spirit Calibur",
         "masterySkills": [
             "HEXA Raging Blow",
-            "HEXA Rising Rage"
+            "HEXA Rising Rage",
+            "HEXA Beam Blade",
+            "HEXA Cry Valhalla",
+            "Furious Edge",
+            "HEXA Puncture",
+            "HEXA Final Attack",
         ],
         "boostSkills": [
             "Burning Soul Blade Boost",
@@ -20,7 +25,9 @@ export const classes = {
         "masterySkills": [
             "HEXA Gungnir's Descent",
             "HEXA Dark Impale",
-            "HEXA Nightshade Explosion"
+            "HEXA Nightshade Explosion",
+            "HEXA Revenge of the Evil Eye",
+            "HEXA Final Attack",
         ],
         "boostSkills": [
             "Spear of Darkness Boost",
@@ -38,7 +45,10 @@ export const classes = {
             "HEXA Blast",
             "HEXA Divine Judgment",
             "HEXA Divine Charge",
-            "HEXA Divine Mark"
+            "HEXA Divine Mark",
+            "HEXA Heaven's Hammer",
+            "HEXA Final Attack",
+            "Rising Justice", // TODO: Add localized name
         ],
         "boostSkills": [
             "Divine Echo Boost",

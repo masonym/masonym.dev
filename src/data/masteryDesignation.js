@@ -5,6 +5,15 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Rising Rage"
+        ],
+        "thirdMastery": [
+            "HEXA Beam Blade",
+            "Furious Edge", // TODO: Add "Furious Edge" localized name
+        ],
+        "fourthMastery": [
+            "HEXA Cry Valhalla",
+            "HEXA Puncture",
+            "HEXA Final Attack",
         ]
     },
     "Dark Knight": {
@@ -14,7 +23,12 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Dark Impale",
             "HEXA Nightshade Explosion"
-        ]
+        ],
+        "thirdMastery": [
+            "HEXA Revenge of the Evil Eye",
+            "HEXA Final Attack",
+        ],
+        "fourthMastery": ["HEXA Evil Eye Shock",]
     },
     "Paladin": {
         "firstMastery": [
@@ -23,6 +37,13 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Divine Charge",
             "HEXA Divine Mark"
+        ],
+        "thirdMastery": [
+            "HEXA Heaven's Hammer"
+        ],
+        "fourthMastery": [
+            "HEXA Final Attack",
+            "Rising Justice", // TODO: Localize name
         ]
     },
     "Arch Mage (Ice, Lightning)": {
@@ -32,6 +53,14 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Frozen Orb",
             "HEXA Blizzard"
+        ],
+        "thirdMastery": [
+            "HEXA Lightning Orb",
+            "Cryo Shock", // TODO: Localize
+        ],
+        "fourthMastery": [
+            "HEXA Thunder Sphere",
+            "HEXA Elquines",
         ]
     },
     "Arch Mage (Fire, Poison)": {
@@ -41,6 +70,16 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Flame Haze",
             "HEXA Mist Eruption"
+        ],
+        "thirdMastery": [
+            "HEXA Ignite",
+            "HEXA Ifrit",
+            "HEXA Inferno Aura",
+        ],
+        "fourthMastery": [
+            "HEXA Creeping Toxin",
+            "HEXA Meteor Shower",
+            "HEXA Megiddo Flame",
         ]
     },
     "Bishop": {
@@ -50,6 +89,15 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Big Bang",
             "HEXA Triumphant Feather"
+        ],
+        "thirdMastery": [
+            "HEXA Angelic Wrath",
+            "HEXA Fountain of Vengeance",
+            "HEXA Bahamut",
+        ],
+        "fourthMastery": [
+            "HEXA Genesis",
+            "HEXA Heaven's Door",
         ]
     },
     "Pathfinder": {
@@ -59,7 +107,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Cardinal Deluge",
             "HEXA Bountiful Deluge"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Marksman": {
         "firstMastery": [
@@ -67,7 +117,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Piercing Arrow"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Bowmaster": {
         "firstMastery": [
@@ -76,7 +128,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Arrow Stream",
             "HEXA Arrow Blaster"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Dual Blade": {
         "firstMastery": [
@@ -84,7 +138,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Asura's Anger"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Shadower": {
         "firstMastery": [
@@ -93,7 +149,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Meso Explosion"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Night Lord": {
         "firstMastery": [
@@ -102,7 +160,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Assassin's Mark"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Cannoneer": {
         "firstMastery": [
@@ -113,7 +173,9 @@ export const masteryDesignation = {
             "HEXA Monkey Mortar",
             "HEXA Anchors Away",
             "HEXA Nautilus Strike"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Buccaneer": {
         "firstMastery": [
@@ -124,7 +186,9 @@ export const masteryDesignation = {
             "HEXA Sea Serpent Burst",
             "HEXA Sea Serpent's Rage",
             "HEXA Nautilus Strike"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Corsair": {
         "firstMastery": [
@@ -132,7 +196,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Broadside"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Dawn Warrior": {
         "firstMastery": [
@@ -141,7 +207,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Cosmic Shower"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Thunder Breaker": {
         "firstMastery": [
@@ -149,7 +217,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Thunderbolt"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Night Walker": {
         "firstMastery": [
@@ -159,7 +229,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Shadow Bat",
             "HEXA Ravenous Bat"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Wind Archer": {
         "firstMastery": [
@@ -167,7 +239,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Trifling Wind"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Blaze Wizard": {
         "firstMastery": [
@@ -175,7 +249,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Blazing Extinction"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Mihile": {
         "firstMastery": [
@@ -183,7 +259,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Royal Guard"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Mercedes": {
         "firstMastery": [
@@ -193,7 +271,9 @@ export const masteryDesignation = {
             "HEXA Wrath of Enlil",
             "HEXA Spikes Royale",
             "HEXA Leap Tornado"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Aran": {
         "firstMastery": [
@@ -201,7 +281,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Finisher - Hunter's Prey"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Phantom": {
         "firstMastery": [
@@ -209,7 +291,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Mille Aiguilles"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Luminous": {
         "firstMastery": [
@@ -218,7 +302,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Reflection",
             "Endless Darkness"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Evan": {
         "firstMastery": [
@@ -229,7 +315,9 @@ export const masteryDesignation = {
             "HEXA Dragon Flash",
             "HEXA Thunder Flash",
             "HEXA Wind Flash"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Shade": {
         "firstMastery": [
@@ -237,7 +325,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Fox Spirits"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Battle Mage": {
         "firstMastery": [
@@ -246,7 +336,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Finishing Blow",
             "HEXA Sweeping Staff"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Blaster": {
         "firstMastery": [
@@ -256,7 +348,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Bunker Buster Explosion",
             "Burst Pile Bunker"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Mechanic": {
         "firstMastery": [
@@ -264,7 +358,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Homing Beacon"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Wild Hunter": {
         "firstMastery": [
@@ -277,7 +373,9 @@ export const masteryDesignation = {
             "HEXA Jaguar Soul",
             "HEXA Exploding Arrows",
             "HEXA Jaguar Rampage"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Xenon": {
         "firstMastery": [
@@ -286,7 +384,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Triangulation",
             "HEXA Hypogram Field"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Demon Slayer": {
         "firstMastery": [
@@ -295,7 +395,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Demon Lash",
             "HEXA Infernal Concussion"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Demon Avenger": {
         "firstMastery": [
@@ -303,7 +405,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Exceed: Execution"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Angelic Buster": {
         "firstMastery": [
@@ -311,7 +415,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Soul Seeker",
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Kaiser": {
         "firstMastery": [
@@ -320,7 +426,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Blade Burst",
             "HEXA Tempest Blades"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Cadena": {
         "firstMastery": [
@@ -328,7 +436,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Muscle Memory"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Kain": {
         "firstMastery": [
@@ -339,7 +449,9 @@ export const masteryDesignation = {
             "HEXA Scattering Shot",
             "HEXA Tearing Knife",
             "HEXA Chain Sickle"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Kanna": {
         "firstMastery": [
@@ -347,7 +459,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Vanquisher's Charm"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Hayato": {
         "firstMastery": [
@@ -356,7 +470,9 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Shinksoku"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Adele": {
         "firstMastery": [
@@ -367,7 +483,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Hunting Decree",
             "HEXA Plummet"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Ark": {
         "firstMastery": [
@@ -381,7 +499,9 @@ export const masteryDesignation = {
             "HEXA Grievous Wound",
             "HEXA Insatiable Hunger",
             "HEXA Unbridled Chaos"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Illium": {
         "firstMastery": [
@@ -394,7 +514,9 @@ export const masteryDesignation = {
             "HEXA Reaction - Domination",
             "HEXA Reaction - Destruction",
             "HEXA Wings of Glory"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Khali": {
         "firstMastery": [
@@ -405,7 +527,9 @@ export const masteryDesignation = {
             "HEXA Void Rush",
             "HEXA Void Blitz",
             "HEXA Chakram Split"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Hoyoung": {
         "firstMastery": [
@@ -417,7 +541,9 @@ export const masteryDesignation = {
             "HEXA Heaven: Iron Fan Gale",
             "HEXA Earth: Ground-Shattering Wave",
             "HEXA Humanity: As-You-Will Fan"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Lara": {
         "firstMastery": [
@@ -428,7 +554,9 @@ export const masteryDesignation = {
             "HEXA Heaving River",
             "HEXA Whirlwind",
             "HEXA Sunrise Well"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Kinesis": {
         "firstMastery": [
@@ -437,7 +565,9 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Psychic Grab",
             "HEXA Ultimate - Psychic Shot"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Zero": {
         "firstMastery": [
@@ -454,7 +584,9 @@ export const masteryDesignation = {
             "HEXA Rolling Cross",
             "HEXA Wheel Wind",
             "HEXA Rolling Assault"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     },
     "Lynn": {
         "firstMastery": [
@@ -462,6 +594,8 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Sneak Attack"
-        ]
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
     }
 }
