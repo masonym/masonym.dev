@@ -265,7 +265,10 @@ export const classes = {
             "HEXA Cannon Bazooka",
             "HEXA Monkey Mortar",
             "HEXA Anchors Away",
-            "HEXA Nautilus Strike"
+            "HEXA Nautilus Strike",
+            "HEXA Rolling Rainbow",
+            "HEXA Monkey Militia",
+            "HEXA Monkey Fury",
         ],
         "boostSkills": [
             "Cannon of Mass Destruction Boost",
@@ -283,7 +286,9 @@ export const classes = {
             "HEXA Octopunch",
             "HEXA Sea Serpent Burst",
             "HEXA Sea Serpent's Rage",
-            "HEXA Nautilus Strike"
+            "HEXA Nautilus Strike",
+            "HEXA Serpent Scale",
+            "HEXA Hook Bomber",
         ],
         "boostSkills": [
             "Lightning Form Boost",
@@ -299,8 +304,14 @@ export const classes = {
         "originSkill": "The Dreadnought",
         "masterySkills": [
             "HEXA Rapid Fire",
-            "HEXA Rapid Fire[1]",
-            "HEXA Broadside"
+            "HEXA Broadside",
+            "HEXA Brain Scrambler",
+            "HEXA Eight-Legs Easton",
+            "HEXA Firing Orders",
+            "HEXA All Aboard",
+            "HEXA Siege Bomber",
+            "HEXA Ugly Bomb",
+            "HEXA Nautilus Strike",
         ],
         "boostSkills": [
             "Bullet Barrage Boost",

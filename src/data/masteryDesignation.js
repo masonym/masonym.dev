@@ -215,8 +215,13 @@ export const masteryDesignation = {
             "HEXA Anchors Away",
             "HEXA Nautilus Strike"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Rolling Rainbow",
+        ],
+        "fourthMastery": [
+            "HEXA Monkey Militia",
+            "HEXA Monkey Fury",
+        ]
     },
     "Buccaneer": {
         "firstMastery": [
@@ -228,8 +233,12 @@ export const masteryDesignation = {
             "HEXA Sea Serpent's Rage",
             "HEXA Nautilus Strike"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Serpent Scale",
+        ],
+        "fourthMastery": [
+            "HEXA Hook Bomber",
+        ]
     },
     "Corsair": {
         "firstMastery": [
@@ -238,8 +247,17 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Broadside"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Brain Scrambler",
+            "HEXA Eight-Legs Easton",
+            "HEXA Firing Orders",
+        ],
+        "fourthMastery": [
+            "HEXA All Aboard",
+            "HEXA Siege Bomber",
+            "HEXA Ugly Bomb",
+            "HEXA Nautilus Strike",
+        ]
     },
     "Dawn Warrior": {
         "firstMastery": [
