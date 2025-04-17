@@ -133,7 +133,13 @@ export const classes = {
             "HEXA Cardinal Burst",
             "HEXA Bountiful Burst",
             "HEXA Cardinal Deluge",
-            "HEXA Bountiful Deluge"
+            "HEXA Bountiful Deluge",
+            "HEXA Glyph of Impalement",
+            "HEXA Cardinal Torrent",
+            "HEXA Ancient Astra",
+            "HEXA Combo Assault",
+            "HEXA Shadow Raven",
+            "Relic Materialize", // TODO: Localize
         ],
         "boostSkills": [
             "Nova Blast Boost",
@@ -191,7 +197,11 @@ export const classes = {
         "originSkill": "Karma Blade",
         "masterySkills": [
             "HEXA Phantom Blow",
-            "HEXA Asura's Anger"
+            "HEXA Asura's Anger",
+            "HEXA Blade Clone",
+            "All Will Die", // TODO: Localize
+            "HEXA Blade Fury",
+            "HEXA Sudden Raid",
         ],
         "boostSkills": [
             "Blade Storm Boost",
@@ -209,7 +219,12 @@ export const classes = {
             "HEXA Assassinate",
             "HEXA Pulverize",
             "HEXA Meso Explosion",
-            "HEXA Meso Explosion"
+            "HEXA Meso Explosion",
+            "HEXA Dark Flare",
+            "HEXA Cruel Stab",
+            "HEXA Sudden Raid",
+            "HEXA Shadow Veil",
+            "Covert Shadow", // TODO: Localize
         ],
         "boostSkills": [
             "Shadow Assault Boost",
@@ -226,7 +241,12 @@ export const classes = {
         "masterySkills": [
             "HEXA Quad Star",
             "Enhanced HEXA Quad Star",
-            "HEXA Assassin's Mark"
+            "HEXA Assassin's Mark",
+            "HEXA Dark Flare",
+            "HEXA Showdown",
+            "Darkness Shuriken", // TODO: Localize
+            "HEXA Sudden Raid",
+            "HEXA Death Star",
         ],
         "boostSkills": [
             "Throwing Star Barrage Boost",

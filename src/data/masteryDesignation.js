@@ -160,8 +160,14 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Asura's Anger"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Blade Clone",
+            "All Will Die", // TODO: Localize
+        ],
+        "fourthMastery": [
+            "HEXA Blade Fury",
+            "HEXA Sudden Raid",
+        ]
     },
     "Shadower": {
         "firstMastery": [
