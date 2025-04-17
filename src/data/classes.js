@@ -28,6 +28,7 @@ export const classes = {
             "HEXA Nightshade Explosion",
             "HEXA Revenge of the Evil Eye",
             "HEXA Final Attack",
+            "HEXA Evil Eye Shock",
         ],
         "boostSkills": [
             "Spear of Darkness Boost",
@@ -65,7 +66,11 @@ export const classes = {
         "masterySkills": [
             "HEXA Chain Lightning",
             "HEXA Frozen Orb",
-            "HEXA Blizzard"
+            "HEXA Blizzard",
+            "HEXA Lightning Orb",
+            "Cryo Shock", // TODO: Localize
+            "HEXA Thunder Sphere",
+            "HEXA Elquines",
         ],
         "boostSkills": [
             "Ice Age Boost",
@@ -82,7 +87,13 @@ export const classes = {
         "masterySkills": [
             "HEXA Flame Sweep",
             "HEXA Flame Haze",
-            "HEXA Mist Eruption"
+            "HEXA Mist Eruption",
+            "HEXA Ignite",
+            "HEXA Ifrit",
+            "HEXA Inferno Aura",
+            "HEXA Creeping Toxin",
+            "HEXA Meteor Shower",
+            "HEXA Megiddo Flame",
         ],
         "boostSkills": [
             "DoT Punisher Boost",
@@ -99,7 +110,12 @@ export const classes = {
         "masterySkills": [
             "HEXA Angel Ray",
             "HEXA Big Bang",
-            "HEXA Triumph Feather"
+            "HEXA Triumph Feather",
+            "HEXA Angelic Wrath",
+            "HEXA Fountain of Vengeance",
+            "HEXA Bahamut",
+            "HEXA Genesis",
+            "HEXA Heaven's Door",
         ],
         "boostSkills": [
             "Benediction Boost",
@@ -133,7 +149,11 @@ export const classes = {
         "originSkill": "Final Aim",
         "masterySkills": [
             "HEXA Snipe",
-            "HEXA Piercing Arrow"
+            "HEXA Piercing Arrow",
+            "HEXA Frostprey",
+            "HEXA Bolt Burst",
+            "HEXA Final Attack",
+            "HEXA High Speed Shot",
         ],
         "boostSkills": [
             "Perfect Shot Boost",
@@ -150,7 +170,12 @@ export const classes = {
         "masterySkills": [
             "HEXA Hurricane",
             "HEXA Arrow Stream",
-            "HEXA Arrow Blaster"
+            "HEXA Arrow Blaster",
+            "HEXA Quiver Cartridge",
+            "HEXA Phoenix",
+            "Extra Quiver Cartridge",
+            "HEXA Speed Mirage",
+            "HEXA Gritty Gust",
         ],
         "boostSkills": [
             "Storm of Arrows Boost",

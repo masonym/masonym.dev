@@ -108,8 +108,16 @@ export const masteryDesignation = {
             "HEXA Cardinal Deluge",
             "HEXA Bountiful Deluge"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Glyph of Impalement",
+            "HEXA Cardinal Torrent",
+            "HEXA Ancient Astra",
+        ],
+        "fourthMastery": [
+            "HEXA Combo Assault",
+            "HEXA Shadow Raven",
+            "Relic Materialize", // TODO: Localize
+        ]
     },
     "Marksman": {
         "firstMastery": [
@@ -118,8 +126,14 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Piercing Arrow"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Frostprey",
+            "HEXA Bolt Burst",
+        ],
+        "fourthMastery": [
+            "HEXA Final Attack",
+            "HEXA High Speed Shot",
+        ]
     },
     "Bowmaster": {
         "firstMastery": [
@@ -129,8 +143,15 @@ export const masteryDesignation = {
             "HEXA Arrow Stream",
             "HEXA Arrow Blaster"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Quiver Cartridge",
+            "HEXA Phoenix",
+            "Extra Quiver Cartridge",
+        ],
+        "fourthMastery": [
+            "HEXA Speed Mirage",
+            "HEXA Gritty Gust",
+        ]
     },
     "Dual Blade": {
         "firstMastery": [
@@ -161,8 +182,15 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Assassin's Mark"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Dark Flare",
+            "HEXA Showdown",
+            "Darkness Shuriken", // TODO: Localize
+        ],
+        "fourthMastery": [
+            "HEXA Sudden Raid",
+            "HEXA Death Star",
+        ]
     },
     "Cannoneer": {
         "firstMastery": [
