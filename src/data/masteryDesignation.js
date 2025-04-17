@@ -171,8 +171,15 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Meso Explosion"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Dark Flare",
+            "HEXA Cruel Stab",
+        ],
+        "fourthMastery": [
+            "HEXA Sudden Raid",
+            "HEXA Shadow Veil",
+            "Covert Shadow", // TODO: Localize
+        ]
     },
     "Night Lord": {
         "firstMastery": [
