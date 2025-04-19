@@ -328,7 +328,10 @@ export const classes = {
         "masterySkills": [
             "HEXA Luna Divide",
             "HEXA Solar Slash",
-            "HEXA Cosmic Shower"
+            "HEXA Cosmic Shower",
+            "HEXA Cosmic Burst",
+            "HEXA Equinox Slash",
+            "Equinox Power II", // TODO: Localize
         ],
         "boostSkills": [
             "Cosmos Boost",
@@ -345,7 +348,11 @@ export const classes = {
         "masterySkills": [
             "HEXA Annihilate",
             "HEXA Annihilate Lightning Strike",
-            "HEXA Thunderbolt"
+            "HEXA Thunderbolt",
+            "HEXA Typhoon",
+            "HEXA Deep Rising",
+            "HEXA Sea Wave",
+            "Sea God Rigid Body", // TODO: Localize
         ],
         "boostSkills": [
             "Lightning Cascade Boost",
@@ -363,7 +370,10 @@ export const classes = {
             "HEXA Quintuple Star",
             "HEXA Quintuple Star - Jet Black",
             "HEXA Shadow Bat",
-            "HEXA Ravenous Bat"
+            "HEXA Ravenous Bat",
+            "HEXA Dark Omen",
+            "HEXA Dominion",
+            "Abyssal Darkness", // TODO: Localize
         ],
         "boostSkills": [
             "Shadow Spear Boost",
@@ -379,7 +389,12 @@ export const classes = {
         "originSkill": "Mistral Spring",
         "masterySkills": [
             "HEXA Song of Heaven",
-            "HEXA Trifling Wind"
+            "HEXA Trifling Wind",
+            "HEXA Storm Bringer",
+            "HEXA Fairy Spiral",
+            "HEXA Monsoon",
+            "HEXA Storm Whim",
+            "Anemoi", // TODO: Localize
         ],
         "boostSkills": [
             "Howling Gale Boost",
@@ -395,7 +410,10 @@ export const classes = {
         "originSkill": "Eternity",
         "masterySkills": [
             "HEXA Orbital Flame",
-            "HEXA Blazing Extinction"
+            "HEXA Blazing Extinction",
+            "HEXA Orbital Explosion",
+            "HEXA Phoenix Drive",
+            "HEXA Inferno Rise",
         ],
         "boostSkills": [
             "Orbital Inferno Boost",

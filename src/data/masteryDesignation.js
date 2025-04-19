@@ -267,8 +267,13 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Cosmic Shower"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Cosmic Burst",
+        ],
+        "fourthMastery": [
+            "HEXA Equinox Slash",
+            "Equinox Power II", // TODO: Localize
+        ]
     },
     "Thunder Breaker": {
         "firstMastery": [
@@ -277,8 +282,14 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Thunderbolt"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Typhoon",
+            "HEXA Deep Rising",
+        ],
+        "fourthMastery": [
+            "HEXA Sea Wave",
+            "Sea God Rigid Body", // TODO: Localize
+        ]
     },
     "Night Walker": {
         "firstMastery": [
@@ -289,8 +300,13 @@ export const masteryDesignation = {
             "HEXA Shadow Bat",
             "HEXA Ravenous Bat"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Dark Omen",
+        ],
+        "fourthMastery": [
+            "HEXA Dominion",
+            "Abyssal Darkness", // TODO: Localize
+        ]
     },
     "Wind Archer": {
         "firstMastery": [
@@ -299,8 +315,15 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Trifling Wind"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Storm Bringer",
+            "HEXA Fairy Spiral",
+            "HEXA Monsoon",
+        ],
+        "fourthMastery": [
+            "HEXA Storm Whim",
+            "Anemoi", // TODO: Localize
+        ]
     },
     "Blaze Wizard": {
         "firstMastery": [
@@ -309,8 +332,13 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Blazing Extinction"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Orbital Explosion",
+            "HEXA Phoenix Drive",
+        ],
+        "fourthMastery": [
+            "HEXA Inferno Rise",
+        ]
     },
     "Mihile": {
         "firstMastery": [
