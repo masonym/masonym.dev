@@ -775,8 +775,13 @@ export const masteryDesignation = {
             "HEXA Psychic Grab",
             "HEXA Ultimate - Psychic Shot"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Ultimate - Trainwreck",
+            "HEXA Ultimate - B.P.M.",
+        ],
+        "fourthMastery": [
+            "HEXA Kinetic Combo",
+        ]
     },
     "Zero": {
         "firstMastery": [

@@ -1006,7 +1006,10 @@ export const classes = {
         "masterySkills": [
             "HEXA Ultimate - Metal Press",
             "HEXA Psychic Grab",
-            "HEXA Ultimate - Psychic Shot"
+            "HEXA Ultimate - Psychic Shot",
+            "HEXA Ultimate - Trainwreck",
+            "HEXA Ultimate - B.P.M.",
+            "HEXA Kinetic Combo",
         ],
         "boostSkills": [
             "Psychic Tornado Boost",
