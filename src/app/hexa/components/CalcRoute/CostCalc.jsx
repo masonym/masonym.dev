@@ -173,6 +173,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
 
     // Third Mastery skills
     classMasteryDesignation.thirdMastery.forEach(skill => {
+      if (!skill) return;
       const formattedSkill = formatSkillPath(skill);
       if (desiredSkillLevels[formattedSkill]) {
         orderedSkills.push(formattedSkill);
@@ -181,6 +182,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
 
     // Fourth Mastery skills
     classMasteryDesignation.fourthMastery.forEach(skill => {
+      if (!skill) return;
       const formattedSkill = formatSkillPath(skill);
       if (desiredSkillLevels[formattedSkill]) {
         orderedSkills.push(formattedSkill);

@@ -678,7 +678,7 @@ export const masteryDesignation = {
             "HEXA Rai Sanrenzan"
         ],
         "secondMastery": [
-            "HEXA Shinksoku"
+            "HEXA Shinsoku"
         ],
         "thirdMastery": [],
         "fourthMastery": []

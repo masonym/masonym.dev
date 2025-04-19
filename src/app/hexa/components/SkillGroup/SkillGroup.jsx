@@ -15,23 +15,26 @@ export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, colu
 
     return (
         <div className={`grid ${gridColumns[columns]} gap-4`}>
-            {skills.map((skillSet, index) => {
-                const skillName = Array.isArray(skillSet) ? formatSkillPath(skillSet[0]) : formatSkillPath(skillSet);
-                
-                return (
-                    <div key={index} className={`w-full ${columns === 1 ? 'col-span-full' : ''}`}>
-                        <SkillItem
-                            skills={skillSet}
-                            altText={skillName}
-                            classKey={classKey}
-                            isCommon={isCommon}
-                            itemStyle={`${itemStyle} p-4 rounded-lg shadow-md h-full`}
-                            inputValue={skillLevels[skillName]?.level || ''}
-                            onInputChange={handleInputChange}
-                        />
-                    </div>
-                );
-            })}
+            {skills
+                .filter(skillSet => skillSet && skillSet.length > 0)
+                .map((skillSet, index) => {
+                    console.log(skillSet)
+                    const skillName = Array.isArray(skillSet) ? formatSkillPath(skillSet[0]) : formatSkillPath(skillSet);
+
+                    return (
+                        <div key={index} className={`w-full ${columns === 1 ? 'col-span-full' : ''}`}>
+                            <SkillItem
+                                skills={skillSet}
+                                altText={skillName}
+                                classKey={classKey}
+                                isCommon={isCommon}
+                                itemStyle={`${itemStyle} p-4 rounded-lg shadow-md h-full`}
+                                inputValue={skillLevels[skillName]?.level || ''}
+                                onInputChange={handleInputChange}
+                            />
+                        </div>
+                    );
+                })}
         </div>
     );
 };

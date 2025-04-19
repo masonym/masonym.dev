@@ -1,4 +1,7 @@
 export const formatSkillPath = (skillName) => {
+
+    if (!skillName) return null;
+
     skillName = skillName.replace(/:/g, '');
 
     skillName = skillName.replace('\'', "")
