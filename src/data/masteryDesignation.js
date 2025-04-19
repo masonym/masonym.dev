@@ -472,8 +472,12 @@ export const masteryDesignation = {
             "HEXA Finishing Blow",
             "HEXA Sweeping Staff"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Dark Shock",
+        ],
+        "fourthMastery": [
+            "HEXA Dark Genesis",
+        ]
     },
     "Blaster": {
         "firstMastery": [
@@ -484,8 +488,15 @@ export const masteryDesignation = {
             "HEXA Bunker Buster Explosion",
             "Burst Pile Bunker"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Revolving Cannon Mastery",
+            "HEXA Hammer Smash",
+            "HEXA Shotgun Punch",
+        ],
+        "fourthMastery": [
+            "HEXA Revolving Cannon",
+            "HEXA Ballistic Hurricane",
+        ]
     },
     "Mechanic": {
         "firstMastery": [
@@ -494,8 +505,14 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Homing Beacon"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Distortion Bomb",
+        ],
+        "fourthMastery": [
+            "HEXA Robo Launcher RM7",
+            "HEXA Rock 'n Shock",
+            "HEXA Bots 'n Tots",
+        ]
     },
     "Wild Hunter": {
         "firstMastery": [
@@ -509,8 +526,14 @@ export const masteryDesignation = {
             "HEXA Exploding Arrows",
             "HEXA Jaguar Rampage"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Summon Jaguar",
+        ],
+        "fourthMastery": [
+            "HEXA Hunting Assistant Unit",
+            "HEXA Drill Salvo",
+            "HEXA Final Attack",
+        ]
     },
     "Xenon": {
         "firstMastery": [
@@ -520,8 +543,13 @@ export const masteryDesignation = {
             "HEXA Triangulation",
             "HEXA Hypogram Field"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Aegis System",
+            "HEXA Orbital Cataclysm",
+        ],
+        "fourthMastery": [
+            "HEXA Beam Dance",
+        ]
     },
     "Demon Slayer": {
         "firstMastery": [
@@ -531,8 +559,14 @@ export const masteryDesignation = {
             "HEXA Demon Lash",
             "HEXA Infernal Concussion"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Demon Cry",
+            "HEXA Metamorphosis",
+        ],
+        "fourthMastery": [
+            "HEXA Cerberus Chomp",
+            "Demonic Descent", // TODO: Localize
+        ]
     },
     "Demon Avenger": {
         "firstMastery": [
@@ -541,8 +575,14 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Exceed: Execution"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Exceed: Lunar Slash",
+            "Overmaximizing Exceed", // TODO: Localize
+        ],
+        "fourthMastery": [
+            "HEXA Thousand Swords",
+            "HEXA Infernal Exceed",
+        ]
     },
     "Angelic Buster": {
         "firstMastery": [

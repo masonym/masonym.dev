@@ -587,7 +587,9 @@ export const classes = {
         "masterySkills": [
             "HEXA Condemnation",
             "HEXA Finishing Blow",
-            "HEXA Sweeping Staff"
+            "HEXA Sweeping Staff",
+            "HEXA Dark Shock",
+            "HEXA Dark Genesis",
         ],
         "boostSkills": [
             "Aura Scythe Boost",
@@ -605,7 +607,12 @@ export const classes = {
             "HEXA Magnum Punch",
             "HEXA Double Blast",
             "HEXA Bunker Buster Explosion",
-            "Burst Pile Bunker"
+            "Burst Pile Bunker",
+            "HEXA Revolving Cannon Mastery",
+            "HEXA Hammer Smash",
+            "HEXA Shotgun Punch",
+            "HEXA Revolving Cannon",
+            "HEXA Ballistic Hurricane",
         ],
         "boostSkills": [
             "Rocket Punch Boost",
@@ -622,7 +629,11 @@ export const classes = {
         "masterySkills": [
             "HEXA Heavy Salvo Plus",
             "HEXA AP Salvo Plus",
-            "HEXA Homing Beacon"
+            "HEXA Homing Beacon",
+            "HEXA Distortion Bomb",
+            "HEXA Robo Launcher RM7",
+            "HEXA Rock 'n Shock",
+            "HEXA Bots 'n Tots",
         ],
         "boostSkills": [
             "Doomsday Device Boost",
@@ -644,7 +655,11 @@ export const classes = {
             "HEXA Sonic Roar",
             "HEXA Jaguar Soul",
             "HEXA Jaguar Rampage",
-            "HEXA Exploding Arrows"
+            "HEXA Exploding Arrows",
+            "HEXA Summon Jaguar",
+            "HEXA Hunting Assistant Unit",
+            "HEXA Drill Salvo",
+            "HEXA Final Attack",
         ],
         "boostSkills": [
             "Jaguar Storm Boost",
@@ -665,7 +680,10 @@ export const classes = {
             "HEXA Mecha Purge: Fire",
             "HEXA Hypogram Field: Penetrate",
             "HEXA Hypogram Field: Force Field",
-            "HEXA Triangulation"
+            "HEXA Triangulation",
+            "HEXA Aegis System",
+            "HEXA Orbital Cataclysm",
+            "HEXA Beam Dance",
         ],
         "boostSkills": [
             "Omega Blaster Boost",
@@ -683,7 +701,11 @@ export const classes = {
             "HEXA Demon Impact",
             "HEXA Demon Impact: Demon Chain",
             "HEXA Demon Lash",
-            "HEXA Infernal Concussion"
+            "HEXA Infernal Concussion",
+            "HEXA Demon Cry",
+            "HEXA Metamorphosis",
+            "HEXA Cerberus Chomp",
+            "Demonic Descent", // TODO: Localize
         ],
         "boostSkills": [
             "Demon Awakening Boost",
@@ -699,7 +721,11 @@ export const classes = {
         "originSkill": "Requiem",
         "masterySkills": [
             "HEXA Nether Shield",
-            "HEXA Exceed: Execution"
+            "HEXA Exceed: Execution",
+            "HEXA Exceed: Lunar Slash",
+            "Overmaximizing Exceed", // TODO: Localize
+            "HEXA Thousand Swords",
+            "HEXA Infernal Exceed",
         ],
         "boostSkills": [
             "Demonic Frenzy Boost",
