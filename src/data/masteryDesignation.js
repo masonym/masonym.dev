@@ -693,8 +693,17 @@ export const masteryDesignation = {
             "HEXA Hunting Decree",
             "HEXA Plummet"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Impale",
+            "HEXA Resonance Rush",
+            "HEXA Noble Summons",
+            "HEXA Aether Bloom",
+        ],
+        "fourthMastery": [
+            "HEXA Aether Forge",
+            "HEXA Reign of Destruction",
+            "HEXA Shardbreaker",
+        ]
     },
     "Ark": {
         "firstMastery": [
@@ -709,8 +718,15 @@ export const masteryDesignation = {
             "HEXA Insatiable Hunger",
             "HEXA Unbridled Chaos"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Vengeful Hate",
+            "HEXA Blissful Restraint",
+            "HEXA Endless Agony",
+        ],
+        "fourthMastery": [
+            "HEXA Endless Nightmare",
+            "HEXA Endless Dream",
+        ]
     },
     "Illium": {
         "firstMastery": [
@@ -724,8 +740,16 @@ export const masteryDesignation = {
             "HEXA Reaction - Destruction",
             "HEXA Wings of Glory"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Ex",
+            "HEXA Machina",
+            "HEXA Crystal Skill - Deus",
+        ],
+        "fourthMastery": [
+            "HEXA Longinus Spear",
+            "HEXA Umbral Brand",
+            "HEXA Longinus Zone",
+        ]
     },
     "Khali": {
         "firstMastery": [
@@ -737,8 +761,15 @@ export const masteryDesignation = {
             "HEXA Void Blitz",
             "HEXA Chakram Split"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Hex: Chakram Sweep",
+            "HEXA Hex: Chakram Fury",
+            "HEXA Death Blossom",
+        ],
+        "fourthMastery": [
+            "HEXA Resonate",
+            "HEXA Deceiving Blade",
+        ]
     },
     "Hoyoung": {
         "firstMastery": [

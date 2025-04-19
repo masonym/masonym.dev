@@ -874,7 +874,14 @@ export const classes = {
             "HEXA Cleave",
             "HEXA Magic Dispatch",
             "HEXA Hunting Decree",
-            "HEXA Plummet"
+            "HEXA Plummet",
+            "HEXA Impale",
+            "HEXA Resonance Rush",
+            "HEXA Noble Summons",
+            "HEXA Aether Bloom",
+            "HEXA Aether Forge",
+            "HEXA Reign of Destruction",
+            "HEXA Shardbreaker",
         ],
         "boostSkills": [
             "Ruin Boost",
@@ -896,7 +903,12 @@ export const classes = {
             "Awakened Abyss",
             "HEXA Grievous Wound",
             "HEXA Insatiable Hunger",
-            "HEXA Unbridled Chaos"
+            "HEXA Unbridled Chaos",
+            "HEXA Vengeful Hate",
+            "HEXA Blissful Restraint",
+            "HEXA Endless Agony",
+            "HEXA Endless Nightmare",
+            "HEXA Endless Dream",
         ],
         "boostSkills": [
             "Abyssal Recall Boost",
@@ -917,7 +929,13 @@ export const classes = {
             "HEXA Winged Enchanted Javelin",
             "HEXA Reaction - Destruction",
             "HEXA Reaction - Domination",
-            "HEXA Vortex Wings"
+            "HEXA Vortex Wings",
+            "HEXA Ex",
+            "HEXA Machina",
+            "HEXA Crystal Skill - Deus",
+            "HEXA Longinus Spear",
+            "HEXA Umbral Brand",
+            "HEXA Longinus Zone",
         ],
         "boostSkills": [
             "Crystal Ignition Boost",
@@ -936,7 +954,12 @@ export const classes = {
             "HEXA Arts: Crescentum",
             "HEXA Void Rush",
             "HEXA Void Blitz",
-            "HEXA Hex: Chakram Split"
+            "HEXA Hex: Chakram Split",
+            "HEXA Hex: Chakram Sweep",
+            "HEXA Hex: Chakram Fury",
+            "HEXA Death Blossom",
+            "HEXA Resonate",
+            "HEXA Deceiving Blade",
         ],
         "boostSkills": [
             "Hex: Pandemonium Boost",
