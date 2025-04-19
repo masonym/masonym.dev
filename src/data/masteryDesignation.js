@@ -591,8 +591,13 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Soul Seeker",
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Supreme Supernova",
+        ],
+        "fourthMastery": [
+            "HEXA Celestial Roar",
+            "Da Capo Fettuccia", // TODO: Localize LOL
+        ]
     },
     "Kaiser": {
         "firstMastery": [
@@ -602,8 +607,13 @@ export const masteryDesignation = {
             "HEXA Blade Burst",
             "HEXA Tempest Blades"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Inferno Breath",
+        ],
+        "fourthMastery": [
+            "HEXA Wing Beat",
+            "HEXA Stone Dragon",
+        ]
     },
     "Cadena": {
         "firstMastery": [
@@ -612,8 +622,21 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Muscle Memory"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Summon Scimitar",
+            "HEXA Summon Claw",
+            "HEXA Summon Shuriken",
+            "HEXA Summon Spiked Bat",
+            "HEXA Chain Arts: Crush",
+        ],
+        "fourthMastery": [
+            "HEXA Summon Shotgun",
+            "HEXA Summon Daggers",
+            "HEXA Summon Decoy Bomb",
+            "HEXA Summon Brick",
+            "HEXA Chain Arts: Beatdown",
+            "HEXA Veteran Shadowdealer",
+        ]
     },
     "Kain": {
         "firstMastery": [
@@ -625,8 +648,19 @@ export const masteryDesignation = {
             "HEXA Tearing Knife",
             "HEXA Chain Sickle"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Dragon Fang",
+            "HEXA Shaft Break",
+            "HEXA [Posess] Shaft Break",
+            "HEXA [Execute] Phantom Blade",
+            "HEXA Lasting Grudge",
+        ],
+        "fourthMastery": [
+            "HEXA Death's Blessing",
+            "HEXA Chasing Shot",
+            "HEXA Unseen Sniper",
+            "HEXA [Posess/Execute] Unseen Sniper",
+        ]
     },
     "Kanna": {
         "firstMastery": [

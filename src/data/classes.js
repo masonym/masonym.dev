@@ -742,6 +742,9 @@ export const classes = {
         "masterySkills": [
             "HEXA Trinity",
             "HEXA Soul Seeker",
+            "HEXA Supreme Supernova",
+            "HEXA Celestial Roar",
+            "Da Capo Fettuccia", // TODO: Localize LOL
         ],
         "boostSkills": [
             "Sparkle Burst Boost",
@@ -758,7 +761,10 @@ export const classes = {
         "masterySkills": [
             "HEXA Gigas Wave",
             "HEXA Blade Burst",
-            "HEXA Tempest Blades"
+            "HEXA Tempest Blades",
+            "HEXA Inferno Breath",
+            "HEXA Wing Beat",
+            "HEXA Stone Dragon",
         ],
         "boostSkills": [
             "Nova Guardians Boost",
@@ -774,7 +780,18 @@ export const classes = {
         "originSkill": "Chain Arts: Grand Arsenal",
         "masterySkills": [
             "HEXA Chain Arts: Thrash",
-            "HEXA Muscle Memory"
+            "HEXA Muscle Memory",
+            "HEXA Summon Scimitar",
+            "HEXA Summon Claw",
+            "HEXA Summon Shuriken",
+            "HEXA Summon Spiked Bat",
+            "HEXA Chain Arts: Crush",
+            "HEXA Summon Shotgun",
+            "HEXA Summon Daggers",
+            "HEXA Summon Decoy Bomb",
+            "HEXA Summon Brick",
+            "HEXA Chain Arts: Beatdown",
+            "HEXA Veteran Shadowdealer",
         ],
         "boostSkills": [
             "Chain Arts: Void Strike Boost",
@@ -797,7 +814,16 @@ export const classes = {
             "HEXA Scattering Shot",
             "HEXA [Possess] Scattering Shot",
             "HEXA [Execute] Tearing Knife",
-            "HEXA [Execute] Chain Sickle"
+            "HEXA [Execute] Chain Sickle",
+            "HEXA Dragon Fang",
+            "HEXA Shaft Break",
+            "HEXA [Posess] Shaft Break",
+            "HEXA [Execute] Phantom Blade",
+            "HEXA Lasting Grudge",
+            "HEXA Death's Blessing",
+            "HEXA Chasing Shot",
+            "HEXA Unseen Sniper",
+            "HEXA [Posess/Execute] Unseen Sniper",
         ],
         "boostSkills": [
             "Dragon Burst Boost",
