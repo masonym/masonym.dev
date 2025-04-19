@@ -319,8 +319,15 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Royal Guard"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Install Shield",
+            "HEXA Charging Light",
+        ],
+        "fourthMastery": [
+            "HEXA Offensive Defense",
+            "HEXA Final Attack",
+            "HEXA Soul Majesty",
+        ]
     },
     "Mercedes": {
         "firstMastery": [

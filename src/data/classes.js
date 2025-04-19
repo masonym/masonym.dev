@@ -412,7 +412,12 @@ export const classes = {
         "masterySkills": [
             "HEXA Radiant Cross",
             "HEXA Radiant Cross - Assault",
-            "HEXA Royal Guard"
+            "HEXA Royal Guard",
+            "HEXA Install Shield",
+            "HEXA Charging Light",
+            "HEXA Offensive Defense",
+            "HEXA Final Attack",
+            "HEXA Soul Majesty",
         ],
         "boostSkills": [
             "Shield of Light Boost",
