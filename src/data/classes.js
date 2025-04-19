@@ -993,7 +993,11 @@ export const classes = {
             "HEXA Earth: Ground-Shattering Wave (Clone/True)",
             "HEXA Earth: Ground-Shattering Wave (Clone/True) (Enhanced)",
             "HEXA Humanity: As-You-Will Fan",
-            "HEXA Humanity: As-You-Will Fan (Enhanced)"
+            "HEXA Humanity: As-You-Will Fan (Enhanced)",
+            "HEXA Talisman: Clone",
+            "HEXA Talisman: Seeking Ghost Flame",
+            "HEXA Scroll: Star Vortex",
+            "HEXA Scroll: Butterfly Dream",
         ],
         "boostSkills": [
             "Sage: Clone Rampage Boost",
@@ -1012,7 +1016,12 @@ export const classes = {
             "HEXA Dragon Vein Eruption",
             "HEXA Eruption: Heaving River",
             "HEXA Eruption: Whirlwind",
-            "HEXA Eruption: Sunrise Well"
+            "HEXA Eruption: Sunrise Well",
+            "HEXA Dragon Vein Absorption",
+            "HEXA Absorption: River Puddle Douse",
+            "HEXA Absorption: Fierce Wind",
+            "HEXA Absorption: Sunlit Grain",
+            "HEXA Wakeup Call",
         ],
         "boostSkills": [
             "Big Stretch Boost",

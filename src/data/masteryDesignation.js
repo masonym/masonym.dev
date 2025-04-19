@@ -782,8 +782,14 @@ export const masteryDesignation = {
             "HEXA Earth: Ground-Shattering Wave",
             "HEXA Humanity: As-You-Will Fan"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Talisman: Clone",
+            "HEXA Talisman: Seeking Ghost Flame",
+        ],
+        "fourthMastery": [
+            "HEXA Scroll: Star Vortex",
+            "HEXA Scroll: Butterfly Dream",
+        ]
     },
     "Lara": {
         "firstMastery": [
@@ -795,8 +801,15 @@ export const masteryDesignation = {
             "HEXA Whirlwind",
             "HEXA Sunrise Well"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Dragon Vein Absorption",
+            "HEXA Absorption: River Puddle Douse",
+            "HEXA Absorption: Fierce Wind",
+            "HEXA Absorption: Sunlit Grain",
+        ],
+        "fourthMastery": [
+            "HEXA Wakeup Call",
+        ]
     },
     "Kinesis": {
         "firstMastery": [
