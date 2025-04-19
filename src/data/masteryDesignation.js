@@ -794,8 +794,21 @@ export const masteryDesignation = {
             "HEXA Wheel Wind",
             "HEXA Rolling Assault"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Flash Assault",
+            "HEXA Blade Ring",
+            "HEXA Flash Cut",
+            "HEXA Throwing Weapon",
+        ],
+        "fourthMastery": [
+            "HEXA Moon Strike",
+            "HEXA Piercing Thrust",
+            "HEXA Shadow Strike",
+            "HEXA Rising Slash",
+            "HEXA Air Raid",
+            "HEXA Shadow Rain",
+            "Infinite Resonance", // TODO: Localize
+        ]
     },
     "Lynn": {
         "firstMastery": [

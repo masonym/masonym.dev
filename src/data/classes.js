@@ -1031,7 +1031,18 @@ export const classes = {
             "HEXA Spin Driver",
             "HEXA Wheel Wind",
             "HEXA Rolling Cross",
-            "HEXA Rolling Assault"
+            "HEXA Rolling Assault",
+            "HEXA Flash Assault",
+            "HEXA Blade Ring",
+            "HEXA Flash Cut",
+            "HEXA Throwing Weapon",
+            "HEXA Moon Strike",
+            "HEXA Piercing Thrust",
+            "HEXA Shadow Strike",
+            "HEXA Rising Slash",
+            "HEXA Air Raid",
+            "HEXA Shadow Rain",
+            "Infinite Resonance", // TODO: Localize
         ],
         "boostSkills": [
             "Chrono Break Boost",
