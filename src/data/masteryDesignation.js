@@ -366,8 +366,15 @@ export const masteryDesignation = {
             "HEXA Spikes Royale",
             "HEXA Leap Tornado"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Unicorn Spike",
+            "HEXA Gust Dive",
+            "HEXA Stunning Strikes",
+        ],
+        "fourthMastery": [
+            "HEXA Elemental Knights",
+            "HEXA Final Attack",
+        ]
     },
     "Aran": {
         "firstMastery": [
@@ -376,8 +383,14 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Finisher - Hunter's Prey"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Last Stand",
+        ],
+        "fourthMastery": [
+            "HEXA Adrenaline Overload",
+            "HEXA Permafrost",
+            "HEXA Final Attack"
+        ]
     },
     "Phantom": {
         "firstMastery": [
@@ -386,8 +399,13 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Mille Aiguilles"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Carte Noir",
+        ],
+        "fourthMastery": [
+            "HEXA Carte Rose Finale",
+            "L'Amour Carte", // TODO: Localize
+        ]
     },
     "Luminous": {
         "firstMastery": [
@@ -397,8 +415,13 @@ export const masteryDesignation = {
             "HEXA Reflection",
             "Endless Darkness"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Apocalypse",
+            "Eternal Lightness", // TODO: Localize
+        ],
+        "fourthMastery": [
+            "HEXA Twilight Nova", // TODO: Localize
+        ]
     },
     "Evan": {
         "firstMastery": [
@@ -410,8 +433,20 @@ export const masteryDesignation = {
             "HEXA Thunder Flash",
             "HEXA Wind Flash"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Earth Circle",
+            "HEXA Dragon Dive",
+            "HEXA Earth Dive",
+            "HEXA Thunder Dive",
+        ],
+        "fourthMastery": [
+            "HEXA Wind Circle",
+            "HEXA Dragon Breath",
+            "HEXA Earth Breath",
+            "HEXA Wind Breath",
+            "HEXA Magic Debris",
+            "HEXA Dragon Spark",
+        ]
     },
     "Shade": {
         "firstMastery": [
@@ -420,8 +455,14 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Fox Spirits"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Bomb Punch",
+            "HEXA Death Mark",
+            "Spirit Night Punch", // TODO: Localize
+        ],
+        "fourthMastery": [
+            "HEXA Spirit Frenzy",
+        ]
     },
     "Battle Mage": {
         "firstMastery": [

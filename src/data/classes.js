@@ -456,7 +456,12 @@ export const classes = {
             "HEXA Spikes Royale",
             "HEXA Spikes Royale: Spirit Enchant",
             "HEXA Leaf Tornado",
-            "HEXA Leaf Tornado: Spirit Enchant"
+            "HEXA Leaf Tornado: Spirit Enchant",
+            "HEXA Unicorn Spike",
+            "HEXA Gust Dive",
+            "HEXA Stunning Strikes",
+            "HEXA Elemental Knights",
+            "HEXA Final Attack",
         ],
         "boostSkills": [
             "Spirit of Elluel Boost",
@@ -472,7 +477,11 @@ export const classes = {
         "originSkill": "Endgame",
         "masterySkills": [
             "HEXA Beyond Blade",
-            "HEXA Finisher - Hunter's Prey"
+            "HEXA Finisher - Hunter's Prey",
+            "HEXA Last Stand",
+            "HEXA Adrenaline Overload",
+            "HEXA Permafrost",
+            "HEXA Final Attack"
         ],
         "boostSkills": [
             "Finisher - Adrenaline Surge Boost",
@@ -489,7 +498,10 @@ export const classes = {
         "masterySkills": [
             "HEXA Tempest",
             "HEXA Mille Aiguilles",
-            "HEXA Mille Aiguilles: Fortune"
+            "HEXA Mille Aiguilles: Fortune",
+            "HEXA Carte Noir",
+            "HEXA Carte Rose Finale",
+            "L'Amour Carte", // TODO: Localize
         ],
         "boostSkills": [
             "Luck of the Draw Boost",
@@ -506,7 +518,10 @@ export const classes = {
         "masterySkills": [
             "HEXA Ender",
             "HEXA Reflection",
-            "Endless Darkness"
+            "Endless Darkness",
+            "HEXA Apocalypse",
+            "Eternal Lightness", // TODO: Localize
+            "HEXA Twilight Nova", // TODO: Localize
         ],
         "boostSkills": [
             "Gate of Light Boost",
@@ -525,7 +540,17 @@ export const classes = {
             "HEXA Thunder Circle",
             "HEXA Dragon Flash",
             "HEXA Thunder Flash",
-            "HEXA Wind Flash"
+            "HEXA Wind Flash",
+            "HEXA Earth Circle",
+            "HEXA Dragon Dive",
+            "HEXA Earth Dive",
+            "HEXA Thunder Dive",
+            "HEXA Wind Circle",
+            "HEXA Dragon Breath",
+            "HEXA Earth Breath",
+            "HEXA Wind Breath",
+            "HEXA Magic Debris",
+            "HEXA Dragon Spark",
         ],
         "boostSkills": [
             "Elemental Barrage Boost",
@@ -541,7 +566,11 @@ export const classes = {
         "originSkill": "Advent of the Fox",
         "masterySkills": [
             "HEXA Spirit Claw",
-            "HEXA Fox Spirits"
+            "HEXA Fox Spirits",
+            "HEXA Bomb Punch",
+            "HEXA Death Mark",
+            "Spirit Night Punch", // TODO: Localize
+            "HEXA Spirit Frenzy",
         ],
         "boostSkills": [
             "Fox God Flash",
