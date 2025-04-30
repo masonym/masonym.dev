@@ -104,6 +104,13 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
         ...classDesignation.secondMastery.map(skill => skillLevels[formatSkillPath(skill)]?.level || 0)
       );
 
+      if (!classGrowth) {
+        console.error(`No class growth data found for ${selectedClass}`);
+        setIsLoading(false);
+        return;
+      }
+
+
       const newSkills = [
         {
           type: 'Origin',
@@ -585,9 +592,9 @@ const Optimizer = ({ selectedClass, classDetails, skillLevels }) => {
       <p className="text-md mx-auto w-[80vw] max-w-[420px]">Furthermore, there may be some UX decisions that seem unintuitive or annoying. These will be improved in the future.</p>
       <p className="text-md mx-auto w-[80vw] max-w-[420px]">If you have any feedback, suggestions, or concerns, please feel free to reach out to me on Discord at <b>@masonym</b> or by email at <b>
         <Link href="mailto:contact@masonym.dev" target="_blank" className="text-blue-500 underline">
-        contact@masonym.dev
-      </Link></b>
-      .</p>
+          contact@masonym.dev
+        </Link></b>
+        .</p>
       <h3 className="text-xl font-bold mt-6 mb-2">Enter your current stats</h3>
       <div className="flex flex-col md:flex-row gap-4">
         <div className="mb-4 relative">

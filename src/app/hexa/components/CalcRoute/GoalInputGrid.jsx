@@ -12,6 +12,9 @@ export const GoalInputGrid = ({ classKey, classDetails, skillLevels, updateSkill
     return (
         <div>
             <div className={styles.container}>
+                <div className="text-2xl font-bold text-center mb-4">
+                    Cost Calculator
+                </div>
                 <div className="my-4">
                     <p>Enter in your desired Hexa levels:</p>
                 </div>
