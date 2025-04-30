@@ -123,11 +123,6 @@ a {
   cursor: url('../assets/cursorClick.png'), auto;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
 
 ul {
   list-style-type: none;
