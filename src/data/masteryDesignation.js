@@ -868,5 +868,16 @@ export const masteryDesignation = {
         ],
         "thirdMastery": [],
         "fourthMastery": []
-    }
+    },
+    "Mo Xuan": {
+        "firstMastery": [
+            "HEXA Xuanshan Arts [Tian]",
+            "HEXA Xuanshan Arts [Di]",
+        ],
+        "secondMastery": [
+            "HEXA Divine Art: Howling Storm",
+        ],
+        "thirdMastery": [],
+        "fourthMastery": []
+    },
 }

@@ -1104,5 +1104,22 @@ export const classes = {
         "commonSkills": [
             "Sol Janus"
         ]
+    },
+    "Mo Xuan": {
+        "originSkill": "Soul Art: Jianghu Dragon",
+        "masterySkills": [
+            "HEXA Xuanshan Arts [Tian]",
+            "HEXA Xuanshan Arts [Di]",
+            "HEXA Divine Art: Howling Storm",
+        ],
+        "boostSkills": [
+            "Soul Art: Beneath Heaven Boost",
+            "Divine Art: Crashing Earth Boost",
+            "Soul Art: The Conquered Self Boost",
+            "Soul Art: The Opened Gate Boost",
+        ],
+        "commonSkills": [
+            "Sol Janus"
+        ]
     }
 };
