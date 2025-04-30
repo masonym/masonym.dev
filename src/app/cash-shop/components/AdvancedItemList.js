@@ -175,7 +175,7 @@ function AdvancedItemList() {
                     {Object.entries(filteredCategories).sort().map(([dateKey, items]) => (
                         <div key={dateKey}>
                             <h2
-                                className="flex items-center text-[28px] font-bold justify-center p-2 cursor-pointer select-none transition-colors duration-200 rounded-md text-primary-bright text-center hover:bg-primary-dark"
+                                className="flex items-center text-[28px] font-bold justify-center p-2 select-none transition-colors duration-200 rounded-md text-primary-bright text-center hover:bg-primary-dark cursor-custom-click"
                                 onClick={() => toggleCategory(dateKey)}
                             >
                                 <span className="flex-grow-0">{formatDate(dateKey)}</span>
