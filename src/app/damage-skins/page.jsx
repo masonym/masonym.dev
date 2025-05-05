@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Settings, X, ChevronDown } from 'lucide-react';
 import { skins } from './data';
 import Mob from './Mob';
@@ -37,6 +37,15 @@ export default function DamageSkins() {
     });
   }
 
+  // close modal on Escape key
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === 'Escape') setShowSettings(false);
+    }
+    if (showSettings) window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [showSettings]);
+
   return (
     <div className="relative flex flex-col items-center justify-center h-screen">
       <div className="absolute top-4 left-4">
@@ -66,8 +75,8 @@ export default function DamageSkins() {
         <DamageLine key={line.id} {...line} skinPath={selectedSkin.path} />
       ))}
       {showSettings && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl ring-1 ring-gray-200 dark:ring-gray-700 max-w-lg w-full mx-4 p-6 transform scale-95 animate-scale-up">
+        <div onClick={() => setShowSettings(false)} className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div onClick={e => e.stopPropagation()} className="bg-white dark:bg-gray-800 rounded-lg shadow-xl ring-1 ring-gray-200 dark:ring-gray-700 max-w-lg w-full mx-4 p-6 transform scale-95 animate-scale-up">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Settings</h2>
               <button onClick={() => setShowSettings(false)}>
@@ -93,6 +102,15 @@ export default function DamageSkins() {
         </div>
       )}
       <style jsx global>{`
+        /* remove default number input spinners */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        input[type=number] {
+          -moz-appearance: textfield;
+        }
         @keyframes moveUpFade {
           0% { transform: translateY(0); opacity: 1; }
           100% { transform: translateY(-50px); opacity: 0; }
