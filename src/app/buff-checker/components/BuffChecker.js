@@ -186,7 +186,7 @@ const BuffChecker = () => {
 
     const handlePaste = useCallback((e) => {
         const items = e.clipboardData.items;
-        for (let i = 0; i <items.length; i++) {
+        for (let i = 0; i < items.length; i++) {
             if (items[i].type.indexOf('image') !== -1) {
                 const file = items[i].getAsFile();
                 const reader = new FileReader();
@@ -214,24 +214,24 @@ const BuffChecker = () => {
     return (
         <div className="container mx-auto px-4 py-8 max-w-6xl">
             <h1 className="text-4xl font-bold mb-8 text-center">Buff Checker</h1>
-            
+
             {status && (
                 <div className="text-center mb-4 text-primary">
                     {status}
                 </div>
             )}
-            
-            <div 
-                {...getRootProps()} 
+
+            <div
+                {...getRootProps()}
                 className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
                     ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}
                     ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
                 <input {...getInputProps()} />
                 {selectedImage ? (
-                    <img 
-                        src={selectedImage} 
-                        alt="Selected screenshot" 
+                    <img
+                        src={selectedImage}
+                        alt="Selected screenshot"
                         className="max-h-96 mx-auto object-contain"
                     />
                 ) : (
@@ -254,7 +254,7 @@ const BuffChecker = () => {
                     {error}
                 </div>
             )}
-            
+
             {selectedImage && !isProcessing && (
                 <div className="mt-8">
                     <h2 className="text-xl font-semibold mb-4">Buff Analysis</h2>
