@@ -7,11 +7,26 @@ import DamageLine from './DamageLine';
 import DamageConfigControls from './DamageConfigControls';
 
 export default function DamageSkins() {
-  const [selectedSkin, setSelectedSkin] = useState(skins[0]);
-  const [minDamage, setMinDamage] = useState(10000);
-  const [maxDamage, setMaxDamage] = useState(1000000000);
-  const [linesCount, setLinesCount] = useState(1);
-  const [critRate, setCritRate] = useState(60);
+  const [selectedSkin, setSelectedSkin] = useState(() => {
+    const stored = localStorage.getItem('selectedSkin');
+    return stored ? JSON.parse(stored) : skins[0];
+  });
+  const [minDamage, setMinDamage] = useState(() => {
+    const stored = localStorage.getItem('minDamage');
+    return stored ? Number(stored) : 10000;
+  });
+  const [maxDamage, setMaxDamage] = useState(() => {
+    const stored = localStorage.getItem('maxDamage');
+    return stored ? Number(stored) : 1000000000;
+  });
+  const [linesCount, setLinesCount] = useState(() => {
+    const stored = localStorage.getItem('linesCount');
+    return stored ? Number(stored) : 1;
+  });
+  const [critRate, setCritRate] = useState(() => {
+    const stored = localStorage.getItem('critRate');
+    return stored ? Number(stored) : 60;
+  });
   const [damageLines, setDamageLines] = useState([]);
   const idRef = useRef(0);
   const [showSkinList, setShowSkinList] = useState(false);
@@ -22,18 +37,20 @@ export default function DamageSkins() {
   };
 
   function handleClick() {
-    const newLines = Array.from({ length: linesCount }).map(() => {
-      const dmg = simulateDamage(minDamage, maxDamage);
-      const crit = Math.random() < (critRate / 100);
-      const x = (Math.random() - 0.5) * 60;
-      const id = idRef.current++;
-      return { id, damage: dmg, isCrit: crit, x };
-    });
-    setDamageLines(prev => [...prev, ...newLines]);
-    newLines.forEach(line => {
+    const interval = 100;
+    Array.from({ length: linesCount }).forEach((_, idx) => {
       setTimeout(() => {
-        setDamageLines(prev => prev.filter(l => l.id !== line.id));
-      }, 1000);
+        const dmg = simulateDamage(minDamage, maxDamage);
+        const crit = Math.random() < (critRate / 100);
+        const x = (Math.random() - 0.5) * 30;
+        const y = idx * 32;
+        const id = idRef.current++;
+        const line = { id, damage: dmg, isCrit: crit, x, y };
+        setDamageLines(prev => [...prev, line]);
+        setTimeout(() => {
+          setDamageLines(prev => prev.filter(l => l.id !== id));
+        }, 3000);
+      }, idx * interval);
     });
   }
 
@@ -46,19 +63,28 @@ export default function DamageSkins() {
     return () => window.removeEventListener('keydown', onKey);
   }, [showSettings]);
 
+  // persist settings
+  useEffect(() => {
+    localStorage.setItem('selectedSkin', JSON.stringify(selectedSkin));
+  }, [selectedSkin]);
+  useEffect(() => { localStorage.setItem('minDamage', minDamage); }, [minDamage]);
+  useEffect(() => { localStorage.setItem('maxDamage', maxDamage); }, [maxDamage]);
+  useEffect(() => { localStorage.setItem('linesCount', linesCount); }, [linesCount]);
+  useEffect(() => { localStorage.setItem('critRate', critRate); }, [critRate]);
+
   return (
     <div className="relative flex flex-col items-center justify-center h-screen">
       <div className="absolute top-4 left-4">
         <button onClick={() => setShowSkinList(v => !v)} className="flex items-center space-x-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2 rounded shadow-md dark:shadow-lg">
-          <img src={selectedSkin.icon} alt={selectedSkin.name} className="w-6 h-6"/>
+          <img src={selectedSkin.icon} alt={selectedSkin.name} className="w-6 h-6" />
           <span className="font-medium">{selectedSkin.name}</span>
-          <ChevronDown className="w-4 h-4"/>
+          <ChevronDown className="w-4 h-4" />
         </button>
         {showSkinList && (
           <div className="mt-2 bg-white dark:bg-gray-800 shadow-md dark:shadow-lg rounded p-2 w-40">
             {skins.map(skin => (
               <div key={skin.id} onClick={() => { setSelectedSkin(skin); setShowSkinList(false); }} className="flex items-center space-x-2 p-1 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer rounded">
-                <img src={skin.icon} alt={skin.name} className="w-5 h-5"/>
+                <img src={skin.icon} alt={skin.name} className="w-5 h-5" />
                 <span className="text-sm text-gray-800 dark:text-gray-100">{skin.name}</span>
               </div>
             ))}
@@ -67,7 +93,7 @@ export default function DamageSkins() {
       </div>
       <div className="absolute top-4 right-4">
         <button onClick={() => setShowSettings(true)} className="p-2 bg-white dark:bg-gray-800 rounded shadow-md dark:shadow-lg">
-          <Settings className="w-6 h-6 text-gray-900 dark:text-gray-100"/>
+          <Settings className="w-6 h-6 text-gray-900 dark:text-gray-100" />
         </button>
       </div>
       <Mob onClick={handleClick} />
@@ -80,7 +106,7 @@ export default function DamageSkins() {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Settings</h2>
               <button onClick={() => setShowSettings(false)}>
-                <X className="w-6 h-6 text-gray-900 dark:text-gray-100 hover:text-red-500"/>
+                <X className="w-6 h-6 text-gray-900 dark:text-gray-100 hover:text-red-500" />
               </button>
             </div>
             <div className="border-b border-gray-200 dark:border-gray-700 mb-4" />

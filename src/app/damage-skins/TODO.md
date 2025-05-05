@@ -1,7 +1,9 @@
-- [ ] Local storage save
+- [x] Add damage numbers
+- [x] Local storage save
+- [x] Damage number animations
 - [ ] Damage animations
 - [ ] Mob hit animations
-- [ ] Custom mobs
+- [ ] Custom mobs?
 - [ ] Actual data ingestion
 
 

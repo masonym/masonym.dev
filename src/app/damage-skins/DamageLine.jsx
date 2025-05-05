@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from 'react';
 
-export default function DamageLine({ id, damage, isCrit, skinPath, x }) {
+export default function DamageLine({ id, damage, isCrit, skinPath, x, y }) {
   const digits = String(damage).split('');
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function DamageLine({ id, damage, isCrit, skinPath, x }) {
       className="absolute z-10"
       style={{
         left: `calc(50% + ${x}px)`,
-        bottom: '50%',
+        bottom: `calc(50% + ${y}px)`,
         animation: 'moveUpFade 1s ease-out forwards',
       }}
     >
@@ -23,7 +23,7 @@ export default function DamageLine({ id, damage, isCrit, skinPath, x }) {
           key={idx}
           src={`${skinPath}${isCrit ? '/NoCri1' : '/NoRed0'}/${d}.png`}
           alt={d}
-          className="inline-block w-6 h-6"
+          className="inline-block w-[3rem] h-[3rem]"
         />
       ))}
     </div>
