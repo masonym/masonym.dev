@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 
-export default function DamageConfigControls({ minDamage, maxDamage, linesCount, critRate, onChange }) {
+export default function DamageConfigControls({ minDamage, maxDamage, linesCount, critRate, fadeDuration, onChange, onFadeChange }) {
   return (
     <div className="space-y-6 p-2">
       <div>
@@ -57,6 +57,19 @@ export default function DamageConfigControls({ minDamage, maxDamage, linesCount,
             onChange={e => onChange({ min: minDamage, max: maxDamage, lines: linesCount, crit: Number(e.target.value) })}
           />
           <button onClick={() => onChange({ min: minDamage, max: maxDamage, lines: linesCount, crit: critRate + 1 })} className="px-2 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded">+</button>
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Fade Duration (ms)</label>
+        <div className="flex items-center space-x-2 mt-1">
+          <button onClick={() => onFadeChange(Math.max(0, fadeDuration - 500))} className="px-2 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded">-</button>
+          <input
+            type="number"
+            className="w-24 text-center p-1 border rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 appearance-none"
+            value={fadeDuration}
+            onChange={e => onFadeChange(Number(e.target.value))}
+          />
+          <button onClick={() => onFadeChange(fadeDuration + 500)} className="px-2 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded">+</button>
         </div>
       </div>
     </div>

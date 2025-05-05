@@ -9,6 +9,7 @@ export default function Mob({ onClick }) {
                     width={100}
                     height={100}
                     className="rounded-lg shadow-lg"
+                    draggable="false"
                 />
             </button>
         </div>

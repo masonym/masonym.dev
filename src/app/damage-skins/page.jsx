@@ -27,6 +27,10 @@ export default function DamageSkins() {
     const stored = localStorage.getItem('critRate');
     return stored ? Number(stored) : 60;
   });
+  const [fadeDuration, setFadeDuration] = useState(() => {
+    const stored = localStorage.getItem('fadeDuration');
+    return stored ? Number(stored) : 2000;
+  });
   const [damageLines, setDamageLines] = useState([]);
   const idRef = useRef(0);
   const [showSkinList, setShowSkinList] = useState(false);
@@ -49,7 +53,7 @@ export default function DamageSkins() {
         setDamageLines(prev => [...prev, line]);
         setTimeout(() => {
           setDamageLines(prev => prev.filter(l => l.id !== id));
-        }, 3000);
+        }, fadeDuration);
       }, idx * interval);
     });
   }
@@ -71,6 +75,7 @@ export default function DamageSkins() {
   useEffect(() => { localStorage.setItem('maxDamage', maxDamage); }, [maxDamage]);
   useEffect(() => { localStorage.setItem('linesCount', linesCount); }, [linesCount]);
   useEffect(() => { localStorage.setItem('critRate', critRate); }, [critRate]);
+  useEffect(() => { localStorage.setItem('fadeDuration', fadeDuration); }, [fadeDuration]);
 
   return (
     <div className="relative flex flex-col items-center justify-center h-screen">
@@ -98,7 +103,7 @@ export default function DamageSkins() {
       </div>
       <Mob onClick={handleClick} />
       {damageLines.map(line => (
-        <DamageLine key={line.id} {...line} skinPath={selectedSkin.path} />
+        <DamageLine key={line.id} {...line} skinPath={selectedSkin.path} fadeDuration={fadeDuration} />
       ))}
       {showSettings && (
         <div onClick={() => setShowSettings(false)} className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -116,12 +121,14 @@ export default function DamageSkins() {
                 maxDamage={maxDamage}
                 linesCount={linesCount}
                 critRate={critRate}
+                fadeDuration={fadeDuration}
                 onChange={({ min, max, lines, crit }) => {
                   setMinDamage(min);
                   setMaxDamage(max);
                   setLinesCount(lines);
                   setCritRate(crit);
                 }}
+                onFadeChange={setFadeDuration}
               />
             </div>
           </div>
