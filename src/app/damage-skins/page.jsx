@@ -66,26 +66,29 @@ export default function DamageSkins() {
         <DamageLine key={line.id} {...line} skinPath={selectedSkin.path} />
       ))}
       {showSettings && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white dark:bg-gray-800 p-4 rounded shadow-md dark:shadow-lg w-96">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl ring-1 ring-gray-200 dark:ring-gray-700 max-w-lg w-full mx-4 p-6 transform scale-95 animate-scale-up">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Settings</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Settings</h2>
               <button onClick={() => setShowSettings(false)}>
-                <X className="w-6 h-6 text-gray-900 dark:text-gray-100"/>
+                <X className="w-6 h-6 text-gray-900 dark:text-gray-100 hover:text-red-500"/>
               </button>
             </div>
-            <DamageConfigControls
-              minDamage={minDamage}
-              maxDamage={maxDamage}
-              linesCount={linesCount}
-              critRate={critRate}
-              onChange={({ min, max, lines, crit }) => {
-                setMinDamage(min);
-                setMaxDamage(max);
-                setLinesCount(lines);
-                setCritRate(crit);
-              }}
-            />
+            <div className="border-b border-gray-200 dark:border-gray-700 mb-4" />
+            <div className="space-y-6">
+              <DamageConfigControls
+                minDamage={minDamage}
+                maxDamage={maxDamage}
+                linesCount={linesCount}
+                critRate={critRate}
+                onChange={({ min, max, lines, crit }) => {
+                  setMinDamage(min);
+                  setMaxDamage(max);
+                  setLinesCount(lines);
+                  setCritRate(crit);
+                }}
+              />
+            </div>
           </div>
         </div>
       )}
@@ -93,6 +96,13 @@ export default function DamageSkins() {
         @keyframes moveUpFade {
           0% { transform: translateY(0); opacity: 1; }
           100% { transform: translateY(-50px); opacity: 0; }
+        }
+        @keyframes scale-up {
+          0% { transform: scale(0.95); opacity: 0; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-up {
+          animation: scale-up 0.2s ease-out forwards;
         }
       `}</style>
     </div>
