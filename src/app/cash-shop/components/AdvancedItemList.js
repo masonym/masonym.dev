@@ -164,6 +164,10 @@ function AdvancedItemList() {
                 </div>
             ) : noItems ? (
                 <div className="flex justify-center items-center h-52">
+                    {/* temporary notice to tell users that im experiencing difficulties with AWS */}
+                    <p className="text-center text-2xl text-gray-700 bg-white bg-opacity-80 absolute w-96 p-4 rounded-lg z-50">
+                        Hello! My AWS account is currently experiencing some issues. Until these are resolved, items will not be loaded. Please check back later, and thank you for your patience!
+                    </p>
                     <Image
                         src={noItemsImage}
                         alt="No items found"
