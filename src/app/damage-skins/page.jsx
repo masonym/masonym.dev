@@ -6,35 +6,65 @@ import Mob from './Mob';
 import DamageLine from './DamageLine';
 import DamageConfigControls from './DamageConfigControls';
 
+// Helper function to safely access localStorage
+function getFromStorage(key, defaultValue) {
+  // During server-side rendering, return default
+  if (typeof window === 'undefined') {
+    return defaultValue;
+  }
+  
+  try {
+    const item = localStorage.getItem(key);
+    if (item === null) return defaultValue;
+    
+    // Parse JSON if the value looks like JSON
+    if (item.startsWith('{') || item.startsWith('[')) {
+      return JSON.parse(item);
+    }
+    
+    // Convert to number if it's a numeric string
+    if (!isNaN(item)) {
+      return Number(item);
+    }
+    
+    return item;
+  } catch (error) {
+    console.error(`Error reading ${key} from localStorage:`, error);
+    return defaultValue;
+  }
+}
+
 export default function DamageSkins() {
-  const [selectedSkin, setSelectedSkin] = useState(() => {
-    const stored = localStorage.getItem('selectedSkin');
-    return stored ? JSON.parse(stored) : skins[0];
-  });
-  const [minDamage, setMinDamage] = useState(() => {
-    const stored = localStorage.getItem('minDamage');
-    return stored ? Number(stored) : 10000;
-  });
-  const [maxDamage, setMaxDamage] = useState(() => {
-    const stored = localStorage.getItem('maxDamage');
-    return stored ? Number(stored) : 1000000000;
-  });
-  const [linesCount, setLinesCount] = useState(() => {
-    const stored = localStorage.getItem('linesCount');
-    return stored ? Number(stored) : 1;
-  });
-  const [critRate, setCritRate] = useState(() => {
-    const stored = localStorage.getItem('critRate');
-    return stored ? Number(stored) : 60;
-  });
-  const [fadeDuration, setFadeDuration] = useState(() => {
-    const stored = localStorage.getItem('fadeDuration');
-    return stored ? Number(stored) : 2000;
-  });
+  // Initialize state with lazy initializers that use the helper function
+  const [selectedSkin, setSelectedSkin] = useState(() => 
+    getFromStorage('selectedSkin', skins[0])
+  );
+  const [minDamage, setMinDamage] = useState(() => 
+    getFromStorage('minDamage', 10000)
+  );
+  const [maxDamage, setMaxDamage] = useState(() => 
+    getFromStorage('maxDamage', 1000000000)
+  );
+  const [linesCount, setLinesCount] = useState(() => 
+    getFromStorage('linesCount', 1)
+  );
+  const [critRate, setCritRate] = useState(() => 
+    getFromStorage('critRate', 60)
+  );
+  const [fadeDuration, setFadeDuration] = useState(() => 
+    getFromStorage('fadeDuration', 2000)
+  );
+  
+  const [isClient, setIsClient] = useState(false);
   const [damageLines, setDamageLines] = useState([]);
   const idRef = useRef(0);
   const [showSkinList, setShowSkinList] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  
+  // Mark when we're on the client
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const simulateDamage = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -67,15 +97,42 @@ export default function DamageSkins() {
     return () => window.removeEventListener('keydown', onKey);
   }, [showSettings]);
 
-  // persist settings
+  // persist settings only on the client
   useEffect(() => {
-    localStorage.setItem('selectedSkin', JSON.stringify(selectedSkin));
-  }, [selectedSkin]);
-  useEffect(() => { localStorage.setItem('minDamage', minDamage); }, [minDamage]);
-  useEffect(() => { localStorage.setItem('maxDamage', maxDamage); }, [maxDamage]);
-  useEffect(() => { localStorage.setItem('linesCount', linesCount); }, [linesCount]);
-  useEffect(() => { localStorage.setItem('critRate', critRate); }, [critRate]);
-  useEffect(() => { localStorage.setItem('fadeDuration', fadeDuration); }, [fadeDuration]);
+    if (isClient) {
+      localStorage.setItem('selectedSkin', JSON.stringify(selectedSkin));
+    }
+  }, [selectedSkin, isClient]);
+  
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('minDamage', minDamage);
+    }
+  }, [minDamage, isClient]);
+  
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('maxDamage', maxDamage);
+    }
+  }, [maxDamage, isClient]);
+  
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('linesCount', linesCount);
+    }
+  }, [linesCount, isClient]);
+  
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('critRate', critRate);
+    }
+  }, [critRate, isClient]);
+  
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('fadeDuration', fadeDuration);
+    }
+  }, [fadeDuration, isClient]);
 
   return (
     <div className="relative flex flex-col items-center justify-center h-screen">

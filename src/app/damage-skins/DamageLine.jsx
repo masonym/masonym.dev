@@ -6,7 +6,7 @@ export default function DamageLine({ id, damage, isCrit, skinPath, x, y, fadeDur
 
   return (
     <div
-      className="absolute z-10"
+      className="absolute z-10 overflow-x-hidden whitespace-nowrap"
       style={{
         left: `calc(50% + ${x}px)`,
         bottom: `calc(50% + ${y}px)`,
