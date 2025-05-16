@@ -432,7 +432,7 @@ export const bossData = [
                     { hp: formatShortformNumber("155.5T") }
                 ],
                 afSacRequirement: 200,
-                level: 275,
+                level: 270,
             },
             {
                 name: "Hard",
