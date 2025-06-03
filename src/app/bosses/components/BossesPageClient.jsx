@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { bossData } from '@/data/bossData';
 import { bossNameToImage, formatLongformNumber } from '@/utils';
 import Image from 'next/image';
+import { InArticleAd, SidebarAd, FooterAd } from '@/components/AdSense/AdBanner';
 
 
 const DifficultyImage = ({ difficulty, afSacRequirement, level, pdr }) => {
@@ -112,6 +113,11 @@ const BossList = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-4xl font-bold text-center mb-8 text-primary-bright">Boss List</h1>
+            
+            {/* Top ad banner - will refresh on page navigation */}
+            <div className="w-full flex justify-center mb-6">
+                <InArticleAd />
+            </div>
 
             <h2 className="text-xl text-balance max-w-3xl mx-auto font-bold text-center mb-4 text-primary-bright">
                 Dislaimer: Boss HP values are fetched from the <a href="https://maplestorywiki.net/" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">MapleStory Wiki</a> and are estimated values; they may not be 100% accurate.
@@ -134,7 +140,11 @@ const BossList = () => {
                 </label>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {/* Content grid with sidebar ad */}
+            <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
+                {/* Main content - 5/6 width on large screens */}
+                <div className="lg:col-span-5">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {sortedAndFilteredBossData.map((boss, index) => (
                     <div key={index} className="bg-primary-dark rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-200">
                         <div className="p-5 flex flex-col gap-4">
@@ -203,6 +213,20 @@ const BossList = () => {
                         </div>
                     </div>
                 ))}
+                    </div>
+                </div>
+                
+                {/* Sidebar ad - 1/6 width on large screens */}
+                <div className="lg:col-span-1 flex flex-col gap-4">
+                    <div className="sticky top-4">
+                        <SidebarAd />
+                    </div>
+                </div>
+            </div>
+            
+            {/* Footer ad banner */}
+            <div className="w-full flex justify-center mt-8">
+                <FooterAd />
             </div>
         </div>
     );
