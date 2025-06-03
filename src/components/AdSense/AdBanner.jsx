@@ -26,7 +26,7 @@ export default function AdBanner({
 export function InArticleAd({ className = '' }) {
   return (
     <AdBanner
-      slot="XXXXXXXXXX" // Replace with your ad slot ID
+      slot="4316338279"
       format="fluid"
       className={`my-6 ${className}`}
     />
@@ -36,7 +36,7 @@ export function InArticleAd({ className = '' }) {
 export function SidebarAd({ className = '' }) {
   return (
     <AdBanner
-      slot="XXXXXXXXXX" // Replace with your ad slot ID
+      slot="7338696249"
       format="auto"
       className={`my-4 ${className}`}
       style={{ minHeight: '250px' }}
@@ -47,7 +47,7 @@ export function SidebarAd({ className = '' }) {
 export function FooterAd({ className = '' }) {
   return (
     <AdBanner
-      slot="XXXXXXXXXX" // Replace with your ad slot ID
+      slot="1094460323"
       format="auto"
       className={`mt-8 ${className}`}
     />
