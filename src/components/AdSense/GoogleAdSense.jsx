@@ -70,13 +70,25 @@ export default function GoogleAdSense({
   );
 }
 
-// AdSense initialization script component
+// AdSense initialization script component with Auto ads enabled
 export function GoogleAdSenseScript() {
   return (
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9497526035569773"
-      crossOrigin="anonymous"
-    />
+    <>
+      <script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9497526035569773"
+        crossOrigin="anonymous"
+      />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-9497526035569773",
+              enable_page_level_ads: true
+            });
+          `,
+        }}
+      />
+    </>
   );
 }
