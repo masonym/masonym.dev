@@ -50,6 +50,7 @@ export function FooterAd({ className = '' }) {
       slot="1094460323"
       format="auto"
       className={`mt-8 ${className}`}
+      style={{ minHeight: '90px', minWidth: '728px', maxWidth: '100%' }}
     />
   );
 }

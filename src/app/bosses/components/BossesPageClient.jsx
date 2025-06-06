@@ -116,7 +116,7 @@ const BossList = () => {
             
             {/* Top ad banner - will refresh on page navigation */}
             <div className="w-full flex justify-center mb-6">
-                <InArticleAd />
+                <FooterAd />
             </div>
 
             <h2 className="text-xl text-balance max-w-3xl mx-auto font-bold text-center mb-4 text-primary-bright">
