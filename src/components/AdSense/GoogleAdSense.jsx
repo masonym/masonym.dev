@@ -67,11 +67,13 @@ export default function GoogleAdSense({
 // AdSense initialization script component
 export function GoogleAdSenseScript() {
   return (
-    <Script
-      id="adsbygoogle-init"
-      strategy="afterInteractive"
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9497526035569773"
-      crossOrigin="anonymous"
+    <div
+      dangerouslySetInnerHTML={{
+        __html: `
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9497526035569773"
+          crossOrigin="anonymous"></script>
+        `,
+      }}
     />
   );
 }
