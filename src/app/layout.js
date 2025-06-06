@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <link id="favicon" rel="icon" href="/icon.ico" />
-        {/* Google AdSense verification meta tag - replace CONTENT with your verification code */}
+        {/* Google AdSense verification meta tag */}
         <meta name="google-adsense-account" content="ca-pub-9497526035569773" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-BY50PB72SB"

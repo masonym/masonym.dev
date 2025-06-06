@@ -12,21 +12,17 @@ export default function GoogleAdSense({
   style = { display: 'block' }
 }) {
   const advertRef = useRef(null);
-  const pathname = usePathname();
   const isInitialized = useRef(false);
+  const adKey = useRef(`ad-${slot}-${Math.random().toString(36).substring(2, 9)}`);
 
   // Function to initialize ads
   const initAd = () => {
-    if (typeof window === 'undefined' || !advertRef.current) return;
+    if (typeof window === 'undefined' || !advertRef.current || isInitialized.current) return;
     
     try {
-      // Clear the current ad if it exists
-      if (advertRef.current.innerHTML !== '') {
-        advertRef.current.innerHTML = '';
-      }
-      
       // Push the ad command to Google
       (window.adsbygoogle = window.adsbygoogle || []).push({});
+      isInitialized.current = true;
     } catch (error) {
       console.error('AdSense error:', error);
     }
@@ -34,28 +30,38 @@ export default function GoogleAdSense({
 
   // Initialize ads when the component mounts
   useEffect(() => {
-    if (!isInitialized.current && window.adsbygoogle) {
-      isInitialized.current = true;
-      initAd();
+    // Small delay to ensure AdSense script is loaded
+    const timer = setTimeout(() => {
+      if (window.adsbygoogle) {
+        initAd();
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  // Don't reinitialize on pathname changes
+
+  // Wait for component to be fully mounted and visible before initializing
+  useEffect(() => {
+    // Check if the container is too small and log a warning
+    if (advertRef.current) {
+      const width = advertRef.current.offsetWidth;
+      if (width < 250) {
+        console.warn(`AdSense container width (${width}px) is less than required 250px minimum`);
+      }
     }
   }, []);
 
-  // Re-initialize ads when the pathname changes
-  useEffect(() => {
-    if (isInitialized.current) {
-      initAd();
-    }
-  }, [pathname]);
-
   return (
     <>
-      <div className="ad-container">
+      <div className="ad-container" style={{ minWidth: '250px', width: '100%', overflow: 'hidden' }}>
         <ins
           ref={advertRef}
           className="adsbygoogle"
-          style={style}
+          style={{ display: 'block', minHeight: '100px', ...style }}
           data-ad-client={client}
-            data-ad-slot={slot}
+          data-ad-slot={slot}
           data-ad-format={format}
           data-full-width-responsive={responsive ? 'true' : 'false'}
         />
@@ -67,13 +73,10 @@ export default function GoogleAdSense({
 // AdSense initialization script component
 export function GoogleAdSenseScript() {
   return (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: `
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9497526035569773"
-          crossOrigin="anonymous"></script>
-        `,
-      }}
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9497526035569773"
+      crossOrigin="anonymous"
     />
   );
 }
