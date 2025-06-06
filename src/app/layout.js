@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import DynamicFavicon from "./components/DynamicFavicon";
 import Script from "next/script";
 import { GoogleAdSenseScript } from "@/components/AdSense/GoogleAdSense";
+import AdRefresher from "@/components/AdSense/AdRefresher";
 
 export const metadata = {
   title: "mason's maple matrix",
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen">
         <DynamicFavicon />
         <NavBar />
+        <AdRefresher />
         {children}
         {/* <Footer /> */}
       </body>
