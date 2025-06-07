@@ -2,6 +2,7 @@ import "./globals.css";
 import NavBar from "@/components/Navigation/NavBar/NavBar";
 import Footer from "@/components/Footer";
 import DynamicFavicon from "./components/DynamicFavicon";
+import GoogleAutoAds from "@/components/GoogleAutoAds/GoogleAutoAds";
 import Script from "next/script";
 
 export const metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-screen">
         <DynamicFavicon />
+        <GoogleAutoAds />
         <NavBar />
         {children}
         {/* <Footer /> */}
