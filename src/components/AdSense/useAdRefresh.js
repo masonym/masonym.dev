@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 /**
@@ -8,12 +8,19 @@ import { usePathname, useSearchParams } from 'next/navigation';
  * This addresses the issue with client-side navigation not triggering ad refreshes
  */
 export default function useAdRefresh() {
+  // Always call hooks at the top level, regardless of whether we use their values
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isClient, setIsClient] = useState(false);
+
+  // Initialize client state
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     // Only run on client side
-    if (typeof window === 'undefined') return;
+    if (!isClient) return;
 
     // Function to refresh ads
     const refreshAds = () => {
@@ -87,5 +94,5 @@ export default function useAdRefresh() {
     const timer = setTimeout(refreshAds, 500);
     
     return () => clearTimeout(timer);
-  }, [pathname, searchParams]); // searchParams object is stable across renders
+  }, [isClient, pathname, searchParams]); // Only run when client and navigation data is available
 }

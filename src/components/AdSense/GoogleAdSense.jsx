@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
 
@@ -17,8 +17,8 @@ export default function GoogleAdSense({
   // Generate a unique ID for each ad instance that changes on navigation
   const adKey = useRef(`ad-${slot}-${Math.random().toString(36).substring(2, 9)}`);
 
-  // Function to initialize ads
-  const initAd = () => {
+  // Function to initialize ads - wrapped in useCallback to prevent recreation on each render
+  const initAd = useCallback(() => {
     if (typeof window === 'undefined' || !advertRef.current) return;
     
     try {
@@ -77,7 +77,7 @@ export default function GoogleAdSense({
     } catch (error) {
       console.error('AdSense error:', error);
     }
-  };
+  }, [slot]); // Only recreate if slot changes
 
   // Initialize ads when the component mounts AND when pathname changes
   useEffect(() => {
