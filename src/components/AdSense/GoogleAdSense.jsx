@@ -13,35 +13,51 @@ export default function GoogleAdSense({
 }) {
   const advertRef = useRef(null);
   const isInitialized = useRef(false);
+  const pathname = usePathname();
+  // Generate a unique ID for each ad instance that changes on navigation
   const adKey = useRef(`ad-${slot}-${Math.random().toString(36).substring(2, 9)}`);
 
   // Function to initialize ads
   const initAd = () => {
-    if (typeof window === 'undefined' || !advertRef.current || isInitialized.current) return;
+    if (typeof window === 'undefined' || !advertRef.current) return;
     
     try {
+      // Reset initialization state to allow re-initialization
+      isInitialized.current = false;
+      
+      // Clear any existing ad content
+      if (advertRef.current.innerHTML.trim() !== '') {
+        advertRef.current.innerHTML = '';
+      }
+      
+      // Remove any status attributes that might prevent re-initialization
+      advertRef.current.removeAttribute('data-ad-status');
+      
+      // Generate a new ID to force AdSense to treat it as a new ad
+      advertRef.current.id = `ad-${slot}-${Math.random().toString(36).substring(2, 9)}`;
+      
       // Push the ad command to Google
       (window.adsbygoogle = window.adsbygoogle || []).push({});
       isInitialized.current = true;
+      
+      console.log(`Ad slot ${slot} initialized`);
     } catch (error) {
       console.error('AdSense error:', error);
     }
   };
 
-  // Initialize ads when the component mounts
+  // Initialize ads when the component mounts AND when pathname changes
   useEffect(() => {
-    // Small delay to ensure AdSense script is loaded
+    // Small delay to ensure AdSense script is loaded and DOM is ready
     const timer = setTimeout(() => {
       if (window.adsbygoogle) {
         initAd();
       }
-    }, 100);
+    }, 200);
     
     return () => clearTimeout(timer);
-  }, []);
+  }, [pathname]); // Re-run when pathname changes
   
-  // Don't reinitialize on pathname changes
-
   // Wait for component to be fully mounted and visible before initializing
   useEffect(() => {
     // Check if the container is too small and log a warning
@@ -51,6 +67,11 @@ export default function GoogleAdSense({
         console.warn(`AdSense container width (${width}px) is less than required 250px minimum`);
       }
     }
+    
+    // Clean up function to handle component unmounting
+    return () => {
+      isInitialized.current = false;
+    };
   }, []);
 
   return (
@@ -58,6 +79,7 @@ export default function GoogleAdSense({
       <div className="ad-container" style={{ minWidth: '250px', width: '100%', overflow: 'hidden' }}>
         <ins
           ref={advertRef}
+          id={adKey.current}
           className="adsbygoogle"
           style={{ display: 'block', minHeight: '100px', ...style }}
           data-ad-client={client}
