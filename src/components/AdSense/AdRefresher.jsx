@@ -20,38 +20,48 @@ export default function AdRefresher() {
     // Only run on client side
     if (typeof window === 'undefined') return;
     
-    // Extract searchParams string to avoid complex expression in dependency array
-    const searchParamsString = searchParams.toString();
-    
     // Function to refresh auto ads
     const refreshAutoAds = () => {
       if (!window.adsbygoogle) return;
       
       try {
-        // Reset AdSense configuration for auto ads
-        window.adsbygoogle = window.adsbygoogle || [];
-        window.adsbygoogle.requestNonPersonalizedAds = 0;
-        window.adsbygoogle.pauseAdRequests = 0;
+        // Check if we need to refresh - only do this after the first page load
+        const pageHasBeenLoaded = sessionStorage.getItem('adsense_page_loaded');
         
-        // Force re-evaluation of auto ads
-        const adsbygoogle = window.adsbygoogle;
-        if (adsbygoogle.loaded) {
-          // If already loaded, we need to push a new command
-          adsbygoogle.push({
-            google_ad_client: "ca-pub-9497526035569773",
-            enable_page_level_ads: true,
-            overlays: {bottom: true}
-          });
+        if (pageHasBeenLoaded) {
+          console.log('Refreshing auto ads on navigation to:', pathname);
+          
+          // Reset AdSense configuration for auto ads
+          window.adsbygoogle = window.adsbygoogle || [];
+          
+          // These settings help ensure ads are refreshed
+          window.adsbygoogle.requestNonPersonalizedAds = 0;
+          window.adsbygoogle.pauseAdRequests = 0;
+          
+          // For auto ads, we need to push a new command with the same settings
+          // This signals to AdSense that the page has changed and needs new ads
+          try {
+            window.adsbygoogle.push({
+              google_ad_client: "ca-pub-9497526035569773",
+              enable_page_level_ads: true
+            });
+          } catch (pushError) {
+            // If we get an error about ads already existing, that's actually okay
+            // AdSense will still recognize the navigation and may refresh ads
+            console.log('Auto ads push notification sent');
+          }
+        } else {
+          // Mark that the page has been loaded once
+          sessionStorage.setItem('adsense_page_loaded', 'true');
+          console.log('First page load - auto ads will initialize normally');
         }
-        
-        console.log('Auto ads refreshed on navigation to:', pathname);
       } catch (error) {
-        console.error('Error refreshing auto ads:', error);
+        console.error('Error handling auto ads:', error);
       }
     };
     
     // Small timeout to ensure the page has rendered
-    const timer = setTimeout(refreshAutoAds, 500);
+    const timer = setTimeout(refreshAutoAds, 600);
     
     return () => clearTimeout(timer);
   }, [pathname, searchParams]); // searchParams object is stable across renders

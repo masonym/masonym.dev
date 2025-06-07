@@ -14,10 +14,6 @@ export default function useAdRefresh() {
   useEffect(() => {
     // Only run on client side
     if (typeof window === 'undefined') return;
-    
-    // Extract searchParams string to avoid complex expression in dependency array
-    // This is a stable reference that will only change when the actual params change
-    const searchParamsString = searchParams.toString();
 
     // Function to refresh ads
     const refreshAds = () => {
@@ -25,41 +21,70 @@ export default function useAdRefresh() {
         // 1. Find all ad containers
         const adElements = document.querySelectorAll('.adsbygoogle');
         
-        // 2. Clear existing ads and prepare for re-initialization
-        adElements.forEach(ad => {
-          // Clear the ad content
-          ad.innerHTML = '';
-          
-          // Remove data attributes that might prevent re-initialization
-          ad.removeAttribute('data-ad-status');
-          
-          // Generate a new unique ID to force AdSense to treat it as a new ad
-          ad.id = `ad-${Math.random().toString(36).substring(2, 9)}`;
-        });
+        // Skip if no ad elements found
+        if (!adElements.length) return;
         
-        // 3. Reset AdSense state
-        if (window.adsbygoogle && window.adsbygoogle.length > 0) {
-          // Reset AdSense configuration
-          window.adsbygoogle = window.adsbygoogle || [];
-          window.adsbygoogle.requestNonPersonalizedAds = 0;
-          window.adsbygoogle.pauseAdRequests = 0;
+        // 2. Check if we need to refresh ads
+        // Only refresh if we have ads with a status already set
+        const needsRefresh = Array.from(adElements).some(ad => 
+          ad.getAttribute('data-ad-status') === 'filled' || 
+          ad.innerHTML.trim() !== ''
+        );
+        
+        if (!needsRefresh) {
+          console.log('No ads need refreshing yet');
+          return;
         }
         
-        // 4. Push for new ad requests with a slight delay to ensure DOM is ready
-        setTimeout(() => {
-          // Initialize each ad individually
-          adElements.forEach(() => {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        console.log(`Refreshing ${adElements.length} ads on navigation to: ${pathname}`);
+        
+        // 3. Create new ad elements to replace the old ones
+        adElements.forEach(ad => {
+          // Get the parent element
+          const parent = ad.parentNode;
+          if (!parent) return;
+          
+          // Store the original attributes
+          const attributes = {};
+          for (let i = 0; i < ad.attributes.length; i++) {
+            const attr = ad.attributes[i];
+            if (attr.name !== 'id' && attr.name !== 'data-ad-status') {
+              attributes[attr.name] = attr.value;
+            }
+          }
+          
+          // Remove the old ad element
+          parent.removeChild(ad);
+          
+          // Create a new ad element with the same attributes
+          const newAd = document.createElement('ins');
+          newAd.className = 'adsbygoogle';
+          newAd.id = `ad-${Math.random().toString(36).substring(2, 9)}`;
+          
+          // Apply stored attributes
+          Object.entries(attributes).forEach(([name, value]) => {
+            newAd.setAttribute(name, value);
           });
-          console.log(`AdSense refreshed ${adElements.length} ads on navigation to: ${pathname}`);
-        }, 100);
+          
+          // Add the new ad element to the DOM
+          parent.appendChild(newAd);
+          
+          // Initialize the new ad
+          try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+          } catch (adError) {
+            console.error('Error initializing individual ad:', adError);
+          }
+        });
+        
+        console.log(`AdSense ads refreshed on navigation to: ${pathname}`);
       } catch (error) {
         console.error('Error refreshing ads:', error);
       }
     };
 
     // Small delay to ensure the page has fully rendered
-    const timer = setTimeout(refreshAds, 300);
+    const timer = setTimeout(refreshAds, 500);
     
     return () => clearTimeout(timer);
   }, [pathname, searchParams]); // searchParams object is stable across renders

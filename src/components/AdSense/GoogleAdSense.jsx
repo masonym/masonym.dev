@@ -22,25 +22,58 @@ export default function GoogleAdSense({
     if (typeof window === 'undefined' || !advertRef.current) return;
     
     try {
-      // Reset initialization state to allow re-initialization
-      isInitialized.current = false;
+      // Check if the ad is already initialized
+      const hasAd = advertRef.current.getAttribute('data-ad-status') === 'filled' || 
+                    advertRef.current.innerHTML.trim() !== '';
       
-      // Clear any existing ad content
-      if (advertRef.current.innerHTML.trim() !== '') {
+      // If the ad is already initialized, we need to replace it
+      if (hasAd && advertRef.current.parentNode) {
+        // Get the parent element
+        const parent = advertRef.current.parentNode;
+        
+        // Store the original attributes
+        const attributes = {};
+        for (let i = 0; i < advertRef.current.attributes.length; i++) {
+          const attr = advertRef.current.attributes[i];
+          if (attr.name !== 'id' && attr.name !== 'data-ad-status' && attr.name !== 'ref') {
+            attributes[attr.name] = attr.value;
+          }
+        }
+        
+        // Remove the old ad element
+        const oldAd = advertRef.current;
+        parent.removeChild(oldAd);
+        
+        // Create a new ad element with the same attributes
+        const newAd = document.createElement('ins');
+        newAd.className = 'adsbygoogle';
+        newAd.id = `ad-${slot}-${Math.random().toString(36).substring(2, 9)}`;
+        
+        // Apply stored attributes
+        Object.entries(attributes).forEach(([name, value]) => {
+          newAd.setAttribute(name, value);
+        });
+        
+        // Add the new ad element to the DOM
+        parent.appendChild(newAd);
+        
+        // Update the ref to point to the new element
+        advertRef.current = newAd;
+      } else {
+        // Just clear any existing content and attributes
         advertRef.current.innerHTML = '';
+        advertRef.current.removeAttribute('data-ad-status');
+        advertRef.current.id = `ad-${slot}-${Math.random().toString(36).substring(2, 9)}`;
       }
       
-      // Remove any status attributes that might prevent re-initialization
-      advertRef.current.removeAttribute('data-ad-status');
-      
-      // Generate a new ID to force AdSense to treat it as a new ad
-      advertRef.current.id = `ad-${slot}-${Math.random().toString(36).substring(2, 9)}`;
+      // Reset initialization state
+      isInitialized.current = false;
       
       // Push the ad command to Google
       (window.adsbygoogle = window.adsbygoogle || []).push({});
       isInitialized.current = true;
       
-      console.log(`Ad slot ${slot} initialized`);
+      console.log(`Ad slot ${slot} initialized/refreshed`);
     } catch (error) {
       console.error('AdSense error:', error);
     }
