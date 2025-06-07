@@ -3,7 +3,7 @@ import NavBar from "@/components/Navigation/NavBar/NavBar";
 import Footer from "@/components/Footer";
 import DynamicFavicon from "./components/DynamicFavicon";
 import Script from "next/script";
-import { GoogleAdSense } from "nextjs-google-adsense";
+import { GoogleAdSense } from "next-google-adsense";
 
 export const metadata = {
   title: "mason's maple matrix",
