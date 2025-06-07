@@ -3,8 +3,6 @@ import NavBar from "@/components/Navigation/NavBar/NavBar";
 import Footer from "@/components/Footer";
 import DynamicFavicon from "./components/DynamicFavicon";
 import Script from "next/script";
-import { GoogleAdSenseScript } from "@/components/AdSense/GoogleAdSense";
-import AdRefresher from "@/components/AdSense/AdRefresher";
 
 export const metadata = {
   title: "mason's maple matrix",
@@ -30,12 +28,10 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-BY50PB72SB');
           `}
         </Script>
-        <GoogleAdSenseScript />
       </head>
       <body className="min-h-screen">
         <DynamicFavicon />
         <NavBar />
-        <AdRefresher />
         {children}
         {/* <Footer /> */}
       </body>

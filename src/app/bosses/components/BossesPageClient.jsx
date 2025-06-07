@@ -4,7 +4,6 @@ import React, { useMemo, useState } from 'react';
 import { bossData } from '@/data/bossData';
 import { bossNameToImage, formatLongformNumber } from '@/utils';
 import Image from 'next/image';
-import { InArticleAd, SidebarAd, FooterAd } from '@/components/AdSense/AdBanner';
 
 
 const DifficultyImage = ({ difficulty, afSacRequirement, level, pdr }) => {
