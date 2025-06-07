@@ -14,6 +14,10 @@ export default function useAdRefresh() {
   useEffect(() => {
     // Only run on client side
     if (typeof window === 'undefined') return;
+    
+    // Extract searchParams string to avoid complex expression in dependency array
+    // This is a stable reference that will only change when the actual params change
+    const searchParamsString = searchParams.toString();
 
     // Function to refresh ads
     const refreshAds = () => {
@@ -58,5 +62,5 @@ export default function useAdRefresh() {
     const timer = setTimeout(refreshAds, 300);
     
     return () => clearTimeout(timer);
-  }, [pathname, searchParams.toString()]); // Re-run when pathname or search params change
+  }, [pathname, searchParams]); // searchParams object is stable across renders
 }

@@ -20,6 +20,9 @@ export default function AdRefresher() {
     // Only run on client side
     if (typeof window === 'undefined') return;
     
+    // Extract searchParams string to avoid complex expression in dependency array
+    const searchParamsString = searchParams.toString();
+    
     // Function to refresh auto ads
     const refreshAutoAds = () => {
       if (!window.adsbygoogle) return;
@@ -51,7 +54,7 @@ export default function AdRefresher() {
     const timer = setTimeout(refreshAutoAds, 500);
     
     return () => clearTimeout(timer);
-  }, [pathname, searchParams.toString()]); // Re-run when pathname or search params change
+  }, [pathname, searchParams]); // searchParams object is stable across renders
 
   // This component doesn't render anything
   return null;

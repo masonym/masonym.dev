@@ -56,7 +56,7 @@ export default function GoogleAdSense({
     }, 200);
     
     return () => clearTimeout(timer);
-  }, [pathname]); // Re-run when pathname changes
+  }, [pathname, initAd]); // Re-run when pathname changes or initAd function changes
   
   // Wait for component to be fully mounted and visible before initializing
   useEffect(() => {
