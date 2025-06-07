@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-screen">
         <DynamicFavicon />
-        <GoogleAdSense publisherId="ca-pub-9497526035569773" />
+        <GoogleAdSense publisherId="pub-9497526035569773" debug/>
         <NavBar />
         {children}
         {/* <Footer /> */}
