@@ -2,8 +2,8 @@ import "./globals.css";
 import NavBar from "@/components/Navigation/NavBar/NavBar";
 import Footer from "@/components/Footer";
 import DynamicFavicon from "./components/DynamicFavicon";
-import GoogleAutoAds from "@/components/GoogleAutoAds/GoogleAutoAds";
 import Script from "next/script";
+import { GoogleAdSense } from "nextjs-google-adsense";
 
 export const metadata = {
   title: "mason's maple matrix",
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-screen">
         <DynamicFavicon />
-        <GoogleAutoAds />
+        <GoogleAdSense publisherId="ca-pub-9497526035569773" />
         <NavBar />
         {children}
         {/* <Footer /> */}
