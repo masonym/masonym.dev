@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       <head>
         <link id="favicon" rel="icon" href="/icon.ico" />
         {/* Google AdSense verification meta tag */}
-        <meta name="google-adsense-account" content="ca-pub-9497526035569773" />
+        <meta name="google-adsense-account" content="pub-9497526035569773" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-BY50PB72SB"
           strategy="afterInteractive"
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-screen">
         <DynamicFavicon />
-        <GoogleAdSense publisherId="pub-9497526035569773" debug/>
+        <GoogleAdSense publisherId="pub-9497526035569773"/>
         <NavBar />
         {children}
         {/* <Footer /> */}
