@@ -150,7 +150,7 @@ function AdvancedItemList() {
         <div className="flex flex-col min-h-dvh h-auto pb-20 bg-cs-bg" style={{ backgroundAttachment: 'fixed' }}>
             <h1 className="text-center text-3xl mb-0 mt-16 text-primary-bright font-bold">Upcoming Cash Shop Sales</h1>
             <h4 className="text-center text-xl my-5 mb-8 italic text-primary">
-                Last Updated for v.259 (April 29th, 2025)
+                Last Updated for v.260 (June 11th, 2025)
             </h4>
 
             <FilterControls
