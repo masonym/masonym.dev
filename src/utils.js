@@ -132,7 +132,7 @@ export const worldNumbersToString = (worldNumbers) => {
     worldText += "Challenger Heroic worlds only"
   }
 
-  else if (worldNumbers == "45/46") {
+  else if (worldNumbers == "45/46/70/52/54") {
     worldText += "Heroic worlds only"
   }
 

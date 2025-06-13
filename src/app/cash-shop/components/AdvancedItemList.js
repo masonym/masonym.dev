@@ -11,8 +11,20 @@ import noItemsImage from '../assets/noItem_mini.png';
 
 // 48 and 49 are Heroic worlds, 52 and 54 are Challenger Heroic worlds, and the rest are Interactive worlds.
 // 0/1/17/18/30/45/46/70/48/49/52/54"
-const INT_WORLDS = [0, 1, 17, 18, 30, 48, 49, 70];
-const HERO_WORLDS = [45, 46, 52, 54];
+// 0 = Scania
+// 1 = Bera
+// 17 = Aurora?
+// 18 = Elysium?
+// 30 = ???
+// 48 = Challenger Interactive NA
+// 49 = Challenger Interactive EU
+// 45 = Kronos
+// 46 = Luna
+// 70 = Hyperion
+// 52 = Challenger Heroic NA
+// 54 = Challenger Heroic EU
+const INT_WORLDS = [0, 1, 17, 18, 30, 48, 49];
+const HERO_WORLDS = [45, 46, 52, 54, 70];
 
 
 const API_URL = 'https://yaiphhwge8.execute-api.us-west-2.amazonaws.com/prod/query-items-by-date';
