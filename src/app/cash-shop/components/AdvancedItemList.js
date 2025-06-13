@@ -11,8 +11,8 @@ import noItemsImage from '../assets/noItem_mini.png';
 
 // 48 and 49 are Heroic worlds, 52 and 54 are Challenger Heroic worlds, and the rest are Interactive worlds.
 // 0/1/17/18/30/45/46/70/48/49/52/54"
-const INT_WORLDS = [0, 1, 17, 18, 30, 45, 46, 70];
-const HERO_WORLDS = [48, 49, 52, 54];
+const INT_WORLDS = [0, 1, 17, 18, 30, 48, 49, 70];
+const HERO_WORLDS = [45, 46, 52, 54];
 
 
 const API_URL = 'https://yaiphhwge8.execute-api.us-west-2.amazonaws.com/prod/query-items-by-date';
