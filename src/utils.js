@@ -114,14 +114,19 @@ export const formatPriceDisplay = (originalPrice, price, sn_id, discount) => {
 };
 
 export const worldNumbersToString = (worldNumbers) => {
+  // 48 and 49 are Heroic worlds, 52 and 54 are Challenger Heroic worlds, and the rest are Interactive worlds.
   let worldText = "Sold in "
 
-  if (worldNumbers == "0/1/17/18/30/45/46/70/48/49") {
+  if (worldNumbers == "0/1/17/18/30/45/46/70/48/49/52/54") {
     worldText += "Interactive and Heroic worlds"
   }
 
-  else if (worldNumbers == "45/46/70") {
+  else if (worldNumbers == "48/49") {
     worldText += "Heroic worlds only"
+  }
+
+  else if (worldNumbers == "52/54") {
+    worldText += "Challenger Heroic worlds only"
   }
 
   else {
