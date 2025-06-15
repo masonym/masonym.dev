@@ -26,6 +26,12 @@ const NavigationList = ({ items, onClose, layout = "row" }) => {
                         <div className={layout === "row" ? "flex items-center gap-3" : "flex flex-col items-center"}>
                             {item.image && (
                                 <div className={imageWrapperClasses[layout]}>
+                                    {item.new && (
+                                        <span className="absolute -top-3 -right-4 z-10 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                                            New!
+                                        </span>
+                                    )}
+
                                     <Image
                                         src={item.image}
                                         alt={item.name}
