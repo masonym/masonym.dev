@@ -553,7 +553,7 @@ const LiberationCalculator = () => {
                   </div>
                   <div className="flex items-center">
                     <span className="font-bold text-primary-bright">
-                      {boss.isMonthly ? `${boss.tracesPerMonth} per month`: boss.tracesPerWeek.toFixed(0)}
+                      {boss.isMonthly ? `${(boss.tracesPerMonth?? 0).toFixed(0)} per month`: boss.tracesPerWeek.toFixed(0)}
                     </span>
                   </div>
                 </div>

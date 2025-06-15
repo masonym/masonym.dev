@@ -1,7 +1,12 @@
-'use client'
 
 import React from 'react';
 import LiberationCalculator from './components/LiberationCalculator';
+
+export const metadata = {
+  title: "Liberation Schedule Calculator | mason's maple matrix",
+  description: "Calculate how long it will take you to Liberate with this tool.",
+};
+
 
 export default function Page() {
   return (
