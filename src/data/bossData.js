@@ -7,7 +7,7 @@ export const bossData = [
     {
         name: "Zakum",
         level: 180,
-        
+
         pdr: '100%',
         difficulties: [
             {
@@ -21,7 +21,7 @@ export const bossData = [
     {
         name: "Magnus",
         level: 190,
-        
+
         pdr: '120%',
         difficulties: [
             {
@@ -35,7 +35,7 @@ export const bossData = [
     {
         name: "Hilla",
         level: 190,
-        
+
         pdr: '100%',
         difficulties: [
             {
@@ -49,7 +49,7 @@ export const bossData = [
     {
         name: "Papulatus",
         level: 190,
-        
+
         pdr: '250%',
         difficulties: [
             {
@@ -64,7 +64,7 @@ export const bossData = [
     {
         name: "Pierre",
         level: 190,
-        
+
         pdr: '80%',
         difficulties: [
             {
@@ -78,7 +78,7 @@ export const bossData = [
     {
         name: "Von Bon",
         level: 190,
-        
+
         pdr: '100%',
         difficulties: [
             {
@@ -92,7 +92,7 @@ export const bossData = [
     {
         name: "Crimson Queen",
         level: 190,
-        
+
         pdr: '120%',
         difficulties: [
             {
@@ -106,7 +106,7 @@ export const bossData = [
     {
         name: "Vellum",
         level: 190,
-        
+
         pdr: '200%',
         difficulties: [
             {
@@ -120,7 +120,7 @@ export const bossData = [
     {
         name: "Pink Bean",
         level: 190,
-        
+
         pdr: '100%',
         difficulties: [
             {
@@ -134,7 +134,7 @@ export const bossData = [
     {
         name: "Cygnus",
         level: 140,
-        
+
         pdr: '100%',
         difficulties: [
             {
@@ -154,7 +154,7 @@ export const bossData = [
     {
         name: "Princess No",
         level: 160,
-        
+
         pdr: '100%',
         difficulties: [
             {
@@ -168,7 +168,7 @@ export const bossData = [
     {
         name: "Akechi Mitsuhide",
         level: 210,
-        
+
         pdr: '300%',
         difficulties: [
             {
@@ -182,7 +182,7 @@ export const bossData = [
     },
     {
         name: 'Gollux',
-        
+
         difficulties: [
             {
                 name: 'Hard',
@@ -196,7 +196,7 @@ export const bossData = [
                 ],
             },
             {
-                name: 'Chaos',
+                name: 'Hell',
                 level: 200,
                 pdr: '250%',
                 hpPhases: [
@@ -210,7 +210,7 @@ export const bossData = [
     },
     {
         name: 'Lotus',
-        
+
         difficulties: [
             {
                 name: 'Normal',
@@ -247,7 +247,7 @@ export const bossData = [
     {
         name: "Damien",
         level: 210,
-        
+
         pdr: '300%',
         difficulties: [
             {
@@ -269,7 +269,7 @@ export const bossData = [
     {
         name: "Guardian Angel Slime",
         level: 220,
-        
+
         pdr: '300%',
         difficulties: [
             {
