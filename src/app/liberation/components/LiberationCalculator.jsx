@@ -88,7 +88,8 @@ const BOSS_DATA = [
     name: 'Black Mage',
     difficulties: [
       { name: 'None', traces: 0 },
-      { name: 'Hard', traces: 600 }
+      { name: 'Hard', traces: 600 },
+      { name: 'Extreme', traces: 600 }
     ],
     monthlyReset: true
   }
@@ -129,17 +130,17 @@ const LiberationCalculator = () => {
 
     // Get the start date as a Date object
     const startDateObj = new Date(startDate);
-    
+
     // Calculate how many traces we'll get immediately from bosses not yet cleared this week/month
     let immediateTraces = 0;
-    
+
     // Get the day of month for monthly reset tracking
     const dayOfMonth = startDateObj.getUTCDate();
-    
+
     // Separate weekly and monthly bosses
     let weeklyBosses = [];
     let monthlyBosses = [];
-    
+
     // Process each boss selection
     bossSelections.forEach(selection => {
       const boss = BOSS_DATA.find(b => b.id === selection.id);
@@ -154,7 +155,7 @@ const LiberationCalculator = () => {
           tracesPerClear: 0,
           isMonthly: boss.monthlyReset || false
         };
-        
+
         if (boss.monthlyReset) {
           monthlyBosses.push(bossData);
         } else {
@@ -165,12 +166,12 @@ const LiberationCalculator = () => {
 
       // Calculate traces based on party size
       const tracesPerClear = Math.floor(difficulty.traces / selection.partySize);
-      
+
       // If not cleared this week/month, add to immediate traces
       if (!selection.clearedThisWeek) {
         immediateTraces += tracesPerClear;
       }
-      
+
       // Create boss data object
       const bossData = {
         bossId: boss.id,
@@ -178,7 +179,7 @@ const LiberationCalculator = () => {
         tracesPerClear,
         isMonthly: boss.monthlyReset || false
       };
-      
+
       if (boss.monthlyReset) {
         // For monthly bosses (Black Mage)
         const monthlyData = calculateMonthlyBossTraces(startDateObj, tracesPerClear, selection.clearedThisWeek);
@@ -192,33 +193,33 @@ const LiberationCalculator = () => {
         weeklyBosses.push(bossData);
       }
     });
-    
+
     // Combine weekly and monthly bosses for display purposes
     const weeklyTraces = [...weeklyBosses, ...monthlyBosses];
 
     // Calculate total weekly traces (excluding monthly bosses)
     const totalWeeklyTraces = weeklyBosses.reduce((sum, boss) => sum + boss.tracesPerWeek, 0);
-    
+
     // Calculate total monthly traces
     const totalMonthlyTraces = monthlyBosses.reduce((sum, boss) => sum + boss.tracesPerClear, 0);
 
     // Get the day of the week (0 = Sunday, 1 = Monday, ..., 4 = Thursday, ...)
     const dayOfWeek = startDateObj.getUTCDay();
-    
+
     // Calculate days until next Thursday reset (Thursday is day 4)
     const daysUntilReset = dayOfWeek === 4 ? 7 : (4 - dayOfWeek + 7) % 7;
-    
+
     // Calculate days until next monthly reset (1st of the month)
     const nextMonthlyReset = getNextMonthlyResetDate(startDateObj);
     const daysUntilMonthlyReset = Math.ceil((nextMonthlyReset - startDateObj) / (1000 * 60 * 60 * 24));
-    
+
     // Calculate effective weekly traces for the first week (excluding monthly bosses)
     const firstWeekTraces = totalWeeklyTraces + immediateTraces;
-    
+
     // Initialize completion calculation variables
     let completionDate;
     let weeksNeeded = Infinity;
-    
+
     // If we have weekly traces, calculate based on weekly resets
     if (totalWeeklyTraces > 0) {
       // First week gives us firstWeekTraces
@@ -226,64 +227,64 @@ const LiberationCalculator = () => {
       let tracesCollected = 0;
       let weeksCount = 0;
       let currentDate = new Date(startDateObj);
-      
+
       // Add days until first Thursday reset
       currentDate.setDate(currentDate.getDate() + daysUntilReset);
-      
+
       // Add traces from first week
       tracesCollected += firstWeekTraces;
       weeksCount = 1;
-      
+
       // Continue adding weekly traces until we have enough
       while (tracesCollected < totalTracesNeeded) {
         // Check if we'll get monthly traces before the next weekly reset
         const nextWeeklyReset = new Date(currentDate);
         nextWeeklyReset.setDate(nextWeeklyReset.getDate() + 7);
-        
+
         const nextMonthReset = getNextMonthlyResetDate(currentDate);
-        
+
         // If monthly reset happens before next weekly reset and we have monthly traces
         if (nextMonthReset < nextWeeklyReset && totalMonthlyTraces > 0) {
           // Add traces from monthly bosses
           tracesCollected += totalMonthlyTraces;
-          
+
           // If we now have enough traces, set completion date to monthly reset
           if (tracesCollected >= totalTracesNeeded) {
             completionDate = nextMonthReset;
             break;
           }
         }
-        
+
         // Add weekly traces
         tracesCollected += totalWeeklyTraces;
         weeksCount++;
-        
+
         // Move to next week
         currentDate.setDate(currentDate.getDate() + 7);
       }
-      
+
       // If we didn't set a completion date yet, it's the last weekly reset
       if (!completionDate) {
         completionDate = new Date(currentDate);
       }
-      
+
       weeksNeeded = weeksCount;
-    } 
+    }
     // If we only have monthly traces
     else if (totalMonthlyTraces > 0) {
       let remainingTraces = totalTracesNeeded;
       let monthsNeeded = Math.ceil(remainingTraces / totalMonthlyTraces);
-      
+
       // Start with the next monthly reset
       completionDate = getNextMonthlyResetDate(startDateObj);
-      
+
       // Add months as needed
       for (let i = 1; i < monthsNeeded; i++) {
         completionDate.setUTCMonth(completionDate.getUTCMonth() + 1);
       }
-      
+
       weeksNeeded = monthsNeeded * 4.35; // Approximate weeks for display
-    } 
+    }
     // No traces at all
     else {
       weeksNeeded = Infinity;
@@ -308,14 +309,14 @@ const LiberationCalculator = () => {
       totalTracesNeeded
     };
   };
-  
+
   // Calculate traces per week for weekly bosses (reset on Thursday 00:00 UTC)
   const calculateWeeklyBossTraces = (startDate, tracesPerClear, clearedThisWeek) => {
     // For weekly calculation, we just return the traces per clear
     // The clearedThisWeek flag is handled in the main calculation function
     return tracesPerClear;
   };
-  
+
   // For monthly bosses, we don't calculate a weekly average
   // Instead, we return the traces per clear and handle monthly resets separately in the main calculation
   const calculateMonthlyBossTraces = (startDate, tracesPerClear, clearedThisMonth) => {
@@ -348,16 +349,16 @@ const LiberationCalculator = () => {
     const currentDate = new Date(date);
     const currentMonth = currentDate.getUTCMonth();
     const currentYear = currentDate.getUTCFullYear();
-    
+
     // If we're on the 1st of the month, the next reset is next month
     if (currentDate.getUTCDate() === 1) {
       return new Date(Date.UTC(currentYear, currentMonth + 1, 1));
     }
-    
+
     // Otherwise, the next reset is the 1st of next month
     return new Date(Date.UTC(currentYear, currentMonth + 1, 1));
   };
-  
+
   // Calculate schedule results
   const scheduleResults = calculateSchedule();
 
@@ -412,7 +413,7 @@ const LiberationCalculator = () => {
             <div key={boss.id} className="bg-background-bright p-4 rounded-lg mb-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center">
-                  <Image 
+                  <Image
                     src={`/bossImages/largeIcons/${boss.id}.png`}
                     alt={boss.name}
                     width={48}
@@ -431,20 +432,20 @@ const LiberationCalculator = () => {
                   <div className="sm:col-span-7">
                     <div className="flex items-center flex-wrap gap-3 sm:gap-6 justify-start">
                       {boss.difficulties.map((difficulty) => (
-                        <div 
-                          key={difficulty.name} 
+                        <div
+                          key={difficulty.name}
                           onClick={() => handleBossSelectionChange(boss.id, 'selectedDifficulty', difficulty.name)}
-                          className={`relative cursor-pointer transition-all ${bossSelections.find(b => b.id === boss.id)?.selectedDifficulty === difficulty.name 
-                            ? 'scale-110 sm:scale-125' 
+                          className={`relative cursor-pointer transition-all ${bossSelections.find(b => b.id === boss.id)?.selectedDifficulty === difficulty.name
+                            ? 'scale-110 sm:scale-125'
                             : 'opacity-60 hover:opacity-80'}`}
                         >
                           {difficulty.name !== 'None' ? (
                             <div className="relative">
-                              <Image 
-                                src={`/bossDifficulties/${difficulty.name.toLowerCase()}.png`} 
-                                alt={difficulty.name} 
-                                width={80} 
-                                height={80} 
+                              <Image
+                                src={`/bossDifficulties/${difficulty.name.toLowerCase()}.png`}
+                                alt={difficulty.name}
+                                width={80}
+                                height={80}
                                 className="rounded-md"
                               />
                               <div className="absolute -top-2 -right-4 bg-primary-dark rounded-full w-6 h-6 flex items-center justify-center border border-primary-bright">
@@ -542,7 +543,7 @@ const LiberationCalculator = () => {
               {scheduleResults.weeklyTraces.map((boss) => (
                 <div key={boss.bossId} className="flex justify-between items-center py-1">
                   <div className="flex items-center">
-                    <Image 
+                    <Image
                       src={`/bossImages/largeIcons/${boss.bossId}.png`}
                       alt={boss.bossName}
                       width={32}
@@ -553,12 +554,12 @@ const LiberationCalculator = () => {
                   </div>
                   <div className="flex items-center">
                     <span className="font-bold text-primary-bright">
-                      {boss.isMonthly ? `${(boss.tracesPerMonth?? 0).toFixed(0)} per month`: boss.tracesPerWeek.toFixed(0)}
+                      {boss.isMonthly ? `${(boss.tracesPerMonth ?? 0).toFixed(0)} per month` : boss.tracesPerWeek.toFixed(0)}
                     </span>
                   </div>
                 </div>
               ))}
-              
+
             </div>
           </div>
         </div>
