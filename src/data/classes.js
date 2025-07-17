@@ -839,7 +839,14 @@ export const classes = {
         "originSkill": "Hakumenkonmou Juubi",
         "masterySkills": [
             "HEXA Shikigami Haunting",
-            "HEXA Vanquisher's Charm"
+            "HEXA Vanquisher's Charm",
+            "HEXA Shikigami Doppelganger",
+            "HEXA Yosuzume",
+            "HEXA Nine-Tailed Fury",
+            "HEXA Nightghost Guide",
+            "HEXA Kishin Shoukan",
+            "HEXA Tengu Strike",
+            "HEXA Ghost Yaksha Boss",
         ],
         "boostSkills": [
             "Yuki-musume Shoukan Boost",
@@ -1093,7 +1100,12 @@ export const classes = {
         "originSkill": "Source Flow",
         "masterySkills": [
             "HEXA Strike",
-            "HEXA Sneak Attack"
+            "HEXA Sneak Attack",
+            "HEXA Raid",
+            "HEXA Peck",
+            "HEXA [Focus] Heal",
+            "HEXA [Focus] Forest Protection",
+            "HEXA Mother Nature's Touch",
         ],
         "boostSkills": [
             "Beast's Rage Boost",
@@ -1111,6 +1123,11 @@ export const classes = {
             "HEXA Xuanshan Arts [Tian]",
             "HEXA Xuanshan Arts [Di]",
             "HEXA Divine Art: Howling Storm",
+            "HEXA Divine Art: Rightful Thunder",
+            "HEXA Divine Art: Swirling Tide",
+            "HEXA Soul Art: Black Wind",
+            "HEXA Divine Art: Tearing Wind",
+            "HEXA Secret Art: Qi Projection",
         ],
         "boostSkills": [
             "Soul Art: Beneath Heaven Boost",

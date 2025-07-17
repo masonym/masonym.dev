@@ -669,8 +669,17 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Vanquisher's Charm"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Shikigami Doppelganger",
+            "HEXA Yosuzume",
+            "HEXA Nine-Tailed Fury",
+            "HEXA Nightghost Guide",
+        ],
+        "fourthMastery": [
+            "HEXA Kishin Shoukan",
+            "HEXA Tengu Strike",
+            "HEXA Ghost Yaksha Boss",
+        ]
     },
     "Hayato": {
         "firstMastery": [
@@ -680,8 +689,13 @@ export const masteryDesignation = {
         "secondMastery": [
             "HEXA Shinsoku"
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Falcon's Honor",
+            "HEXA Akatsuki Trace",
+        ],
+        "fourthMastery": [
+            "HEXA Hitokiri Strike",
+        ]
     },
     "Adele": {
         "firstMastery": [
@@ -864,10 +878,17 @@ export const masteryDesignation = {
             "HEXA Strike"
         ],
         "secondMastery": [
-            "HEXA Sneak Attack"
+            "HEXA Sneak Attack",
+            "HEXA Raid",
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Peck",
+        ],
+        "fourthMastery": [
+            "HEXA [Focus] Heal",
+            "HEXA [Focus] Forest Protection",
+            "HEXA Mother Nature's Touch",
+        ]
     },
     "Mo Xuan": {
         "firstMastery": [
@@ -876,8 +897,15 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Divine Art: Howling Storm",
+            "HEXA Divine Art: Rightful Thunder",
         ],
-        "thirdMastery": [],
-        "fourthMastery": []
+        "thirdMastery": [
+            "HEXA Divine Art: Swirling Tide",
+            "HEXA Soul Art: Black Wind",
+            "HEXA Divine Art: Tearing Wind",
+        ],
+        "fourthMastery": [
+            "HEXA Secret Art: Qi Projection",
+        ]
     },
 }
