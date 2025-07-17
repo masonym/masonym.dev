@@ -8,7 +8,7 @@ export const masteryDesignation = {
         ],
         "thirdMastery": [
             "HEXA Beam Blade",
-            "Furious Edge", // TODO: Add "Furious Edge" localized name
+            "Rending Edge",
         ],
         "fourthMastery": [
             "HEXA Cry Valhalla",
@@ -43,7 +43,7 @@ export const masteryDesignation = {
         ],
         "fourthMastery": [
             "HEXA Final Attack",
-            "Rising Justice", // TODO: Localize name
+            "Rising Justice",
         ]
     },
     "Arch Mage (Ice, Lightning)": {
@@ -56,7 +56,7 @@ export const masteryDesignation = {
         ],
         "thirdMastery": [
             "HEXA Lightning Orb",
-            "Cryo Shock", // TODO: Localize
+            "Cryo Shock",
         ],
         "fourthMastery": [
             "HEXA Thunder Sphere",
@@ -116,7 +116,7 @@ export const masteryDesignation = {
         "fourthMastery": [
             "HEXA Combo Assault",
             "HEXA Shadow Raven",
-            "Relic Materialize", // TODO: Localize
+            "Manifest Curse",
         ]
     },
     "Marksman": {
@@ -162,7 +162,7 @@ export const masteryDesignation = {
         ],
         "thirdMastery": [
             "HEXA Blade Clone",
-            "All Will Die", // TODO: Localize
+            "Mortality",
         ],
         "fourthMastery": [
             "HEXA Blade Fury",
@@ -184,7 +184,7 @@ export const masteryDesignation = {
         "fourthMastery": [
             "HEXA Sudden Raid",
             "HEXA Shadow Veil",
-            "Covert Shadow", // TODO: Localize
+            "Covert Edge",
         ]
     },
     "Night Lord": {
@@ -198,7 +198,7 @@ export const masteryDesignation = {
         "thirdMastery": [
             "HEXA Dark Flare",
             "HEXA Showdown",
-            "Darkness Shuriken", // TODO: Localize
+            "Darkness Shuriken",
         ],
         "fourthMastery": [
             "HEXA Sudden Raid",
@@ -272,7 +272,7 @@ export const masteryDesignation = {
         ],
         "fourthMastery": [
             "HEXA Equinox Slash",
-            "Equinox Power II", // TODO: Localize
+            "Equinox Power II",
         ]
     },
     "Thunder Breaker": {
@@ -288,7 +288,7 @@ export const masteryDesignation = {
         ],
         "fourthMastery": [
             "HEXA Sea Wave",
-            "Sea God Rigid Body", // TODO: Localize
+            "Deep Reinforcement",
         ]
     },
     "Night Walker": {
@@ -305,7 +305,7 @@ export const masteryDesignation = {
         ],
         "fourthMastery": [
             "HEXA Dominion",
-            "Abyssal Darkness", // TODO: Localize
+            "Abyssal Darkness",
         ]
     },
     "Wind Archer": {
@@ -322,7 +322,7 @@ export const masteryDesignation = {
         ],
         "fourthMastery": [
             "HEXA Storm Whim",
-            "Anemoi", // TODO: Localize
+            "Anemoi",
         ]
     },
     "Blaze Wizard": {
@@ -404,7 +404,7 @@ export const masteryDesignation = {
         ],
         "fourthMastery": [
             "HEXA Carte Rose Finale",
-            "L'Amour Carte", // TODO: Localize
+            "La Mort Carte",
         ]
     },
     "Luminous": {
@@ -417,10 +417,10 @@ export const masteryDesignation = {
         ],
         "thirdMastery": [
             "HEXA Apocalypse",
-            "Eternal Lightness", // TODO: Localize
+            "Eternal Light",
         ],
         "fourthMastery": [
-            "HEXA Twilight Nova", // TODO: Localize
+            "HEXA Twilight Nova",
         ]
     },
     "Evan": {
@@ -458,7 +458,7 @@ export const masteryDesignation = {
         "thirdMastery": [
             "HEXA Bomb Punch",
             "HEXA Death Mark",
-            "Spirit Night Punch", // TODO: Localize
+            "Dusk Blow",
         ],
         "fourthMastery": [
             "HEXA Spirit Frenzy",
@@ -565,7 +565,7 @@ export const masteryDesignation = {
         ],
         "fourthMastery": [
             "HEXA Cerberus Chomp",
-            "Demonic Descent", // TODO: Localize
+            "Demonic Plume",
         ]
     },
     "Demon Avenger": {
@@ -577,7 +577,7 @@ export const masteryDesignation = {
         ],
         "thirdMastery": [
             "HEXA Exceed: Lunar Slash",
-            "Overmaximizing Exceed", // TODO: Localize
+            "Maximal Exceed",
         ],
         "fourthMastery": [
             "HEXA Thousand Swords",
@@ -596,7 +596,7 @@ export const masteryDesignation = {
         ],
         "fourthMastery": [
             "HEXA Celestial Roar",
-            "Da Capo Fettuccia", // TODO: Localize LOL
+            "Encore Ribbon",
         ]
     },
     "Kaiser": {
@@ -870,7 +870,7 @@ export const masteryDesignation = {
             "HEXA Rising Slash",
             "HEXA Air Raid",
             "HEXA Shadow Rain",
-            "Infinite Resonance", // TODO: Localize
+            "Infinite Resonance",
         ]
     },
     "Lynn": {

@@ -6,7 +6,7 @@ export const classes = {
             "HEXA Rising Rage",
             "HEXA Beam Blade",
             "HEXA Cry Valhalla",
-            "Furious Edge",
+            "Rending Edge",
             "HEXA Puncture",
             "HEXA Final Attack",
         ],
@@ -49,7 +49,7 @@ export const classes = {
             "HEXA Divine Mark",
             "HEXA Heaven's Hammer",
             "HEXA Final Attack",
-            "Rising Justice", // TODO: Add localized name
+            "Rising Justice",
         ],
         "boostSkills": [
             "Divine Echo Boost",
@@ -68,7 +68,7 @@ export const classes = {
             "HEXA Frozen Orb",
             "HEXA Blizzard",
             "HEXA Lightning Orb",
-            "Cryo Shock", // TODO: Localize
+            "Cryo Shock",
             "HEXA Thunder Sphere",
             "HEXA Elquines",
         ],
@@ -139,7 +139,7 @@ export const classes = {
             "HEXA Ancient Astra",
             "HEXA Combo Assault",
             "HEXA Shadow Raven",
-            "Relic Materialize", // TODO: Localize
+            "Manifest Curse",
         ],
         "boostSkills": [
             "Nova Blast Boost",
@@ -199,7 +199,7 @@ export const classes = {
             "HEXA Phantom Blow",
             "HEXA Asura's Anger",
             "HEXA Blade Clone",
-            "All Will Die", // TODO: Localize
+            "Mortality",
             "HEXA Blade Fury",
             "HEXA Sudden Raid",
         ],
@@ -224,7 +224,7 @@ export const classes = {
             "HEXA Cruel Stab",
             "HEXA Sudden Raid",
             "HEXA Shadow Veil",
-            "Covert Shadow", // TODO: Localize
+            "Covert Edge",
         ],
         "boostSkills": [
             "Shadow Assault Boost",
@@ -244,7 +244,7 @@ export const classes = {
             "HEXA Assassin's Mark",
             "HEXA Dark Flare",
             "HEXA Showdown",
-            "Darkness Shuriken", // TODO: Localize
+            "Darkness Shuriken",
             "HEXA Sudden Raid",
             "HEXA Death Star",
         ],
@@ -331,7 +331,7 @@ export const classes = {
             "HEXA Cosmic Shower",
             "HEXA Cosmic Burst",
             "HEXA Equinox Slash",
-            "Equinox Power II", // TODO: Localize
+            "Equinox Power II",
         ],
         "boostSkills": [
             "Cosmos Boost",
@@ -352,7 +352,7 @@ export const classes = {
             "HEXA Typhoon",
             "HEXA Deep Rising",
             "HEXA Sea Wave",
-            "Sea God Rigid Body", // TODO: Localize
+            "Deep Reinforcement",
         ],
         "boostSkills": [
             "Lightning Cascade Boost",
@@ -373,7 +373,7 @@ export const classes = {
             "HEXA Ravenous Bat",
             "HEXA Dark Omen",
             "HEXA Dominion",
-            "Abyssal Darkness", // TODO: Localize
+            "Abyssal Darkness",
         ],
         "boostSkills": [
             "Shadow Spear Boost",
@@ -394,7 +394,7 @@ export const classes = {
             "HEXA Fairy Spiral",
             "HEXA Monsoon",
             "HEXA Storm Whim",
-            "Anemoi", // TODO: Localize
+            "Anemoi",
         ],
         "boostSkills": [
             "Howling Gale Boost",
@@ -501,7 +501,7 @@ export const classes = {
             "HEXA Mille Aiguilles: Fortune",
             "HEXA Carte Noir",
             "HEXA Carte Rose Finale",
-            "L'Amour Carte", // TODO: Localize
+            "La Mort Carte",
         ],
         "boostSkills": [
             "Luck of the Draw Boost",
@@ -520,8 +520,8 @@ export const classes = {
             "HEXA Reflection",
             "Endless Darkness",
             "HEXA Apocalypse",
-            "Eternal Lightness", // TODO: Localize
-            "HEXA Twilight Nova", // TODO: Localize
+            "Eternal Light",
+            "HEXA Twilight Nova",
         ],
         "boostSkills": [
             "Gate of Light Boost",
@@ -569,7 +569,7 @@ export const classes = {
             "HEXA Fox Spirits",
             "HEXA Bomb Punch",
             "HEXA Death Mark",
-            "Spirit Night Punch", // TODO: Localize
+            "Spirit Night Punch",
             "HEXA Spirit Frenzy",
         ],
         "boostSkills": [
@@ -705,7 +705,7 @@ export const classes = {
             "HEXA Demon Cry",
             "HEXA Metamorphosis",
             "HEXA Cerberus Chomp",
-            "Demonic Descent", // TODO: Localize
+            "Demonic Plume",
         ],
         "boostSkills": [
             "Demon Awakening Boost",
@@ -723,7 +723,7 @@ export const classes = {
             "HEXA Nether Shield",
             "HEXA Exceed: Execution",
             "HEXA Exceed: Lunar Slash",
-            "Overmaximizing Exceed", // TODO: Localize
+            "Maximal Exceed",
             "HEXA Thousand Swords",
             "HEXA Infernal Exceed",
         ],
@@ -744,7 +744,7 @@ export const classes = {
             "HEXA Soul Seeker",
             "HEXA Supreme Supernova",
             "HEXA Celestial Roar",
-            "Da Capo Fettuccia", // TODO: Localize LOL
+            "Encore Ribbon",
         ],
         "boostSkills": [
             "Sparkle Burst Boost",
@@ -1084,7 +1084,7 @@ export const classes = {
             "HEXA Rising Slash",
             "HEXA Air Raid",
             "HEXA Shadow Rain",
-            "Infinite Resonance", // TODO: Localize
+            "Infinite Resonance",
         ],
         "boostSkills": [
             "Chrono Break Boost",
