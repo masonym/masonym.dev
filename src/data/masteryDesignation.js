@@ -897,7 +897,7 @@ export const masteryDesignation = {
         ],
         "secondMastery": [
             "HEXA Divine Art: Howling Storm",
-            "HEXA Divine Art: Rightful Thunder",
+            "HEXA Divine Art: Righteous Thunder",
         ],
         "thirdMastery": [
             "HEXA Divine Art: Swirling Tide",

@@ -1123,7 +1123,7 @@ export const classes = {
             "HEXA Xuanshan Arts [Tian]",
             "HEXA Xuanshan Arts [Di]",
             "HEXA Divine Art: Howling Storm",
-            "HEXA Divine Art: Rightful Thunder",
+            "HEXA Divine Art: Righteous Thunder",
             "HEXA Divine Art: Swirling Tide",
             "HEXA Soul Art: Black Wind",
             "HEXA Divine Art: Tearing Wind",
