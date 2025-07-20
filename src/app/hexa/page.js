@@ -3,7 +3,7 @@ import CalculatorSelector from './components/CalculatorSelector/CalculatorSelect
 
 export const metadata = {
     title: "Hexa Calculator | mason's maple matrix",
-    description: "A tool for tracking progress & optimizing (soon) 6th Job.",
+    description: "A tool for tracking progress for 6th Job.",
 };
 
 const page = () => {
