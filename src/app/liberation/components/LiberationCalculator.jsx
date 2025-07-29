@@ -291,12 +291,13 @@ const LiberationCalculator = () => {
       completionDate = null;
     }
 
-    // Format the completion date for display
+    // Format the completion date for display (UTC)
     const formattedCompletionDate = completionDate ? completionDate.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
-    }) : "Never (no traces)";
+      day: 'numeric',
+      timeZone: 'UTC'
+    }) + ' (UTC)' : "Never (no traces)";
 
     return {
       weeklyTraces,
@@ -334,14 +335,15 @@ const LiberationCalculator = () => {
     );
   };
 
-  // Format date for display
+  // Format date for display (UTC)
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
-    });
+      day: 'numeric',
+      timeZone: 'UTC'
+    }) + ' (UTC)';
   };
 
   // Helper function to get next monthly reset date
@@ -363,7 +365,7 @@ const LiberationCalculator = () => {
   const scheduleResults = calculateSchedule();
 
   return (
-    <div className="max-w-6xl mx-auto bg-primary-dark p-6 rounded-lg shadow-lg">
+    <div className="max-w-7xl mx-auto bg-primary-dark p-6 rounded-lg shadow-lg">
       {/* Input Details Section - Horizontal Row at Top */}
       <div className="mb-8 p-4 bg-background-bright flex justify-between flex-col rounded-lg">
         <h2 className="text-2xl font-semibold text-primary-bright mb-4 mx-auto">Current Status</h2>
