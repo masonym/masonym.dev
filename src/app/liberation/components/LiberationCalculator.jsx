@@ -102,7 +102,10 @@ const LiberationCalculator = () => {
   // State for user inputs
   const [currentQuest, setCurrentQuest] = useState(1);
   const [currentTraces, setCurrentTraces] = useState(0);
-  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
+  const [startDate, setStartDate] = useState(() => {
+    const now = new Date();
+    return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())).toISOString().split('T')[0];
+  });
   const [bossSelections, setBossSelections] = useState(
     BOSS_DATA.map(boss => ({
       id: boss.id,
@@ -128,11 +131,12 @@ const LiberationCalculator = () => {
       totalTracesNeeded += LIBERATION_QUESTS[i].tracesRequired;
     }
 
-    // Get the start date as a Date object
-    const startDateObj = new Date(startDate);
+    // Get the start date as a Date object (parse as UTC)
+    const startDateObj = new Date(startDate + 'T00:00:00.000Z');
 
     // Calculate how many traces we'll get immediately from bosses not yet cleared this week/month
-    let immediateTraces = 0;
+    let immediateWeeklyTraces = 0;
+    let immediateMonthlyTraces = 0;
 
     // Get the day of month for monthly reset tracking
     const dayOfMonth = startDateObj.getUTCDate();
@@ -169,7 +173,11 @@ const LiberationCalculator = () => {
 
       // If not cleared this week/month, add to immediate traces
       if (!selection.clearedThisWeek) {
-        immediateTraces += tracesPerClear;
+        if (boss.monthlyReset) {
+          immediateMonthlyTraces += tracesPerClear;
+        } else {
+          immediateWeeklyTraces += tracesPerClear;
+        }
       }
 
       // Create boss data object
@@ -213,8 +221,31 @@ const LiberationCalculator = () => {
     const nextMonthlyReset = getNextMonthlyResetDate(startDateObj);
     const daysUntilMonthlyReset = Math.ceil((nextMonthlyReset - startDateObj) / (1000 * 60 * 60 * 24));
 
+    // Check if we can complete immediately with available traces
+    const totalImmediateTraces = immediateWeeklyTraces + immediateMonthlyTraces;
+    if (totalImmediateTraces >= totalTracesNeeded) {
+      // Can complete on the start date itself
+      const formattedCompletionDate = startDateObj.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC'
+      }) + ' (UTC)';
+      
+      return {
+        weeklyTraces: [...weeklyBosses, ...monthlyBosses],
+        totalWeeklyTraces,
+        totalMonthlyTraces,
+        immediateTraces: totalImmediateTraces,
+        firstWeekTraces: totalImmediateTraces,
+        weeksNeeded: 0,
+        completionDate: formattedCompletionDate,
+        totalTracesNeeded
+      };
+    }
+
     // Calculate effective weekly traces for the first week (excluding monthly bosses)
-    const firstWeekTraces = totalWeeklyTraces + immediateTraces;
+    const firstWeekTraces = totalWeeklyTraces + immediateWeeklyTraces;
 
     // Initialize completion calculation variables
     let completionDate;
@@ -234,6 +265,36 @@ const LiberationCalculator = () => {
       // Add traces from first week
       tracesCollected += firstWeekTraces;
       weeksCount = 1;
+
+      // Check if we can get monthly traces on the same day as the first weekly reset
+      if (tracesCollected < totalTracesNeeded && totalMonthlyTraces > 0 && immediateMonthlyTraces > 0) {
+        // If Black Mage hasn't been cleared this month, we can do it on the same day as weekly reset
+        tracesCollected += totalMonthlyTraces;
+        
+        // If we now have enough traces, set completion date to the first weekly reset
+        if (tracesCollected >= totalTracesNeeded) {
+          completionDate = new Date(currentDate);
+          weeksNeeded = 1;
+          
+          const formattedCompletionDate = completionDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'UTC'
+          }) + ' (UTC)';
+          
+          return {
+            weeklyTraces: [...weeklyBosses, ...monthlyBosses],
+            totalWeeklyTraces,
+            totalMonthlyTraces,
+            immediateTraces: totalImmediateTraces,
+            firstWeekTraces: firstWeekTraces + totalMonthlyTraces,
+            weeksNeeded: 1,
+            completionDate: formattedCompletionDate,
+            totalTracesNeeded
+          };
+        }
+      }
 
       // Continue adding weekly traces until we have enough
       while (tracesCollected < totalTracesNeeded) {
@@ -303,7 +364,7 @@ const LiberationCalculator = () => {
       weeklyTraces,
       totalWeeklyTraces,
       totalMonthlyTraces,
-      immediateTraces,
+      immediateTraces: totalImmediateTraces,
       firstWeekTraces,
       weeksNeeded,
       completionDate: formattedCompletionDate,
@@ -337,7 +398,7 @@ const LiberationCalculator = () => {
 
   // Format date for display (UTC)
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString + 'T00:00:00.000Z');
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -394,7 +455,7 @@ const LiberationCalculator = () => {
 
           {/* Start Date */}
           <div className="space-y-2 flex flex-col items-center justify-center">
-            <label className="block text-primary-bright font-medium">Start Date</label>
+            <label className="block text-primary-bright font-medium">Start Date (UTC)</label>
             <input
               type="date"
               className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-gray-700"
