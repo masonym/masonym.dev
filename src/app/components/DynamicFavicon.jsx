@@ -24,6 +24,9 @@ const DynamicFavicon = () => {
         case 'liberation':
           favicon.href = '/images/liberation.png';
           break;
+        case 'star-force':
+          favicon.href = '/images/star-force.png';
+          break;
         // Add more cases for other tools
         default:
           favicon.href = '/icon.ico'; // Default favicon
