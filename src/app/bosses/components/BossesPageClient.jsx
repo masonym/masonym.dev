@@ -94,17 +94,17 @@ const BossCard = ({ boss }) => {
                         src={`/bossImages/${bossNameToImage(boss.name.toLowerCase())}.png`}
                         alt={boss.name}
                         fill
-                        className="object-contain drop-shadow-lg"
+                        className="object-contain drop-shadow-lg text-center leading-[75px]"
                     />
                 </div>
                 <h3 className="text-center text-xl font-bold text-primary-bright -mt-2">{boss.name}</h3>
 
-                <div className="flex justify-center bg-background-bright rounded-full p-1">
+                <div className="flex w-full gap-1 bg-background-bright rounded-full p-1">
                     {boss.difficulties.map(diff => (
                         <button
                             key={diff.name}
                             onClick={() => setActiveDifficulty(diff.name)}
-                            className={`px-3 py-1 text-sm rounded-full transition-colors duration-200 ${activeDifficulty === diff.name ? 'bg-secondary text-primary-dark' : 'text-primary hover:bg-background-dim'}`}>
+                            className={`flex-1 min-w-0 px-0 py-1 text-[clamp(10px,2vw,14px)] text-center rounded-full truncate transition-colors duration-200 ${activeDifficulty === diff.name ? 'bg-secondary text-primary-dark' : 'text-primary hover:bg-background-dim'}`}>
                             {diff.name}
                         </button>
                     ))}
@@ -235,7 +235,7 @@ const BossesPageClient = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {filteredBosses.map(boss => (
                     <BossCard key={boss.name} boss={boss} />
                 ))}

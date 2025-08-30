@@ -575,6 +575,30 @@ export const bossData = [
         ]
     },
     {
+        name: "Baldrix",
+        level: 290,
+        sacRequirement: 700,
+        pdr: "380%",
+        difficulties: [
+            {
+                name: "Normal",
+                hpPhases: [
+                    { hp: formatShortformNumber("2.3798Q") },
+                    { hp: formatShortformNumber("2.5317Q") },
+                    { hp: formatShortformNumber("4.1454Q") },
+                ],
+            },
+            {
+                name: "Hard",
+                hpPhases: [
+                    { hp: formatShortformNumber("5.3446Q") },
+                    { hp: formatShortformNumber("5.6858Q") },
+                    { hp: formatShortformNumber("9.309Q") },
+                ],
+            }
+        ]
+    },
+    {
         name: "Black Mage",
         pdr: "300%",
         difficulties: [
@@ -601,5 +625,5 @@ export const bossData = [
                 afRequirement: 1320,
             }
         ]
-    }
+    },
 ];
