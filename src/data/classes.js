@@ -1138,5 +1138,42 @@ export const classes = {
         "commonSkills": [
             "Sol Janus"
         ]
-    }
+    },
+    "Sia Astelle": {
+        "originSkill": "Celestial Design",
+        "masterySkills": [
+            "SHINE Ray"
+        ],
+        "boostSkills": [
+            "Shine Boost",
+            "Stellar XI - Sirius Boost",
+            "Stellar XII - Sadalsuud Boost",
+            "Savior's Circle Boost",
+        ],
+        "commonSkills": [
+            "Sol Janus"
+        ]
+    },
+    "Len": {
+        "originSkill": "Sky Splitting Azure Dragon Sword: Ascension",
+        "masterySkills": [
+            "HEXA Plum Blossom Sword Fundamental: Relentless Slash",
+            "HEXA Lost Soul Sword Fundamental: Soul Strike",
+            "HEXA Lost Soul Advent",
+            "HEXA Splitting Ground",
+            "HEXA Void Fang",
+            "HEXA Infinite Blades",
+            "HEXA Plum Blossom Sword 2nd Form: Scattering Plums",
+            "HEXA Plum Blossom Sword 3rd Form: Keen Blade",
+        ],
+        "boostSkills": [
+            "Plum Blossom Sword Ultimate: Plum Tree Aroma Boost",
+            "Lost Soul Awakening Boost",
+            "Plum Blossom Sword Ultimate: Dance of Annihilation Boost",
+            "Plum Blossom Sword Ultimate: Soul Blade Boost",
+        ],
+        "commonSkills": [
+            "Sol Janus"
+        ]
+    },
 };

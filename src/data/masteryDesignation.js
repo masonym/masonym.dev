@@ -908,4 +908,30 @@ export const masteryDesignation = {
             "HEXA Secret Art: Qi Projection",
         ]
     },
+    "Sia Astelle": {
+        "firstMastery": [
+            "SHINE Ray",
+        ],
+        "secondMastery": [],
+        "thirdMastery": [],
+        "fourthMastery": [],
+    },
+    "Len": {
+        "firstMastery": [
+            "HEXA Plum Blossom Sword Fundamental: Relentless Slash",
+        ],
+        "secondMastery": [
+            "HEXA Lost Soul Sword Fundamental: Soul Strike",
+        ],
+        "thirdMastery": [
+            "HEXA Lost Soul Advent",
+            "HEXA Splitting Ground",
+            "HEXA Void Fang",
+            "HEXA Infinite Blades",
+        ],
+        "fourthMastery": [
+            "HEXA Plum Blossom Sword 2nd Form: Scattering Plums",
+            "HEXA Plum Blossom Sword 3rd Form: Keen Blade",
+        ],
+    },
 }

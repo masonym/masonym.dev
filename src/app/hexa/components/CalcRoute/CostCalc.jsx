@@ -165,6 +165,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
 
     // Second Mastery skills
     classMasteryDesignation.secondMastery.forEach(skill => {
+      if (!skill) return;
       const formattedSkill = formatSkillPath(skill);
       if (desiredSkillLevels[formattedSkill]) {
         orderedSkills.push(formattedSkill);
