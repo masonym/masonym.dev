@@ -1,6 +1,7 @@
 export const classes = {
     "Hero": {
         "originSkill": "Spirit Calibur",
+        "ascentSkill": "Silent Cleave",
         "masterySkills": [
             "HEXA Raging Blow",
             "HEXA Rising Rage",
@@ -22,6 +23,7 @@ export const classes = {
     },
     "Dark Knight": {
         "originSkill": "Dead Space",
+        "ascentSkill": "Dark Halidom",
         "masterySkills": [
             "HEXA Gungnir's Descent",
             "HEXA Dark Impale",
@@ -42,6 +44,7 @@ export const classes = {
     },
     "Paladin": {
         "originSkill": "Sacred Bastion",
+        "ascentSkill": "Dominus Obrion",
         "masterySkills": [
             "HEXA Blast",
             "HEXA Divine Judgment",
@@ -63,6 +66,7 @@ export const classes = {
     },
     "Arch Mage (Ice, Lightning)": {
         "originSkill": "Frozen Lightning",
+        "ascentSkill": "Parabolic Bolt",
         "masterySkills": [
             "HEXA Chain Lightning",
             "HEXA Frozen Orb",
@@ -84,6 +88,7 @@ export const classes = {
     },
     "Arch Mage (Fire, Poison)": {
         "originSkill": "Infernal Venom",
+        "ascentSkill": "Torrential Flame",
         "masterySkills": [
             "HEXA Flame Sweep",
             "HEXA Flame Haze",
@@ -107,6 +112,7 @@ export const classes = {
     },
     "Bishop": {
         "originSkill": "Holy Advent",
+        "ascentSkill": "Command of Heaven",
         "masterySkills": [
             "HEXA Angel Ray",
             "HEXA Big Bang",
@@ -129,6 +135,7 @@ export const classes = {
     },
     "Pathfinder": {
         "originSkill": "Forsaken Relic",
+        "ascentSkill": "Relic Penetration",
         "masterySkills": [
             "HEXA Cardinal Burst",
             "HEXA Bountiful Burst",
@@ -153,6 +160,7 @@ export const classes = {
     },
     "Marksman": {
         "originSkill": "Final Aim",
+        "ascentSkill": "Fatal Trigger",
         "masterySkills": [
             "HEXA Snipe",
             "HEXA Piercing Arrow",
@@ -173,6 +181,7 @@ export const classes = {
     },
     "Bowmaster": {
         "originSkill": "Ascendant Shadow",
+        "ascentSkill": "Point Zero",
         "masterySkills": [
             "HEXA Hurricane",
             "HEXA Arrow Stream",
@@ -195,6 +204,7 @@ export const classes = {
     },
     "Dual Blade": {
         "originSkill": "Karma Blade",
+        "ascentSkill": "Yamaz Decree",
         "masterySkills": [
             "HEXA Phantom Blow",
             "HEXA Asura's Anger",
@@ -215,6 +225,7 @@ export const classes = {
     },
     "Shadower": {
         "originSkill": "Halve Cut",
+        "ascentSkill": "Authentic Darkness",
         "masterySkills": [
             "HEXA Assassinate",
             "HEXA Pulverize",
@@ -238,6 +249,7 @@ export const classes = {
     },
     "Night Lord": {
         "originSkill": "Life and Death",
+        "ascentSkill": "Crucial Assault",
         "masterySkills": [
             "HEXA Quad Star",
             "Enhanced HEXA Quad Star",
@@ -260,6 +272,7 @@ export const classes = {
     },
     "Cannoneer": {
         "originSkill": "Super Cannon Explosion",
+        "ascentSkill": "Barrel of Monkeys",
         "masterySkills": [
             "HEXA Cannon Barrage",
             "HEXA Cannon Bazooka",
@@ -282,6 +295,7 @@ export const classes = {
     },
     "Buccaneer": {
         "originSkill": "Unleash Neptunus",
+        "ascentSkill": "Haymaker",
         "masterySkills": [
             "HEXA Octopunch",
             "HEXA Sea Serpent Burst",
@@ -302,6 +316,7 @@ export const classes = {
     },
     "Corsair": {
         "originSkill": "The Dreadnought",
+        "ascentSkill": "Firecracker",
         "masterySkills": [
             "HEXA Rapid Fire",
             "HEXA Broadside",
@@ -325,6 +340,7 @@ export const classes = {
     },
     "Dawn Warrior": {
         "originSkill": "Astral Blitz",
+        "ascentSkill": "Totality",
         "masterySkills": [
             "HEXA Luna Divide",
             "HEXA Solar Slash",
@@ -345,6 +361,7 @@ export const classes = {
     },
     "Thunder Breaker": {
         "originSkill": "Thunder Wall Sea Wave",
+        "ascentSkill": "Strong Wave Annihilation",
         "masterySkills": [
             "HEXA Annihilate",
             "HEXA Annihilate Lightning Strike",
@@ -366,6 +383,7 @@ export const classes = {
     },
     "Night Walker": {
         "originSkill": "Silence",
+        "ascentSkill": "Stygian Command",
         "masterySkills": [
             "HEXA Quintuple Star",
             "HEXA Quintuple Star - Jet Black",
@@ -387,6 +405,7 @@ export const classes = {
     },
     "Wind Archer": {
         "originSkill": "Mistral Spring",
+        "ascentSkill": "Element Tempest",
         "masterySkills": [
             "HEXA Song of Heaven",
             "HEXA Trifling Wind",
@@ -408,12 +427,13 @@ export const classes = {
     },
     "Blaze Wizard": {
         "originSkill": "Eternity",
+        "ascentSkill": "Flame Concerto",
         "masterySkills": [
             "HEXA Orbital Flame",
             "HEXA Blazing Extinction",
             "HEXA Orbital Explosion",
             "HEXA Phoenix Drive",
-            "HEXA Inferno Rise",
+            "HEXA Towering Inferno",
         ],
         "boostSkills": [
             "Orbital Inferno Boost",
@@ -427,6 +447,7 @@ export const classes = {
     },
     "Mihile": {
         "originSkill": "Durendal",
+        "ascentSkill": "Knight Immortals",
         "masterySkills": [
             "HEXA Radiant Cross",
             "HEXA Radiant Cross - Assault",
@@ -449,6 +470,7 @@ export const classes = {
     },
     "Mercedes": {
         "originSkill": "Unfading Glory",
+        "ascentSkill": "Elemental Spirit",
         "masterySkills": [
             "HEXA Ishtar's Ring",
             "HEXA Wrath of Enlil",
@@ -475,6 +497,7 @@ export const classes = {
     },
     "Aran": {
         "originSkill": "Endgame",
+        "ascentSkill": "Frost Bluster",
         "masterySkills": [
             "HEXA Beyond Blade",
             "HEXA Finisher - Hunter's Prey",
@@ -495,6 +518,7 @@ export const classes = {
     },
     "Phantom": {
         "originSkill": "Defying Fate",
+        "ascentSkill": "Moonlight Serenade",
         "masterySkills": [
             "HEXA Tempest",
             "HEXA Mille Aiguilles",
@@ -515,6 +539,7 @@ export const classes = {
     },
     "Luminous": {
         "originSkill": "Harmonic Paradox",
+        "ascentSkill": "Lustrous Orb",
         "masterySkills": [
             "HEXA Ender",
             "HEXA Reflection",
@@ -535,6 +560,7 @@ export const classes = {
     },
     "Evan": {
         "originSkill": "Zodiac Burst",
+        "ascentSkill": "Union Drive",
         "masterySkills": [
             "HEXA Mana Burst",
             "HEXA Thunder Circle",
@@ -564,6 +590,7 @@ export const classes = {
     },
     "Shade": {
         "originSkill": "Advent of the Fox",
+        "ascentSkill": "Eternal Moon",
         "masterySkills": [
             "HEXA Spirit Claw",
             "HEXA Fox Spirits",
@@ -584,6 +611,7 @@ export const classes = {
     },
     "Battle Mage": {
         "originSkill": "Crimson Pact",
+        "ascentSkill": "Gloomy Aura",
         "masterySkills": [
             "HEXA Condemnation",
             "HEXA Finishing Blow",
@@ -603,6 +631,7 @@ export const classes = {
     },
     "Blaster": {
         "originSkill": "Final Destroyer",
+        "ascentSkill": "Vanguard Impact",
         "masterySkills": [
             "HEXA Magnum Punch",
             "HEXA Double Blast",
@@ -626,6 +655,7 @@ export const classes = {
     },
     "Mechanic": {
         "originSkill": "Ground Zero",
+        "ascentSkill": "Metal Armor: Extermination",
         "masterySkills": [
             "HEXA Heavy Salvo Plus",
             "HEXA AP Salvo Plus",
@@ -647,6 +677,7 @@ export const classes = {
     },
     "Wild Hunter": {
         "originSkill": "Nature's Truth",
+        "ascentSkill": "Gear Storm",
         "masterySkills": [
             "HEXA Wild Arrow Blast",
             "HEXA Swipe",
@@ -673,6 +704,7 @@ export const classes = {
     },
     "Xenon": {
         "originSkill": "Artificial Evolution",
+        "ascentSkill": "Neoteric Trice",
         "masterySkills": [
             "HEXA Mecha Purge: Snipe",
             "HEXA Mecha Purge: Execute",
@@ -697,6 +729,7 @@ export const classes = {
     },
     "Demon Slayer": {
         "originSkill": "Nightmare",
+        "ascentSkill": "Amethystine Intrusion",
         "masterySkills": [
             "HEXA Demon Impact",
             "HEXA Demon Impact: Demon Chain",
@@ -719,6 +752,7 @@ export const classes = {
     },
     "Demon Avenger": {
         "originSkill": "Requiem",
+        "ascentSkill": "Rageborne Daredevil",
         "masterySkills": [
             "HEXA Nether Shield",
             "HEXA Exceed: Execution",
@@ -739,6 +773,7 @@ export const classes = {
     },
     "Angelic Buster": {
         "originSkill": "Grand Finale",
+        "ascentSkill": "Genuine Encore",
         "masterySkills": [
             "HEXA Trinity",
             "HEXA Soul Seeker",
@@ -758,6 +793,7 @@ export const classes = {
     },
     "Kaiser": {
         "originSkill": "Nova Triumphant",
+        "ascentSkill": "Pyro Instinct",
         "masterySkills": [
             "HEXA Gigas Wave",
             "HEXA Blade Burst",
@@ -778,6 +814,7 @@ export const classes = {
     },
     "Cadena": {
         "originSkill": "Chain Arts: Grand Arsenal",
+        "ascentSkill": "Brutal Ravage",
         "masterySkills": [
             "HEXA Chain Arts: Thrash",
             "HEXA Muscle Memory",
@@ -805,6 +842,7 @@ export const classes = {
     },
     "Kain": {
         "originSkill": "Total Annihilation",
+        "ascentSkill": "Malicious Flicker",
         "masterySkills": [
             "HEXA Falling Dust",
             "[Possess] HEXA Falling Dust",
@@ -837,6 +875,7 @@ export const classes = {
     },
     "Kanna": {
         "originSkill": "Hakumenkonmou Juubi",
+        "ascentSkill": "",
         "masterySkills": [
             "HEXA Shikigami Haunting",
             "HEXA Vanquisher's Charm",
@@ -860,6 +899,7 @@ export const classes = {
     },
     "Hayato": {
         "originSkill": "Jin Quick Draw",
+        "ascentSkill": "",
         "masterySkills": [
             "HEXA Rai Sanrenzan",
             "HEXA Rai Blade Flash",
@@ -877,6 +917,7 @@ export const classes = {
     },
     "Adele": {
         "originSkill": "Maestro",
+        "ascentSkill": "Einheit",
         "masterySkills": [
             "HEXA Cleave",
             "HEXA Magic Dispatch",
@@ -902,6 +943,7 @@ export const classes = {
     },
     "Ark": {
         "originSkill": "Primordial Abyss",
+        "ascentSkill": "Whisper of the Absolute Abyss",
         "masterySkills": [
             "HEXA Basic Charge Drive",
             "HEXA Scarlet Charge Drive",
@@ -929,6 +971,7 @@ export const classes = {
     },
     "Illium": {
         "originSkill": "Mytocrystal Expanse",
+        "ascentSkill": "Excidium",
         "masterySkills": [
             "HEXA Radiant Javelin",
             "HEXA Radiant Enchanted Javelin",
@@ -956,6 +999,7 @@ export const classes = {
     },
     "Khali": {
         "originSkill": "Hex: Sandstorm",
+        "ascentSkill": "Void Awake",
         "masterySkills": [
             "HEXA Arts: Flurry",
             "HEXA Arts: Crescentum",
@@ -980,6 +1024,7 @@ export const classes = {
     },
     "Hoyoung": {
         "originSkill": "Sage: Apotheosis",
+        "ascentSkill": "Heavenly World Swing Spirit",
         "masterySkills": [
             "HEXA Heaven: Consuming Flames",
             "HEXA Heaven: Consuming Flames (Enhanced)",
@@ -1018,6 +1063,7 @@ export const classes = {
     },
     "Lara": {
         "originSkill": "Universe in Bloom",
+        "ascentSkill": "Overflow",
         "masterySkills": [
             "HEXA Essence Sprinkle",
             "HEXA Dragon Vein Eruption",
@@ -1042,6 +1088,7 @@ export const classes = {
     },
     "Kinesis": {
         "originSkill": "From Another Realm",
+        "ascentSkill": "Fractal Horizon",
         "masterySkills": [
             "HEXA Ultimate - Metal Press",
             "HEXA Psychic Grab",
@@ -1062,6 +1109,7 @@ export const classes = {
     },
     "Zero": {
         "originSkill": "End Time",
+        "ascentSkill": "Bitemporis",
         "masterySkills": [
             "HEXA Giga Crash",
             "HEXA Falling Star",
@@ -1098,6 +1146,7 @@ export const classes = {
     },
     "Lynn": {
         "originSkill": "Source Flow",
+        "ascentSkill": "",
         "masterySkills": [
             "HEXA Strike",
             "HEXA Sneak Attack",
@@ -1119,6 +1168,7 @@ export const classes = {
     },
     "Mo Xuan": {
         "originSkill": "Soul Art: Jianghu Dragon",
+        "ascentSkill": "",
         "masterySkills": [
             "HEXA Xuanshan Arts [Tian]",
             "HEXA Xuanshan Arts [Di]",
@@ -1141,6 +1191,7 @@ export const classes = {
     },
     "Sia Astelle": {
         "originSkill": "Celestial Design",
+        "ascentSkill": "",
         "masterySkills": [
             "SHINE Ray"
         ],
@@ -1156,6 +1207,7 @@ export const classes = {
     },
     "Len": {
         "originSkill": "Sky Splitting Azure Dragon Sword: Ascension",
+        "ascentSkill": "Sky Splitting Azure Dragon Sword: Single Falling Plum Blossom, Heavenly Rain Humanity Desolation",
         "masterySkills": [
             "HEXA Plum Blossom Sword Fundamental: Relentless Slash",
             "HEXA Lost Soul Sword Fundamental: Soul Strike",

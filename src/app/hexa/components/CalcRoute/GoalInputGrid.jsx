@@ -29,6 +29,16 @@ export const GoalInputGrid = ({ classKey, classDetails, skillLevels, updateSkill
                         skillType="origin"
                     />
 
+                    {/* Ascent Skill */}
+                    <SkillGroup
+                        skills={[classDetails.ascentSkill].filter(Boolean)}
+                        classKey={classKey}
+                        itemStyle={styles.originItem}
+                        skillLevels={skillLevels}
+                        updateSkillLevels={updateSkillLevels}
+                        skillType="ascent"
+                    />
+
                     <SkillGroup
                         skills={[firstMasterySkills, secondMasterySkills, thirdMasterySkills, fourthMasterySkills]}
                         classKey={classKey}

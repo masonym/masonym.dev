@@ -337,7 +337,7 @@ export const masteryDesignation = {
             "HEXA Phoenix Drive",
         ],
         "fourthMastery": [
-            "HEXA Inferno Rise",
+            "HEXA Towering Inferno",
         ]
     },
     "Mihile": {

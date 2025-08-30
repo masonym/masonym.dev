@@ -19,15 +19,17 @@ export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLeve
                     <p>Enter in your current Hexa levels:</p>
                 </div>
                 <div className={styles.gridHexaLevels}>
-                    {/* Origin Skill */}
+                    {/* Skill Nodes */}
                     <SkillGroup
-                        skills={[classDetails.originSkill]}
+                        skills={[classDetails.originSkill, classDetails.ascentSkill]}
                         classKey={classKey}
                         itemStyle={styles.originItem}
+                        columns={2}
                         skillLevels={skillLevels}
                         updateSkillLevels={updateSkillLevels}
                         skillType="origin"
                     />
+
 
                     <SkillGroup
                         skills={[firstMasterySkills, secondMasterySkills, thirdMasterySkills, fourthMasterySkills]}

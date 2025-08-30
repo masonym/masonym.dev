@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+import { ascentUpgradeCost, originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import { GoalInputGrid } from './GoalInputGrid';
 import { formatClassName, formatSkillName, formatSkillPath } from '../../utils';
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
@@ -65,6 +65,8 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
 
   const getCostTable = (skillType) => {
     switch (skillType) {
+      case 'ascent':
+        return ascentUpgradeCost;
       case 'origin':
         return originUpgradeCost;
       case 'mastery':
@@ -154,6 +156,18 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     if (desiredSkillLevels[formattedOriginSkill]) {
       orderedSkills.push(formattedOriginSkill);
     }
+
+    // Ascent skills
+    const ascentList = Array.isArray(classDetails.ascentSkills)
+      ? classDetails.ascentSkills
+      : (classDetails.ascentSkill ? [classDetails.ascentSkill] : []);
+    ascentList.forEach((skill) => {
+      if (!skill) return;
+      const formattedSkill = formatSkillPath(skill);
+      if (desiredSkillLevels[formattedSkill]) {
+        orderedSkills.push(formattedSkill);
+      }
+    });
 
     // First Mastery skills
     classMasteryDesignation.firstMastery.forEach(skill => {
