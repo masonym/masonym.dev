@@ -191,6 +191,7 @@ const LiberationCalculator = () => {
       if (boss.monthlyReset) {
         // For monthly bosses (Black Mage)
         const monthlyData = calculateMonthlyBossTraces(startDateObj, tracesPerClear, selection.clearedThisWeek);
+        console.log("Monthly Data: ", monthlyData);
         bossData.clearedThisMonth = monthlyData.clearedThisMonth;
         bossData.tracesPerMonth = monthlyData.tracesPerClear;
         bossData.tracesPerWeek = 0; // We'll handle monthly traces separately
@@ -219,10 +220,13 @@ const LiberationCalculator = () => {
 
     // Calculate days until next monthly reset (1st of the month)
     const nextMonthlyReset = getNextMonthlyResetDate(startDateObj);
+    console.log("Next Monthly Reset: ", nextMonthlyReset)
     const daysUntilMonthlyReset = Math.ceil((nextMonthlyReset - startDateObj) / (1000 * 60 * 60 * 24));
+    console.log("Days Until Monthly Reset: ", daysUntilMonthlyReset)
 
     // Check if we can complete immediately with available traces
     const totalImmediateTraces = immediateWeeklyTraces + immediateMonthlyTraces;
+    console.log("Total Immediate Traces: ", totalImmediateTraces)
     if (totalImmediateTraces >= totalTracesNeeded) {
       // Can complete on the start date itself
       const formattedCompletionDate = startDateObj.toLocaleDateString('en-US', {
@@ -253,48 +257,73 @@ const LiberationCalculator = () => {
 
     // If we have weekly traces, calculate based on weekly resets
     if (totalWeeklyTraces > 0) {
-      // First week gives us firstWeekTraces
+      // First week handling with proper monthly ordering
       let remainingTraces = totalTracesNeeded;
       let tracesCollected = 0;
       let weeksCount = 0;
       let currentDate = new Date(startDateObj);
 
-      // Add days until first Thursday reset
-      currentDate.setDate(currentDate.getDate() + daysUntilReset);
+      // Determine the first weekly reset date
+      const firstWeeklyResetDate = new Date(currentDate);
+      firstWeeklyResetDate.setDate(firstWeeklyResetDate.getDate() + daysUntilReset);
 
-      // Add traces from first week
-      tracesCollected += firstWeekTraces;
-      weeksCount = 1;
+      // 1) Add immediate monthly traces available at start (e.g., current month not cleared yet)
+      if (immediateMonthlyTraces > 0) {
+        tracesCollected += immediateMonthlyTraces;
 
-      // Check if we can get monthly traces on the same day as the first weekly reset
-      if (tracesCollected < totalTracesNeeded && totalMonthlyTraces > 0 && immediateMonthlyTraces > 0) {
-        // If Black Mage hasn't been cleared this month, we can do it on the same day as weekly reset
-        tracesCollected += totalMonthlyTraces;
-        
-        // If we now have enough traces, set completion date to the first weekly reset
         if (tracesCollected >= totalTracesNeeded) {
-          completionDate = new Date(currentDate);
-          weeksNeeded = 1;
-          
-          const formattedCompletionDate = completionDate.toLocaleDateString('en-US', {
+          const formattedCompletionDate = startDateObj.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
             timeZone: 'UTC'
           }) + ' (UTC)';
-          
+
           return {
             weeklyTraces: [...weeklyBosses, ...monthlyBosses],
             totalWeeklyTraces,
             totalMonthlyTraces,
             immediateTraces: totalImmediateTraces,
-            firstWeekTraces: firstWeekTraces + totalMonthlyTraces,
-            weeksNeeded: 1,
+            firstWeekTraces,
+            weeksNeeded: 0,
             completionDate: formattedCompletionDate,
             totalTracesNeeded
           };
         }
       }
+
+      // 2) If a monthly reset happens before or on the first weekly reset, add those monthly traces
+      if (totalMonthlyTraces > 0) {
+        const nextMonthlyFromStart = getNextMonthlyResetDate(startDateObj);
+        if (nextMonthlyFromStart <= firstWeeklyResetDate) {
+          tracesCollected += totalMonthlyTraces;
+
+          if (tracesCollected >= totalTracesNeeded) {
+            const formattedCompletionDate = nextMonthlyFromStart.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              timeZone: 'UTC'
+            }) + ' (UTC)';
+
+            return {
+              weeklyTraces: [...weeklyBosses, ...monthlyBosses],
+              totalWeeklyTraces,
+              totalMonthlyTraces,
+              immediateTraces: totalImmediateTraces,
+              firstWeekTraces,
+              weeksNeeded: 0,
+              completionDate: formattedCompletionDate,
+              totalTracesNeeded
+            };
+          }
+        }
+      }
+
+      // 3) Move to first weekly reset and add first week's weekly traces
+      currentDate = new Date(firstWeeklyResetDate);
+      tracesCollected += firstWeekTraces;
+      weeksCount = 1;
 
       // Continue adding weekly traces until we have enough
       while (tracesCollected < totalTracesNeeded) {
@@ -305,7 +334,7 @@ const LiberationCalculator = () => {
         const nextMonthReset = getNextMonthlyResetDate(currentDate);
 
         // If monthly reset happens before next weekly reset and we have monthly traces
-        if (nextMonthReset < nextWeeklyReset && totalMonthlyTraces > 0) {
+        if (nextMonthReset <= nextWeeklyReset && totalMonthlyTraces > 0) {
           // Add traces from monthly bosses
           tracesCollected += totalMonthlyTraces;
 
