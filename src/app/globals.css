@@ -80,12 +80,12 @@
  * Light mode theme 
  */
 :root[data-theme='light'] {
-	--primary-bright:	#000000;
+	--primary-bright:	hsl(205, 86%, 16%);
 	--primary: 		#252b31;
 	--primary-dim:		#5f646e;
 	--primary-dark:		#efefef;
 	--secondary: 		hsl(200, 100%, 50%);
-	--secondary-bright:	#4800ff;
+  --secondary-bright: hsl(200, 100%, 60%);
 	--background: 		hsl(0, 10%, 85%);
   --background-dim: hsl(0, 10%, 75%);
   --background-bright: hsl(0, 0%, 85%);
