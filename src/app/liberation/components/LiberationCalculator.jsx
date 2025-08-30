@@ -228,6 +228,32 @@ const LiberationCalculator = () => {
     const totalImmediateTraces = immediateWeeklyTraces + immediateMonthlyTraces;
     console.log("Total Immediate Traces: ", totalImmediateTraces)
     if (totalImmediateTraces >= totalTracesNeeded) {
+      // Build timeline for immediate completion (events occur on start date)
+      const timeline = [];
+      let remaining = totalTracesNeeded;
+
+      if (immediateMonthlyTraces > 0) {
+        const amt = Math.min(immediateMonthlyTraces, remaining);
+        remaining -= amt;
+        timeline.push({
+          date: new Date(startDateObj),
+          label: 'Monthly',
+          amount: amt,
+          remaining
+        });
+      }
+
+      if (remaining > 0 && immediateWeeklyTraces > 0) {
+        const amt = Math.min(immediateWeeklyTraces, remaining);
+        remaining -= amt;
+        timeline.push({
+          date: new Date(startDateObj),
+          label: 'Weekly',
+          amount: amt,
+          remaining
+        });
+      }
+
       // Can complete on the start date itself
       const formattedCompletionDate = startDateObj.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -244,7 +270,8 @@ const LiberationCalculator = () => {
         firstWeekTraces: totalImmediateTraces,
         weeksNeeded: 0,
         completionDate: formattedCompletionDate,
-        totalTracesNeeded
+        totalTracesNeeded,
+        timeline
       };
     }
 
@@ -263,6 +290,9 @@ const LiberationCalculator = () => {
       let weeksCount = 0;
       let currentDate = new Date(startDateObj);
 
+      const timeline = [];
+      let remaining = totalTracesNeeded;
+
       // Determine the first weekly reset date
       const firstWeeklyResetDate = new Date(currentDate);
       firstWeeklyResetDate.setDate(firstWeeklyResetDate.getDate() + daysUntilReset);
@@ -270,6 +300,14 @@ const LiberationCalculator = () => {
       // 1) Add immediate monthly traces available at start (e.g., current month not cleared yet)
       if (immediateMonthlyTraces > 0) {
         tracesCollected += immediateMonthlyTraces;
+        const amt = Math.min(immediateMonthlyTraces, remaining);
+        remaining -= amt;
+        timeline.push({
+          date: new Date(startDateObj),
+          label: 'Monthly',
+          amount: amt,
+          remaining
+        });
 
         if (tracesCollected >= totalTracesNeeded) {
           const formattedCompletionDate = startDateObj.toLocaleDateString('en-US', {
@@ -287,9 +325,23 @@ const LiberationCalculator = () => {
             firstWeekTraces,
             weeksNeeded: 0,
             completionDate: formattedCompletionDate,
-            totalTracesNeeded
+            totalTracesNeeded,
+            timeline
           };
         }
+      }
+
+      // 1b) Add immediate weekly traces available at start (not yet cleared this week)
+      if (immediateWeeklyTraces > 0) {
+        tracesCollected += immediateWeeklyTraces;
+        const amt = Math.min(immediateWeeklyTraces, remaining);
+        remaining -= amt;
+        timeline.push({
+          date: new Date(startDateObj),
+          label: 'Weekly',
+          amount: amt,
+          remaining
+        });
       }
 
       // 2) If a monthly reset happens before or on the first weekly reset, add those monthly traces
@@ -297,6 +349,15 @@ const LiberationCalculator = () => {
         const nextMonthlyFromStart = getNextMonthlyResetDate(startDateObj);
         if (nextMonthlyFromStart <= firstWeeklyResetDate) {
           tracesCollected += totalMonthlyTraces;
+
+          const amt = Math.min(totalMonthlyTraces, remaining);
+          remaining -= amt;
+          timeline.push({
+            date: new Date(nextMonthlyFromStart),
+            label: 'Monthly',
+            amount: amt,
+            remaining
+          });
 
           if (tracesCollected >= totalTracesNeeded) {
             const formattedCompletionDate = nextMonthlyFromStart.toLocaleDateString('en-US', {
@@ -314,16 +375,30 @@ const LiberationCalculator = () => {
               firstWeekTraces,
               weeksNeeded: 0,
               completionDate: formattedCompletionDate,
-              totalTracesNeeded
+              totalTracesNeeded,
+              timeline
             };
           }
         }
       }
 
-      // 3) Move to first weekly reset and add first week's weekly traces
+      // 3) Move to first weekly reset and add first week's weekly traces (excluding immediate weekly already added)
       currentDate = new Date(firstWeeklyResetDate);
-      tracesCollected += firstWeekTraces;
+      const firstWeekPayout = totalWeeklyTraces;
+      tracesCollected += firstWeekPayout;
       weeksCount = 1;
+
+      // Add timeline entry for first weekly payout
+      if (firstWeekPayout > 0) {
+        const amt = Math.min(firstWeekPayout, remaining);
+        remaining -= amt;
+        timeline.push({
+          date: new Date(firstWeeklyResetDate),
+          label: 'Weekly',
+          amount: amt,
+          remaining
+        });
+      }
 
       // Continue adding weekly traces until we have enough
       while (tracesCollected < totalTracesNeeded) {
@@ -338,6 +413,15 @@ const LiberationCalculator = () => {
           // Add traces from monthly bosses
           tracesCollected += totalMonthlyTraces;
 
+          const amt = Math.min(totalMonthlyTraces, remaining);
+          remaining -= amt;
+          timeline.push({
+            date: new Date(nextMonthReset),
+            label: 'Monthly',
+            amount: amt,
+            remaining
+          });
+
           // If we now have enough traces, set completion date to monthly reset
           if (tracesCollected >= totalTracesNeeded) {
             completionDate = nextMonthReset;
@@ -347,6 +431,16 @@ const LiberationCalculator = () => {
 
         // Add weekly traces
         tracesCollected += totalWeeklyTraces;
+        if (totalWeeklyTraces > 0) {
+          const amt = Math.min(totalWeeklyTraces, remaining);
+          remaining -= amt;
+          timeline.push({
+            date: new Date(nextWeeklyReset),
+            label: 'Weekly',
+            amount: amt,
+            remaining
+          });
+        }
         weeksCount++;
 
         // Move to next week
@@ -359,21 +453,75 @@ const LiberationCalculator = () => {
       }
 
       weeksNeeded = weeksCount;
+
+      // Format the completion date for display (UTC)
+      const formattedCompletionDate = completionDate ? completionDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC'
+      }) + ' (UTC)' : "Never (no traces)";
+
+      return {
+        weeklyTraces,
+        totalWeeklyTraces,
+        totalMonthlyTraces,
+        immediateTraces: totalImmediateTraces,
+        firstWeekTraces,
+        weeksNeeded,
+        completionDate: formattedCompletionDate,
+        totalTracesNeeded,
+        timeline
+      };
     }
     // If we only have monthly traces
     else if (totalMonthlyTraces > 0) {
       let remainingTraces = totalTracesNeeded;
       let monthsNeeded = Math.ceil(remainingTraces / totalMonthlyTraces);
 
+      const timeline = [];
+      let remaining = totalTracesNeeded;
+
       // Start with the next monthly reset
       completionDate = getNextMonthlyResetDate(startDateObj);
 
       // Add months as needed
-      for (let i = 1; i < monthsNeeded; i++) {
-        completionDate.setUTCMonth(completionDate.getUTCMonth() + 1);
+      for (let i = 0; i < monthsNeeded; i++) {
+        const eventDate = new Date(completionDate);
+        const amt = Math.min(totalMonthlyTraces, remaining);
+        remaining -= amt;
+        timeline.push({
+          date: eventDate,
+          label: 'Monthly',
+          amount: amt,
+          remaining
+        });
+
+        if (i < monthsNeeded - 1) {
+          completionDate.setUTCMonth(completionDate.getUTCMonth() + 1);
+        }
       }
 
       weeksNeeded = monthsNeeded * 4.35; // Approximate weeks for display
+
+      const formattedCompletionDate = completionDate ? completionDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC'
+      }) + ' (UTC)' : "Never (no traces)";
+
+      return {
+        weeklyTraces,
+        totalWeeklyTraces,
+        totalMonthlyTraces,
+        immediateTraces: totalImmediateTraces,
+        firstWeekTraces,
+        weeksNeeded,
+        completionDate: formattedCompletionDate,
+        totalTracesNeeded,
+        timeline
+      };
     }
     // No traces at all
     else {
@@ -397,7 +545,8 @@ const LiberationCalculator = () => {
       firstWeekTraces,
       weeksNeeded,
       completionDate: formattedCompletionDate,
-      totalTracesNeeded
+      totalTracesNeeded,
+      timeline: []
     };
   };
 
@@ -654,8 +803,29 @@ const LiberationCalculator = () => {
 
             </div>
           </div>
+
         </div>
       </div>
+          {/* Schedule Timeline */}
+          <div className="space-y-2 mt-4">
+            <h3 className="text-xl font-medium text-primary-bright">Schedule Timeline</h3>
+            <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-2">
+              {scheduleResults.timeline && scheduleResults.timeline.length > 0 ? (
+                scheduleResults.timeline.map((ev, idx) => (
+                  <div key={idx} className="flex justify-between items-center py-1">
+                    <div className="text-primary-bright text-sm sm:text-base">
+                      {ev.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })} - {ev.label}
+                    </div>
+                    <div className="text-primary-bright font-bold text-sm sm:text-base">
+                      +{Number(ev.amount).toFixed(0)} (remaining {Number(ev.remaining).toFixed(0)})
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-primary-bright text-sm opacity-75">No accrual events yet.</div>
+              )}
+            </div>
+          </div>
     </div>
   );
 };
