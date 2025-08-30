@@ -39,7 +39,7 @@ const RequirementTooltip = ({ type, requirement }) => {
     }
 
     return (
-        <div className="overflow-visible absolute bottom-full mb-2 w-48 bg-gray-900 border border-gray-700 text-white text-sm rounded-lg shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-100 left-1/2 -translate-x-1/2">
+        <div className="overflow-visible absolute bottom-full mb-2 w-48 bg-background-dim border border-primary-dim text-primary-bright text-sm rounded-lg shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-100 left-1/2 -translate-x-1/2">
             <div className="font-bold text-center mb-1">{type} Damage Bonus</div>
             <ul className="space-y-1">
                 {breakpoints.map((bp, index) => (
@@ -49,7 +49,7 @@ const RequirementTooltip = ({ type, requirement }) => {
                     </li>
                 ))}
             </ul>
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-[-4px] w-2 h-2 bg-gray-900 transform rotate-45"></div>
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-[-4px] w-2 h-2 bg-background-dim transform rotate-45"></div>
         </div>
     );
 };
@@ -86,7 +86,7 @@ const BossCard = ({ boss }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="bg-primary-dark rounded-2xl shadow-lg border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300"
+            className="bg-primary-dark rounded-2xl shadow-lg border border-primary-dim/50 hover:border-secondary/50 transition-all duration-300"
         >
             <div className="p-5 flex flex-col gap-4">
                 <div className="relative h-20 w-full mb-2">
@@ -104,7 +104,7 @@ const BossCard = ({ boss }) => {
                         <button
                             key={diff.name}
                             onClick={() => setActiveDifficulty(diff.name)}
-                            className={`px-3 py-1 text-sm rounded-full transition-colors duration-200 ${activeDifficulty === diff.name ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700'}`}>
+                            className={`px-3 py-1 text-sm rounded-full transition-colors duration-200 ${activeDifficulty === diff.name ? 'bg-secondary text-primary-dark' : 'text-primary hover:bg-background-dim'}`}>
                             {diff.name}
                         </button>
                     ))}
@@ -114,16 +114,16 @@ const BossCard = ({ boss }) => {
                     <div className="flex flex-col gap-3 text-sm text-primary-bright">
                         <div className={`grid ${requirementValue ? 'grid-cols-3' : 'grid-cols-2'} gap-2 text-center`}>
                             <div className="bg-background-bright p-2 rounded-lg">
-                                <div className="font-bold text-gray-400 text-xs">Level</div>
+                                <div className="font-bold text-primary text-xs">Level</div>
                                 <div>{activeDiffData.level || boss.level}</div>
                             </div>
                             <div className="bg-background-bright p-2 rounded-lg">
-                                <div className="font-bold text-gray-400 text-xs">PDR</div>
+                                <div className="font-bold text-primary text-xs">PDR</div>
                                 <div>{activeDiffData.pdr || boss.pdr}</div>
                             </div>
                             {requirementValue && (
                                 <div className="relative group bg-background-bright p-2 rounded-lg cursor-pointer">
-                                    <div className="font-bold text-gray-400 text-xs">{requirementType}</div>
+                                    <div className="font-bold text-primary text-xs">{requirementType}</div>
                                     <div>{requirementValue}</div>
                                     <RequirementTooltip type={requirementType} requirement={requirementValue} />
                                 </div>
@@ -168,11 +168,11 @@ const HPBar = ({ hpPhases }) => {
                         <div className="flex justify-between text-xs text-primary-bright">
                             {phase.note ? <span>{phase.note}</span> : <span>Phase {i + 1}</span>}
                         </div>
-                        <div className={`w-full h-5 bg-gray-700 rounded overflow-hidden flex text-primary-bright text-center text-nowrap font-mono ${segments > 3 ? 'text-[8px] sm:text-[11px]' : 'text-[10px] sm:text-[14px]'}`}>
+                        <div className={`w-full h-5 bg-background-dim rounded overflow-hidden flex text-primary-bright text-center text-nowrap font-mono ${segments > 3 ? 'text-[8px] sm:text-[11px]' : 'text-[10px] sm:text-[14px]'}`}>
                             {Array.from({ length: segments }).map((_, j) => (
                                 <div
                                     key={j}
-                                    className="flex-1 border-r border-gray-900 last:border-r-0 bg-red-600 flex items-center justify-center"
+                                    className="flex-1 border-r border-background last:border-r-0 bg-progress-red text-white flex items-center justify-center"
                                     title={`Segment ${j + 1}: ${formatLongformNumber(perSegmentHP)}`}
                                 >
                                     {formatLongformNumber(perSegmentHP)}
@@ -205,7 +205,7 @@ const BossesPageClient = () => {
         <div className="container mx-auto px-4 py-8">
             <div className="text-center mb-8">
                 <h1 className="text-5xl font-bold text-primary-bright tracking-tight">Boss Tracker</h1>
-                <p className="text-lg text-gray-400 mt-2 max-w-2xl mx-auto">An overview of MapleStory bosses, their stats, and HP values.</p>
+                <p className="text-lg text-primary-dim mt-2 max-w-2xl mx-auto">An overview of MapleStory bosses, their stats, and HP values.</p>
             </div>
 
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
@@ -214,7 +214,7 @@ const BossesPageClient = () => {
                     placeholder="Search for a boss..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full md:w-1/3 bg-background-bright text-primary-bright rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full md:w-1/3 bg-background-dark text-primary-dim rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-secondary"
                 />
                 <div className="flex items-center gap-4">
                     <label className="flex items-center cursor-pointer">
@@ -225,8 +225,8 @@ const BossesPageClient = () => {
                                 checked={hidePreLomien}
                                 onChange={() => setHidePreLomien(!hidePreLomien)}
                             />
-                            <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
-                            <div className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${hidePreLomien ? 'transform translate-x-full bg-blue-500' : ''}`}></div>
+                            <div className="block bg-background-dim w-14 h-8 rounded-full"></div>
+                            <div className={`dot absolute left-1 top-1 bg-primary-dark w-6 h-6 rounded-full transition ${hidePreLomien ? 'transform translate-x-full bg-secondary' : ''}`}></div>
                         </div>
                         <div className="ml-3 text-primary-bright font-medium">
                             Hide pre-Lomien
@@ -241,8 +241,8 @@ const BossesPageClient = () => {
                 ))}
             </div>
 
-            <footer className="text-center mt-12 text-gray-500 text-sm">
-                <p>Disclaimer: Boss HP values are estimated and sourced from the <a href="https://maplestory.wiki/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">MapleStory Wiki</a>.</p>
+            <footer className="text-center mt-12 text-primary-dim text-sm">
+                <p>Disclaimer: Boss HP values are estimated and sourced from the <a href="https://maplestory.wiki/" target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-secondary-bright hover:underline">MapleStory Wiki</a>.</p>
             </footer>
         </div>
     );

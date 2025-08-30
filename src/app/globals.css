@@ -91,7 +91,7 @@
   --background-bright: hsl(0, 0%, 85%);
   --footer-text: #2c5f2d;
 
-  --progress-red: hsl(0, 100%, 40%);
+  --progress-red: hsla(0, 82%, 51%, 0.807);
   --progress-orange: hsl(26, 100%, 45%);;
   --progress-yellow: hsl(54, 100%, 50%);
   --progress-green: hsl(120, 100%, 25%);
