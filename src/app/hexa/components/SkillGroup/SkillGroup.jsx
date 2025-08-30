@@ -18,7 +18,6 @@ export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, colu
             {skills
                 .filter(skillSet => skillSet && skillSet.length > 0)
                 .map((skillSet, index) => {
-                    console.log(skillSet)
                     const skillName = Array.isArray(skillSet) ? formatSkillPath(skillSet[0]) : formatSkillPath(skillSet);
 
                     return (

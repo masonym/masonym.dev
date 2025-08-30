@@ -21,22 +21,13 @@ export const GoalInputGrid = ({ classKey, classDetails, skillLevels, updateSkill
                 <div className={styles.gridHexaLevels}>
                     {/* Origin Skill */}
                     <SkillGroup
-                        skills={[classDetails.originSkill]}
+                        skills={[classDetails.originSkill, classDetails.ascentSkill]}
                         classKey={classKey}
                         itemStyle={styles.originItem}
+                        columns={2}
                         skillLevels={skillLevels}
                         updateSkillLevels={updateSkillLevels}
-                        skillType="origin"
-                    />
-
-                    {/* Ascent Skill */}
-                    <SkillGroup
-                        skills={[classDetails.ascentSkill].filter(Boolean)}
-                        classKey={classKey}
-                        itemStyle={styles.originItem}
-                        skillLevels={skillLevels}
-                        updateSkillLevels={updateSkillLevels}
-                        skillType="ascent"
+                        skillType="skill"
                     />
 
                     <SkillGroup

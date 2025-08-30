@@ -7,7 +7,7 @@ import Image from "next/image";
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
 import CalcRoute from "../CalcRoute/CalcRoute";
-import { ascentUpgradeCost, originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+import { skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import { formatSkillToUnderscores } from "../../utils";
 
 const ClassSelector = () => {
@@ -45,9 +45,9 @@ const ClassSelector = () => {
       const classDetails = classes[classKey];
       if (classDetails) {
         const initialLevels = {};
-        initialLevels[formatSkillToUnderscores(classDetails.originSkill)] = { level: 1, type: 'origin' };
+        initialLevels[formatSkillToUnderscores(classDetails.originSkill)] = { level: 1, type: 'skill' };
         if (classDetails.ascentSkill) {
-          initialLevels[formatSkillToUnderscores(classDetails.ascentSkill)] = { level: 0, type: 'ascent' };
+          initialLevels[formatSkillToUnderscores(classDetails.ascentSkill)] = { level: 0, type: 'skill' };
         }
         classDetails.masterySkills.forEach(skill => {
           initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'mastery' };
@@ -163,16 +163,19 @@ const ClassSelector = () => {
 
   const getCostTable = (skillType) => {
     switch (skillType) {
-      case 'ascent':
-        return ascentUpgradeCost;
-      case 'origin':
-        return originUpgradeCost;
+      case 'skill':
+        return skillUpgradeCost;
       case 'mastery':
         return masteryUpgradeCost;
       case 'common':
         return commonUpgradeCost;
       case 'enhancement':
         return enhancementUpgradeCost;
+      // these two are legacy fixes for stale user localstorage data
+      case 'origin':
+        return skillUpgradeCost;
+      case 'ascent':
+        return skillUpgradeCost;
       default:
         console.error('Unknown skill type');
         return [];

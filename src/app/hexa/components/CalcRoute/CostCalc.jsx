@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { ascentUpgradeCost, originUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+import { skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import { GoalInputGrid } from './GoalInputGrid';
 import { formatClassName, formatSkillName, formatSkillPath } from '../../utils';
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
@@ -65,16 +65,19 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
 
   const getCostTable = (skillType) => {
     switch (skillType) {
-      case 'ascent':
-        return ascentUpgradeCost;
-      case 'origin':
-        return originUpgradeCost;
+      case 'skill':
+        return skillUpgradeCost;
       case 'mastery':
         return masteryUpgradeCost;
       case 'common':
         return commonUpgradeCost;
       case 'enhancement':
         return enhancementUpgradeCost;
+      // these two are legacy fixes for stale user localstorage data
+      case 'origin':
+        return skillUpgradeCost;
+      case 'ascent':
+        return skillUpgradeCost;
       default:
         console.error('Unknown skill type');
         return [];

@@ -191,7 +191,6 @@ const GenesisLiberationCalculator = () => {
       if (boss.monthlyReset) {
         // For monthly bosses (Black Mage)
         const monthlyData = calculateMonthlyBossTraces(startDateObj, tracesPerClear, selection.clearedThisWeek);
-        console.log("Monthly Data: ", monthlyData);
         bossData.clearedThisMonth = monthlyData.clearedThisMonth;
         bossData.tracesPerMonth = monthlyData.tracesPerClear;
         bossData.tracesPerWeek = 0; // We'll handle monthly traces separately
@@ -220,13 +219,10 @@ const GenesisLiberationCalculator = () => {
 
     // Calculate days until next monthly reset (1st of the month)
     const nextMonthlyReset = getNextMonthlyResetDate(startDateObj);
-    console.log("Next Monthly Reset: ", nextMonthlyReset)
     const daysUntilMonthlyReset = Math.ceil((nextMonthlyReset - startDateObj) / (1000 * 60 * 60 * 24));
-    console.log("Days Until Monthly Reset: ", daysUntilMonthlyReset)
 
     // Check if we can complete immediately with available traces
     const totalImmediateTraces = immediateWeeklyTraces + immediateMonthlyTraces;
-    console.log("Total Immediate Traces: ", totalImmediateTraces)
     if (totalImmediateTraces >= totalTracesNeeded) {
       // Build timeline for immediate completion (events occur on start date)
       const timeline = [];

@@ -27,7 +27,7 @@ export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLeve
                         columns={2}
                         skillLevels={skillLevels}
                         updateSkillLevels={updateSkillLevels}
-                        skillType="origin"
+                        skillType="skill"
                     />
 
 

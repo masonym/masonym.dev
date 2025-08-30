@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Optimizer from './Optimizer'
 import CostCalc from './CostCalc'
 
 const CalcRoute = ({ selectedClass, classDetails, skillLevels }) => {
