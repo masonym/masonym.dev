@@ -37,6 +37,9 @@ const NavBar = () => {
         <Link href="/about">
           About
         </Link>
+        <Link href="/changelog" className="ml-5">
+          Changelog
+        </Link>
       </div>
       <div className="flex flex-1 justify-end items-center">
         <ModeToggle />
