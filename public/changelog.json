@@ -1,0 +1,106 @@
+[
+  {
+    "slug": "2025-08-30-changelog",
+    "title": "Changelog",
+    "date": "2025-08-30T23:30:00.000Z",
+    "tool": "changelog",
+    "category": "added",
+    "tags": [
+      "changelog"
+    ],
+    "author": "mason",
+    "summary": "Added a changelog tool to the site. It's the page you're currently on!",
+    "detailsHtml": ""
+  },
+  {
+    "slug": "2025-08-30-hexa",
+    "title": "Updates to Hexa tool",
+    "date": "2025-08-30T23:00:00.000Z",
+    "tool": "hexa",
+    "category": "updated",
+    "tags": [
+      "hexa"
+    ],
+    "author": "mason",
+    "summary": "Fixed some broken m3/m4 images, added Sia Astelle (kind of!), Len, and Ascent Skills",
+    "detailsHtml": "<h2>What Changed</h2>\n<ul>\n<li>Sia Astelle: Added to the list of available classes for the current skills she has. I don&#39;t really know all the nuances of Erda Link and I am too lazy to create a custom solution for her 💀</li>\n<li>Ren/Len: Added to the list of available classes. Will likely need to change many of the names when they get localized to GMS.</li>\n<li>General: Ascent skills for all classes have been added. This may need to be localized as well. For classes without an ascent skill (non-KMS classes), the space where it would appear will be blank.</li>\n</ul>\n<h2>Fixes:</h2>\n<ul>\n<li>There were a few broken M3/M4 images that I never noticed - these are now fixed.</li>\n<li>The origin upgrade cost table was wrong and over-counting Sol Erda (not fragments) for the level 1 -&gt; 2 upgrade.</li>\n</ul>\n"
+  },
+  {
+    "slug": "2025-08-30-bosses",
+    "title": "Updates and improvements to Bosses info",
+    "date": "2025-08-30T22:00:00.000Z",
+    "tool": "bosses",
+    "category": "updated",
+    "tags": [
+      "bosses"
+    ],
+    "author": "mason",
+    "summary": "Improved styling (mostly for light-mode) for the bosses page",
+    "detailsHtml": "<h2>What Changed</h2>\n<ul>\n<li>Boss cards with a lot of difficulties should now have better responsiveness instead of overflowing</li>\n<li>Boss cards per row changed from 5 at max to 4</li>\n<li>Added accent colours in line with other parts of the site </li>\n<li>Fixed a lot of ugly things on light mode</li>\n<li>Added Baldrix data. Image unavailable until it becomes available in the files.</li>\n</ul>\n"
+  },
+  {
+    "slug": "2025-08-30-liberation",
+    "title": "Additions and fixes to Liberation calculator",
+    "date": "2025-08-30T20:00:00.000Z",
+    "tool": "liberation",
+    "category": "updated",
+    "tags": [
+      "liberation"
+    ],
+    "author": "mason",
+    "summary": "Fixed an edge case with monthly traces, added schedule timeline, added Destiny liberation",
+    "detailsHtml": "<h2>What Changed</h2>\n<ul>\n<li>Fixed an oversight causing the calculator to incorrectly miss BM runs in certain cases.</li>\n<li>Added a &quot;Schedule Timeline&quot; section to the calculator that breaks down your weekly/monthly trace acquisition.</li>\n<li>Added a new tab to the calculator for Destiny Liberation.</li>\n</ul>\n"
+  },
+  {
+    "slug": "2025-07-16-hexa",
+    "title": "Updates to Hexa tool",
+    "date": "2025-07-16T23:00:00.000Z",
+    "tool": "hexa",
+    "category": "updated",
+    "tags": [
+      "hexa"
+    ],
+    "author": "mason",
+    "summary": "Added M3/M4 for Kanna, Lynn, Hayato, and Mo Xuan",
+    "detailsHtml": ""
+  },
+  {
+    "slug": "2025-06-23-bosses",
+    "title": "Updates and improvements to Bosses info",
+    "date": "2025-06-23T22:00:00.000Z",
+    "tool": "bosses",
+    "category": "updated",
+    "tags": [
+      "bosses"
+    ],
+    "author": "mason",
+    "summary": "Changes to layout and styling",
+    "detailsHtml": "<h2>What Changed</h2>\n<ul>\n<li>The styling is a little less ugly!</li>\n<li>Added a search bar</li>\n<li>Separated the &quot;AF/SAC&quot; tab into AF and SAC depending on the boss</li>\n<li>Added hover tooltips for AF/SAC damage increase breakpoints</li>\n<li>Added HP segmenting for bosses with segments</li>\n<li>Added local storage saving for difficulties to persist on future visits/refreshes</li>\n</ul>\n"
+  },
+  {
+    "slug": "2025-06-15-liberation",
+    "title": "Liberation Calculator",
+    "date": "2025-06-15T20:00:00.000Z",
+    "tool": "liberation",
+    "category": "added",
+    "tags": [
+      "liberation"
+    ],
+    "author": "mason",
+    "summary": "Added a tool for planning your liberation timeline",
+    "detailsHtml": "<h2>Overview</h2>\n<ul>\n<li>This tool is heavily inspired by <a href=\"https://mapleroad.kr/utils/liberation\">MapleRoad&#39;s Liberation Calculator</a>. </li>\n<li>Allows the user to see when they will liberate based on the bosses they will be clearing and their start date.</li>\n</ul>\n<h2>Link</h2>\n<ul>\n<li>Check out the tool <a href=\"/liberation\">/liberation</a></li>\n</ul>\n"
+  },
+  {
+    "slug": "2025-06-12-cash-shop",
+    "title": "Cash Shop item fixes",
+    "date": "2025-06-12T20:00:00.000Z",
+    "tool": "cash-shop",
+    "category": "fix",
+    "tags": [
+      "fixed"
+    ],
+    "author": "mason",
+    "summary": "Fixed an issue caused by Nexon adding new worlds",
+    "detailsHtml": "<h2>What Changed</h2>\n<ul>\n<li>Item tooltips for Cash Shop sales were parsing which world the item was sold in incorrectly, since Nexon added new world IDs and broke my parsing.</li>\n</ul>\n"
+  }
+]

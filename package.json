@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node ./src/scripts/build-changelog.js && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -17,6 +17,7 @@
     "@next/mdx": "^14.2.32",
     "axios": "^1.7.4",
     "framer-motion": "^12.19.1",
+    "fs": "^0.0.1-security",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.428.0",
     "marked": "^12.0.2",
@@ -24,6 +25,7 @@
     "next": "14.2.5",
     "next-google-adsense": "^1.0.13",
     "next-sitemap": "^4.2.3",
+    "path": "^0.12.7",
     "react": "^18.3.1",
     "react-dom": "^18",
     "react-dropzone": "^14.3.5",
@@ -38,5 +40,10 @@
     "eslint-config-next": "14.2.5",
     "postcss": "^8.4.41",
     "tailwindcss": "^3.4.10"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }
