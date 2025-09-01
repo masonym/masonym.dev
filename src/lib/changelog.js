@@ -3,6 +3,8 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 
+export const runtime = 'edge';
+
 const CHANGELOG_DIR = path.join(process.cwd(), 'src', 'content', 'changelog');
 
 export function getAllChangelogEntries({ tool, category } = {}) {
