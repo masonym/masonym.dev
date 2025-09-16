@@ -114,33 +114,40 @@ export const formatPriceDisplay = (originalPrice, price, sn_id, discount) => {
 };
 
 export const worldNumbersToString = (worldNumbers) => {
-  // 48 and 49 and Challenger Interactive
-  // 52 and 54 are Challenger Heroic
-  // 45 and 46 are Heroic 
-  // The rest are interactive
-  let worldText = "Sold in "
+  const worlds = new Set(worldNumbers.split('/').map(Number));
 
-  if (worldNumbers == "0/1/17/18/30/45/46/70/48/49/52/54") {
-    worldText += "Interactive and Heroic worlds"
+  const WORLD_TYPES = {
+    challengerInteractive: [48, 49],
+    challengerHeroic: [52, 54],
+    heroic: [45, 46, 70],
+    interactive: [0, 1, 17, 18, 19, 30] // Added 19 here for new world merge
+  };
+
+  const hasAnyFromType = (typeWorlds) => typeWorlds.some(world => worlds.has(world));
+  const hasAllFromType = (typeWorlds) => typeWorlds.every(world => worlds.has(world));
+
+  const hasInteractive = hasAnyFromType(WORLD_TYPES.interactive);
+  const hasHeroic = hasAnyFromType([...WORLD_TYPES.heroic, ...WORLD_TYPES.challengerHeroic]);
+  const hasChallengerInteractive = hasAllFromType(WORLD_TYPES.challengerInteractive);
+  const hasChallengerHeroic = hasAllFromType(WORLD_TYPES.challengerHeroic);
+
+  if (hasInteractive && hasHeroic) {
+    return "Sold in Interactive and Heroic worlds";
   }
 
-  else if (worldNumbers == "48/49") {
-    worldText += "Challenger Interactive worlds only"
+  if (hasHeroic && !hasInteractive) {
+    return "Sold in Heroic worlds only";
   }
 
-  else if (worldNumbers == "52/54") {
-    worldText += "Challenger Heroic worlds only"
+  if (hasChallengerInteractive) {
+    return "Sold in Challenger Interactive worlds only";
   }
 
-  else if (worldNumbers == "45/46/70/52/54") {
-    worldText += "Heroic worlds only"
+  if (hasChallengerHeroic) {
+    return "Sold in Challenger Heroic worlds only";
   }
 
-  else {
-    worldText += "Interactive worlds only"
-  }
-
-  return worldText;
+  return "Sold in Interactive worlds only";
 };
 
 
