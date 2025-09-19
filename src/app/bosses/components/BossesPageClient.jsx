@@ -131,7 +131,7 @@ const BossCard = ({ boss }) => {
                         </div>
 
                         <div className="bg-background-bright rounded-lg p-3">
-                            <HPBar hpPhases={activeDiffData.hpPhases} />
+                            <HPBar hpPhases={activeDiffData.hpPhases} defaultLevel={activeDiffData.level || boss.level} defaultSac={activeDiffData?.sacRequirement ?? boss.sacRequirement} />
                             <div className="flex items-center text-xs justify-center gap-2 text-primary-bright mt-3">
                                 <Image
                                     src="/bossDifficulties/blue_dot.png"
@@ -152,7 +152,13 @@ const BossCard = ({ boss }) => {
     );
 };
 
-const HPBar = ({ hpPhases }) => {
+const HexIcon = ({ className = 'h-4 w-4 text-secondary' }) => (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" focusable="false">
+        <polygon points="12,2 21,7 21,17 12,22 3,17 3,7" fill="currentColor" />
+    </svg>
+);
+
+const HPBar = ({ hpPhases, defaultLevel, defaultSac }) => {
     const totalHP = calculateTotalHP(hpPhases);
     return (
         <div className="flex flex-col gap-3 w-full">
@@ -163,10 +169,21 @@ const HPBar = ({ hpPhases }) => {
             {hpPhases.map((phase, i) => {
                 const segments = phase.segments ?? 1;
                 const perSegmentHP = phase.hp / segments;
+                const phaseLevel = phase.level ?? defaultLevel;
+                const phaseSac = phase.sac ?? defaultSac;
                 return (
                     <div key={i} className="flex flex-col gap-1">
-                        <div className="flex justify-between text-xs text-primary-bright">
-                            {phase.note ? <span>{phase.note}</span> : <span>Phase {i + 1}</span>}
+                        <div className="flex justify-between items-center text-xs text-primary-bright">
+                            <span>{phase.note ? phase.note : `Phase ${i + 1}`}</span>
+                            <div className="flex items-center gap-3">
+                                <span className="uppercase tracking-wide">LV: {phaseLevel}</span>
+                                {phaseSac !== undefined && (
+                                    <span className="flex items-center gap-1" title={`SAC: ${phaseSac}`}>
+                                        <HexIcon className="h-3.5 w-3.5 text-secondary" />
+                                        <span>{phaseSac}</span>
+                                    </span>
+                                )}
+                            </div>
                         </div>
                         <div className={`w-full h-5 bg-background-dim rounded overflow-hidden flex text-primary-bright text-center text-nowrap font-mono ${segments > 3 ? 'text-[8px] sm:text-[11px]' : 'text-[10px] sm:text-[14px]'}`}>
                             {Array.from({ length: segments }).map((_, j) => (

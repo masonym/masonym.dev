@@ -428,7 +428,7 @@ export const bossData = [
                 name: "Normal",
                 hp: formatShortformNumber("208T"),
                 hpPhases: [
-                    { hp: formatShortformNumber("52.5T") },
+                    { hp: formatShortformNumber("52.5T"), sac: 150 },
                     { hp: formatShortformNumber("155.5T") }
                 ],
                 sacRequirement: 200,
@@ -437,7 +437,7 @@ export const bossData = [
             {
                 name: "Hard",
                 hpPhases: [
-                    { hp: formatShortformNumber("126T") },
+                    { hp: formatShortformNumber("126T"), sac: 150 },
                     { hp: formatShortformNumber("357T") }
                 ],
                 sacRequirement: 200,
@@ -446,7 +446,7 @@ export const bossData = [
             {
                 name: "Extreme",
                 hpPhases: [
-                    { hp: formatShortformNumber("1.32Q") },
+                    { hp: formatShortformNumber("1.32Q"), level: 275, sac: 150 },
                     { hp: formatShortformNumber("5.16Q") }
                 ],
                 sacRequirement: 200,
@@ -470,7 +470,7 @@ export const bossData = [
             {
                 name: "Normal",
                 hpPhases: [
-                    { hp: formatShortformNumber("336T") },
+                    { hp: formatShortformNumber("336T"), sac: 250, level: 275 },
                     { hp: formatShortformNumber("720T"), segments: 4 }
                 ],
                 level: 280,
@@ -605,10 +605,10 @@ export const bossData = [
             {
                 name: "Hard",
                 hpPhases: [
-                    { hp: formatShortformNumber("63T") },
+                    { hp: formatShortformNumber("63T"), level: 265 },
                     { hp: formatShortformNumber("115.5T") },
                     { hp: formatShortformNumber("157.5T") },
-                    { hp: formatShortformNumber("136.5T") },
+                    { hp: formatShortformNumber("136.5T"), level: 265 },
                 ],
                 level: 275,
                 afRequirement: 1320,
@@ -616,7 +616,7 @@ export const bossData = [
             {
                 name: "Extreme",
                 hpPhases: [
-                    { hp: formatShortformNumber("1.18Q") },
+                    { hp: formatShortformNumber("1.18Q"), level: 275, },
                     { hp: formatShortformNumber("1.19Q") },
                     { hp: formatShortformNumber("1.285Q") },
                     { hp: formatShortformNumber("1.152Q") },
