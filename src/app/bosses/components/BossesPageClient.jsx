@@ -123,7 +123,14 @@ const BossCard = ({ boss }) => {
                             </div>
                             {requirementValue && (
                                 <div className="relative group bg-background-bright p-2 rounded-lg cursor-pointer">
-                                    <div className="font-bold text-primary text-xs">{requirementType}</div>
+                                    <div className="font-bold text-primary text-xs flex items-center justify-center gap-1">
+                                        {requirementType === 'SAC' ? (
+                                            <HexIcon className="h-3.5 w-3.5 text-secondary" />
+                                        ) : (
+                                            <CircleIcon className="h-3 w-3 text-secondary" />
+                                        )}
+                                        <span>{requirementType}</span>
+                                    </div>
                                     <div>{requirementValue}</div>
                                     <RequirementTooltip type={requirementType} requirement={requirementValue} />
                                 </div>
@@ -155,6 +162,12 @@ const BossCard = ({ boss }) => {
 const HexIcon = ({ className = 'h-4 w-4 text-secondary' }) => (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true" focusable="false">
         <polygon points="12,2 21,7 21,17 12,22 3,17 3,7" fill="currentColor" />
+    </svg>
+);
+
+const CircleIcon = ({ className = 'h-4 w-4 text-primary' }) => (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="10" fill="currentColor" />
     </svg>
 );
 
