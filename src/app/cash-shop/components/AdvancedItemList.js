@@ -167,6 +167,9 @@ function AdvancedItemList() {
             <h4 className="text-center text-xl my-5 mb-8 italic text-primary">
                 Last Updated for v.263 (September 24th, 2025)
             </h4>
+            <div className="max-w-xl mx-auto mb-6 px-4 py-2 rounded-md bg-yellow-100 border border-yellow-300 text-yellow-800 text-center text-sm">
+                hi some images are broken right now - working on a fix :)
+            </div>
 
             <FilterControls
                 filters={filters}
