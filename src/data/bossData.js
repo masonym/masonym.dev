@@ -526,10 +526,10 @@ export const bossData = [
             {
                 name: "Hard",
                 hpPhases: [
-                    { hp: formatShortformNumber("3.6Q"), segments: 3, note: "Phase 1: Perils" },
-                    { hp: formatShortformNumber("1.86Q") },
-                    { hp: formatShortformNumber("3.24Q"), note: "Phase 3: Kaling" },
-                    { hp: formatShortformNumber("7.26Q"), segments: 3, note: "Phase 3: Perils" }
+                    { hp: formatShortformNumber("2.76Q"), segments: 3, note: "Phase 1: Perils" },
+                    { hp: formatShortformNumber("1.4Q") },
+                    { hp: formatShortformNumber("2.446Q"), note: "Phase 3: Kaling" },
+                    { hp: formatShortformNumber("5.48Q"), segments: 3, note: "Phase 3: Perils" }
                 ],
                 sacRequirement: 350,
                 level: 285,
@@ -537,10 +537,10 @@ export const bossData = [
             {
                 name: "Extreme",
                 hpPhases: [
-                    { hp: formatShortformNumber("22.05Q"), segments: 3, note: "Phase 1: Perils" },
-                    { hp: formatShortformNumber("8.4Q") },
-                    { hp: formatShortformNumber("10.5Q"), note: "Phase 3: Kaling" },
-                    { hp: formatShortformNumber("25.2Q"), segments: 3, note: "Phase 3: Perils" }
+                    { hp: formatShortformNumber("18.2Q"), segments: 3, note: "Phase 1: Perils" },
+                    { hp: formatShortformNumber("6.93Q") },
+                    { hp: formatShortformNumber("8.662Q"), note: "Phase 3: Kaling" },
+                    { hp: formatShortformNumber("20.8Q"), segments: 3, note: "Phase 3: Perils" }
                 ],
                 sacRequirement: 480,
                 level: 285,
