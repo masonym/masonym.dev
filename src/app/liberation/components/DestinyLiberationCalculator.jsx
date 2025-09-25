@@ -51,7 +51,7 @@ const BOSS_DATA = [
     ],
   },
   {
-    id: "Baldrix",
+    id: "baldrix",
     name: "Baldrix",
     difficulties: [
       { name: 'None', traces: 0 },
