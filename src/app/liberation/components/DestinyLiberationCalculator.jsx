@@ -346,7 +346,7 @@ const DestinyLiberationCalculator = () => {
 
           {/* Current Traces */}
           <div className="space-y-2 flex flex-col items-center justify-center">
-            <label className="block text-primary-bright font-medium">Current Adversary's Resolve</label>
+            <label className="block text-primary-bright font-medium">Current Adversary's Determination</label>
             <input
               type="number"
               className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-gray-700"
@@ -480,11 +480,11 @@ const DestinyLiberationCalculator = () => {
 
           <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-3 sm:space-y-4">
             <div className="flex justify-between">
-              <span className="text-primary-bright">Total Adversary's Resolve Needed:</span>
+              <span className="text-primary-bright">Total Adversary's Determination Needed:</span>
               <span className="font-bold text-primary-bright">{scheduleResults.totalTracesNeeded}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-primary-bright">Weekly Adversary's Resolve:</span>
+              <span className="text-primary-bright">Weekly Adversary's Determination:</span>
               <span className="font-bold text-primary-bright">{scheduleResults.totalWeeklyTraces.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
@@ -504,7 +504,7 @@ const DestinyLiberationCalculator = () => {
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-xl font-medium text-primary-bright">Weekly Adversary's Resolve Breakdown</h3>
+            <h3 className="text-xl font-medium text-primary-bright">Weekly Adversary's Determination Breakdown</h3>
             <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-2">
               {scheduleResults.weeklyTraces.map((boss) => (
                 <div key={boss.bossId} className="flex justify-between items-center py-1">
