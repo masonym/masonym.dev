@@ -7,7 +7,7 @@ import Image from "next/image";
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
 import CalcRoute from "../CalcRoute/CalcRoute";
-import { skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+import { originUpgradeCost, skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import { formatSkillToUnderscores } from "../../utils";
 
 const ClassSelector = () => {
@@ -133,9 +133,13 @@ const ClassSelector = () => {
 
   const calculateTotalSolErda = () => {
     let totalSolErda = 0;
+    const classDetails = classes[selectedClass];
+    const originSkillKey = formatSkillToUnderscores(classDetails?.originSkill);
 
-    Object.values(skillLevels).forEach(({ level, type }) => {
-      const costTable = getCostTable(type);
+    Object.entries(skillLevels).forEach(([skillName, { level, type }]) => {
+      const isOriginSkill = skillName === originSkillKey;
+      const skillType = isOriginSkill ? 'origin' : (type === 'origin' ? 'skill' : type);
+      const costTable = getCostTable(skillType);
 
       for (let i = 0; i < level; i++) {
         const cost = costTable[i][i + 1].solErda;
@@ -148,9 +152,13 @@ const ClassSelector = () => {
 
   const calculateTotalFrags = () => {
     let totalFrags = 0;
+    const classDetails = classes[selectedClass];
+    const originSkillKey = formatSkillToUnderscores(classDetails?.originSkill);
 
-    Object.values(skillLevels).forEach(({ level, type }) => {
-      const costTable = getCostTable(type);
+    Object.entries(skillLevels).forEach(([skillName, { level, type }]) => {
+      const isOriginSkill = skillName === originSkillKey;
+      const skillType = isOriginSkill ? 'origin' : (type === 'origin' ? 'skill' : type);
+      const costTable = getCostTable(skillType);
 
       for (let i = 0; i < level; i++) {
         const cost = costTable[i][i + 1].frags;
@@ -163,6 +171,8 @@ const ClassSelector = () => {
 
   const getCostTable = (skillType) => {
     switch (skillType) {
+      case 'origin':
+        return originUpgradeCost;
       case 'skill':
         return skillUpgradeCost;
       case 'mastery':
@@ -171,9 +181,6 @@ const ClassSelector = () => {
         return commonUpgradeCost;
       case 'enhancement':
         return enhancementUpgradeCost;
-      // these two are legacy fixes for stale user localstorage data
-      case 'origin':
-        return skillUpgradeCost;
       case 'ascent':
         return skillUpgradeCost;
       default:
@@ -183,7 +190,7 @@ const ClassSelector = () => {
   };
 
   if (!isClient) {
-    return null; // Or a loading spinner
+    return null;
   }
 
   return (

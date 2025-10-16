@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+import { originUpgradeCost, skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
 import { GoalInputGrid } from './GoalInputGrid';
 import { formatClassName, formatSkillName, formatSkillPath } from '../../utils';
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
@@ -65,6 +65,8 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
 
   const getCostTable = (skillType) => {
     switch (skillType) {
+      case 'origin':
+        return originUpgradeCost;
       case 'skill':
         return skillUpgradeCost;
       case 'mastery':
@@ -73,9 +75,6 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
         return commonUpgradeCost;
       case 'enhancement':
         return enhancementUpgradeCost;
-      // these two are legacy fixes for stale user localstorage data
-      case 'origin':
-        return skillUpgradeCost;
       case 'ascent':
         return skillUpgradeCost;
       default:
@@ -109,10 +108,23 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
       return { current: { solErda: 0, frags: 0 }, remaining: { solErda: 0, frags: 0 }, levels: { current: 0, desired: 0 } };
     }
 
-    const currentSolErdaSpent = calculateSkillCost(currentSkill, 'solErda');
-    const currentFragSpent = calculateSkillCost(currentSkill, 'frags');
-    const finalSolErdaCost = calculateSkillCost(desiredSkill, 'solErda');
-    const finalFragCost = calculateSkillCost(desiredSkill, 'frags');
+    const formattedOriginSkill = formatSkillPath(classDetails.originSkill);
+    const isOriginSkill = skillName === formattedOriginSkill;
+    
+    const currentSkillWithType = {
+      ...currentSkill,
+      type: isOriginSkill ? 'origin' : (currentSkill.type === 'origin' ? 'skill' : currentSkill.type)
+    };
+    
+    const desiredSkillWithType = {
+      ...desiredSkill,
+      type: isOriginSkill ? 'origin' : (desiredSkill.type === 'origin' ? 'skill' : desiredSkill.type)
+    };
+
+    const currentSolErdaSpent = calculateSkillCost(currentSkillWithType, 'solErda');
+    const currentFragSpent = calculateSkillCost(currentSkillWithType, 'frags');
+    const finalSolErdaCost = calculateSkillCost(desiredSkillWithType, 'solErda');
+    const finalFragCost = calculateSkillCost(desiredSkillWithType, 'frags');
 
     const remainingSolErda = Math.max(0, finalSolErdaCost - currentSolErdaSpent);
     const remainingFrags = Math.max(0, finalFragCost - currentFragSpent);
