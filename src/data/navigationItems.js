@@ -4,7 +4,7 @@ export const navigationItems = [
         items: [
             { name: "Star Force", href: "/star-force", image: '/images/star-force.png' },
             { name: "Hexa", href: "/hexa", image: '/images/hexa.png' },
-            { name: "Liberation", href: "/liberation", image: '/images/liberation.png', new: true },
+            { name: "Liberation", href: "/liberation", image: '/images/liberation.png', new: false },
         ]
     },
     {
