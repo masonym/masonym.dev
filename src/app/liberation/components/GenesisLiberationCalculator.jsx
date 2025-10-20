@@ -95,9 +95,6 @@ const BOSS_DATA = [
   }
 ];
 
-// Party size options
-const PARTY_SIZES = [1, 2, 3, 4, 5, 6];
-
 const GenesisLiberationCalculator = () => {
   // State for user inputs
   const [currentQuest, setCurrentQuest] = useState(1);
@@ -112,7 +109,7 @@ const GenesisLiberationCalculator = () => {
       selectedDifficulty: boss.difficulties[0].name,
       partySize: 1,
       clearedThisWeek: false,
-      isCleared: true // Whether the boss is cleared at all
+      isCleared: true
     }))
   );
 
@@ -257,7 +254,7 @@ const GenesisLiberationCalculator = () => {
         day: 'numeric',
         timeZone: 'UTC'
       }) + ' (UTC)';
-      
+
       return {
         weeklyTraces: [...weeklyBosses, ...monthlyBosses],
         totalWeeklyTraces,
@@ -562,11 +559,20 @@ const GenesisLiberationCalculator = () => {
   // Handle boss selection changes
   const handleBossSelectionChange = (bossId, field, value) => {
     setBossSelections(prev =>
-      prev.map(boss =>
-        boss.id === bossId
-          ? { ...boss, [field]: value }
-          : boss
-      )
+      prev.map(boss => {
+        if (boss.id === bossId) {
+          const bossData = BOSS_DATA.find(b => b.id === bossId);
+          const maxPartySize = bossData?.maxPartySize || 6;
+          
+          // if changing party size, ensure it doesn't exceed max
+          if (field === 'partySize') {
+            value = Math.min(value, maxPartySize);
+          }
+          
+          return { ...boss, [field]: value };
+        }
+        return boss;
+      })
     );
   };
 
@@ -707,7 +713,7 @@ const GenesisLiberationCalculator = () => {
                       value={bossSelections.find(b => b.id === boss.id)?.partySize}
                       onChange={(e) => handleBossSelectionChange(boss.id, 'partySize', Number(e.target.value))}
                     >
-                      {PARTY_SIZES.map((size) => (
+                      {Array.from({ length: boss.maxPartySize || 6 }, (_, i) => i + 1).map((size) => (
                         <option key={size} value={size}>
                           {size}
                         </option>
@@ -802,26 +808,26 @@ const GenesisLiberationCalculator = () => {
 
         </div>
       </div>
-          {/* Schedule Timeline */}
-          <div className="space-y-2 mt-4">
-            <h3 className="text-xl font-medium text-primary-bright">Schedule Timeline</h3>
-            <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-2">
-              {scheduleResults.timeline && scheduleResults.timeline.length > 0 ? (
-                scheduleResults.timeline.map((ev, idx) => (
-                  <div key={idx} className="flex justify-between items-center py-1">
-                    <div className="text-primary-bright text-sm sm:text-base">
-                      {ev.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })} - {ev.label}
-                    </div>
-                    <div className="text-primary-bright font-bold text-sm sm:text-base">
-                      +{Number(ev.amount).toFixed(0)} (remaining {Number(ev.remaining).toFixed(0)})
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-primary-bright text-sm opacity-75">No accrual events yet.</div>
-              )}
-            </div>
-          </div>
+      {/* Schedule Timeline */}
+      <div className="space-y-2 mt-4">
+        <h3 className="text-xl font-medium text-primary-bright">Schedule Timeline</h3>
+        <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-2">
+          {scheduleResults.timeline && scheduleResults.timeline.length > 0 ? (
+            scheduleResults.timeline.map((ev, idx) => (
+              <div key={idx} className="flex justify-between items-center py-1">
+                <div className="text-primary-bright text-sm sm:text-base">
+                  {ev.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })} - {ev.label}
+                </div>
+                <div className="text-primary-bright font-bold text-sm sm:text-base">
+                  +{Number(ev.amount).toFixed(0)} (remaining {Number(ev.remaining).toFixed(0)})
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-primary-bright text-sm opacity-75">No accrual events yet.</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

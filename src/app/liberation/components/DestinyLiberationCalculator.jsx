@@ -44,6 +44,7 @@ const BOSS_DATA = [
   {
     id: 'limbo',
     name: 'Limbo',
+    maxPartySize: 3,
     difficulties: [
       { name: 'None', traces: 0 },
       { name: 'Normal', traces: 120 },
@@ -53,6 +54,7 @@ const BOSS_DATA = [
   {
     id: "baldrix",
     name: "Baldrix",
+    maxPartySize: 3,
     difficulties: [
       { name: 'None', traces: 0 },
       { name: 'Normal', traces: 150 },
@@ -60,9 +62,6 @@ const BOSS_DATA = [
     ],
   }
 ];
-
-// Party size options
-const PARTY_SIZES = [1, 2, 3, 4, 5, 6];
 
 const DestinyLiberationCalculator = () => {
   // State for user inputs
@@ -436,7 +435,7 @@ const DestinyLiberationCalculator = () => {
                       value={bossSelections.find(b => b.id === boss.id)?.partySize}
                       onChange={(e) => handleBossSelectionChange(boss.id, 'partySize', Number(e.target.value))}
                     >
-                      {PARTY_SIZES.map((size) => (
+                      {Array.from({ length: boss.maxPartySize || 6 }, (_, i) => i + 1).map((size) => (
                         <option key={size} value={size}>
                           {size}
                         </option>

@@ -551,6 +551,7 @@ export const bossData = [
     {
         name: "Limbo",
         pdr: '380%',
+        maxPartySize: 3,
         difficulties: [
             {
                 name: "Normal",
@@ -579,6 +580,7 @@ export const bossData = [
         level: 290,
         sacRequirement: 700,
         pdr: "380%",
+        maxPartySize: 3,
         difficulties: [
             {
                 name: "Normal",
