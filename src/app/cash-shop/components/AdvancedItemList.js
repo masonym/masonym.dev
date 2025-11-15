@@ -8,7 +8,6 @@ import AdvancedItemCard from './AdvancedItemCard';
 import Image from 'next/image';
 import noItemsImage from '../assets/noItem_mini.png';
 
-// 48 and 49 are Heroic worlds, 52 and 54 are Challenger Heroic worlds, and the rest are Interactive worlds.
 // 0/1/17/18/30/45/46/70/48/49/52/54"
 // 0 = Scania
 // 1 = Bera
@@ -22,7 +21,7 @@ import noItemsImage from '../assets/noItem_mini.png';
 // 70 = Hyperion
 // 52 = Challenger Heroic NA
 // 54 = Challenger Heroic EU
-const INT_WORLDS = [0, 1, 17, 18, 30, 48, 49];
+const INT_WORLDS = [1, 19, 30, 48, 49];
 const HERO_WORLDS = [45, 46, 52, 54, 70];
 
 
