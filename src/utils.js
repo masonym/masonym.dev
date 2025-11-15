@@ -114,40 +114,52 @@ export const formatPriceDisplay = (originalPrice, price, sn_id, discount) => {
 };
 
 export const worldNumbersToString = (worldNumbers) => {
-  const worlds = new Set(worldNumbers.split('/').map(Number));
+  if (!worldNumbers || typeof worldNumbers !== 'string') {
+    return 'World availability unknown';
+  }
 
-  const WORLD_TYPES = {
-    challengerInteractive: [48, 49],
-    challengerHeroic: [52, 54],
-    heroic: [45, 46, 70],
-    interactive: [0, 1, 17, 18, 19, 30] // Added 19 here for new world merge
+  const ids = worldNumbers
+    .split('/')
+    .map((s) => Number(s))
+    .filter((n) => Number.isFinite(n));
+
+  const worlds = new Set(ids);
+
+  const INTERACTIVE = new Set([0, 1, 17, 18, 19, 30]);
+  const HEROIC = new Set([45, 46, 70]);
+  const CHALLENGER_INTERACTIVE = new Set([48, 49]);
+  const CHALLENGER_HEROIC = new Set([52, 54]);
+
+  const hasAny = (set) => Array.from(set).some((w) => worlds.has(w));
+
+  const present = {
+    interactive: hasAny(INTERACTIVE),
+    heroic: hasAny(HEROIC),
+    challengerInteractive: hasAny(CHALLENGER_INTERACTIVE),
+    challengerHeroic: hasAny(CHALLENGER_HEROIC),
   };
 
-  const hasAnyFromType = (typeWorlds) => typeWorlds.some(world => worlds.has(world));
-  const hasAllFromType = (typeWorlds) => typeWorlds.every(world => worlds.has(world));
+  const labels = [];
+  if (present.interactive) labels.push('Interactive');
+  if (present.heroic) labels.push('Heroic');
+  if (present.challengerInteractive) labels.push('Challenger Interactive');
+  if (present.challengerHeroic) labels.push('Challenger Heroic');
 
-  const hasInteractive = hasAnyFromType(WORLD_TYPES.interactive);
-  const hasHeroic = hasAnyFromType([...WORLD_TYPES.heroic, ...WORLD_TYPES.challengerHeroic]);
-  const hasChallengerInteractive = hasAllFromType(WORLD_TYPES.challengerInteractive);
-  const hasChallengerHeroic = hasAllFromType(WORLD_TYPES.challengerHeroic);
+  if (labels.length === 0) return 'World availability unknown';
+  if (labels.length === 1) return `Sold in ${labels[0]} worlds only`;
 
-  if (hasInteractive && hasHeroic) {
-    return "Sold in Interactive and Heroic worlds";
+  if (
+    labels.length === 2 &&
+    present.interactive &&
+    present.heroic &&
+    !present.challengerInteractive &&
+    !present.challengerHeroic
+  ) {
+    return 'Sold in Interactive and Heroic worlds';
   }
 
-  if (hasHeroic && !hasInteractive) {
-    return "Sold in Heroic worlds only";
-  }
-
-  if (hasChallengerInteractive) {
-    return "Sold in Challenger Interactive worlds only";
-  }
-
-  if (hasChallengerHeroic) {
-    return "Sold in Challenger Heroic worlds only";
-  }
-
-  return "Sold in Interactive worlds only";
+  const last = labels.pop();
+  return `Sold in ${labels.join(', ')} and ${last} worlds`;
 };
 
 
