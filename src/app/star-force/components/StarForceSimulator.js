@@ -22,15 +22,15 @@ export default function StarForceSimulator() {
     });
 
     const [safeguardSettings, setSafeguardSettings] = useState({
-        stars: []  // Can contain 15 and/or 16
+        stars: []  // Can contain 15, 16, 17
     });
 
     const [starCatchSettings, setStarCatchSettings] = useState({
-        stars: []  // Can contain 0-24
+        stars: []  // Can contain 0-29
     });
 
     const [eventSettings, setEventSettings] = useState({
-        type: 'none'  // none, twoStars, thirtyOff, hundredSuccess, shiningStarForce
+        types: []  // Can contain: twoStars, thirtyOff, destructionReduction
     });
 
     const [mvpSettings, setMvpSettings] = useState({
@@ -68,7 +68,7 @@ export default function StarForceSimulator() {
                     targetStar: equipmentInfo.targetStars,
                     safeguardStars: safeguardSettings.stars,
                     starCatchStars: starCatchSettings.stars,
-                    eventType: eventSettings.type,
+                    eventTypes: eventSettings.types,
                     mvpType: mvpSettings.type
                 });
 

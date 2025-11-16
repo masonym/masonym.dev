@@ -11,7 +11,7 @@ export default function StarCatchSettings({ settings, onChange }) {
     };
 
     const selectAll = () => {
-        onChange({ ...settings, stars: Array.from({ length: 25 }, (_, i) => i) });
+        onChange({ ...settings, stars: Array.from({ length: 30 }, (_, i) => i) });
     };
 
     const clearAll = () => {
@@ -37,8 +37,8 @@ export default function StarCatchSettings({ settings, onChange }) {
                     </button>
                 </div>
             </div>
-            <div className="grid grid-cols-5 gap-2">
-                {Array.from({ length: 25 }, (_, i) => (
+            <div className="grid grid-cols-6 gap-2">
+                {Array.from({ length: 30 }, (_, i) => (
                     <button
                         key={i}
                         onClick={() => toggleStar(i)}

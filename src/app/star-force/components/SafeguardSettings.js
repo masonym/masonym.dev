@@ -11,7 +11,7 @@ export default function SafeguardSettings({ settings, onChange }) {
     };
 
     const selectAll = () => {
-        onChange({ ...settings, stars: [15, 16] });
+        onChange({ ...settings, stars: [15, 16, 17] });
     };
 
     const clearAll = () => {
@@ -37,8 +37,8 @@ export default function SafeguardSettings({ settings, onChange }) {
                     </button>
                 </div>
             </div>
-            <div className="flex gap-4">
-                {[15, 16].map((star) => (
+            <div className="grid grid-cols-3 gap-4">
+                {[15, 16, 17].map((star) => (
                     <button
                         key={star}
                         onClick={() => toggleStar(star)}
@@ -53,7 +53,7 @@ export default function SafeguardSettings({ settings, onChange }) {
                 ))}
             </div>
             <p className="mt-4 text-sm text-[color:var(--primary-dim)]">
-                Click to toggle Safeguard for 15★ and 16★ enhancements
+                Click to toggle Safeguard for 15★ to 17★ enhancements (200% of base cost)
             </p>
         </div>
     );
