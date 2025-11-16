@@ -31,8 +31,8 @@
     "react-dropzone": "^14.3.5",
     "react-widgets": "^5.8.4",
     "recharts": "^2.12.7",
-    "sharp": "^0.33.5",
-    "tailwind": "^4.0.0"
+    "sharp": "^0.33.5"
+    
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

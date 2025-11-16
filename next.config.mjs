@@ -4,7 +4,7 @@ import createMDX from '@next/mdx';
 const nextConfig = {
     images: {
         loader: 'custom',
-        loaderFile: '/imageLoader.js',
+        loaderFile: './imageLoader.js',
         remotePatterns: [
             {
                 protocol: 'https',
