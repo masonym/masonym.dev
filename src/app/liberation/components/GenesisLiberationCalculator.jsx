@@ -99,6 +99,13 @@ const GenesisLiberationCalculator = () => {
   // State for user inputs
   const [currentQuest, setCurrentQuest] = useState(1);
   const [currentTraces, setCurrentTraces] = useState(0);
+  const [genesisPassEnabled, setGenesisPassEnabled] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('genesisPassEnabled');
+      return saved !== null ? JSON.parse(saved) : false;
+    }
+    return false;
+  });
   const [startDate, setStartDate] = useState(() => {
     const now = new Date();
     return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())).toISOString().split('T')[0];
@@ -115,6 +122,8 @@ const GenesisLiberationCalculator = () => {
 
   // Calculate traces per week and completion date
   const calculateSchedule = () => {
+    // Get the trace multiplier based on Genesis Pass
+    const traceMultiplier = genesisPassEnabled ? 3 : 1;
     // Get the current quest data
     const questIndex = currentQuest - 1;
     const currentQuestData = LIBERATION_QUESTS[questIndex];
@@ -165,8 +174,8 @@ const GenesisLiberationCalculator = () => {
         return;
       }
 
-      // Calculate traces based on party size
-      const tracesPerClear = Math.floor(difficulty.traces / selection.partySize);
+      // Calculate traces based on party size and Genesis Pass multiplier
+      const tracesPerClear = Math.floor(difficulty.traces / selection.partySize) * traceMultiplier;
 
       // If not cleared this week/month, add to immediate traces
       if (!selection.clearedThisWeek) {
@@ -576,6 +585,14 @@ const GenesisLiberationCalculator = () => {
     );
   };
 
+  // Handle Genesis Pass toggle with localStorage persistence
+  const handleGenesisPassToggle = (enabled) => {
+    setGenesisPassEnabled(enabled);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('genesisPassEnabled', JSON.stringify(enabled));
+    }
+  };
+
   // Format date for display (UTC)
   const formatDate = (dateString) => {
     const date = new Date(dateString + 'T00:00:00.000Z');
@@ -610,7 +627,7 @@ const GenesisLiberationCalculator = () => {
       {/* Input Details Section - Horizontal Row at Top */}
       <div className="mb-8 p-4 bg-background-bright flex justify-between flex-col rounded-lg">
         <h2 className="text-2xl font-semibold text-primary-bright mb-4 mx-auto">Current Status</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mx-auto w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mx-auto w-full">
           {/* Quest Selection */}
           <div className="space-y-2 flex flex-col items-center justify-center">
             <label className="block text-primary-bright font-medium">Current Quest</label>
@@ -642,6 +659,39 @@ const GenesisLiberationCalculator = () => {
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
+          </div>
+
+          {/* Genesis Pass Toggle */}
+          <div className="space-y-2 flex flex-col items-center justify-center">
+            <label className="block text-primary-bright font-medium">Genesis Pass</label>
+            <div className="flex items-center gap-2">
+              <label className="flex items-center cursor-pointer">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    className="sr-only"
+                    checked={genesisPassEnabled}
+                    onChange={(e) => handleGenesisPassToggle(e.target.checked)}
+                  />
+                  <div className="block bg-gray-600 w-10 h-6 rounded-full"></div>
+                  <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition ${
+                    genesisPassEnabled ? 'transform translate-x-full bg-purple-500' : ''
+                  }`}></div>
+                </div>
+                <div className="ml-3 flex items-center gap-2">
+                  <Image
+                    src="/images/genesis-pass.png"
+                    alt="Genesis Pass"
+                    width={44}
+                    height={32}
+                    className="rounded"
+                  />
+                  {genesisPassEnabled && (
+                    <span className="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded">3x</span>
+                  )}
+                </div>
+              </label>
+            </div>
           </div>
         </div>
       </div>
