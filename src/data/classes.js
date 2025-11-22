@@ -1205,7 +1205,7 @@ export const classes = {
             "Sol Janus"
         ]
     },
-    "Len": {
+    "Ren": {
         "originSkill": "Sky Splitting Azure Dragon Sword: Ascension",
         "ascentSkill": "Sky Splitting Azure Dragon Sword: Single Falling Plum Blossom, Heavenly Rain Humanity Desolation",
         "masterySkills": [

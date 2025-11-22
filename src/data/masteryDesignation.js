@@ -916,7 +916,7 @@ export const masteryDesignation = {
         "thirdMastery": [],
         "fourthMastery": [],
     },
-    "Len": {
+    "Ren": {
         "firstMastery": [
             "HEXA Plum Blossom Sword Fundamental: Relentless Slash",
         ],
