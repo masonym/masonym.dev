@@ -160,7 +160,7 @@ export const bossData = [
             {
                 name: "Normal",
                 hpPhases: [
-                    { hp: formatShortformNumber("200B") },
+                    { hp: formatShortformNumber("500B") },
                 ],
             }
         ]
@@ -174,8 +174,8 @@ export const bossData = [
             {
                 name: "Normal",
                 hpPhases: [
-                    { hp: formatShortformNumber("152B") },
-                    { hp: formatShortformNumber("152B") },
+                    { hp: formatShortformNumber("350B") },
+                    { hp: formatShortformNumber("350B") },
                 ],
             }
         ]
