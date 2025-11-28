@@ -50,17 +50,23 @@ export function calculateMesoCost(equipLevel, currentStar) {
 
     if (currentStar <= 9) {
         cost = 100 * Math.round((Math.pow(roundedLevel, 3) * (currentStar + 1) / 2500 + 10));
-    } else if (currentStar <= 14) {
+    } else {
         const divisors = {
             10: 40000,
             11: 22000,
             12: 15000,
             13: 11000,
-            14: 7500
+            14: 7500,
+            15: 20000,
+            16: 20000,
+            17: 15000,
+            18: 7000,
+            19: 4500,
+            20: 20000,
+            21: 12500
         };
-        cost = 100 * Math.round((Math.pow(roundedLevel, 3) * Math.pow(currentStar + 1, 2.7) / divisors[currentStar] + 10));
-    } else {
-        cost = 100 * Math.round((Math.pow(roundedLevel, 3) * Math.pow(currentStar + 1, 2.7) / 20000 + 10));
+        const divisor = divisors[currentStar] || 20000;
+        cost = 100 * Math.round((Math.pow(roundedLevel, 3) * Math.pow(currentStar + 1, 2.7) / divisor + 10));
     }
 
     return cost;
@@ -92,8 +98,8 @@ export function calculateSafeguardCost(baseCost, currentStar, safeguardEnabled) 
     // Only applicable for 15->16, 16->17, and 17->18 star enhancements
     if (!safeguardEnabled || currentStar < 15 || currentStar > 17) return 0;
 
-    // Double the base cost for safeguard (200% of base cost)
-    return baseCost * 2;
+    // Triple the base cost for safeguard (300% of base cost)
+    return baseCost * 3;
 }
 
 // Adjust rates for star catch
@@ -129,16 +135,6 @@ export function adjustForStarCatch(rates, starCatchEnabled) {
     }
 
     return adjustedRates;
-}
-
-// Get recovered stars from Equipment Traces
-export function getRecoveredStars(destructionLevel) {
-    if (destructionLevel >= 15 && destructionLevel <= 19) return 12;
-    if (destructionLevel === 20) return 15;
-    if (destructionLevel >= 21 && destructionLevel <= 22) return 17;
-    if (destructionLevel >= 23 && destructionLevel <= 25) return 19;
-    if (destructionLevel >= 26 && destructionLevel <= 30) return 20;
-    return 12; // Default fallback
 }
 
 // Get attempt result
@@ -191,7 +187,7 @@ export function simulateStarForce({
         let attemptCost = applyMVPDiscount(baseCost, mvpType, currentStar);
         attemptCost = applyEventDiscount(attemptCost, eventTypes);
         
-        // Add safeguard cost if applicable
+        // Add safeguard cost after event discount (30% off does not apply to safeguard)
         const safeguardEnabled = safeguardStars.includes(currentStar);
         attemptCost += calculateSafeguardCost(baseCost, currentStar, safeguardEnabled);
         
@@ -220,7 +216,7 @@ export function simulateStarForce({
             case 'destroy':
                 if (!safeguardEnabled) {
                     booms++;
-                    currentStar = getRecoveredStars(currentStar);
+                    currentStar = 12;
                 }
                 break;
         }
