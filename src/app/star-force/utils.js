@@ -98,55 +98,31 @@ export function calculateSafeguardCost(baseCost, currentStar, safeguardEnabled) 
     // Only applicable for 15->16, 16->17, and 17->18 star enhancements
     if (!safeguardEnabled || currentStar < 15 || currentStar > 17) return 0;
 
-    // Triple the base cost for safeguard (300% of base cost)
-    return baseCost * 3;
-}
-
-// Adjust rates for star catch
-export function adjustForStarCatch(rates, starCatchEnabled) {
-    if (!starCatchEnabled) return rates;
-
-    // Create a copy of the rates
-    let adjustedRates = { ...rates };
-
-    // Increase success rate by 5% multiplicatively
-    adjustedRates.success = Math.min(1, rates.success * 1.05);
-
-    // If there's no success rate increase possible (already at 100%), return original rates
-    if (adjustedRates.success === rates.success) return rates;
-
-    // Calculate the remaining probability to distribute
-    const remainingProb = 1 - adjustedRates.success;
-
-    // If there are no failure cases, return the adjusted rates
-    if (remainingProb === 0) return adjustedRates;
-
-    // Get the original sum of maintain and destroy rates (no decrease in new system)
-    const originalSum = (rates.maintain || 0) + (rates.destroy || 0);
-    
-    if (originalSum === 0) return adjustedRates;
-
-    // Redistribute the remaining probability proportionally
-    if (rates.maintain) {
-        adjustedRates.maintain = remainingProb * (rates.maintain / originalSum);
-    }
-    if (rates.destroy) {
-        adjustedRates.destroy = remainingProb * (rates.destroy / originalSum);
-    }
-
-    return adjustedRates;
+    // Double the base cost for safeguard (200% of base cost)
+    return baseCost * 2;
 }
 
 // Get attempt result
 export function getAttemptResult(currentStar, starCatchEnabled, eventTypes) {
-    let rates = adjustForStarCatch(STAR_FORCE_RATES[currentStar], starCatchEnabled);
+    const baseRates = STAR_FORCE_RATES[currentStar];
+    let rates = { ...baseRates };
+    
+    // Apply star catch (5% multiplicative increase to success)
+    if (starCatchEnabled) {
+        rates.success = Math.min(1, baseRates.success * 1.05);
+        const remainingProb = 1 - rates.success;
+        const originalFailProb = (baseRates.maintain || 0) + (baseRates.destroy || 0);
+        if (originalFailProb > 0) {
+            rates.maintain = remainingProb * (baseRates.maintain / originalFailProb);
+            rates.destroy = remainingProb * (baseRates.destroy / originalFailProb);
+        }
+    }
     
     // Apply destruction reduction event (30% multiplicative reduction for <22 stars)
     if (eventTypes.includes('destructionReduction') && currentStar <= 21 && rates.destroy > 0) {
-        rates.destroy = rates.destroy * 0.7; // 30% reduction
-        // Redistribute the reduced probability to maintain
-        const reductionAmount = STAR_FORCE_RATES[currentStar].destroy - rates.destroy;
-        rates.maintain = Math.min(1, rates.maintain + reductionAmount);
+        const reductionAmount = rates.destroy * 0.3;
+        rates.destroy = rates.destroy * 0.7;
+        rates.maintain = rates.maintain + reductionAmount;
     }
     
     const roll = Math.random();
