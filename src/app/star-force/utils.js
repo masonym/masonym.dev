@@ -102,6 +102,16 @@ export function calculateSafeguardCost(baseCost, currentStar, safeguardEnabled) 
     return baseCost * 2;
 }
 
+// Get recovered stars from Equipment Traces
+export function getRecoveredStars(destructionLevel) {
+    if (destructionLevel >= 15 && destructionLevel <= 19) return 12;
+    if (destructionLevel === 20) return 15;
+    if (destructionLevel >= 21 && destructionLevel <= 22) return 17;
+    if (destructionLevel >= 23 && destructionLevel <= 25) return 19;
+    if (destructionLevel >= 26 && destructionLevel <= 30) return 20;
+    return 12; // Default fallback
+}
+
 // Get attempt result
 export function getAttemptResult(currentStar, starCatchEnabled, eventTypes) {
     const baseRates = STAR_FORCE_RATES[currentStar];
@@ -192,7 +202,7 @@ export function simulateStarForce({
             case 'destroy':
                 if (!safeguardEnabled) {
                     booms++;
-                    currentStar = 12;
+                    currentStar = getRecoveredStars(currentStar);
                 }
                 break;
         }
