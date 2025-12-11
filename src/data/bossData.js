@@ -628,4 +628,51 @@ export const bossData = [
             }
         ]
     },
+    {
+        name: "First Adversary",
+        pdr: '380%',
+        maxPartySize: 3,
+        difficulties: [
+            {
+                name: "Easy",
+                hpPhases: [
+                    { hp: formatShortformNumber("171T") },
+                    { hp: formatShortformNumber("171T") },
+                    { hp: formatShortformNumber("228T") },
+                ],
+                level: 270,
+                sacRequirement: 220,
+            },
+            {
+                name: "Normal",
+                hpPhases: [
+                    { hp: formatShortformNumber("495T") },
+                    { hp: formatShortformNumber("495T") },
+                    { hp: formatShortformNumber("660T") },
+                ],
+                level: 280,
+                sacRequirement: 320,
+            },
+            {
+                name: "Hard",
+                hpPhases: [
+                    { hp: formatShortformNumber("3.135Q") },
+                    { hp: formatShortformNumber("3.135Q") },
+                    { hp: formatShortformNumber("4.18Q") },
+                ],
+                level: 285,
+                sacRequirement: 340,
+            },
+            {
+                name: "Extreme",
+                hpPhases: [
+                    { hp: formatShortformNumber("9.655Q") },
+                    { hp: formatShortformNumber("9.655Q") },
+                    { hp: formatShortformNumber("12.87Q") },
+                ],
+                level: 290,
+                sacRequirement: 460,
+            }
+        ]
+    },
 ];
