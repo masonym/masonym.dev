@@ -327,8 +327,8 @@ export const bossData = [
                 hpPhases: [
                     { hp: formatShortformNumber("2.8T"), segments: 3, note: "Phase 1: Blue Dimension" },
                     { hp: formatShortformNumber("2.8T"), segments: 3, note: "Phase 1: Purple Dimension" },
-                    { hp: formatShortformNumber("4.2T"), segments: 2 },
-                    { hp: formatShortformNumber("7T") },
+                    { hp: formatShortformNumber("4.2T"), segments: 2, note: "Phase 2" },
+                    { hp: formatShortformNumber("7T"), note: "Phase 3" },
                 ],
                 level: 235,
                 afRequirement: 560,
@@ -338,8 +338,8 @@ export const bossData = [
                 hpPhases: [
                     { hp: formatShortformNumber("4.2T"), segments: 3, note: "Phase 1: Blue Dimension" },
                     { hp: formatShortformNumber("4.2T"), segments: 3, note: "Phase 1: Purple Dimension" },
-                    { hp: formatShortformNumber("6.3T"), segments: 2 },
-                    { hp: formatShortformNumber("10.5T") },
+                    { hp: formatShortformNumber("6.3T"), segments: 2, note: "Phase 2" },
+                    { hp: formatShortformNumber("10.5T"), note: "Phase 3" },
                 ],
                 level: 250,
                 afRequirement: 760,
@@ -349,8 +349,8 @@ export const bossData = [
                 hpPhases: [
                     { hp: formatShortformNumber("21T"), segments: 3, note: "Phase 1: Blue Dimension" },
                     { hp: formatShortformNumber("21T"), segments: 3, note: "Phase 1: Purple Dimension" },
-                    { hp: formatShortformNumber("31.5T"), segments: 2 },
-                    { hp: formatShortformNumber("52.5T") },
+                    { hp: formatShortformNumber("31.5T"), segments: 2, note: "Phase 2" },
+                    { hp: formatShortformNumber("52.5T"), note: "Phase 3" },
                 ],
                 level: 250,
                 afRequirement: 760,
