@@ -418,8 +418,8 @@ const DestinyLiberationCalculator = () => {
                               </div>
                             </div>
                           ) : (
-                            <div className="w-[40px] h-[40px] bg-primary-dim rounded-md flex items-center justify-center">
-                              <span className="text-xs text-primary-dark">None</span>
+                            <div className="w-[40px] h-[40px] bg-primary-dark rounded-md flex items-center justify-center border border-gray-600 border-dashed">
+                              <span className="text-xs text-primary-bright">Skip</span>
                             </div>
                           )}
                         </div>

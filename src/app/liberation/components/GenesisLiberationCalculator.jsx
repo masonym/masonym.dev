@@ -95,9 +95,85 @@ const BOSS_DATA = [
   }
 ];
 
+// preset definitions for quick boss configuration
+const BOSS_PRESETS = [
+  {
+    id: 'nlomien',
+    label: 'NLomien',
+    description: 'Normal Lotus + Damien',
+    bosses: [
+      { id: 'lotus', difficulty: 'Normal' },
+      { id: 'damien', difficulty: 'Normal' }
+    ]
+  },
+  {
+    id: 'nluwill',
+    label: 'NLuwill',
+    description: 'Normal Lucid + Will',
+    bosses: [
+      { id: 'lucid', difficulty: 'Normal' },
+      { id: 'will', difficulty: 'Normal' }
+    ]
+  },
+  {
+    id: 'ntene',
+    label: 'NTene',
+    description: 'Normal Gloom + V.Hilla + Darknell',
+    bosses: [
+      { id: 'gloom', difficulty: 'Normal' },
+      { id: 'verus_hilla', difficulty: 'Normal' },
+      { id: 'darknell', difficulty: 'Normal' }
+    ]
+  },
+  {
+    id: 'hlomien',
+    label: 'HLomien',
+    description: 'Hard Lotus + Damien',
+    bosses: [
+      { id: 'lotus', difficulty: 'Hard' },
+      { id: 'damien', difficulty: 'Hard' }
+    ]
+  },
+  {
+    id: 'hluwill',
+    label: 'HLuwill',
+    description: 'Hard Lucid + Will',
+    bosses: [
+      { id: 'lucid', difficulty: 'Hard' },
+      { id: 'will', difficulty: 'Hard' }
+    ]
+  },
+  {
+    id: 'ctene',
+    label: 'CTene',
+    description: 'Chaos/Hard Gloom + V.Hilla + Darknell',
+    bosses: [
+      { id: 'gloom', difficulty: 'Chaos' },
+      { id: 'verus_hilla', difficulty: 'Hard' },
+      { id: 'darknell', difficulty: 'Hard' }
+    ]
+  }
+];
+
+const PARTY_SIZE_PRESETS = [
+  { id: 'solo', label: 'Solo', size: 1 },
+  { id: 'duo', label: 'Duo', size: 2 },
+  { id: 'trio', label: 'Trio', size: 3 },
+  { id: 'quad', label: 'Quad', size: 4 },
+  { id: 'quint', label: 'Quint', size: 5 },
+  { id: 'full', label: 'Full (6)', size: 6 }
+];
+
 const GenesisLiberationCalculator = () => {
   // State for user inputs
   const [currentQuest, setCurrentQuest] = useState(1);
+  const [presetsExpanded, setPresetsExpanded] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('genesisPresetsExpanded');
+      return saved !== null ? JSON.parse(saved) : true;
+    }
+    return true;
+  });
   const [currentTraces, setCurrentTraces] = useState(0);
   const [genesisPassEnabled, setGenesisPassEnabled] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -593,6 +669,53 @@ const GenesisLiberationCalculator = () => {
     }
   };
 
+  // Handle presets expand/collapse with localStorage persistence
+  const togglePresetsExpanded = () => {
+    const newValue = !presetsExpanded;
+    setPresetsExpanded(newValue);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('genesisPresetsExpanded', JSON.stringify(newValue));
+    }
+  };
+
+  // Apply a boss preset
+  const applyBossPreset = (preset) => {
+    setBossSelections(prev =>
+      prev.map(boss => {
+        const presetBoss = preset.bosses.find(p => p.id === boss.id);
+        if (presetBoss) {
+          return { ...boss, selectedDifficulty: presetBoss.difficulty, isCleared: true };
+        }
+        return boss;
+      })
+    );
+  };
+
+  // Apply a party size preset to all bosses
+  const applyPartySizePreset = (size) => {
+    setBossSelections(prev =>
+      prev.map(boss => {
+        const bossData = BOSS_DATA.find(b => b.id === boss.id);
+        const maxPartySize = bossData?.maxPartySize || 6;
+        return { ...boss, partySize: Math.min(size, maxPartySize) };
+      })
+    );
+  };
+
+  // Reset all bosses to None
+  const resetAllBosses = () => {
+    setBossSelections(prev =>
+      prev.map(boss => ({ ...boss, selectedDifficulty: 'None', isCleared: true }))
+    );
+  };
+
+  // Toggle cleared this week for all bosses
+  const setAllClearedThisWeek = (cleared) => {
+    setBossSelections(prev =>
+      prev.map(boss => ({ ...boss, clearedThisWeek: cleared }))
+    );
+  };
+
   // Format date for display (UTC)
   const formatDate = (dateString) => {
     const date = new Date(dateString + 'T00:00:00.000Z');
@@ -696,6 +819,95 @@ const GenesisLiberationCalculator = () => {
         </div>
       </div>
 
+      {/* Presets Section */}
+      <div className="mb-8 bg-background-bright rounded-xl border border-gray-700/50 overflow-hidden">
+        <button
+          type="button"
+          onClick={togglePresetsExpanded}
+          className="w-full p-4 flex items-center justify-between text-left hover:bg-primary-dark/30 transition-colors"
+        >
+          <h2 className="text-xl font-semibold text-primary-bright flex items-center gap-2">
+            Quick Presets
+          </h2>
+          <svg
+            className={`w-5 h-5 text-primary-bright transition-transform duration-200 ${presetsExpanded ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        
+        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-5 transition-all duration-200 ${presetsExpanded ? 'p-5 pt-0' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+          {/* Boss Presets */}
+          <div className="bg-primary-dark/50 rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase tracking-wide mb-3">Boss Difficulty</h3>
+            <div className="flex flex-wrap gap-2">
+              {BOSS_PRESETS.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  onClick={() => applyBossPreset(preset)}
+                  className="basis-1/4 group relative px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-gray-600 hover:border-secondary hover:scale-105"
+                  title={preset.description}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={resetAllBosses}
+              className="mt-3 w-full px-3 py-1.5 bg-red-900/30 text-red-400 rounded-md hover:bg-red-900/60 transition-all text-sm border border-red-800/50 hover:border-red-600"
+            >
+              Reset All to None
+            </button>
+          </div>
+
+          {/* Party Size Presets */}
+          <div className="bg-primary-dark/50 rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase tracking-wide mb-3">Party Size</h3>
+            <div className="flex flex-wrap gap-2">
+              {PARTY_SIZE_PRESETS.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  onClick={() => applyPartySizePreset(preset.size)}
+                  className="basis-1/4 px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-gray-600 hover:border-secondary hover:scale-105"
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Cleared This Week Toggle */}
+          <div className="bg-primary-dark/50 rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase tracking-wide mb-3">Cleared Status</h3>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setAllClearedThisWeek(true)}
+                className="flex-1 px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-gray-600 hover:border-secondary hover:scale-105"
+              >
+                All Cleared
+              </button>
+              <button
+                type="button"
+                onClick={() => setAllClearedThisWeek(false)}
+                className="flex-1 px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-gray-600 hover:border-gray-500"
+              >
+                None Cleared
+              </button>
+            </div>
+            <p className="text-xs text-primary text-balance mt-3 opacity-70">
+              Toggle clear status for all bosses for this reset
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content - Two Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Boss Selection Section - Left Column */}
@@ -746,8 +958,8 @@ const GenesisLiberationCalculator = () => {
                               </div>
                             </div>
                           ) : (
-                            <div className="w-[40px] h-[40px] bg-primary-dim rounded-md flex items-center justify-center">
-                              <span className="text-xs text-primary-dark">None</span>
+                            <div className="w-[40px] h-[40px] bg-primary-dark rounded-md flex items-center justify-center border border-gray-600 border-dashed">
+                              <span className="text-xs text-primary-bright">Skip</span>
                             </div>
                           )}
                         </div>
@@ -755,7 +967,7 @@ const GenesisLiberationCalculator = () => {
                     </div>
                   </div>
 
-                  {/* Party Size - Takes up less space */}
+                  {/* Party Size */}
                   <div className="sm:col-span-2">
                     <label className="block text-primary-bright text-sm mb-1">Party Size</label>
                     <select
@@ -771,7 +983,7 @@ const GenesisLiberationCalculator = () => {
                     </select>
                   </div>
 
-                  {/* Cleared This Week/Month Toggle - Takes up less space */}
+                  {/* Cleared This Week/Month Toggle */}
                   <div className="sm:col-span-3 flex flex-col justify-center mt-2 sm:mt-0">
                     <label className="block text-primary-bright text-sm mb-1">{boss.monthlyReset ? 'Cleared This Month' : 'Cleared This Week'}</label>
                     <div className="flex items-center">
