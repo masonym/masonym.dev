@@ -35,3 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 src/data/updateClassStructure.js
+public/changelog.json
+*.md
