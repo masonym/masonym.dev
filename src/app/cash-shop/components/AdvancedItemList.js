@@ -136,7 +136,7 @@ function AdvancedItemList() {
                     if (viewMode === 'past') {
                         dateCondition = termEnd < now;
                     } else if (viewMode === 'current') {
-                        dateCondition = termStart <= now && termEnd > now;
+                        dateCondition = termStart <= now && termEnd >= now;
                     } else {
                         dateCondition = termStart > now;
                     }
