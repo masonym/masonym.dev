@@ -10,8 +10,6 @@ import {
   resolveEvent,
   hasShiningStarForce,
   getCategoryStyle,
-  formatSundayDate,
-  formatSundayDateShort,
 } from '@/data/sunnySundayEvents';
 import {
   Sun,
@@ -27,37 +25,65 @@ import {
   ChevronsUpDown,
 } from 'lucide-react';
 
-// get the sunday for a given date
-const getSundayOfWeek = (date) => {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = d.getDate() - day;
-  return new Date(d.setDate(diff));
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+const parseYmdAsUtcDate = (ymd) => {
+  if (ymd instanceof Date) return ymd;
+  if (typeof ymd !== 'string') return new Date(ymd);
+  const [year, month, day] = ymd.split('-').map(Number);
+  return new Date(Date.UTC(year, month - 1, day));
 };
 
-// check if two dates are the same day
-const isSameDay = (date1, date2) => {
-  const d1 = new Date(date1);
-  const d2 = new Date(date2);
+const getUtcStartOfDayMs = (date) => {
+  const d = parseYmdAsUtcDate(date);
+  return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+};
+
+const isSameUtcDay = (date1, date2) => {
+  const d1 = parseYmdAsUtcDate(date1);
+  const d2 = parseYmdAsUtcDate(date2);
   return (
-    d1.getFullYear() === d2.getFullYear() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getDate() === d2.getDate()
+    d1.getUTCFullYear() === d2.getUTCFullYear() &&
+    d1.getUTCMonth() === d2.getUTCMonth() &&
+    d1.getUTCDate() === d2.getUTCDate()
   );
 };
 
-// check if date is in the past
-const isPast = (date) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);
-  return d < today;
+const isPastUtc = (date) => {
+  const todayUtcStartMs = getUtcStartOfDayMs(new Date());
+  const dateUtcStartMs = getUtcStartOfDayMs(date);
+  return dateUtcStartMs < todayUtcStartMs;
 };
 
-// check if date is today
-const isToday = (date) => {
-  return isSameDay(date, new Date());
+const isTodayUtc = (date) => {
+  return isSameUtcDay(date, new Date());
+};
+
+const getSundayOfWeekUtc = (date) => {
+  const d = parseYmdAsUtcDate(date);
+  const utcMidnightMs = getUtcStartOfDayMs(d);
+  const day = d.getUTCDay();
+  return new Date(utcMidnightMs - day * DAY_MS);
+};
+
+const formatSundayDateUtc = (date) => {
+  const d = parseYmdAsUtcDate(date);
+  return d.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+};
+
+const formatSundayDateShortUtc = (date) => {
+  const d = parseYmdAsUtcDate(date);
+  return d.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
 };
 
 // event icon component with fallback to placeholder
@@ -135,11 +161,11 @@ const EventBadge = ({ event, compact = false }) => {
 
 // sunday card component
 const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
-  const date = new Date(sunday.date);
+  const date = parseYmdAsUtcDate(sunday.date);
   const events = sunday.events.map(resolveEvent).filter(Boolean);
   const showShining = hasShiningStarForce(sunday.events);
-  const past = isPast(date);
-  const today = isToday(date);
+  const past = isPastUtc(date);
+  const today = isTodayUtc(date);
 
   return (
     <motion.div
@@ -181,7 +207,7 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
                   past ? 'text-primary' : 'text-primary-bright'
                 }`}
               >
-                {formatSundayDateShort(date)}
+                {formatSundayDateShortUtc(date)}
               </h3>
               {today && (
                 <span className="px-2 py-0.5 rounded-full text-xs bg-secondary text-primary-dark font-bold animate-pulse">
@@ -189,8 +215,8 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
                 </span>
               )}
               {!today && isCurrentWeek && (
-                <span className="px-2 py-0.5 rounded-full text-xs bg-secondary text-secondary font-medium">
-                  This Week
+                <span className="px-2 py-0.5 rounded-full text-xs bg-secondary text-primary-dark font-medium">
+                  Upcoming
                 </span>
               )}
               {showShining && (
@@ -200,7 +226,7 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
                 </span>
               )}
             </div>
-            <p className="text-sm text-primary">{date.getFullYear()}</p>
+            <p className="text-sm text-primary">{date.getUTCFullYear()}</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -266,6 +292,13 @@ const TimelineView = ({ sundays, currentSunday }) => {
     new Set(sundays.map(s => s.date))
   );
 
+  const nextUpcomingSundayUtc = (() => {
+    const now = new Date();
+    const currentWeekSundayUtc = getSundayOfWeekUtc(now);
+    if (isSameUtcDay(now, currentWeekSundayUtc)) return currentWeekSundayUtc;
+    return new Date(getUtcStartOfDayMs(currentWeekSundayUtc) + 7 * DAY_MS);
+  })();
+
   const allExpanded = expandedIds.size === sundays.length;
 
   const toggleAll = () => {
@@ -302,9 +335,8 @@ const TimelineView = ({ sundays, currentSunday }) => {
       </div>
 
       {sundays.map((sunday) => {
-        const sundayDate = new Date(sunday.date);
-        const currentWeekSunday = getSundayOfWeek(new Date());
-        const isCurrentWeek = isSameDay(sundayDate, currentWeekSunday);
+        const sundayDate = parseYmdAsUtcDate(sunday.date);
+        const isCurrentWeek = isSameUtcDay(sundayDate, nextUpcomingSundayUtc);
 
         return (
           <SundayCard
@@ -319,7 +351,6 @@ const TimelineView = ({ sundays, currentSunday }) => {
     </div>
   );
 };
-
 
 // filter panel
 const FilterPanel = ({ selectedCategories, onToggleCategory, onClearFilters }) => {
@@ -419,7 +450,7 @@ const ListView = ({ sundays }) => {
             return (
               <tr key={sunday.date} className="border-b border-primary-dim/50 hover:bg-background-bright/50">
                 <td className="px-4 py-2 text-primary whitespace-nowrap align-top">
-                  {formatSundayDate(sunday.date)}
+                  {formatSundayDateUtc(sunday.date)}
                 </td>
                 <td className="px-4 py-2 text-primary">
                   {events.map(e => e.shortName || e.name).join(', ')}
@@ -437,7 +468,7 @@ const ListView = ({ sundays }) => {
 const AnalyticsView = ({ sundays }) => {
   const stats = useMemo(() => {
     const now = new Date();
-    const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+    const oneYearAgo = new Date(Date.UTC(now.getUTCFullYear() - 1, now.getUTCMonth(), now.getUTCDate()));
     
     // count events
     const eventCounts = {};
@@ -451,7 +482,7 @@ const AnalyticsView = ({ sundays }) => {
     let yearShiningCount = 0;
 
     sundays.forEach((sunday) => {
-      const sundayDate = new Date(sunday.date);
+      const sundayDate = parseYmdAsUtcDate(sunday.date);
       const isWithinYear = sundayDate >= oneYearAgo;
       
       // check for shining star force
@@ -627,7 +658,7 @@ const SunnySundayClient = () => {
   // sort sundays by date
   const sortedSundays = useMemo(() => {
     return [...sunnySundaySchedule].sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
+      (a, b) => parseYmdAsUtcDate(b.date) - parseYmdAsUtcDate(a.date)
     );
   }, []);
 
@@ -648,11 +679,11 @@ const SunnySundayClient = () => {
   // find current/next sunday
   const currentSunday = useMemo(() => {
     const today = new Date();
-    const thisSunday = getSundayOfWeek(today);
+    const thisSunday = getSundayOfWeekUtc(today);
 
     // find this week's sunday or next upcoming
     return sortedSundays.find((s) => {
-      const sundayDate = new Date(s.date);
+      const sundayDate = parseYmdAsUtcDate(s.date);
       return sundayDate >= thisSunday;
     });
   }, [sortedSundays]);
