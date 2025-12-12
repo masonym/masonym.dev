@@ -184,6 +184,481 @@ export const getCategoryStyle = (category) => {
 // format: { date: 'YYYY-MM-DD', events: [event ids or custom objects] }
 export const sunnySundaySchedule = [
   {
+    date: '2024-12-22',
+    events: [
+      'hexa_enhancement',
+      'monster_park_exp',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2024-12-29',
+    events: [
+      'star_force_discount',
+      'star_force_51015',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-01-05',
+    events: [
+      'star_force_oneplusone',
+      'ability_reset_discount',
+      'spell_trace_discount',
+      'monster_collection',
+      'monsterblooms',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-01-12',
+    events: [
+      'rune_exp',
+      'combo_kill_exp',
+      'monster_park_exp',
+      {
+        isCustom: true,
+        name: '3x EXP for Pollo, Fritto, and Especia Bounty Hunting',
+        shortName: 'Bounty Hunter 3x',
+        icon: '/sunnySundayIcons/treasure-hunter.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: '3x Inferno Wolf Exit EXP',
+        shortName: 'Inferno Wolf 3x',
+        icon: '/sunnySundayIcons/inferno-wolf.png',
+        category: 'hunting',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-01-19',
+    events: [
+      'monster_park_exp',
+      {
+        isCustom: true,
+        name: '2x EXP for Pollo, Fritto, and Especia Bounty Hunting',
+        shortName: 'Bounty Hunter 2x',
+        icon: '/sunnySundayIcons/treasure-hunter.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: '2x Inferno Wolf Exit EXP',
+        shortName: 'Inferno Wolf 2x',
+        icon: '/sunnySundayIcons/inferno-wolf.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: 'Receive Tera Character Burninator',
+        shortName: 'Tera Burninator',
+        icon: '/sunnySundayIcons/tera-burninator.png',
+        category: 'item',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-01-26',
+    events: [
+      'star_force_51015',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-02-02',
+    events: [
+      'rune_exp',
+      'combo_kill_exp',
+      'monster_park_exp',
+      {
+        isCustom: true,
+        name: 'Receive Extreme Growth Potion (x10)',
+        shortName: 'Extrene Growth Potion x10',
+        icon: '/sunnySundayIcons/extreme-growth-potion.png',
+        category: 'item',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-02-09',
+    events: [
+      'star_force_oneplusone',
+      'ability_reset_discount',
+      'spell_trace_discount',
+      'magnificent_souls',
+    ],
+    source: 'Patch Notes',
+  },{
+    date: '2025-02-16',
+    events: [
+      'star_force_discount',
+      'monster_park_exp',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-02-23',
+    events: [
+      'rune_cooldown',
+      'rune_exp',
+      'combo_kill_exp',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-03-02',
+    events: [
+      'ability_reset_discount',
+      'spell_trace_discount',
+      {
+        isCustom: true,
+        name: '3x EXP for Pollo, Fritto, and Especia Bounty Hunting',
+        shortName: 'Bounty Hunter 3x',
+        icon: '/sunnySundayIcons/treasure-hunter.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: '3x Inferno Wolf Exit EXP',
+        shortName: 'Inferno Wolf 3x',
+        icon: '/sunnySundayIcons/inferno-wolf.png',
+        category: 'hunting',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-03-09',
+    events: [
+      'star_force_51015',
+      'monster_collection',
+      'monsterblooms',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-03-16',
+    events: [
+      'hexa_enhancement',
+    ],
+    source: 'Patch Notes',
+  },{
+    date: '2025-03-23',
+    events: [
+      'star_force_discount',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-03-30',
+    events: [
+      'spell_trace_discount',
+      {
+        isCustom: true,
+        name: '3x EXP for Pollo, Fritto, and Especia Bounty Hunting',
+        shortName: 'Bounty Hunter 3x',
+        icon: '/sunnySundayIcons/treasure-hunter.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: '3x Inferno Wolf Exit EXP',
+        shortName: 'Inferno Wolf 3x',
+        icon: '/sunnySundayIcons/inferno-wolf.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: 'Receive Luxe Sauna Coupon (x2)',
+        shortName: 'Luxe Sauna Coupon',
+        icon: '/sunnySundayIcons/luxe-sauna.png',
+        category: 'item',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-04-06',
+    events: [
+      'star_force_51015',
+      'rune_cooldown',
+      'rune_exp',
+      'combo_kill_exp',
+      {
+        isCustom: true,
+        name: 'Receive VIP Booster (x10)',
+        shortName: 'VIP Booster x10',
+        icon: '/sunnySundayIcons/vip-booster.png',
+        category: 'item',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-04-13',
+    events: [
+      'star_force_discount',
+      'monster_collection',
+      'monster_park_exp',
+      'monsterblooms',
+      {
+        isCustom: true,
+        name: 'Increase in the number of Elite Monsters spawned when hunting',
+        shortName: 'Elite Mob Count Up',
+        icon: '/sunnySundayIcons/elite-monster.png',
+        category: 'hunting',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-04-20',
+    events: [
+      'spell_trace_discount',
+      {
+        isCustom: true,
+        name: '3x EXP for Pollo, Fritto, and Especia Bounty Hunting',
+        shortName: 'Bounty Hunter 3x',
+        icon: '/sunnySundayIcons/treasure-hunter.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: '3x Inferno Wolf Exit EXP',
+        shortName: 'Inferno Wolf 3x',
+        icon: '/sunnySundayIcons/inferno-wolf.png',
+        category: 'hunting',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-04-27',
+    events: [
+      'monster_park_exp',
+    ],
+    source: 'Patch Notes',
+  },{
+    date: '2025-05-04',
+    events: [
+      'star_force_discount',
+      'spell_trace_discount',
+      'monster_park_exp',
+      {
+        isCustom: true,
+        name: 'Victoria Cup Homecoming Mission Rewards (Badges/Stamps)',
+        shortName: 'Victoria Cup Rewards',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-05-11',
+    events: [
+      {
+        isCustom: true,
+        name: '2x EXP for Pollo, Fritto, and Especia Bounty Hunting',
+        shortName: 'Bounty Hunter 2x',
+        icon: '/sunnySundayIcons/treasure-hunter.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: '2x Inferno Wolf Exit EXP',
+        shortName: 'Inferno Wolf 2x',
+        icon: '/sunnySundayIcons/inferno-wolf.png',
+        category: 'hunting',
+      },
+      'magnificent_souls',
+      {
+        isCustom: true,
+        name: 'Victoria Cup Homecoming Mission Rewards (Badges/Stamps)',
+        shortName: 'Victoria Cup Rewards',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-05-18',
+    events: [
+      'ability_reset_discount',
+      'rune_exp',
+      'combo_kill_exp',
+      {
+        isCustom: true,
+        name: 'Victoria Cup Homecoming Mission Rewards (Badges/Stamps)',
+        shortName: 'Victoria Cup Rewards',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-05-25',
+    events: [
+      'star_force_51015',
+      {
+        isCustom: true,
+        name: '2x EXP for Pollo, Fritto, and Especia Bounty Hunting',
+        shortName: 'Bounty Hunter 2x',
+        icon: '/sunnySundayIcons/treasure-hunter.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: '2x Inferno Wolf Exit EXP',
+        shortName: 'Inferno Wolf 2x',
+        icon: '/sunnySundayIcons/inferno-wolf.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: 'Victoria Cup Homecoming Mission Rewards (Badges/Stamps)',
+        shortName: 'Victoria Cup Rewards',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-06-01',
+    events: [
+      'monster_park_exp',
+      'combo_kill_exp',
+      'rune_exp',
+      'star_force_oneplusone',
+      {
+        isCustom: true,
+        name: 'Victoria Cup Homecoming Mission Rewards (3000 Badges)',
+        shortName: 'Victoria Cup Rewards',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-06-08',
+    events: [
+      {
+        isCustom: true,
+        name: '2x EXP for Pollo, Fritto, and Especia Bounty Hunting',
+        shortName: 'Bounty Hunter 2x',
+        icon: '/sunnySundayIcons/treasure-hunter.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: '2x Inferno Wolf Exit EXP',
+        shortName: 'Inferno Wolf 2x',
+        icon: '/sunnySundayIcons/inferno-wolf.png',
+        category: 'hunting',
+      },
+      'monster_collection',
+      'monsterblooms',
+    ],
+    source: 'Patch Notes',
+  },{
+    date: '2025-06-15',
+    events: [
+      'monster_park_exp',
+      'rune_cooldown',
+      'rune_exp',
+      'combo_kill_exp',
+      'bounty_hunter_exp',
+      'inferno_wolf_exp',
+      {
+        isCustom: true,
+        name: "4x EXP obtained from Banquet's Blessing",
+        shortName: 'Banquet EXP 4x',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-06-22',
+    events: [
+      'monster_park_exp',
+      'rune_cooldown',
+      'rune_exp',
+      'combo_kill_exp',
+      'bounty_hunter_exp',
+      'inferno_wolf_exp',
+      {
+        isCustom: true,
+        name: "4x EXP obtained from Banquet's Blessing",
+        shortName: 'Banquet EXP 4x',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-06-29',
+    events: [
+      'star_force_discount', 'star_force_51015',
+      {
+        isCustom: true,
+        name: "4x EXP obtained from Banquet's Blessing",
+        shortName: 'Banquet EXP 4x',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-07-06',
+    events: [
+      'ability_reset_discount',
+      'magnificent_souls',
+      'spell_trace_discount',
+      'monster_collection',
+      {
+        isCustom: true,
+        name: 'Increase in the number of Elite Monsters summoned while hunting (1 monster → 3 monsters)',
+        shortName: '3x Elite Mobs',
+        icon: '/sunnySundayIcons/elite-monster.png',
+        category: 'hunting',
+      },
+      {
+        isCustom: true,
+        name: "4x EXP obtained from Banquet's Blessing",
+        shortName: 'Banquet EXP 4x',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2025-07-13',
+    events: [
+      'star_force_discount',
+      {
+        isCustom: true,
+        name: "4x EXP obtained from Banquet's Blessing",
+        shortName: 'Banquet EXP 4x',
+        icon: '/sunnySundayIcons/custom-event.png',
+        category: 'seasonal',
+      },
+    ],
+    source: 'Patch Notes',
+  },{
     date: '2025-07-20',
     events: [
       'monster_park_exp',

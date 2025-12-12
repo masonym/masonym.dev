@@ -149,11 +149,8 @@ const EventBadge = ({ event, compact = false }) => {
       </div>
       {event.isCustom && (
         <span className="px-2 py-0.5 rounded text-xs sunny-category-seasonal border font-medium">
-          Special
+          Seasonal
         </span>
-      )}
-      {event.isCombo && (
-        <span className="px-2 py-0.5 rounded text-xs sunny-category-starforce border font-medium">Combo</span>
       )}
     </div>
   );
