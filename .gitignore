@@ -36,4 +36,5 @@ yarn-error.log*
 next-env.d.ts
 src/data/updateClassStructure.js
 public/changelog.json
+*/changelog.json
 *.md
