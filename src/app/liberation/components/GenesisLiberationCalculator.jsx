@@ -859,7 +859,7 @@ const GenesisLiberationCalculator = () => {
             <button
               type="button"
               onClick={resetAllBosses}
-              className="mt-3 w-full px-3 py-1.5 bg-red-900/30 text-red-400 rounded-md hover:bg-red-900/60 transition-all text-sm border border-red-800/50 hover:border-red-600"
+              className="mt-3 w-full px-3 py-1.5 bg-progress-red text-white rounded-md hover:bg-red-900/60 transition-all text-sm border border-red-800/50 hover:border-red-600"
             >
               Reset All to None
             </button>
