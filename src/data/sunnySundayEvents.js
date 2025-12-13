@@ -134,24 +134,24 @@ export const SUNNY_SUNDAY_EVENT_TYPES = {
     icon: '/sunnySundayIcons/star-force-discount.png',
   },
   // special combined event
-  SHINING_STAR_FORCE: {
-    id: 'shining_star_force',
-    name: 'Shining Star Force (30% off + 30% destruction protection)',
-    shortName: 'Shining Star Force',
-    category: 'starforce',
-    icon: '/sunnySundayIcons/special-sunny-sunday.png',
-    isCombo: true,
-    comboOf: ['star_force_discount', 'star_force_protection'],
-  },
-  OLD_SHINING_STAR_FORCE: {
-    id: 'old_shining_star_force',
-    name: 'Shining Star Force (30% off + 5/10/15)',
-    shortName: 'Shining Star Force',
-    category: 'starforce',
-    icon: '/sunnySundayIcons/special-sunny-sunday.png',
-    isCombo: true,
-    comboOf: ['star_force_discount', 'star_force_51015'],
-  },
+  // SHINING_STAR_FORCE: {
+  //   id: 'shining_star_force',
+  //   name: 'Shining Star Force (30% off + 30% destruction protection)',
+  //   shortName: 'Shining Star Force',
+  //   category: 'starforce',
+  //   icon: '/sunnySundayIcons/special-sunny-sunday.png',
+  //   isCombo: true,
+  //   comboOf: ['star_force_discount', 'star_force_protection'],
+  // },
+  // OLD_SHINING_STAR_FORCE: {
+  //   id: 'old_shining_star_force',
+  //   name: 'Shining Star Force (30% off + 5/10/15)',
+  //   shortName: 'Shining Star Force',
+  //   category: 'starforce',
+  //   icon: '/sunnySundayIcons/special-sunny-sunday.png',
+  //   isCombo: true,
+  //   comboOf: ['star_force_discount', 'star_force_51015'],
+  // },
 };
 
 // category display info with css variable-based colors
