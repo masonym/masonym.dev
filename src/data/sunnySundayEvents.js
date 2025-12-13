@@ -115,7 +115,7 @@ export const SUNNY_SUNDAY_EVENT_TYPES = {
   STAR_FORCE_PROTECTION: {
     id: 'star_force_protection',
     name: '30% reduced chance of item destruction when enhancing items below 21-Stars',
-    shortName: 'SF Protection',
+    shortName: 'Star Force Protection',
     category: 'starforce',
     icon: '/sunnySundayIcons/star-force-protection.png',
   },
@@ -277,7 +277,7 @@ export const sunnySundaySchedule = [
       {
         isCustom: true,
         name: 'Receive Extreme Growth Potion (x10)',
-        shortName: 'Extrene Growth Potion x10',
+        shortName: 'Extreme Growth Potion x10',
         icon: '/sunnySundayIcons/extreme-growth-potion.png',
         category: 'item',
       },

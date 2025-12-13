@@ -532,6 +532,11 @@ const AnalyticsView = ({ sundays }) => {
 
   return (
     <div className="space-y-6">
+      {/* date notice */}
+      <div className="text-center mb-8">
+        <p className="text-sm text-primary font-italic my-2 mx-auto">
+          Please note that data collection of previous Sunny Sundays only goes back to v.256, dated December 22, 2024.</p>
+      </div>
       {/* summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="bg-primary-dark border border-primary-dim rounded-xl p-4 text-center">
