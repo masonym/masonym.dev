@@ -167,21 +167,9 @@ const PARTY_SIZE_PRESETS = [
 const GenesisLiberationCalculator = () => {
   // State for user inputs
   const [currentQuest, setCurrentQuest] = useState(1);
-  const [presetsExpanded, setPresetsExpanded] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('genesisPresetsExpanded');
-      return saved !== null ? JSON.parse(saved) : true;
-    }
-    return true;
-  });
+  const [presetsExpanded, setPresetsExpanded] = useState(true);
   const [currentTraces, setCurrentTraces] = useState(0);
-  const [genesisPassEnabled, setGenesisPassEnabled] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('genesisPassEnabled');
-      return saved !== null ? JSON.parse(saved) : false;
-    }
-    return false;
-  });
+  const [genesisPassEnabled, setGenesisPassEnabled] = useState(false);
   const [startDate, setStartDate] = useState(() => {
     const now = new Date();
     return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())).toISOString().split('T')[0];
@@ -195,6 +183,22 @@ const GenesisLiberationCalculator = () => {
       isCleared: true
     }))
   );
+
+  useEffect(() => {
+    try {
+      const savedPresetsExpanded = localStorage.getItem('genesisPresetsExpanded');
+      if (savedPresetsExpanded !== null) {
+        setPresetsExpanded(JSON.parse(savedPresetsExpanded));
+      }
+
+      const savedGenesisPassEnabled = localStorage.getItem('genesisPassEnabled');
+      if (savedGenesisPassEnabled !== null) {
+        setGenesisPassEnabled(JSON.parse(savedGenesisPassEnabled));
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, []);
 
   // Calculate traces per week and completion date
   const calculateSchedule = () => {
