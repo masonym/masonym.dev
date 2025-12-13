@@ -208,13 +208,14 @@ const GenesisLiberationCalculator = () => {
     const questIndex = currentQuest - 1;
     const currentQuestData = LIBERATION_QUESTS[questIndex];
 
-    // Calculate remaining traces for current quest
-    const remainingTracesForCurrentQuest = Math.max(0, currentQuestData.tracesRequired - currentTraces);
-
     // Calculate total traces needed for all quests (current and future)
-    let totalTracesNeeded = remainingTracesForCurrentQuest;
+    let totalTracesNeeded = currentQuestData.tracesRequired - currentTraces;
     for (let i = questIndex + 1; i < LIBERATION_QUESTS.length; i++) {
       totalTracesNeeded += LIBERATION_QUESTS[i].tracesRequired;
+    }
+
+    if (totalTracesNeeded < 0) {
+      totalTracesNeeded = 0;
     }
 
     // Get the start date as a Date object (parse as UTC)
