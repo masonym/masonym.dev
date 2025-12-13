@@ -69,7 +69,7 @@ const getSundayOfWeekUtc = (date) => {
 const formatSundayDateUtc = (date) => {
   const d = parseYmdAsUtcDate(date);
   return d.toLocaleDateString('en-US', {
-    weekday: 'long',
+    // weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
