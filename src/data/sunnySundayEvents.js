@@ -122,7 +122,7 @@ export const SUNNY_SUNDAY_EVENT_TYPES = {
   STAR_FORCE_51015: {
     id: 'star_force_51015',
     name: '100% success on 5, 10, and 15-Star Force Enhancements',
-    shortName: '5/10/15 Event',
+    shortName: 'Star Force 5/10/15',
     category: 'starforce',
     icon: '/sunnySundayIcons/star-force-discount.png',
   },

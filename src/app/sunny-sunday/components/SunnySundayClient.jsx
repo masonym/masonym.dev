@@ -487,8 +487,14 @@ const AnalyticsView = ({ sundays }) => {
         shiningCount++;
         if (isWithinYear) yearShiningCount++;
       }
+
+      // filter events with .isCustom === true
+      const filteredEvents = sunday.events.filter((eventRef) => {
+        const event = resolveEvent(eventRef);
+        return !event || !event.isCustom;
+      });
       
-      sunday.events.forEach((eventRef) => {
+      filteredEvents.forEach((eventRef) => {
         const event = resolveEvent(eventRef);
         if (!event) return;
         
