@@ -1206,23 +1206,24 @@ export const classes = {
         ]
     },
     "Ren": {
-        "originSkill": "Sky Splitting Azure Dragon Sword: Ascension",
-        "ascentSkill": "Sky Splitting Azure Dragon Sword: Single Falling Plum Blossom, Heavenly Rain Humanity Desolation",
+        "originSkill": "Rising Azure Dragon: Divided Heavens",
+        "ascentSkill": "Rising Azure Dragon: Heartbound Verse",
         "masterySkills": [
-            "HEXA Plum Blossom Sword Fundamental: Relentless Slash",
-            "HEXA Lost Soul Sword Fundamental: Soul Strike",
-            "HEXA Lost Soul Advent",
-            "HEXA Splitting Ground",
-            "HEXA Void Fang",
-            "HEXA Infinite Blades",
-            "HEXA Plum Blossom Sword 2nd Form: Scattering Plums",
-            "HEXA Plum Blossom Sword 3rd Form: Keen Blade",
+            "HEXA Plum Blossom Sword: Storm",
+            "HEXA Imugi Spirit Sword: Spirit Strike",
+            "HEXA Imugi Spirit Sword: Serpent's Fang",
+            "HEXA Wish Unending",
+            "HEXA Final Imugi Spirit Sword: Burrowing Earth",
+            "HEXA Final Imugi Spirit Sword: Ravenous Spirit",
+            "HEXA Final Imugi Spirit Sword: Years Uncounted",
+            "HEXA Second Plum Blossom Sword: Raining Blossoms",
+            "HEXA Third Plum Blossom Sword: Riotous Heart",
         ],
         "boostSkills": [
-            "Plum Blossom Sword Ultimate: Plum Tree Aroma Boost",
-            "Lost Soul Awakening Boost",
-            "Plum Blossom Sword Ultimate: Dance of Annihilation Boost",
-            "Plum Blossom Sword Ultimate: Soul Blade Boost",
+            "Final Plum Blossom Sword: Thousand Blossom Flurry Boost",
+            "Soul Immeasurable Boost",
+            "Final Plum Blossom Sword: Dancing Annihilation Boost",
+            "Final Imugi Spirit Sword: Blade of the Unbound Heart Boost",
         ],
         "commonSkills": [
             "Sol Janus"

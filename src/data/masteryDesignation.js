@@ -918,20 +918,21 @@ export const masteryDesignation = {
     },
     "Ren": {
         "firstMastery": [
-            "HEXA Plum Blossom Sword Fundamental: Relentless Slash",
+            "HEXA Plum Blossom Sword: Storm",
         ],
         "secondMastery": [
-            "HEXA Lost Soul Sword Fundamental: Soul Strike",
+            "HEXA Imugi Spirit Sword: Spirit Strike",
+            "HEXA Imugi Spirit Sword: Serpent's Fang",
         ],
         "thirdMastery": [
-            "HEXA Lost Soul Advent",
-            "HEXA Splitting Ground",
-            "HEXA Void Fang",
-            "HEXA Infinite Blades",
+            "HEXA Wish Unending",
+            "HEXA Final Imugi Spirit Sword: Burrowing Earth",
+            "HEXA Final Imugi Spirit Sword: Ravenous Spirit",
+            "HEXA Final Imugi Spirit Sword: Years Uncounted",
         ],
         "fourthMastery": [
-            "HEXA Plum Blossom Sword 2nd Form: Scattering Plums",
-            "HEXA Plum Blossom Sword 3rd Form: Keen Blade",
+            "HEXA Second Plum Blossom Sword: Raining Blossoms",
+            "HEXA Third Plum Blossom Sword: Riotous Heart",
         ],
     },
 }
