@@ -18,7 +18,8 @@ const LEVEL_COSTS = [
 
 const STAT_NODE_COSTS = {
     I: { reselect: 100000000, reset: 10000000 },
-    II: { reselect: 200000000, reset: 20000000 },
+    II: { reselect: 100000000, reset: 20000000 },
+    III: { reselect: 100000000, reset: 35000000 },
 };
 
 const MAX_TOTAL_LEVELS = 20;
@@ -202,6 +203,16 @@ export default function HexaStatCalculator() {
                         }`}
                     >
                         Stat Node II
+                    </button>
+                    <button
+                        onClick={() => setStatNode('III')}
+                        className={`px-4 py-2 rounded-lg transition-colors ${
+                            statNode === 'III'
+                                ? 'bg-[color:var(--secondary)] text-[color:var(--primary-dark)]'
+                                : 'bg-[color:var(--background)] text-[color:var(--primary)]'
+                        }`}
+                    >
+                        Stat Node III
                     </button>
                 </div>
 
