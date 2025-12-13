@@ -45,7 +45,7 @@ export const SUNNY_SUNDAY_EVENT_TYPES = {
   HEXA_ENHANCEMENT: {
     id: 'hexa_enhancement',
     name: '[HEXA Matrix] +20% Main Stat Enhancement Rate Past Level 5',
-    shortName: 'HEXA Enhancement',
+    shortName: 'HEXA Stat Enhancement',
     category: 'hexa',
     icon: '/sunnySundayIcons/hexa-enhancement.png',
   },
