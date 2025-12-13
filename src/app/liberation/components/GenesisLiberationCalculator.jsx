@@ -746,9 +746,9 @@ const GenesisLiberationCalculator = () => {
   const scheduleResults = calculateSchedule();
 
   return (
-    <div className="max-w-7xl mx-auto bg-primary-dark p-6 rounded-lg shadow-lg">
+    <div className="max-w-7xl mx-auto bg-primary-dark border border-primary-dim p-6 rounded-2xl">
       {/* Input Details Section - Horizontal Row at Top */}
-      <div className="mb-8 p-4 bg-background-bright flex justify-between flex-col rounded-lg">
+      <div className="mb-8 p-4 bg-background-bright border border-primary-dim flex justify-between flex-col rounded-xl">
         <h2 className="text-2xl font-semibold text-primary-bright mb-4 mx-auto">Current Status</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mx-auto w-full">
           {/* Quest Selection */}
@@ -766,7 +766,7 @@ const GenesisLiberationCalculator = () => {
             <label className="block text-primary-bright font-medium">Current Trace of Darkness</label>
             <input
               type="number"
-              className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-gray-700"
+              className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
               value={currentTraces}
               onChange={(e) => setCurrentTraces(Math.max(0, Number(e.target.value)))}
               min="0"
@@ -778,7 +778,7 @@ const GenesisLiberationCalculator = () => {
             <label className="block text-primary-bright font-medium">Start Date (UTC)</label>
             <input
               type="date"
-              className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-gray-700"
+              className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
@@ -796,9 +796,9 @@ const GenesisLiberationCalculator = () => {
                     checked={genesisPassEnabled}
                     onChange={(e) => handleGenesisPassToggle(e.target.checked)}
                   />
-                  <div className="block bg-gray-600 w-10 h-6 rounded-full"></div>
+                  <div className="block bg-background-bright w-10 h-6 rounded-full border border-primary-dim"></div>
                   <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition ${
-                    genesisPassEnabled ? 'transform translate-x-full bg-purple-500' : ''
+                    genesisPassEnabled ? 'transform translate-x-full bg-secondary' : ''
                   }`}></div>
                 </div>
                 <div className="ml-3 flex items-center gap-2">
@@ -810,7 +810,7 @@ const GenesisLiberationCalculator = () => {
                     className="rounded"
                   />
                   {genesisPassEnabled && (
-                    <span className="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded">3x</span>
+                    <span className="bg-secondary text-primary-dark text-xs font-bold px-2 py-1 rounded">3x</span>
                   )}
                 </div>
               </label>
@@ -820,7 +820,7 @@ const GenesisLiberationCalculator = () => {
       </div>
 
       {/* Presets Section */}
-      <div className="mb-8 bg-background-bright rounded-xl border border-gray-700/50 overflow-hidden">
+      <div className="mb-8 bg-background-bright rounded-xl border border-primary-dim overflow-hidden">
         <button
           type="button"
           onClick={togglePresetsExpanded}
@@ -849,7 +849,7 @@ const GenesisLiberationCalculator = () => {
                   key={preset.id}
                   type="button"
                   onClick={() => applyBossPreset(preset)}
-                  className="basis-1/4 group relative px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-gray-600 hover:border-secondary hover:scale-105"
+                  className="basis-1/4 group relative px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-primary-dim hover:border-secondary hover:scale-105"
                   title={preset.description}
                 >
                   {preset.label}
@@ -874,7 +874,7 @@ const GenesisLiberationCalculator = () => {
                   key={preset.id}
                   type="button"
                   onClick={() => applyPartySizePreset(preset.size)}
-                  className="basis-1/4 px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-gray-600 hover:border-secondary hover:scale-105"
+                  className="basis-1/4 px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-primary-dim hover:border-secondary hover:scale-105"
                 >
                   {preset.label}
                 </button>
@@ -889,14 +889,14 @@ const GenesisLiberationCalculator = () => {
               <button
                 type="button"
                 onClick={() => setAllClearedThisWeek(true)}
-                className="flex-1 px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-gray-600 hover:border-secondary hover:scale-105"
+                className="flex-1 px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-primary-dim hover:border-secondary hover:scale-105"
               >
                 All Cleared
               </button>
               <button
                 type="button"
                 onClick={() => setAllClearedThisWeek(false)}
-                className="flex-1 px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-gray-600 hover:border-gray-500"
+                className="flex-1 px-3 py-1.5 bg-primary-dark text-primary-bright rounded-md hover:bg-secondary hover:text-primary-dark transition-all text-sm border border-primary-dim hover:border-secondary"
               >
                 None Cleared
               </button>
@@ -915,7 +915,7 @@ const GenesisLiberationCalculator = () => {
           <h2 className="text-2xl font-semibold text-primary-bright mb-4">Bosses Cleared</h2>
 
           {BOSS_DATA.map((boss) => (
-            <div key={boss.id} className="bg-background-bright p-4 rounded-lg mb-4">
+            <div key={boss.id} className="bg-background-bright border border-primary-dim p-4 rounded-xl mb-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center">
                   <Image
@@ -958,7 +958,7 @@ const GenesisLiberationCalculator = () => {
                               </div>
                             </div>
                           ) : (
-                            <div className="w-[40px] h-[40px] bg-primary-dark rounded-md flex items-center justify-center border border-gray-600 border-dashed">
+                            <div className="w-[40px] h-[40px] bg-primary-dark rounded-md flex items-center justify-center border border-primary-dim border-dashed">
                               <span className="text-xs text-primary-bright">Skip</span>
                             </div>
                           )}
@@ -971,7 +971,7 @@ const GenesisLiberationCalculator = () => {
                   <div className="sm:col-span-2">
                     <label className="block text-primary-bright text-sm mb-1">Party Size</label>
                     <select
-                      className="w-fit p-2 bg-primary-dark text-primary-bright rounded border border-gray-700"
+                      className="w-fit p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
                       value={bossSelections.find(b => b.id === boss.id)?.partySize}
                       onChange={(e) => handleBossSelectionChange(boss.id, 'partySize', Number(e.target.value))}
                     >
@@ -995,9 +995,9 @@ const GenesisLiberationCalculator = () => {
                             checked={bossSelections.find(b => b.id === boss.id)?.clearedThisWeek}
                             onChange={(e) => handleBossSelectionChange(boss.id, 'clearedThisWeek', e.target.checked)}
                           />
-                          <div className="block bg-gray-600 w-10 h-6 rounded-full"></div>
+                          <div className="block bg-background-bright w-10 h-6 rounded-full border border-primary-dim"></div>
                           <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition ${bossSelections.find(b => b.id === boss.id)?.clearedThisWeek
-                            ? 'transform translate-x-full bg-blue-400'
+                            ? 'transform translate-x-full bg-secondary'
                             : ''
                             }`}></div>
                         </div>
@@ -1017,7 +1017,7 @@ const GenesisLiberationCalculator = () => {
         <div className="lg:col-span-4 space-y-6">
           <h2 className="text-2xl font-semibold text-primary-bright mb-4">Liberation Schedule</h2>
 
-          <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-3 sm:space-y-4">
+          <div className="bg-background-bright border border-primary-dim p-3 sm:p-4 rounded-xl space-y-3 sm:space-y-4">
             <div className="flex justify-between">
               <span className="text-primary-bright">Total Traces Needed:</span>
               <span className="font-bold text-primary-bright">{scheduleResults.totalTracesNeeded}</span>
@@ -1044,7 +1044,7 @@ const GenesisLiberationCalculator = () => {
 
           <div className="space-y-2">
             <h3 className="text-xl font-medium text-primary-bright">Weekly Traces Breakdown</h3>
-            <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-2">
+            <div className="bg-background-bright border border-primary-dim p-3 sm:p-4 rounded-xl space-y-2">
               {scheduleResults.weeklyTraces.map((boss) => (
                 <div key={boss.bossId} className="flex justify-between items-center py-1">
                   <div className="flex items-center">
@@ -1073,7 +1073,7 @@ const GenesisLiberationCalculator = () => {
       {/* Schedule Timeline */}
       <div className="space-y-2 mt-4">
         <h3 className="text-xl font-medium text-primary-bright">Schedule Timeline</h3>
-        <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-2">
+        <div className="bg-background-bright border border-primary-dim p-3 sm:p-4 rounded-xl space-y-2">
           {scheduleResults.timeline && scheduleResults.timeline.length > 0 ? (
             scheduleResults.timeline.map((ev, idx) => (
               <div key={idx} className="flex justify-between items-center py-1">

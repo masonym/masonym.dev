@@ -328,9 +328,9 @@ const DestinyLiberationCalculator = () => {
   const scheduleResults = calculateSchedule();
 
   return (
-    <div className="max-w-7xl mx-auto bg-primary-dark p-6 rounded-lg shadow-lg">
+    <div className="max-w-7xl mx-auto bg-primary-dark border border-primary-dim p-6 rounded-2xl">
       {/* Input Details Section */}
-      <div className="mb-8 p-4 bg-background-bright flex justify-between flex-col rounded-lg">
+      <div className="mb-8 p-4 bg-background-bright border border-primary-dim flex justify-between flex-col rounded-xl">
         <h2 className="text-2xl font-semibold text-primary-bright mb-4 mx-auto">Current Status</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mx-auto w-full">
           {/* Quest Selection */}
@@ -348,7 +348,7 @@ const DestinyLiberationCalculator = () => {
             <label className="block text-primary-bright font-medium">Current Adversary's Determination</label>
             <input
               type="number"
-              className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-gray-700"
+              className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
               value={currentTraces}
               onChange={(e) => setCurrentTraces(Math.max(0, Number(e.target.value)))}
               min="0"
@@ -360,7 +360,7 @@ const DestinyLiberationCalculator = () => {
             <label className="block text-primary-bright font-medium">Start Date (UTC)</label>
             <input
               type="date"
-              className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-gray-700"
+              className="w-full max-w-[200px] p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
@@ -375,7 +375,7 @@ const DestinyLiberationCalculator = () => {
           <h2 className="text-2xl font-semibold text-primary-bright mb-4">Bosses Cleared</h2>
 
           {BOSS_DATA.map((boss) => (
-            <div key={boss.id} className="bg-background-bright p-4 rounded-lg mb-4">
+            <div key={boss.id} className="bg-background-bright border border-primary-dim p-4 rounded-xl mb-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center">
                   <Image
@@ -418,7 +418,7 @@ const DestinyLiberationCalculator = () => {
                               </div>
                             </div>
                           ) : (
-                            <div className="w-[40px] h-[40px] bg-primary-dark rounded-md flex items-center justify-center border border-gray-600 border-dashed">
+                            <div className="w-[40px] h-[40px] bg-primary-dark rounded-md flex items-center justify-center border border-primary-dim border-dashed">
                               <span className="text-xs text-primary-bright">Skip</span>
                             </div>
                           )}
@@ -431,7 +431,7 @@ const DestinyLiberationCalculator = () => {
                   <div className="sm:col-span-2">
                     <label className="block text-primary-bright text-sm mb-1">Party Size</label>
                     <select
-                      className="w-fit p-2 bg-primary-dark text-primary-bright rounded border border-gray-700"
+                      className="w-fit p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
                       value={bossSelections.find(b => b.id === boss.id)?.partySize}
                       onChange={(e) => handleBossSelectionChange(boss.id, 'partySize', Number(e.target.value))}
                     >
@@ -455,9 +455,9 @@ const DestinyLiberationCalculator = () => {
                             checked={bossSelections.find(b => b.id === boss.id)?.clearedThisWeek}
                             onChange={(e) => handleBossSelectionChange(boss.id, 'clearedThisWeek', e.target.checked)}
                           />
-                          <div className="block bg-gray-600 w-10 h-6 rounded-full"></div>
+                          <div className="block bg-background-bright w-10 h-6 rounded-full border border-primary-dim"></div>
                           <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition ${bossSelections.find(b => b.id === boss.id)?.clearedThisWeek
-                            ? 'transform translate-x-full bg-blue-400'
+                            ? 'transform translate-x-full bg-secondary'
                             : ''
                             }`}></div>
                         </div>
@@ -477,7 +477,7 @@ const DestinyLiberationCalculator = () => {
         <div className="lg:col-span-4 space-y-6">
           <h2 className="text-2xl font-semibold text-primary-bright mb-4">Liberation Schedule</h2>
 
-          <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-3 sm:space-y-4">
+          <div className="bg-background-bright border border-primary-dim p-3 sm:p-4 rounded-xl space-y-3 sm:space-y-4">
             <div className="flex justify-between">
               <span className="text-primary-bright">Total Adversary's Determination Needed:</span>
               <span className="font-bold text-primary-bright">{scheduleResults.totalTracesNeeded}</span>
@@ -504,7 +504,7 @@ const DestinyLiberationCalculator = () => {
 
           <div className="space-y-2">
             <h3 className="text-xl font-medium text-primary-bright">Weekly Adversary's Determination Breakdown</h3>
-            <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-2">
+            <div className="bg-background-bright border border-primary-dim p-3 sm:p-4 rounded-xl space-y-2">
               {scheduleResults.weeklyTraces.map((boss) => (
                 <div key={boss.bossId} className="flex justify-between items-center py-1">
                   <div className="flex items-center">
@@ -533,7 +533,7 @@ const DestinyLiberationCalculator = () => {
       {/* Schedule Timeline */}
       <div className="space-y-2 mt-4">
         <h3 className="text-xl font-medium text-primary-bright">Schedule Timeline</h3>
-        <div className="bg-background-bright p-3 sm:p-4 rounded-lg space-y-2">
+        <div className="bg-background-bright border border-primary-dim p-3 sm:p-4 rounded-xl space-y-2">
           {scheduleResults.timeline && scheduleResults.timeline.length > 0 ? (
             scheduleResults.timeline.map((ev, idx) => (
               <div key={idx} className="flex justify-between items-center py-1">
