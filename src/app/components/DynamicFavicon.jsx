@@ -27,6 +27,9 @@ const DynamicFavicon = () => {
         case 'star-force':
           favicon.href = '/images/star-force.png';
           break;
+        case 'sunny-sunday':
+          favicon.href = '/images/sunny-sunday.png';
+          break;
         // Add more cases for other tools
         default:
           favicon.href = '/icon.ico'; // Default favicon
