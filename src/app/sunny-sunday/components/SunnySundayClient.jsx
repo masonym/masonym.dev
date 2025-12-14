@@ -172,7 +172,7 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
       exit={{ opacity: 0, y: -20 }}
       className={`relative rounded-2xl border transition-all duration-300 overflow-hidden ${
         today
-          ? 'border-secondary bg-secondary ring-2 ring-secondary'
+          ? 'border-secondary bg-secondary ring-2 ring-secondary dark:bg-primary-dark'
           : isCurrentWeek
           ? 'border-secondary bg-primary-dark'
           : past
@@ -189,7 +189,7 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
           <div
             className={`w-12 h-12 rounded-xl flex items-center justify-center ${
               today
-                ? 'bg-secondary text-primary-dark'
+                ? 'bg-primary-dark text-secondary dark:bg-secondary dark:text-primary-dark'
                 : past
                 ? 'bg-primary-dim text-primary'
                 : 'bg-background-bright text-secondary'
@@ -201,13 +201,17 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
             <div className="flex items-center gap-2">
               <h3
                 className={`font-bold text-lg ${
-                  past ? 'text-primary' : 'text-primary-bright'
+                  today
+                    ? 'text-primary-dark dark:text-primary-bright'
+                    : past
+                    ? 'text-primary'
+                    : 'text-primary-bright'
                 }`}
               >
                 {formatSundayDateShortUtc(date)}
               </h3>
               {today && (
-                <span className="px-2 py-0.5 rounded-full text-xs bg-secondary text-primary-dark font-bold animate-pulse">
+                <span className="px-2 py-0.5 rounded-full text-xs bg-primary-dark text-secondary border border-secondary font-bold animate-pulse">
                   TODAY
                 </span>
               )}
@@ -223,7 +227,9 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
                 </span>
               )}
             </div>
-            <p className="text-sm text-primary">{date.getUTCFullYear()}</p>
+            <p className={`text-sm ${today ? 'text-primary-dark dark:text-primary' : 'text-primary'}`}>
+              {date.getUTCFullYear()}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
