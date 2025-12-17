@@ -32,6 +32,17 @@ const BOSS_DATA = [
     ],
   },
   {
+    id: 'adversary',
+    name: 'First Adversary',
+    maxPartySize: 3,
+    difficulties: [
+      { name: 'None', traces: 0 },
+      { name: 'Normal', traces: 15 },
+      { name: 'Hard', traces: 120 },
+      { name: 'Extreme', traces: 500 },
+    ]
+  },
+  {
     id: 'kaling',
     name: 'Kaling',
     difficulties: [
