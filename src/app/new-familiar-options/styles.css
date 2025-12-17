@@ -3,6 +3,7 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
+  color: #eee;
 }
 
 .familiar-options-container h1 {
@@ -22,6 +23,30 @@
   padding: 15px;
   margin: 10px 0;
   border-left: 4px solid #ff9f43;
+}
+
+.familiar-options-container .option-card.common {
+  border-left-color: #888 !important;
+}
+
+.familiar-options-container .option-card.rare {
+  border-left-color: #54a0ff !important;
+}
+
+.familiar-options-container .option-card.epic {
+  border-left-color: #a855f7 !important;
+}
+
+.familiar-options-container .option-card.unique {
+  border-left-color: #fbbf24 !important;
+}
+
+.familiar-options-container .option-card.legendary {
+  border-left-color: #22c55e !important;
+}
+
+.familiar-options-container .option-card.unknown {
+  border-left-color: #666 !important;
 }
 
 .familiar-options-container .option-id {
