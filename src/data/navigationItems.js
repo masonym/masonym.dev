@@ -26,4 +26,10 @@ export const navigationItems = [
             { name: "Sunny Sunday", href: "/sunny-sunday", image: "/images/sunny-sunday.png", new: true },
         ],
     },
+    {
+        title: "Temporary",
+        items: [
+            { name: "v.265 New Familiar Options", href: "/new-familiar-options" },
+        ],
+    },
 ];
