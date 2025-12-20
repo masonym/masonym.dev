@@ -16,7 +16,7 @@ export const navigationItems = [
         items: [
             // { name: "Flames", href: "/flames", image: "/images/flames.png" },
             // { name: "Potentials", href: "/potentials", image: "/images/potentials.png" },
-            // { name: "Familiars", href: "/familiars" },
+            { name: "Familiar Directory", href: "/familiars", image: "/images/familiars.png", new: true },
             // { name: "Souls", href: "/souls" },
             // { name: "MAPLE Daily Gift", href: "/maple-daily-gift" },
             // { name: "Inner Ability", href: "/inner-ability" },
