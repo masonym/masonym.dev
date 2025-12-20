@@ -38,3 +38,5 @@ src/data/updateClassStructure.js
 public/changelog.json
 src/data/changelog.json
 *.md
+
+.env

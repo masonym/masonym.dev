@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Mail } from 'lucide-react';
 import CharacterImage from './components/CharacterImage';
+import ContactForm from './components/ContactForm';
 
 const AboutPage = () => {
   return (
@@ -72,13 +72,9 @@ const AboutPage = () => {
       <section className="mb-8 text-center max-w-2xl flex flex-col items-center">
         <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
         <p className="">
-          If you notice an issue with the site, or have suggestions, questions, concerns, or otherwise; please feel free to reach me at the email below.
+          If you notice an issue with the site, or have suggestions, questions, concerns, or otherwise; please feel free to send me a message below.
         </p>
-        <Link href="mailto:contact@masonym.dev" target="_blank" className="flex flex-col items-center text-blue-500 underline">
-          <Mail className='w-16 h-auto mt-4 text-center' />
-          contact@masonym.dev
-        </Link>
-        <p></p>
+        <ContactForm />
       </section>
     </div>
   );
