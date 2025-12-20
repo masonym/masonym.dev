@@ -9,8 +9,9 @@ const LEVEL_RANGES = [
   { label: '1-50', min: 1, max: 50 },
   { label: '51-100', min: 51, max: 100 },
   { label: '101-150', min: 101, max: 150 },
-  { label: '151-200', min: 151, max: 200 },
-  { label: '200+', min: 200, max: Infinity },
+  { label: '151-199', min: 151, max: 199 },
+  { label: '200-259', min: 200, max: 259 },
+  { label: '260+', min: 260, max: Infinity },
 ];
 
 const ELEMENTS = [
