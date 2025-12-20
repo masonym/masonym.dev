@@ -2,6 +2,8 @@ import "./globals.css";
 import NavBar from "@/components/Navigation/NavBar/NavBar";
 import Footer from "@/components/Footer";
 import DynamicFavicon from "./components/DynamicFavicon";
+import GaPageView from "./components/GaPageView";
+import { Suspense } from "react";
 import Script from "next/script";
 import { GoogleAdSense } from "next-google-adsense";
 
@@ -26,12 +28,15 @@ export default function RootLayout({ children }) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-BY50PB72SB');
+            gtag('config', 'G-BY50PB72SB', { send_page_view: false });
           `}
         </Script>
       </head>
       <body className="min-h-screen">
         <DynamicFavicon />
+        <Suspense fallback={null}>
+          <GaPageView measurementId="G-BY50PB72SB" />
+        </Suspense>
         <GoogleAdSense publisherId="pub-9497526035569773"/>
         <NavBar />
         {children}
