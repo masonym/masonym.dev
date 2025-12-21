@@ -1,102 +1,54 @@
-import { NextResponse } from 'next/server';
 
-const isValidEmail = (value) => {
-  if (typeof value !== 'string') return false;
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-};
+export const runtime = 'edge';
 
-const clampString = (value, maxLen) => {
-  if (typeof value !== 'string') return '';
-  return value.trim().slice(0, maxLen);
-};
+const json = (data, status = 200) =>
+  new Response(JSON.stringify(data), {
+    status,
+    headers: {'content-type': 'application/json'},
+  });
 
-export async function POST(req) {
+export async function GET() {
+  return json({
+    ok: true,
+    configured: {
+      RESEND_API_KEY: Boolean(process.env.RESEND_API_KEY),
+      CONTACT_TO_EMAIL: Boolean(process.env.CONTACT_TO_EMAIL),
+      CONTACT_FROM_EMAIL: Boolean(process.env.CONTACT_FROM_EMAIL),
+    },
+  });
+}
+
+export async function POST(request) {
   try {
-    const body = await req.json().catch(() => null);
+    const body = await request.json().catch(() => null);
 
-    const name = clampString(body?.name ?? '', 100);
-    const email = clampString(body?.email ?? '', 320);
-    const message = clampString(body?.message ?? '', 4000);
-
-    const website = clampString(body?.website ?? '', 200);
-    const startedAt = body?.startedAt;
-
-    if (website) {
-      return NextResponse.json({ ok: true }, { status: 200 });
+    const email = body?.email ?? '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return json({error: 'invalid email'}, 400);
     }
 
-    if (typeof startedAt !== 'number' || !Number.isFinite(startedAt)) {
-      return NextResponse.json({ error: 'Invalid request.' }, { status: 400 });
-    }
-
-    const elapsedMs = Date.now() - startedAt;
-    if (elapsedMs < 1500) {
-      return NextResponse.json({ ok: true }, { status: 200 });
-    }
-
-    if (!isValidEmail(email)) {
-      return NextResponse.json({ error: 'Please provide a valid email.' }, { status: 400 });
-    }
-
-    if (message.length < 10) {
-      return NextResponse.json({ error: 'Please provide a longer message.' }, { status: 400 });
-    }
-
-    const resendApiKey = process.env.RESEND_API_KEY;
-    const toEmail = process.env.CONTACT_TO_EMAIL;
-    const fromEmail = process.env.CONTACT_FROM_EMAIL || 'masonym.dev <onboarding@resend.dev>';
-
-    if (!resendApiKey || !toEmail) {
-      return NextResponse.json({ error: 'Server not configured.' }, { status: 500 });
-    }
-
-    const subjectPrefix = process.env.CONTACT_SUBJECT_PREFIX || '[masonym.dev]';
-    const subject = `${subjectPrefix} New message from ${name || email}`;
-
-    const text = [
-      `name: ${name || '(not provided)'}`,
-      `email: ${email}`,
-      '',
-      message,
-    ].join('\n');
-
-    const html = `
-      <div>
-        <p><strong>name:</strong> ${name ? name.replaceAll('<', '&lt;').replaceAll('>', '&gt;') : '(not provided)'}</p>
-        <p><strong>email:</strong> ${email.replaceAll('<', '&lt;').replaceAll('>', '&gt;')}</p>
-        <hr />
-        <pre style="white-space:pre-wrap;">${message
-          .replaceAll('&', '&amp;')
-          .replaceAll('<', '&lt;')
-          .replaceAll('>', '&gt;')}</pre>
-      </div>
-    `;
-
-    const resendResponse = await fetch('https://api.resend.com/emails', {
+    const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${resendApiKey}`,
-        'Content-Type': 'application/json',
+        authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        'content-type': 'application/json',
       },
       body: JSON.stringify({
-        from: fromEmail,
-        to: [toEmail],
-        subject,
-        text,
-        html,
+        from: process.env.CONTACT_FROM_EMAIL,
+        to: [process.env.CONTACT_TO_EMAIL],
+        subject: 'hello',
+        text: body.message,
         reply_to: email,
       }),
     });
 
-    if (!resendResponse.ok) {
-      const errText = await resendResponse.text().catch(() => '');
-      console.error('Resend send failed:', resendResponse.status, errText);
-      return NextResponse.json({ error: 'Failed to send message.' }, { status: 502 });
+    if (!r.ok) {
+      const t = await r.text().catch(() => '');
+      return json({error: 'send failed', provider: t}, 502);
     }
 
-    return NextResponse.json({ ok: true }, { status: 200 });
-  } catch (error) {
-    console.error('Contact API error:', error);
-    return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 });
+    return json({ok: true});
+  } catch (e) {
+    return json({error: 'unexpected'}, 500);
   }
 }
