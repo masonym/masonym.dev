@@ -32,7 +32,7 @@ const BOSS_DATA = [
     ],
   },
   {
-    id: 'adversary',
+    id: 'first_adversary',
     name: 'First Adversary',
     maxPartySize: 3,
     difficulties: [
