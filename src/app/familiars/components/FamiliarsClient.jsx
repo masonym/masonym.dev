@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { Search, Filter, ChevronDown, X, SlidersHorizontal } from 'lucide-react';
+import Image from 'next/image';
 import FamiliarCard from './FamiliarCard';
 
 const LEVEL_RANGES = [
@@ -15,14 +16,14 @@ const LEVEL_RANGES = [
 ];
 
 const ELEMENTS = [
-  { code: 'all', name: 'All Elements' },
-  { code: 'N', name: 'None' },
-  { code: 'F', name: 'Fire' },
-  { code: 'I', name: 'Ice' },
-  { code: 'P', name: 'Poison' },
-  { code: 'D', name: 'Dark' },
-  { code: 'H', name: 'Holy' },
-  { code: 'L', name: 'Light' },
+  { code: 'all', name: 'All Elements', image: null },
+  { code: 'N', name: 'None', image: '/familiar_data/familiars/types/none.png' },
+  { code: 'F', name: 'Fire', image: '/familiar_data/familiars/types/fire.png' },
+  { code: 'I', name: 'Ice', image: '/familiar_data/familiars/types/ice.png' },
+  { code: 'P', name: 'Poison', image: '/familiar_data/familiars/types/poison.png' },
+  { code: 'D', name: 'Dark', image: '/familiar_data/familiars/types/dark.png' },
+  { code: 'H', name: 'Holy', image: '/familiar_data/familiars/types/holy.png' },
+  { code: 'L', name: 'Light', image: '/familiar_data/familiars/types/lightning.png' },
 ];
 
 const SORT_OPTIONS = [
@@ -63,7 +64,12 @@ const FilterDropdown = ({ label, value, options, onChange, valueKey = 'value', l
           transition-all text-sm min-w-[140px] justify-between
         "
       >
-        <span className="truncate">{selectedOption?.[labelKey] || label}</span>
+        <span className="flex items-center gap-2 truncate">
+          {selectedOption?.image && selectedOption?.image !== null && (
+            <Image src={selectedOption.image} alt="" width={16} height={16} className="w-4 h-4" />
+          )}
+          {selectedOption?.[labelKey] || label}
+        </span>
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
@@ -72,6 +78,7 @@ const FilterDropdown = ({ label, value, options, onChange, valueKey = 'value', l
           absolute top-full left-0 mt-1 z-50
           bg-[var(--background-dim)] border border-[var(--primary-dim)]/50
           rounded-lg shadow-xl overflow-hidden min-w-full
+          max-h-[50vh] overflow-y-auto
         ">
           {options.map((option) => (
             <button
@@ -83,13 +90,16 @@ const FilterDropdown = ({ label, value, options, onChange, valueKey = 'value', l
               className={`
                 w-full px-3 py-2 text-left text-sm
                 hover:bg-[var(--background-bright)]
-                transition-colors
+                transition-colors flex items-center gap-2
                 ${option[valueKey] === value 
                   ? 'bg-[var(--secondary)]/20 text-[var(--secondary)]' 
                   : 'text-[var(--primary)]'
                 }
               `}
             >
+              {option.image && option.image !== null && (
+                <Image src={option.image} alt="" width={16} height={16} className="w-4 h-4" />
+              )}
               {option[labelKey]}
             </button>
           ))}
@@ -129,7 +139,22 @@ const TypeFilter = ({ types, selectedType, onChange }) => {
           transition-all text-sm min-w-[140px] justify-between
         "
       >
-        <span className="truncate">{selectedTypeName}</span>
+        <span className="flex items-center gap-2 truncate">
+          {selectedType === 'all' ? (
+            'All Types'
+          ) : (
+            <>
+              <Image 
+                src={`/familiar_data/familiars/elements/${types.find(t => t.id === selectedType)?.name.toLowerCase()}.png`} 
+                alt="" 
+                width={16} 
+                height={16} 
+                className="w-4 h-4" 
+              />
+              {types.find(t => t.id === selectedType)?.name || 'All Types'}
+            </>
+          )}
+        </span>
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
@@ -137,7 +162,8 @@ const TypeFilter = ({ types, selectedType, onChange }) => {
         <div className="
           absolute top-full left-0 mt-1 z-50
           bg-[var(--background-dim)] border border-[var(--primary-dim)]/50
-          rounded-lg shadow-xl overflow-hidden min-w-full max-h-64 overflow-y-auto
+          rounded-lg shadow-xl overflow-hidden min-w-full
+          max-h-[50vh] overflow-y-auto
         ">
           <button
             onClick={() => {
@@ -147,7 +173,7 @@ const TypeFilter = ({ types, selectedType, onChange }) => {
             className={`
               w-full px-3 py-2 text-left text-sm
               hover:bg-[var(--background-bright)]
-              transition-colors
+              transition-colors flex items-center gap-2
               ${selectedType === 'all' 
                 ? 'bg-[var(--secondary)]/20 text-[var(--secondary)]' 
                 : 'text-[var(--primary)]'
@@ -166,13 +192,20 @@ const TypeFilter = ({ types, selectedType, onChange }) => {
               className={`
                 w-full px-3 py-2 text-left text-sm
                 hover:bg-[var(--background-bright)]
-                transition-colors
+                transition-colors flex items-center gap-2
                 ${type.id === selectedType 
                   ? 'bg-[var(--secondary)]/20 text-[var(--secondary)]' 
                   : 'text-[var(--primary)]'
                 }
               `}
             >
+              <Image 
+                src={`/familiar_data/familiars/elements/${type.name.toLowerCase()}.png`} 
+                alt="" 
+                width={16} 
+                height={16} 
+                className="w-4 h-4" 
+              />
               {type.name}
             </button>
           ))}

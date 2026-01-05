@@ -130,13 +130,33 @@ const FamiliarHoverCard = ({ familiar, anchorRect, onClose, isTouchDevice = fals
 
           <div className={`rounded-lg p-2 text-center border ${elementStyle.bg} ${elementStyle.border}`}>
             <div className="text-xs text-[var(--primary-dim)] uppercase tracking-wide">Element</div>
-            <div className={`text-lg font-bold ${elementStyle.text}`}>{familiar.ElementName}</div>
+            <div className="flex items-center justify-center gap-2 mt-1">
+              {familiar.ElementCode !== 'all' && (
+                <Image 
+                  src={`/familiar_data/familiars/types/${familiar.ElementName.toLowerCase()}.png`} 
+                  alt={familiar.ElementName} 
+                  width={20} 
+                  height={20} 
+                  className="w-5 h-5" 
+                />
+              )}
+              <div className={`text-lg font-bold ${elementStyle.text}`}>{familiar.ElementName}</div>
+            </div>
           </div>
         </div>
 
         <div className={`rounded-lg p-2 text-center ${typeStyle.bg}`}>
           <div className="text-xs text-[var(--primary-dim)] uppercase tracking-wide">Type</div>
-          <div className={`text-base font-bold ${typeStyle.text}`}>{familiar.TypeName}</div>
+          <div className="flex items-center justify-center gap-2 mt-1">
+            <Image 
+              src={`/familiar_data/familiars/elements/${familiar.TypeName.toLowerCase()}.png`} 
+              alt={familiar.TypeName} 
+              width={20} 
+              height={20} 
+              className="w-5 h-5" 
+            />
+            <div className={`text-base font-bold ${typeStyle.text}`}>{familiar.TypeName}</div>
+          </div>
         </div>
 
       </div>
