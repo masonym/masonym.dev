@@ -30,6 +30,7 @@ export const navigationItems = [
         title: "Temporary",
         items: [
             { name: "v.265 New Familiar Options", href: "/new-familiar-options" },
+            { name: "Jan 8 Familiar Lines Hotfix", href: "/familiar-lines-hotfix" },
         ],
     },
 ];

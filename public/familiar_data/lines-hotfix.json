@@ -1,0 +1,1024 @@
+{
+"Changes": [
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152318\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152318/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152318/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152317\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152317/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152317/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152316\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152316/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152316/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152315\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152315/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152315/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152314\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152314/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152314/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152313\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152313/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152313/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152312\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152312/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152312/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152311\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152311/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152311/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152310\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152310/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152310/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152309\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152309/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152309/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152308\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152308/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152308/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152307\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152307/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152307/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152306\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152306/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152306/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152305\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152305/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152305/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152304\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152304/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152304/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152303\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152303/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152303/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152302\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152302/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152302/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\152301\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/152301/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "152301/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142318\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142318/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142318/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142317\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142317/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142317/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142316\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142316/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142316/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142315\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142315/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142315/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142314\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142314/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142314/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142313\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142313/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142313/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142312\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142312/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142312/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142311\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142311/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142311/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142310\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142310/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142310/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142309\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142309/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142309/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142308\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142308/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142308/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142307\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142307/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142307/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142306\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142306/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142306/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142305\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142305/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142305/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142304\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142304/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142304/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142303\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142303/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142303/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142302\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142302/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142302/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\142301\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/142301/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "142301/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132318\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132318/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132318/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132317\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132317/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132317/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132316\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132316/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132316/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132315\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132315/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132315/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132314\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132314/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132314/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132313\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132313/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132313/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132312\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132312/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132312/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132311\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132311/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132311/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132310\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132310/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132310/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132309\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132309/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132309/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132308\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132308/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132308/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132307\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132307/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132307/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132306\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132306/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132306/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132305\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132305/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132305/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132304\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132304/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132304/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132303\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132303/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132303/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132302\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132302/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132302/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\132301\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/132301/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "132301/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122318\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122318/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122318/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122317\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122317/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122317/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122316\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122316/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122316/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122315\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122315/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122315/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122314\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122314/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122314/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122313\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122313/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122313/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122312\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122312/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122312/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122311\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122311/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122311/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122310\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122310/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122310/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122309\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122309/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122309/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122308\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122308/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122308/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122307\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122307/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122307/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122306\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122306/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122306/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122305\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122305/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122305/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122304\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122304/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122304/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122303\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122303/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122303/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122302\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122302/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122302/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\122301\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/122301/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "122301/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112318\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112318/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112318/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112317\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112317/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112317/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112316\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112316/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112316/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112315\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112315/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112315/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112314\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112314/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112314/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112313\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112313/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112313/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112312\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112312/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112312/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112311\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112311/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112311/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112310\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112310/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112310/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112309\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112309/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112309/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112308\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112308/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112308/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112307\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112307/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112307/info/string",
+      "HotfixValue": "\u0022If the second and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the second and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112306\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112306/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112306/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112305\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112305/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112305/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112304\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112304/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112304/info/string",
+      "HotfixValue": "\u0022If the first and third dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and third dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112303\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112303/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112303/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112302\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112302/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112302/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\112301\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/112301/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "112301/info/string",
+      "HotfixValue": "\u0022If the first and second dice are each #w or more, Dice Total: \\u002B#add\u0022",
+      "PatchValue": "\u0022If the first and second dice add up to #w or more, Dice Total: \\u002B#add\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\150706\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/150706/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "150706/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\150705\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/150705/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "150705/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\150704\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/150704/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "150704/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\140706\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/140706/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "140706/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\140705\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/140705/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "140705/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\140704\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/140704/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "140704/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\130706\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/130706/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "130706/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\130705\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/130705/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "130705/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\130704\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/130704/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "130704/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\120705\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/120705/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "120705/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\120704\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/120704/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "120704/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    },
+    {
+      "ChangeType": "modified",
+      "HotfixPath": "Item\\FamiliarOption.img\\110704\\info\\string",
+      "PatchPath": "Item/FamiliarOption.img/110704/info/string",
+      "Category": "Item",
+      "ImageName": "FamiliarOption.img",
+      "PropertyPath": "110704/info/string",
+      "HotfixValue": "\u0022If all Familiars on your active lineup have the same element, Final Multiplier: \\u002B#mulx\u0022",
+      "PatchValue": "\u0022If all Familiars on your active lineup have a different element, Final Multiplier: \\u002B#mulx\u0022"
+    }
+]
+}
