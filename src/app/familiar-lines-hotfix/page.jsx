@@ -93,6 +93,15 @@ export default function FamiliarLinesHotfixPage() {
         This page shows the familiar potential line text corrections from the January 8th, 2026 hotfix.
         The changes fix incorrect wording in dice-related and element-related familiar lines.
       </p>
+      <p className="warning">
+       Note that most of these are duplicates; there are really only 7 line changes, but each line has multiple instances within each tier; this page is just extracting the patch data to analyze which lines changed then deduplicating the data within a rarity. This is what the "x3 variants" tag means.
+       <br/>
+       I am leaving the duplicates in the list for posterity.
+       <br/>
+       Also this page doesn't look good in light mode because I didn't write the CSS for it :)
+       <br/>
+       <br/>
+      </p>
       <p className="summary">
         <span className="count">{changes.length}</span> total line changes across all variants (includes duplicates)
       </p>
