@@ -98,7 +98,7 @@ export default function FamiliarLinesHotfixPage() {
        <br/>
        I am leaving the duplicates in the list for posterity.
        <br/>
-       Also this page doesn't look good in light mode because I didn't write the CSS for it :)
+       Also this page doesn't look good in light mode because I didn't use tailwind for this page :)
        <br/>
        <br/>
       </p>
