@@ -26,19 +26,28 @@ export const TILE_TYPE_CONFIG = {
 
 export const MAX_ROUNDS = 5;
 
-// Chest tier order (lowest to highest): Blue < Purple < Orange < Green < White
-export const CHEST_TIERS = ['Blue', 'Purple', 'Orange', 'Green', 'White'];
+// Chest tier order (lowest to highest): Glowing < Blue < Purple < Orange < Green < White
+export const CHEST_TIERS = ['Glowing', 'Blue', 'Purple', 'Orange', 'Green', 'White'];
 
 export const CHEST_TIER_CONFIG = {
-  Blue: { color: '#60a5fa', label: 'Blue', order: 0 },
-  Purple: { color: '#a855f7', label: 'Purple', order: 1 },
-  Orange: { color: '#f97316', label: 'Orange', order: 2 },
-  Green: { color: '#22c55e', label: 'Green', order: 3 },
-  White: { color: '#f5f5f5', label: 'White', order: 4 },
+  Glowing: { color: '#fcd34d', label: 'Glowing', order: 0 },
+  Blue: { color: '#60a5fa', label: 'Blue', order: 1 },
+  Purple: { color: '#a855f7', label: 'Purple', order: 2 },
+  Orange: { color: '#f97316', label: 'Orange', order: 3 },
+  Green: { color: '#22c55e', label: 'Green', order: 4 },
+  White: { color: '#f5f5f5', label: 'White', order: 5 },
 };
 
-// Starting tiers (no White pouch exists)
-export const STARTING_TIERS = ['Blue', 'Purple', 'Orange', 'Green'];
+// Pouch types (no White pouch exists) - maps to chest tiers
+export const POUCH_TYPES = ['Glowing', 'Blue', 'Purple', 'Orange', 'Green'];
+
+export const POUCH_CONFIG = {
+  Glowing: { color: '#fcd34d', label: 'Mysterious Glowing Pouch', order: 0, image: '/mysticfrontier/mysteriousglowingpouch.png' },
+  Blue: { color: '#60a5fa', label: 'Mysterious Blue Pouch', order: 1, image: '/mysticfrontier/mysteriousbluepouch.png' },
+  Purple: { color: '#a855f7', label: 'Mysterious Purple Pouch', order: 2, image: '/mysticfrontier/mysteriouspurplepouch.png' },
+  Orange: { color: '#f97316', label: 'Mysterious Orange Pouch', order: 3, image: '/mysticfrontier/mysteriousorangepouch.png' },
+  Green: { color: '#22c55e', label: 'Mysterious Green Pouch', order: 4, image: '/mysticfrontier/mysteriousgreenpouch.png' },
+};
 
 export const DEFAULT_KNOWN_ITEMS = [
   'Mysterious Glowing Pouch',

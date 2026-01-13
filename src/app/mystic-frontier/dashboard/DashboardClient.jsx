@@ -10,6 +10,8 @@ import {
   TILE_TYPES,
   CHEST_TIERS,
   CHEST_TIER_CONFIG,
+  POUCH_TYPES,
+  POUCH_CONFIG,
 } from '@/data/mysticFrontierData';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
@@ -85,7 +87,7 @@ export default function DashboardClient() {
             </Link>
             <div>
               <h1 className="text-2xl md:text-3xl text-[var(--primary-bright)]">Mystic Frontier Dashboard</h1>
-              <p className="text-[var(--primary-dim)] text-sm">Community expedition analytics</p>
+              <p className="text-[var(--primary-dim)] text-sm">Friend-aggregated expedition analytics</p>
             </div>
           </div>
           <button
@@ -260,12 +262,30 @@ export default function DashboardClient() {
             <ChartCard title="Top Rewards">
               <div className="space-y-2 max-h-[280px] overflow-y-auto">
                 {stats.topRewards.map((reward, idx) => (
-                  <div key={reward.name} className="flex items-center justify-between p-2 rounded bg-[var(--background)]">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[var(--primary-dim)] text-sm w-6">#{idx + 1}</span>
-                      <span className="text-[var(--primary)]">{reward.name}</span>
+                  <div key={reward.name} className="bg-[var(--background)] rounded">
+                    <div className="flex items-center justify-between p-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[var(--primary-dim)] text-sm w-6">#{idx + 1}</span>
+                        <span className="text-[var(--primary)]">{reward.name}</span>
+                      </div>
+                      <span className="text-[var(--secondary)]">{reward.occurrences}</span>
                     </div>
-                    <span className="text-[var(--secondary)]">{reward.count}</span>
+                    {Object.entries(reward.breakdown).length > 1 && (
+                      <div className="px-2 pb-2 space-y-1">
+                        {Object.entries(reward.breakdown)
+                          .sort((a, b) => {
+                            const aQty = parseInt(a[0].split('x')[1]);
+                            const bQty = parseInt(b[0].split('x')[1]);
+                            return bQty - aQty;
+                          })
+                          .map(([breakdownKey, count]) => (
+                            <div key={breakdownKey} className="flex items-center justify-between pl-8 text-xs">
+                              <span className="text-[var(--primary-dim)]">{breakdownKey}</span>
+                              <span className="text-[var(--primary-dim)]">{count}</span>
+                            </div>
+                          ))}
+                      </div>
+                    )}
                   </div>
                 ))}
                 {stats.topRewards.length === 0 && (
@@ -317,11 +337,11 @@ export default function DashboardClient() {
             <ChartCard title="Chest Tier-Up Statistics">
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-2 rounded bg-[var(--background)]">
-                  <span className="text-[var(--primary)]">Rewards with Tier-Ups</span>
+                  <span className="text-[var(--primary)]">Expeditions with Tier-Ups</span>
                   <span className="text-[var(--secondary)] font-bold">
-                    {stats.tierUpStats.rewardsWithTierUps} / {filteredRewards.length}
+                    {stats.tierUpStats.expeditionsWithTierUps} / {filteredExpeditions.length}
                     <span className="text-[var(--primary-dim)] text-sm ml-2">
-                      ({filteredRewards.length > 0 ? ((stats.tierUpStats.rewardsWithTierUps / filteredRewards.length) * 100).toFixed(1) : 0}%)
+                      ({filteredExpeditions.length > 0 ? ((stats.tierUpStats.expeditionsWithTierUps / filteredExpeditions.length) * 100).toFixed(1) : 0}%)
                     </span>
                   </span>
                 </div>
@@ -331,8 +351,8 @@ export default function DashboardClient() {
                 </div>
                 <div className="mt-3">
                   <h4 className="text-[var(--primary-dim)] text-sm mb-2">Tier-Up Distribution</h4>
-                  <div className="grid grid-cols-4 gap-2">
-                    {[1, 2, 3, 4].map(tierUp => (
+                  <div className="grid grid-cols-5 gap-2">
+                    {[1, 2, 3, 4, 5].map(tierUp => (
                       <div key={tierUp} className="text-center p-2 rounded bg-[var(--background)]">
                         <div className="text-yellow-400 font-bold">+{tierUp}</div>
                         <div className="text-[var(--primary-dim)] text-xs">
@@ -343,7 +363,30 @@ export default function DashboardClient() {
                   </div>
                 </div>
                 <div className="mt-3">
-                  <h4 className="text-[var(--primary-dim)] text-sm mb-2">Final Tier Distribution</h4>
+                  <h4 className="text-[var(--primary-dim)] text-sm mb-2">Pouches Collected</h4>
+                  <div className="flex gap-1">
+                    {POUCH_TYPES.map(pouch => {
+                      const count = stats.tierUpStats.pouchDistribution[pouch] || 0;
+                      return (
+                        <div 
+                          key={pouch} 
+                          className="flex-1 text-center p-2 rounded"
+                          style={{ backgroundColor: `${POUCH_CONFIG[pouch].color}20` }}
+                        >
+                          <div 
+                            className="font-bold text-xs"
+                            style={{ color: POUCH_CONFIG[pouch].color }}
+                          >
+                            {pouch}
+                          </div>
+                          <div className="text-[var(--primary-dim)] text-xs">{count}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <h4 className="text-[var(--primary-dim)] text-sm mb-2">Final Chest Tier Distribution</h4>
                   <div className="flex gap-1">
                     {CHEST_TIERS.map(tier => {
                       const count = stats.tierUpStats.finalTierDistribution[tier] || 0;
@@ -354,7 +397,7 @@ export default function DashboardClient() {
                           style={{ backgroundColor: `${CHEST_TIER_CONFIG[tier].color}20` }}
                         >
                           <div 
-                            className="font-bold text-sm"
+                            className="font-bold text-xs"
                             style={{ color: CHEST_TIER_CONFIG[tier].color }}
                           >
                             {tier}
@@ -508,13 +551,24 @@ function computeStats(expeditions, tiles, rewards) {
   });
 
   // top rewards
-  const rewardCounts = {};
+  const rewardGroups = {};
   rewards.forEach(r => {
-    rewardCounts[r.item_name] = (rewardCounts[r.item_name] || 0) + r.quantity;
+    const key = r.item_name;
+    if (!rewardGroups[key]) {
+      rewardGroups[key] = {
+        name: key,
+        totalQuantity: 0,
+        occurrences: 0,
+        breakdown: {}
+      };
+    }
+    rewardGroups[key].totalQuantity += r.quantity;
+    rewardGroups[key].occurrences += 1;
+    const qtyKey = `${key} x${r.quantity}`;
+    rewardGroups[key].breakdown[qtyKey] = (rewardGroups[key].breakdown[qtyKey] || 0) + 1;
   });
-  const topRewards = Object.entries(rewardCounts)
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count)
+  const topRewards = Object.values(rewardGroups)
+    .sort((a, b) => b.occurrences - a.occurrences)
     .slice(0, 10);
 
   // rewards by rank
@@ -563,30 +617,47 @@ function computeStats(expeditions, tiles, rewards) {
     bothMatch: computeMatchGroup(e => e.element_match && e.type_match),
   };
 
-  // tier-up statistics
-  const rewardsWithTierUps = rewards.filter(r => r.tier_ups && r.tier_ups > 0);
-  const totalTierUps = rewardsWithTierUps.reduce((sum, r) => sum + (r.tier_ups || 0), 0);
+  // tier-up statistics (now tracked at expedition level)
+  const expeditionsWithTierUps = expeditions.filter(e => e.tier_ups && e.tier_ups > 0);
+  const totalTierUps = expeditionsWithTierUps.reduce((sum, e) => sum + (e.tier_ups || 0), 0);
   
   const tierUpDistribution = {};
-  rewardsWithTierUps.forEach(r => {
-    tierUpDistribution[r.tier_ups] = (tierUpDistribution[r.tier_ups] || 0) + 1;
+  expeditionsWithTierUps.forEach(e => {
+    tierUpDistribution[e.tier_ups] = (tierUpDistribution[e.tier_ups] || 0) + 1;
   });
 
   const finalTierDistribution = {};
-  rewards.forEach(r => {
-    if (r.final_tier) {
-      finalTierDistribution[r.final_tier] = (finalTierDistribution[r.final_tier] || 0) + 1;
+  const startingTierDistribution = {};
+  expeditions.forEach(e => {
+    if (e.final_chest_tier) {
+      finalTierDistribution[e.final_chest_tier] = (finalTierDistribution[e.final_chest_tier] || 0) + 1;
+    }
+    if (e.starting_chest_tier) {
+      startingTierDistribution[e.starting_chest_tier] = (startingTierDistribution[e.starting_chest_tier] || 0) + 1;
+    }
+  });
+
+  // pouch distribution
+  const pouchDistribution = {};
+  POUCH_TYPES.forEach(p => { pouchDistribution[p] = 0; });
+  expeditions.forEach(e => {
+    if (e.pouches) {
+      POUCH_TYPES.forEach(p => {
+        pouchDistribution[p] += (e.pouches[p] || 0);
+      });
     }
   });
 
   const tierUpStats = {
     totalTierUps,
-    rewardsWithTierUps: rewardsWithTierUps.length,
-    avgTierUpsPerUpgrade: rewardsWithTierUps.length > 0 
-      ? totalTierUps / rewardsWithTierUps.length 
+    expeditionsWithTierUps: expeditionsWithTierUps.length,
+    avgTierUpsPerUpgrade: expeditionsWithTierUps.length > 0 
+      ? totalTierUps / expeditionsWithTierUps.length 
       : 0,
     tierUpDistribution,
     finalTierDistribution,
+    startingTierDistribution,
+    pouchDistribution,
   };
 
   return {

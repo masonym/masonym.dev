@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { 
   SITE_RANKS, 
@@ -11,7 +11,8 @@ import {
   MAX_ROUNDS,
   CHEST_TIERS,
   CHEST_TIER_CONFIG,
-  STARTING_TIERS
+  POUCH_TYPES,
+  POUCH_CONFIG
 } from '@/data/mysticFrontierData';
 import { ChevronRight, ChevronLeft, Plus, Minus, Trash2, Check, User, MapPin, Compass, Gift, History, Sword, Search, HeartPulse } from 'lucide-react';
 import Link from 'next/link';
@@ -907,16 +908,81 @@ function MyExpeditions({ expeditions, loading, selectedExpedition, setSelectedEx
           {(() => {
             const selectedTiles = exp.tiles?.filter(t => t.selected && t.reward_option && t.tile_type !== 'Lucky') || [];
             if (selectedTiles.length === 0) return null;
+            
+            // count pouches
+            const pouchCounts = { Glowing: 0, Blue: 0, Purple: 0, Orange: 0, Green: 0 };
+            selectedTiles.forEach(tile => {
+              const rewardName = tile.reward_option.toLowerCase();
+              if (rewardName.includes('glowing')) pouchCounts.Glowing++;
+              else if (rewardName.includes('green')) pouchCounts.Green++;
+              else if (rewardName.includes('orange')) pouchCounts.Orange++;
+              else if (rewardName.includes('purple')) pouchCounts.Purple++;
+              else if (rewardName.includes('blue')) pouchCounts.Blue++;
+            });
+            
             return (
-              <div className="flex flex-wrap gap-1 mt-2">
-                {selectedTiles.map((t, i) => (
-                  <span key={i} className="text-xs px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">
-                    {t.reward_option}
-                  </span>
+              <div className="flex gap-2 mt-2 flex-wrap">
+                {POUCH_TYPES.map(pouchType => pouchCounts[pouchType] > 0 && (
+                  <div 
+                    key={pouchType}
+                    className="flex items-center gap-1.5 px-2 py-1 rounded"
+                    style={{ backgroundColor: `${POUCH_CONFIG[pouchType].color}15` }}
+                  >
+                    <img 
+                      src={POUCH_CONFIG[pouchType].image} 
+                      alt={POUCH_CONFIG[pouchType].label}
+                      className="w-8 h-8 object-contain"
+                    />
+                    <span 
+                      className="text-sm font-bold"
+                      style={{ color: POUCH_CONFIG[pouchType].color }}
+                    >
+                      x{pouchCounts[pouchType]}
+                    </span>
+                  </div>
                 ))}
               </div>
             );
           })()}
+
+          {/* rewards summary after claiming */}
+          {exp.rewards_claimed && exp.rewards && exp.rewards.length > 0 && (
+            <div className="mt-3 p-2 rounded bg-[var(--background)] border border-[var(--primary-dim)]">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs text-[var(--primary-dim)]">Items Received</span>
+                <div className="flex items-center gap-2">
+                  {exp.tier_ups > 0 && (
+                    <span className="text-xs px-2 py-0.5 rounded bg-yellow-900/30 text-yellow-400">
+                      +{exp.tier_ups} Tier-Up{exp.tier_ups > 1 ? 's' : ''}
+                    </span>
+                  )}
+                  {exp.starting_chest_tier && exp.final_chest_tier && (
+                    <span className="text-xs text-[var(--primary-dim)]">
+                      <span style={{ color: CHEST_TIER_CONFIG[exp.starting_chest_tier]?.color }}>
+                        {exp.starting_chest_tier}
+                      </span>
+                      {' → '}
+                      <span style={{ color: CHEST_TIER_CONFIG[exp.final_chest_tier]?.color }}>
+                        {exp.final_chest_tier}
+                      </span>
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {exp.rewards.slice(0, 5).map((reward, idx) => (
+                  <span key={idx} className="text-xs px-1.5 py-0.5 rounded bg-[var(--background-bright)] text-[var(--primary)]">
+                    {reward.item_name} {reward.quantity > 1 && <span className="text-[var(--secondary)]">x{reward.quantity}</span>}
+                  </span>
+                ))}
+                {exp.rewards.length > 5 && (
+                  <span className="text-xs px-1.5 py-0.5 rounded text-[var(--primary-dim)]">
+                    +{exp.rewards.length - 5} more
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </button>
       ))}
     </div>
@@ -925,17 +991,56 @@ function MyExpeditions({ expeditions, loading, selectedExpedition, setSelectedEx
 
 function ExpeditionDetail({ expedition, onBack }) {
   const [rewards, setRewards] = useState(expedition.rewards || []);
-  const [newReward, setNewReward] = useState({ 
-    item_name: '', 
-    quantity: 1, 
-    tile_id: null,
-    starting_tier: null,
-    final_tier: null,
-  });
+  const [newReward, setNewReward] = useState({ item_name: '', quantity: '' });
   const [knownItems, setKnownItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
   const [saving, setSaving] = useState(false);
+  
+  const [finalTier, setFinalTier] = useState(expedition.final_chest_tier || null);
+  const [pouchSaving, setPouchSaving] = useState(false);
+
+  // auto-calculate pouches from selected tiles' reward_option
+  const pouches = useMemo(() => {
+    const counts = { Glowing: 0, Blue: 0, Purple: 0, Orange: 0, Green: 0 };
+    const selectedTiles = expedition.tiles?.filter(t => t.selected && t.reward_option) || [];
+    
+    selectedTiles.forEach(tile => {
+      const rewardName = tile.reward_option.toLowerCase();
+      if (rewardName.includes('glowing')) counts.Glowing++;
+      else if (rewardName.includes('green')) counts.Green++;
+      else if (rewardName.includes('orange')) counts.Orange++;
+      else if (rewardName.includes('purple')) counts.Purple++;
+      else if (rewardName.includes('blue')) counts.Blue++;
+    });
+    
+    return counts;
+  }, [expedition.tiles]);
+
+  // calculate starting chest tier from highest pouch
+  const startingChestTier = useMemo(() => {
+    // find highest pouch with count > 0
+    for (let i = POUCH_TYPES.length - 1; i >= 0; i--) {
+      if (pouches[POUCH_TYPES[i]] > 0) {
+        return POUCH_TYPES[i];
+      }
+    }
+    return null;
+  }, [pouches]);
+
+  // calculate tier-ups
+  const tierUps = useMemo(() => {
+    if (!startingChestTier || !finalTier) return 0;
+    const startOrder = CHEST_TIER_CONFIG[startingChestTier]?.order || 0;
+    const finalOrder = CHEST_TIER_CONFIG[finalTier]?.order || 0;
+    return Math.max(0, finalOrder - startOrder);
+  }, [startingChestTier, finalTier]);
+
+  // total pouches
+  const totalPouches = useMemo(() => {
+    return Object.values(pouches).reduce((sum, count) => sum + count, 0);
+  }, [pouches]);
 
   useEffect(() => {
     loadKnownItems();
@@ -953,6 +1058,71 @@ function ExpeditionDetail({ expedition, onBack }) {
     item.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const selectItem = (item) => {
+    setSearchTerm(item);
+    setNewReward(prev => ({ ...prev, item_name: item }));
+    setShowDropdown(false);
+  };
+
+  const quantityInputRef = useRef(null);
+
+  const handleKeyDown = (e) => {
+    if (!showDropdown || filteredItems.length === 0) {
+      if (e.key === 'Enter' && newReward.item_name.trim()) {
+        e.preventDefault();
+        if (newReward.quantity === '' && quantityInputRef.current) {
+          // Focus quantity input if empty
+          quantityInputRef.current.focus();
+        } else {
+          // Submit if quantity already has value
+          addReward();
+        }
+      }
+      return;
+    }
+    
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex(prev => Math.min(prev + 1, filteredItems.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex(prev => Math.max(prev - 1, 0));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (filteredItems[highlightedIndex]) {
+        selectItem(filteredItems[highlightedIndex]);
+        // Focus quantity input after selecting
+        setTimeout(() => quantityInputRef.current?.focus(), 0);
+      }
+    } else if (e.key === 'Escape') {
+      setShowDropdown(false);
+    }
+  };
+
+  const handleQuantityKeyDown = (e) => {
+    if (e.key === 'Enter' && newReward.item_name.trim()) {
+      e.preventDefault();
+      addReward();
+    }
+  };
+
+  const saveTierData = async (newFinalTier) => {
+    setPouchSaving(true);
+    try {
+      await supabase
+        .from('expeditions')
+        .update({ 
+          starting_chest_tier: startingChestTier,
+          final_chest_tier: newFinalTier,
+          tier_ups: newFinalTier ? Math.max(0, CHEST_TIER_CONFIG[newFinalTier]?.order - CHEST_TIER_CONFIG[startingChestTier]?.order) : 0,
+        })
+        .eq('id', expedition.id);
+    } catch (err) {
+      console.error('Error saving tier data:', err);
+    }
+    setPouchSaving(false);
+  };
+
   const addReward = async () => {
     if (!newReward.item_name.trim()) return;
     
@@ -964,13 +1134,8 @@ function ExpeditionDetail({ expedition, onBack }) {
         setKnownItems(prev => [...prev, newReward.item_name].sort());
       }
 
-      // calculate tier-ups
-      let tierUps = 0;
-      if (newReward.starting_tier && newReward.final_tier) {
-        const startOrder = CHEST_TIER_CONFIG[newReward.starting_tier]?.order || 0;
-        const finalOrder = CHEST_TIER_CONFIG[newReward.final_tier]?.order || 0;
-        tierUps = Math.max(0, finalOrder - startOrder);
-      }
+      // default quantity to 1 if empty or invalid
+      const quantity = parseInt(newReward.quantity) || 1;
 
       // add reward
       const { data, error } = await supabase
@@ -978,11 +1143,7 @@ function ExpeditionDetail({ expedition, onBack }) {
         .insert({
           expedition_id: expedition.id,
           item_name: newReward.item_name,
-          quantity: newReward.quantity,
-          tile_id: newReward.tile_id,
-          starting_tier: newReward.starting_tier,
-          final_tier: newReward.final_tier,
-          tier_ups: tierUps,
+          quantity: Math.max(1, quantity),
         })
         .select()
         .single();
@@ -990,7 +1151,7 @@ function ExpeditionDetail({ expedition, onBack }) {
       if (error) throw error;
       
       setRewards(prev => [...prev, data]);
-      setNewReward({ item_name: '', quantity: 1, tile_id: null, starting_tier: null, final_tier: null });
+      setNewReward({ item_name: '', quantity: '' });
       setSearchTerm('');
 
       // mark rewards as claimed
@@ -1112,35 +1273,117 @@ function ExpeditionDetail({ expedition, onBack }) {
         </div>
       </div>
 
-      {/* rewards */}
+      {/* chest tier & tier-up */}
+      {startingChestTier && (
+        <div className="bg-[var(--background-bright)] rounded-lg p-4 border border-[var(--primary-dim)]">
+          <h3 className="text-[var(--primary-bright)] mb-3">
+            <Gift className="w-5 h-5 inline mr-2" />
+            Chest Opening
+          </h3>
+          
+          {/* pouches summary (auto-calculated from tiles) */}
+          <div className="flex gap-3 mb-3 flex-wrap">
+            {POUCH_TYPES.map(pouchType => pouches[pouchType] > 0 && (
+              <div 
+                key={pouchType}
+                className="flex items-center gap-2 px-3 py-2 rounded"
+                style={{ backgroundColor: `${POUCH_CONFIG[pouchType].color}15` }}
+              >
+                <img 
+                  src={POUCH_CONFIG[pouchType].image} 
+                  alt={POUCH_CONFIG[pouchType].label}
+                  className="w-10 h-10 object-contain"
+                />
+                <span 
+                  className="text-base font-bold"
+                  style={{ color: POUCH_CONFIG[pouchType].color }}
+                >
+                  x{pouches[pouchType]}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-[var(--background)] rounded p-3 border border-[var(--primary-dim)]">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[var(--primary-dim)] text-sm">Starting Chest Tier:</span>
+              <span 
+                className="font-bold"
+                style={{ color: CHEST_TIER_CONFIG[startingChestTier].color }}
+              >
+                {startingChestTier}
+              </span>
+            </div>
+            
+            <div className="mb-2">
+              <label className="text-xs text-[var(--primary-dim)] block mb-1">Final Chest Tier (did it tier-up?)</label>
+              <div className="flex gap-1">
+                {CHEST_TIERS.map(tier => {
+                  const startOrder = CHEST_TIER_CONFIG[startingChestTier]?.order ?? 0;
+                  const tierOrder = CHEST_TIER_CONFIG[tier]?.order ?? 0;
+                  const isDisabled = tierOrder < startOrder;
+                  
+                  return (
+                    <button
+                      key={tier}
+                      type="button"
+                      onClick={() => {
+                        if (isDisabled) return;
+                        const newTier = finalTier === tier ? startingChestTier : tier;
+                        setFinalTier(newTier);
+                        saveTierData(newTier);
+                      }}
+                      disabled={isDisabled}
+                      className={`flex-1 py-1.5 rounded text-xs font-bold transition ${
+                        finalTier === tier 
+                          ? 'ring-2 ring-white' 
+                          : isDisabled 
+                            ? 'opacity-20 cursor-not-allowed' 
+                            : 'opacity-60 hover:opacity-100'
+                      }`}
+                      style={{ 
+                        backgroundColor: CHEST_TIER_CONFIG[tier].color,
+                        color: tier === 'White' ? '#000' : '#fff'
+                      }}
+                    >
+                      {tier}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {tierUps > 0 && (
+              <div className="text-center text-sm mt-2">
+                <span className="text-yellow-400 font-bold">+{tierUps} Tier-Up{tierUps > 1 ? 's' : ''}!</span>
+              </div>
+            )}
+          </div>
+
+          <div className="text-xs text-[var(--primary-dim)] mt-2 text-center">
+            {totalPouches} pouch{totalPouches !== 1 ? 'es' : ''} → {rewards.length} item{rewards.length !== 1 ? 's' : ''} received
+          </div>
+        </div>
+      )}
+
+      {/* item rewards from chest */}
       <div className="bg-[var(--background-bright)] rounded-lg p-4 border border-[var(--primary-dim)]">
         <h3 className="text-[var(--primary-bright)] mb-3">
           <Gift className="w-5 h-5 inline mr-2" />
-          Rewards
+          Items Received
         </h3>
+        <p className="text-[var(--primary-dim)] text-sm mb-3">
+          Enter the actual items you received when opening the chest.
+        </p>
 
         {/* existing rewards */}
         {rewards.length > 0 && (
           <div className="space-y-2 mb-4">
             {rewards.map(reward => (
               <div key={reward.id} className="flex items-center justify-between p-2 rounded bg-[var(--background)] border border-[var(--primary-dim)]">
-                <div className="flex items-center gap-2">
-                  <span className="text-[var(--primary)]">
-                    {reward.item_name} {reward.quantity > 1 && <span className="text-[var(--secondary)]">x{reward.quantity}</span>}
-                  </span>
-                  {reward.tier_ups > 0 && (
-                    <span className="text-xs px-2 py-0.5 rounded bg-yellow-900/30 text-yellow-400">
-                      +{reward.tier_ups} tier{reward.tier_ups > 1 ? 's' : ''}
-                    </span>
-                  )}
-                  {reward.starting_tier && reward.final_tier && (
-                    <span className="text-xs text-[var(--primary-dim)]">
-                      <span style={{ color: CHEST_TIER_CONFIG[reward.starting_tier]?.color }}>{reward.starting_tier}</span>
-                      {' → '}
-                      <span style={{ color: CHEST_TIER_CONFIG[reward.final_tier]?.color }}>{reward.final_tier}</span>
-                    </span>
-                  )}
-                </div>
+                <span className="text-[var(--primary)]">
+                  {reward.item_name} {reward.quantity > 1 && <span className="text-[var(--secondary)]">x{reward.quantity}</span>}
+                </span>
                 <button onClick={() => removeReward(reward.id)} className="p-1 hover:bg-red-900/30 rounded">
                   <Trash2 className="w-4 h-4 text-red-400" />
                 </button>
@@ -1160,139 +1403,62 @@ function ExpeditionDetail({ expedition, onBack }) {
                 setSearchTerm(e.target.value);
                 setNewReward(prev => ({ ...prev, item_name: e.target.value }));
                 setShowDropdown(true);
+                setHighlightedIndex(0);
               }}
-              onFocus={() => setShowDropdown(true)}
+              onFocus={() => {
+                setShowDropdown(true);
+                setHighlightedIndex(0);
+              }}
+              onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+              onKeyDown={handleKeyDown}
               placeholder="Search or type new item..."
               className="w-full p-2 rounded bg-[var(--background)] border border-[var(--primary-dim)] text-[var(--primary)]"
             />
-            {showDropdown && searchTerm && (
+            {showDropdown && filteredItems.length > 0 && (
               <div className="absolute z-10 w-full mt-1 max-h-48 overflow-y-auto bg-[var(--background)] border border-[var(--primary-dim)] rounded shadow-lg">
-                {filteredItems.map(item => (
+                {filteredItems.map((item, idx) => (
                   <button
                     key={item}
-                    onClick={() => {
-                      setSearchTerm(item);
-                      setNewReward(prev => ({ ...prev, item_name: item }));
-                      setShowDropdown(false);
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      selectItem(item);
                     }}
-                    className="w-full text-left px-3 py-2 hover:bg-[var(--background-bright)] text-[var(--primary)] text-sm"
+                    onMouseEnter={() => setHighlightedIndex(idx)}
+                    className={`w-full text-left px-3 py-2 text-[var(--primary)] text-sm ${
+                      idx === highlightedIndex 
+                        ? 'bg-[var(--secondary)] text-[var(--primary-dark)]' 
+                        : 'hover:bg-[var(--background-bright)]'
+                    }`}
                   >
                     {item}
                   </button>
                 ))}
-                {filteredItems.length === 0 && (
-                  <div className="px-3 py-2 text-[var(--primary-dim)] text-sm">
-                    Press "Add Reward" to add "{searchTerm}" as new item
-                  </div>
-                )}
+              </div>
+            )}
+            {showDropdown && searchTerm && filteredItems.length === 0 && (
+              <div className="absolute z-10 w-full mt-1 bg-[var(--background)] border border-[var(--primary-dim)] rounded shadow-lg px-3 py-2 text-[var(--primary-dim)] text-sm">
+                Press Enter to add "{searchTerm}" as new item
               </div>
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="text-xs text-[var(--primary-dim)] block mb-1">Quantity</label>
-              <input
-                type="number"
-                value={newReward.quantity}
-                onChange={(e) => setNewReward(prev => ({ ...prev, quantity: parseInt(e.target.value) || 1 }))}
-                min="1"
-                className="w-full p-2 rounded bg-[var(--background)] border border-[var(--primary-dim)] text-[var(--primary)]"
-              />
-            </div>
-            <div>
-              <label className="text-xs text-[var(--primary-dim)] block mb-1">From Tile (optional)</label>
-              <select
-                value={newReward.tile_id || ''}
-                onChange={(e) => setNewReward(prev => ({ ...prev, tile_id: e.target.value || null }))}
-                className="w-full p-2 rounded bg-[var(--background)] border border-[var(--primary-dim)] text-[var(--primary)]"
-              >
-                <option value="">Unknown</option>
-                {selectedTiles.map(tile => (
-                  <option key={tile.id} value={tile.id}>
-                    R{tile.round_number}: {tile.tile_rarity} {tile.tile_type}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* tier-up tracking */}
-          <div className="bg-[var(--background)] rounded p-3 border border-[var(--primary-dim)]">
-            <label className="text-xs text-[var(--primary-dim)] block mb-2">Chest Tier-Up (optional)</label>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs text-[var(--primary-dim)] block mb-1">Starting Tier</label>
-                <div className="flex gap-1">
-                  {STARTING_TIERS.map(tier => (
-                    <button
-                      key={tier}
-                      type="button"
-                      onClick={() => setNewReward(prev => ({ 
-                        ...prev, 
-                        starting_tier: prev.starting_tier === tier ? null : tier,
-                        final_tier: prev.starting_tier === tier ? null : (prev.final_tier && CHEST_TIER_CONFIG[prev.final_tier]?.order >= CHEST_TIER_CONFIG[tier]?.order ? prev.final_tier : tier)
-                      }))}
-                      className={`flex-1 py-1.5 rounded text-xs font-bold transition ${
-                        newReward.starting_tier === tier 
-                          ? 'ring-2 ring-white' 
-                          : 'opacity-60 hover:opacity-100'
-                      }`}
-                      style={{ 
-                        backgroundColor: CHEST_TIER_CONFIG[tier].color,
-                        color: tier === 'White' ? '#000' : '#fff'
-                      }}
-                    >
-                      {tier}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <label className="text-xs text-[var(--primary-dim)] block mb-1">Final Tier</label>
-                <div className="flex gap-1">
-                  {CHEST_TIERS.map(tier => {
-                    const startOrder = CHEST_TIER_CONFIG[newReward.starting_tier]?.order ?? -1;
-                    const tierOrder = CHEST_TIER_CONFIG[tier]?.order ?? 0;
-                    const isDisabled = !newReward.starting_tier || tierOrder < startOrder;
-                    
-                    return (
-                      <button
-                        key={tier}
-                        type="button"
-                        onClick={() => !isDisabled && setNewReward(prev => ({ 
-                          ...prev, 
-                          final_tier: prev.final_tier === tier ? null : tier 
-                        }))}
-                        disabled={isDisabled}
-                        className={`flex-1 py-1.5 rounded text-xs font-bold transition ${
-                          newReward.final_tier === tier 
-                            ? 'ring-2 ring-white' 
-                            : isDisabled 
-                              ? 'opacity-20 cursor-not-allowed' 
-                              : 'opacity-60 hover:opacity-100'
-                        }`}
-                        style={{ 
-                          backgroundColor: CHEST_TIER_CONFIG[tier].color,
-                          color: tier === 'White' ? '#000' : '#fff'
-                        }}
-                      >
-                        {tier}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-            {newReward.starting_tier && newReward.final_tier && (
-              <div className="mt-2 text-center text-sm">
-                {(() => {
-                  const tierUps = CHEST_TIER_CONFIG[newReward.final_tier].order - CHEST_TIER_CONFIG[newReward.starting_tier].order;
-                  if (tierUps === 0) return <span className="text-[var(--primary-dim)]">No tier-up</span>;
-                  return <span className="text-yellow-400 font-bold">+{tierUps} Tier-Up{tierUps > 1 ? 's' : ''}!</span>;
-                })()}
-              </div>
-            )}
+          <div>
+            <label className="text-xs text-[var(--primary-dim)] block mb-1">Quantity</label>
+            <input
+              ref={quantityInputRef}
+              type="text"
+              inputMode="numeric"
+              value={newReward.quantity}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === '' || /^\d+$/.test(val)) {
+                  setNewReward(prev => ({ ...prev, quantity: val }));
+                }
+              }}
+              onKeyDown={handleQuantityKeyDown}
+              placeholder="1"
+              className="w-full p-2 rounded bg-[var(--background)] border border-[var(--primary-dim)] text-[var(--primary)]"
+            />
           </div>
 
           <button
@@ -1300,9 +1466,19 @@ function ExpeditionDetail({ expedition, onBack }) {
             disabled={!newReward.item_name.trim() || saving}
             className="w-full py-2 rounded bg-[var(--secondary)] text-[var(--background)] font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 transition"
           >
-            {saving ? 'Adding...' : 'Add Reward'}
+            {saving ? 'Adding...' : 'Add Item'}
           </button>
         </div>
+
+        {/* finish button */}
+        {rewards.length > 0 && (
+          <button
+            onClick={onBack}
+            className="w-full mt-4 py-2 rounded border border-[var(--primary-dim)] text-[var(--primary)] hover:bg-[var(--background)] transition"
+          >
+            Done - Back to Expeditions
+          </button>
+        )}
       </div>
     </div>
   );
