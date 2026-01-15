@@ -1,4 +1,5 @@
 import MysticFrontierClient from './components/MysticFrontierClient';
+import { AuthProvider } from './components/AuthProvider';
 
 export const metadata = {
   title: "Mystic Frontier Tracker | mason's maple matrix",
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function MysticFrontierPage() {
-  return <MysticFrontierClient />;
+  return (
+    <AuthProvider>
+      <MysticFrontierClient />
+    </AuthProvider>
+  );
 }

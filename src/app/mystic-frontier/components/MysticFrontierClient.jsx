@@ -16,6 +16,8 @@ import {
 } from '@/data/mysticFrontierData';
 import { ChevronRight, ChevronLeft, Plus, Minus, Trash2, Check, User, MapPin, Compass, Gift, History, Sword, Search, HeartPulse } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from './AuthProvider';
+import { LoginForm, LoginPrompt } from './LoginForm';
 
 const TILE_ICONS = {
   Hunting: Sword,
@@ -36,6 +38,7 @@ const DEFAULT_KNOWN_ITEMS = [
 ];
 
 export default function MysticFrontierClient() {
+  const { user, loading: authLoading } = useAuth();
   const [ign, setIgn] = useState('');
   const [ignSaved, setIgnSaved] = useState(false);
   const [activeTab, setActiveTab] = useState('new');
@@ -70,10 +73,10 @@ export default function MysticFrontierClient() {
   }, []);
 
   useEffect(() => {
-    if (ignSaved && activeTab === 'history') {
+    if (user && activeTab === 'history') {
       loadMyExpeditions();
     }
-  }, [ignSaved, activeTab]);
+  }, [user, activeTab]);
 
   const loadKnownItems = async () => {
     const { data } = await supabase
@@ -97,6 +100,7 @@ export default function MysticFrontierClient() {
   };
 
   const loadMyExpeditions = async () => {
+    if (!user) return;
     setLoadingExpeditions(true);
     try {
       const { data, error } = await supabase
@@ -106,7 +110,7 @@ export default function MysticFrontierClient() {
           tiles (*),
           rewards (*)
         `)
-        .eq('ign', ign)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
       
       if (error) throw error;
@@ -204,6 +208,10 @@ export default function MysticFrontierClient() {
   };
 
   const submitExpedition = async () => {
+    if (!user) {
+      alert('Please sign in to submit expeditions');
+      return;
+    }
     if (!siteRank) {
       alert('Please select a site rank');
       return;
@@ -214,6 +222,7 @@ export default function MysticFrontierClient() {
       const { data: expedition, error: expError } = await supabase
         .from('expeditions')
         .insert({
+          user_id: user.id,
           ign: ign,
           site_rank: siteRank,
           element_match: elementMatch,
@@ -324,7 +333,17 @@ export default function MysticFrontierClient() {
     return rewards;
   }, [rounds]);
 
-  if (!ignSaved) {
+  // show auth loading
+  if (authLoading) {
+    return (
+      <div className="min-h-screen p-4 md:p-8 flex items-center justify-center">
+        <div className="text-[var(--primary-dim)]">Loading...</div>
+      </div>
+    );
+  }
+
+  // show IGN prompt if authenticated but no IGN saved
+  if (user && !ignSaved) {
     return (
       <div className="min-h-screen p-4 md:p-8">
         <div className="max-w-md mx-auto mt-20">
@@ -357,6 +376,32 @@ export default function MysticFrontierClient() {
     );
   }
 
+  // show login prompt if not authenticated
+  if (!user) {
+    return (
+      <div className="min-h-screen p-4 md:p-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div>
+              <h1 className="text-2xl md:text-3xl text-[var(--primary-bright)]">Mystic Frontier Tracker</h1>
+              <p className="text-[var(--primary-dim)] text-sm mt-1">Track your expeditions and view community statistics</p>
+            </div>
+            <Link 
+              href="/mystic-frontier/dashboard"
+              className="flex items-center gap-2 px-4 py-2 rounded bg-[var(--background-bright)] border border-[var(--primary-dim)] text-[var(--primary)] hover:border-[var(--secondary)] transition"
+            >
+              <Compass className="w-4 h-4" />
+              View Dashboard
+            </Link>
+          </div>
+          <div className="max-w-md">
+            <LoginForm />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-5xl mx-auto">
@@ -365,20 +410,23 @@ export default function MysticFrontierClient() {
           <div>
             <h1 className="text-2xl md:text-3xl text-[var(--primary-bright)]">Mystic Frontier Tracker</h1>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-[var(--primary-dim)] text-sm">Logged in as:</span>
+              <span className="text-[var(--primary-dim)] text-sm">IGN:</span>
               <span className="text-[var(--secondary)]">{ign}</span>
               <button onClick={changeIgn} className="text-xs text-[var(--primary-dim)] hover:text-[var(--primary)] underline">
                 change
               </button>
             </div>
           </div>
-          <Link 
-            href="/mystic-frontier/dashboard"
-            className="flex items-center gap-2 px-4 py-2 rounded bg-[var(--background-bright)] border border-[var(--primary-dim)] text-[var(--primary)] hover:border-[var(--secondary)] transition"
-          >
-            <Compass className="w-4 h-4" />
-            View Dashboard
-          </Link>
+          <div className="flex items-center gap-4">
+            <LoginForm />
+            <Link 
+              href="/mystic-frontier/dashboard"
+              className="flex items-center gap-2 px-4 py-2 rounded bg-[var(--background-bright)] border border-[var(--primary-dim)] text-[var(--primary)] hover:border-[var(--secondary)] transition"
+            >
+              <Compass className="w-4 h-4" />
+              View Dashboard
+            </Link>
+          </div>
         </div>
 
         {/* tabs */}
@@ -603,7 +651,7 @@ function RoundSection({ roundNum, roundData, setTileCount, updateTile, updateTil
 
       {tileCount === 0 ? (
         <div className="text-[var(--primary-dim)] text-sm text-center py-2">
-          No tiles this round (skipped or ran out of AP)
+          No tiles this round (ran out of AP)
         </div>
       ) : (
         <div className="space-y-3">
@@ -820,7 +868,7 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
                   onMouseEnter={() => setHighlightedIndex(idx)}
                   className={`w-full text-left px-2 py-1.5 text-[var(--primary)] text-xs ${
                     idx === highlightedIndex 
-                      ? 'bg-[var(--secondary)] text-[var(--background)]' 
+                      ? 'bg-[var(--secondary)] text-[var(--primary-dark)]' 
                       : 'hover:bg-[var(--background-bright)]'
                   }`}
                 >
@@ -867,7 +915,11 @@ function MyExpeditions({ expeditions, loading, selectedExpedition, setSelectedEx
         onBack={() => {
           setSelectedExpedition(null);
           onRefresh();
-        }} 
+        }}
+        onDelete={() => {
+          setSelectedExpedition(null);
+          onRefresh();
+        }}
       />
     );
   }
@@ -989,7 +1041,7 @@ function MyExpeditions({ expeditions, loading, selectedExpedition, setSelectedEx
   );
 }
 
-function ExpeditionDetail({ expedition, onBack }) {
+function ExpeditionDetail({ expedition, onBack, onDelete }) {
   const [rewards, setRewards] = useState(expedition.rewards || []);
   const [newReward, setNewReward] = useState({ item_name: '', quantity: '' });
   const [knownItems, setKnownItems] = useState([]);
@@ -997,6 +1049,8 @@ function ExpeditionDetail({ expedition, onBack }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   
   const [finalTier, setFinalTier] = useState(expedition.final_chest_tier || null);
   const [pouchSaving, setPouchSaving] = useState(false);
@@ -1065,6 +1119,19 @@ function ExpeditionDetail({ expedition, onBack }) {
   };
 
   const quantityInputRef = useRef(null);
+  const itemNameInputRef = useRef(null);
+
+  const deleteExpedition = async () => {
+    setDeleting(true);
+    try {
+      // cascade delete will handle tiles and rewards
+      await supabase.from('expeditions').delete().eq('id', expedition.id);
+      onDelete?.();
+    } catch (err) {
+      console.error('Error deleting expedition:', err);
+    }
+    setDeleting(false);
+  };
 
   const handleKeyDown = (e) => {
     if (!showDropdown || filteredItems.length === 0) {
@@ -1153,6 +1220,9 @@ function ExpeditionDetail({ expedition, onBack }) {
       setRewards(prev => [...prev, data]);
       setNewReward({ item_name: '', quantity: '' });
       setSearchTerm('');
+      
+      // refocus item name input for next entry
+      setTimeout(() => itemNameInputRef.current?.focus(), 0);
 
       // mark rewards as claimed
       await supabase
@@ -1200,9 +1270,36 @@ function ExpeditionDetail({ expedition, onBack }) {
             {new Date(expedition.created_at).toLocaleString()}
           </span>
         </div>
-        <div className="flex gap-2">
-          {expedition.element_match && <span className="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-400">Element Match</span>}
-          {expedition.type_match && <span className="text-xs px-2 py-1 rounded bg-purple-900/30 text-purple-400">Type Match</span>}
+        <div className="flex items-center justify-between">
+          <div className="flex gap-2">
+            {expedition.element_match && <span className="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-400">Element Match</span>}
+            {expedition.type_match && <span className="text-xs px-2 py-1 rounded bg-purple-900/30 text-purple-400">Type Match</span>}
+          </div>
+          {!confirmDelete ? (
+            <button
+              onClick={() => setConfirmDelete(true)}
+              className="text-xs px-2 py-1 rounded bg-red-900/30 text-red-400 hover:bg-red-900/50 transition"
+            >
+              Delete
+            </button>
+          ) : (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-red-400">Are you sure?</span>
+              <button
+                onClick={deleteExpedition}
+                disabled={deleting}
+                className="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition disabled:opacity-50"
+              >
+                {deleting ? 'Deleting...' : 'Yes, Delete'}
+              </button>
+              <button
+                onClick={() => setConfirmDelete(false)}
+                className="text-xs px-2 py-1 rounded bg-[var(--background)] text-[var(--primary-dim)] hover:text-[var(--primary)] transition"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1397,6 +1494,7 @@ function ExpeditionDetail({ expedition, onBack }) {
           <div className="relative">
             <label className="text-xs text-[var(--primary-dim)] block mb-1">Item Name</label>
             <input
+              ref={itemNameInputRef}
               type="text"
               value={searchTerm}
               onChange={(e) => {

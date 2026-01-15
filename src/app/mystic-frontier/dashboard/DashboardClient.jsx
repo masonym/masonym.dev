@@ -38,15 +38,21 @@ export default function DashboardClient() {
   const loadAllData = async () => {
     setLoading(true);
     try {
+      const normalize = (data) => {
+        if (Array.isArray(data)) return data;
+        if (data && typeof data === 'object') return Object.values(data);
+        return [];
+      };
+
       const [expRes, tilesRes, rewardsRes] = await Promise.all([
         supabase.from('expeditions').select('*'),
         supabase.from('tiles').select('*'),
         supabase.from('rewards').select('*'),
       ]);
 
-      setExpeditions(expRes.data || []);
-      setTiles(tilesRes.data || []);
-      setRewards(rewardsRes.data || []);
+      setExpeditions(normalize(expRes.data));
+      setTiles(normalize(tilesRes.data));
+      setRewards(normalize(rewardsRes.data));
     } catch (err) {
       console.error('Error loading data:', err);
     }
