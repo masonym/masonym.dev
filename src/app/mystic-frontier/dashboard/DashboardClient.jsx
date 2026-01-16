@@ -187,7 +187,7 @@ export default function DashboardClient() {
         backgroundColor: 'rgba(251,191,36,0.15)',
         pointBackgroundColor: '#fbbf24',
         pointBorderColor: '#fbbf24',
-        pointRadius: 3,
+        pointRadius: 6,
         tension: 0.3,
         fill: true,
       },
