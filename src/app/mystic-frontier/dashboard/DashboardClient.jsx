@@ -13,12 +13,31 @@ import {
   POUCH_TYPES,
   POUCH_CONFIG,
 } from '@/data/mysticFrontierData';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-  PieChart, Pie, Cell, LineChart, Line
-} from 'recharts';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Tooltip as ChartTooltip,
+  Legend as ChartLegend,
+} from 'chart.js';
+import { Bar, Line, Doughnut } from 'react-chartjs-2';
 import { ArrowLeft, RefreshCw, Filter, Database, TrendingUp, Layers, Gift, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  ArcElement,
+  ChartTooltip,
+  ChartLegend
+);
 
 export default function DashboardClient() {
   const [loading, setLoading] = useState(true);
@@ -73,6 +92,162 @@ export default function DashboardClient() {
 
   // compute stats
   const stats = computeStats(filteredExpeditions, filteredTiles, filteredRewards);
+
+  const baseOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#e5e7eb',
+        },
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0,0,0,0.85)',
+        borderColor: '#333',
+        borderWidth: 1,
+        titleColor: '#fff',
+        bodyColor: '#fff',
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: '#9ca3af' },
+        grid: { color: 'rgba(255,255,255,0.06)' },
+      },
+      y: {
+        ticks: { color: '#9ca3af' },
+        grid: { color: 'rgba(255,255,255,0.06)' },
+      },
+    },
+  };
+
+  const expeditionsByRankData = {
+    labels: stats.expeditionsByRank.map(d => d.rank),
+    datasets: [
+      {
+        label: 'Expeditions',
+        data: stats.expeditionsByRank.map(d => d.count),
+        backgroundColor: stats.expeditionsByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
+        borderColor: 'rgba(255,255,255,0.12)',
+        borderWidth: 1,
+        borderRadius: 6,
+      },
+    ],
+  };
+
+  const tilesByRarityData = {
+    labels: stats.tilesByRarity.map(d => d.rarity),
+    datasets: [
+      {
+        label: 'Tiles',
+        data: stats.tilesByRarity.map(d => d.count),
+        backgroundColor: stats.tilesByRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
+        borderColor: 'rgba(0,0,0,0.6)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const tilesByTypeData = {
+    labels: stats.tilesByType.map(d => d.type),
+    datasets: [
+      {
+        label: 'Count',
+        data: stats.tilesByType.map(d => d.count),
+        backgroundColor: '#60a5fa',
+        borderColor: 'rgba(255,255,255,0.12)',
+        borderWidth: 1,
+        borderRadius: 6,
+      },
+    ],
+  };
+
+  const avgApByRarityData = {
+    labels: stats.avgApByRarity.map(d => d.rarity),
+    datasets: [
+      {
+        label: 'Avg AP',
+        data: stats.avgApByRarity.map(d => d.avgAp),
+        backgroundColor: stats.avgApByRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
+        borderColor: 'rgba(255,255,255,0.12)',
+        borderWidth: 1,
+        borderRadius: 6,
+      },
+    ],
+  };
+
+  const avgApByRoundData = {
+    labels: stats.avgApByRound.map(d => d.round),
+    datasets: [
+      {
+        label: 'Avg AP',
+        data: stats.avgApByRound.map(d => d.avgAp),
+        borderColor: '#fbbf24',
+        backgroundColor: 'rgba(251,191,36,0.15)',
+        pointBackgroundColor: '#fbbf24',
+        pointBorderColor: '#fbbf24',
+        pointRadius: 3,
+        tension: 0.3,
+        fill: true,
+      },
+    ],
+  };
+
+  const rewardsByRankData = {
+    labels: stats.rewardsByRank.map(d => d.rank),
+    datasets: [
+      {
+        label: 'Rewards',
+        data: stats.rewardsByRank.map(d => d.count),
+        backgroundColor: stats.rewardsByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
+        borderColor: 'rgba(255,255,255,0.12)',
+        borderWidth: 1,
+        borderRadius: 6,
+        yAxisID: 'y',
+      },
+      {
+        label: 'Avg per Expedition',
+        data: stats.rewardsByRank.map(d => d.avgPerExpedition),
+        backgroundColor: 'rgba(167,139,250,0.35)',
+        borderColor: '#a78bfa',
+        borderWidth: 2,
+        borderRadius: 6,
+        yAxisID: 'y1',
+      },
+    ],
+  };
+
+  const rewardsByRankOptions = {
+    ...baseOptions,
+    scales: {
+      ...baseOptions.scales,
+      y: {
+        ...baseOptions.scales.y,
+        title: { display: true, text: 'Rewards', color: '#9ca3af' },
+      },
+      y1: {
+        position: 'right',
+        ticks: { color: '#9ca3af' },
+        grid: { drawOnChartArea: false },
+        title: { display: true, text: 'Avg/Exp', color: '#9ca3af' },
+      },
+    },
+  };
+
+  const rewardsByTileRarityData = {
+    labels: stats.rewardsByTileRarity.map(d => d.rarity),
+    datasets: [
+      {
+        label: 'Rewards',
+        data: stats.rewardsByTileRarity.map(d => d.count),
+        backgroundColor: stats.rewardsByTileRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
+        borderColor: 'rgba(255,255,255,0.12)',
+        borderWidth: 1,
+        borderRadius: 6,
+      },
+    ],
+  };
 
   if (loading) {
     return (
@@ -170,98 +345,78 @@ export default function DashboardClient() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* expeditions by rank */}
             <ChartCard title="Expeditions by Site Rank">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.expeditionsByRank}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                  <XAxis dataKey="rank" stroke="#999" />
-                  <YAxis stroke="#999" />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333' }}
-                    labelStyle={{ color: '#fff' }}
-                  />
-                  <Bar dataKey="count" name="Expeditions">
-                    {stats.expeditionsByRank.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={SITE_RANK_CONFIG[entry.rank]?.color || '#666'} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="w-full" style={{ height: 300, minWidth: 200 }}>
+                <Bar data={expeditionsByRankData} options={baseOptions} />
+              </div>
             </ChartCard>
 
             {/* tile rarity distribution */}
             <ChartCard title="Tile Rarity Distribution">
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={stats.tilesByRarity}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    dataKey="count"
-                    nameKey="rarity"
-                    label={({ rarity, percent }) => `${rarity} ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {stats.tilesByRarity.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={TILE_RARITY_CONFIG[entry.rarity]?.color || '#666'} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333' }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
+              <div className="w-full" style={{ height: 300, minWidth: 200 }}>
+                <Doughnut
+                  data={tilesByRarityData}
+                  options={{
+                    ...baseOptions,
+                    scales: undefined,
+                    plugins: {
+                      ...baseOptions.plugins,
+                      legend: {
+                        position: 'bottom',
+                        labels: { color: '#e5e7eb' },
+                      },
+                    },
+                  }}
+                />
+              </div>
             </ChartCard>
 
             {/* tile types distribution */}
             <ChartCard title="Tile Types Distribution">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.tilesByType}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                  <XAxis dataKey="type" stroke="#999" />
-                  <YAxis stroke="#999" />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333' }}
-                  />
-                  <Bar dataKey="count" name="Count" fill="#60a5fa" />
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="w-full" style={{ height: 300, minWidth: 200 }}>
+                <Bar data={tilesByTypeData} options={baseOptions} />
+              </div>
             </ChartCard>
 
             {/* avg AP cost by tile rarity */}
             <ChartCard title="Average AP Cost by Tile Rarity">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.avgApByRarity}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                  <XAxis dataKey="rarity" stroke="#999" />
-                  <YAxis stroke="#999" />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333' }}
-                    formatter={(value) => [value.toFixed(1), 'Avg AP']}
-                  />
-                  <Bar dataKey="avgAp" name="Average AP">
-                    {stats.avgApByRarity.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={TILE_RARITY_CONFIG[entry.rarity]?.color || '#666'} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="w-full" style={{ height: 300, minWidth: 200 }}>
+                <Bar
+                  data={avgApByRarityData}
+                  options={{
+                    ...baseOptions,
+                    plugins: {
+                      ...baseOptions.plugins,
+                      tooltip: {
+                        ...baseOptions.plugins.tooltip,
+                        callbacks: {
+                          label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y).toFixed(1)}`,
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
             </ChartCard>
 
             {/* avg AP cost by round */}
             <ChartCard title="Average AP Cost by Round">
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={stats.avgApByRound}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                  <XAxis dataKey="round" stroke="#999" />
-                  <YAxis stroke="#999" />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333' }}
-                    formatter={(value) => [value.toFixed(1), 'Avg AP']}
-                  />
-                  <Line type="monotone" dataKey="avgAp" stroke="#fbbf24" strokeWidth={2} dot={{ fill: '#fbbf24' }} />
-                </LineChart>
-              </ResponsiveContainer>
+              <div className="w-full" style={{ height: 300, minWidth: 200 }}>
+                <Line
+                  data={avgApByRoundData}
+                  options={{
+                    ...baseOptions,
+                    plugins: {
+                      ...baseOptions.plugins,
+                      tooltip: {
+                        ...baseOptions.plugins.tooltip,
+                        callbacks: {
+                          label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y).toFixed(1)}`,
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
             </ChartCard>
 
             {/* top rewards */}
@@ -302,41 +457,16 @@ export default function DashboardClient() {
 
             {/* rewards by site rank */}
             <ChartCard title="Rewards by Site Rank">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.rewardsByRank}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                  <XAxis dataKey="rank" stroke="#999" />
-                  <YAxis stroke="#999" />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333' }}
-                  />
-                  <Bar dataKey="count" name="Rewards">
-                    {stats.rewardsByRank.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={SITE_RANK_CONFIG[entry.rank]?.color || '#666'} />
-                    ))}
-                  </Bar>
-                  <Bar dataKey="avgPerExpedition" name="Avg per Expedition" fill="#a78bfa" />
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="w-full" style={{ height: 300, minWidth: 200 }}>
+                <Bar data={rewardsByRankData} options={rewardsByRankOptions} />
+              </div>
             </ChartCard>
 
             {/* rewards by tile rarity */}
             <ChartCard title="Rewards by Tile Rarity (Selected Tiles)">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.rewardsByTileRarity}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                  <XAxis dataKey="rarity" stroke="#999" />
-                  <YAxis stroke="#999" />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333' }}
-                  />
-                  <Bar dataKey="count" name="Rewards">
-                    {stats.rewardsByTileRarity.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={TILE_RARITY_CONFIG[entry.rarity]?.color || '#666'} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="w-full" style={{ height: 300, minWidth: 200 }}>
+                <Bar data={rewardsByTileRarityData} options={baseOptions} />
+              </div>
             </ChartCard>
 
             {/* tier-up statistics */}
