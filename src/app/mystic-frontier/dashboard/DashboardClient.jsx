@@ -1075,7 +1075,7 @@ export default function DashboardClient() {
                           },
                         }}
                       />
-                      <div className="text-[var(--primary-dim)] text-xs text-center mt-1">
+                      <div className="text-[var(--primary-dim)] text-xs text-center">
                         Total: {stats.bothMatchStats.pouchTotal}
                       </div>
                     </div>
@@ -1105,7 +1105,7 @@ export default function DashboardClient() {
                           },
                         }}
                       />
-                      <div className="text-[var(--primary-dim)] text-xs text-center mt-1">
+                      <div className="text-[var(--primary-dim)] text-xs text-center">
                         Total: {stats.noMatchStats.pouchTotal}
                       </div>
                     </div>
