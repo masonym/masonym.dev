@@ -149,6 +149,13 @@ export default function DashboardClient() {
     ],
   };
 
+  const totalExpeditionsByRank = stats.expeditionsByRank.reduce((sum, d) => sum + d.count, 0);
+  const totalTilesByRarity = stats.tilesByRarity.reduce((sum, d) => sum + d.count, 0);
+  const totalTilesByType = stats.tilesByType.reduce((sum, d) => sum + d.count, 0);
+  const totalBothMatchTiles = stats.bothMatchStats?.tileCount || 0;
+  const totalNoMatchTiles = stats.noMatchStats?.tileCount || 0;
+  const totalNoMatchPouches = stats.noMatchStats?.pouchTotal || 0;
+
   const tilesByTypeData = {
     labels: stats.tilesByType.map(d => d.type),
     datasets: [
@@ -277,6 +284,73 @@ export default function DashboardClient() {
     ],
   };
 
+  // both-match chart data
+  const bothMatchTileRarityData = {
+    labels: stats.bothMatchStats.tilesByRarity.map(d => d.rarity),
+    datasets: [
+      {
+        label: 'Tiles',
+        data: stats.bothMatchStats.tilesByRarity.map(d => d.count),
+        backgroundColor: stats.bothMatchStats.tilesByRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
+        borderColor: 'rgba(0,0,0,0.6)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const bothMatchPouchData = {
+    labels: POUCH_TYPES,
+    datasets: [
+      {
+        label: 'Pouches',
+        data: stats.bothMatchStats.pouchDistribution.map(d => d.count),
+        backgroundColor: POUCH_TYPES.map(p => POUCH_CONFIG[p].color),
+        borderColor: 'rgba(0,0,0,0.35)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const noMatchTileRarityData = {
+    labels: stats.noMatchStats.tilesByRarity.map(d => d.rarity),
+    datasets: [
+      {
+        label: 'Tiles',
+        data: stats.noMatchStats.tilesByRarity.map(d => d.count),
+        backgroundColor: stats.noMatchStats.tilesByRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
+        borderColor: 'rgba(0,0,0,0.6)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const noMatchPouchData = {
+    labels: POUCH_TYPES,
+    datasets: [
+      {
+        label: 'Pouches',
+        data: stats.noMatchStats.pouchDistribution.map(d => d.count),
+        backgroundColor: POUCH_TYPES.map(p => POUCH_CONFIG[p].color),
+        borderColor: 'rgba(0,0,0,0.35)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const tierUpComparisonData = {
+    labels: ['Both Match', 'No Match'],
+    datasets: [
+      {
+        label: 'Tier-Up Rate (%)',
+        data: [stats.bothMatchStats.tierUpRate, stats.bothMatchStats.noMatchTierUpRate],
+        backgroundColor: ['#fbbf24', '#6b7280'],
+        borderColor: 'rgba(255,255,255,0.12)',
+        borderWidth: 1,
+        borderRadius: 6,
+      },
+    ],
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen p-4 md:p-8 flex items-center justify-center">
@@ -374,7 +448,25 @@ export default function DashboardClient() {
             {/* expeditions by rank */}
             <ChartCard title="Expeditions by Site Rank">
               <div className="w-full" style={{ height: 300, minWidth: 200 }}>
-                <Bar data={expeditionsByRankData} options={baseOptions} />
+                <Bar
+                  data={expeditionsByRankData}
+                  options={{
+                    ...baseOptions,
+                    plugins: {
+                      ...baseOptions.plugins,
+                      tooltip: {
+                        ...baseOptions.plugins.tooltip,
+                        callbacks: {
+                          label: (ctx) => {
+                            const value = ctx.raw ?? 0;
+                            const pct = totalExpeditionsByRank > 0 ? ((value / totalExpeditionsByRank) * 100).toFixed(1) : '0.0';
+                            return `${ctx.dataset.label || 'Count'}: ${value} (${pct}%)`;
+                          },
+                        },
+                      },
+                    },
+                  }}
+                />
               </div>
             </ChartCard>
 
@@ -392,6 +484,17 @@ export default function DashboardClient() {
                         position: 'bottom',
                         labels: { color: '#e5e7eb' },
                       },
+                      tooltip: {
+                        ...baseOptions.plugins.tooltip,
+                        callbacks: {
+                          label: (ctx) => {
+                            const label = ctx.label || '';
+                            const value = ctx.raw ?? 0;
+                            const pct = totalTilesByRarity > 0 ? ((value / totalTilesByRarity) * 100).toFixed(1) : '0.0';
+                            return `${label}: ${value} (${pct}%)`;
+                          },
+                        },
+                      },
                     },
                   }}
                 />
@@ -401,7 +504,25 @@ export default function DashboardClient() {
             {/* tile types distribution */}
             <ChartCard title="Tile Types Distribution">
               <div className="w-full" style={{ height: 300, minWidth: 200 }}>
-                <Bar data={tilesByTypeData} options={baseOptions} />
+                <Bar
+                  data={tilesByTypeData}
+                  options={{
+                    ...baseOptions,
+                    plugins: {
+                      ...baseOptions.plugins,
+                      tooltip: {
+                        ...baseOptions.plugins.tooltip,
+                        callbacks: {
+                          label: (ctx) => {
+                            const value = ctx.raw ?? 0;
+                            const pct = totalTilesByType > 0 ? ((value / totalTilesByType) * 100).toFixed(1) : '0.0';
+                            return `${ctx.dataset.label || 'Count'}: ${value} (${pct}%)`;
+                          },
+                        },
+                      },
+                    },
+                  }}
+                />
               </div>
             </ChartCard>
 
@@ -486,7 +607,30 @@ export default function DashboardClient() {
             {/* rewards by site rank */}
             <ChartCard title="Rewards by Site Rank">
               <div className="w-full" style={{ height: 300, minWidth: 200 }}>
-                <Bar data={rewardsByRankData} options={rewardsByRankOptions} />
+                <Bar
+                  data={rewardsByRankData}
+                  options={{
+                    ...rewardsByRankOptions,
+                    plugins: {
+                      ...rewardsByRankOptions.plugins,
+                      tooltip: {
+                        ...rewardsByRankOptions.plugins?.tooltip,
+                        callbacks: {
+                          label: (ctx) => {
+                            const label = ctx.dataset.label || '';
+                            const value = ctx.raw ?? 0;
+                            if (ctx.datasetIndex === 0) {
+                              const total = stats.rewardsByRank.reduce((sum, d) => sum + d.count, 0);
+                              const pct = total > 0 ? ((value / total) * 100).toFixed(1) : '0.0';
+                              return `${label}: ${value} (${pct}%)`;
+                            }
+                            return `${label}: ${Number(value).toFixed(2)}`;
+                          },
+                        },
+                      },
+                    },
+                  }}
+                />
               </div>
             </ChartCard>
 
@@ -726,6 +870,249 @@ export default function DashboardClient() {
                 </div>
               </div>
             </ChartCard>
+
+            {/* both element+type match deep dive */}
+            {(stats.bothMatchStats.expeditionCount > 0 || stats.noMatchStats.expeditionCount > 0) && (
+              <>
+                <ChartCard title="Match Summary (Both vs No Match)" className="lg:col-span-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div className="bg-[var(--background)] rounded p-4 border border-[var(--primary-dim)]">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[var(--primary-dim)] text-sm">Both Match</span>
+                        <span className="text-xs text-[var(--primary-dim)]">Expeditions: {stats.bothMatchStats.expeditionCount}</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 text-center">
+                        <div>
+                          <div className="text-xl font-bold text-[#fbbf24]">{stats.bothMatchStats.tileCount}</div>
+                          <div className="text-[10px] text-[var(--primary-dim)]">Tiles</div>
+                        </div>
+                        <div>
+                          <div className="text-xl font-bold text-[#fbbf24]">{stats.bothMatchStats.rewardCount}</div>
+                          <div className="text-[10px] text-[var(--primary-dim)]">Rewards</div>
+                        </div>
+                        <div>
+                          <div className="text-xl font-bold text-[#fbbf24]">{stats.bothMatchStats.avgAp.toFixed(1)}</div>
+                          <div className="text-[10px] text-[var(--primary-dim)]">Avg AP/Tile</div>
+                        </div>
+                        <div>
+                          <div className="text-xl font-bold text-[#fbbf24]">{stats.bothMatchStats.tierUpRate.toFixed(1)}%</div>
+                          <div className="text-[10px] text-[var(--primary-dim)]">Tier-Up Rate</div>
+                        </div>
+                      </div>
+                      <div className="mt-3">
+                        <h4 className="text-[var(--primary-dim)] text-xs mb-1">Top Rewards</h4>
+                        <div className="space-y-1">
+                          {stats.bothMatchStats.topRewards.map((r, i) => (
+                            <div key={r.name} className="flex justify-between p-2 bg-[var(--background)] rounded text-xs">
+                              <span className="text-[var(--primary)]">#{i + 1} {r.name}</span>
+                              <span className="text-[var(--secondary)]">{r.occurrences}</span>
+                            </div>
+                          ))}
+                          {stats.bothMatchStats.topRewards.length === 0 && (
+                            <div className="text-[var(--primary-dim)] text-center py-2 text-xs">No rewards yet</div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-[var(--background)] rounded p-4 border border-[var(--primary-dim)]">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[var(--primary-dim)] text-sm">No Match</span>
+                        <span className="text-xs text-[var(--primary-dim)]">Expeditions: {stats.noMatchStats.expeditionCount}</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 text-center">
+                        <div>
+                          <div className="text-xl font-bold text-[#9ca3af]">{stats.noMatchStats.tileCount}</div>
+                          <div className="text-[10px] text-[var(--primary-dim)]">Tiles</div>
+                        </div>
+                        <div>
+                          <div className="text-xl font-bold text-[#9ca3af]">{stats.noMatchStats.rewardCount}</div>
+                          <div className="text-[10px] text-[var(--primary-dim)]">Rewards</div>
+                        </div>
+                        <div>
+                          <div className="text-xl font-bold text-[#9ca3af]">{stats.noMatchStats.avgAp.toFixed(1)}</div>
+                          <div className="text-[10px] text-[var(--primary-dim)]">Avg AP/Tile</div>
+                        </div>
+                        <div>
+                          <div className="text-xl font-bold text-[#9ca3af]">{stats.noMatchStats.tierUpRate.toFixed(1)}%</div>
+                          <div className="text-[10px] text-[var(--primary-dim)]">Tier-Up Rate</div>
+                        </div>
+                      </div>
+                      <div className="mt-3">
+                        <h4 className="text-[var(--primary-dim)] text-xs mb-1">Top Rewards</h4>
+                        <div className="space-y-1">
+                          {stats.noMatchStats.topRewards.map((r, i) => (
+                            <div key={r.name} className="flex justify-between p-2 bg-[var(--background)] rounded text-xs">
+                              <span className="text-[var(--primary)]">#{i + 1} {r.name}</span>
+                              <span className="text-[var(--secondary)]">{r.occurrences}</span>
+                            </div>
+                          ))}
+                          {stats.noMatchStats.topRewards.length === 0 && (
+                            <div className="text-[var(--primary-dim)] text-center py-2 text-xs">No rewards yet</div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="text-[var(--primary-dim)] text-sm mb-2">Tier-Up Comparison</h4>
+                      <div className="h-[180px]">
+                        <Bar data={tierUpComparisonData} options={{
+                          ...baseOptions,
+                          indexAxis: 'y',
+                          plugins: {
+                            ...baseOptions.plugins,
+                            tooltip: {
+                              ...baseOptions.plugins.tooltip,
+                              callbacks: {
+                                label: (ctx) => `${ctx.dataset.label}: ${ctx.raw.toFixed(1)}%`,
+                              },
+                            },
+                          },
+                        }} />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="bg-[var(--background)] rounded p-3 text-center border border-[var(--primary-dim)]">
+                        <div className="text-sm text-[var(--primary-dim)]">Avg Tiles / Exp</div>
+                        <div className="text-2xl font-bold text-[#fbbf24]">{stats.matchEffects.bothMatch.avgTiles.toFixed(2)}</div>
+                        <div className="text-xs text-[var(--primary-dim)]">Both Match</div>
+                      </div>
+                      <div className="bg-[var(--background)] rounded p-3 text-center border border-[var(--primary-dim)]">
+                        <div className="text-sm text-[var(--primary-dim)]">Avg Tiles / Exp</div>
+                        <div className="text-2xl font-bold text-[#9ca3af]">{stats.matchEffects.noMatch.avgTiles.toFixed(2)}</div>
+                        <div className="text-xs text-[var(--primary-dim)]">No Match</div>
+                      </div>
+                    </div>
+                  </div>
+                </ChartCard>
+
+                <ChartCard title="Tile Rarity (Both vs No Match)">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="w-full" style={{ height: 280, minWidth: 200 }}>
+                      <Doughnut
+                        data={bothMatchTileRarityData}
+                        options={{
+                          ...baseOptions,
+                          scales: undefined,
+                          plugins: {
+                            ...baseOptions.plugins,
+                            legend: {
+                              position: 'bottom',
+                              labels: { color: '#e5e7eb' },
+                            },
+                            tooltip: {
+                              ...baseOptions.plugins.tooltip,
+                              callbacks: {
+                                label: (ctx) => {
+                                  const label = ctx.label || '';
+                                  const value = ctx.raw ?? 0;
+                                  const pct = totalBothMatchTiles > 0 ? ((value / totalBothMatchTiles) * 100).toFixed(1) : '0.0';
+                                  return `${label}: ${value} (${pct}%)`;
+                                },
+                              },
+                            },
+                          },
+                        }}
+                      />
+                    </div>
+                    <div className="w-full" style={{ height: 280, minWidth: 200 }}>
+                      <Doughnut
+                        data={noMatchTileRarityData}
+                        options={{
+                          ...baseOptions,
+                          scales: undefined,
+                          plugins: {
+                            ...baseOptions.plugins,
+                            legend: {
+                              position: 'bottom',
+                              labels: { color: '#e5e7eb' },
+                            },
+                            tooltip: {
+                              ...baseOptions.plugins.tooltip,
+                              callbacks: {
+                                label: (ctx) => {
+                                  const label = ctx.label || '';
+                                  const value = ctx.raw ?? 0;
+                                  const pct = totalNoMatchTiles > 0 ? ((value / totalNoMatchTiles) * 100).toFixed(1) : '0.0';
+                                  return `${label}: ${value} (${pct}%)`;
+                                },
+                              },
+                            },
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
+                </ChartCard>
+
+                <ChartCard title="Pouch Distribution (Both vs No Match)">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="w-full" style={{ height: 280, minWidth: 200 }}>
+                      <Doughnut
+                        data={bothMatchPouchData}
+                        options={{
+                          ...baseOptions,
+                          scales: undefined,
+                          plugins: {
+                            ...baseOptions.plugins,
+                            legend: {
+                              position: 'bottom',
+                              labels: { color: '#e5e7eb' },
+                            },
+                            tooltip: {
+                              ...baseOptions.plugins.tooltip,
+                              callbacks: {
+                                label: (ctx) => {
+                                  const label = ctx.label || '';
+                                  const value = ctx.raw ?? 0;
+                                  const pct = stats.bothMatchStats.pouchTotal > 0 ? ((value / stats.bothMatchStats.pouchTotal) * 100).toFixed(1) : '0.0';
+                                  return `${label}: ${value} (${pct}%)`;
+                                },
+                              },
+                            },
+                          },
+                        }}
+                      />
+                      <div className="text-[var(--primary-dim)] text-xs text-center mt-1">
+                        Total: {stats.bothMatchStats.pouchTotal}
+                      </div>
+                    </div>
+                    <div className="w-full" style={{ height: 280, minWidth: 200 }}>
+                      <Doughnut
+                        data={noMatchPouchData}
+                        options={{
+                          ...baseOptions,
+                          scales: undefined,
+                          plugins: {
+                            ...baseOptions.plugins,
+                            legend: {
+                              position: 'bottom',
+                              labels: { color: '#e5e7eb' },
+                            },
+                            tooltip: {
+                              ...baseOptions.plugins.tooltip,
+                              callbacks: {
+                                label: (ctx) => {
+                                  const label = ctx.label || '';
+                                  const value = ctx.raw ?? 0;
+                                  const pct = totalNoMatchPouches > 0 ? ((value / totalNoMatchPouches) * 100).toFixed(1) : '0.0';
+                                  return `${label}: ${value} (${pct}%)`;
+                                },
+                              },
+                            },
+                          },
+                        }}
+                      />
+                      <div className="text-[var(--primary-dim)] text-xs text-center mt-1">
+                        Total: {stats.noMatchStats.pouchTotal}
+                      </div>
+                    </div>
+                  </div>
+                </ChartCard>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -904,6 +1291,128 @@ function computeStats(expeditions, tiles, rewards) {
     bothMatch: computeMatchGroup(e => e.element_match && e.type_match),
   };
 
+  // detailed both-match analytics
+  const bothMatchExps = expeditions.filter(e => e.element_match && e.type_match);
+  const bothMatchExpIds = new Set(bothMatchExps.map(e => e.id));
+  const bothMatchTiles = tiles.filter(t => bothMatchExpIds.has(t.expedition_id));
+  const bothMatchRewards = rewards.filter(r => bothMatchExpIds.has(r.expedition_id));
+
+  // tile rarity distribution for both-match
+  const bothMatchTilesByRarity = TILE_RARITIES.map(rarity => ({
+    rarity,
+    count: bothMatchTiles.filter(t => t.tile_rarity === rarity).length,
+  }));
+
+  // avg AP for both-match tiles
+  const bothMatchAvgAp = bothMatchTiles.filter(t => t.ap_cost != null).length > 0
+    ? bothMatchTiles.filter(t => t.ap_cost != null).reduce((sum, t) => sum + t.ap_cost, 0) / bothMatchTiles.filter(t => t.ap_cost != null).length
+    : 0;
+
+  // pouch distribution for both-match (all tiles)
+  const bothMatchPouchMap = {};
+  POUCH_TYPES.forEach(p => { bothMatchPouchMap[p] = 0; });
+  bothMatchTiles.forEach(t => {
+    if (t.reward_option) {
+      const key = POUCH_TYPES.find(p => t.reward_option.toLowerCase().includes(p.toLowerCase()));
+      if (key) {
+        bothMatchPouchMap[key] = (bothMatchPouchMap[key] || 0) + 1;
+      }
+    }
+  });
+  const bothMatchPouchDistribution = POUCH_TYPES.map(p => ({ pouch: p, count: bothMatchPouchMap[p] || 0 }));
+  const bothMatchPouchTotal = bothMatchPouchDistribution.reduce((sum, p) => sum + p.count, 0);
+
+  // tier-up stats for both-match
+  const bothMatchWithTierUps = bothMatchExps.filter(e => e.tier_ups && e.tier_ups > 0);
+  const bothMatchTotalTierUps = bothMatchWithTierUps.reduce((sum, e) => sum + (e.tier_ups || 0), 0);
+  const bothMatchTierUpRate = bothMatchExps.length > 0 ? (bothMatchWithTierUps.length / bothMatchExps.length) * 100 : 0;
+  const bothMatchAvgTierUps = bothMatchWithTierUps.length > 0 ? bothMatchTotalTierUps / bothMatchWithTierUps.length : 0;
+
+  // top rewards for both-match
+  const bothMatchRewardGroups = {};
+  bothMatchRewards.forEach(r => {
+    const key = r.item_name;
+    if (!bothMatchRewardGroups[key]) {
+      bothMatchRewardGroups[key] = { name: key, occurrences: 0, totalQuantity: 0 };
+    }
+    bothMatchRewardGroups[key].occurrences += 1;
+    bothMatchRewardGroups[key].totalQuantity += r.quantity;
+  });
+  const bothMatchTopRewards = Object.values(bothMatchRewardGroups)
+    .sort((a, b) => b.occurrences - a.occurrences)
+    .slice(0, 5);
+
+  // comparison: no-match tier-up rate
+  const noMatchExps = expeditions.filter(e => !e.element_match && !e.type_match);
+  const noMatchWithTierUps = noMatchExps.filter(e => e.tier_ups && e.tier_ups > 0);
+  const noMatchTierUpRate = noMatchExps.length > 0 ? (noMatchWithTierUps.length / noMatchExps.length) * 100 : 0;
+
+  // detailed no-match analytics
+  const noMatchExpIds = new Set(noMatchExps.map(e => e.id));
+  const noMatchTiles = tiles.filter(t => noMatchExpIds.has(t.expedition_id));
+  const noMatchRewards = rewards.filter(r => noMatchExpIds.has(r.expedition_id));
+
+  const noMatchTilesByRarity = TILE_RARITIES.map(rarity => ({
+    rarity,
+    count: noMatchTiles.filter(t => t.tile_rarity === rarity).length,
+  }));
+
+  const noMatchAvgAp = noMatchTiles.filter(t => t.ap_cost != null).length > 0
+    ? noMatchTiles.filter(t => t.ap_cost != null).reduce((sum, t) => sum + t.ap_cost, 0) / noMatchTiles.filter(t => t.ap_cost != null).length
+    : 0;
+
+  const noMatchPouchMap = {};
+  POUCH_TYPES.forEach(p => { noMatchPouchMap[p] = 0; });
+  noMatchTiles.forEach(t => {
+    if (t.reward_option) {
+      const key = POUCH_TYPES.find(p => t.reward_option.toLowerCase().includes(p.toLowerCase()));
+      if (key) {
+        noMatchPouchMap[key] = (noMatchPouchMap[key] || 0) + 1;
+      }
+    }
+  });
+  const noMatchPouchDistribution = POUCH_TYPES.map(p => ({ pouch: p, count: noMatchPouchMap[p] || 0 }));
+  const noMatchPouchTotal = noMatchPouchDistribution.reduce((sum, p) => sum + p.count, 0);
+
+  const noMatchRewardGroups = {};
+  noMatchRewards.forEach(r => {
+    const key = r.item_name;
+    if (!noMatchRewardGroups[key]) {
+      noMatchRewardGroups[key] = { name: key, occurrences: 0, totalQuantity: 0 };
+    }
+    noMatchRewardGroups[key].occurrences += 1;
+    noMatchRewardGroups[key].totalQuantity += r.quantity;
+  });
+  const noMatchTopRewards = Object.values(noMatchRewardGroups)
+    .sort((a, b) => b.occurrences - a.occurrences)
+    .slice(0, 5);
+
+  const bothMatchStats = {
+    expeditionCount: bothMatchExps.length,
+    tileCount: bothMatchTiles.length,
+    rewardCount: bothMatchRewards.length,
+    avgAp: bothMatchAvgAp,
+    tilesByRarity: bothMatchTilesByRarity,
+    pouchDistribution: bothMatchPouchDistribution,
+    pouchTotal: bothMatchPouchTotal,
+    tierUpRate: bothMatchTierUpRate,
+    avgTierUps: bothMatchAvgTierUps,
+    topRewards: bothMatchTopRewards,
+    noMatchTierUpRate,
+  };
+
+  const noMatchStats = {
+    expeditionCount: noMatchExps.length,
+    tileCount: noMatchTiles.length,
+    rewardCount: noMatchRewards.length,
+    avgAp: noMatchAvgAp,
+    tilesByRarity: noMatchTilesByRarity,
+    pouchDistribution: noMatchPouchDistribution,
+    pouchTotal: noMatchPouchTotal,
+    tierUpRate: noMatchTierUpRate,
+    topRewards: noMatchTopRewards,
+  };
+
   // tier-up statistics (now tracked at expedition level)
   const expeditionsWithTierUps = expeditions.filter(e => e.tier_ups && e.tier_ups > 0);
   const totalTierUps = expeditionsWithTierUps.reduce((sum, e) => sum + (e.tier_ups || 0), 0);
@@ -962,6 +1471,8 @@ function computeStats(expeditions, tiles, rewards) {
     pouchAppearanceAllTotal,
     siteApByRank,
     matchEffects,
+    bothMatchStats,
+    noMatchStats,
     tierUpStats,
   };
 }
