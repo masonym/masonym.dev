@@ -198,7 +198,7 @@ export default function DashboardClient() {
     labels: stats.rewardsByRank.map(d => d.rank),
     datasets: [
       {
-        label: 'Rewards',
+        label: 'Reward occurrences',
         data: stats.rewardsByRank.map(d => d.count),
         backgroundColor: stats.rewardsByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
         borderColor: 'rgba(255,255,255,0.12)',
@@ -235,13 +235,41 @@ export default function DashboardClient() {
     },
   };
 
-  const rewardsByTileRarityData = {
-    labels: stats.rewardsByTileRarity.map(d => d.rarity),
+  const pouchAppearanceTotal = stats.pouchAppearanceTotal || 0;
+  const pouchAppearanceAllTotal = stats.pouchAppearanceAllTotal || 0;
+  const pouchAppearanceData = {
+    labels: POUCH_TYPES,
     datasets: [
       {
-        label: 'Rewards',
-        data: stats.rewardsByTileRarity.map(d => d.count),
-        backgroundColor: stats.rewardsByTileRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
+        label: 'Pouch appearances',
+        data: stats.pouchAppearance.map(d => d.count),
+        backgroundColor: POUCH_TYPES.map(p => POUCH_CONFIG[p].color),
+        borderColor: 'rgba(255,255,255,0.12)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const pouchAppearanceAllData = {
+    labels: POUCH_TYPES,
+    datasets: [
+      {
+        label: 'Pouch appearances (all tiles)',
+        data: stats.pouchAppearanceAll.map(d => d.count),
+        backgroundColor: POUCH_TYPES.map(p => POUCH_CONFIG[p].color),
+        borderColor: 'rgba(255,255,255,0.12)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const siteApByRankData = {
+    labels: stats.siteApByRank.map(d => d.rank),
+    datasets: [
+      {
+        label: 'Avg AP per tile',
+        data: stats.siteApByRank.map(d => d.avgAp),
+        backgroundColor: stats.siteApByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
@@ -462,10 +490,100 @@ export default function DashboardClient() {
               </div>
             </ChartCard>
 
-            {/* rewards by tile rarity */}
-            <ChartCard title="Rewards by Tile Rarity (Selected Tiles)">
+            {/* pouch appearance rate (selected tiles) */}
+            <ChartCard title="Pouch Appearance Rate (Selected Tiles)">
+              <div className="w-full" style={{ height: 320, minWidth: 200 }}>
+                <Doughnut
+                  data={{
+                    labels: POUCH_TYPES,
+                    datasets: [
+                      {
+                        label: 'Pouch share',
+                        data: pouchAppearanceData.datasets[0].data, // counts; tooltip shows pct
+                        backgroundColor: pouchAppearanceData.datasets[0].backgroundColor,
+                        borderColor: 'rgba(0,0,0,0.35)',
+                        borderWidth: 1,
+                      },
+                    ],
+                  }}
+                  options={{
+                    ...baseOptions,
+                    scales: undefined,
+                    plugins: {
+                      ...baseOptions.plugins,
+                      legend: {
+                        position: 'bottom',
+                        labels: { color: '#e5e7eb' },
+                      },
+                      tooltip: {
+                        ...baseOptions.plugins.tooltip,
+                        callbacks: {
+                          label: (ctx) => {
+                            const label = ctx.label || '';
+                            const value = ctx.raw ?? 0; // count
+                            const pct = pouchAppearanceTotal > 0 ? ((value / pouchAppearanceTotal) * 100).toFixed(1) : '0.0';
+                            return `${label}: ${value} (${pct}%)`;
+                          },
+                        },
+                      },
+                    },
+                  }}
+                />
+                <div className="text-[var(--primary-dim)] text-xs">
+                  Total pouches selected: {pouchAppearanceTotal}
+                </div>
+              </div>
+            </ChartCard>
+
+            {/* pouch appearance rate (all tiles) */}
+            <ChartCard title="Pouch Appearance Rate (All Tiles)">
+              <div className="w-full" style={{ height: 320, minWidth: 200 }}>
+                <Doughnut
+                  data={{
+                    labels: POUCH_TYPES,
+                    datasets: [
+                      {
+                        label: 'Pouch share (all tiles)',
+                        data: pouchAppearanceAllData.datasets[0].data, // counts; tooltip shows pct
+                        backgroundColor: pouchAppearanceAllData.datasets[0].backgroundColor,
+                        borderColor: 'rgba(0,0,0,0.35)',
+                        borderWidth: 1,
+                      },
+                    ],
+                  }}
+                  options={{
+                    ...baseOptions,
+                    scales: undefined,
+                    plugins: {
+                      ...baseOptions.plugins,
+                      legend: {
+                        position: 'bottom',
+                        labels: { color: '#e5e7eb' },
+                      },
+                      tooltip: {
+                        ...baseOptions.plugins.tooltip,
+                        callbacks: {
+                          label: (ctx) => {
+                            const label = ctx.label || '';
+                            const value = ctx.raw ?? 0; // count
+                            const pct = pouchAppearanceAllTotal > 0 ? ((value / pouchAppearanceAllTotal) * 100).toFixed(1) : '0.0';
+                            return `${label}: ${value} (${pct}%)`;
+                          },
+                        },
+                      },
+                    },
+                  }}
+                />
+                <div className="text-[var(--primary-dim)] text-xs">
+                  Total pouches observed: {pouchAppearanceAllTotal}
+                </div>
+              </div>
+            </ChartCard>
+
+            {/* average AP per tile by site rank */}
+            <ChartCard title="Avg Tile AP by Site Rank">
               <div className="w-full" style={{ height: 300, minWidth: 200 }}>
-                <Bar data={rewardsByTileRarityData} options={baseOptions} />
+                <Bar data={siteApByRankData} options={baseOptions} />
               </div>
             </ChartCard>
 
@@ -712,20 +830,53 @@ function computeStats(expeditions, tiles, rewards) {
     const rankExpeditions = expeditions.filter(e => e.site_rank === rank);
     const rankExpIds = new Set(rankExpeditions.map(e => e.id));
     const rankRewards = rewards.filter(r => rankExpIds.has(r.expedition_id));
-    const count = rankRewards.reduce((sum, r) => sum + r.quantity, 0);
+    const count = rankRewards.length; // occurrences (not quantity sum)
     const avgPerExpedition = rankExpeditions.length > 0 ? count / rankExpeditions.length : 0;
     return { rank, count, avgPerExpedition };
   });
 
-  // rewards by tile rarity (for tiles that were selected and have associated rewards)
-  const tileIdToRarity = {};
-  tiles.forEach(t => { tileIdToRarity[t.id] = t.tile_rarity; });
-  
+  // pouches by tile rarity (selected tiles)
   const rewardsByTileRarity = TILE_RARITIES.map(rarity => {
-    const count = rewards
-      .filter(r => r.tile_id && tileIdToRarity[r.tile_id] === rarity)
-      .reduce((sum, r) => sum + r.quantity, 0);
+    const count = tiles.filter(t => t.selected && t.tile_rarity === rarity && t.reward_option).length;
     return { rarity, count };
+  });
+
+  // pouch appearance counts by pouch type (selected tiles)
+  const pouchAppearanceMap = {};
+  POUCH_TYPES.forEach(p => { pouchAppearanceMap[p] = 0; });
+  tiles.forEach(t => {
+    if (t.selected && t.reward_option) {
+      const key = POUCH_TYPES.find(p => t.reward_option.toLowerCase().includes(p.toLowerCase()));
+      if (key) {
+        pouchAppearanceMap[key] = (pouchAppearanceMap[key] || 0) + 1;
+      }
+    }
+  });
+  const pouchAppearance = POUCH_TYPES.map(p => ({ pouch: p, count: pouchAppearanceMap[p] || 0 }));
+  const pouchAppearanceTotal = pouchAppearance.reduce((sum, p) => sum + p.count, 0);
+
+  // pouch appearance counts by pouch type (all tiles)
+  const pouchAppearanceAllMap = {};
+  POUCH_TYPES.forEach(p => { pouchAppearanceAllMap[p] = 0; });
+  tiles.forEach(t => {
+    if (t.reward_option) {
+      const key = POUCH_TYPES.find(p => t.reward_option.toLowerCase().includes(p.toLowerCase()));
+      if (key) {
+        pouchAppearanceAllMap[key] = (pouchAppearanceAllMap[key] || 0) + 1;
+      }
+    }
+  });
+  const pouchAppearanceAll = POUCH_TYPES.map(p => ({ pouch: p, count: pouchAppearanceAllMap[p] || 0 }));
+  const pouchAppearanceAllTotal = pouchAppearanceAll.reduce((sum, p) => sum + p.count, 0);
+
+  // avg AP by site rank (per tile)
+  const siteApByRank = SITE_RANKS.map(rank => {
+    const rankExpIds = new Set(expeditions.filter(e => e.site_rank === rank).map(e => e.id));
+    const rankTiles = tiles.filter(t => rankExpIds.has(t.expedition_id) && t.ap_cost != null);
+    const avgAp = rankTiles.length > 0
+      ? rankTiles.reduce((sum, t) => sum + t.ap_cost, 0) / rankTiles.length
+      : 0;
+    return { rank, avgAp };
   });
 
   // match effects
@@ -805,6 +956,11 @@ function computeStats(expeditions, tiles, rewards) {
     topRewards,
     rewardsByRank,
     rewardsByTileRarity,
+    pouchAppearance,
+    pouchAppearanceTotal,
+    pouchAppearanceAll,
+    pouchAppearanceAllTotal,
+    siteApByRank,
     matchEffects,
     tierUpStats,
   };
