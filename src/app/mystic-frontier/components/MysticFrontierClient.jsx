@@ -64,13 +64,32 @@ export default function MysticFrontierClient() {
   const [selectedExpedition, setSelectedExpedition] = useState(null);
 
   useEffect(() => {
-    const savedIgn = localStorage.getItem('mysticFrontierIgn');
+    loadKnownItems();
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      setIgn('');
+      setIgnSaved(false);
+      return;
+    }
+
+    const perUserKey = `mysticFrontierIgn:${user.id}`;
+    const savedIgn = localStorage.getItem(perUserKey);
     if (savedIgn) {
       setIgn(savedIgn);
       setIgnSaved(true);
+      return;
     }
-    loadKnownItems();
-  }, []);
+
+    // one-time migration from old global key (if it exists)
+    const legacyIgn = localStorage.getItem('mysticFrontierIgn');
+    if (legacyIgn) {
+      localStorage.setItem(perUserKey, legacyIgn);
+      setIgn(legacyIgn);
+      setIgnSaved(true);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (user && activeTab === 'history') {
@@ -89,13 +108,17 @@ export default function MysticFrontierClient() {
   };
 
   const saveIgn = () => {
+    if (!user) return;
     if (ign.trim()) {
-      localStorage.setItem('mysticFrontierIgn', ign.trim());
+      localStorage.setItem(`mysticFrontierIgn:${user.id}`, ign.trim());
       setIgnSaved(true);
     }
   };
 
   const changeIgn = () => {
+    if (user) {
+      localStorage.removeItem(`mysticFrontierIgn:${user.id}`);
+    }
     setIgnSaved(false);
   };
 
