@@ -1162,6 +1162,18 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
 }
 
 function MyExpeditions({ expeditions, loading, selectedExpedition, setSelectedExpedition, onRefresh }) {
+  const [hideClaimed, setHideClaimed] = useState(false);
+
+  useEffect(() => {
+    const stored = typeof window !== 'undefined' ? localStorage.getItem('mf_hide_claimed') : null;
+    if (stored === 'true') setHideClaimed(true);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('mf_hide_claimed', hideClaimed ? 'true' : 'false');
+  }, [hideClaimed]);
+
   if (loading) {
     return (
       <div className="bg-[var(--background-bright)] rounded-lg p-8 border border-[var(--primary-dim)] text-center">
@@ -1197,7 +1209,19 @@ function MyExpeditions({ expeditions, loading, selectedExpedition, setSelectedEx
 
   return (
     <div className="space-y-3">
-      {expeditions.map(exp => (
+      <div className="flex items-center justify-between">
+        <div className="text-[var(--primary-dim)] text-sm">My Expeditions</div>
+        <label className="flex items-center gap-2 text-sm text-[var(--primary)] cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={hideClaimed}
+            onChange={(e) => setHideClaimed(e.target.checked)}
+            className="w-4 h-4 rounded accent-[var(--secondary)]"
+          />
+          <span>Hide rewards-added</span>
+        </label>
+      </div>
+      {(hideClaimed ? expeditions.filter(exp => !exp.rewards_claimed) : expeditions).map(exp => (
         <button
           key={exp.id}
           onClick={() => setSelectedExpedition(exp)}
