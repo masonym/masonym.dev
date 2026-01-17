@@ -278,27 +278,29 @@ export default function MysticFrontierClient() {
             });
           } else {
             // insert both options as separate tile records, marking which was selected
-            if (tile.option1.reward || tile.option1.apCost) {
+            const option1Reward = tile.option1.reward || DEFAULT_REWARD;
+            if (option1Reward || tile.option1.apCost) {
               allTiles.push({
                 expedition_id: expedition.id,
                 round_number: round,
                 tile_type: tile.type,
                 tile_rarity: tile.rarity,
                 ap_cost: tile.option1.apCost,
-                reward_option: tile.option1.reward,
+                reward_option: option1Reward,
                 selected: isSelectedTile && tile.selectedOption === 1,
                 option_number: 1,
                 tile_index: idx,
               });
             }
-            if (tile.option2.reward || tile.option2.apCost) {
+            const option2Reward = tile.option2.reward || DEFAULT_REWARD;
+            if (option2Reward || tile.option2.apCost) {
               allTiles.push({
                 expedition_id: expedition.id,
                 round_number: round,
                 tile_type: tile.type,
                 tile_rarity: tile.rarity,
                 ap_cost: tile.option2.apCost,
-                reward_option: tile.option2.reward,
+                reward_option: option2Reward,
                 selected: isSelectedTile && tile.selectedOption === 2,
                 option_number: 2,
                 tile_index: idx,
@@ -1338,12 +1340,15 @@ function MyExpeditions({ expeditions, loading, selectedExpedition, setSelectedEx
 
 function ExpeditionDetail({ expedition, onBack, onDelete }) {
   const [rewards, setRewards] = useState(expedition.rewards || []);
+  const [tileEdits, setTileEdits] = useState(() => expedition.tiles?.map(t => ({ ...t })) || []);
+  const [editMode, setEditMode] = useState(false);
   const [newReward, setNewReward] = useState({ item_name: '', quantity: '' });
   const [knownItems, setKnownItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [savingTiles, setSavingTiles] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   
@@ -1353,7 +1358,7 @@ function ExpeditionDetail({ expedition, onBack, onDelete }) {
   // auto-calculate pouches from selected tiles' reward_option
   const pouches = useMemo(() => {
     const counts = { Glowing: 0, Blue: 0, Purple: 0, Orange: 0, Green: 0 };
-    const selectedTiles = expedition.tiles?.filter(t => t.selected && t.reward_option) || [];
+    const selectedTiles = tileEdits?.filter(t => t.selected && t.reward_option) || [];
     
     selectedTiles.forEach(tile => {
       const rewardName = tile.reward_option.toLowerCase();
@@ -1365,7 +1370,7 @@ function ExpeditionDetail({ expedition, onBack, onDelete }) {
     });
     
     return counts;
-  }, [expedition.tiles]);
+  }, [tileEdits]);
 
   // calculate starting chest tier from highest pouch
   const startingChestTier = useMemo(() => {
@@ -1540,7 +1545,41 @@ function ExpeditionDetail({ expedition, onBack, onDelete }) {
     }
   };
 
-  const selectedTiles = expedition.tiles?.filter(t => t.selected) || [];
+  const selectedTiles = tileEdits?.filter(t => t.selected) || [];
+
+  const handleRewardChange = (tileId, value) => {
+    setTileEdits(prev => prev.map(t => t.id === tileId ? { ...t, reward_option: value } : t));
+  };
+
+  const handleSelectOption = (tileIndex, optionNumber) => {
+    setTileEdits(prev => prev.map(t => {
+      if (t.tile_index !== tileIndex) return t;
+      return { ...t, selected: t.option_number === optionNumber };
+    }));
+  };
+
+  const saveTileRewards = async () => {
+    if (!tileEdits || tileEdits.length === 0) return;
+    setSavingTiles(true);
+    try {
+      const updates = tileEdits.map(t => ({
+        id: t.id,
+        reward_option: t.reward_option || DEFAULT_REWARD,
+        selected: !!t.selected,
+      }));
+      await Promise.all(
+        updates.map(u => 
+          supabase
+            .from('tiles')
+            .update({ reward_option: u.reward_option, selected: u.selected })
+            .eq('id', u.id)
+        )
+      );
+    } catch (err) {
+      console.error('Error saving tile rewards:', err);
+    }
+    setSavingTiles(false);
+  };
 
   return (
     <div className="space-y-4">
@@ -1598,12 +1637,47 @@ function ExpeditionDetail({ expedition, onBack, onDelete }) {
         </div>
       </div>
 
-      {/* tiles summary - grouped by round */}
+      {/* tiles summary & editing - grouped by round */}
       <div className="bg-[var(--background-bright)] rounded-lg p-4 border border-[var(--primary-dim)]">
-        <h3 className="text-[var(--primary-bright)] mb-4">Tiles Recorded</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-[var(--primary-bright)]">Tiles Recorded</h3>
+          <div className="flex gap-2">
+            {editMode ? (
+              <>
+                <button
+                  onClick={async () => {
+                    await saveTileRewards();
+                    setEditMode(false);
+                  }}
+                  disabled={savingTiles}
+                  className="text-xs px-3 py-1.5 rounded bg-[var(--secondary)] text-[var(--primary-dark)] hover:opacity-90 transition disabled:opacity-50"
+                >
+                  {savingTiles ? 'Saving...' : 'Save'}
+                </button>
+                <button
+                  onClick={() => {
+                    setTileEdits(expedition.tiles?.map(t => ({ ...t })) || []);
+                    setEditMode(false);
+                  }}
+                  disabled={savingTiles}
+                  className="text-xs px-3 py-1.5 rounded bg-[var(--background)] border border-[var(--primary-dim)] text-[var(--primary)] hover:bg-[var(--background-dim)] transition"
+                >
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setEditMode(true)}
+                className="text-xs px-3 py-1.5 rounded bg-[var(--background)] border border-[var(--primary-dim)] text-[var(--primary)] hover:bg-[var(--background-dim)] transition"
+              >
+                Edit
+              </button>
+            )}
+          </div>
+        </div>
         <div className="space-y-4">
           {[1, 2, 3, 4, 5].map(roundNum => {
-            const roundTiles = expedition.tiles?.filter(t => t.round_number === roundNum) || [];
+            const roundTiles = tileEdits?.filter(t => t.round_number === roundNum) || [];
             if (roundTiles.length === 0) return null;
             
             // group by tile_index to show options together
@@ -1641,16 +1715,43 @@ function ExpeditionDetail({ expedition, onBack, onDelete }) {
                           {selectedTile && <span className="ml-auto text-green-400 text-xs">✓ Selected</span>}
                         </div>
                         {firstTile.tile_type !== 'Lucky' && (
-                          <div className="text-xs space-y-1 mt-1">
+                          <div className="text-xs space-y-2 mt-1">
                             {tiles.map((t, i) => (
                               <div 
                                 key={i} 
-                                className={`flex items-center justify-between ${
-                                  t.selected ? 'text-green-400' : 'text-[var(--primary-dim)]'
+                                className={`space-y-1 p-2 rounded ${
+                                  t.selected ? 'bg-green-900/20 text-green-200' : 'bg-[var(--background)] text-[var(--primary-dim)]'
                                 }`}
                               >
-                                <span>{t.reward_option || `Option ${t.option_number}`}</span>
-                                {t.ap_cost && <span>{t.ap_cost} AP</span>}
+                                <div className="flex items-center gap-2">
+                                  {editMode ? (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleSelectOption(t.tile_index, t.option_number)}
+                                      className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                                        t.selected ? 'bg-green-500 text-white' : 'bg-[var(--background-bright)] text-[var(--primary-dim)] hover:bg-[var(--background-dim)]'
+                                      }`}
+                                    >
+                                      {t.selected ? 'Selected' : `Select Option ${t.option_number}`}
+                                    </button>
+                                  ) : (
+                                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[var(--background-bright)] text-[var(--primary-dim)]">
+                                      {t.selected ? 'Selected' : `Option ${t.option_number}`}
+                                    </span>
+                                  )}
+                                  {t.ap_cost && <span>{t.ap_cost} AP</span>}
+                                </div>
+                                {editMode ? (
+                                  <input
+                                    type="text"
+                                    value={t.reward_option || ''}
+                                    onChange={(e) => handleRewardChange(t.id, e.target.value)}
+                                    placeholder={`Reward for option ${t.option_number}`}
+                                    className="w-full p-2 rounded border border-[var(--primary-dim)] bg-[var(--background-bright)] text-[var(--primary)]"
+                                  />
+                                ) : (
+                                  <div className="text-[var(--primary)]">{t.reward_option || `Option ${t.option_number}`}</div>
+                                )}
                               </div>
                             ))}
                           </div>
