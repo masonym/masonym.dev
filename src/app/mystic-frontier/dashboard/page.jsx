@@ -1,4 +1,5 @@
 import DashboardClient from './DashboardClient';
+import { AuthProvider } from '../components/AuthProvider';
 
 export const metadata = {
   title: "Mystic Frontier Dashboard | mason's maple matrix",
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function DashboardPage() {
-  return <DashboardClient />;
+  return (
+    <AuthProvider>
+      <DashboardClient />
+    </AuthProvider>
+  );
 }

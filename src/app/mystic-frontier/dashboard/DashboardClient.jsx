@@ -168,8 +168,10 @@ export default function DashboardClient() {
   };
 
   const totalExpeditionsByRank = stats.expeditionsByRank.reduce((sum, d) => sum + d.count, 0);
+  const totalExpeditionsByRankUser = userStats ? userStats.expeditionsByRank.reduce((sum, d) => sum + d.count, 0) : 0;
   const totalTilesByRarity = stats.tilesByRarity.reduce((sum, d) => sum + d.count, 0);
   const totalTilesByType = stats.tilesByType.reduce((sum, d) => sum + d.count, 0);
+  const totalTilesByTypeUser = userStats ? userStats.tilesByType.reduce((sum, d) => sum + d.count, 0) : 0;
   const totalBothMatchTiles = stats.bothMatchStats?.tileCount || 0;
   const totalNoMatchTiles = stats.noMatchStats?.tileCount || 0;
   const totalNoMatchPouches = stats.noMatchStats?.pouchTotal || 0;
@@ -529,7 +531,9 @@ export default function DashboardClient() {
                         callbacks: {
                           label: (ctx) => {
                             const value = ctx.raw ?? 0;
-                            const pct = totalExpeditionsByRank > 0 ? ((value / totalExpeditionsByRank) * 100).toFixed(1) : '0.0';
+                            const isUser = ctx.dataset.label === 'My Expeditions';
+                            const denom = isUser ? totalExpeditionsByRankUser : totalExpeditionsByRank;
+                            const pct = denom > 0 ? ((value / denom) * 100).toFixed(1) : '0.0';
                             return `${ctx.dataset.label || 'Count'}: ${value} (${pct}%)`;
                           },
                         },
@@ -585,7 +589,9 @@ export default function DashboardClient() {
                         callbacks: {
                           label: (ctx) => {
                             const value = ctx.raw ?? 0;
-                            const pct = totalTilesByType > 0 ? ((value / totalTilesByType) * 100).toFixed(1) : '0.0';
+                            const isUser = ctx.dataset.label === 'My Tiles';
+                            const denom = isUser ? totalTilesByTypeUser : totalTilesByType;
+                            const pct = denom > 0 ? ((value / denom) * 100).toFixed(1) : '0.0';
                             return `${ctx.dataset.label || 'Count'}: ${value} (${pct}%)`;
                           },
                         },
