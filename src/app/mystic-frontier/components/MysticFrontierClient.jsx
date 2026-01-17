@@ -601,7 +601,7 @@ function NewExpeditionForm({
             const roundEl = roundRefs.current[roundNum];
             const firstRewardInput = roundEl?.querySelector('input[type="text"]');
             firstRewardInput?.focus();
-          }, 1000);
+          }, 250);
         } else {
           setTileCount(selectedRound, Math.max(0, currentCount - 1));
         }
@@ -1073,6 +1073,9 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
         <button
           onClick={(e) => {
             e.stopPropagation();
+            if (!option.reward) {
+              onChange('reward', DEFAULT_REWARD);
+            }
             onSelect();
           }}
           tabIndex={-1}
@@ -1139,8 +1142,17 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
         </div>
         <input
           type="number"
+          inputMode="numeric"
+          pattern="[0-9]*"
           value={option.apCost || ''}
           onChange={(e) => onChange('apCost', e.target.value ? parseInt(e.target.value) : null)}
+          onKeyDown={(e) => {
+            const allowedKeys = ['Backspace', 'Tab', 'Delete', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+            const isDigit = e.key >= '0' && e.key <= '9';
+            if (!isDigit && !allowedKeys.includes(e.key)) {
+              e.preventDefault();
+            }
+          }}
           placeholder="AP"
           className="w-16 p-1.5 rounded bg-[var(--background-bright)] border border-[var(--primary-dim)] text-[var(--primary)] text-sm text-center"
         />
