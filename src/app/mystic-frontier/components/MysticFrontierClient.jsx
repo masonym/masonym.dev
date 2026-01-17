@@ -1551,9 +1551,10 @@ function ExpeditionDetail({ expedition, onBack, onDelete }) {
     setTileEdits(prev => prev.map(t => t.id === tileId ? { ...t, reward_option: value } : t));
   };
 
-  const handleSelectOption = (tileIndex, optionNumber) => {
+  const handleSelectOption = (roundNumber, tileIndex, optionNumber) => {
     setTileEdits(prev => prev.map(t => {
-      if (t.tile_index !== tileIndex) return t;
+      if (t.round_number !== roundNumber) return t;
+      if (t.tile_index !== tileIndex) return { ...t, selected: false };
       return { ...t, selected: t.option_number === optionNumber };
     }));
   };
@@ -1727,7 +1728,7 @@ function ExpeditionDetail({ expedition, onBack, onDelete }) {
                                   {editMode ? (
                                     <button
                                       type="button"
-                                      onClick={() => handleSelectOption(t.tile_index, t.option_number)}
+                                      onClick={() => handleSelectOption(t.round_number, t.tile_index, t.option_number)}
                                       className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                                         t.selected ? 'bg-green-500 text-white' : 'bg-[var(--background-bright)] text-[var(--primary-dim)] hover:bg-[var(--background-dim)]'
                                       }`}
