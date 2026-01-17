@@ -639,37 +639,58 @@ function NewExpeditionForm({
                 <X className="w-5 h-5 text-[var(--primary-dim)]" />
               </button>
             </div>
-            <div className="space-y-3 text-sm">
-              <div className="border-b border-[var(--primary-dim)] pb-2">
-                <div className="text-[var(--secondary)] font-bold mb-1">Round Selection</div>
-                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Select round</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">1-5</kbd></div>
-                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Deselect round</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">Esc</kbd></div>
-              </div>
-              <div className="border-b border-[var(--primary-dim)] pb-2">
-                <div className="text-[var(--secondary)] font-bold mb-1">Tile Count (with round selected)</div>
-                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Add tile</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">+</kbd></div>
-                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Remove tile</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">-</kbd></div>
-              </div>
-              <div className="border-b border-[var(--primary-dim)] pb-2">
-                <div className="text-[var(--secondary)] font-bold mb-1">Expedition Rarity</div>
-                <div className="grid grid-cols-2 gap-1">
-                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Common</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">C</kbd></div>
-                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Rare</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">R</kbd></div>
-                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Epic</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">E</kbd></div>
-                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Unique</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">U</kbd></div>
-                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Legendary</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">L</kbd></div>
+            <div className="space-y-4 text-sm">
+              <div className="space-y-1 border-b border-[var(--primary-dim)] pb-3">
+                <div className="text-[var(--secondary)] font-bold">Round Selection</div>
+                <div className="grid grid-cols-[1fr_auto] gap-2 text-[var(--primary-dim)]">
+                  <div className="flex items-center">Select round</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">1-5</kbd>
+                  <div className="flex items-center">Deselect round</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">Esc</kbd>
                 </div>
               </div>
-              <div className="border-b border-[var(--primary-dim)] pb-2">
-                <div className="text-[var(--secondary)] font-bold mb-1">Tile Rarity (with round selected)</div>
-                <div className="grid grid-cols-3 gap-1">
-                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Normal</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">N</kbd></div>
-                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Intermediate</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">I</kbd></div>
-                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Advanced</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">A</kbd></div>
+
+              <div className="space-y-1 border-b border-[var(--primary-dim)] pb-3">
+                <div className="text-[var(--secondary)] font-bold">Tile Count (with round selected)</div>
+                <div className="grid grid-cols-[1fr_auto] gap-2 text-[var(--primary-dim)]">
+                  <div className="flex items-center">Add tile</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">+</kbd>
+                  <div className="flex items-center">Remove tile</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">-</kbd>
                 </div>
               </div>
-              <div>
-                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Toggle this help</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">?</kbd></div>
+
+              <div className="space-y-1 border-b border-[var(--primary-dim)] pb-3">
+                <div className="text-[var(--secondary)] font-bold">Expedition Rarity</div>
+                <div className="grid grid-cols-[1fr_auto] gap-2 text-[var(--primary-dim)]">
+                  <div className="flex items-center">Common</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">C</kbd>
+                  <div className="flex items-center">Rare</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">R</kbd>
+                  <div className="flex items-center">Epic</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">E</kbd>
+                  <div className="flex items-center">Unique</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">U</kbd>
+                  <div className="flex items-center">Legendary</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">L</kbd>
+                </div>
+              </div>
+
+              <div className="space-y-1 border-b border-[var(--primary-dim)] pb-3">
+                <div className="text-[var(--secondary)] font-bold">Tile Rarity (with round selected)</div>
+                <div className="grid grid-cols-[1fr_auto] gap-2 text-[var(--primary-dim)]">
+                  <div className="flex items-center">Normal</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">N</kbd>
+                  <div className="flex items-center">Intermediate</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">I</kbd>
+                  <div className="flex items-center">Advanced</div>
+                  <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">A</kbd>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-[1fr_auto] gap-2 text-[var(--primary-dim)]">
+                <div className="flex items-center">Toggle this help</div>
+                <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">?</kbd>
               </div>
             </div>
             <div className="mt-4 text-xs text-[var(--primary-dim)]">
@@ -820,6 +841,12 @@ const RoundSection = forwardRef(function RoundSection({ roundNum, roundData, set
               onChange={(e) => {
                 const val = parseInt(e.target.value) || 0;
                 setTileCount(roundNum, Math.max(0, Math.min(4, val)));
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  e.preventDefault();
+                  e.currentTarget.blur();
+                }
               }}
               className="w-10 text-center text-[var(--primary-bright)] font-bold bg-[var(--background)] border border-[var(--primary-dim)] rounded p-1 text-sm"
             />
