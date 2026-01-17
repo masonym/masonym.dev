@@ -51,7 +51,7 @@ export default function DashboardClient() {
   const [filterRank, setFilterRank] = useState('all');
   const [filterElementMatch, setFilterElementMatch] = useState('all');
   const [filterTypeMatch, setFilterTypeMatch] = useState('all');
-  const [showMyStats, setShowMyStats] = useState(false);
+  const [viewMode, setViewMode] = useState('all'); // all | overlay | mine
 
   useEffect(() => {
     loadAllData();
@@ -96,12 +96,15 @@ export default function DashboardClient() {
   // compute stats
   const stats = computeStats(filteredExpeditions, filteredTiles, filteredRewards);
 
-  // compute user-specific stats when toggle is on
+  // compute user-specific stats for overlay/mine modes
   const userExpeditions = user ? filteredExpeditions.filter(e => e.user_id === user.id) : [];
   const userExpeditionIds = new Set(userExpeditions.map(e => e.id));
   const userTiles = filteredTiles.filter(t => userExpeditionIds.has(t.expedition_id));
   const userRewards = filteredRewards.filter(r => userExpeditionIds.has(r.expedition_id));
-  const userStats = showMyStats && user ? computeStats(userExpeditions, userTiles, userRewards) : null;
+  const userStats = user ? computeStats(userExpeditions, userTiles, userRewards) : null;
+
+  const overlayActive = viewMode === 'overlay' && userStats;
+  const displayStats = viewMode === 'mine' && userStats ? userStats : stats;
 
   const baseOptions = {
     responsive: true,
@@ -133,17 +136,17 @@ export default function DashboardClient() {
   };
 
   const expeditionsByRankData = {
-    labels: stats.expeditionsByRank.map(d => d.rank),
+    labels: displayStats.expeditionsByRank.map(d => d.rank),
     datasets: [
       {
-        label: 'All Expeditions',
-        data: stats.expeditionsByRank.map(d => d.count),
-        backgroundColor: stats.expeditionsByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
+        label: viewMode === 'mine' ? 'My Expeditions' : 'All Expeditions',
+        data: displayStats.expeditionsByRank.map(d => d.count),
+        backgroundColor: displayStats.expeditionsByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
       },
-      ...(showMyStats && userStats ? [{
+      ...(overlayActive ? [{
         label: 'My Expeditions',
         data: userStats.expeditionsByRank.map(d => d.count),
         backgroundColor: 'rgba(16, 185, 129, 0.7)',
@@ -155,39 +158,39 @@ export default function DashboardClient() {
   };
 
   const tilesByRarityData = {
-    labels: stats.tilesByRarity.map(d => d.rarity),
+    labels: displayStats.tilesByRarity.map(d => d.rarity),
     datasets: [
       {
         label: 'Tiles',
-        data: stats.tilesByRarity.map(d => d.count),
-        backgroundColor: stats.tilesByRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
+        data: displayStats.tilesByRarity.map(d => d.count),
+        backgroundColor: displayStats.tilesByRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
         borderColor: 'rgba(0,0,0,0.6)',
         borderWidth: 2,
       },
     ],
   };
 
-  const totalExpeditionsByRank = stats.expeditionsByRank.reduce((sum, d) => sum + d.count, 0);
+  const totalExpeditionsByRank = displayStats.expeditionsByRank.reduce((sum, d) => sum + d.count, 0);
   const totalExpeditionsByRankUser = userStats ? userStats.expeditionsByRank.reduce((sum, d) => sum + d.count, 0) : 0;
-  const totalTilesByRarity = stats.tilesByRarity.reduce((sum, d) => sum + d.count, 0);
-  const totalTilesByType = stats.tilesByType.reduce((sum, d) => sum + d.count, 0);
+  const totalTilesByRarity = displayStats.tilesByRarity.reduce((sum, d) => sum + d.count, 0);
+  const totalTilesByType = displayStats.tilesByType.reduce((sum, d) => sum + d.count, 0);
   const totalTilesByTypeUser = userStats ? userStats.tilesByType.reduce((sum, d) => sum + d.count, 0) : 0;
-  const totalBothMatchTiles = stats.bothMatchStats?.tileCount || 0;
-  const totalNoMatchTiles = stats.noMatchStats?.tileCount || 0;
-  const totalNoMatchPouches = stats.noMatchStats?.pouchTotal || 0;
+  const totalBothMatchTiles = displayStats.bothMatchStats?.tileCount || 0;
+  const totalNoMatchTiles = displayStats.noMatchStats?.tileCount || 0;
+  const totalNoMatchPouches = displayStats.noMatchStats?.pouchTotal || 0;
 
   const tilesByTypeData = {
-    labels: stats.tilesByType.map(d => d.type),
+    labels: displayStats.tilesByType.map(d => d.type),
     datasets: [
       {
-        label: 'All Tiles',
-        data: stats.tilesByType.map(d => d.count),
+        label: viewMode === 'mine' ? 'My Tiles' : 'All Tiles',
+        data: displayStats.tilesByType.map(d => d.count),
         backgroundColor: '#60a5fa',
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
       },
-      ...(showMyStats && userStats ? [{
+      ...(overlayActive ? [{
         label: 'My Tiles',
         data: userStats.tilesByType.map(d => d.count),
         backgroundColor: 'rgba(16, 185, 129, 0.7)',
@@ -199,17 +202,17 @@ export default function DashboardClient() {
   };
 
   const avgApByRarityData = {
-    labels: stats.avgApByRarity.map(d => d.rarity),
+    labels: displayStats.avgApByRarity.map(d => d.rarity),
     datasets: [
       {
-        label: 'All Avg AP',
-        data: stats.avgApByRarity.map(d => d.avgAp),
-        backgroundColor: stats.avgApByRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
+        label: viewMode === 'mine' ? 'My Avg AP' : 'All Avg AP',
+        data: displayStats.avgApByRarity.map(d => d.avgAp),
+        backgroundColor: displayStats.avgApByRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
       },
-      ...(showMyStats && userStats ? [{
+      ...(overlayActive ? [{
         label: 'My Avg AP',
         data: userStats.avgApByRarity.map(d => d.avgAp),
         backgroundColor: 'rgba(16, 185, 129, 0.7)',
@@ -221,11 +224,11 @@ export default function DashboardClient() {
   };
 
   const avgApByRoundData = {
-    labels: stats.avgApByRound.map(d => d.round),
+    labels: displayStats.avgApByRound.map(d => d.round),
     datasets: [
       {
-        label: 'All Avg AP',
-        data: stats.avgApByRound.map(d => d.avgAp),
+        label: viewMode === 'mine' ? 'My Avg AP' : 'All Avg AP',
+        data: displayStats.avgApByRound.map(d => d.avgAp),
         borderColor: '#fbbf24',
         backgroundColor: 'rgba(251,191,36,0.15)',
         pointBackgroundColor: '#fbbf24',
@@ -234,7 +237,7 @@ export default function DashboardClient() {
         tension: 0.3,
         fill: true,
       },
-      ...(showMyStats && userStats ? [{
+      ...(overlayActive ? [{
         label: 'My Avg AP',
         data: userStats.avgApByRound.map(d => d.avgAp),
         borderColor: '#10b981',
@@ -249,12 +252,12 @@ export default function DashboardClient() {
   };
 
   const rewardsByRankData = {
-    labels: stats.rewardsByRank.map(d => d.rank),
+    labels: displayStats.rewardsByRank.map(d => d.rank),
     datasets: [
       {
         label: 'Reward occurrences',
-        data: stats.rewardsByRank.map(d => d.count),
-        backgroundColor: stats.rewardsByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
+        data: displayStats.rewardsByRank.map(d => d.count),
+        backgroundColor: displayStats.rewardsByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
@@ -262,7 +265,7 @@ export default function DashboardClient() {
       },
       {
         label: 'Avg per Expedition',
-        data: stats.rewardsByRank.map(d => d.avgPerExpedition),
+        data: displayStats.rewardsByRank.map(d => d.avgPerExpedition),
         backgroundColor: 'rgba(167,139,250,0.35)',
         borderColor: '#a78bfa',
         borderWidth: 2,
@@ -289,14 +292,14 @@ export default function DashboardClient() {
     },
   };
 
-  const pouchAppearanceTotal = stats.pouchAppearanceTotal || 0;
-  const pouchAppearanceAllTotal = stats.pouchAppearanceAllTotal || 0;
+  const pouchAppearanceTotal = displayStats.pouchAppearanceTotal || 0;
+  const pouchAppearanceAllTotal = displayStats.pouchAppearanceAllTotal || 0;
   const pouchAppearanceData = {
     labels: POUCH_TYPES,
     datasets: [
       {
         label: 'Pouch appearances',
-        data: stats.pouchAppearance.map(d => d.count),
+        data: displayStats.pouchAppearance.map(d => d.count),
         backgroundColor: POUCH_TYPES.map(p => POUCH_CONFIG[p].color),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
@@ -309,7 +312,7 @@ export default function DashboardClient() {
     datasets: [
       {
         label: 'Pouch appearances (all tiles)',
-        data: stats.pouchAppearanceAll.map(d => d.count),
+        data: displayStats.pouchAppearanceAll.map(d => d.count),
         backgroundColor: POUCH_TYPES.map(p => POUCH_CONFIG[p].color),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
@@ -318,17 +321,17 @@ export default function DashboardClient() {
   };
 
   const siteApByRankData = {
-    labels: stats.siteApByRank.map(d => d.rank),
+    labels: displayStats.siteApByRank.map(d => d.rank),
     datasets: [
       {
-        label: 'All Avg AP',
-        data: stats.siteApByRank.map(d => d.avgAp),
-        backgroundColor: stats.siteApByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
+        label: viewMode === 'mine' ? 'My Avg AP' : 'All Avg AP',
+        data: displayStats.siteApByRank.map(d => d.avgAp),
+        backgroundColor: displayStats.siteApByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
       },
-      ...(showMyStats && userStats ? [{
+      ...(overlayActive ? [{
         label: 'My Avg AP',
         data: userStats.siteApByRank.map(d => d.avgAp),
         backgroundColor: 'rgba(16, 185, 129, 0.7)',
@@ -492,20 +495,52 @@ export default function DashboardClient() {
             </div>
           </div>
           {user && (
-            <div className="mt-4 pt-4 border-t border-[var(--primary-dim)]">
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={showMyStats}
-                  onChange={(e) => setShowMyStats(e.target.checked)}
-                  className="w-4 h-4 rounded accent-[var(--secondary)]"
-                />
-                <User className="w-4 h-4 text-[var(--secondary)]" />
-                <span className="text-[var(--primary)]">Overlay My Stats</span>
-                {showMyStats && userExpeditions.length > 0 && (
-                  <span className="text-xs text-[var(--primary-dim)] ml-2">({userExpeditions.length} expeditions)</span>
-                )}
-              </label>
+            <div className="mt-4 pt-4 border-t border-[var(--primary-dim)] space-y-3">
+              <div className="text-xs text-[var(--primary-dim)]">My Stats View</div>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <button
+                  onClick={() => setViewMode('all')}
+                  className={`flex items-center gap-2 px-3 py-2 rounded border ${
+                    viewMode === 'all'
+                      ? 'border-[var(--secondary)] bg-[var(--background)] text-[var(--primary)]'
+                      : 'border-[var(--primary-dim)] text-[var(--primary-dim)]'
+                  }`}
+                >
+                  <User className="w-4 h-4" />
+                  All Data
+                </button>
+                <button
+                  onClick={() => setViewMode('overlay')}
+                  disabled={!userStats}
+                  className={`flex items-center gap-2 px-3 py-2 rounded border ${
+                    viewMode === 'overlay'
+                      ? 'border-[var(--secondary)] bg-[var(--background)] text-[var(--primary)]'
+                      : 'border-[var(--primary-dim)] text-[var(--primary-dim)]'
+                  } ${!userStats ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  title={!userStats ? 'No personal data yet' : ''}
+                >
+                  <User className="w-4 h-4" />
+                  Overlay Mine
+                </button>
+                <button
+                  onClick={() => setViewMode('mine')}
+                  disabled={!userStats}
+                  className={`flex items-center gap-2 px-3 py-2 rounded border ${
+                    viewMode === 'mine'
+                      ? 'border-[var(--secondary)] bg-[var(--background)] text-[var(--primary)]'
+                      : 'border-[var(--primary-dim)] text-[var(--primary-dim)]'
+                  } ${!userStats ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  title={!userStats ? 'No personal data yet' : ''}
+                >
+                  <User className="w-4 h-4" />
+                  Only Mine
+                </button>
+              </div>
+              {userStats && (
+                <div className="text-xs text-[var(--primary-dim)]">
+                  My expeditions in current filters: {userExpeditions.length}
+                </div>
+              )}
             </div>
           )}
         </div>
