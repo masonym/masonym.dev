@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, forwardRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { 
   SITE_RANKS, 
@@ -14,7 +14,7 @@ import {
   POUCH_TYPES,
   POUCH_CONFIG
 } from '@/data/mysticFrontierData';
-import { ChevronRight, ChevronLeft, Plus, Minus, Trash2, Check, User, MapPin, Compass, Gift, History, Sword, Search, HeartPulse } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Plus, Minus, Trash2, Check, User, MapPin, Compass, Gift, History, Sword, Search, HeartPulse, Keyboard, X } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from './AuthProvider';
 import { LoginForm, LoginPrompt } from './LoginForm';
@@ -517,6 +517,22 @@ export default function MysticFrontierClient() {
   );
 }
 
+const DEFAULT_REWARD = 'Mysterious Glowing Pouch';
+
+const EXPEDITION_RARITY_HOTKEYS = {
+  'c': 'Common',
+  'r': 'Rare',
+  'e': 'Epic',
+  'u': 'Unique',
+  'l': 'Legendary',
+};
+
+const TILE_RARITY_HOTKEYS = {
+  'n': 'Normal',
+  'i': 'Intermediate',
+  'a': 'Advanced',
+};
+
 function NewExpeditionForm({
   siteRank, setSiteRank,
   elementMatch, setElementMatch,
@@ -530,8 +546,148 @@ function NewExpeditionForm({
   submitExpedition, submitting,
   knownItems
 }) {
+  const [selectedRound, setSelectedRound] = useState(null);
+  const [showHotkeys, setShowHotkeys] = useState(false);
+  const roundRefs = useRef({});
+
+  // keyboard shortcuts handler
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // ignore if typing in an input field
+      const tag = e.target.tagName.toLowerCase();
+      const isInput = tag === 'input' || tag === 'textarea' || tag === 'select';
+      if (isInput) return;
+
+      const key = e.key.toLowerCase();
+
+      // number keys 1-5 to select round
+      if (['1', '2', '3', '4', '5'].includes(key)) {
+        e.preventDefault();
+        const roundNum = parseInt(key);
+        setSelectedRound(prev => {
+          const newSelection = prev === roundNum ? null : roundNum;
+          // focus first tile's reward input after a short delay to allow render
+          if (newSelection && roundRefs.current[newSelection]) {
+            setTimeout(() => {
+              const firstInput = roundRefs.current[newSelection]?.querySelector('input[type="text"]');
+              firstInput?.focus();
+            }, 50);
+          }
+          return newSelection;
+        });
+        return;
+      }
+
+      // +/- to adjust tile count for selected round
+      if (selectedRound && (key === '+' || key === '=' || key === '-' || key === '_')) {
+        e.preventDefault();
+        const currentCount = rounds[selectedRound]?.tiles?.length || 0;
+        if (key === '+' || key === '=') {
+          setTileCount(selectedRound, Math.min(4, currentCount + 1));
+        } else {
+          setTileCount(selectedRound, Math.max(0, currentCount - 1));
+        }
+        return;
+      }
+
+      // expedition rarity hotkeys C/R/E/U/L
+      if (EXPEDITION_RARITY_HOTKEYS[key]) {
+        e.preventDefault();
+        setSiteRank(EXPEDITION_RARITY_HOTKEYS[key]);
+        return;
+      }
+
+      // tile rarity hotkeys N/I/A - apply to last tile of selected round
+      if (selectedRound && TILE_RARITY_HOTKEYS[key]) {
+        e.preventDefault();
+        const tiles = rounds[selectedRound]?.tiles || [];
+        if (tiles.length > 0) {
+          const lastTileIdx = tiles.length - 1;
+          updateTile(selectedRound, lastTileIdx, 'rarity', TILE_RARITY_HOTKEYS[key]);
+        }
+        return;
+      }
+
+      // escape to deselect round
+      if (key === 'escape') {
+        setSelectedRound(null);
+      }
+
+      // ? to toggle hotkeys help
+      if (key === '?' || (e.shiftKey && key === '/')) {
+        e.preventDefault();
+        setShowHotkeys(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedRound, rounds, setTileCount, updateTile, setSiteRank]);
+
   return (
     <div className="space-y-6">
+      {/* hotkeys modal */}
+      {showHotkeys && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowHotkeys(false)}>
+          <div className="bg-[var(--background-bright)] rounded-lg p-6 border border-[var(--primary-dim)] max-w-md w-full" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg text-[var(--primary-bright)] flex items-center gap-2">
+                <Keyboard className="w-5 h-5 text-[var(--secondary)]" />
+                Keyboard Shortcuts
+              </h3>
+              <button onClick={() => setShowHotkeys(false)} className="p-1 hover:bg-[var(--background)] rounded">
+                <X className="w-5 h-5 text-[var(--primary-dim)]" />
+              </button>
+            </div>
+            <div className="space-y-3 text-sm">
+              <div className="border-b border-[var(--primary-dim)] pb-2">
+                <div className="text-[var(--secondary)] font-bold mb-1">Round Selection</div>
+                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Select round</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">1-5</kbd></div>
+                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Deselect round</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">Esc</kbd></div>
+              </div>
+              <div className="border-b border-[var(--primary-dim)] pb-2">
+                <div className="text-[var(--secondary)] font-bold mb-1">Tile Count (with round selected)</div>
+                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Add tile</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">+</kbd></div>
+                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Remove tile</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">-</kbd></div>
+              </div>
+              <div className="border-b border-[var(--primary-dim)] pb-2">
+                <div className="text-[var(--secondary)] font-bold mb-1">Expedition Rarity</div>
+                <div className="grid grid-cols-2 gap-1">
+                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Common</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">C</kbd></div>
+                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Rare</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">R</kbd></div>
+                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Epic</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">E</kbd></div>
+                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Unique</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">U</kbd></div>
+                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Legendary</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">L</kbd></div>
+                </div>
+              </div>
+              <div className="border-b border-[var(--primary-dim)] pb-2">
+                <div className="text-[var(--secondary)] font-bold mb-1">Tile Rarity (with round selected)</div>
+                <div className="grid grid-cols-3 gap-1">
+                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Normal</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">N</kbd></div>
+                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Intermediate</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">I</kbd></div>
+                  <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Advanced</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">A</kbd></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between"><span className="text-[var(--primary-dim)]">Toggle this help</span><kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">?</kbd></div>
+              </div>
+            </div>
+            <div className="mt-4 text-xs text-[var(--primary-dim)]">
+              Tip: Hotkeys only work when not typing in an input field.
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* hotkeys button */}
+      <button
+        onClick={() => setShowHotkeys(true)}
+        className="fixed bottom-4 right-4 z-40 p-3 rounded-full bg-[var(--background-bright)] border border-[var(--primary-dim)] text-[var(--primary-dim)] hover:text-[var(--secondary)] hover:border-[var(--secondary)] transition shadow-lg"
+        title="Keyboard shortcuts (?)"
+      >
+        <Keyboard className="w-5 h-5" />
+      </button>
+
       {/* site rank selection */}
       <div className="bg-[var(--background-bright)] rounded-lg p-4 border border-[var(--primary-dim)]">
         <div className="flex items-center gap-2 mb-3">
@@ -597,6 +753,8 @@ function NewExpeditionForm({
             updateTileOption={updateTileOption}
             selectTileForRound={selectTileForRound}
             knownItems={knownItems}
+            isKeyboardSelected={selectedRound === roundNum}
+            ref={el => roundRefs.current[roundNum] = el}
           />
         ))}
       </div>
@@ -635,13 +793,16 @@ function NewExpeditionForm({
   );
 }
 
-function RoundSection({ roundNum, roundData, setTileCount, updateTile, updateTileOption, selectTileForRound, knownItems }) {
+const RoundSection = forwardRef(function RoundSection({ roundNum, roundData, setTileCount, updateTile, updateTileOption, selectTileForRound, knownItems, isKeyboardSelected }, ref) {
   const tileCount = roundData.tiles.length;
   
   return (
-    <div className="bg-[var(--background-bright)] rounded-lg p-4 border border-[var(--primary-dim)]">
+    <div ref={ref} className={`bg-[var(--background-bright)] rounded-lg p-4 border-2 transition ${isKeyboardSelected ? 'border-[var(--secondary)] ring-1 ring-[var(--secondary)]/30' : 'border-[var(--primary-dim)]'}`}>
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-[var(--primary-bright)] font-bold">Round {roundNum}</h3>
+        <h3 className="text-[var(--primary-bright)] font-bold flex items-center gap-2">
+          Round {roundNum}
+          {isKeyboardSelected && <span className="text-xs px-2 py-0.5 rounded bg-[var(--secondary)]/20 text-[var(--secondary)]">Selected</span>}
+        </h3>
         <div className="flex items-center gap-2">
           <span className="text-sm text-[var(--primary-dim)]">Tiles:</span>
           <div className="flex items-center gap-1">
@@ -695,7 +856,7 @@ function RoundSection({ roundNum, roundData, setTileCount, updateTile, updateTil
       )}
     </div>
   );
-}
+});
 
 function TileCard({ tile, index, roundNum, isSelected, onSelect, onUpdateTile, onUpdateOption, knownItems }) {
   const TileIcon = TILE_ICONS[tile.type];
@@ -745,6 +906,7 @@ function TileCard({ tile, index, roundNum, isSelected, onSelect, onUpdateTile, o
         {isLucky && (
           <button
             onClick={() => onSelect(null)}
+            tabIndex={-1}
             className={`px-3 py-1.5 rounded text-sm font-bold transition ${
               isSelected
                 ? 'bg-green-500 text-white'
@@ -785,10 +947,20 @@ function TileCard({ tile, index, roundNum, isSelected, onSelect, onUpdateTile, o
 
 function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems, isSelected, onSelect }) {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(option.reward || '');
+  const [hasBeenEdited, setHasBeenEdited] = useState(!!option.reward && option.reward !== DEFAULT_REWARD);
+  const [searchTerm, setSearchTerm] = useState(option.reward || DEFAULT_REWARD);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
+  const inputRef = useRef(null);
+
+  // sync searchTerm with option.reward when it changes externally
+  useEffect(() => {
+    if (option.reward) {
+      setSearchTerm(option.reward);
+      setHasBeenEdited(option.reward !== DEFAULT_REWARD);
+    }
+  }, [option.reward]);
   
-  const filteredItems = searchTerm 
+  const filteredItems = searchTerm && searchTerm !== DEFAULT_REWARD
     ? knownItems.filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()))
     : knownItems;
 
@@ -797,9 +969,18 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
     onChange('reward', item);
     setShowDropdown(false);
     setHighlightedIndex(0);
+    setHasBeenEdited(true);
   };
 
   const handleKeyDown = (e) => {
+    // escape always blurs the input
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      setShowDropdown(false);
+      inputRef.current?.blur();
+      return;
+    }
+
     if (!showDropdown || filteredItems.length === 0) return;
     
     switch (e.key) {
@@ -819,13 +1000,12 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
           selectItem(filteredItems[highlightedIndex]);
         }
         break;
-      case 'Escape':
-        setShowDropdown(false);
-        break;
       case 'Tab':
-        if (filteredItems[highlightedIndex]) {
+        // auto-select highlighted item on Tab if user typed to filter or there's only one match
+        if (hasBeenEdited && filteredItems[highlightedIndex]) {
           selectItem(filteredItems[highlightedIndex]);
         }
+        setShowDropdown(false);
         break;
     }
   };
@@ -850,6 +1030,7 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
             e.stopPropagation();
             onSelect();
           }}
+          tabIndex={-1}
           className={`px-2 py-0.5 rounded text-xs font-bold transition ${
             isSelected
               ? 'bg-green-500 text-white'
@@ -862,6 +1043,7 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
       <div className="flex gap-2">
         <div className="relative flex-1">
           <input
+            ref={inputRef}
             type="text"
             value={searchTerm}
             onChange={(e) => {
@@ -869,12 +1051,20 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
               onChange('reward', e.target.value);
               setShowDropdown(true);
               setHighlightedIndex(0);
+              setHasBeenEdited(true);
             }}
             onFocus={() => {
               setShowDropdown(true);
               setHighlightedIndex(0);
             }}
-            onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+            onBlur={() => {
+              // restore default if empty and not edited
+              if (!searchTerm && !hasBeenEdited) {
+                setSearchTerm(DEFAULT_REWARD);
+                onChange('reward', DEFAULT_REWARD);
+              }
+              setTimeout(() => setShowDropdown(false), 200);
+            }}
             onKeyDown={handleKeyDown}
             placeholder="Select reward..."
             className="w-full p-1.5 rounded bg-[var(--background-bright)] border border-[var(--primary-dim)] text-[var(--primary)] text-sm"
@@ -884,6 +1074,7 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
               {filteredItems.map((item, idx) => (
                 <button
                   key={item}
+                  tabIndex={-1}
                   onMouseDown={(e) => {
                     e.preventDefault();
                     selectItem(item);
