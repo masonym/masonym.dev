@@ -549,6 +549,15 @@ function NewExpeditionForm({
   const [selectedRound, setSelectedRound] = useState(null);
   const [showHotkeys, setShowHotkeys] = useState(false);
   const roundRefs = useRef({});
+  const pendingFocusTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (pendingFocusTimeoutRef.current) {
+        clearTimeout(pendingFocusTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // keyboard shortcuts handler
   useEffect(() => {
@@ -584,6 +593,15 @@ function NewExpeditionForm({
         const currentCount = rounds[selectedRound]?.tiles?.length || 0;
         if (key === '+' || key === '=') {
           setTileCount(selectedRound, Math.min(4, currentCount + 1));
+          if (pendingFocusTimeoutRef.current) {
+            clearTimeout(pendingFocusTimeoutRef.current);
+          }
+          const roundNum = selectedRound;
+          pendingFocusTimeoutRef.current = setTimeout(() => {
+            const roundEl = roundRefs.current[roundNum];
+            const firstRewardInput = roundEl?.querySelector('input[type="text"]');
+            firstRewardInput?.focus();
+          }, 1000);
         } else {
           setTileCount(selectedRound, Math.max(0, currentCount - 1));
         }
