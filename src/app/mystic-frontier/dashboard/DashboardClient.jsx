@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useAuth } from '../components/AuthProvider';
 import { supabase } from '@/lib/supabase';
 import { 
   SITE_RANKS, 
@@ -25,7 +26,7 @@ import {
   Legend as ChartLegend,
 } from 'chart.js';
 import { Bar, Line, Doughnut } from 'react-chartjs-2';
-import { ArrowLeft, RefreshCw, Filter, Database, TrendingUp, Layers, Gift, Sparkles } from 'lucide-react';
+import { ArrowLeft, RefreshCw, Filter, Database, TrendingUp, Layers, Gift, Sparkles, User } from 'lucide-react';
 import Link from 'next/link';
 
 ChartJS.register(
@@ -40,6 +41,7 @@ ChartJS.register(
 );
 
 export default function DashboardClient() {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [expeditions, setExpeditions] = useState([]);
   const [tiles, setTiles] = useState([]);
@@ -49,6 +51,7 @@ export default function DashboardClient() {
   const [filterRank, setFilterRank] = useState('all');
   const [filterElementMatch, setFilterElementMatch] = useState('all');
   const [filterTypeMatch, setFilterTypeMatch] = useState('all');
+  const [showMyStats, setShowMyStats] = useState(false);
 
   useEffect(() => {
     loadAllData();
@@ -93,6 +96,13 @@ export default function DashboardClient() {
   // compute stats
   const stats = computeStats(filteredExpeditions, filteredTiles, filteredRewards);
 
+  // compute user-specific stats when toggle is on
+  const userExpeditions = user ? filteredExpeditions.filter(e => e.user_id === user.id) : [];
+  const userExpeditionIds = new Set(userExpeditions.map(e => e.id));
+  const userTiles = filteredTiles.filter(t => userExpeditionIds.has(t.expedition_id));
+  const userRewards = filteredRewards.filter(r => userExpeditionIds.has(r.expedition_id));
+  const userStats = showMyStats && user ? computeStats(userExpeditions, userTiles, userRewards) : null;
+
   const baseOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -126,13 +136,21 @@ export default function DashboardClient() {
     labels: stats.expeditionsByRank.map(d => d.rank),
     datasets: [
       {
-        label: 'Expeditions',
+        label: 'All Expeditions',
         data: stats.expeditionsByRank.map(d => d.count),
         backgroundColor: stats.expeditionsByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
       },
+      ...(showMyStats && userStats ? [{
+        label: 'My Expeditions',
+        data: userStats.expeditionsByRank.map(d => d.count),
+        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+        borderColor: '#10b981',
+        borderWidth: 2,
+        borderRadius: 6,
+      }] : []),
     ],
   };
 
@@ -160,13 +178,21 @@ export default function DashboardClient() {
     labels: stats.tilesByType.map(d => d.type),
     datasets: [
       {
-        label: 'Count',
+        label: 'All Tiles',
         data: stats.tilesByType.map(d => d.count),
         backgroundColor: '#60a5fa',
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
       },
+      ...(showMyStats && userStats ? [{
+        label: 'My Tiles',
+        data: userStats.tilesByType.map(d => d.count),
+        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+        borderColor: '#10b981',
+        borderWidth: 2,
+        borderRadius: 6,
+      }] : []),
     ],
   };
 
@@ -174,13 +200,21 @@ export default function DashboardClient() {
     labels: stats.avgApByRarity.map(d => d.rarity),
     datasets: [
       {
-        label: 'Avg AP',
+        label: 'All Avg AP',
         data: stats.avgApByRarity.map(d => d.avgAp),
         backgroundColor: stats.avgApByRarity.map(d => TILE_RARITY_CONFIG[d.rarity]?.color || '#666'),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
       },
+      ...(showMyStats && userStats ? [{
+        label: 'My Avg AP',
+        data: userStats.avgApByRarity.map(d => d.avgAp),
+        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+        borderColor: '#10b981',
+        borderWidth: 2,
+        borderRadius: 6,
+      }] : []),
     ],
   };
 
@@ -188,7 +222,7 @@ export default function DashboardClient() {
     labels: stats.avgApByRound.map(d => d.round),
     datasets: [
       {
-        label: 'Avg AP',
+        label: 'All Avg AP',
         data: stats.avgApByRound.map(d => d.avgAp),
         borderColor: '#fbbf24',
         backgroundColor: 'rgba(251,191,36,0.15)',
@@ -198,6 +232,17 @@ export default function DashboardClient() {
         tension: 0.3,
         fill: true,
       },
+      ...(showMyStats && userStats ? [{
+        label: 'My Avg AP',
+        data: userStats.avgApByRound.map(d => d.avgAp),
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16, 185, 129, 0.15)',
+        pointBackgroundColor: '#10b981',
+        pointBorderColor: '#10b981',
+        pointRadius: 6,
+        tension: 0.3,
+        fill: true,
+      }] : []),
     ],
   };
 
@@ -274,13 +319,21 @@ export default function DashboardClient() {
     labels: stats.siteApByRank.map(d => d.rank),
     datasets: [
       {
-        label: 'Avg AP per tile',
+        label: 'All Avg AP',
         data: stats.siteApByRank.map(d => d.avgAp),
         backgroundColor: stats.siteApByRank.map(d => SITE_RANK_CONFIG[d.rank]?.color || '#666'),
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
         borderRadius: 6,
       },
+      ...(showMyStats && userStats ? [{
+        label: 'My Avg AP',
+        data: userStats.siteApByRank.map(d => d.avgAp),
+        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+        borderColor: '#10b981',
+        borderWidth: 2,
+        borderRadius: 6,
+      }] : []),
     ],
   };
 
@@ -436,6 +489,23 @@ export default function DashboardClient() {
               </select>
             </div>
           </div>
+          {user && (
+            <div className="mt-4 pt-4 border-t border-[var(--primary-dim)]">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={showMyStats}
+                  onChange={(e) => setShowMyStats(e.target.checked)}
+                  className="w-4 h-4 rounded accent-[var(--secondary)]"
+                />
+                <User className="w-4 h-4 text-[var(--secondary)]" />
+                <span className="text-[var(--primary)]">Overlay My Stats</span>
+                {showMyStats && userExpeditions.length > 0 && (
+                  <span className="text-xs text-[var(--primary-dim)] ml-2">({userExpeditions.length} expeditions)</span>
+                )}
+              </label>
+            </div>
+          )}
         </div>
 
         {filteredExpeditions.length === 0 ? (
