@@ -91,9 +91,16 @@ export default function DashboardClient() {
         fetchAll('rewards'),
       ]);
 
+      const filteredRewards = allRewards.filter(r => {
+        const name = (r.item_name ?? '').trim().toLowerCase();
+        if (!name) return true;
+        if (name.includes('coupon')) return true;
+        return name !== 'frontier coins' && name !== 'frontier coin';
+      });
+
       setExpeditions(allExpeditions);
       setTiles(allTiles);
-      setRewards(allRewards);
+      setRewards(filteredRewards);
     } catch (err) {
       console.error('Error loading data:', err);
     }
