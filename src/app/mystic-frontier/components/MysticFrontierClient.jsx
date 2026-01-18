@@ -14,7 +14,7 @@ import {
   POUCH_TYPES,
   POUCH_CONFIG
 } from '@/data/mysticFrontierData';
-import { ChevronRight, ChevronLeft, Plus, Minus, Trash2, Check, User, MapPin, Compass, Gift, History, Sword, Search, HeartPulse, Keyboard, X } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Plus, Minus, Trash2, Check, User, MapPin, Compass, Gift, History, Sword, Search, HeartPulse, Keyboard, X, BadgeCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from './AuthProvider';
 import { LoginForm, LoginPrompt } from './LoginForm';
@@ -737,22 +737,42 @@ function NewExpeditionForm({
         </div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
           {SITE_RANKS.map(rank => (
+            (() => {
+              const isSelected = siteRank === rank;
+              const rankColor = SITE_RANK_CONFIG[rank].color;
+              return (
             <button
               key={rank}
               onClick={() => setSiteRank(rank)}
-              className={`p-3 rounded border-2 transition ${
-                siteRank === rank
-                  ? 'border-[var(--secondary)] bg-[var(--secondary)]/20'
-                  : 'border-[var(--primary-dim)] hover:border-[var(--primary)]'
+              className={`relative p-3 rounded border-2 transition outline-none focus-visible:ring-2 focus-visible:ring-[var(--secondary)] ${
+                isSelected
+                  ? 'bg-[var(--background)]'
+                  : 'bg-[var(--background-bright)] border-[var(--primary-dim)] hover:border-[var(--primary)]'
               }`}
-              style={{ 
-                color: SITE_RANK_CONFIG[rank].color,
-                borderColor: siteRank === rank ? SITE_RANK_CONFIG[rank].color : undefined
-              }}
+              style={
+                isSelected
+                  ? {
+                      color: rankColor,
+                      borderColor: rankColor,
+                      backgroundColor: `${rankColor}22`,
+                      boxShadow: `0 0 0 1px ${rankColor}55, 0 0 16px ${rankColor}33`,
+                    }
+                  : { color: rankColor }
+              }
             >
+              {isSelected && (
+                <div
+                  className="absolute -top-2 -right-2 rounded-full p-1"
+                  style={{ backgroundColor: rankColor, boxShadow: `0 0 12px ${rankColor}66` }}
+                >
+                  <BadgeCheck className="w-4 h-4 text-white" />
+                </div>
+              )}
               <div className="font-bold">{rank}</div>
               <div className="text-xs opacity-70">{SITE_RANK_CONFIG[rank].duration}hr</div>
             </button>
+              );
+            })()
           ))}
         </div>
       </div>
