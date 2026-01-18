@@ -66,15 +66,34 @@ export default function DashboardClient() {
         return [];
       };
 
-      const [expRes, tilesRes, rewardsRes] = await Promise.all([
-        supabase.from('expeditions').select('*'),
-        supabase.from('tiles').select('*'),
-        supabase.from('rewards').select('*'),
+      const fetchAll = async (table) => {
+        const pageSize = 1000;
+        let from = 0;
+        let all = [];
+        while (true) {
+          const { data, error } = await supabase
+            .from(table)
+            .select('*')
+            .range(from, from + pageSize - 1);
+
+          if (error) throw error;
+          const page = normalize(data);
+          all = all.concat(page);
+          if (page.length < pageSize) break;
+          from += pageSize;
+        }
+        return all;
+      };
+
+      const [allExpeditions, allTiles, allRewards] = await Promise.all([
+        fetchAll('expeditions'),
+        fetchAll('tiles'),
+        fetchAll('rewards'),
       ]);
 
-      setExpeditions(normalize(expRes.data));
-      setTiles(normalize(tilesRes.data));
-      setRewards(normalize(rewardsRes.data));
+      setExpeditions(allExpeditions);
+      setTiles(allTiles);
+      setRewards(allRewards);
     } catch (err) {
       console.error('Error loading data:', err);
     }
