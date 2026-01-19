@@ -1164,10 +1164,22 @@ function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems
         </div>
         <input
           type="number"
+          min={0}
           inputMode="numeric"
           pattern="[0-9]*"
           value={option.apCost || ''}
-          onChange={(e) => onChange('apCost', e.target.value ? parseInt(e.target.value) : null)}
+          onChange={(e) => {
+            if (!e.target.value) {
+              onChange('apCost', null);
+              return;
+            }
+            const parsed = parseInt(e.target.value);
+            if (Number.isNaN(parsed)) {
+              onChange('apCost', null);
+              return;
+            }
+            onChange('apCost', Math.max(0, parsed));
+          }}
           onKeyDown={(e) => {
             const allowedKeys = ['Backspace', 'Tab', 'Delete', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
             const isDigit = e.key >= '0' && e.key <= '9';
