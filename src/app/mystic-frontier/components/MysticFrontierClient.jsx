@@ -535,6 +535,245 @@ const TILE_RARITY_HOTKEYS = {
   'a': 'Advanced',
 };
 
+const TILE_TYPE_HOTKEYS = {
+  'h': 'Hunting',
+  'e': 'Encounter',
+  'l': 'Lucky',
+};
+
+function TileWizard({ isOpen, onClose, onComplete, roundNum }) {
+  const [step, setStep] = useState('count'); // 'count' | 'type' | 'rarity'
+  const [numTiles, setNumTiles] = useState(0);
+  const [currentTileIndex, setCurrentTileIndex] = useState(0);
+  const [tiles, setTiles] = useState([]);
+
+  // reset when opened
+  useEffect(() => {
+    if (isOpen) {
+      setStep('count');
+      setNumTiles(0);
+      setCurrentTileIndex(0);
+      setTiles([]);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e) => {
+      const key = e.key.toLowerCase();
+
+      // escape to cancel
+      if (key === 'escape') {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (step === 'count') {
+        // 1-4 for tile count, 0 for no tiles
+        if (['0', '1', '2', '3', '4'].includes(key)) {
+          e.preventDefault();
+          const count = parseInt(key);
+          if (count === 0) {
+            onComplete([]);
+            return;
+          }
+          setNumTiles(count);
+          setTiles(Array(count).fill(null).map(() => ({ type: null, rarity: null })));
+          setCurrentTileIndex(0);
+          setStep('type');
+        }
+      } else if (step === 'type') {
+        // H/E/L for tile type
+        if (TILE_TYPE_HOTKEYS[key]) {
+          e.preventDefault();
+          const newTiles = [...tiles];
+          newTiles[currentTileIndex] = { ...newTiles[currentTileIndex], type: TILE_TYPE_HOTKEYS[key] };
+          setTiles(newTiles);
+          setStep('rarity');
+        }
+      } else if (step === 'rarity') {
+        // N/I/A for rarity
+        if (TILE_RARITY_HOTKEYS[key]) {
+          e.preventDefault();
+          const newTiles = [...tiles];
+          newTiles[currentTileIndex] = { ...newTiles[currentTileIndex], rarity: TILE_RARITY_HOTKEYS[key] };
+          setTiles(newTiles);
+
+          // move to next tile or complete
+          if (currentTileIndex < numTiles - 1) {
+            setCurrentTileIndex(currentTileIndex + 1);
+            setStep('type');
+          } else {
+            onComplete(newTiles);
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, step, numTiles, currentTileIndex, tiles, onClose, onComplete]);
+
+  if (!isOpen) return null;
+
+  const getStepTitle = () => {
+    if (step === 'count') return `Round ${roundNum}: How many tiles?`;
+    if (step === 'type') return `Tile ${currentTileIndex + 1} of ${numTiles}: Type?`;
+    if (step === 'rarity') return `Tile ${currentTileIndex + 1} of ${numTiles}: Rarity?`;
+  };
+
+  const getStepDescription = () => {
+    if (step === 'count') return 'Press 0-4 for number of tiles (0 = no tiles this round)';
+    if (step === 'type') return 'Press H (Hunting), E (Encounter), or L (Lucky)';
+    if (step === 'rarity') return 'Press N (Normal), I (Intermediate), or A (Advanced)';
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div 
+        className="bg-[var(--background-bright)] rounded-xl p-6 border-2 border-[var(--secondary)] max-w-lg w-full shadow-2xl"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="text-center mb-6">
+          <h3 className="text-xl font-bold text-[var(--primary-bright)] mb-2">
+            {getStepTitle()}
+          </h3>
+          <p className="text-[var(--primary-dim)] text-sm">
+            {getStepDescription()}
+          </p>
+        </div>
+
+        {/* progress indicator */}
+        {numTiles > 0 && (
+          <div className="flex justify-center gap-2 mb-6">
+            {tiles.map((tile, idx) => (
+              <div 
+                key={idx}
+                className={`w-10 h-10 rounded-lg flex items-center justify-center border-2 transition-all ${
+                  idx === currentTileIndex 
+                    ? 'border-[var(--secondary)] bg-[var(--secondary)]/20 scale-110' 
+                    : idx < currentTileIndex 
+                      ? 'border-green-500 bg-green-900/20' 
+                      : 'border-[var(--primary-dim)] bg-[var(--background)]'
+                }`}
+              >
+                {tile?.type ? (
+                  <div className="text-center">
+                    {(() => {
+                      const Icon = TILE_ICONS[tile.type];
+                      return <Icon className={`w-4 h-4 ${idx <= currentTileIndex ? 'text-[var(--primary)]' : 'text-[var(--primary-dim)]'}`} />;
+                    })()}
+                    {tile?.rarity && (
+                      <div className="text-[8px] mt-0.5" style={{ color: TILE_RARITY_CONFIG[tile.rarity]?.color }}>
+                        {tile.rarity.charAt(0)}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <span className="text-[var(--primary-dim)] text-sm">{idx + 1}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* keyboard hints */}
+        <div className="space-y-3">
+          {step === 'count' && (
+            <div className="grid grid-cols-5 gap-2">
+              {[0, 1, 2, 3, 4].map(n => (
+                <button
+                  key={n}
+                  onClick={() => {
+                    if (n === 0) {
+                      onComplete([]);
+                    } else {
+                      setNumTiles(n);
+                      setTiles(Array(n).fill(null).map(() => ({ type: null, rarity: null })));
+                      setCurrentTileIndex(0);
+                      setStep('type');
+                    }
+                  }}
+                  className="p-3 rounded-lg bg-[var(--background)] border border-[var(--primary-dim)] hover:border-[var(--secondary)] hover:bg-[var(--secondary)]/10 transition text-center"
+                >
+                  <kbd className="text-lg font-bold text-[var(--primary-bright)]">{n}</kbd>
+                  <div className="text-xs text-[var(--primary-dim)] mt-1">
+                    {n === 0 ? 'None' : n === 1 ? '1 tile' : `${n} tiles`}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {step === 'type' && (
+            <div className="grid grid-cols-3 gap-3">
+              {Object.entries(TILE_TYPE_HOTKEYS).map(([key, type]) => {
+                const Icon = TILE_ICONS[type];
+                return (
+                  <button
+                    key={type}
+                    onClick={() => {
+                      const newTiles = [...tiles];
+                      newTiles[currentTileIndex] = { ...newTiles[currentTileIndex], type };
+                      setTiles(newTiles);
+                      setStep('rarity');
+                    }}
+                    className="p-4 rounded-lg bg-[var(--background)] border border-[var(--primary-dim)] hover:border-[var(--secondary)] hover:bg-[var(--secondary)]/10 transition text-center"
+                  >
+                    <Icon className="w-6 h-6 mx-auto text-[var(--primary-bright)] mb-1" />
+                    <div className="text-sm text-[var(--primary)]">{type}</div>
+                    <kbd className="text-xs px-2 py-0.5 rounded bg-[var(--background-bright)] text-[var(--secondary)] mt-1 inline-block">
+                      {key.toUpperCase()}
+                    </kbd>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {step === 'rarity' && (
+            <div className="grid grid-cols-3 gap-3">
+              {Object.entries(TILE_RARITY_HOTKEYS).map(([key, rarity]) => (
+                <button
+                  key={rarity}
+                  onClick={() => {
+                    const newTiles = [...tiles];
+                    newTiles[currentTileIndex] = { ...newTiles[currentTileIndex], rarity };
+                    setTiles(newTiles);
+                    if (currentTileIndex < numTiles - 1) {
+                      setCurrentTileIndex(currentTileIndex + 1);
+                      setStep('type');
+                    } else {
+                      onComplete(newTiles);
+                    }
+                  }}
+                  className="p-4 rounded-lg bg-[var(--background)] border border-[var(--primary-dim)] hover:border-[var(--secondary)] hover:bg-[var(--secondary)]/10 transition text-center"
+                >
+                  <div 
+                    className="text-md font-bold mb-1"
+                    style={{ color: TILE_RARITY_CONFIG[rarity]?.color }}
+                  >
+                    {rarity}
+                  </div>
+                  <kbd className="text-xs px-2 py-0.5 rounded bg-[var(--background-bright)] text-[var(--secondary)] inline-block">
+                    {key.toUpperCase()}
+                  </kbd>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 text-center text-xs text-[var(--primary-dim)]">
+          Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--background)] text-[var(--primary)]">Esc</kbd> to cancel
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function NewExpeditionForm({
   siteRank, setSiteRank,
   elementMatch, setElementMatch,
@@ -550,6 +789,7 @@ function NewExpeditionForm({
 }) {
   const [selectedRound, setSelectedRound] = useState(null);
   const [showHotkeys, setShowHotkeys] = useState(false);
+  const [showTileWizard, setShowTileWizard] = useState(false);
   const roundRefs = useRef({});
   const pendingFocusTimeoutRef = useRef(null);
 
@@ -568,6 +808,9 @@ function NewExpeditionForm({
       const tag = e.target.tagName.toLowerCase();
       const isInput = tag === 'input' || tag === 'textarea' || tag === 'select';
       if (isInput) return;
+
+      // when the tile wizard is open, it owns the keyboard
+      if (showTileWizard) return;
 
       const key = e.key.toLowerCase();
 
@@ -589,22 +832,13 @@ function NewExpeditionForm({
         return;
       }
 
-      // +/- to adjust tile count for selected round
+      // + opens tile wizard, - decrements tile count
       if (selectedRound && (key === '+' || key === '=' || key === '-' || key === '_')) {
         e.preventDefault();
-        const currentCount = rounds[selectedRound]?.tiles?.length || 0;
         if (key === '+' || key === '=') {
-          setTileCount(selectedRound, Math.min(4, currentCount + 1));
-          if (pendingFocusTimeoutRef.current) {
-            clearTimeout(pendingFocusTimeoutRef.current);
-          }
-          const roundNum = selectedRound;
-          pendingFocusTimeoutRef.current = setTimeout(() => {
-            const roundEl = roundRefs.current[roundNum];
-            const firstRewardInput = roundEl?.querySelector('input[type="text"]');
-            firstRewardInput?.focus();
-          }, 250);
+          setShowTileWizard(true);
         } else {
+          const currentCount = rounds[selectedRound]?.tiles?.length || 0;
           setTileCount(selectedRound, Math.max(0, currentCount - 1));
         }
         return;
@@ -642,10 +876,41 @@ function NewExpeditionForm({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedRound, rounds, setTileCount, updateTile, setSiteRank]);
+  }, [selectedRound, rounds, setTileCount, updateTile, setSiteRank, showTileWizard]);
+
+  const handleWizardComplete = (wizardTiles) => {
+    setShowTileWizard(false);
+    if (!selectedRound) return;
+
+    // set tile count and update each tile's type and rarity
+    setTileCount(selectedRound, wizardTiles.length);
+
+    // update each tile with type and rarity from wizard
+    setTimeout(() => {
+      wizardTiles.forEach((tile, idx) => {
+        updateTile(selectedRound, idx, 'type', tile.type);
+        updateTile(selectedRound, idx, 'rarity', tile.rarity);
+      });
+
+      // focus first reward input after tiles are set
+      setTimeout(() => {
+        const roundEl = roundRefs.current[selectedRound];
+        const firstRewardInput = roundEl?.querySelector('input[type="text"]');
+        firstRewardInput?.focus();
+      }, 100);
+    }, 50);
+  };
 
   return (
     <div className="space-y-6">
+      {/* tile wizard modal */}
+      <TileWizard
+        isOpen={showTileWizard}
+        onClose={() => setShowTileWizard(false)}
+        onComplete={handleWizardComplete}
+        roundNum={selectedRound}
+      />
+
       {/* hotkeys modal */}
       {showHotkeys && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowHotkeys(false)}>
@@ -671,11 +936,11 @@ function NewExpeditionForm({
               </div>
 
               <div className="space-y-1 border-b border-[var(--primary-dim)] pb-3">
-                <div className="text-[var(--secondary)] font-bold">Tile Count (with round selected)</div>
+                <div className="text-[var(--secondary)] font-bold">Tile Entry (with round selected)</div>
                 <div className="grid grid-cols-[1fr_auto] gap-2 text-[var(--primary-dim)]">
-                  <div className="flex items-center">Add tile</div>
+                  <div className="flex items-center">Open tile wizard</div>
                   <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">+</kbd>
-                  <div className="flex items-center">Remove tile</div>
+                  <div className="flex items-center">Remove last tile</div>
                   <kbd className="px-2 py-0.5 rounded bg-[var(--background)] text-[var(--primary)] min-w-[2.5rem] text-center">-</kbd>
                 </div>
               </div>
@@ -944,6 +1209,7 @@ function TileCard({ tile, index, roundNum, isSelected, onSelect, onUpdateTile, o
               return (
                 <button
                   key={type}
+                  tabIndex={-1}
                   onClick={() => onUpdateTile('type', type)}
                   className={`p-1.5 rounded transition ${
                     tile.type === type 
@@ -958,6 +1224,7 @@ function TileCard({ tile, index, roundNum, isSelected, onSelect, onUpdateTile, o
             })}
           </div>
           <select
+            tabIndex={-1}
             value={tile.rarity}
             onChange={(e) => onUpdateTile('rarity', e.target.value)}
             className="p-1.5 rounded bg-[var(--background-bright)] border border-[var(--primary-dim)] text-sm"
