@@ -40,6 +40,12 @@ ChartJS.register(
   ChartLegend
 );
 
+const BIG_TICKET_ITEMS = [
+  'Black Heart Coupon',
+  'Chaos Pitched Accessory Box',
+  'Pitched Star Core Coupon',
+];
+
 export default function DashboardClient() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
@@ -118,6 +124,25 @@ export default function DashboardClient() {
   const filteredExpeditionIds = new Set(filteredExpeditions.map(e => e.id));
   const filteredTiles = tiles.filter(t => filteredExpeditionIds.has(t.expedition_id));
   const filteredRewards = rewards.filter(r => filteredExpeditionIds.has(r.expedition_id));
+
+  const expeditionById = new Map(expeditions.map(e => [e.id, e]));
+  const bigTicketItemNamesLower = new Set(BIG_TICKET_ITEMS.map(n => n.toLowerCase()));
+  const bigTicketWinners = rewards
+    .filter(r => bigTicketItemNamesLower.has((r.item_name ?? '').trim().toLowerCase()))
+    .map(r => {
+      const exp = expeditionById.get(r.expedition_id);
+      return {
+        id: r.id,
+        itemName: r.item_name,
+        ign: exp?.ign ?? 'Unknown',
+        expeditionDate: exp?.created_at ?? null,
+      };
+    })
+    .sort((a, b) => {
+      const da = a.expeditionDate ? new Date(a.expeditionDate).getTime() : 0;
+      const db = b.expeditionDate ? new Date(b.expeditionDate).getTime() : 0;
+      return db - da;
+    });
 
   // compute stats
   const stats = computeStats(filteredExpeditions, filteredTiles, filteredRewards);
@@ -567,6 +592,43 @@ export default function DashboardClient() {
                   My expeditions in current filters: {userExpeditions.length}
                 </div>
               )}
+            </div>
+          )}
+        </div>
+
+        {/* big ticket winners */}
+        <div className="bg-[var(--background-bright)] rounded-lg p-4 border border-[var(--primary-dim)] mb-6">
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-[var(--secondary)]" />
+              <h2 className="text-lg text-[var(--primary-bright)]">Big Ticket Winners</h2>
+            </div>
+            <div className="text-xs text-[var(--primary-dim)]">
+              {bigTicketWinners.length} total
+            </div>
+          </div>
+
+          <div className="text-xs text-[var(--primary-dim)] mb-3">
+            Tracking: {BIG_TICKET_ITEMS.join(', ')}
+          </div>
+
+          {bigTicketWinners.length === 0 ? (
+            <div className="text-[var(--primary-dim)] text-sm">No big ticket rewards logged yet.</div>
+          ) : (
+            <div className="max-h-80 overflow-y-auto rounded border border-[var(--primary-dim)] bg-[var(--background)]">
+              {bigTicketWinners.map(w => (
+                <div key={w.id} className="px-3 py-2 border-b border-[var(--primary-dim)] last:border-b-0">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-[var(--primary)] font-bold truncate">{w.itemName}</div>
+                      <div className="text-xs text-[var(--primary-dim)] truncate">{w.ign}</div>
+                    </div>
+                    <div className="text-xs text-[var(--primary-dim)] whitespace-nowrap">
+                      {w.expeditionDate ? new Date(w.expeditionDate).toLocaleString() : 'Unknown date'}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
