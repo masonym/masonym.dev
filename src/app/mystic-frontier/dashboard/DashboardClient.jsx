@@ -596,43 +596,6 @@ export default function DashboardClient() {
           )}
         </div>
 
-        {/* big ticket winners */}
-        <div className="bg-[var(--background-bright)] rounded-lg p-4 border border-[var(--primary-dim)] mb-6">
-          <div className="flex items-center justify-between gap-3 mb-3">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-[var(--secondary)]" />
-              <h2 className="text-lg text-[var(--primary-bright)]">Big Ticket Winners</h2>
-            </div>
-            <div className="text-xs text-[var(--primary-dim)]">
-              {bigTicketWinners.length} total
-            </div>
-          </div>
-
-          <div className="text-xs text-[var(--primary-dim)] mb-3">
-            Tracking: {BIG_TICKET_ITEMS.join(', ')}
-          </div>
-
-          {bigTicketWinners.length === 0 ? (
-            <div className="text-[var(--primary-dim)] text-sm">No big ticket rewards logged yet.</div>
-          ) : (
-            <div className="max-h-80 overflow-y-auto rounded border border-[var(--primary-dim)] bg-[var(--background)]">
-              {bigTicketWinners.map(w => (
-                <div key={w.id} className="px-3 py-2 border-b border-[var(--primary-dim)] last:border-b-0">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="text-[var(--primary)] font-bold truncate">{w.itemName}</div>
-                      <div className="text-xs text-[var(--primary-dim)] truncate">{w.ign}</div>
-                    </div>
-                    <div className="text-xs text-[var(--primary-dim)] whitespace-nowrap">
-                      {w.expeditionDate ? new Date(w.expeditionDate).toLocaleString() : 'Unknown date'}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
         {filteredExpeditions.length === 0 ? (
           <div className="bg-[var(--background-bright)] rounded-lg p-8 border border-[var(--primary-dim)] text-center">
             <Database className="w-12 h-12 text-[var(--primary-dim)] mx-auto mb-4" />
@@ -654,8 +617,44 @@ export default function DashboardClient() {
                 <StatCard icon={Gift} label="Pitched Star Core Coupon Missed" value={displayStats.funStats.missedPitchedStarCoreCouponNoSelectRound} />
               </div>
               <div className="text-[var(--primary-dim)] text-xs mt-3">
-                Miss counts are computed assuming a reward is only marked selected when the dice roll succeeded.<br/>
+                Miss counts assume your input semantics: a reward is only marked selected when the dice roll succeeded.
                 If a round has no selected reward and one of these rewards appeared in that round's options, it's counted as a miss.
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-[var(--primary-dim)]">
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-[var(--secondary)]" />
+                    <h2 className="text-lg text-[var(--primary-bright)]">Big Ticket Winners</h2>
+                  </div>
+                  <div className="text-xs text-[var(--primary-dim)]">
+                    {bigTicketWinners.length} total
+                  </div>
+                </div>
+
+                <div className="text-xs text-[var(--primary-dim)] mb-3">
+                  Tracking: {BIG_TICKET_ITEMS.join(', ')}
+                </div>
+
+                {bigTicketWinners.length === 0 ? (
+                  <div className="text-[var(--primary-dim)] text-sm">No big ticket rewards logged yet.</div>
+                ) : (
+                  <div className="max-h-80 overflow-y-auto rounded border border-[var(--primary-dim)] bg-[var(--background)]">
+                    {bigTicketWinners.map(w => (
+                      <div key={w.id} className="px-3 py-2 border-b border-[var(--primary-dim)] last:border-b-0">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <div className="text-[var(--primary)] font-bold truncate">{w.itemName}</div>
+                            <div className="text-xs text-[var(--primary-dim)] truncate">{w.ign}</div>
+                          </div>
+                          <div className="text-xs text-[var(--primary-dim)] whitespace-nowrap">
+                            {w.expeditionDate ? new Date(w.expeditionDate).toLocaleString() : 'Unknown date'}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </ChartCard>
 
