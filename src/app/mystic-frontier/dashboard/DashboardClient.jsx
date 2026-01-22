@@ -494,7 +494,7 @@ export default function DashboardClient() {
         {/* summary stats */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
           <StatCard icon={Database} label="Total Expeditions" value={filteredExpeditions.length} />
-          <StatCard icon={Layers} label="Tiles Recorded" value={filteredTiles.length} />
+          <StatCard icon={Layers} label="Tiles Recorded" value={stats.tileCount} />
           <StatCard icon={Gift} label="Rewards Logged" value={filteredRewards.length} />
           <StatCard icon={Sparkles} label="Total Tier-Ups" value={stats.tierUpStats.totalTierUps} />
           <StatCard icon={TrendingUp} label="Unique IGNs" value={new Set(filteredExpeditions.map(e => e.ign)).size} />
@@ -1354,6 +1354,95 @@ function MatchCompareRow({ label, value, count, color = '#6b7280' }) {
 }
 
 function computeStats(expeditions, tiles, rewards) {
+  const tilesByKey = new Map();
+  const selectedTileRecordByKey = new Map();
+
+  const tilesWithIndex = tiles.filter(t => t.tile_index != null);
+  tilesWithIndex.forEach(t => {
+    const key = `${t.expedition_id}:${t.round_number}:${t.tile_index}`;
+    if (!tilesByKey.has(key)) {
+      tilesByKey.set(key, { ...t, _tileKey: key });
+    }
+    if (t.selected) {
+      selectedTileRecordByKey.set(key, t);
+    }
+  });
+
+  // legacy fallback: some older rows may not have tile_index. try to pair option rows by
+  // (expedition_id, round_number) ordering to avoid collapsing multiple tiles into one.
+  const tilesWithoutIndex = tiles.filter(t => t.tile_index == null);
+  const legacyGroups = new Map();
+  tilesWithoutIndex.forEach(t => {
+    const key = `${t.expedition_id}:${t.round_number}`;
+    if (!legacyGroups.has(key)) legacyGroups.set(key, []);
+    legacyGroups.get(key).push(t);
+  });
+
+  legacyGroups.forEach((groupTiles, groupKey) => {
+    const sorted = [...groupTiles].sort((a, b) => {
+      const da = a.created_at ? new Date(a.created_at).getTime() : 0;
+      const db = b.created_at ? new Date(b.created_at).getTime() : 0;
+      if (da !== db) return da - db;
+      return String(a.id).localeCompare(String(b.id));
+    });
+
+    let seq = 0;
+    let openKey = null;
+    let openMeta = null;
+
+    const startNew = (t) => {
+      seq += 1;
+      openKey = `${groupKey}:legacy:${seq}`;
+      openMeta = { tile_type: t.tile_type, tile_rarity: t.tile_rarity };
+
+      if (!tilesByKey.has(openKey)) {
+        tilesByKey.set(openKey, { ...t, _tileKey: openKey });
+      }
+      if (t.selected) {
+        selectedTileRecordByKey.set(openKey, t);
+      }
+    };
+
+    sorted.forEach(t => {
+      const isLucky = t.tile_type === 'Lucky';
+      if (isLucky || t.option_number == null) {
+        const key = `${groupKey}:legacy:single:${t.id}`;
+        if (!tilesByKey.has(key)) {
+          tilesByKey.set(key, { ...t, _tileKey: key });
+        }
+        if (t.selected) {
+          selectedTileRecordByKey.set(key, t);
+        }
+        return;
+      }
+
+      if (t.option_number === 1) {
+        startNew(t);
+        return;
+      }
+
+      if (
+        t.option_number === 2 &&
+        openKey &&
+        openMeta &&
+        openMeta.tile_type === t.tile_type &&
+        openMeta.tile_rarity === t.tile_rarity
+      ) {
+        if (t.selected) {
+          selectedTileRecordByKey.set(openKey, t);
+        }
+        return;
+      }
+
+      startNew(t);
+    });
+  });
+
+  const uniqueTiles = Array.from(tilesByKey.values());
+  const selectedTileRecords = uniqueTiles
+    .map(t => selectedTileRecordByKey.get(t._tileKey) ?? t)
+    .filter(t => t.selected);
+
   // expeditions by rank
   const expeditionsByRank = SITE_RANKS.map(rank => ({
     rank,
@@ -1363,18 +1452,18 @@ function computeStats(expeditions, tiles, rewards) {
   // tiles by rarity
   const tilesByRarity = TILE_RARITIES.map(rarity => ({
     rarity,
-    count: tiles.filter(t => t.tile_rarity === rarity).length
+    count: uniqueTiles.filter(t => t.tile_rarity === rarity).length
   }));
 
   // tiles by type
   const tilesByType = TILE_TYPES.map(type => ({
     type,
-    count: tiles.filter(t => t.tile_type === type).length
+    count: uniqueTiles.filter(t => t.tile_type === type).length
   }));
 
   // avg AP by rarity
   const avgApByRarity = TILE_RARITIES.map(rarity => {
-    const rarityTiles = tiles.filter(t => t.tile_rarity === rarity && t.ap_cost != null);
+    const rarityTiles = selectedTileRecords.filter(t => t.tile_rarity === rarity && t.ap_cost != null);
     const avgAp = rarityTiles.length > 0 
       ? rarityTiles.reduce((sum, t) => sum + t.ap_cost, 0) / rarityTiles.length 
       : 0;
@@ -1383,7 +1472,7 @@ function computeStats(expeditions, tiles, rewards) {
 
   // avg AP by round
   const avgApByRound = [1, 2, 3, 4, 5].map(round => {
-    const roundTiles = tiles.filter(t => t.round_number === round && t.ap_cost != null);
+    const roundTiles = selectedTileRecords.filter(t => t.round_number === round && t.ap_cost != null);
     const avgAp = roundTiles.length > 0 
       ? roundTiles.reduce((sum, t) => sum + t.ap_cost, 0) / roundTiles.length 
       : 0;
@@ -1423,15 +1512,15 @@ function computeStats(expeditions, tiles, rewards) {
 
   // pouches by tile rarity (selected tiles)
   const rewardsByTileRarity = TILE_RARITIES.map(rarity => {
-    const count = tiles.filter(t => t.selected && t.tile_rarity === rarity && t.reward_option).length;
+    const count = selectedTileRecords.filter(t => t.tile_rarity === rarity && t.reward_option).length;
     return { rarity, count };
   });
 
   // pouch appearance counts by pouch type (selected tiles)
   const pouchAppearanceMap = {};
   POUCH_TYPES.forEach(p => { pouchAppearanceMap[p] = 0; });
-  tiles.forEach(t => {
-    if (t.selected && t.reward_option) {
+  selectedTileRecords.forEach(t => {
+    if (t.reward_option) {
       const key = POUCH_TYPES.find(p => t.reward_option.toLowerCase().includes(p.toLowerCase()));
       if (key) {
         pouchAppearanceMap[key] = (pouchAppearanceMap[key] || 0) + 1;
@@ -1444,7 +1533,7 @@ function computeStats(expeditions, tiles, rewards) {
   // pouch appearance counts by pouch type (all tiles)
   const pouchAppearanceAllMap = {};
   POUCH_TYPES.forEach(p => { pouchAppearanceAllMap[p] = 0; });
-  tiles.forEach(t => {
+  uniqueTiles.forEach(t => {
     if (t.reward_option) {
       const key = POUCH_TYPES.find(p => t.reward_option.toLowerCase().includes(p.toLowerCase()));
       if (key) {
@@ -1458,7 +1547,7 @@ function computeStats(expeditions, tiles, rewards) {
   // avg AP by site rank (per tile)
   const siteApByRank = SITE_RANKS.map(rank => {
     const rankExpIds = new Set(expeditions.filter(e => e.site_rank === rank).map(e => e.id));
-    const rankTiles = tiles.filter(t => rankExpIds.has(t.expedition_id) && t.ap_cost != null);
+    const rankTiles = selectedTileRecords.filter(t => rankExpIds.has(t.expedition_id) && t.ap_cost != null);
     const avgAp = rankTiles.length > 0
       ? rankTiles.reduce((sum, t) => sum + t.ap_cost, 0) / rankTiles.length
       : 0;
@@ -1469,7 +1558,7 @@ function computeStats(expeditions, tiles, rewards) {
   const computeMatchGroup = (filterFn) => {
     const groupExps = expeditions.filter(filterFn);
     const groupExpIds = new Set(groupExps.map(e => e.id));
-    const groupTiles = tiles.filter(t => groupExpIds.has(t.expedition_id));
+    const groupTiles = uniqueTiles.filter(t => groupExpIds.has(t.expedition_id));
     const groupRewards = rewards.filter(r => groupExpIds.has(r.expedition_id));
     
     return {
@@ -1493,7 +1582,7 @@ function computeStats(expeditions, tiles, rewards) {
   // detailed both-match analytics
   const bothMatchExps = expeditions.filter(e => e.element_match && e.type_match);
   const bothMatchExpIds = new Set(bothMatchExps.map(e => e.id));
-  const bothMatchTiles = tiles.filter(t => bothMatchExpIds.has(t.expedition_id));
+  const bothMatchTiles = uniqueTiles.filter(t => bothMatchExpIds.has(t.expedition_id));
   const bothMatchRewards = rewards.filter(r => bothMatchExpIds.has(r.expedition_id));
 
   // tile rarity distribution for both-match
@@ -1502,9 +1591,11 @@ function computeStats(expeditions, tiles, rewards) {
     count: bothMatchTiles.filter(t => t.tile_rarity === rarity).length,
   }));
 
-  // avg AP for both-match tiles
-  const bothMatchAvgAp = bothMatchTiles.filter(t => t.ap_cost != null).length > 0
-    ? bothMatchTiles.filter(t => t.ap_cost != null).reduce((sum, t) => sum + t.ap_cost, 0) / bothMatchTiles.filter(t => t.ap_cost != null).length
+  // avg AP for both-match tiles (use selected option records)
+  const bothMatchSelectedTiles = selectedTileRecords.filter(t => bothMatchExpIds.has(t.expedition_id));
+  const bothMatchSelectedTilesWithAp = bothMatchSelectedTiles.filter(t => t.ap_cost != null);
+  const bothMatchAvgAp = bothMatchSelectedTilesWithAp.length > 0
+    ? bothMatchSelectedTilesWithAp.reduce((sum, t) => sum + t.ap_cost, 0) / bothMatchSelectedTilesWithAp.length
     : 0;
 
   // pouch distribution for both-match (all tiles)
@@ -1548,7 +1639,7 @@ function computeStats(expeditions, tiles, rewards) {
 
   // detailed no-match analytics
   const noMatchExpIds = new Set(noMatchExps.map(e => e.id));
-  const noMatchTiles = tiles.filter(t => noMatchExpIds.has(t.expedition_id));
+  const noMatchTiles = uniqueTiles.filter(t => noMatchExpIds.has(t.expedition_id));
   const noMatchRewards = rewards.filter(r => noMatchExpIds.has(r.expedition_id));
 
   const noMatchTilesByRarity = TILE_RARITIES.map(rarity => ({
@@ -1556,8 +1647,10 @@ function computeStats(expeditions, tiles, rewards) {
     count: noMatchTiles.filter(t => t.tile_rarity === rarity).length,
   }));
 
-  const noMatchAvgAp = noMatchTiles.filter(t => t.ap_cost != null).length > 0
-    ? noMatchTiles.filter(t => t.ap_cost != null).reduce((sum, t) => sum + t.ap_cost, 0) / noMatchTiles.filter(t => t.ap_cost != null).length
+  const noMatchSelectedTiles = selectedTileRecords.filter(t => noMatchExpIds.has(t.expedition_id));
+  const noMatchSelectedTilesWithAp = noMatchSelectedTiles.filter(t => t.ap_cost != null);
+  const noMatchAvgAp = noMatchSelectedTilesWithAp.length > 0
+    ? noMatchSelectedTilesWithAp.reduce((sum, t) => sum + t.ap_cost, 0) / noMatchSelectedTilesWithAp.length
     : 0;
 
   const noMatchPouchMap = {};
@@ -1656,6 +1749,8 @@ function computeStats(expeditions, tiles, rewards) {
   };
 
   return {
+    tileCount: uniqueTiles.length,
+    tileOptionRecordCount: tiles.length,
     expeditionsByRank,
     tilesByRarity,
     tilesByType,
