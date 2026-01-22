@@ -617,7 +617,7 @@ export default function DashboardClient() {
                 <StatCard icon={Gift} label="Pitched Star Core Coupon Missed" value={displayStats.funStats.missedPitchedStarCoreCouponNoSelectRound} />
               </div>
               <div className="text-[var(--primary-dim)] text-xs mt-3">
-                Miss counts assume your input semantics: a reward is only marked selected when the dice roll succeeded.
+                Miss counts are computed assuming a reward is only marked selected when the dice roll succeeded.<br/>
                 If a round has no selected reward and one of these rewards appeared in that round's options, it's counted as a miss.
               </div>
 
