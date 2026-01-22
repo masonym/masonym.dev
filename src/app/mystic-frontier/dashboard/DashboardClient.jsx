@@ -640,6 +640,25 @@ export default function DashboardClient() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* for fun */}
+            <ChartCard title="For Fun" className="lg:col-span-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <StatCard icon={Sparkles} label="Advanced Lucky Tiles" value={displayStats.funStats.advancedLuckyTiles} />
+                <StatCard icon={Layers} label="Round 5: All Lucky Tiles" value={displayStats.funStats.round5AllLucky} />
+                <StatCard icon={Gift} label="Green Pouch Missed" value={displayStats.funStats.missedGreenPouchNoSelectRound} />
+                <StatCard icon={Gift} label="Orange Pouch Missed" value={displayStats.funStats.missedOrangePouchNoSelectRound} />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                <StatCard icon={Gift} label="Black Heart Coupon Missed" value={displayStats.funStats.missedBlackHeartCouponNoSelectRound} />
+                <StatCard icon={Gift} label="Chaos Pitched Box Missed" value={displayStats.funStats.missedChaosPitchedBoxNoSelectRound} />
+                <StatCard icon={Gift} label="Pitched Star Core Coupon Missed" value={displayStats.funStats.missedPitchedStarCoreCouponNoSelectRound} />
+              </div>
+              <div className="text-[var(--primary-dim)] text-xs mt-3">
+                Miss counts are computed assuming a reward is only marked selected when the dice roll succeeded.<br/>
+                If a round has no selected reward and one of these rewards appeared in that round's options, it's counted as a miss.
+              </div>
+            </ChartCard>
+
             {/* expeditions by rank */}
             <ChartCard title="Expeditions by Site Rank">
               <div className="w-full" style={{ height: 300, minWidth: 200 }}>
@@ -1356,6 +1375,7 @@ function MatchCompareRow({ label, value, count, color = '#6b7280' }) {
 function computeStats(expeditions, tiles, rewards) {
   const tilesByKey = new Map();
   const selectedTileRecordByKey = new Map();
+  const optionRecordsByTileKey = new Map();
 
   const tilesWithIndex = tiles.filter(t => t.tile_index != null);
   tilesWithIndex.forEach(t => {
@@ -1363,6 +1383,8 @@ function computeStats(expeditions, tiles, rewards) {
     if (!tilesByKey.has(key)) {
       tilesByKey.set(key, { ...t, _tileKey: key });
     }
+    if (!optionRecordsByTileKey.has(key)) optionRecordsByTileKey.set(key, []);
+    optionRecordsByTileKey.get(key).push(t);
     if (t.selected) {
       selectedTileRecordByKey.set(key, t);
     }
@@ -1398,6 +1420,8 @@ function computeStats(expeditions, tiles, rewards) {
       if (!tilesByKey.has(openKey)) {
         tilesByKey.set(openKey, { ...t, _tileKey: openKey });
       }
+      if (!optionRecordsByTileKey.has(openKey)) optionRecordsByTileKey.set(openKey, []);
+      optionRecordsByTileKey.get(openKey).push(t);
       if (t.selected) {
         selectedTileRecordByKey.set(openKey, t);
       }
@@ -1410,6 +1434,8 @@ function computeStats(expeditions, tiles, rewards) {
         if (!tilesByKey.has(key)) {
           tilesByKey.set(key, { ...t, _tileKey: key });
         }
+        if (!optionRecordsByTileKey.has(key)) optionRecordsByTileKey.set(key, []);
+        optionRecordsByTileKey.get(key).push(t);
         if (t.selected) {
           selectedTileRecordByKey.set(key, t);
         }
@@ -1428,6 +1454,8 @@ function computeStats(expeditions, tiles, rewards) {
         openMeta.tile_type === t.tile_type &&
         openMeta.tile_rarity === t.tile_rarity
       ) {
+        if (!optionRecordsByTileKey.has(openKey)) optionRecordsByTileKey.set(openKey, []);
+        optionRecordsByTileKey.get(openKey).push(t);
         if (t.selected) {
           selectedTileRecordByKey.set(openKey, t);
         }
@@ -1442,6 +1470,79 @@ function computeStats(expeditions, tiles, rewards) {
   const selectedTileRecords = uniqueTiles
     .map(t => selectedTileRecordByKey.get(t._tileKey) ?? t)
     .filter(t => t.selected);
+
+  const bigTicketItemNamesLower = new Set(BIG_TICKET_ITEMS.map(n => n.toLowerCase()));
+  const isBigTicket = (rewardOption) => {
+    const name = (rewardOption ?? '').trim().toLowerCase();
+    if (!name) return false;
+    return bigTicketItemNamesLower.has(name);
+  };
+
+  const isBigTicketName = (rewardOption, targetName) => {
+    const name = (rewardOption ?? '').trim().toLowerCase();
+    if (!name) return false;
+    return name === targetName.toLowerCase();
+  };
+
+  const isPouchColor = (rewardOption, color) => {
+    const s = (rewardOption ?? '').toLowerCase();
+    if (!s) return false;
+    return s.includes('pouch') && s.includes(color.toLowerCase());
+  };
+
+  const advancedLuckyTiles = uniqueTiles.filter(t => t.tile_type === 'Lucky' && t.tile_rarity === 'Advanced').length;
+
+  // round 5 where all recorded tile options are Lucky (i.e., all tiles shown that round were Lucky)
+  const expIds = new Set(expeditions.map(e => e.id));
+  let round5AllLucky = 0;
+  expIds.forEach(expId => {
+    const round5Tiles = uniqueTiles.filter(t => t.expedition_id === expId && t.round_number === 5);
+    if (round5Tiles.length === 0) return;
+    if (round5Tiles.every(t => t.tile_type === 'Lucky')) {
+      round5AllLucky += 1;
+    }
+  });
+
+  const roundKey = (t) => `${t.expedition_id}:${t.round_number}`;
+  const roundTilesMap = new Map();
+  tiles.forEach(t => {
+    const key = roundKey(t);
+    if (!roundTilesMap.has(key)) roundTilesMap.set(key, []);
+    roundTilesMap.get(key).push(t);
+  });
+
+  let missedGreenPouchNoSelectRound = 0;
+  let missedOrangePouchNoSelectRound = 0;
+  let missedBlackHeartCouponNoSelectRound = 0;
+  let missedChaosPitchedBoxNoSelectRound = 0;
+  let missedPitchedStarCoreCouponNoSelectRound = 0;
+
+  roundTilesMap.forEach((roundRows) => {
+    const anySelected = roundRows.some(r => r.selected);
+    if (anySelected) return;
+
+    const hasGreen = roundRows.some(r => isPouchColor(r.reward_option, 'green'));
+    const hasOrange = roundRows.some(r => isPouchColor(r.reward_option, 'orange'));
+    const hasBlackHeart = roundRows.some(r => isBigTicketName(r.reward_option, 'Black Heart Coupon'));
+    const hasChaosPitched = roundRows.some(r => isBigTicketName(r.reward_option, 'Chaos Pitched Accessory Box'));
+    const hasPitchedStar = roundRows.some(r => isBigTicketName(r.reward_option, 'Pitched Star Core Coupon'));
+
+    if (hasGreen) missedGreenPouchNoSelectRound += 1;
+    if (hasOrange) missedOrangePouchNoSelectRound += 1;
+    if (hasBlackHeart) missedBlackHeartCouponNoSelectRound += 1;
+    if (hasChaosPitched) missedChaosPitchedBoxNoSelectRound += 1;
+    if (hasPitchedStar) missedPitchedStarCoreCouponNoSelectRound += 1;
+  });
+
+  const funStats = {
+    advancedLuckyTiles,
+    round5AllLucky,
+    missedGreenPouchNoSelectRound,
+    missedOrangePouchNoSelectRound,
+    missedBlackHeartCouponNoSelectRound,
+    missedChaosPitchedBoxNoSelectRound,
+    missedPitchedStarCoreCouponNoSelectRound,
+  };
 
   // expeditions by rank
   const expeditionsByRank = SITE_RANKS.map(rank => ({
@@ -1751,6 +1852,7 @@ function computeStats(expeditions, tiles, rewards) {
   return {
     tileCount: uniqueTiles.length,
     tileOptionRecordCount: tiles.length,
+    funStats,
     expeditionsByRank,
     tilesByRarity,
     tilesByType,
