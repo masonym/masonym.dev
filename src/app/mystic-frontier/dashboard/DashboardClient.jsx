@@ -447,11 +447,11 @@ export default function DashboardClient() {
   };
 
   const tierUpComparisonData = {
-    labels: ['Both Match', 'No Match'],
+    labels: ['Both Match', 'No/Half Match'],
     datasets: [
       {
         label: 'Tier-Up Rate (%)',
-        data: [stats.bothMatchStats.tierUpRate, stats.bothMatchStats.noMatchTierUpRate],
+        data: [stats.bothMatchStats.tierUpRate, stats.noMatchStats.tierUpRate],
         backgroundColor: ['#fbbf24', '#6b7280'],
         borderColor: 'rgba(255,255,255,0.12)',
         borderWidth: 1,
@@ -1091,7 +1091,7 @@ export default function DashboardClient() {
             {/* both element+type match deep dive */}
             {(stats.bothMatchStats.expeditionCount > 0 || stats.noMatchStats.expeditionCount > 0) && (
               <>
-                <ChartCard title="Match Summary (Both vs No Match)" className="lg:col-span-2">
+                <ChartCard title="Match Summary (Both vs No/Half Match)" className="lg:col-span-2">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div className="bg-[var(--background)] rounded p-4 border border-[var(--primary-dim)]">
                       <div className="flex items-center justify-between mb-2">
@@ -1134,7 +1134,7 @@ export default function DashboardClient() {
 
                     <div className="bg-[var(--background)] rounded p-4 border border-[var(--primary-dim)]">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[var(--primary-dim)] text-sm">No Match</span>
+                        <span className="text-[var(--primary-dim)] text-sm">No/Half Match</span>
                         <span className="text-xs text-[var(--primary-dim)]">Expeditions: {stats.noMatchStats.expeditionCount}</span>
                       </div>
                       <div className="grid grid-cols-2 gap-3 text-center">
@@ -1193,19 +1193,19 @@ export default function DashboardClient() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div className="bg-[var(--background)] rounded p-3 text-center border border-[var(--primary-dim)]">
                         <div className="text-sm text-[var(--primary-dim)]">Avg Tiles / Exp</div>
-                        <div className="text-2xl font-bold text-[#fbbf24]">{stats.matchEffects.bothMatch.avgTiles.toFixed(2)}</div>
+                        <div className="text-2xl font-bold text-[#fbbf24]">{(stats.bothMatchStats.expeditionCount > 0 ? (stats.bothMatchStats.tileCount / stats.bothMatchStats.expeditionCount) : 0).toFixed(2)}</div>
                         <div className="text-xs text-[var(--primary-dim)]">Both Match</div>
                       </div>
                       <div className="bg-[var(--background)] rounded p-3 text-center border border-[var(--primary-dim)]">
                         <div className="text-sm text-[var(--primary-dim)]">Avg Tiles / Exp</div>
-                        <div className="text-2xl font-bold text-[#9ca3af]">{stats.matchEffects.noMatch.avgTiles.toFixed(2)}</div>
-                        <div className="text-xs text-[var(--primary-dim)]">No Match</div>
+                        <div className="text-2xl font-bold text-[#9ca3af]">{(stats.noMatchStats.expeditionCount > 0 ? (stats.noMatchStats.tileCount / stats.noMatchStats.expeditionCount) : 0).toFixed(2)}</div>
+                        <div className="text-xs text-[var(--primary-dim)]">No/Half Match</div>
                       </div>
                     </div>
                   </div>
                 </ChartCard>
 
-                <ChartCard title="Tile Rarity (Both vs No Match)">
+                <ChartCard title="Tile Rarity (Both vs No/Half Match)">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="w-full" style={{ height: 280, minWidth: 200 }}>
                       <Doughnut
@@ -1264,7 +1264,7 @@ export default function DashboardClient() {
                   </div>
                 </ChartCard>
 
-                <ChartCard title="Pouch Distribution (Both vs No Match)">
+                <ChartCard title="Pouch Distribution (Both vs No/Half Match)">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="w-full" style={{ height: 280, minWidth: 200 }}>
                       <Doughnut
@@ -1732,12 +1732,12 @@ function computeStats(expeditions, tiles, rewards) {
     .sort((a, b) => b.occurrences - a.occurrences)
     .slice(0, 5);
 
-  // comparison: no-match tier-up rate
-  const noMatchExps = expeditions.filter(e => !e.element_match && !e.type_match);
+  // detailed no/half-match analytics (anything that isn't both-match)
+  const noMatchExps = expeditions.filter(e => !(e.element_match && e.type_match));
   const noMatchWithTierUps = noMatchExps.filter(e => e.tier_ups && e.tier_ups > 0);
   const noMatchTierUpRate = noMatchExps.length > 0 ? (noMatchWithTierUps.length / noMatchExps.length) * 100 : 0;
 
-  // detailed no-match analytics
+  // detailed no/half-match analytics
   const noMatchExpIds = new Set(noMatchExps.map(e => e.id));
   const noMatchTiles = uniqueTiles.filter(t => noMatchExpIds.has(t.expedition_id));
   const noMatchRewards = rewards.filter(r => noMatchExpIds.has(r.expedition_id));
@@ -1790,7 +1790,6 @@ function computeStats(expeditions, tiles, rewards) {
     tierUpRate: bothMatchTierUpRate,
     avgTierUps: bothMatchAvgTierUps,
     topRewards: bothMatchTopRewards,
-    noMatchTierUpRate,
   };
 
   const noMatchStats = {
