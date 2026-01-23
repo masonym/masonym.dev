@@ -978,21 +978,21 @@ export default function DashboardClient() {
                   </div>
                 </div>
                 <div className="mt-3">
-                  <h4 className="text-[var(--primary-dim)] text-sm mb-2">Pouches Collected</h4>
+                  <h4 className="text-[var(--primary-dim)] text-sm mb-2">Tiered Up From</h4>
                   <div className="flex gap-1">
-                    {POUCH_TYPES.map(pouch => {
-                      const count = stats.tierUpStats.pouchDistribution[pouch] || 0;
+                    {CHEST_TIERS.map(tier => {
+                      const count = stats.tierUpStats.startingTierDistribution[tier] || 0;
                       return (
                         <div 
-                          key={pouch} 
+                          key={tier} 
                           className="flex-1 text-center p-2 rounded"
-                          style={{ backgroundColor: `${POUCH_CONFIG[pouch].color}20` }}
+                          style={{ backgroundColor: `${CHEST_TIER_CONFIG[tier].color}20` }}
                         >
                           <div 
                             className="font-bold text-xs"
-                            style={{ color: POUCH_CONFIG[pouch].color }}
+                            style={{ color: CHEST_TIER_CONFIG[tier].color }}
                           >
-                            {pouch}
+                            {tier}
                           </div>
                           <div className="text-[var(--primary-dim)] text-xs">{count}</div>
                         </div>
@@ -1815,7 +1815,7 @@ function computeStats(expeditions, tiles, rewards) {
 
   const finalTierDistribution = {};
   const startingTierDistribution = {};
-  expeditions.forEach(e => {
+  expeditionsWithTierUps.forEach(e => {
     if (e.final_chest_tier) {
       finalTierDistribution[e.final_chest_tier] = (finalTierDistribution[e.final_chest_tier] || 0) + 1;
     }
