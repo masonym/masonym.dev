@@ -46,6 +46,72 @@ const BIG_TICKET_ITEMS = [
   'Pitched Star Core Coupon',
 ];
 
+const apErrorBarsPlugin = {
+  id: 'apErrorBars',
+  afterDatasetsDraw: (chart, _args, pluginOptions) => {
+    const datasets = pluginOptions?.datasets;
+    if (!Array.isArray(datasets) || datasets.length === 0) return;
+
+    const { ctx } = chart;
+    if (!ctx) return;
+
+    datasets.forEach((cfg) => {
+      const datasetIndex = cfg?.datasetIndex;
+      if (typeof datasetIndex !== 'number') return;
+
+      const meta = chart.getDatasetMeta(datasetIndex);
+      if (!meta || meta.hidden) return;
+
+      const points = meta.data;
+      const minValues = cfg?.min;
+      const maxValues = cfg?.max;
+      if (!Array.isArray(points) || !Array.isArray(minValues) || !Array.isArray(maxValues)) return;
+
+      const yScale = meta.yScale;
+      if (!yScale) return;
+
+      const color = cfg?.color || '#9ca3af';
+      const lineWidth = cfg?.lineWidth ?? 2;
+      const capWidth = cfg?.capWidth ?? 10;
+
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+
+      points.forEach((pt, i) => {
+        const minVal = minValues[i];
+        const maxVal = maxValues[i];
+        if (minVal == null || maxVal == null) return;
+
+        const x = pt.x;
+        const yMin = yScale.getPixelForValue(minVal);
+        const yMax = yScale.getPixelForValue(maxVal);
+
+        if (!Number.isFinite(x) || !Number.isFinite(yMin) || !Number.isFinite(yMax)) return;
+
+        ctx.beginPath();
+        ctx.moveTo(x, yMax);
+        ctx.lineTo(x, yMin);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x - capWidth / 2, yMax);
+        ctx.lineTo(x + capWidth / 2, yMax);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x - capWidth / 2, yMin);
+        ctx.lineTo(x + capWidth / 2, yMin);
+        ctx.stroke();
+      });
+
+      ctx.restore();
+    });
+  },
+};
+
+ChartJS.register(apErrorBarsPlugin);
+
 export default function DashboardClient() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
@@ -298,6 +364,23 @@ export default function DashboardClient() {
         pointRadius: 6,
         tension: 0.3,
         fill: true,
+      }] : []),
+    ],
+  };
+
+  const avgApByRoundErrorBars = {
+    datasets: [
+      {
+        datasetIndex: 0,
+        min: displayStats.avgApByRound.map(d => d.minAp),
+        max: displayStats.avgApByRound.map(d => d.maxAp),
+        color: '#fbbf24',
+      },
+      ...(overlayActive ? [{
+        datasetIndex: 1,
+        min: userStats.avgApByRound.map(d => d.minAp),
+        max: userStats.avgApByRound.map(d => d.maxAp),
+        color: '#10b981',
       }] : []),
     ],
   };
@@ -773,15 +856,57 @@ export default function DashboardClient() {
                     ...baseOptions,
                     plugins: {
                       ...baseOptions.plugins,
+                      apErrorBars: avgApByRoundErrorBars,
                       tooltip: {
                         ...baseOptions.plugins.tooltip,
                         callbacks: {
-                          label: (ctx) => `${ctx.dataset.label}: ${Number(ctx.parsed.y).toFixed(1)}`,
+                          label: (ctx) => {
+                            const isUserOverlay = overlayActive && ctx.dataset.label === 'My Avg AP' && viewMode !== 'mine';
+                            const series = isUserOverlay ? userStats.avgApByRound : displayStats.avgApByRound;
+                            const row = series?.[ctx.dataIndex];
+                            const avg = Number(ctx.parsed.y);
+                            const min = row?.minAp;
+                            const max = row?.maxAp;
+                            const n = row?.count ?? 0;
+                            const parts = [`${ctx.dataset.label}: ${Number.isFinite(avg) ? avg.toFixed(1) : '0.0'}`];
+                            if (min != null && max != null && n > 0) {
+                              parts.push(`min ${Number(min).toFixed(1)}`);
+                              parts.push(`max ${Number(max).toFixed(1)}`);
+                              parts.push(`n=${n}`);
+                            }
+                            return parts.join(' | ');
+                          },
                         },
                       },
                     },
                   }}
                 />
+              </div>
+
+              <div className="mt-3 text-xs text-[var(--primary-dim)]">
+                {!overlayActive ? (
+                  <div>
+                    Worst-case AP (Rounds 1-4 combined):{' '}
+                    <span className="text-[var(--secondary)] font-bold">
+                      {displayStats.worstCaseApRounds1to4 != null ? Number(displayStats.worstCaseApRounds1to4).toFixed(1) : 'N/A'}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    <div>
+                      Worst-case AP (Rounds 1-4 combined) - All:{' '}
+                      <span className="text-[var(--secondary)] font-bold">
+                        {stats.worstCaseApRounds1to4 != null ? Number(stats.worstCaseApRounds1to4).toFixed(1) : 'N/A'}
+                      </span>
+                    </div>
+                    <div>
+                      Worst-case AP (Rounds 1-4 combined) - Mine:{' '}
+                      <span className="text-[var(--secondary)] font-bold">
+                        {userStats?.worstCaseApRounds1to4 != null ? Number(userStats.worstCaseApRounds1to4).toFixed(1) : 'N/A'}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             </ChartCard>
 
@@ -1573,11 +1698,20 @@ function computeStats(expeditions, tiles, rewards) {
   // avg AP by round
   const avgApByRound = [1, 2, 3, 4, 5].map(round => {
     const roundTiles = selectedTileRecords.filter(t => t.round_number === round && t.ap_cost != null);
-    const avgAp = roundTiles.length > 0 
-      ? roundTiles.reduce((sum, t) => sum + t.ap_cost, 0) / roundTiles.length 
+    const apValues = roundTiles.map(t => t.ap_cost);
+    const count = apValues.length;
+    const avgAp = count > 0
+      ? apValues.reduce((sum, v) => sum + v, 0) / count
       : 0;
-    return { round: `Round ${round}`, avgAp };
+    const minAp = count > 0 ? Math.min(...apValues) : null;
+    const maxAp = count > 0 ? Math.max(...apValues) : null;
+    return { round: `Round ${round}`, avgAp, minAp, maxAp, count };
   });
+
+  const worstCaseRounds = avgApByRound.filter(r => ['Round 1', 'Round 2', 'Round 3', 'Round 4'].includes(r.round));
+  const worstCaseApRounds1to4 = worstCaseRounds.every(r => r.maxAp != null)
+    ? worstCaseRounds.reduce((sum, r) => sum + r.maxAp, 0)
+    : null;
 
   // top rewards
   const rewardGroups = {};
@@ -1856,6 +1990,7 @@ function computeStats(expeditions, tiles, rewards) {
     tilesByType,
     avgApByRarity,
     avgApByRound,
+    worstCaseApRounds1to4,
     topRewards,
     rewardsByRank,
     rewardsByTileRarity,
