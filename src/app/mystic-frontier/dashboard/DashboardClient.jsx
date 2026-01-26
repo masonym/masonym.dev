@@ -454,6 +454,125 @@ export default function DashboardClient() {
     ],
   };
 
+  const rewardDistributionCategories = displayStats.rewardDistributionByTileRarity?.map(r => r.category) || [];
+  const rewardDistributionTotalsByRarity = displayStats.rewardDistributionTotalsByTileRarity || TILE_RARITIES.map(() => 0);
+  const rewardDistributionByTileRarityData = {
+    labels: TILE_RARITIES,
+    datasets: rewardDistributionCategories.map((category, categoryIndex) => {
+      const isPouch = POUCH_TYPES.includes(category);
+      const color = isPouch
+        ? (POUCH_CONFIG[category]?.color || '#6b7280')
+        : ['#fbbf24', '#a78bfa', '#60a5fa'][categoryIndex % 3];
+
+      const row = displayStats.rewardDistributionByTileRarity?.find(r => r.category === category);
+      const counts = row?.counts || TILE_RARITIES.map(() => 0);
+
+      return {
+        label: isPouch ? category : category,
+        data: counts,
+        backgroundColor: color,
+        borderColor: 'rgba(0,0,0,0.35)',
+        borderWidth: 1,
+        borderRadius: 6,
+        stack: 'rewardDist',
+      };
+    }),
+  };
+
+  const rewardDistributionByTileRarityOptions = {
+    ...baseOptions,
+    scales: {
+      x: {
+        ...baseOptions.scales.x,
+        stacked: true,
+      },
+      y: {
+        ...baseOptions.scales.y,
+        stacked: true,
+      },
+    },
+    plugins: {
+      ...baseOptions.plugins,
+      tooltip: {
+        ...baseOptions.plugins.tooltip,
+        callbacks: {
+          label: (ctx) => {
+            const label = ctx.dataset.label || '';
+            const value = Number(ctx.raw ?? 0);
+            const denom = rewardDistributionTotalsByRarity?.[ctx.dataIndex] || 0;
+            const pct = denom > 0 ? ((value / denom) * 100).toFixed(1) : '0.0';
+            return `${label}: ${value} (${pct}%)`;
+          },
+        },
+      },
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: '#e5e7eb',
+        },
+      },
+    },
+  };
+
+  const tileRarityByRankRows = displayStats.tileRarityByRank || [];
+  const tileRarityByRankTotals = displayStats.tileRarityByRankTotals || SITE_RANKS.map(() => 0);
+  const tileRarityByRankChartData = {
+    labels: SITE_RANKS,
+    datasets: TILE_RARITIES.map((rarity) => {
+      const color = TILE_RARITY_CONFIG[rarity]?.color || '#6b7280';
+      const data = SITE_RANKS.map((rank) => {
+        const row = tileRarityByRankRows.find(r => r.rank === rank);
+        const idx = TILE_RARITIES.indexOf(rarity);
+        return row?.counts?.[idx] || 0;
+      });
+
+      return {
+        label: rarity,
+        data,
+        backgroundColor: color,
+        borderColor: 'rgba(0,0,0,0.35)',
+        borderWidth: 1,
+        borderRadius: 6,
+        stack: 'tileRarityRank',
+      };
+    }),
+  };
+
+  const tileRarityByRankChartOptions = {
+    ...baseOptions,
+    scales: {
+      x: {
+        ...baseOptions.scales.x,
+        stacked: true,
+      },
+      y: {
+        ...baseOptions.scales.y,
+        stacked: true,
+      },
+    },
+    plugins: {
+      ...baseOptions.plugins,
+      tooltip: {
+        ...baseOptions.plugins.tooltip,
+        callbacks: {
+          label: (ctx) => {
+            const label = ctx.dataset.label || '';
+            const value = Number(ctx.raw ?? 0);
+            const denom = tileRarityByRankTotals?.[ctx.dataIndex] || 0;
+            const pct = denom > 0 ? ((value / denom) * 100).toFixed(1) : '0.0';
+            return `${label}: ${value} (${pct}%)`;
+          },
+        },
+      },
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: '#e5e7eb',
+        },
+      },
+    },
+  };
+
   const siteApByRankData = {
     labels: displayStats.siteApByRank.map(d => d.rank),
     datasets: [
@@ -947,7 +1066,7 @@ export default function DashboardClient() {
             </ChartCard>
 
             {/* rewards by site rank */}
-            <ChartCard title="Rewards by Site Rank">
+            {/* <ChartCard title="Rewards by Site Rank">
               <div className="w-full" style={{ height: 300, minWidth: 200 }}>
                 <Bar
                   data={rewardsByRankData}
@@ -974,7 +1093,108 @@ export default function DashboardClient() {
                   }}
                 />
               </div>
+            </ChartCard> */}
+
+            <ChartCard title="Tile Rarity by Expedition Rank">
+              <div className="w-full" style={{ height: 360, minWidth: 200 }}>
+                <Bar
+                  data={tileRarityByRankChartData}
+                  options={tileRarityByRankChartOptions}
+                />
+              </div>
+
+              <div className="mt-4 overflow-x-auto rounded border border-[var(--primary-dim)]">
+                <table className="min-w-full text-sm">
+                  <thead className="bg-[var(--background)]">
+                    <tr>
+                      <th className="text-left p-2 text-[var(--primary-dim)]">Rank</th>
+                      {TILE_RARITIES.map(r => (
+                        <th key={r} className="text-right p-2 text-[var(--primary-dim)]">{r}</th>
+                      ))}
+                      <th className="text-right p-2 text-[var(--primary-dim)]">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {SITE_RANKS.map(rank => {
+                      const row = tileRarityByRankRows.find(r => r.rank === rank);
+                      const counts = row?.counts || TILE_RARITIES.map(() => 0);
+                      const total = counts.reduce((sum, v) => sum + v, 0);
+                      return (
+                        <tr key={rank} className="border-t border-[var(--primary-dim)]">
+                          <td className="p-2 text-[var(--primary)] whitespace-nowrap">{rank}</td>
+                          {counts.map((c, idx) => (
+                            <td key={idx} className="p-2 text-right text-[var(--secondary)]">{c}</td>
+                          ))}
+                          <td className="p-2 text-right text-[var(--secondary)]">{total}</td>
+                        </tr>
+                      );
+                    })}
+                    <tr className="border-t border-[var(--primary-dim)] bg-[var(--background)]">
+                      <td className="p-2 text-[var(--primary-dim)]">Total</td>
+                      {TILE_RARITIES.map((_, idx) => (
+                        <td key={idx} className="p-2 text-right text-[var(--primary-dim)]">
+                          {SITE_RANKS.reduce((sum, rank) => {
+                            const row = tileRarityByRankRows.find(r => r.rank === rank);
+                            return sum + (row?.counts?.[idx] || 0);
+                          }, 0)}
+                        </td>
+                      ))}
+                      <td className="p-2 text-right text-[var(--primary-dim)]">
+                        {tileRarityByRankTotals.reduce((sum, v) => sum + v, 0)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </ChartCard>
+
+            <ChartCard title="Rewards by Tile Rarity (Selected Tiles)">
+              <div className="w-full" style={{ height: 360, minWidth: 200 }}>
+                <Bar
+                  data={rewardDistributionByTileRarityData}
+                  options={rewardDistributionByTileRarityOptions}
+                />
+              </div>
+
+              <div className="mt-4 overflow-x-auto rounded border border-[var(--primary-dim)]">
+                <table className="min-w-full text-sm">
+                  <thead className="bg-[var(--background)]">
+                    <tr>
+                      <th className="text-left p-2 text-[var(--primary-dim)]">Reward</th>
+                      {TILE_RARITIES.map(r => (
+                        <th key={r} className="text-right p-2 text-[var(--primary-dim)]">{r}</th>
+                      ))}
+                      <th className="text-right p-2 text-[var(--primary-dim)]">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(displayStats.rewardDistributionByTileRarity || []).map(row => {
+                      const isPouch = POUCH_TYPES.includes(row.category);
+                      const label = isPouch ? row.category : row.category;
+                      return (
+                        <tr key={row.category} className="border-t border-[var(--primary-dim)]">
+                          <td className="p-2 text-[var(--primary)] whitespace-nowrap">{label}</td>
+                          {row.counts.map((c, idx) => (
+                            <td key={idx} className="p-2 text-right text-[var(--secondary)]">{c}</td>
+                          ))}
+                          <td className="p-2 text-right text-[var(--secondary)]">{row.total}</td>
+                        </tr>
+                      );
+                    })}
+                    <tr className="border-t border-[var(--primary-dim)] bg-[var(--background)]">
+                      <td className="p-2 text-[var(--primary-dim)]">Total</td>
+                      {rewardDistributionTotalsByRarity.map((t, idx) => (
+                        <td key={idx} className="p-2 text-right text-[var(--primary-dim)]">{t}</td>
+                      ))}
+                      <td className="p-2 text-right text-[var(--primary-dim)]">
+                        {rewardDistributionTotalsByRarity.reduce((sum, v) => sum + v, 0)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ChartCard>
+
 
             {/* pouch appearance rate (selected tiles) */}
             <ChartCard title="Pouch Appearance Rate (Selected Tiles)">
@@ -1778,6 +1998,77 @@ function computeStats(expeditions, tiles, rewards) {
   const pouchAppearanceAll = POUCH_TYPES.map(p => ({ pouch: p, count: pouchAppearanceAllMap[p] || 0 }));
   const pouchAppearanceAllTotal = pouchAppearanceAll.reduce((sum, p) => sum + p.count, 0);
 
+  const rewardDistributionCategories = [...POUCH_TYPES, ...BIG_TICKET_ITEMS];
+  const rewardDistributionMap = new Map();
+  rewardDistributionCategories.forEach(category => {
+    rewardDistributionMap.set(category, TILE_RARITIES.map(() => 0));
+  });
+
+  const tileRarityIndex = new Map(TILE_RARITIES.map((r, i) => [r, i]));
+  const normalizeName = (s) => (s ?? '').trim().toLowerCase();
+  const rewardCategoryForOption = (rewardOption) => {
+    const raw = normalizeName(rewardOption);
+    if (!raw) return null;
+
+    const pouchKey = POUCH_TYPES.find(p => raw.includes('pouch') && raw.includes(p.toLowerCase()));
+    if (pouchKey) return pouchKey;
+
+    const bigTicketKey = BIG_TICKET_ITEMS.find(n => raw === n.toLowerCase());
+    if (bigTicketKey) return bigTicketKey;
+
+    return null;
+  };
+
+  selectedTileRecords.forEach(t => {
+    const rarity = t.tile_rarity;
+    const rarityIdx = tileRarityIndex.get(rarity);
+    if (rarityIdx == null) return;
+
+    const category = rewardCategoryForOption(t.reward_option);
+    if (!category) return;
+
+    const arr = rewardDistributionMap.get(category);
+    if (!arr) return;
+    arr[rarityIdx] += 1;
+  });
+
+  const rewardDistributionByTileRarity = rewardDistributionCategories
+    .map(category => {
+      const counts = rewardDistributionMap.get(category) || TILE_RARITIES.map(() => 0);
+      const total = counts.reduce((sum, v) => sum + v, 0);
+      return { category, counts, total };
+    })
+    .filter(r => r.total > 0);
+
+  const rewardDistributionTotalsByTileRarity = TILE_RARITIES.map((_, idx) =>
+    rewardDistributionByTileRarity.reduce((sum, row) => sum + (row.counts[idx] || 0), 0)
+  );
+
+  const expRankById = new Map(expeditions.map(e => [e.id, e.site_rank]));
+  const tileRarityByRankMap = new Map();
+  SITE_RANKS.forEach(rank => {
+    tileRarityByRankMap.set(rank, TILE_RARITIES.map(() => 0));
+  });
+
+  uniqueTiles.forEach(t => {
+    const rank = expRankById.get(t.expedition_id);
+    const arr = tileRarityByRankMap.get(rank);
+    const rarityIdx = tileRarityIndex.get(t.tile_rarity);
+    if (!arr || rarityIdx == null) return;
+    arr[rarityIdx] += 1;
+  });
+
+  const tileRarityByRank = SITE_RANKS.map(rank => {
+    const counts = tileRarityByRankMap.get(rank) || TILE_RARITIES.map(() => 0);
+    const total = counts.reduce((sum, v) => sum + v, 0);
+    return { rank, counts, total };
+  });
+
+  const tileRarityByRankTotals = SITE_RANKS.map(rank => {
+    const row = tileRarityByRank.find(r => r.rank === rank);
+    return row?.total || 0;
+  });
+
   // avg AP by site rank (per tile)
   const siteApByRank = SITE_RANKS.map(rank => {
     const rankExpIds = new Set(expeditions.filter(e => e.site_rank === rank).map(e => e.id));
@@ -1998,6 +2289,10 @@ function computeStats(expeditions, tiles, rewards) {
     pouchAppearanceTotal,
     pouchAppearanceAll,
     pouchAppearanceAllTotal,
+    rewardDistributionByTileRarity,
+    rewardDistributionTotalsByTileRarity,
+    tileRarityByRank,
+    tileRarityByRankTotals,
     siteApByRank,
     matchEffects,
     bothMatchStats,
