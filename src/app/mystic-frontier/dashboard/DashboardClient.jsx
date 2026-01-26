@@ -1148,7 +1148,7 @@ export default function DashboardClient() {
               </div>
             </ChartCard>
 
-            <ChartCard title="Rewards by Tile Rarity (Selected Tiles)">
+            <ChartCard title="Rewards by Tile Rarity (All Tiles)">
               <div className="w-full" style={{ height: 360, minWidth: 200 }}>
                 <Bar
                   data={rewardDistributionByTileRarityData}
@@ -2019,7 +2019,8 @@ function computeStats(expeditions, tiles, rewards) {
     return null;
   };
 
-  selectedTileRecords.forEach(t => {
+  const appearedTileOptionRecords = Array.from(optionRecordsByTileKey.values()).flat();
+  appearedTileOptionRecords.forEach(t => {
     const rarity = t.tile_rarity;
     const rarityIdx = tileRarityIndex.get(rarity);
     if (rarityIdx == null) return;
