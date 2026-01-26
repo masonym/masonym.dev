@@ -118,6 +118,13 @@ export default function DashboardClient() {
   const [expeditions, setExpeditions] = useState([]);
   const [tiles, setTiles] = useState([]);
   const [rewards, setRewards] = useState([]);
+
+  const formatCountPct = (count, denom) => {
+    const c = Number(count ?? 0);
+    const d = Number(denom ?? 0);
+    const pct = d > 0 ? ((c / d) * 100).toFixed(1) : '0.0';
+    return `${c} (${pct}%)`;
+  };
   
   // filters
   const [filterRank, setFilterRank] = useState('all');
@@ -1123,9 +1130,9 @@ export default function DashboardClient() {
                         <tr key={rank} className="border-t border-[var(--primary-dim)]">
                           <td className="p-2 text-[var(--primary)] whitespace-nowrap">{rank}</td>
                           {counts.map((c, idx) => (
-                            <td key={idx} className="p-2 text-right text-[var(--secondary)]">{c}</td>
+                            <td key={idx} className="p-2 text-right text-[var(--secondary)]">{formatCountPct(c, total)}</td>
                           ))}
-                          <td className="p-2 text-right text-[var(--secondary)]">{total}</td>
+                          <td className="p-2 text-right text-[var(--secondary)]">{formatCountPct(total, tileRarityByRankTotals.reduce((sum, v) => sum + v, 0))}</td>
                         </tr>
                       );
                     })}
@@ -1133,14 +1140,14 @@ export default function DashboardClient() {
                       <td className="p-2 text-[var(--primary-dim)]">Total</td>
                       {TILE_RARITIES.map((_, idx) => (
                         <td key={idx} className="p-2 text-right text-[var(--primary-dim)]">
-                          {SITE_RANKS.reduce((sum, rank) => {
+                          {formatCountPct(SITE_RANKS.reduce((sum, rank) => {
                             const row = tileRarityByRankRows.find(r => r.rank === rank);
                             return sum + (row?.counts?.[idx] || 0);
-                          }, 0)}
+                          }, 0), tileRarityByRankTotals.reduce((sum, v) => sum + v, 0))}
                         </td>
                       ))}
                       <td className="p-2 text-right text-[var(--primary-dim)]">
-                        {tileRarityByRankTotals.reduce((sum, v) => sum + v, 0)}
+                        {formatCountPct(tileRarityByRankTotals.reduce((sum, v) => sum + v, 0), tileRarityByRankTotals.reduce((sum, v) => sum + v, 0))}
                       </td>
                     </tr>
                   </tbody>
@@ -1171,23 +1178,25 @@ export default function DashboardClient() {
                     {(displayStats.rewardDistributionByTileRarity || []).map(row => {
                       const isPouch = POUCH_TYPES.includes(row.category);
                       const label = isPouch ? row.category : row.category;
+                      const rowTotal = row.total || 0;
+                      const grandTotal = rewardDistributionTotalsByRarity.reduce((sum, v) => sum + v, 0);
                       return (
                         <tr key={row.category} className="border-t border-[var(--primary-dim)]">
                           <td className="p-2 text-[var(--primary)] whitespace-nowrap">{label}</td>
                           {row.counts.map((c, idx) => (
-                            <td key={idx} className="p-2 text-right text-[var(--secondary)]">{c}</td>
+                            <td key={idx} className="p-2 text-right text-[var(--secondary)]">{formatCountPct(c, rowTotal)}</td>
                           ))}
-                          <td className="p-2 text-right text-[var(--secondary)]">{row.total}</td>
+                          <td className="p-2 text-right text-[var(--secondary)]">{formatCountPct(rowTotal, grandTotal)}</td>
                         </tr>
                       );
                     })}
                     <tr className="border-t border-[var(--primary-dim)] bg-[var(--background)]">
                       <td className="p-2 text-[var(--primary-dim)]">Total</td>
                       {rewardDistributionTotalsByRarity.map((t, idx) => (
-                        <td key={idx} className="p-2 text-right text-[var(--primary-dim)]">{t}</td>
+                        <td key={idx} className="p-2 text-right text-[var(--primary-dim)]">{formatCountPct(t, rewardDistributionTotalsByRarity.reduce((sum, v) => sum + v, 0))}</td>
                       ))}
                       <td className="p-2 text-right text-[var(--primary-dim)]">
-                        {rewardDistributionTotalsByRarity.reduce((sum, v) => sum + v, 0)}
+                        {formatCountPct(rewardDistributionTotalsByRarity.reduce((sum, v) => sum + v, 0), rewardDistributionTotalsByRarity.reduce((sum, v) => sum + v, 0))}
                       </td>
                     </tr>
                   </tbody>
