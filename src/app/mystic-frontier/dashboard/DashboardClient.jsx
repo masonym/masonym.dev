@@ -259,6 +259,65 @@ export default function DashboardClient() {
     },
   };
 
+  const tileRarityByRoundRows = displayStats.tileRarityByRound || [];
+  const tileRarityByRoundTotals = displayStats.tileRarityByRoundTotals || [1, 2, 3, 4, 5].map(() => 0);
+  const tileRarityByRoundChartData = {
+    labels: [1, 2, 3, 4, 5].map(r => `Round ${r}`),
+    datasets: TILE_RARITIES.map((rarity) => {
+      const color = TILE_RARITY_CONFIG[rarity]?.color || '#6b7280';
+      const data = [1, 2, 3, 4, 5].map((roundNum) => {
+        const row = tileRarityByRoundRows.find(r => r.roundNumber === roundNum);
+        const idx = TILE_RARITIES.indexOf(rarity);
+        return row?.counts?.[idx] || 0;
+      });
+
+      return {
+        label: rarity,
+        data,
+        backgroundColor: color,
+        borderColor: 'rgba(0,0,0,0.35)',
+        borderWidth: 1,
+        borderRadius: 6,
+        stack: 'tileRarityRound',
+      };
+    }),
+  };
+
+  const tileRarityByRoundChartOptions = {
+    ...baseOptions,
+    scales: {
+      x: {
+        ...baseOptions.scales.x,
+        stacked: true,
+      },
+      y: {
+        ...baseOptions.scales.y,
+        stacked: true,
+      },
+    },
+    plugins: {
+      ...baseOptions.plugins,
+      tooltip: {
+        ...baseOptions.plugins.tooltip,
+        callbacks: {
+          label: (ctx) => {
+            const label = ctx.dataset.label || '';
+            const value = Number(ctx.raw ?? 0);
+            const denom = tileRarityByRoundTotals?.[ctx.dataIndex] || 0;
+            const pct = denom > 0 ? ((value / denom) * 100).toFixed(1) : '0.0';
+            return `${label}: ${value} (${pct}%)`;
+          },
+        },
+      },
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: '#e5e7eb',
+        },
+      },
+    },
+  };
+
   const expeditionsByRankData = {
     labels: displayStats.expeditionsByRank.map(d => d.rank),
     datasets: [
@@ -922,6 +981,59 @@ export default function DashboardClient() {
                     },
                   }}
                 />
+              </div>
+            </ChartCard>
+
+            <ChartCard title="Tile Rarity by Round">
+              <div className="w-full" style={{ height: 360, minWidth: 200 }}>
+                <Bar
+                  data={tileRarityByRoundChartData}
+                  options={tileRarityByRoundChartOptions}
+                />
+              </div>
+
+              <div className="mt-4 overflow-x-auto rounded border border-[var(--primary-dim)]">
+                <table className="min-w-full text-sm">
+                  <thead className="bg-[var(--background)]">
+                    <tr>
+                      <th className="text-left p-2 text-[var(--primary-dim)]">Round</th>
+                      {TILE_RARITIES.map(r => (
+                        <th key={r} className="text-right p-2 text-[var(--primary-dim)]">{r}</th>
+                      ))}
+                      <th className="text-right p-2 text-[var(--primary-dim)]">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[1, 2, 3, 4, 5].map(roundNum => {
+                      const row = tileRarityByRoundRows.find(r => r.roundNumber === roundNum);
+                      const counts = row?.counts || TILE_RARITIES.map(() => 0);
+                      const total = counts.reduce((sum, v) => sum + v, 0);
+                      return (
+                        <tr key={roundNum} className="border-t border-[var(--primary-dim)]">
+                          <td className="p-2 text-[var(--primary)] whitespace-nowrap">Round {roundNum}</td>
+                          {counts.map((c, idx) => (
+                            <td key={idx} className="p-2 text-right text-[var(--secondary)]">{formatCountPct(c, total)}</td>
+                          ))}
+                          <td className="p-2 text-right text-[var(--secondary)]">{formatCountPct(total, tileRarityByRoundTotals.reduce((sum, v) => sum + v, 0))}</td>
+                        </tr>
+                      );
+                    })}
+                    <tr className="border-t border-[var(--primary-dim)] bg-[var(--background)]">
+                      <td className="p-2 text-[var(--primary-dim)]">Total</td>
+                      {TILE_RARITIES.map((_, idx) => (
+                        <td key={idx} className="p-2 text-right text-[var(--primary-dim)]">
+                          {formatCountPct([1, 2, 3, 4, 5].reduce((sum, roundNum) => {
+                            const row = tileRarityByRoundRows.find(r => r.roundNumber === roundNum);
+                            return sum + (row?.counts?.[idx] || 0);
+                          }, 0), tileRarityByRoundTotals.reduce((sum, v) => sum + v, 0))}
+                        </td>
+                      ))}
+                      <td className="p-2 text-right text-[var(--primary-dim)]">
+                        {formatCountPct(tileRarityByRoundTotals.reduce((sum, v) => sum + v, 0), tileRarityByRoundTotals.reduce((sum, v) => sum + v, 0))}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </ChartCard>
 
@@ -2079,6 +2191,30 @@ function computeStats(expeditions, tiles, rewards) {
     return row?.total || 0;
   });
 
+  const tileRarityByRoundMap = new Map();
+  [1, 2, 3, 4, 5].forEach(roundNum => {
+    tileRarityByRoundMap.set(roundNum, TILE_RARITIES.map(() => 0));
+  });
+
+  uniqueTiles.forEach(t => {
+    const roundNum = t.round_number;
+    const arr = tileRarityByRoundMap.get(roundNum);
+    const rarityIdx = tileRarityIndex.get(t.tile_rarity);
+    if (!arr || rarityIdx == null) return;
+    arr[rarityIdx] += 1;
+  });
+
+  const tileRarityByRound = [1, 2, 3, 4, 5].map(roundNum => {
+    const counts = tileRarityByRoundMap.get(roundNum) || TILE_RARITIES.map(() => 0);
+    const total = counts.reduce((sum, v) => sum + v, 0);
+    return { roundNumber: roundNum, counts, total };
+  });
+
+  const tileRarityByRoundTotals = [1, 2, 3, 4, 5].map(roundNum => {
+    const row = tileRarityByRound.find(r => r.roundNumber === roundNum);
+    return row?.total || 0;
+  });
+
   // avg AP by site rank (per tile)
   const siteApByRank = SITE_RANKS.map(rank => {
     const rankExpIds = new Set(expeditions.filter(e => e.site_rank === rank).map(e => e.id));
@@ -2303,6 +2439,8 @@ function computeStats(expeditions, tiles, rewards) {
     rewardDistributionTotalsByTileRarity,
     tileRarityByRank,
     tileRarityByRankTotals,
+    tileRarityByRound,
+    tileRarityByRoundTotals,
     siteApByRank,
     matchEffects,
     bothMatchStats,
