@@ -874,42 +874,45 @@ export const classes = {
         ]
     },
     "Kanna": {
-        "originSkill": "Hakumenkonmou Juubi",
-        "ascentSkill": "",
+        "originSkill": "[Divine Will] Advent of Crimson",
+        "ascentSkill": "[Divine Will] Final Rest",
         "masterySkills": [
-            "HEXA Shikigami Haunting",
-            "HEXA Vanquisher's Charm",
-            "HEXA Shikigami Doppelganger",
-            "HEXA Yosuzume",
-            "HEXA Nine-Tailed Fury",
-            "HEXA Nightghost Guide",
-            "HEXA Kishin Shoukan",
-            "HEXA Tengu Strike",
-            "HEXA Ghost Yaksha Boss",
+            "HEXA Soul-Shatter Talisman: Dance",
+            "HEXA Heart-Wreck Talisman",
+            "HEXA Summon Oni",
+            "HEXA [Order] Spinning Strike",
+            "HEXA [Order] Pulverizing Strike",
+            "HEXA Summon Tengu",
+            "HEXA [Order] Shade-Fletched Arrow",
+            "HEXA Summon Orochi",
+            "HEXA [Order] Execute"
         ],
         "boostSkills": [
-            "Yuki-musume Shoukan Boost",
-            "Spirit's Domain Boost",
-            "Liberated Spirit Circle Boost",
-            "Ghost Yaksha Bosses' Boss Boost"
+            "[Spirit] Hakumenkonmou Juubi Boost",
+            "[Spirit] Unleash the Radiant Flame Boost",
+            "[Spirit] Unleash Black-Winged Destruction Boost",
+            "[Spirit] Unleash Soul-Searing Venom Boost"
         ],
         "commonSkills": [
             "Sol Janus"
         ]
     },
     "Hayato": {
-        "originSkill": "Jin Quick Draw",
-        "ascentSkill": "",
+        "originSkill": "Shin Quick Draw",
+        "ascentSkill": "Fleeting Breath",
         "masterySkills": [
-            "HEXA Rai Sanrenzan",
-            "HEXA Rai Blade Flash",
-            "HEXA Shinsoku"
+            "HEXA [Shinsoku] Mist Slash",
+            "HEXA [Shinsoku] Afterimage Slash",
+            "HEXA [Shinsoku] Crescent Moon Cut",
+            "HEXA [Shinsoku] Silent Arc",
+            "HEXA [Battou] Dark Moon Cut",
+            "HEXA [Battou] Full Moon's Rage"
         ],
         "boostSkills": [
-            "Battoujutsu Zankou Boost",
-            "Iaijutsu Phantom Blade Boost",
-            "Battoujutsu Ultimate Will Boost",
-            "Instant Slice Boost"
+            "Shogetsu Form Boost",
+            "[Shinsoku] Crashing Tide Boost",
+            "[Shinsoku] Light Cutter Boost",
+            "[Battou] Wailing Heavens Boost"
         ],
         "commonSkills": [
             "Sol Janus"
@@ -1146,7 +1149,7 @@ export const classes = {
     },
     "Lynn": {
         "originSkill": "Source Flow",
-        "ascentSkill": "",
+        "ascentSkill": "Wild Hunt",
         "masterySkills": [
             "HEXA Strike",
             "HEXA Sneak Attack",
@@ -1168,7 +1171,7 @@ export const classes = {
     },
     "Mo Xuan": {
         "originSkill": "Soul Art: Jianghu Dragon",
-        "ascentSkill": "",
+        "ascentSkill": "Soul Art: Where Destiny Falls",
         "masterySkills": [
             "HEXA Xuanshan Arts [Tian]",
             "HEXA Xuanshan Arts [Di]",
@@ -1191,7 +1194,7 @@ export const classes = {
     },
     "Sia Astelle": {
         "originSkill": "Celestial Design",
-        "ascentSkill": "",
+        "ascentSkill": "Starlit Cosmos",
         "masterySkills": [
             "SHINE Ray"
         ],

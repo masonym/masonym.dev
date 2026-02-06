@@ -664,37 +664,37 @@ export const masteryDesignation = {
     },
     "Kanna": {
         "firstMastery": [
-            "HEXA Shikigami Haunting"
+            "HEXA Soul-Shatter Talisman: Dance",
+            "HEXA Heart-Wreck Talisman"
         ],
         "secondMastery": [
-            "HEXA Vanquisher's Charm"
+            "HEXA Summon Oni",
+            "HEXA [Order] Spinning Strike",
+            "HEXA [Order] Pulverizing Strike"
         ],
         "thirdMastery": [
-            "HEXA Shikigami Doppelganger",
-            "HEXA Yosuzume",
-            "HEXA Nine-Tailed Fury",
-            "HEXA Nightghost Guide",
+            "HEXA Summon Tengu",
+            "HEXA [Order] Shade-Fletched Arrow"
         ],
         "fourthMastery": [
-            "HEXA Kishin Shoukan",
-            "HEXA Tengu Strike",
-            "HEXA Ghost Yaksha Boss",
+            "HEXA Summon Orochi",
+            "HEXA [Order] Execute"
         ]
     },
     "Hayato": {
         "firstMastery": [
-            "HEXA Rai Blade Flash",
-            "HEXA Rai Sanrenzan"
+            "HEXA [Shinsoku] Mist Slash",
+            "HEXA [Shinsoku] Afterimage Slash"
         ],
         "secondMastery": [
-            "HEXA Shinsoku"
+            "HEXA [Shinsoku] Crescent Moon Cut",
+            "HEXA [Shinsoku] Silent Arc"
         ],
         "thirdMastery": [
-            "HEXA Falcon's Honor",
-            "HEXA Akatsuki Trace",
+            "HEXA [Battou] Dark Moon Cut"
         ],
         "fourthMastery": [
-            "HEXA Hitokiri Strike",
+            "HEXA [Battou] Full Moon's Rage"
         ]
     },
     "Adele": {
