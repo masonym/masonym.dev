@@ -6,6 +6,8 @@ import { formatShortformNumber } from '@/utils';
 export const bossData = [
     {
         name: "Zakum",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 180,
 
         pdr: '100%',
@@ -20,6 +22,8 @@ export const bossData = [
     },
     {
         name: "Magnus",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 190,
 
         pdr: '120%',
@@ -34,6 +38,8 @@ export const bossData = [
     },
     {
         name: "Hilla",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 190,
 
         pdr: '100%',
@@ -48,6 +54,8 @@ export const bossData = [
     },
     {
         name: "Papulatus",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 190,
 
         pdr: '250%',
@@ -63,6 +71,8 @@ export const bossData = [
     },
     {
         name: "Pierre",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 190,
 
         pdr: '80%',
@@ -77,6 +87,8 @@ export const bossData = [
     },
     {
         name: "Von Bon",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 190,
 
         pdr: '100%',
@@ -91,6 +103,8 @@ export const bossData = [
     },
     {
         name: "Crimson Queen",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 190,
 
         pdr: '120%',
@@ -105,6 +119,8 @@ export const bossData = [
     },
     {
         name: "Vellum",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 190,
 
         pdr: '200%',
@@ -119,6 +135,8 @@ export const bossData = [
     },
     {
         name: "Pink Bean",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 190,
 
         pdr: '100%',
@@ -133,6 +151,8 @@ export const bossData = [
     },
     {
         name: "Cygnus",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 140,
 
         pdr: '100%',
@@ -153,6 +173,8 @@ export const bossData = [
     },
     {
         name: "Princess No",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 160,
 
         pdr: '100%',
@@ -167,6 +189,8 @@ export const bossData = [
     },
     {
         name: "Akechi Mitsuhide",
+        category: "pre-lomien",
+        frequency: "weekly",
         level: 210,
 
         pdr: '300%',
@@ -182,7 +206,8 @@ export const bossData = [
     },
     {
         name: 'Gollux',
-
+        category: 'pre-lomien',
+        frequency: 'weekly',
         difficulties: [
             {
                 name: 'Hard',
@@ -210,7 +235,8 @@ export const bossData = [
     },
     {
         name: 'Lotus',
-
+        category: 'lomien-arcane',
+        frequency: 'weekly',
         difficulties: [
             {
                 name: 'Normal',
@@ -246,8 +272,9 @@ export const bossData = [
     },
     {
         name: "Damien",
+        category: "lomien-arcane",
+        frequency: "weekly",
         level: 210,
-
         pdr: '300%',
         difficulties: [
             {
@@ -268,8 +295,9 @@ export const bossData = [
     },
     {
         name: "Guardian Angel Slime",
+        category: "lomien-arcane",
+        frequency: "weekly",
         level: 220,
-
         pdr: '300%',
         difficulties: [
             {
@@ -288,6 +316,8 @@ export const bossData = [
     },
     {
         name: "Lucid",
+        category: "lomien-arcane",
+        frequency: "weekly",
         level: 230,
         pdr: '300%',
         difficulties: [
@@ -320,6 +350,8 @@ export const bossData = [
     },
     {
         name: "Will",
+        category: "lomien-arcane",
+        frequency: "weekly",
         pdr: '300%',
         difficulties: [
             {
@@ -359,6 +391,8 @@ export const bossData = [
     },
     {
         name: "Gloom",
+        category: "lomien-arcane",
+        frequency: "weekly",
         level: 255,
         pdr: '300%',
         difficulties: [
@@ -380,6 +414,8 @@ export const bossData = [
     },
     {
         name: "Darknell",
+        category: "lomien-arcane",
+        frequency: "weekly",
         level: 265,
         pdr: '300%',
         difficulties: [
@@ -401,6 +437,8 @@ export const bossData = [
     },
     {
         name: "Verus Hilla",
+        category: "lomien-arcane",
+        frequency: "weekly",
         level: 250,
         pdr: '300%',
         difficulties: [
@@ -422,6 +460,8 @@ export const bossData = [
     },
     {
         name: "Chosen Seren",
+        category: "grandis",
+        frequency: "weekly",
         pdr: '380%',
         difficulties: [
             {
@@ -456,6 +496,8 @@ export const bossData = [
     },
     {
         name: "Kalos the Guardian",
+        category: "grandis",
+        frequency: "weekly",
         pdr: '380%',
         difficulties: [
             {
@@ -499,6 +541,8 @@ export const bossData = [
     },
     {
         name: "First Adversary",
+        category: "grandis",
+        frequency: "weekly",
         pdr: '380%',
         maxPartySize: 3,
         difficulties: [
@@ -546,6 +590,8 @@ export const bossData = [
     },
     {
         name: "Kaling",
+        category: "grandis",
+        frequency: "weekly",
         pdr: '380%',
         difficulties: [
             {
@@ -597,6 +643,8 @@ export const bossData = [
     },
     {
         name: "Limbo",
+        category: "grandis",
+        frequency: "weekly",
         pdr: '380%',
         maxPartySize: 3,
         difficulties: [
@@ -624,6 +672,8 @@ export const bossData = [
     },
     {
         name: "Baldrix",
+        category: "grandis",
+        frequency: "weekly",
         level: 290,
         sacRequirement: 700,
         pdr: "380%",
@@ -649,6 +699,8 @@ export const bossData = [
     },
     {
         name: "Black Mage",
+        category: "lomien-arcane",
+        frequency: "monthly",
         pdr: "300%",
         difficulties: [
             {

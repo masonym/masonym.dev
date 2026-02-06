@@ -218,18 +218,134 @@ const HPBar = ({ hpPhases, defaultLevel, defaultSac }) => {
 
 
 
+const STORAGE_KEY = 'boss-tracker-filters';
+
+const CATEGORY_OPTIONS = [
+    { value: 'pre-lomien', label: 'Pre-Lomien' },
+    { value: 'lomien-arcane', label: 'Lomien + Arcane River' },
+    { value: 'grandis', label: 'Grandis' },
+];
+
+const FREQUENCY_OPTIONS = [
+    { value: 'weekly', label: 'Weekly' },
+    { value: 'monthly', label: 'Monthly' },
+];
+
+const SORT_OPTIONS = [
+    { value: 'default', label: 'Default' },
+    { value: 'level-asc', label: 'Level ↑' },
+    { value: 'level-desc', label: 'Level ↓' },
+];
+
+const DEFAULT_FILTERS = {
+    categories: [],
+    frequencies: [],
+    sort: 'default',
+};
+
+const loadFilters = () => {
+    if (typeof window === 'undefined') return DEFAULT_FILTERS;
+    try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) return { ...DEFAULT_FILTERS, ...JSON.parse(stored) };
+    } catch {}
+    return DEFAULT_FILTERS;
+};
+
+const saveFilters = (filters) => {
+    if (typeof window === 'undefined') return;
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(filters));
+    } catch {}
+};
+
+const getBossLevel = (boss) => boss.level || boss.difficulties[0]?.level || 0;
+
+const MultiFilterPills = ({ options, selected, onChange, label }) => {
+    const toggle = (value) => {
+        const next = selected.includes(value)
+            ? selected.filter(v => v !== value)
+            : [...selected, value];
+        onChange(next);
+    };
+
+    return (
+        <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-semibold text-primary uppercase tracking-wider">{label}</span>
+            <div className="flex flex-wrap gap-1.5">
+                {options.map(opt => (
+                    <button
+                        key={opt.value}
+                        onClick={() => toggle(opt.value)}
+                        className={`px-3 py-1.5 text-sm rounded-full transition-colors duration-200 ${
+                            selected.length === 0 || selected.includes(opt.value)
+                                ? 'bg-secondary text-primary-dark font-semibold'
+                                : 'bg-background-bright text-primary hover:bg-background-dim'
+                        }`}
+                    >
+                        {opt.label}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const FilterPills = ({ options, value, onChange, label }) => (
+    <div className="flex flex-col gap-1.5">
+        <span className="text-xs font-semibold text-primary uppercase tracking-wider">{label}</span>
+        <div className="flex flex-wrap gap-1.5">
+            {options.map(opt => (
+                <button
+                    key={opt.value}
+                    onClick={() => onChange(opt.value)}
+                    className={`px-3 py-1.5 text-sm rounded-full transition-colors duration-200 ${
+                        value === opt.value
+                            ? 'bg-secondary text-primary-dark font-semibold'
+                            : 'bg-background-bright text-primary hover:bg-background-dim'
+                    }`}
+                >
+                    {opt.label}
+                </button>
+            ))}
+        </div>
+    </div>
+);
+
 const BossesPageClient = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [hidePreLomien, setHidePreLomien] = useState(true);
+    const [filters, setFilters] = useState(loadFilters);
+
+    const updateFilter = (key, value) => {
+        setFilters(prev => {
+            const next = { ...prev, [key]: value };
+            saveFilters(next);
+            return next;
+        });
+    };
 
     const filteredBosses = useMemo(() => {
-        return bossData
-            .filter(boss => {
-                const matchesSearch = boss.name.toLowerCase().includes(searchTerm.toLowerCase());
-                const meetsHPThreshold = !hidePreLomien || boss.difficulties.some(d => calculateTotalHP(d.hpPhases) >= 1e12);
-                return matchesSearch && meetsHPThreshold;
-            })
-    }, [searchTerm, hidePreLomien]);
+        let result = bossData.filter(boss => {
+            if (searchTerm && !boss.name.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+            if (filters.categories.length > 0 && !filters.categories.includes(boss.category)) return false;
+            if (filters.frequencies.length > 0 && !filters.frequencies.includes(boss.frequency)) return false;
+            return true;
+        });
+
+        if (filters.sort !== 'default') {
+            result = [...result].sort((a, b) => {
+                switch (filters.sort) {
+                    case 'level-asc': return getBossLevel(a) - getBossLevel(b);
+                    case 'level-desc': return getBossLevel(b) - getBossLevel(a);
+                    default: return 0;
+                }
+            });
+        }
+
+        return result;
+    }, [searchTerm, filters]);
+
+    const hasActiveFilters = filters.categories.length > 0 || filters.frequencies.length > 0 || filters.sort !== 'default';
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -238,38 +354,61 @@ const BossesPageClient = () => {
                 <p className="text-lg text-primary-dim mt-2 max-w-2xl mx-auto">An overview of MapleStory bosses, their stats, and HP values.</p>
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                <input
-                    type="text"
-                    placeholder="Search for a boss..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full md:w-1/3 bg-background-dark text-primary-dim rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-secondary"
-                />
-                <div className="flex items-center gap-4">
-                    <label className="flex items-center cursor-pointer">
-                        <div className="relative">
-                            <input
-                                type="checkbox"
-                                className="sr-only"
-                                checked={hidePreLomien}
-                                onChange={() => setHidePreLomien(!hidePreLomien)}
-                            />
-                            <div className="block bg-background-dim w-14 h-8 rounded-full"></div>
-                            <div className={`dot absolute left-1 top-1 bg-primary-dark w-6 h-6 rounded-full transition ${hidePreLomien ? 'transform translate-x-full bg-secondary' : ''}`}></div>
-                        </div>
-                        <div className="ml-3 text-primary-bright font-medium">
-                            Hide pre-Lomien
-                        </div>
-                    </label>
+            <div className="flex flex-col gap-4 mb-8">
+                <div className="flex flex-col sm:flex-row gap-3 items-center">
+                    <input
+                        type="text"
+                        placeholder="Search for a boss..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full sm:w-64 bg-background-dark text-primary-dim rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-secondary"
+                    />
+                    {hasActiveFilters && (
+                        <button
+                            onClick={() => {
+                                setFilters(DEFAULT_FILTERS);
+                                saveFilters(DEFAULT_FILTERS);
+                            }}
+                            className="text-sm text-secondary hover:text-secondary-bright transition-colors"
+                        >
+                            Reset filters
+                        </button>
+                    )}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
+                    <MultiFilterPills
+                        label="Region"
+                        options={CATEGORY_OPTIONS}
+                        selected={filters.categories}
+                        onChange={(v) => updateFilter('categories', v)}
+                    />
+                    <MultiFilterPills
+                        label="Frequency"
+                        options={FREQUENCY_OPTIONS}
+                        selected={filters.frequencies}
+                        onChange={(v) => updateFilter('frequencies', v)}
+                    />
+                    <FilterPills
+                        label="Sort"
+                        options={SORT_OPTIONS}
+                        value={filters.sort}
+                        onChange={(v) => updateFilter('sort', v)}
+                    />
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {filteredBosses.map(boss => (
-                    <BossCard key={boss.name} boss={boss} />
-                ))}
-            </div>
+            {filteredBosses.length === 0 ? (
+                <div className="text-center py-16 text-primary-dim">
+                    <p className="text-lg">No bosses match your filters.</p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {filteredBosses.map(boss => (
+                        <BossCard key={boss.name} boss={boss} />
+                    ))}
+                </div>
+            )}
 
             <footer className="text-center mt-12 text-primary-dim text-sm">
                 <p>Disclaimer: Boss HP values are estimated and sourced from the <a href="https://maplestory.wiki/" target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-secondary-bright hover:underline">MapleStory Wiki</a>.</p>
