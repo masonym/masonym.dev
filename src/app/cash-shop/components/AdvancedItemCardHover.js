@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import Image from 'next/image';
-import { formatPriceDisplay, convertNewlinesToBreaks, formatSaleTimesDate, calculateDateDifference, magicText, worldNumbersToString } from '@/utils';
+import { formatPriceDisplay, convertNewlinesToBreaks, formatSaleTimesDate, calculateDateDifference, magicText, worldNumbersToString, formatPurchaseLimit } from '@/utils';
 import AdvancedPackageContents from './AdvancedPackageContents';
 import itemBase from '../assets/itemBase.png';
 
@@ -56,6 +56,9 @@ const AdvancedItemCardHover = ({ itemKey, item, position, isTouchDevice, hoverCa
             </div>
             <AdvancedPackageContents contents={item.packageContents} />
             <hr className="border-t-2 border-dotted border-gray-200 my-[2.5%]" />
+            {formatPurchaseLimit(item.limit) && <p className="text-white mb-2">
+                {formatPurchaseLimit(item.limit)}
+            </p>}
             <p className="text-white">
                 {formatPriceDisplay(item.originalPrice, item.price, item.sn_id, item.discount)}
             </p>

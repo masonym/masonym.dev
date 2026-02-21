@@ -88,6 +88,12 @@ export const magicText = (itemID) => {
   return magicText
 }
 
+export const formatPurchaseLimit = (limit) => {
+  let limitText = "Purchase Limit: "
+  parseInt(limit) ? limitText += limit : limitText = null
+  return limitText
+}
+
 export const formatPriceDisplay = (originalPrice, price, sn_id, discount) => {
   const formatNumber = (number) => number.toLocaleString(); // Add your number formatting logic here if needed
   const originalPriceNum = Number(originalPrice);
