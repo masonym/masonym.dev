@@ -1075,6 +1075,52 @@ export const sunnySundaySchedule = [
     ],
     source: 'Patch Notes',
   },
+{
+    date: '2026-03-22',
+    events:[
+      'magnificent_souls',
+      'rune_cooldown',
+      'rune_exp',
+      'combo_kill_exp',
+      'treasure_hunter_exp',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2026-03-29',
+    events:[
+      'star_force_protection',
+      'ability_reset_discount',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2026-04-05',
+    events:[
+      'treasure_hunter_exp',
+      'monster_park_exp',
+      'monster_collection',
+      'monsterblooms',
+      'elite_monster_spawn',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2026-04-12',
+    events: [
+      'shining_star_force',
+    ],
+    source: 'Patch Notes',
+  },
+  {
+    date: '2026-04-19',
+    events:[
+      'sol_erda_2x',
+      'rune_cooldown',
+      'rune_exp',
+    ],
+    source: 'Patch Notes',
+  },
 ];
 
 // helper to resolve event data from id or custom object
