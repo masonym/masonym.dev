@@ -53,7 +53,6 @@ function VersionToggleSpotlight({ onDismiss }) {
       <div className="fixed bottom-24 right-4 z-50 max-w-xs">
         <div className="bg-background border border-secondary rounded-lg p-4 shadow-xl">
           <div className="flex items-start gap-2 mb-2">
-            <span className="text-secondary text-xl">✨</span>
             <h3 className="text-primary-bright font-bold">Version Toggle</h3>
           </div>
           <p className="text-primary text-sm mb-3">
