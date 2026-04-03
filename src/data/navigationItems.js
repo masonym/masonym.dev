@@ -24,6 +24,7 @@ export const navigationItems = [
             { name: "Cash Shop", href: "/cash-shop", image: "/images/cash-shop.png" },
             { name: "Boss Info", href: "/bosses", image: "/images/bosses.png" },
             { name: "Sunny Sunday", href: "/sunny-sunday", image: "/images/sunny-sunday.png" },
+            { name: "Action Delays", href: "/action-delays", new: true },
         ],
     },
     {
