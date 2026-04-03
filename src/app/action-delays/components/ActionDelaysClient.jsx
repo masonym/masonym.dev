@@ -262,7 +262,6 @@ function Preamble() {
         {/* attributions section */}
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">References & Attributions</h3>
-          <p className="text-primary-dim text-sm">
           <ul className="list-disc list-inside space-y-2 text-primary-dim mb-2">
               <li>
             <a href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
@@ -283,7 +282,6 @@ function Preamble() {
             Credits to Jaepy for asking me to look into this in the first place - this was fun to investigate and compile :)
             </li>
             </ul>
-          </p>
         </div>
 
         <p className="text-primary-dim text-sm">
