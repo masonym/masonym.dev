@@ -262,7 +262,7 @@ function Preamble() {
 
         {/* attributions section */}
         <div className="bg-background-dim rounded-lg p-4">
-          <h3 className="text-lg font-bold text-secondary mb-2">References</h3>
+          <h3 className="text-lg font-bold text-secondary mb-2">References & Attributions</h3>
           <p className="text-primary-dim text-sm">
           <ul className="list-disc list-inside space-y-2 text-primary-dim mb-2">
               <li>
@@ -275,6 +275,14 @@ function Preamble() {
             Comment by /u/hailcrest in the above thread explaining the 30ms floor effect
             </a>
               </li>
+              <li>
+            <a href="https://forums.maplestory.nexon.net/discussion/35795/certain-skills-not-working-properly-with-as10#latest" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
+            Nexon forum post about skills not working properly with AS10
+            </a>
+              </li>
+              <li>
+            Credits to Jaepy for asking me to look into this in the first place - this was fun to investigate and compile :)
+            </li>
             </ul>
           </p>
         </div>
