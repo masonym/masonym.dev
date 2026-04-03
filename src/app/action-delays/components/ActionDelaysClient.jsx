@@ -145,8 +145,8 @@ function Preamble() {
             Attack Speed often uses two opposite naming conventions, which can be confusing:
           </p>
           <ul className="list-disc list-inside space-y-1 text-primary-dim">
-            <li><strong className="text-primary-bright">Stage 1–10:</strong> The in-game wording. Stage 10 is the <em>fastest</em>.</li>
-            <li><strong className="text-primary-bright">AS0–AS9:</strong> Historical player convention. AS0 is the <em>fastest</em> (AS = 10 - Stage).</li>
+            <li><strong className="text-primary-bright">Stage 1-10:</strong> The in-game wording. Stage 10 is the <em>fastest</em>.</li>
+            <li><strong className="text-primary-bright">AS0-AS9:</strong> Historical player convention. AS0 is the <em>fastest</em> (AS = 10 - Stage).</li>
           </ul>
           <p className="mt-2 text-primary-dim text-sm">
             This page uses both: "Stage" for calculations, "AS" for display. Stage 10 = AS0 = fastest possible.
