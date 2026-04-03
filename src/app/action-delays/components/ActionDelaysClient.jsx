@@ -386,15 +386,17 @@ function SkillCard({ skill }) {
                 <h5 className="text-sm font-bold text-primary mb-2">Base Frames (AS4)</h5>
                 <div className="flex flex-wrap gap-1">
                   {skill.frames.map((frame, idx) => {
+                    const isLastFrame = idx === skill.frames.length - 1;
                     const hitsFloor = frameHitsFloor(frame, 10);
+                    const showPenalty = isLastFrame && hitsFloor;
                     return (
                       <span
                         key={idx}
-                        className={`px-2 py-1 rounded text-xs font-mono ${hitsFloor
+                        className={`px-2 py-1 rounded text-xs font-mono ${showPenalty
                           ? 'bg-yellow-500/20 text-secondary border border-yellow-500/30'
                           : 'bg-background-dim text-primary'
                           }`}
-                        title={hitsFloor ? 'Hits 30ms floor at AS0' : ''}
+                        title={showPenalty ? 'Last frame hits 30ms floor at AS0' : ''}
                       >
                         {frame}ms
                       </span>
@@ -466,20 +468,24 @@ function SkillCard({ skill }) {
                             </tr>
                           </thead>
                           <tbody>
-                            {computeScaledFrames(skill.frames, selectedStage).map((frame, idx) => (
-                              <tr
-                                key={idx}
-                                className={frame.hitsFloor ? 'text-secondary' : 'text-primary'}
-                              >
-                                <td className="py-1 px-2">{idx + 1}</td>
-                                <td className="text-right py-1 px-2 font-mono">{frame.original}ms</td>
-                                <td className="text-right py-1 px-2 font-mono">{frame.scaled.toFixed(2)}ms</td>
-                                <td className="text-right py-1 px-2 font-mono font-bold">{frame.actual.toFixed(2)}ms</td>
-                                <td className="text-right py-1 px-2 font-mono">
-                                  {frame.hitsFloor ? `+${frame.penalty.toFixed(2)}ms` : '-'}
-                                </td>
-                              </tr>
-                            ))}
+                            {computeScaledFrames(skill.frames, selectedStage).map((frame, idx, arr) => {
+                              const isLastFrame = idx === arr.length - 1;
+                              const showPenalty = isLastFrame && frame.hitsFloor;
+                              return (
+                                <tr
+                                  key={idx}
+                                  className={showPenalty ? 'text-secondary' : 'text-primary'}
+                                >
+                                  <td className="py-1 px-2">{idx + 1}</td>
+                                  <td className="text-right py-1 px-2 font-mono">{frame.original}ms</td>
+                                  <td className="text-right py-1 px-2 font-mono">{frame.scaled.toFixed(2)}ms</td>
+                                  <td className="text-right py-1 px-2 font-mono font-bold">{frame.actual.toFixed(2)}ms</td>
+                                  <td className="text-right py-1 px-2 font-mono">
+                                    {showPenalty ? `+${frame.penalty.toFixed(2)}ms` : '-'}
+                                  </td>
+                                </tr>
+                              );
+                            })}
                           </tbody>
                           <tfoot className="border-t border-primary-dim/30">
                             <tr className="text-primary-bright font-bold">
@@ -630,6 +636,57 @@ function ClassAccordion({ className, skills }) {
           >
             <div className="p-4 border-t border-primary-dim/20">
               <JobTabs skills={skills} className={className} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// affected skills section - shows all skills with 30ms last-frame penalty
+function AffectedSkillsSection({ skills }) {
+  const [collapsed, setCollapsed] = useState(true);
+
+  if (skills.length === 0) return null;
+
+  return (
+    <div className="mb-8 bg-background-dim rounded-xl border border-yellow-500/30 overflow-hidden">
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        className="w-full px-4 py-3 flex items-center justify-between hover:bg-primary-dark/50 transition-colors"
+      >
+        <div className="flex items-center gap-3">
+          <span className="text-lg font-bold text-secondary">Skills Affected by 30ms Last-Frame Penalty</span>
+          <span className="text-sm text-primary">({skills.length} skills)</span>
+        </div>
+        <motion.span
+          animate={{ rotate: collapsed ? -90 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="text-secondary"
+        >
+          ▼
+        </motion.span>
+      </button>
+
+      <AnimatePresence>
+        {!collapsed && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="p-4 border-t border-yellow-500/30">
+              <p className="text-primary text-sm mb-4">
+                These skills have a 30ms frame as their last animation frame, causing them to benefit less from attack speed at AS0.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {skills.map(skill => (
+                  <SkillCard key={`${skill.className}-${skill.id}`} skill={skill} />
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
@@ -814,6 +871,28 @@ export default function ActionDelaysClient() {
     return skillsData.jobs.reduce((sum, job) => sum + job.skills.length, 0);
   }, [skillsData]);
 
+  // collect all skills with 30ms last-frame penalty
+  const affectedSkills = useMemo(() => {
+    const affected = [];
+    skillsData.jobs.forEach(job => {
+      job.skills.forEach(skill => {
+        const lastFrame = skill.frames[skill.frames.length - 1];
+        if (frameHitsFloor(lastFrame, 10)) {
+          affected.push({
+            ...skill,
+            className: job.name,
+          });
+        }
+      });
+    });
+    // sort by class name, then skill name
+    return affected.sort((a, b) => {
+      const classCompare = a.className.localeCompare(b.className);
+      if (classCompare !== 0) return classCompare;
+      return a.name.localeCompare(b.name);
+    });
+  }, [skillsData]);
+
   return (
     <>
       {/* spotlight overlay for first-time visitors */}
@@ -830,6 +909,8 @@ export default function ActionDelaysClient() {
         </div>
 
         <Preamble />
+
+        {/* <AffectedSkillsSection skills={affectedSkills} /> */}
 
         {/* version toggle - fixed */}
         <div className="fixed bottom-4 right-4 z-50 bg-background/95 backdrop-blur-sm py-2 px-3 rounded-lg border border-primary-dim/30 shadow-lg">
