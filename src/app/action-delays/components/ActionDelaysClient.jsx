@@ -190,7 +190,7 @@ function Preamble() {
             If a scaled frame would be less than 30ms, it gets rounded up to 30ms.
           </p>
           <p className="mb-2">
-            As a result of the multiplier at Stage 10 attack speed, this means <strong className="text-secondary">any skill </strong> with at least one frame at 30ms will benefit less from attack speed than skills without, even if their total delays are identical.
+            As a result of the multiplier at Stage 10 attack speed, this means <strong className="text-secondary">any skill </strong> with a 30ms frame as its <em>last</em> frame will benefit less from attack speed than skills without, even if their total delays are identical.
           </p>
           <div className="bg-background rounded-lg p-3 text-sm mb-2">
             <p className="text-primary mb-1"><strong className="text-primary-bright">Example:</strong></p>
@@ -315,7 +315,9 @@ function SkillCard({ skill }) {
 
   // count frames that hit the floor at stage 10
   const floorHits = skill.frames.filter(f => frameHitsFloor(f, 10)).length;
-  const hasFloorPenalty = floorHits > 0;
+  // penalty only applies if the LAST frame hits the 30ms floor
+  const lastFrame = skill.frames[skill.frames.length - 1];
+  const hasFloorPenalty = frameHitsFloor(lastFrame, 10);
   const floorPenaltyAmount = fastestDelay - theoreticalFastest;
 
   return (
