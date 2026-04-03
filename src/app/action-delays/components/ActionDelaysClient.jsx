@@ -235,6 +235,19 @@ function Preamble() {
           </p>
         </div>
 
+        <div className="bg-background-dim rounded-lg p-4 border border-yellow-500/30">
+          <h3 className="text-lg font-bold text-secondary mb-2">Updated Assumption: Last Frame Only</h3>
+          <p className="mb-2">
+            The initial version of this page lacked the following assumption: This page operates under the assumption that the 30ms floor penalty <strong className="text-secondary">only applies when the last frame</strong> of a skill's animation is 30ms.
+          </p>
+          <p className="mb-2">
+            Skills with 30ms frames earlier in the animation (but not as the final frame) do not appear to suffer from this penalty in practice.
+          </p>
+          <p className="text-primary text-sm">
+            <strong className="text-primary-bright">Note:</strong> This is currently an assumption based on in-game testing and observation, not confirmed game code. The behavior appears consistent with this model, but may not be 100% accurate.
+          </p>
+        </div>
+
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">When and Why This Matters</h3>
           <ul className="list-disc list-inside space-y-2 text-primary">
