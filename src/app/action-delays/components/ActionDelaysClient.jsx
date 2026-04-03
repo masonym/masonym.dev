@@ -59,7 +59,7 @@ function VersionToggleSpotlight({ onDismiss }) {
             You can switch between v266 and v267 to compare skill delay data before and after the big balance patch.
           </p>
           <div className="flex items-center justify-between">
-            <span className="text-primary-dim text-xs">Press <kbd className="bg-primary-dark px-1.5 py-0.5 rounded text-primary-bright">Esc</kbd> or click anywhere to dismiss</span>
+            <span className="text-primary text-xs">Press <kbd className="bg-primary-dark px-1.5 py-0.5 rounded text-primary-bright">Esc</kbd> or click anywhere to dismiss</span>
           </div>
         </div>
         {/* arrow pointing down to the toggle */}
@@ -144,11 +144,11 @@ function Preamble() {
           <p className="mb-2">
             Attack Speed often uses two opposite naming conventions, which can be confusing:
           </p>
-          <ul className="list-disc list-inside space-y-1 text-primary-dim">
+          <ul className="list-disc list-inside space-y-1 text-primary">
             <li><strong className="text-primary-bright">Stage 1-10:</strong> The in-game wording. Stage 10 is the <em>fastest</em>.</li>
             <li><strong className="text-primary-bright">AS0-AS9:</strong> Historical player convention. AS0 is the <em>fastest</em> (AS = 10 - Stage).</li>
           </ul>
-          <p className="mt-2 text-primary-dim text-sm">
+          <p className="mt-2 text-primary text-sm">
             This page uses both: "Stage" for calculations, "AS" for display. Stage 10 = AS0 = fastest possible.
           </p>
         </div>
@@ -161,7 +161,7 @@ function Preamble() {
           <div className="bg-background rounded-lg p-3 font-mono text-sm text-center mb-2">
             <span className="text-secondary">scaled frame</span> = frame × <span className="text-secondary">(20 - stage)</span> / 16
           </div>
-          <p className="text-primary-dim text-sm">
+          <p className="text-primary text-sm">
             At Stage 4 (AS6, the "base" speed), the multiplier is exactly 1.0. For this reason, Stage 4 (AS6) is considered the "base" speed.
           </p>
         </div>
@@ -176,16 +176,16 @@ function Preamble() {
             As a result of the multiplier at Stage 10 attack speed, this means <strong className="text-yellow-400">any skill </strong> with at least one frame at 30ms will benefit less from attack speed than skills without, even if their total delays are identical.
           </p>
           <div className="bg-background rounded-lg p-3 text-sm mb-2">
-            <p className="text-primary-dim mb-1"><strong className="text-primary-bright">Example:</strong></p>
-            <p className="text-primary-dim">
+            <p className="text-primary mb-1"><strong className="text-primary-bright">Example:</strong></p>
+            <p className="text-primary">
               Skill A: 11 frames of 60ms each = 660ms total<br />
               Skill B: 10 frames of 60ms each and two frames of 30ms = 660ms total
             </p>
-            <p className="text-primary-dim mt-2">
+            <p className="text-primary mt-2">
               At AS0: Skill A → (660 * 0.625) = 412.5ms *<br />
               At AS0: Skill B → (660 * 0.625) = 412.5ms, but the (30 * 0.625) = 18.75ms frames are rounded to 30ms, resulting in a final attack speed of (600ms * 0.625) + (30ms + 30ms) = 435ms. **
             </p>
-            <p className="text-primary-dim mt-2 text-xs">
+            <p className="text-primary mt-2 text-xs">
               * This 412.5ms gets rounded up to 420ms. More on that up next.
               <br/>
               * This 435ms gets rounded up to 450ms. More on that up next.
@@ -201,12 +201,12 @@ function Preamble() {
            This difference can be amplified in other cases.
           </p>
           <div className="bg-background rounded-lg p-3 text-sm mb-2">
-            <p className="text-primary-dim mb-1"><strong className="text-primary-bright">Example:</strong></p>
-            <p className="text-primary-dim">
+            <p className="text-primary mb-1"><strong className="text-primary-bright">Example:</strong></p>
+            <p className="text-primary">
               Skill C: 420ms total delay at AS0<br />
               Skill D: 423.75ms total delay at AS0
             </p>
-            <p className="text-primary-dim mt-2">
+            <p className="text-primary mt-2">
               Skill D will be rounded to 450ms, turning a 3.75ms difference into a 30ms difference.
             </p>
           </div>
@@ -220,7 +220,7 @@ function Preamble() {
 
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">When and Why This Matters</h3>
-          <ul className="list-disc list-inside space-y-2 text-primary-dim">
+          <ul className="list-disc list-inside space-y-2 text-primary">
             <li>
               <strong className="text-primary-bright">Increased prevalence in v.267.</strong> As a result of the recent balance changes, many more classes have a 30ms frame in their main attacking skill than before. This issue has always existed, but was less common. One longstanding example is Kaiser's Gigas Wave.
             </li>
@@ -232,7 +232,7 @@ function Preamble() {
             </li>
             <li>
               Obviously, the existence of Stage 10 Attack Speed has been an unfair balance issue for many years, since it does not benefit hurricane classes. Given that KMS does not consider these effects when balancing, our version is even more out of balance.
-              <p className="text-primary-dim text-sm ml-4 mt-2">
+              <p className="text-primary text-sm ml-4 mt-2">
                 (not that nexon cares)
               </p>
             </li>
@@ -244,7 +244,7 @@ function Preamble() {
 
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">Reading the Skill Cards</h3>
-          <ul className="list-disc list-inside space-y-1 text-primary-dim">
+          <ul className="list-disc list-inside space-y-1 text-primary">
             <li><strong className="text-primary-bright">Base delay:</strong> Total frame duration at Stage 6 (AS4)</li>
             <li><strong className="text-primary-bright">→ Fastest delay:</strong> Total at Stage 10 (AS0). Yellow ⚠ indicates floor penalty.</li>
             <li><strong className="text-yellow-400">Yellow frames:</strong> These hit the 30ms floor at AS0</li>
@@ -253,7 +253,7 @@ function Preamble() {
           </ul>
         </div>
 
-        <p className="text-primary-dim text-sm">
+        <p className="text-primary text-sm">
           Data extracted from game files. Frame values are in milliseconds. 
           <br/>
           If you notice any errors or have suggestions for improvement, please let me know!
@@ -262,7 +262,7 @@ function Preamble() {
         {/* attributions section */}
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">References & Attributions</h3>
-          <ul className="list-disc list-inside space-y-2 text-primary-dim mb-2">
+          <ul className="list-disc list-inside space-y-2 text-primary mb-2">
               <li>
             <a href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
             Reddit post by /u/screeeeeeee investigating the attack speed-to-delay discrepancy in Gigas Wave (2022)
@@ -284,7 +284,7 @@ function Preamble() {
             </ul>
         </div>
 
-        <p className="text-primary-dim text-sm">
+        <p className="text-primary text-sm">
           If you notice any errors or have suggestions for improvement, please let me know!
         </p>
       </div>
@@ -328,14 +328,14 @@ function SkillCard({ skill }) {
           </div>
           <div className="flex-1 min-w-0">
             <h4 className="text-primary-bright font-bold truncate">{skill.name}</h4>
-            <p className="text-primary-dim text-sm truncate">{skill.action}</p>
+            <p className="text-primary text-sm truncate">{skill.action}</p>
           </div>
           <div className="text-right flex-shrink-0">
             <div className="text-primary-bright font-bold">{baseDelay}ms</div>
             <div className="text-sm">
               {hasFloorPenalty ? (
                 <span className="text-yellow-400" title={`Should be ${theoreticalFastest}ms without floor penalty (+${floorPenaltyAmount}ms)`}>
-                  → {fastestDelay}ms <span className="text-primary-dim text-xs">({theoreticalFastest}ms)</span> ⚠
+                  → {fastestDelay}ms <span className="text-primary text-xs">({theoreticalFastest}ms)</span> ⚠
                 </span>
               ) : (
                 <span className="text-green-400">→ {fastestDelay}ms</span>
@@ -357,7 +357,7 @@ function SkillCard({ skill }) {
             <div className="px-4 pb-4 border-t border-primary-dim/20 pt-3">
               {/* frames breakdown at base */}
               <div className="mb-3">
-                <h5 className="text-sm font-bold text-primary-dim mb-2">Base Frames (AS4)</h5>
+                <h5 className="text-sm font-bold text-primary mb-2">Base Frames (AS4)</h5>
                 <div className="flex flex-wrap gap-1">
                   {skill.frames.map((frame, idx) => {
                     const hitsFloor = frameHitsFloor(frame, 10);
@@ -379,7 +379,7 @@ function SkillCard({ skill }) {
 
               {/* delay at different stages - clickable */}
               <div className="mb-3">
-                <h5 className="text-sm font-bold text-primary-dim mb-2">Delay by Attack Speed <span className="font-normal">(click to see frame breakdown)</span></h5>
+                <h5 className="text-sm font-bold text-primary mb-2">Delay by Attack Speed <span className="font-normal">(click to see frame breakdown)</span></h5>
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 text-xs">
                   {[6, 7, 8, 9, 10].map(stage => {
                     const delay = computeScaledDelay(skill.frames, stage);
@@ -401,12 +401,12 @@ function SkillCard({ skill }) {
                           : 'bg-background-dim hover:bg-background-bright border-2 border-transparent'
                           }`}
                       >
-                        <div className="text-primary-dim">AS {asValue}</div>
+                        <div className="text-primary">AS {asValue}</div>
                         <div className={`font-bold ${hasPenalty ? 'text-yellow-400' : 'text-primary-bright'}`}>
                           {delay}ms
                         </div>
                         {hasPenalty && (
-                          <div className="text-primary-dim text-[10px]">({theoretical}ms)</div>
+                          <div className="text-primary text-[10px]">({theoretical}ms)</div>
                         )}
                       </button>
                     );
@@ -431,7 +431,7 @@ function SkillCard({ skill }) {
                       <div className="overflow-x-auto">
                         <table className="w-full text-xs">
                           <thead>
-                            <tr className="text-primary-dim">
+                            <tr className="text-primary">
                               <th className="text-left py-1 px-2">#</th>
                               <th className="text-right py-1 px-2">Original</th>
                               <th className="text-right py-1 px-2">Scaled</th>
@@ -488,12 +488,12 @@ function SkillCard({ skill }) {
               {/* summary stats */}
               <div className="flex flex-wrap gap-4 text-sm">
                 <div>
-                  <span className="text-primary-dim">Reduction: </span>
+                  <span className="text-primary">Reduction: </span>
                   <span className="text-green-400 font-bold">{delayReduction}ms ({reductionPercent}%)</span>
                 </div>
                 {hasFloorPenalty && (
                   <div>
-                    <span className="text-primary-dim">Floor penalty at AS0: </span>
+                    <span className="text-primary">Floor penalty at AS0: </span>
                     <span className="text-yellow-400 font-bold">+{floorPenaltyAmount}ms ({floorHits}/{skill.frames.length} frames)</span>
                   </div>
                 )}
@@ -539,7 +539,7 @@ function JobTabs({ skills, className }) {
   }, [availableTiers, activeTab]);
 
   if (availableTiers.length === 0) {
-    return <div className="text-primary-dim">No skills found</div>;
+    return <div className="text-primary">No skills found</div>;
   }
 
   return (
@@ -552,7 +552,7 @@ function JobTabs({ skills, className }) {
             onClick={() => setActiveTab(tier)}
             className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all ${activeTab === tier
               ? 'bg-secondary text-background'
-              : 'bg-background-dim text-primary-dim hover:text-primary-bright'
+              : 'bg-background-dim text-primary hover:text-primary-bright'
               }`}
           >
             {JOB_TIER_LABELS[tier] || `Job ${tier}`}
@@ -582,12 +582,12 @@ function ClassAccordion({ className, skills }) {
       >
         <div className="flex items-center gap-3">
           <span className="text-lg font-bold text-primary-bright">{className}</span>
-          <span className="text-sm text-primary-dim">({skills.length} skills)</span>
+          <span className="text-sm text-primary">({skills.length} skills)</span>
         </div>
         <motion.span
           animate={{ rotate: expanded ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="text-primary-dim"
+          className="text-primary"
         >
           ▼
         </motion.span>
@@ -798,7 +798,7 @@ export default function ActionDelaysClient() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-primary-bright mb-2">Action Delays</h1>
-          <p className="text-primary-dim">
+          <p className="text-primary">
             Skill delay data for {totalSkills} skills across all classes
           </p>
         </div>
@@ -808,13 +808,13 @@ export default function ActionDelaysClient() {
         {/* version toggle - fixed */}
         <div className="fixed bottom-4 right-4 z-50 bg-background/95 backdrop-blur-sm py-2 px-3 rounded-lg border border-primary-dim/30 shadow-lg">
           <div className="flex items-center justify-center gap-2">
-            <span className="text-primary-dim text-sm">Data Version:</span>
+            <span className="text-primary text-sm">Data Version:</span>
             <div className="flex rounded-lg overflow-hidden border border-primary-dim/30">
               <button
                 onClick={() => setVersion('v266')}
                 className={`px-4 py-2 text-sm font-bold transition-colors ${version === 'v266'
                   ? 'bg-secondary text-background'
-                  : 'bg-primary-dark text-primary-dim hover:text-primary-bright'
+                  : 'bg-primary-dark text-primary hover:text-primary-bright'
                   }`}
               >
                 v266
@@ -823,7 +823,7 @@ export default function ActionDelaysClient() {
                 onClick={() => setVersion('v267')}
                 className={`px-4 py-2 text-sm font-bold transition-colors ${version === 'v267'
                   ? 'bg-secondary text-background'
-                  : 'bg-primary-dark text-primary-dim hover:text-primary-bright'
+                  : 'bg-primary-dark text-primary hover:text-primary-bright'
                   }`}
               >
                 v267
@@ -841,8 +841,8 @@ export default function ActionDelaysClient() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-3 rounded-xl bg-primary-dark border border-primary-dim/30 text-primary-bright placeholder-primary-dim focus:outline-none focus:border-secondary transition-colors"
           />
-          <p className="text-primary-dim text-xs mt-2">Prefix with <code className="bg-primary-dark px-1 rounded">@</code> to search by class (e.g. <code className="bg-primary-dark px-1 rounded">@cannon master</code>)</p>
-          <p className="text-primary-dim text-xs mt-2">Prefix with <code className="bg-primary-dark px-1 rounded">#</code> to search by faction (e.g. <code className="bg-primary-dark px-1 rounded">#explorer</code>)</p>
+          <p className="text-primary text-xs mt-2">Prefix with <code className="bg-primary-dark px-1 rounded">@</code> to search by class (e.g. <code className="bg-primary-dark px-1 rounded">@cannon master</code>)</p>
+          <p className="text-primary text-xs mt-2">Prefix with <code className="bg-primary-dark px-1 rounded">#</code> to search by faction (e.g. <code className="bg-primary-dark px-1 rounded">#explorer</code>)</p>
         </div>
 
         {/* categories */}
@@ -858,7 +858,7 @@ export default function ActionDelaysClient() {
         })}
 
         {Object.keys(organizedData).length === 0 && (
-          <div className="text-center text-primary-dim py-12">
+          <div className="text-center text-primary py-12">
             No skills found matching your search.
           </div>
         )}
