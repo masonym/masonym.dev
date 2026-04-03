@@ -134,8 +134,25 @@ function Preamble() {
     <div className="bg-primary-dark rounded-xl border border-primary-dim/30 p-6 mb-8">
       <h2 className="text-2xl font-bold text-primary-bright mb-4">About Attack Speed & Action Delays</h2>
       <div className="text-primary space-y-4">
+        <div className="bg-background-dim rounded-lg p-4">
+          <h3 className="text-lg font-bold text-secondary mb-2">Purpose</h3>
+          <p className="mb-2">
+            The purpose of this page is two-fold:
+          </p>
+          <ul className="list-disc list-inside space-y-1 text-primary">
+            <li>
+              Highlight the overall issue of attack speed rounding.
+            </li>
+            <li>
+              Create a place for people to view the action delays of their skills, without the requirement of looking at Wz files.
+            </li>
+          </ul>
+          <p className="mb-2">
+            Generally, this page will not be "actively maintained". If there a balance patch that reduces skill delays across the board similar to v.267 I will hopefully add those values as a new data source, but that's about it.
+          </p>
+        </div>
         <p>
-          Every skill in MapleStory has an <strong className="text-primary-bright">action delay</strong> — the time you must wait after using a skill before you can act again. 
+          Every skill in MapleStory has an <strong className="text-primary-bright">action delay</strong> - the time you must wait after using a skill before you can act again.
           This delay is determined by the skill's animation frames and your current attack speed.
         </p>
 
@@ -169,7 +186,7 @@ function Preamble() {
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">The 30ms Frame Rule/Penalty</h3>
           <p className="mb-2">
-            Each individual frame has a <strong className="text-secondary">minimum duration of 30ms</strong>. 
+            Each individual frame has a <strong className="text-secondary">minimum duration of 30ms</strong>.
             If a scaled frame would be less than 30ms, it gets rounded up to 30ms.
           </p>
           <p className="mb-2">
@@ -187,7 +204,7 @@ function Preamble() {
             </p>
             <p className="text-primary mt-2 text-xs">
               * This 412.5ms gets rounded up to 420ms. More on that up next.
-              <br/>
+              <br />
               * This 435ms gets rounded up to 450ms. More on that up next.
             </p>
           </div>
@@ -195,10 +212,10 @@ function Preamble() {
             Furthermore, the total sum of any skill's frames is rounded up to the <strong className="text-secondary">nearest multiple of 30ms</strong>.
           </p>
           <p className="mb-2">
-           This means that despite the final values only being (412.5ms vs 435ms), the total delay is rounded up to 420ms and 450ms respectively, turning a 22.5ms difference into a 30ms difference.
+            This means that despite the final values only being (412.5ms vs 435ms), the total delay is rounded up to 420ms and 450ms respectively, turning a 22.5ms difference into a 30ms difference.
           </p>
           <p className="mb-2">
-           This difference can be amplified in other cases.
+            This difference can be amplified in other cases.
           </p>
           <div className="bg-background rounded-lg p-3 text-sm mb-2">
             <p className="text-primary mb-1"><strong className="text-primary-bright">Example:</strong></p>
@@ -211,11 +228,11 @@ function Preamble() {
             </p>
           </div>
           <p className="mb-2">
-            This can cause a small loss in attack speed for 1 frame compound into a larger one, but it also means that having <em>more than one 30ms frame</em> does not compound the loss until a certain point.
+            This can cause a small loss in attack speed for 1 frame to compound into a larger one, but it also means that having <em>more than one 30ms frame</em> does not compound the loss until a certain point.
           </p>
-            <p className="mt-2 text-sm">
-              In other words, having more than one 30ms frame does not compound the loss until the total delay reaches the next multiple of 30ms.
-            </p>
+          <p className="mt-2 text-sm">
+            In other words, having more than one 30ms frame does not compound the loss until the total delay reaches the next multiple of 30ms.
+          </p>
         </div>
 
         <div className="bg-background-dim rounded-lg p-4">
@@ -253,35 +270,29 @@ function Preamble() {
           </ul>
         </div>
 
-        <p className="text-primary text-sm">
-          Data extracted from game files. Frame values are in milliseconds. 
-          <br/>
-          If you notice any errors or have suggestions for improvement, please let me know!
-        </p>
-
         {/* attributions section */}
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">References & Attributions</h3>
           <ul className="list-disc list-inside space-y-2 text-primary mb-2">
-              <li>
-            <a href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
-            Reddit post by /u/screeeeeeee investigating the attack speed-to-delay discrepancy in Gigas Wave (2022)
-            </a>
-              </li>
-              <li>
-            <a href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/i46paj0/?context=3" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
-            Comment by /u/hailcrest in the above thread explaining the 30ms floor effect
-            </a>
-              </li>
-              <li>
-            <a href="https://forums.maplestory.nexon.net/discussion/35795/certain-skills-not-working-properly-with-as10#latest" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
-            Nexon forum post about skills not working properly with AS10
-            </a>
-              </li>
-              <li>
-            Credits to Jaepy for asking me to look into this in the first place - this was fun to investigate and compile :)
+            <li>
+              <a href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
+                Reddit post by /u/screeeeeeee investigating the attack speed-to-delay discrepancy in Gigas Wave (2022)
+              </a>
             </li>
-            </ul>
+            <li>
+              <a href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/i46paj0/?context=3" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
+                Comment by /u/hailcrest in the above thread explaining the 30ms floor effect
+              </a>
+            </li>
+            <li>
+              <a href="https://forums.maplestory.nexon.net/discussion/35795/certain-skills-not-working-properly-with-as10#latest" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
+                Nexon forum post about skills not working properly with AS10
+              </a>
+            </li>
+            <li>
+              Credits to Jaepy for asking me to look into this in the first place - this was fun to investigate and compile :)
+            </li>
+          </ul>
         </div>
 
         <p className="text-primary text-sm">
@@ -534,7 +545,7 @@ function JobTabs({ skills, className }) {
   // set initial active tab
   React.useEffect(() => {
     if (availableTiers.length > 0 && activeTab === null) {
-      setActiveTab(availableTiers[0]);
+      setActiveTab(availableTiers[availableTiers.length - 1]);
     }
   }, [availableTiers, activeTab]);
 
