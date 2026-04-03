@@ -169,11 +169,11 @@ function Preamble() {
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">The 30ms Frame Rule/Penalty</h3>
           <p className="mb-2">
-            Each individual frame has a <strong className="text-yellow-400">minimum duration of 30ms</strong>. 
+            Each individual frame has a <strong className="text-secondary">minimum duration of 30ms</strong>. 
             If a scaled frame would be less than 30ms, it gets rounded up to 30ms.
           </p>
           <p className="mb-2">
-            As a result of the multiplier at Stage 10 attack speed, this means <strong className="text-yellow-400">any skill </strong> with at least one frame at 30ms will benefit less from attack speed than skills without, even if their total delays are identical.
+            As a result of the multiplier at Stage 10 attack speed, this means <strong className="text-secondary">any skill </strong> with at least one frame at 30ms will benefit less from attack speed than skills without, even if their total delays are identical.
           </p>
           <div className="bg-background rounded-lg p-3 text-sm mb-2">
             <p className="text-primary mb-1"><strong className="text-primary-bright">Example:</strong></p>
@@ -192,7 +192,7 @@ function Preamble() {
             </p>
           </div>
           <p className="mb-2">
-            Furthermore, the total sum of any skill's frames is rounded up to the <strong className="text-yellow-400">nearest multiple of 30ms</strong>.
+            Furthermore, the total sum of any skill's frames is rounded up to the <strong className="text-secondary">nearest multiple of 30ms</strong>.
           </p>
           <p className="mb-2">
            This means that despite the final values only being (412.5ms vs 435ms), the total delay is rounded up to 420ms and 450ms respectively, turning a 22.5ms difference into a 30ms difference.
@@ -247,7 +247,7 @@ function Preamble() {
           <ul className="list-disc list-inside space-y-1 text-primary">
             <li><strong className="text-primary-bright">Base delay:</strong> Total frame duration at Stage 6 (AS4)</li>
             <li><strong className="text-primary-bright">→ Fastest delay:</strong> Total at Stage 10 (AS0). Yellow ⚠ indicates floor penalty.</li>
-            <li><strong className="text-yellow-400">Yellow frames:</strong> These hit the 30ms floor at AS0</li>
+            <li><strong className="text-secondary">Yellow frames:</strong> These hit the 30ms floor at AS0</li>
             <li><strong className="text-primary-bright">Parenthetical value:</strong> What the delay <em>would</em> be without the floor</li>
             <li>You can click on a stage to see the individual frame delays at that stage</li>
           </ul>
@@ -334,7 +334,7 @@ function SkillCard({ skill }) {
             <div className="text-primary-bright font-bold">{baseDelay}ms</div>
             <div className="text-sm">
               {hasFloorPenalty ? (
-                <span className="text-yellow-400" title={`Should be ${theoreticalFastest}ms without floor penalty (+${floorPenaltyAmount}ms)`}>
+                <span className="text-secondary" title={`Should be ${theoreticalFastest}ms without floor penalty (+${floorPenaltyAmount}ms)`}>
                   → {fastestDelay}ms <span className="text-primary text-xs">({theoreticalFastest}ms)</span> ⚠
                 </span>
               ) : (
@@ -365,7 +365,7 @@ function SkillCard({ skill }) {
                       <span
                         key={idx}
                         className={`px-2 py-1 rounded text-xs font-mono ${hitsFloor
-                          ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                          ? 'bg-yellow-500/20 text-secondary border border-yellow-500/30'
                           : 'bg-background-dim text-primary'
                           }`}
                         title={hitsFloor ? 'Hits 30ms floor at AS0' : ''}
@@ -402,7 +402,7 @@ function SkillCard({ skill }) {
                           }`}
                       >
                         <div className="text-primary">AS {asValue}</div>
-                        <div className={`font-bold ${hasPenalty ? 'text-yellow-400' : 'text-primary-bright'}`}>
+                        <div className={`font-bold ${hasPenalty ? 'text-secondary' : 'text-primary-bright'}`}>
                           {delay}ms
                         </div>
                         {hasPenalty && (
@@ -443,7 +443,7 @@ function SkillCard({ skill }) {
                             {computeScaledFrames(skill.frames, selectedStage).map((frame, idx) => (
                               <tr
                                 key={idx}
-                                className={frame.hitsFloor ? 'text-yellow-400' : 'text-primary'}
+                                className={frame.hitsFloor ? 'text-secondary' : 'text-primary'}
                               >
                                 <td className="py-1 px-2">{idx + 1}</td>
                                 <td className="text-right py-1 px-2 font-mono">{frame.original}ms</td>
@@ -469,7 +469,7 @@ function SkillCard({ skill }) {
                                   .reduce((sum, f) => sum + f.actual, 0)
                                   .toFixed(2)}ms
                               </td>
-                              <td className="text-right py-1 px-2 font-mono text-yellow-400">
+                              <td className="text-right py-1 px-2 font-mono text-secondary">
                                 {(() => {
                                   const totalPenalty = computeScaledFrames(skill.frames, selectedStage)
                                     .reduce((sum, f) => sum + f.penalty, 0);
@@ -494,7 +494,7 @@ function SkillCard({ skill }) {
                 {hasFloorPenalty && (
                   <div>
                     <span className="text-primary">Floor penalty at AS0: </span>
-                    <span className="text-yellow-400 font-bold">+{floorPenaltyAmount}ms ({floorHits}/{skill.frames.length} frames)</span>
+                    <span className="text-secondary font-bold">+{floorPenaltyAmount}ms ({floorHits}/{skill.frames.length} frames)</span>
                   </div>
                 )}
               </div>
