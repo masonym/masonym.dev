@@ -74,11 +74,18 @@ function VersionToggleSpotlight({ onDismiss }) {
 }
 
 // compute scaled delay for a given attack speed stage
+// 30ms floor only applies to the LAST frame
 function computeScaledDelay(frames, stage) {
   const scale = (20 - stage) / 16;
   let total = 0;
-  for (const frame of frames) {
-    total += Math.max(30, Math.abs(frame) * scale);
+  for (let i = 0; i < frames.length; i++) {
+    const scaled = Math.abs(frames[i]) * scale;
+    // only apply 30ms floor to the last frame
+    if (i === frames.length - 1) {
+      total += Math.max(30, scaled);
+    } else {
+      total += scaled;
+    }
   }
   return Math.ceil(total / 30) * 30;
 }
@@ -94,12 +101,15 @@ function computeTheoreticalDelay(frames, stage) {
 }
 
 // compute per-frame scaled values for a given stage
+// 30ms floor only applies to the LAST frame
 function computeScaledFrames(frames, stage) {
   const scale = (20 - stage) / 16;
-  return frames.map(frame => {
+  return frames.map((frame, idx) => {
     const scaled = Math.abs(frame) * scale;
-    const actual = Math.max(30, scaled);
-    const hitsFloor = scaled < 30;
+    const isLastFrame = idx === frames.length - 1;
+    // only apply 30ms floor to the last frame
+    const actual = isLastFrame ? Math.max(30, scaled) : scaled;
+    const hitsFloor = isLastFrame && scaled < 30;
     return {
       original: frame,
       scaled: scaled,
@@ -412,10 +422,11 @@ function SkillCard({ skill }) {
                   {[6, 7, 8, 9, 10].map(stage => {
                     const delay = computeScaledDelay(skill.frames, stage);
                     const theoretical = computeTheoreticalDelay(skill.frames, stage);
-                    const penalty = delay - theoretical;
                     const asValue = 10 - stage;
                     const isSelected = selectedStage === stage;
-                    const hasPenalty = penalty > 0;
+                    // only show penalty if last frame hits the floor at this stage
+                    const lastFrameHitsFloor = frameHitsFloor(lastFrame, stage);
+                    const showPenalty = lastFrameHitsFloor && delay !== theoretical;
 
                     return (
                       <button
@@ -430,10 +441,10 @@ function SkillCard({ skill }) {
                           }`}
                       >
                         <div className="text-primary">AS {asValue}</div>
-                        <div className={`font-bold ${hasPenalty ? 'text-secondary' : 'text-primary-bright'}`}>
+                        <div className={`font-bold ${showPenalty ? 'text-secondary' : 'text-primary-bright'}`}>
                           {delay}ms
                         </div>
-                        {hasPenalty && (
+                        {showPenalty && (
                           <div className="text-primary text-[10px]">({theoretical}ms)</div>
                         )}
                       </button>
