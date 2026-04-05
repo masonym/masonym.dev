@@ -46,6 +46,11 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     }
   }, [selectedClass, isClient]);
 
+  const resetDesiredLevels = () => {
+    localStorage.removeItem(`desiredSkillLevels_${selectedClass}`);
+    setDesiredSkillLevels({});
+  };
+
   const updateSkillLevels = (newLevels, skillType) => {
     setDesiredSkillLevels(prevLevels => {
       const updatedLevels = Object.keys(newLevels).reduce((acc, skillName) => {
@@ -295,6 +300,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
         classDetails={classDetails}
         skillLevels={desiredSkillLevels}
         updateSkillLevels={updateSkillLevels}
+        resetSkillLevels={resetDesiredLevels}
       />
       {Object.values(desiredSkillLevels).some(skill => skill.level > 0) && (
 

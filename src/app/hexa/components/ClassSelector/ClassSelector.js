@@ -111,6 +111,11 @@ const ClassSelector = () => {
     };
   }, []);
 
+  const resetSkillLevels = () => {
+    localStorage.removeItem(`skillLevels_${selectedClass}`);
+    loadSkillLevels(selectedClass);
+  };
+
   const updateSkillLevels = (newLevels, skillType) => {
     setSkillLevels(prevLevels => {
       const updatedLevels = {
@@ -231,6 +236,7 @@ const ClassSelector = () => {
               classDetails={classes[selectedClass]}
               skillLevels={skillLevels}
               updateSkillLevels={updateSkillLevels}
+              resetSkillLevels={resetSkillLevels}
             />
             <h2 className="mb-4 text-[32px] text-center p-4 pb-2 text-primary-bright border-b-2 border-b-primary-bright">Materials Spent:</h2>
             <div className="flex flex-row justify-between items-center w-fit gap-[50px]">

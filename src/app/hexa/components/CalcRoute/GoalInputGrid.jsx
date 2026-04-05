@@ -3,7 +3,7 @@ import styles from '../InputGrid/InputGrid.module.css';
 import { masteryDesignation } from '@/data/masteryDesignation';
 import { SkillGroup } from '../SkillGroup/SkillGroup';
 
-export const GoalInputGrid = ({ classKey, classDetails, skillLevels, updateSkillLevels }) => {
+export const GoalInputGrid = ({ classKey, classDetails, skillLevels, updateSkillLevels, resetSkillLevels }) => {
     const firstMasterySkills = masteryDesignation[classKey]?.firstMastery || [];
     const secondMasterySkills = masteryDesignation[classKey]?.secondMastery || [];
     const thirdMasterySkills = masteryDesignation[classKey]?.thirdMastery || [];
@@ -12,8 +12,16 @@ export const GoalInputGrid = ({ classKey, classDetails, skillLevels, updateSkill
     return (
         <div>
             <div className={styles.container}>
-                <div className="text-2xl font-bold text-center mb-4">
-                    Cost Calculator
+                <div className="flex items-center justify-center gap-3 mb-4">
+                    <span className="text-2xl font-bold">Cost Calculator</span>
+                    {resetSkillLevels && (
+                        <button
+                            onClick={resetSkillLevels}
+                            className="px-3 py-1 text-sm rounded bg-[color:var(--primary-dark)] text-[color:var(--primary)] hover:bg-[color:var(--primary-dim)] transition-colors border border-[color:var(--primary-dim)]"
+                        >
+                            Reset
+                        </button>
+                    )}
                 </div>
                 <div className="my-4">
                     <p>Enter in your desired Hexa levels:</p>

@@ -3,7 +3,7 @@ import styles from './InputGrid.module.css';
 import { masteryDesignation } from '@/data/masteryDesignation';
 import { SkillGroup } from '../SkillGroup/SkillGroup';
 
-export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLevels }) => {
+export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLevels, resetSkillLevels }) => {
     const firstMasterySkills = masteryDesignation[classKey]?.firstMastery || [];
     const secondMasterySkills = masteryDesignation[classKey]?.secondMastery || [];
     const thirdMasterySkills = masteryDesignation[classKey]?.thirdMastery || [];
@@ -12,8 +12,16 @@ export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLeve
     return (
         <div>
             <div className={styles.container}>
-                <div>
+                <div className="flex items-center gap-3">
                     <h1 className="text-[32px]">{classKey}</h1>
+                    {resetSkillLevels && (
+                        <button
+                            onClick={resetSkillLevels}
+                            className="px-3 py-1 text-sm rounded bg-[color:var(--primary-dark)] text-[color:var(--primary)] hover:bg-[color:var(--primary-dim)] transition-colors border border-[color:var(--primary-dim)]"
+                        >
+                            Reset
+                        </button>
+                    )}
                 </div>
                 <div className="my-4">
                     <p>Enter in your current Hexa levels:</p>
