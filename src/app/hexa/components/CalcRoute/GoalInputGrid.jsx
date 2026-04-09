@@ -63,6 +63,7 @@ export const GoalInputGrid = ({ classKey, classDetails, skillLevels, updateSkill
                         classKey={classKey}
                         isCommon={true}
                         itemStyle={styles.commonItem}
+                        columns={2}
                         skillLevels={skillLevels}
                         updateSkillLevels={updateSkillLevels}
                         skillType="common"

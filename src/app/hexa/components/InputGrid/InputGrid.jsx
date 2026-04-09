@@ -64,6 +64,7 @@ export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLeve
                         classKey={classKey}
                         isCommon={true}
                         itemStyle={styles.commonItem}
+                        columns={2}
                         skillLevels={skillLevels}
                         updateSkillLevels={updateSkillLevels}
                         skillType="common"

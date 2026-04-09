@@ -18,7 +18,8 @@ export const classes = {
             "Sword Illusion Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Dark Knight": {
@@ -39,7 +40,8 @@ export const classes = {
             "Darkness Aura Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Paladin": {
@@ -61,7 +63,8 @@ export const classes = {
             "Mighty Mjolnir Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Arch Mage (Ice, Lightning)": {
@@ -83,7 +86,8 @@ export const classes = {
             "Jupiter Thunder Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Arch Mage (Fire, Poison)": {
@@ -107,7 +111,8 @@ export const classes = {
             "Poison Chain Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Bishop": {
@@ -130,7 +135,8 @@ export const classes = {
             "Divine Punishment Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Pathfinder": {
@@ -155,7 +161,8 @@ export const classes = {
             "Relic Unbound Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Marksman": {
@@ -176,7 +183,8 @@ export const classes = {
             "Repeating Crossbow Cartridge Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Bowmaster": {
@@ -199,7 +207,8 @@ export const classes = {
             "Silhouette Mirage Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Dual Blade": {
@@ -220,7 +229,8 @@ export const classes = {
             "Haunted Edge Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Shadower": {
@@ -244,7 +254,8 @@ export const classes = {
             "Slash Shadow Formation Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Night Lord": {
@@ -267,7 +278,8 @@ export const classes = {
             "Throw Blasting Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Cannoneer": {
@@ -290,7 +302,8 @@ export const classes = {
             "Poolmaker Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Buccaneer": {
@@ -311,7 +324,8 @@ export const classes = {
             "Howling Fist Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Corsair": {
@@ -335,7 +349,8 @@ export const classes = {
             "Death Trigger Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Dawn Warrior": {
@@ -356,7 +371,8 @@ export const classes = {
             "Flare Slash Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Thunder Breaker": {
@@ -378,7 +394,8 @@ export const classes = {
             "Lightning Spear Multistrike Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Night Walker": {
@@ -400,7 +417,8 @@ export const classes = {
             "Rapid Throw Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Wind Archer": {
@@ -422,7 +440,8 @@ export const classes = {
             "Vortex Sphere Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Blaze Wizard": {
@@ -442,7 +461,8 @@ export const classes = {
             "Salamander Mischief Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Mihile": {
@@ -465,7 +485,8 @@ export const classes = {
             "Light of Courage Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Mercedes": {
@@ -492,7 +513,8 @@ export const classes = {
             "Royal Knights Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Aran": {
@@ -513,7 +535,8 @@ export const classes = {
             "Blizzard Tempest Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Phantom": {
@@ -534,7 +557,8 @@ export const classes = {
             "Rift Break Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Luminous": {
@@ -555,7 +579,8 @@ export const classes = {
             "Liberation Orb Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Evan": {
@@ -585,7 +610,8 @@ export const classes = {
             "Spiral of Mana Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Shade": {
@@ -606,7 +632,8 @@ export const classes = {
             "Smashing Multipunch Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Battle Mage": {
@@ -626,7 +653,8 @@ export const classes = {
             "Abyssal Lightning Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Blaster": {
@@ -650,7 +678,8 @@ export const classes = {
             "Afterimage Shock Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Mechanic": {
@@ -672,7 +701,8 @@ export const classes = {
             "Mecha Carrier Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Wild Hunter": {
@@ -699,7 +729,8 @@ export const classes = {
             "Wild Arrow Blast Type X Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Xenon": {
@@ -724,7 +755,8 @@ export const classes = {
             "Photon Ray Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Demon Slayer": {
@@ -747,7 +779,8 @@ export const classes = {
             "Demon Bane Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Demon Avenger": {
@@ -768,7 +801,8 @@ export const classes = {
             "Revenant Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Angelic Buster": {
@@ -788,7 +822,8 @@ export const classes = {
             "Trinity Fusion Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Kaiser": {
@@ -809,7 +844,8 @@ export const classes = {
             "Dragonflare Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Cadena": {
@@ -837,7 +873,8 @@ export const classes = {
             "Muscle Memory Finale Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Kain": {
@@ -870,7 +907,8 @@ export const classes = {
             "Grip of Agony Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Kanna": {
@@ -894,7 +932,8 @@ export const classes = {
             "[Spirit] Unleash Soul-Searing Venom Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Hayato": {
@@ -915,7 +954,8 @@ export const classes = {
             "[Battou] Wailing Heavens Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Adele": {
@@ -941,7 +981,8 @@ export const classes = {
             "Storm Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Ark": {
@@ -969,7 +1010,8 @@ export const classes = {
             "Endlessly Starving Beast Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Illium": {
@@ -997,7 +1039,8 @@ export const classes = {
             "Crystal Gate Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Khali": {
@@ -1022,7 +1065,8 @@ export const classes = {
             "Resonate: Ultimatum Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Hoyoung": {
@@ -1061,7 +1105,8 @@ export const classes = {
             "Sage: Three Paths Apparition Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Lara": {
@@ -1086,7 +1131,8 @@ export const classes = {
             "Winding Mountain Ridge Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Kinesis": {
@@ -1107,7 +1153,8 @@ export const classes = {
             "Law of Gravity Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Zero": {
@@ -1144,7 +1191,8 @@ export const classes = {
             "Ego Weapon Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Lynn": {
@@ -1166,7 +1214,8 @@ export const classes = {
             "Nature's Grace Boost"
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Mo Xuan": {
@@ -1189,7 +1238,8 @@ export const classes = {
             "Soul Art: The Opened Gate Boost",
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Sia Astelle": {
@@ -1205,7 +1255,8 @@ export const classes = {
             "Savior's Circle Boost",
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
     "Ren": {
@@ -1229,7 +1280,8 @@ export const classes = {
             "Final Imugi Spirit Sword: Blade of the Unbound Heart Boost",
         ],
         "commonSkills": [
-            "Sol Janus"
+            "Sol Janus",
+            "Sol Hecate"
         ]
     },
 };
