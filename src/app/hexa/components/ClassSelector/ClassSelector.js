@@ -7,7 +7,7 @@ import Image from "next/image";
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
 import CalcRoute from "../CalcRoute/CalcRoute";
-import { originUpgradeCost, skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+import { originUpgradeCost, skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost, jobBranchUpgradeCost } from "@/data/solErda";
 import { formatSkillToUnderscores } from "../../utils";
 
 const ClassSelector = () => {
@@ -55,6 +55,11 @@ const ClassSelector = () => {
         classDetails.boostSkills.forEach(skill => {
           initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'enhancement' };
         });
+        if (classDetails.jobBranchSkills) {
+          classDetails.jobBranchSkills.forEach(skill => {
+            initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'jobBranch' };
+          });
+        }
         classDetails.commonSkills.forEach(skill => {
           initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'common' };
         });
@@ -188,6 +193,8 @@ const ClassSelector = () => {
         return enhancementUpgradeCost;
       case 'ascent':
         return skillUpgradeCost;
+      case 'jobBranch':
+        return jobBranchUpgradeCost;
       default:
         console.error('Unknown skill type');
         return [];

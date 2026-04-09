@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { originUpgradeCost, skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost } from "@/data/solErda";
+import { originUpgradeCost, skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost, jobBranchUpgradeCost } from "@/data/solErda";
 import { GoalInputGrid } from './GoalInputGrid';
 import { formatClassName, formatSkillName, formatSkillPath } from '../../utils';
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
@@ -82,6 +82,8 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
         return enhancementUpgradeCost;
       case 'ascent':
         return skillUpgradeCost;
+      case 'jobBranch':
+        return jobBranchUpgradeCost;
       default:
         console.error('Unknown skill type');
         return [];
@@ -156,7 +158,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
 
   const formattedClassName = formatClassName(selectedClass)
   const getSkillImage = (skillName, skillType) => {
-    if (skillType === 'common') {
+    if (skillType === 'common' || skillType === 'jobBranch') {
       return `/common/${skillName}.png`;
     } else {
       return `/classImages/${formattedClassName}/Skill_${skillName}.png`;
@@ -231,6 +233,16 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
         orderedSkills.push(formattedSkill);
       }
     });
+
+    // Job Branch skills
+    if (classDetails.jobBranchSkills) {
+      classDetails.jobBranchSkills.forEach(skill => {
+        const formattedSkill = formatSkillPath(skill);
+        if (desiredSkillLevels[formattedSkill]) {
+          orderedSkills.push(formattedSkill);
+        }
+      });
+    }
 
     // Common skills
     classDetails.commonSkills.forEach(skill => {

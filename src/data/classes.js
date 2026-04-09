@@ -17,6 +17,9 @@ export const classes = {
             "Worldreaver Boost",
             "Sword Illusion Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Blitz Shield"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -38,6 +41,9 @@ export const classes = {
             "Radiant Evil Boost",
             "Calamitous Cyclone Boost",
             "Darkness Aura Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Blitz Shield"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -62,6 +68,9 @@ export const classes = {
             "Grand Guardian Boost",
             "Mighty Mjolnir Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Blitz Shield"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -84,6 +93,9 @@ export const classes = {
             "Bolt Barrage Boost",
             "Spirit of Snow Boost",
             "Jupiter Thunder Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Arcane Overdrive",
         ],
         "commonSkills": [
             "Sol Janus",
@@ -110,6 +122,9 @@ export const classes = {
             "Elemental Fury Boost",
             "Poison Chain Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Arcane Overdrive",
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -133,6 +148,9 @@ export const classes = {
             "Angel of Balance Boost",
             "Peacemaker Boost",
             "Divine Punishment Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Arcane Overdrive",
         ],
         "commonSkills": [
             "Sol Janus",
@@ -160,6 +178,9 @@ export const classes = {
             "Obsidian Barrier Boost",
             "Relic Unbound Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Fury of the Wild"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -181,6 +202,9 @@ export const classes = {
             "Split Shot Boost",
             "Surge Bolt Boost",
             "Repeating Crossbow Cartridge Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Fury of the Wild"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -206,6 +230,9 @@ export const classes = {
             "Quiver Barrage Boost",
             "Silhouette Mirage Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Fury of the Wild"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -227,6 +254,9 @@ export const classes = {
             "Blades of Destiny Boost",
             "Blade Tornado Boost",
             "Haunted Edge Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Shadow Walker"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -253,6 +283,9 @@ export const classes = {
             "Sonic Blow Boost",
             "Slash Shadow Formation Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Shadow Walker"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -276,6 +309,9 @@ export const classes = {
             "Shurrikane Boost",
             "Dark Lord's Omen Boost",
             "Throw Blasting Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Shadow Walker"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -301,6 +337,9 @@ export const classes = {
             "Monkey Business Boost",
             "Poolmaker Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Pirate's Banner"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -322,6 +361,9 @@ export const classes = {
             "Lord of the Deep Boost",
             "Serpent Vortex Boost",
             "Howling Fist Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Pirate's Banner"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -348,6 +390,9 @@ export const classes = {
             "Nautilus Assault Boost",
             "Death Trigger Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Pirate's Banner"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -369,6 +414,9 @@ export const classes = {
             "Rift of Damnation Boost",
             "Soul Eclipse Boost",
             "Flare Slash Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Phalanx Charge"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -393,6 +441,9 @@ export const classes = {
             "Lightning God Spear Strike Boost",
             "Lightning Spear Multistrike Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Phalanx Charge"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -415,6 +466,9 @@ export const classes = {
             "Greater Dark Servant Boost",
             "Shadow Bite Boost",
             "Rapid Throw Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Phalanx Charge"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -439,6 +493,9 @@ export const classes = {
             "Gale Barrier Boost",
             "Vortex Sphere Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Phalanx Charge"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -459,6 +516,9 @@ export const classes = {
             "Savage Flame Boost",
             "Inferno Sphere Boost",
             "Salamander Mischief Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Phalanx Charge"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -483,6 +543,9 @@ export const classes = {
             "Sword of Light Boost",
             "Radiant Soul Boost",
             "Light of Courage Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Phalanx Charge"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -512,6 +575,9 @@ export const classes = {
             "Irkalla's Wrath Boost",
             "Royal Knights Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Freud's Wisdom"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -533,6 +599,9 @@ export const classes = {
             "Maha's Carnage Boost",
             "Final Beyond Blade - White Tiger Boost",
             "Blizzard Tempest Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Freud's Wisdom"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -556,6 +625,9 @@ export const classes = {
             "Phantom's Mark Boost",
             "Rift Break Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Freud's Wisdom"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -577,6 +649,9 @@ export const classes = {
             "Aether Conduit Boost",
             "Baptism of Light and Darkness Boost",
             "Liberation Orb Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Freud's Wisdom"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -609,6 +684,9 @@ export const classes = {
             "Elemental Radiance Boost",
             "Spiral of Mana Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Freud's Wisdom"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -631,6 +709,9 @@ export const classes = {
             "True Spirit Claw Boost",
             "Smashing Multipunch Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Freud's Wisdom"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -651,6 +732,9 @@ export const classes = {
             "Altar of Annihilation Boost",
             "Grim Harvest Boost",
             "Abyssal Lightning Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Resistance Infantry"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -677,6 +761,9 @@ export const classes = {
             "Bullet Blast Boost",
             "Afterimage Shock Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Resistance Infantry"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -699,6 +786,9 @@ export const classes = {
             "Mobile Missile Battery Boost",
             "Full Metal Barrage Boost",
             "Mecha Carrier Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Resistance Infantry"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -728,6 +818,9 @@ export const classes = {
             "Primal Grenade Boost",
             "Wild Arrow Blast Type X Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Resistance Infantry"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -754,6 +847,9 @@ export const classes = {
             "Hypogram Field: Fusion Boost",
             "Photon Ray Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Resistance Infantry"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -778,6 +874,9 @@ export const classes = {
             "Orthrus Boost",
             "Demon Bane Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Defender of the Demon"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -800,6 +899,9 @@ export const classes = {
             "Dimensional Sword Boost",
             "Revenant Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Defender of the Demon"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -820,6 +922,9 @@ export const classes = {
             "Superstar Spotlight Boost",
             "Mighty Mascot Boost",
             "Trinity Fusion Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Might of the Nova"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -842,6 +947,9 @@ export const classes = {
             "Bladefall Boost",
             "Draco Surge Boost",
             "Dragonflare Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Might of the Nova"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -871,6 +979,9 @@ export const classes = {
             "Apocalypse Cannon Boost",
             "Chain Arts: Maelstrom Boost",
             "Muscle Memory Finale Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Might of the Nova"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -906,6 +1017,9 @@ export const classes = {
             "Thanatos Descent Boost",
             "Grip of Agony Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Might of the Nova"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -931,6 +1045,9 @@ export const classes = {
             "[Spirit] Unleash Black-Winged Destruction Boost",
             "[Spirit] Unleash Soul-Searing Venom Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Twilight Bloom",
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -952,6 +1069,9 @@ export const classes = {
             "[Shinsoku] Crashing Tide Boost",
             "[Shinsoku] Light Cutter Boost",
             "[Battou] Wailing Heavens Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Twilight Bloom",
         ],
         "commonSkills": [
             "Sol Janus",
@@ -979,6 +1099,9 @@ export const classes = {
             "Infinity Blade Boost",
             "Legacy Restoration Boost",
             "Storm Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Conversion Overdrive"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -1009,6 +1132,9 @@ export const classes = {
             "Devious Nightmare Boost",
             "Endlessly Starving Beast Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Conversion Overdrive"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -1038,6 +1164,9 @@ export const classes = {
             "Crystalline Spirit Boost",
             "Crystal Gate Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Conversion Overdrive"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -1063,6 +1192,9 @@ export const classes = {
             "Void Burst Boost",
             "Arts: Astra Boost",
             "Resonate: Ultimatum Boost"
+        ],
+        "jobBranchSkills": [
+            "HEXA Conversion Overdrive"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -1104,6 +1236,9 @@ export const classes = {
             "Sage: Wrath of Gods Boost",
             "Sage: Three Paths Apparition Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Lotus Flower"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -1130,6 +1265,9 @@ export const classes = {
             "Surging Essence Boost",
             "Winding Mountain Ridge Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Lotus Flower"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -1138,6 +1276,9 @@ export const classes = {
     "Kinesis": {
         "originSkill": "From Another Realm",
         "ascentSkill": "Fractal Horizon",
+        "jobBranchSkills": [
+            "HEXA Afterimage of the Otherworld"
+        ],
         "masterySkills": [
             "HEXA Ultimate - Metal Press",
             "HEXA Psychic Grab",
@@ -1160,6 +1301,9 @@ export const classes = {
     "Zero": {
         "originSkill": "End Time",
         "ascentSkill": "Bitemporis",
+        "jobBranchSkills": [
+            "HEXA Transcendent"
+        ],
         "masterySkills": [
             "HEXA Giga Crash",
             "HEXA Falling Star",
@@ -1213,6 +1357,9 @@ export const classes = {
             "[Focus] Awaken Boost",
             "Nature's Grace Boost"
         ],
+        "jobBranchSkills": [
+            "HEXA Power of Destiny"
+        ],
         "commonSkills": [
             "Sol Janus",
             "Sol Hecate"
@@ -1236,6 +1383,9 @@ export const classes = {
             "Divine Art: Crashing Earth Boost",
             "Soul Art: The Conquered Self Boost",
             "Soul Art: The Opened Gate Boost",
+        ],
+        "jobBranchSkills": [
+            "HEXA Power of Destiny"
         ],
         "commonSkills": [
             "Sol Janus",
@@ -1266,6 +1416,9 @@ export const classes = {
     "Ren": {
         "originSkill": "Rising Azure Dragon: Divided Heavens",
         "ascentSkill": "Rising Azure Dragon: Heartbound Verse",
+        "jobBranchSkills": [
+            "HEXA Lotus Flower"
+        ],
         "masterySkills": [
             "HEXA Plum Blossom Sword: Storm",
             "HEXA Imugi Spirit Sword: Spirit Strike",
