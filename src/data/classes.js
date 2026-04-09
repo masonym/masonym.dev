@@ -1246,7 +1246,11 @@ export const classes = {
         "originSkill": "Celestial Design",
         "ascentSkill": "Starlit Cosmos",
         "masterySkills": [
-            "SHINE Ray"
+            "SHINE Ray",
+            "SHINE Stellar I - Antares",
+            "SHINE Boom",
+            "SHINE Stellar II - Algol",
+            "SHINE Stellar V - Fomalhaut",
         ],
         "boostSkills": [
             "Shine Boost",

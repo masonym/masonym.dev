@@ -911,8 +911,13 @@ export const masteryDesignation = {
     "Sia Astelle": {
         "firstMastery": [
             "SHINE Ray",
+            "SHINE Stellar I - Antares",
         ],
-        "secondMastery": [],
+        "secondMastery": [
+            "SHINE Boom",
+            "SHINE Stellar II - Algol",
+            "SHINE Stellar V - Fomalhaut",
+        ],
         "thirdMastery": [],
         "fourthMastery": [],
     },
