@@ -231,6 +231,11 @@ const ClassSelector = () => {
       <div className="flex flex-col items-center">
         {selectedClass && classes[selectedClass] && (
           <>
+            {selectedClass === "Sia Astelle" && (
+              <div className="mt-4 p-3 bg-yellow-900/30 border border-yellow-600 rounded-lg text-yellow-200 text-sm text-center max-w-md">
+                <strong>Note:</strong> Fragment counts for spent/remaining will not be accurate as Erda Link logic is not yet implemented. This may be added in a future update; we'll see :)
+              </div>
+            )}
             <InputGrid
               classKey={selectedClass}
               classDetails={classes[selectedClass]}
