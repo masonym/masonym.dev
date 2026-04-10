@@ -579,9 +579,9 @@ export const bossData = [
             {
                 name: "Extreme",
                 hpPhases: [
-                    { hp: formatShortformNumber("9.655Q") },
-                    { hp: formatShortformNumber("9.655Q") },
-                    { hp: formatShortformNumber("12.87Q") },
+                    { hp: formatShortformNumber("10.08Q") },
+                    { hp: formatShortformNumber("10.08Q") },
+                    { hp: formatShortformNumber("13.4Q") },
                 ],
                 level: 290,
                 sacRequirement: 460,
