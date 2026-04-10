@@ -248,7 +248,7 @@ const loadFilters = () => {
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) return { ...DEFAULT_FILTERS, ...JSON.parse(stored) };
-    } catch {}
+    } catch { }
     return DEFAULT_FILTERS;
 };
 
@@ -256,7 +256,7 @@ const saveFilters = (filters) => {
     if (typeof window === 'undefined') return;
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(filters));
-    } catch {}
+    } catch { }
 };
 
 const getBossLevel = (boss) => boss.level || boss.difficulties[0]?.level || 0;
@@ -277,11 +277,10 @@ const MultiFilterPills = ({ options, selected, onChange, label }) => {
                     <button
                         key={opt.value}
                         onClick={() => toggle(opt.value)}
-                        className={`px-3 py-1.5 text-sm rounded-full transition-colors duration-200 ${
-                            selected.length === 0 || selected.includes(opt.value)
+                        className={`px-3 py-1.5 text-sm rounded-full transition-colors duration-200 ${selected.length === 0 || selected.includes(opt.value)
                                 ? 'bg-secondary text-primary-dark font-semibold'
                                 : 'bg-background-bright text-primary hover:bg-background-dim'
-                        }`}
+                            }`}
                     >
                         {opt.label}
                     </button>
@@ -299,11 +298,10 @@ const FilterPills = ({ options, value, onChange, label }) => (
                 <button
                     key={opt.value}
                     onClick={() => onChange(opt.value)}
-                    className={`px-3 py-1.5 text-sm rounded-full transition-colors duration-200 ${
-                        value === opt.value
+                    className={`px-3 py-1.5 text-sm rounded-full transition-colors duration-200 ${value === opt.value
                             ? 'bg-secondary text-primary-dark font-semibold'
                             : 'bg-background-bright text-primary hover:bg-background-dim'
-                    }`}
+                        }`}
                 >
                     {opt.label}
                 </button>
@@ -411,7 +409,7 @@ const BossesPageClient = () => {
             )}
 
             <footer className="text-center mt-12 text-primary-dim text-sm">
-                <p>Disclaimer: Boss HP values are estimated and sourced from the <a href="https://maplestory.wiki/" target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-secondary-bright hover:underline">MapleStory Wiki</a>.</p>
+                <p>Disclaimer: Boss HP values are estimated and sourced from the <a href="https://maplestorywiki.net/" target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-secondary-bright hover:underline">MapleStory Wiki</a>.</p>
             </footer>
         </div>
     );
