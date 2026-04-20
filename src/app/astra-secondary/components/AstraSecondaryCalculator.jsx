@@ -149,6 +149,11 @@ const AstraSecondaryCalculator = () => {
   // Daily quest state - stores the highest quest completed (or null if none)
   const [highestDailyQuest, setHighestDailyQuest] = useState('tallahart');
   const [daysPerWeek, setDaysPerWeek] = useState(7);
+  
+  // Future quest upgrade state
+  const [futureQuestDate, setFutureQuestDate] = useState('');
+  const [futureQuestId, setFutureQuestId] = useState('');
+  
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Load from localStorage on mount
@@ -164,6 +169,8 @@ const AstraSecondaryCalculator = () => {
         if (parsed.bossSelections) setBossSelections(parsed.bossSelections);
         if (parsed.highestDailyQuest) setHighestDailyQuest(parsed.highestDailyQuest);
         if (parsed.daysPerWeek !== undefined) setDaysPerWeek(parsed.daysPerWeek);
+        if (parsed.futureQuestDate !== undefined) setFutureQuestDate(parsed.futureQuestDate);
+        if (parsed.futureQuestId !== undefined) setFutureQuestId(parsed.futureQuestId);
       }
     } catch {
       // ignore storage errors
@@ -183,6 +190,8 @@ const AstraSecondaryCalculator = () => {
         bossSelections,
         highestDailyQuest,
         daysPerWeek,
+        futureQuestDate,
+        futureQuestId,
       };
       if (typeof window !== 'undefined') {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -190,7 +199,7 @@ const AstraSecondaryCalculator = () => {
     } catch {
       // ignore storage errors
     }
-  }, [currentMission, currentTraces, currentFragments, startDate, bossSelections, highestDailyQuest, daysPerWeek, isLoaded]);
+  }, [currentMission, currentTraces, currentFragments, startDate, bossSelections, highestDailyQuest, daysPerWeek, futureQuestDate, futureQuestId, isLoaded]);
 
   // Reset all state
   const handleReset = () => {
@@ -212,6 +221,8 @@ const AstraSecondaryCalculator = () => {
     );
     setHighestDailyQuest('tallahart');
     setDaysPerWeek(7);
+    setFutureQuestDate('');
+    setFutureQuestId('');
     
     try {
       if (typeof window !== 'undefined') {
@@ -265,11 +276,22 @@ const AstraSecondaryCalculator = () => {
     });
   };
 
-  // Calculate daily fragment acquisition
-  const getDailyFragments = () => {
+  // Calculate daily fragment acquisition for a specific date
+  const getDailyFragmentsForDate = (date) => {
+    // Check if we've passed the future quest date
+    if (futureQuestDate && futureQuestId) {
+      const futureDate = new Date(futureQuestDate + 'T00:00:00.000Z');
+      if (date >= futureDate) {
+        const quest = DAILY_QUESTS.find(q => q.id === futureQuestId);
+        return quest ? quest.fragments : 0;
+      }
+    }
     const quest = DAILY_QUESTS.find(q => q.id === highestDailyQuest);
     return quest ? quest.fragments : 0;
   };
+  
+  // Backward compatibility - get daily fragments for current date
+  const getDailyFragments = () => getDailyFragmentsForDate(new Date());
 
   // Main calculation logic
   const calculateSchedule = useMemo(() => {
@@ -338,9 +360,10 @@ const AstraSecondaryCalculator = () => {
         dayCount++;
         missionDays++;
 
-        // Add daily fragments
+        // Add daily fragments (check for future quest upgrade)
+        const fragmentsToday = getDailyFragmentsForDate(currentDate);
         if (dayCount % 7 <= daysPerWeek || daysPerWeek === 7) {
-          fragments += dailyFragments;
+          fragments += fragmentsToday;
         }
 
         // Check for Thursday reset (weekly boss traces + one-time voucher fragments on first week only)
@@ -426,7 +449,7 @@ const AstraSecondaryCalculator = () => {
       timeline,
       isUnreachable: false,
     };
-  }, [currentMission, currentTraces, currentFragments, startDate, bossSelections, highestDailyQuest, daysPerWeek]);
+  }, [currentMission, currentTraces, currentFragments, startDate, bossSelections, highestDailyQuest, daysPerWeek, futureQuestDate, futureQuestId]);
 
   // Get traces cap for current mission
   const getTracesCap = () => {
@@ -738,9 +761,59 @@ const AstraSecondaryCalculator = () => {
                 </div>
               </div>
 
+              {/* Future Quest Upgrade Section */}
+              <div className="mt-4 pt-4 border-t border-primary-dim">
+                <div className="flex items-center gap-2 mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-secondary">
+                    <path d="M12 8v4l3 3"/>
+                    <circle cx="12" cy="12" r="10"/>
+                  </svg>
+                  <label className="text-primary-bright font-medium">Future Quest Upgrade (Optional)</label>
+                </div>
+                <p className="text-xs text-primary-bright/60 mb-3">
+                  Schedule a higher daily quest for when you can access a new region.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-primary-bright/80 text-sm mb-1">Switch to Quest</label>
+                    <select
+                      className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
+                      value={futureQuestId}
+                      onChange={(e) => setFutureQuestId(e.target.value)}
+                    >
+                      <option value="">No planned upgrade</option>
+                      {DAILY_QUESTS.filter(q => q.fragments > DAILY_QUESTS.find(dq => dq.id === highestDailyQuest)?.fragments || 0).map(quest => (
+                        <option key={quest.id} value={quest.id}>
+                          {quest.name} ({quest.fragments} fragments/day)
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-primary-bright/80 text-sm mb-1">Starting Date</label>
+                    <input
+                      type="date"
+                      className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
+                      value={futureQuestDate}
+                      onChange={(e) => setFutureQuestDate(e.target.value)}
+                      disabled={!futureQuestId}
+                    />
+                  </div>
+                </div>
+                {futureQuestId && futureQuestDate && (
+                  <div className="mt-3 p-2 bg-secondary/10 border border-secondary/30 rounded-lg">
+                    <p className="text-xs text-secondary">
+                      Will switch from {DAILY_QUESTS.find(q => q.id === highestDailyQuest)?.name} ({DAILY_QUESTS.find(q => q.id === highestDailyQuest)?.fragments} fragments) 
+                      to {DAILY_QUESTS.find(q => q.id === futureQuestId)?.name} ({DAILY_QUESTS.find(q => q.id === futureQuestId)?.fragments} fragments) 
+                      on {new Date(futureQuestDate + 'T00:00:00.000Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })} (UTC)
+                    </p>
+                  </div>
+                )}
+              </div>
+
               <div className="mt-4 p-3 bg-primary-dark rounded-lg">
                 <div className="flex justify-between items-center">
-                  <span className="text-primary-bright">Daily Fragment Income:</span>
+                  <span className="text-primary-bright">Current Daily Fragment Income:</span>
                   <span className="font-bold text-secondary">{getDailyFragments()} fragments/day</span>
                 </div>
                 <div className="flex justify-between items-center mt-1">
