@@ -283,8 +283,14 @@ const AstraSecondaryCalculator = () => {
     const startMissionIndex = currentMission - 1;
     const remainingMissions = MISSIONS.slice(startMissionIndex);
 
+    // Check if completion is impossible (no weekly traces and need more traces)
+    const totalTracesNeeded = remainingMissions.reduce((sum, m) => sum + m.tracesRequired, 0);
+    const tracesHave = Math.min(currentTraces, MAX_TRACES_CAPACITY);
+    const tracesNeeded = Math.max(0, totalTracesNeeded - tracesHave);
+    const isUnreachable = weeklyTraces === 0 && tracesNeeded > 0;
+
     // Initial state
-    let traces = Math.min(currentTraces, MAX_TRACES_CAPACITY);
+    let traces = tracesHave;
     let fragments = currentFragments;
     let currentDate = new Date(startDate + 'T00:00:00.000Z');
     const dayOfWeek = currentDate.getUTCDay();
@@ -295,8 +301,31 @@ const AstraSecondaryCalculator = () => {
     const missionResults = [];
     const timeline = [];
     let dayCount = 0;
-    const maxDays = 365 * 2;
     let vouchersClaimed = false; // Track if one-time vouchers have been claimed
+
+    // If unreachable, return early with infinity
+    if (isUnreachable) {
+      return {
+        bossData,
+        weeklyTraces,
+        oneTimeVoucherFragments,
+        dailyFragments,
+        weeklyDailyFragments,
+        missionResults: remainingMissions.map(mission => ({
+          mission,
+          startDate: new Date(currentDate),
+          completionDate: null,
+          daysNeeded: Infinity,
+          startTraces: tracesHave,
+          startFragments: currentFragments,
+          traceOverflow: 0,
+        })),
+        completionDate: 'Never (no trace income)',
+        totalDays: Infinity,
+        timeline: [],
+        isUnreachable: true,
+      };
+    }
 
     for (const mission of remainingMissions) {
       const missionStartTraces = traces;
@@ -305,7 +334,7 @@ const AstraSecondaryCalculator = () => {
       let missionDays = 0;
       let missionTraceOverflow = 0;
 
-      while ((traces < mission.tracesRequired || fragments < mission.fragmentsRequired) && dayCount < maxDays) {
+      while ((traces < mission.tracesRequired || fragments < mission.fragmentsRequired)) {
         dayCount++;
         missionDays++;
 
@@ -395,6 +424,7 @@ const AstraSecondaryCalculator = () => {
       completionDate: formattedCompletionDate,
       totalDays: dayCount,
       timeline,
+      isUnreachable: false,
     };
   }, [currentMission, currentTraces, currentFragments, startDate, bossSelections, highestDailyQuest, daysPerWeek]);
 
@@ -795,12 +825,14 @@ const AstraSecondaryCalculator = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-primary-bright/70">Est. Days:</span>
-                    <span className="font-semibold text-secondary">{result.daysNeeded} days</span>
+                    <span className="font-semibold text-secondary">
+                      {isFinite(result.daysNeeded) ? `${result.daysNeeded} days` : '∞'}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center pt-1 border-t border-primary-dim/50">
                     <span className="text-primary-bright/70 text-xs">Complete by:</span>
                     <span className="font-semibold text-primary-bright text-sm">
-                      {result.completionDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}
+                      {result.completionDate ? result.completionDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }) : 'Never'}
                     </span>
                   </div>
                   {result.traceOverflow > 0 && (
@@ -823,12 +855,15 @@ const AstraSecondaryCalculator = () => {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-bright/60">
-                      <rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-secondary">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M12 6v6l4 2"/>
                     </svg>
                     <span className="text-primary-bright text-sm">Total Days:</span>
                   </div>
-                  <span className="font-bold text-secondary text-lg">{calculateSchedule.totalDays} days</span>
+                  <span className="font-bold text-secondary text-lg">
+                    {isFinite(calculateSchedule.totalDays) ? `${calculateSchedule.totalDays} days` : '∞'}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center pt-2 border-t border-secondary/20">
                   <span className="text-primary-bright/80 text-sm">Complete Astra Secondary:</span>
