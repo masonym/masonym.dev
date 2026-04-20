@@ -5,7 +5,7 @@ export const navigationItems = [
             { name: "Star Force", href: "/star-force", image: '/images/star-force.png' },
             { name: "Hexa", href: "/hexa", image: '/images/hexa.png' },
             { name: "Liberation", href: "/liberation", image: '/images/liberation.png', new: false },
-            { name: "Astra Secondary", href: "/astra-secondary", image: '/common/HEXA_Arcane_Overdrive.png', new: true },
+            { name: "Astra Secondary", href: "/astra-secondary", image: '/astra-secondary/erion-fragment.webp', new: true },
         ]
     },
     // {
@@ -25,7 +25,7 @@ export const navigationItems = [
             { name: "Cash Shop", href: "/cash-shop", image: "/images/cash-shop.png" },
             { name: "Boss Info", href: "/bosses", image: "/images/bosses.png" },
             { name: "Sunny Sunday", href: "/sunny-sunday", image: "/images/sunny-sunday.png" },
-            { name: "Action Delays", href: "/action-delays", image: "/images/green-pot.png", new: true },
+            { name: "Action Delays", href: "/action-delays", image: "/images/green-pot.png", },
         ],
     },
     // {
