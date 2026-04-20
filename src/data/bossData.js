@@ -3,6 +3,9 @@ import { formatShortformNumber } from '@/utils';
 // 
 //"C:\Users\Mason\Downloads\UI dump\UI.wz\_Canvas\UIBoss.img" // for banner images
 
+// actual gene/destiny/astra UI elements in `UI\_Canvas\UIWeaponQuest.img`
+// in KMS, boss icons are in `UI\_Canvas\UIBoss.img`
+
 export const bossData = [
     {
         name: "Zakum",
@@ -642,6 +645,34 @@ export const bossData = [
         ]
     },
     {
+        name: "Radiant Malefic Star",
+        category: "grandis",
+        frequency: "weekly",
+        level: 280,
+        pdr: "380%",
+        maxPartySize: 3,
+        difficulties: [
+            {
+                name: "Normal",
+                sacRequirement: 400,
+                hpPhases: [
+                    { hp: formatShortformNumber("657.6T") },
+                    { hp: formatShortformNumber("1.315Q") },
+                    { hp: formatShortformNumber("1.315Q") },
+                ],
+            },
+            {
+                name: "Hard",
+                sacRequirement: 550,
+                hpPhases: [
+                    { hp: formatShortformNumber("2.948Q") },
+                    { hp: formatShortformNumber("5.896Q") },
+                    { hp: formatShortformNumber("5.896Q") },
+                ],
+            }
+        ]
+    },
+    {
         name: "Limbo",
         category: "grandis",
         frequency: "weekly",
@@ -693,6 +724,34 @@ export const bossData = [
                     { hp: formatShortformNumber("5.3446Q") },
                     { hp: formatShortformNumber("5.6858Q") },
                     { hp: formatShortformNumber("9.309Q") },
+                ],
+            }
+        ]
+    },
+
+    {
+        name: "Jupiter",
+        category: "grandis",
+        frequency: "weekly",
+        level: 295,
+        sacRequirement: 810,
+        pdr: "380%",
+        maxPartySize: 3,
+        difficulties: [
+            {
+                name: "Normal",
+                hpPhases: [
+                    { hp: formatShortformNumber("2.0532Q") },
+                    { hp: formatShortformNumber("4.1064Q") },
+                    { hp: formatShortformNumber("4.1064Q") },
+                ],
+            },
+            {
+                name: "Hard",
+                hpPhases: [
+                    { hp: formatShortformNumber("9.88Q") },
+                    { hp: formatShortformNumber("19.76Q") },
+                    { hp: formatShortformNumber("19.76Q") },
                 ],
             }
         ]
