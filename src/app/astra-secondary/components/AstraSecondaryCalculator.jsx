@@ -112,13 +112,14 @@ const TRACES_BOSS_DATA = [
 
 // Daily Quest data for Erion's Fragments
 const DAILY_QUESTS = [
-  { id: 'cernium', name: 'Cernium Investigation', fragments: 1 },
-  { id: 'hotel_arcs', name: 'Hotel Arcs Clean Up', fragments: 3 },
+  { id: 'cernium', name: 'Cernium Research', fragments: 1 },
+  { id: 'hotel_arcs', name: 'Clean Up Around Hotel Arcus', fragments: 3 },
   { id: 'odium', name: 'Odium Area Expedition', fragments: 6 },
   { id: 'shangri_la', name: 'Shangri-La Contamination Purification', fragments: 10 },
   { id: 'arteria', name: 'Defeat the Arteria Remnants', fragments: 15 },
   { id: 'carcion', name: 'Carcion Recovery Support', fragments: 25 },
-  { id: 'tallahart', name: "Tallahart Ancient God's Power Investigation", fragments: 45 },
+  { id: 'tallahart', name: "Investigate the Tallahart Ancient God's Power", fragments: 45 },
+  { id: 'geardrak', name: 'Geardrak Cronos’ Remnants Collection', fragments: 65 },
 ];
 
 // Maximum traces that can be accumulated
@@ -274,10 +275,9 @@ const AstraSecondaryCalculator = () => {
   const calculateSchedule = useMemo(() => {
     const bossData = calculateBossWeeklyData();
     const weeklyTraces = bossData.reduce((sum, b) => sum + b.tracesPerWeek, 0);
-    const weeklyVoucherFragments = bossData.reduce((sum, b) => sum + b.voucherFragments, 0);
+    const oneTimeVoucherFragments = bossData.reduce((sum, b) => sum + b.voucherFragments, 0);
     const dailyFragments = getDailyFragments();
     const weeklyDailyFragments = dailyFragments * daysPerWeek;
-    const totalWeeklyFragments = weeklyVoucherFragments + weeklyDailyFragments;
 
     // Get missions starting from current
     const startMissionIndex = currentMission - 1;
@@ -296,6 +296,7 @@ const AstraSecondaryCalculator = () => {
     const timeline = [];
     let dayCount = 0;
     const maxDays = 365 * 2;
+    let vouchersClaimed = false; // Track if one-time vouchers have been claimed
 
     for (const mission of remainingMissions) {
       const missionStartTraces = traces;
@@ -313,34 +314,34 @@ const AstraSecondaryCalculator = () => {
           fragments += dailyFragments;
         }
 
-        // Check for Thursday reset (weekly boss traces + voucher fragments)
+        // Check for Thursday reset (weekly boss traces + one-time voucher fragments on first week only)
         if (currentDate.getTime() === nextThursday.getTime() || currentDate > nextThursday) {
           // Add weekly traces from bosses
           traces = Math.min(traces + weeklyTraces, MAX_TRACES_CAPACITY);
-          // Add voucher fragments (one-time only, so only add if not yet claimed)
-          fragments += weeklyVoucherFragments;
           
-          if (weeklyTraces > 0 || weeklyVoucherFragments > 0) {
+          // Add one-time voucher fragments only on the first Thursday
+          const voucherFragmentsThisWeek = !vouchersClaimed ? oneTimeVoucherFragments : 0;
+          fragments += voucherFragmentsThisWeek;
+          
+          if (weeklyTraces > 0 || voucherFragmentsThisWeek > 0) {
             timeline.push({
               date: new Date(nextThursday),
               type: 'weekly',
               tracesAdded: weeklyTraces,
-              fragmentsAdded: weeklyVoucherFragments,
+              fragmentsAdded: voucherFragmentsThisWeek,
               tracesTotal: traces,
               fragmentsTotal: fragments,
             });
           }
 
+          // Mark vouchers as claimed after first Thursday
+          if (!vouchersClaimed && oneTimeVoucherFragments > 0) {
+            vouchersClaimed = true;
+          }
+
           // Set next Thursday
           nextThursday = new Date(currentDate);
           nextThursday.setDate(nextThursday.getDate() + 7);
-          
-          // Mark vouchers as claimed after first week
-          if (weeklyVoucherFragments > 0) {
-            // Vouchers are one-time, so after first claim they become 0
-            // We handle this by noting that once claimed, they shouldn't be added again
-            // This is simplified - in reality users would need to manually track voucher claims
-          }
         }
 
         // Add timeline entry for daily fragments milestone
@@ -387,10 +388,9 @@ const AstraSecondaryCalculator = () => {
     return {
       bossData,
       weeklyTraces,
-      weeklyVoucherFragments,
+      oneTimeVoucherFragments,
       dailyFragments,
       weeklyDailyFragments,
-      totalWeeklyFragments,
       missionResults,
       completionDate: formattedCompletionDate,
       totalDays: dayCount,
@@ -724,23 +724,17 @@ const AstraSecondaryCalculator = () => {
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-bright/60">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                </svg>
-                <span className="text-primary-bright text-sm">Weekly Vouchers:</span>
-              </div>
-              <span className="font-bold text-secondary">{calculateSchedule.weeklyVoucherFragments}</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
                 <Image src="/astra-secondary/erion-fragment.webp" alt="" width={20} height={20} className="opacity-80" />
-                <span className="text-primary-bright text-sm">Weekly Dailies:</span>
+                <span className="text-primary-bright text-sm">Weekly Erion's Fragments:</span>
               </div>
               <span className="font-bold text-secondary">{calculateSchedule.weeklyDailyFragments}</span>
             </div>
             <div className="flex items-center justify-between border-t border-primary-dim pt-2">
-              <span className="text-primary-bright font-medium text-sm">Total Weekly Fragments:</span>
-              <span className="font-bold text-secondary">{calculateSchedule.totalWeeklyFragments}</span>
+              <div className="flex items-center gap-2">
+                <Image src="/astra-secondary/erion-fragment.webp" alt="" width={20} height={20} className="opacity-80" />
+                <span className="text-primary-bright font-medium text-sm">One-time Erion's Fragment Vouchers:</span>
+              </div>
+              <span className="font-bold text-secondary">{calculateSchedule.oneTimeVoucherFragments}</span>
             </div>
           </div>
 
@@ -811,9 +805,6 @@ const AstraSecondaryCalculator = () => {
           {calculateSchedule.missionResults.length > 0 && (
             <div className="bg-gradient-to-br from-secondary/20 to-secondary/5 border border-secondary/50 p-4 rounded-xl">
               <div className="flex items-center gap-2 mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-secondary">
-                  <path d="M8 21s4-3 8-3 8 3 8 3"/><path d="M12 3a6 6 0 0 0-6 6c0 2.5 2 5 6 5s6-2.5 6-5a6 6 0 0 0-6-6Z"/><circle cx="12" cy="9" r="2"/>
-                </svg>
                 <h3 className="text-lg font-semibold text-primary-bright">Final Completion</h3>
               </div>
               <div className="space-y-2">
