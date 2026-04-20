@@ -5,6 +5,7 @@ export const navigationItems = [
             { name: "Star Force", href: "/star-force", image: '/images/star-force.png' },
             { name: "Hexa", href: "/hexa", image: '/images/hexa.png' },
             { name: "Liberation", href: "/liberation", image: '/images/liberation.png', new: false },
+            { name: "Astra Secondary", href: "/astra-secondary", image: '/common/HEXA_Arcane_Overdrive.png', new: true },
         ]
     },
     // {
