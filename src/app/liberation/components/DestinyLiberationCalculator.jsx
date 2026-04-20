@@ -4,13 +4,21 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import CustomDropdown from './CustomDropdown';
 
-const LIBERATION_QUESTS = [
+// Part 1 Liberation Quests
+const LIBERATION_QUESTS_PART1 = [
   { id: 1, name: 'Decisive Battle, Chosen Seren', image: '/bossImages/chosen_seren.png', tracesRequired: 2000 },
   { id: 2, name: 'Decisive Battle, Watcher Kalos', image: '/bossImages/kalos_the_guardian.png', tracesRequired: 2500 },
   { id: 3, name: 'Decisive Battle, Apostle Kaling', image: '/bossImages/kaling.png', tracesRequired: 3000 },
 ];
 
-// Boss data with trace drops by difficulty (5 weekly-only bosses)
+// Part 2 Liberation Quests
+const LIBERATION_QUESTS_PART2 = [
+  { id: 1, name: 'Decisive Battle, First Adversary', image: '/bossImages/first_adversary.png', tracesRequired: 10000 },
+  { id: 2, name: 'Decisive Battle, Limbo', image: '/bossImages/limbo.png', tracesRequired: 12500 },
+  { id: 3, name: 'Decisive Battle, Baldrix', image: '/bossImages/baldrix.png', tracesRequired: 15000 },
+];
+
+// Boss data with trace drops by difficulty
 const BOSS_DATA = [
   {
     id: 'seren',
@@ -27,7 +35,7 @@ const BOSS_DATA = [
     difficulties: [
       { name: 'None', traces: 0 },
       { name: 'Normal', traces: 10 },
-      { name: 'Hard', traces: 70 },
+      { name: 'Chaos', traces: 70 },
       { name: 'Extreme', traces: 400 },
     ],
   },
@@ -41,6 +49,16 @@ const BOSS_DATA = [
       { name: 'Hard', traces: 120 },
       { name: 'Extreme', traces: 500 },
     ]
+  },
+  {
+    id: 'radiant_malefic_star',
+    name: 'Radiant Malefic Star',
+    maxPartySize: 3,
+    difficulties: [
+      { name: 'None', traces: 0 },
+      { name: 'Normal', traces: 20 },
+      { name: 'Hard', traces: 380 },
+    ],
   },
   {
     id: 'kaling',
@@ -71,10 +89,23 @@ const BOSS_DATA = [
       { name: 'Normal', traces: 150 },
       { name: 'Hard', traces: 450 },
     ],
+  },
+  {
+    id: "jupiter",
+    name: "Jupiter",
+    maxPartySize: 3,
+    difficulties: [
+      { name: 'None', traces: 0 },
+      { name: 'Normal', traces: 160 },
+      { name: 'Hard', traces: 500 },
+    ],
   }
 ];
 
 const DestinyLiberationCalculator = () => {
+  // State for active part (Part 1 or Part 2)
+  const [activePart, setActivePart] = useState('part1');
+
   // State for user inputs
   const [currentQuest, setCurrentQuest] = useState(1);
   const [currentTraces, setCurrentTraces] = useState(0);
@@ -92,19 +123,25 @@ const DestinyLiberationCalculator = () => {
     }))
   );
 
+  // Get current liberation quests based on active part
+  const getCurrentLiberationQuests = () => {
+    return activePart === 'part1' ? LIBERATION_QUESTS_PART1 : LIBERATION_QUESTS_PART2;
+  };
+
   // Calculate traces per week and completion date
   const calculateSchedule = () => {
     // Get the current quest data
+    const liberationQuests = getCurrentLiberationQuests();
     const questIndex = currentQuest - 1;
-    const currentQuestData = LIBERATION_QUESTS[questIndex];
+    const currentQuestData = liberationQuests[questIndex];
 
     // Calculate remaining traces for current quest
     const remainingTracesForCurrentQuest = Math.max(0, currentQuestData.tracesRequired - currentTraces);
 
     // Calculate total traces needed for all quests (current and future)
     let totalTracesNeeded = remainingTracesForCurrentQuest;
-    for (let i = questIndex + 1; i < LIBERATION_QUESTS.length; i++) {
-      totalTracesNeeded += LIBERATION_QUESTS[i].tracesRequired;
+    for (let i = questIndex + 1; i < liberationQuests.length; i++) {
+      totalTracesNeeded += liberationQuests[i].tracesRequired;
     }
 
     // Get the start date as a Date object (parse as UTC)
@@ -340,6 +377,38 @@ const DestinyLiberationCalculator = () => {
 
   return (
     <div className="max-w-7xl mx-auto bg-primary-dark border border-primary-dim p-6 rounded-2xl">
+      {/* Part Selection Tabs */}
+      <div className="flex items-center justify-center gap-3 mb-6">
+        <button
+          type="button"
+          onClick={() => {
+            setActivePart('part1');
+            setCurrentQuest(1);
+          }}
+          className={`inline-flex items-center justify-center rounded-xl px-4 py-2 font-semibold transition shadow-lg ring-1 ring-black/5 ${
+            activePart === 'part1'
+              ? 'bg-secondary text-primary-dark hover:bg-secondary-bright scale-[1.02]'
+              : 'bg-background-bright text-primary-bright hover:bg-primary-dark'
+          }`}
+        >
+          Part 1
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setActivePart('part2');
+            setCurrentQuest(1);
+          }}
+          className={`inline-flex items-center justify-center rounded-xl px-4 py-2 font-semibold transition shadow-lg ring-1 ring-black/5 ${
+            activePart === 'part2'
+              ? 'bg-secondary text-primary-dark hover:bg-secondary-bright scale-[1.02]'
+              : 'bg-background-bright text-primary-bright hover:bg-primary-dark'
+          }`}
+        >
+          Part 2
+        </button>
+      </div>
+
       {/* Input Details Section */}
       <div className="mb-8 p-4 bg-background-bright border border-primary-dim flex justify-between flex-col rounded-xl">
         <h2 className="text-2xl font-semibold text-primary-bright mb-4 mx-auto">Current Status</h2>
@@ -348,7 +417,7 @@ const DestinyLiberationCalculator = () => {
           <div className="space-y-2 flex flex-col items-center justify-center">
             <label className="block text-primary-bright font-medium">Current Quest</label>
             <CustomDropdown
-              options={LIBERATION_QUESTS}
+              options={getCurrentLiberationQuests()}
               selectedId={currentQuest}
               onChange={setCurrentQuest}
             />
