@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
+
+const STORAGE_KEY = 'astraSecondaryState';
 
 // Astra Subweapon Mission Requirements
 const MISSIONS = [
@@ -11,23 +13,20 @@ const MISSIONS = [
     description: 'Initial Awakening',
     tracesRequired: 600,
     fragmentsRequired: 3000,
-    image: '/common/HEXA_Arcane_Overdrive.png',
   },
   {
     id: 2,
     name: '2nd Mission',
-    description: 'Power Refinement',
+    description: 'The True Nature of Erion',
     tracesRequired: 600,
     fragmentsRequired: 3000,
-    image: '/common/HEXA_Arcane_Overdrive.png',
   },
   {
     id: 3,
     name: '3rd Mission',
-    description: 'Final Evolution',
+    description: 'Final Enhancement',
     tracesRequired: 800,
     fragmentsRequired: 4000,
-    image: '/common/HEXA_Arcane_Overdrive.png',
   },
 ];
 
@@ -125,7 +124,7 @@ const DAILY_QUESTS = [
 // Maximum traces that can be accumulated
 const MAX_TRACES_CAPACITY = 1000;
 
-const AstraSubweaponCalculator = () => {
+const AstraSecondaryCalculator = () => {
   // User input state
   const [currentMission, setCurrentMission] = useState(1);
   const [currentTraces, setCurrentTraces] = useState(0);
@@ -149,6 +148,78 @@ const AstraSubweaponCalculator = () => {
   // Daily quest state - stores the highest quest completed (or null if none)
   const [highestDailyQuest, setHighestDailyQuest] = useState('tallahart');
   const [daysPerWeek, setDaysPerWeek] = useState(7);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.currentMission !== undefined) setCurrentMission(parsed.currentMission);
+        if (parsed.currentTraces !== undefined) setCurrentTraces(parsed.currentTraces);
+        if (parsed.currentFragments !== undefined) setCurrentFragments(parsed.currentFragments);
+        if (parsed.startDate) setStartDate(parsed.startDate);
+        if (parsed.bossSelections) setBossSelections(parsed.bossSelections);
+        if (parsed.highestDailyQuest) setHighestDailyQuest(parsed.highestDailyQuest);
+        if (parsed.daysPerWeek !== undefined) setDaysPerWeek(parsed.daysPerWeek);
+      }
+    } catch {
+      // ignore storage errors
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save to localStorage when state changes
+  useEffect(() => {
+    if (!isLoaded) return;
+    try {
+      const state = {
+        currentMission,
+        currentTraces,
+        currentFragments,
+        startDate,
+        bossSelections,
+        highestDailyQuest,
+        daysPerWeek,
+      };
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, [currentMission, currentTraces, currentFragments, startDate, bossSelections, highestDailyQuest, daysPerWeek, isLoaded]);
+
+  // Reset all state
+  const handleReset = () => {
+    const now = new Date();
+    const defaultDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())).toISOString().split('T')[0];
+    
+    setCurrentMission(1);
+    setCurrentTraces(0);
+    setCurrentFragments(0);
+    setStartDate(defaultDate);
+    setBossSelections(
+      TRACES_BOSS_DATA.map(boss => ({
+        id: boss.id,
+        selectedDifficulty: 'None',
+        partySize: 1,
+        clearedThisWeek: false,
+        voucherClaimed: false,
+      }))
+    );
+    setHighestDailyQuest('tallahart');
+    setDaysPerWeek(7);
+    
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch {
+      // ignore storage errors
+    }
+  };
 
   // Handle boss selection changes
   const handleBossSelectionChange = (bossId, field, value) => {
@@ -345,7 +416,16 @@ const AstraSubweaponCalculator = () => {
     <div className="max-w-7xl mx-auto bg-primary-dark border border-primary-dim p-6 rounded-2xl">
       {/* Current Status Section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-primary-bright mb-4 text-center">Current Status</h2>
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <h2 className="text-2xl font-semibold text-primary-bright">Current Status</h2>
+          <button
+            onClick={handleReset}
+            className="text-sm px-3 py-1 bg-primary-dark hover:bg-primary-dim text-primary-bright/70 hover:text-primary-bright rounded-lg border border-primary-dim transition-colors"
+            title="Reset all values to default"
+          >
+            Reset
+          </button>
+        </div>
         
         {/* Mission Selection - Full Width Card */}
         <div className="mb-4 p-4 bg-background-bright border border-primary-dim rounded-xl">
@@ -747,7 +827,7 @@ const AstraSubweaponCalculator = () => {
                   <span className="font-bold text-secondary text-lg">{calculateSchedule.totalDays} days</span>
                 </div>
                 <div className="flex justify-between items-center pt-2 border-t border-secondary/20">
-                  <span className="text-primary-bright/80 text-sm">Complete Astra Subweapon:</span>
+                  <span className="text-primary-bright/80 text-sm">Complete Astra Secondary:</span>
                   <span className="font-bold text-secondary">{calculateSchedule.completionDate}</span>
                 </div>
               </div>
@@ -810,4 +890,4 @@ const AstraSubweaponCalculator = () => {
   );
 };
 
-export default AstraSubweaponCalculator;
+export default AstraSecondaryCalculator;
