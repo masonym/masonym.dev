@@ -524,9 +524,22 @@ const AstraSecondaryCalculator = () => {
               type="number"
               className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim text-center font-semibold"
               value={currentFragments}
-              onChange={(e) => setCurrentFragments(Math.max(0, Number(e.target.value)))}
-              min="0"
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === '' || val === '-') {
+                  setCurrentFragments(val);
+                } else {
+                  setCurrentFragments(Number(val));
+                }
+              }}
+              onBlur={(e) => {
+                const val = e.target.value;
+                if (val === '' || val === '-') {
+                  setCurrentFragments(0);
+                }
+              }}
             />
+            <p className="text-xs text-primary-bright/40 mt-2 text-center">Interactive players: If you plan to buy or sell tradable fragments, input them here. This number can be negative if you are selling the tradable fragments.</p>
           </div>
 
           {/* Start Date */}
