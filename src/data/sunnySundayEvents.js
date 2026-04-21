@@ -1134,7 +1134,8 @@ export const sunnySundaySchedule = [
   {
     date: '2026-05-03',
     events: [
-      'shining_star_force',
+      'star_force_protection',
+      'star_force_discount',
     ],
     source: 'Patch Notes',
   },
@@ -1168,7 +1169,8 @@ export const sunnySundaySchedule = [
   {
     date: '2026-05-31',
     events: [
-      'shining_star_force',
+      'star_force_protection',
+      'star_force_discount',
     ],
     source: 'Patch Notes',
   },

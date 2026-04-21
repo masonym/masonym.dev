@@ -663,6 +663,54 @@ const AnalyticsView = ({ sundays }) => {
   );
 };
 
+// upcoming banner component
+const UpcomingBanner = ({ sunday }) => {
+  if (!sunday) return null;
+
+  const date = parseYmdAsUtcDate(sunday.date);
+  const events = sunday.events.map(resolveEvent).filter(Boolean);
+  const showShining = hasShiningStarForce(sunday.events);
+  const today = isTodayUtc(date);
+
+  return (
+    <div className="mb-8 rounded-2xl border-2 border-secondary bg-primary-dark overflow-hidden">
+      <div className="px-5 py-4 bg-secondary/10 border-b border-secondary/30 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-secondary/20 flex items-center justify-center">
+            <Sun className="w-5 h-5 text-secondary" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-secondary uppercase tracking-widest">
+              {today ? 'Today' : 'Upcoming'} Sunny Sunday
+            </p>
+            <h2 className="text-xl font-bold text-primary-bright">
+              {formatSundayDateUtc(date)}
+            </h2>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          {today && (
+            <span className="px-2 py-0.5 rounded-full text-xs bg-secondary text-primary-dark font-bold animate-pulse">
+              TODAY
+            </span>
+          )}
+          {showShining && (
+            <span className="px-2 py-0.5 rounded-full text-xs bg-secondary text-primary-dark font-medium flex items-center gap-1">
+              <Sparkles className="w-3 h-3" />
+              Shining Star Force
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="p-5 grid gap-2 sm:grid-cols-2">
+        {events.map((event, i) => (
+          <EventBadge key={i} event={event} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // main component
 const SunnySundayClient = () => {
   const [viewMode, setViewMode] = useState('timeline'); // 'timeline' | 'list' | 'analytics'
@@ -702,6 +750,14 @@ const SunnySundayClient = () => {
     });
   }, [sortedSundays]);
 
+  // find the next upcoming (future or today) sunday for the banner
+  const upcomingSunday = useMemo(() => {
+    const todayUtcMs = getUtcStartOfDayMs(new Date());
+    // sundays are sorted newest-first, so iterate in reverse for ascending order
+    const ascending = [...sortedSundays].reverse();
+    return ascending.find((s) => getUtcStartOfDayMs(parseYmdAsUtcDate(s.date)) >= todayUtcMs) || null;
+  }, [sortedSundays]);
+
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
@@ -721,6 +777,9 @@ const SunnySundayClient = () => {
           Track upcoming and past Sunny Sunday events in MapleStory
         </p>
       </div>
+
+      {/* upcoming banner */}
+      <UpcomingBanner sunday={upcomingSunday} />
 
       {/* view toggle and controls */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
