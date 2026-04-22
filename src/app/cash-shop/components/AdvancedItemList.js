@@ -74,14 +74,14 @@ function AdvancedItemList() {
         const now = new Date();
         if (viewMode === 'past') {
             if (filters.dateRange.start && filters.dateRange.end) {
-                return { 
+                return {
                     startDate: filters.dateRange.start,
                     endDate: filters.dateRange.end
                 };
             }
             const thirtyDaysAgo = new Date(now);
             thirtyDaysAgo.setDate(now.getDate() - 30);
-            return { 
+            return {
                 startDate: formatDateForAPI(thirtyDaysAgo),
                 endDate: formatDateForAPI(now)
             };
@@ -152,7 +152,7 @@ function AdvancedItemList() {
             }, {});
             setNoItems(Object.keys(filtered).length === 0);
             setFilteredCategories(filtered);
-            
+
             const sortedDates = Object.keys(filtered).sort();
             if (viewMode === 'past') {
                 sortedDates.reverse();
@@ -177,7 +177,7 @@ function AdvancedItemList() {
         <div className="flex flex-col min-h-dvh h-auto pb-20 bg-cs-bg" style={{ backgroundAttachment: 'fixed' }}>
             <h1 className="text-center text-3xl mb-0 mt-16 text-primary-bright font-bold">Cash Shop Sales</h1>
             <h4 className="text-center text-xl my-5 mb-4 italic text-primary">
-                Last Updated for v.267 (March 18th, 2026)
+                Last Updated for v.268 (April 22nd, 2026)
             </h4>
 
             <FilterControls
