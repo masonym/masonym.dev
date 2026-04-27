@@ -701,7 +701,7 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                intensePowerCrystalValue: 658000000,
+                // intensePowerCrystalValue: 658000000,
                 sacRequirement: 400,
                 hpPhases: [
                     { hp: formatShortformNumber("657.6T") },
@@ -711,7 +711,7 @@ export const bossData = [
             },
             {
                 name: "Hard",
-                intensePowerCrystalValue: 2819000000,
+                // intensePowerCrystalValue: 2819000000,
                 sacRequirement: 550,
                 hpPhases: [
                     { hp: formatShortformNumber("2.948Q") },
@@ -793,7 +793,7 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                intensePowerCrystalValue: 1700000000,
+                // intensePowerCrystalValue: 1700000000,
                 hpPhases: [
                     { hp: formatShortformNumber("2.0532Q") },
                     { hp: formatShortformNumber("4.1064Q") },
@@ -802,7 +802,7 @@ export const bossData = [
             },
             {
                 name: "Hard",
-                intensePowerCrystalValue: 5100000000,
+                // intensePowerCrystalValue: 5100000000,
                 hpPhases: [
                     { hp: formatShortformNumber("9.88Q") },
                     { hp: formatShortformNumber("19.76Q") },
