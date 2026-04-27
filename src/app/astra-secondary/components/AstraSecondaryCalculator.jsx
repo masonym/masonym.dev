@@ -31,6 +31,7 @@ const MISSIONS = [
 ];
 
 // Fierce Battle Traces acquisition data
+// voucherCount = tickets that drop per kill, voucherValue = fragments per ticket
 const TRACES_BOSS_DATA = [
   {
     id: 'seren',
@@ -38,7 +39,7 @@ const TRACES_BOSS_DATA = [
     difficulties: [
       { name: 'Normal', traces: 6, hasVoucher: false },
       { name: 'Hard', traces: 15, hasVoucher: false },
-      { name: 'Extreme', traces: 180, voucherFragments: 30, hasVoucher: true },
+      { name: 'Extreme', traces: 180, hasVoucher: true, voucherCount: 6, voucherValue: 5 },
     ],
   },
   {
@@ -48,7 +49,7 @@ const TRACES_BOSS_DATA = [
       { name: 'Easy', traces: 6, hasVoucher: false },
       { name: 'Normal', traces: 30, hasVoucher: false },
       { name: 'Chaos', traces: 100, hasVoucher: false },
-      { name: 'Extreme', traces: 500, voucherFragments: 180, hasVoucher: true },
+      { name: 'Extreme', traces: 500, hasVoucher: true, voucherCount: 6, voucherValue: 30 },
     ],
   },
   {
@@ -58,8 +59,8 @@ const TRACES_BOSS_DATA = [
     difficulties: [
       { name: 'Easy', traces: 10, hasVoucher: false },
       { name: 'Normal', traces: 40, hasVoucher: false },
-      { name: 'Hard', traces: 180, voucherFragments: 30, hasVoucher: true },
-      { name: 'Extreme', traces: 540, voucherFragments: 240, hasVoucher: true },
+      { name: 'Hard', traces: 180, hasVoucher: true, voucherCount: 3, voucherValue: 10 },
+      { name: 'Extreme', traces: 540, hasVoucher: true, voucherCount: 3, voucherValue: 80 },
     ],
   },
   {
@@ -68,7 +69,7 @@ const TRACES_BOSS_DATA = [
     maxPartySize: 3,
     difficulties: [
       { name: 'Normal', traces: 60, hasVoucher: false },
-      { name: 'Hard', traces: 240, voucherFragments: 90, hasVoucher: true },
+      { name: 'Hard', traces: 240, hasVoucher: true, voucherCount: 3, voucherValue: 30 },
     ],
   },
   {
@@ -77,8 +78,8 @@ const TRACES_BOSS_DATA = [
     difficulties: [
       { name: 'Easy', traces: 20, hasVoucher: false },
       { name: 'Normal', traces: 80, hasVoucher: false },
-      { name: 'Hard', traces: 240, voucherFragments: 60, hasVoucher: true },
-      { name: 'Extreme', traces: 1440, voucherFragments: 480, hasVoucher: true },
+      { name: 'Hard', traces: 240, hasVoucher: true, voucherCount: 6, voucherValue: 10 },
+      { name: 'Extreme', traces: 1440, hasVoucher: true, voucherCount: 6, voucherValue: 80 },
     ],
   },
   {
@@ -87,7 +88,7 @@ const TRACES_BOSS_DATA = [
     maxPartySize: 3,
     difficulties: [
       { name: 'Normal', traces: 80, hasVoucher: false },
-      { name: 'Hard', traces: 240, voucherFragments: 60, hasVoucher: true },
+      { name: 'Hard', traces: 240, hasVoucher: true, voucherCount: 3, voucherValue: 20 },
     ],
   },
   {
@@ -96,7 +97,7 @@ const TRACES_BOSS_DATA = [
     maxPartySize: 3,
     difficulties: [
       { name: 'Normal', traces: 80, hasVoucher: false },
-      { name: 'Hard', traces: 240, voucherFragments: 120, hasVoucher: true },
+      { name: 'Hard', traces: 240, hasVoucher: true, voucherCount: 3, voucherValue: 40 },
     ],
   },
   {
@@ -104,8 +105,8 @@ const TRACES_BOSS_DATA = [
     name: 'Jupiter',
     maxPartySize: 3,
     difficulties: [
-      { name: 'Normal', traces: 210, voucherFragments: 45, hasVoucher: true },
-      { name: 'Hard', traces: 630, voucherFragments: 360, hasVoucher: true },
+      { name: 'Normal', traces: 210, hasVoucher: true, voucherCount: 3, voucherValue: 15 },
+      { name: 'Hard', traces: 630, hasVoucher: true, voucherCount: 3, voucherValue: 120 },
     ],
   },
 ];
@@ -142,7 +143,7 @@ const AstraSecondaryCalculator = () => {
       selectedDifficulty: 'None',
       partySize: 1,
       clearedThisWeek: false,
-      voucherClaimed: false,
+      vouchersKept: 0,
     }))
   );
 
@@ -166,7 +167,12 @@ const AstraSecondaryCalculator = () => {
         if (parsed.currentTraces !== undefined) setCurrentTraces(parsed.currentTraces);
         if (parsed.currentFragments !== undefined) setCurrentFragments(parsed.currentFragments);
         if (parsed.startDate) setStartDate(parsed.startDate);
-        if (parsed.bossSelections) setBossSelections(parsed.bossSelections);
+        if (parsed.bossSelections) {
+          setBossSelections(parsed.bossSelections.map(b => ({
+            ...b,
+            vouchersKept: b.vouchersKept ?? 0,
+          })));
+        }
         if (parsed.highestDailyQuest) setHighestDailyQuest(parsed.highestDailyQuest);
         if (parsed.daysPerWeek !== undefined) setDaysPerWeek(parsed.daysPerWeek);
         if (parsed.futureQuestDate !== undefined) setFutureQuestDate(parsed.futureQuestDate);
@@ -216,7 +222,7 @@ const AstraSecondaryCalculator = () => {
         selectedDifficulty: 'None',
         partySize: 1,
         clearedThisWeek: false,
-        voucherClaimed: false,
+        vouchersKept: 0,
       }))
     );
     setHighestDailyQuest('tallahart');
@@ -244,7 +250,7 @@ const AstraSecondaryCalculator = () => {
     );
   };
 
-  // Calculate weekly traces per boss
+  // Calculate weekly traces and voucher fragments per boss
   const calculateBossWeeklyData = () => {
     return bossSelections.map(selection => {
       const boss = TRACES_BOSS_DATA.find(b => b.id === selection.id);
@@ -256,13 +262,17 @@ const AstraSecondaryCalculator = () => {
           bossName: boss.name,
           tracesPerClear: 0,
           tracesPerWeek: 0,
-          voucherFragments: 0,
+          voucherFragmentsPerWeek: 0,
+          voucherCount: 0,
+          voucherValue: 0,
+          vouchersKept: 0,
         };
       }
 
       const tracesPerClear = Math.floor(difficulty.traces / selection.partySize);
       const tracesPerWeek = selection.clearedThisWeek ? 0 : tracesPerClear;
-      const voucherFragments = (!selection.voucherClaimed && difficulty.hasVoucher) ? (difficulty.voucherFragments || 0) : 0;
+      const vouchersKept = difficulty.hasVoucher ? (selection.vouchersKept || 0) : 0;
+      const voucherFragmentsPerWeek = vouchersKept * (difficulty.voucherValue || 0);
 
       return {
         bossId: boss.id,
@@ -270,7 +280,10 @@ const AstraSecondaryCalculator = () => {
         difficulty: difficulty.name,
         tracesPerClear,
         tracesPerWeek,
-        voucherFragments,
+        voucherFragmentsPerWeek,
+        voucherCount: difficulty.voucherCount || 0,
+        voucherValue: difficulty.voucherValue || 0,
+        vouchersKept,
         hasVoucher: difficulty.hasVoucher,
       };
     });
@@ -297,7 +310,7 @@ const AstraSecondaryCalculator = () => {
   const calculateSchedule = useMemo(() => {
     const bossData = calculateBossWeeklyData();
     const weeklyTraces = bossData.reduce((sum, b) => sum + b.tracesPerWeek, 0);
-    const oneTimeVoucherFragments = bossData.reduce((sum, b) => sum + b.voucherFragments, 0);
+    const weeklyVoucherFragments = bossData.reduce((sum, b) => sum + b.voucherFragmentsPerWeek, 0);
     const dailyFragments = getDailyFragments();
     const weeklyDailyFragments = dailyFragments * daysPerWeek;
 
@@ -323,14 +336,12 @@ const AstraSecondaryCalculator = () => {
     const missionResults = [];
     const timeline = [];
     let dayCount = 0;
-    let vouchersClaimed = false; // Track if one-time vouchers have been claimed
-
     // If unreachable, return early with infinity
     if (isUnreachable) {
       return {
         bossData,
         weeklyTraces,
-        oneTimeVoucherFragments,
+        weeklyVoucherFragments,
         dailyFragments,
         weeklyDailyFragments,
         missionResults: remainingMissions.map(mission => ({
@@ -366,32 +377,22 @@ const AstraSecondaryCalculator = () => {
           fragments += fragmentsToday;
         }
 
-        // Check for Thursday reset (weekly boss traces + one-time voucher fragments on first week only)
+        // Check for Thursday reset (weekly boss traces + weekly voucher fragments)
         if (currentDate.getTime() === nextThursday.getTime() || currentDate > nextThursday) {
-          // Add weekly traces from bosses
           traces = Math.min(traces + weeklyTraces, MAX_TRACES_CAPACITY);
+          fragments += weeklyVoucherFragments;
           
-          // Add one-time voucher fragments only on the first Thursday
-          const voucherFragmentsThisWeek = !vouchersClaimed ? oneTimeVoucherFragments : 0;
-          fragments += voucherFragmentsThisWeek;
-          
-          if (weeklyTraces > 0 || voucherFragmentsThisWeek > 0) {
+          if (weeklyTraces > 0 || weeklyVoucherFragments > 0) {
             timeline.push({
               date: new Date(nextThursday),
               type: 'weekly',
               tracesAdded: weeklyTraces,
-              fragmentsAdded: voucherFragmentsThisWeek,
+              fragmentsAdded: weeklyVoucherFragments,
               tracesTotal: traces,
               fragmentsTotal: fragments,
             });
           }
 
-          // Mark vouchers as claimed after first Thursday
-          if (!vouchersClaimed && oneTimeVoucherFragments > 0) {
-            vouchersClaimed = true;
-          }
-
-          // Set next Thursday
           nextThursday = new Date(currentDate);
           nextThursday.setDate(nextThursday.getDate() + 7);
         }
@@ -440,7 +441,7 @@ const AstraSecondaryCalculator = () => {
     return {
       bossData,
       weeklyTraces,
-      oneTimeVoucherFragments,
+      weeklyVoucherFragments,
       dailyFragments,
       weeklyDailyFragments,
       missionResults,
@@ -592,7 +593,7 @@ const AstraSecondaryCalculator = () => {
                 }
               }}
             />
-            <p className="text-xs text-primary-bright/40 mt-2 text-center">Interactive players: If you plan to buy or sell tradable fragments, input them here. This number can be negative if you are selling the tradable fragments.</p>
+            <p className="text-xs text-primary-bright/40 mt-2 text-center">Interactive players: If you plan to buy tradable fragments, input them here. </p>
           </div>
 
           {/* Start Date */}
@@ -629,8 +630,8 @@ const AstraSecondaryCalculator = () => {
           <div>
             <h2 className="text-2xl font-semibold text-primary-bright mb-4">Boss Configuration</h2>
             <p className="text-sm text-primary-bright/70 mb-4">
-              Select difficulty, party size, and whether you clear weekly. 
-              Traces are divided by party size. Voucher fragments are one-time rewards.
+              Select difficulty, party size, and whether you cleared this week.
+              Traces are divided by party size. Erion's Fragment Exchange Tickets drop every kill — set how many you keep per week (0 = sell all).
             </p>
 
             {TRACES_BOSS_DATA.map((boss) => {
@@ -652,7 +653,7 @@ const AstraSecondaryCalculator = () => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
                     {/* Difficulty Selection */}
-                    <div className="sm:col-span-5">
+                    <div className="sm:col-span-4">
                       <label className="block text-primary-bright text-sm mb-1">Difficulty</label>
                       <select
                         className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
@@ -662,20 +663,19 @@ const AstraSecondaryCalculator = () => {
                         <option value="None">Not Clearing</option>
                         {boss.difficulties.map(diff => (
                           <option key={diff.name} value={diff.name}>
-                            {diff.name} ({diff.traces} traces{diff.hasVoucher ? `, ${diff.voucherFragments} voucher` : ''})
+                            {diff.name} ({diff.traces} traces{diff.hasVoucher ? `, ${diff.voucherCount}×${diff.voucherValue} fragments` : ''})
                           </option>
                         ))}
                       </select>
                     </div>
 
                     {/* Party Size */}
-                    <div className="sm:col-span-3">
-                      <label className="block text-primary-bright text-sm mb-1">Party Size</label>
+                    <div className="sm:col-span-2">
+                      <label className="block text-primary-bright text-sm mb-1">Party</label>
                       <select
                         className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
                         value={selection?.partySize || 1}
                         onChange={(e) => handleBossSelectionChange(boss.id, 'partySize', Number(e.target.value))}
-                        // disabled={selection?.selectedDifficulty === 'None'}
                       >
                         {Array.from({ length: boss.maxPartySize || 6 }, (_, i) => i + 1).map(size => (
                           <option key={size} value={size}>{size}</option>
@@ -683,8 +683,26 @@ const AstraSecondaryCalculator = () => {
                       </select>
                     </div>
 
+                    {/* Tickets Kept */}
+                    {selectedDifficulty?.hasVoucher && (
+                      <div className="sm:col-span-3">
+                        <label className="block text-primary-bright text-sm mb-1">
+                          Vouchers Kept
+                          <span className="text-primary-bright/50 font-normal ml-1">(of {selectedDifficulty.voucherCount})</span>
+                        </label>
+                        <input
+                          type="number"
+                          className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim text-center"
+                          value={selection?.vouchersKept ?? 0}
+                          min={0}
+                          max={selectedDifficulty.voucherCount}
+                          onChange={(e) => handleBossSelectionChange(boss.id, 'vouchersKept', Math.min(selectedDifficulty.voucherCount, Math.max(0, Number(e.target.value))))}
+                        />
+                      </div>
+                    )}
+
                     {/* Cleared This Week Toggle */}
-                    <div className="sm:col-span-4">
+                    <div className={selectedDifficulty?.hasVoucher ? 'sm:col-span-3' : 'sm:col-span-6'}>
                       <label className="block text-primary-bright text-sm mb-1">Cleared This Week</label>
                       <label className="flex items-center cursor-pointer">
                         <div className="relative">
@@ -706,14 +724,17 @@ const AstraSecondaryCalculator = () => {
                   </div>
 
                   {selectedDifficulty && selectedDifficulty.name !== 'None' && (
-                    <div className="mt-3 text-sm text-primary-bright/70">
-                      <span>Traces per clear: </span>
-                      <span className="font-semibold text-secondary">
-                        {Math.floor(selectedDifficulty.traces / (selection?.partySize || 1))}
+                    <div className="mt-3 p-2 bg-primary-dark rounded-lg text-sm flex flex-wrap gap-x-4 gap-y-1">
+                      <span className="text-primary-bright/70">
+                        Traces: <span className="font-semibold text-secondary">{Math.floor(selectedDifficulty.traces / (selection?.partySize || 1))}/week</span>
                       </span>
-                      {selectedDifficulty.hasVoucher && !selection?.voucherClaimed && (
-                        <span className="ml-3">
-                          Voucher: <span className="font-semibold text-secondary">{selectedDifficulty.voucherFragments} fragments</span> (one-time)
+                      {selectedDifficulty.hasVoucher && (
+                        <span className="text-primary-bright/70">
+                          Vouchers: <span className="font-semibold text-secondary">{selectedDifficulty.voucherCount} drops</span>
+                          <span className="text-primary-bright/50"> × {selectedDifficulty.voucherValue} Erion's Fragments each</span>
+                          {(selection?.vouchersKept || 0) > 0 && (
+                            <span className="text-secondary font-semibold ml-1">→ {(selection.vouchersKept * selectedDifficulty.voucherValue).toLocaleString()} frags/week kept</span>
+                          )}
                         </span>
                       )}
                     </div>
@@ -841,16 +862,16 @@ const AstraSecondaryCalculator = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Image src="/astra-secondary/erion-fragment.webp" alt="" width={20} height={20} className="opacity-80" />
-                <span className="text-primary-bright text-sm">Weekly Erion's Fragments:</span>
+                <span className="text-primary-bright text-sm">Weekly Fragments (dailies):</span>
               </div>
               <span className="font-bold text-secondary">{calculateSchedule.weeklyDailyFragments}</span>
             </div>
-            <div className="flex items-center justify-between border-t border-primary-dim pt-2">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Image src="/astra-secondary/erion-fragment.webp" alt="" width={20} height={20} className="opacity-80" />
-                <span className="text-primary-bright font-medium text-sm">One-time Erion's Fragment Vouchers:</span>
+                <span className="text-primary-bright text-sm">Weekly Fragments (vouchers):</span>
               </div>
-              <span className="font-bold text-secondary">{calculateSchedule.oneTimeVoucherFragments}</span>
+              <span className="font-bold text-secondary">{calculateSchedule.weeklyVoucherFragments}</span>
             </div>
           </div>
 
@@ -953,12 +974,12 @@ const AstraSecondaryCalculator = () => {
         <div className="flex items-center gap-2">
           <h3 className="text-xl font-medium text-primary-bright">Weekly Boss Breakdown</h3>
           <span className="text-sm text-primary-bright/60 ml-auto">
-            {calculateSchedule.bossData.filter(b => b.tracesPerWeek > 0 || b.voucherFragments > 0).length} bosses selected
+            {calculateSchedule.bossData.filter(b => b.tracesPerWeek > 0 || b.voucherFragmentsPerWeek > 0).length} bosses selected
           </span>
         </div>
         <div className="bg-background-bright border border-primary-dim p-4 rounded-xl">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {calculateSchedule.bossData.filter(b => b.tracesPerWeek > 0 || b.voucherFragments > 0).map(boss => (
+            {calculateSchedule.bossData.filter(b => b.tracesPerWeek > 0 || b.voucherFragmentsPerWeek > 0).map(boss => (
               <div key={boss.bossId} className="flex items-center justify-between p-3 bg-primary-dark rounded-lg border border-primary-dim/50">
                 <div className="flex items-center gap-2">
                   <Image
@@ -978,16 +999,16 @@ const AstraSecondaryCalculator = () => {
                     <Image src="/astra-secondary/trace-of-battle.webp" alt="" width={12} height={12} />
                     <span className="text-sm font-bold text-secondary">+{boss.tracesPerWeek}</span>
                   </div>
-                  {boss.voucherFragments > 0 && (
+                  {boss.voucherFragmentsPerWeek > 0 && (
                     <div className="flex items-center gap-1 justify-end">
                       <Image src="/astra-secondary/erion-fragment.webp" alt="" width={12} height={12} />
-                      <span className="text-xs text-secondary/80">+{boss.voucherFragments}</span>
+                      <span className="text-xs text-secondary/80">+{boss.voucherFragmentsPerWeek} frags</span>
                     </div>
                   )}
                 </div>
               </div>
             ))}
-            {calculateSchedule.bossData.filter(b => b.tracesPerWeek > 0 || b.voucherFragments > 0).length === 0 && (
+            {calculateSchedule.bossData.filter(b => b.tracesPerWeek > 0 || b.voucherFragmentsPerWeek > 0).length === 0 && (
               <div className="col-span-full text-center text-primary-bright/60 py-8">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-50">
                   <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
