@@ -9,6 +9,28 @@ import { motion } from 'framer-motion';
 const calculateTotalHP = (phases) =>
     phases.reduce((sum, phase) => sum + phase.hp, 0);
 
+ const HEROIC_MULTIPLIER = 5;
+
+ const formatMesoValue = (value) => `${formatLongformNumber(value)} meso`;
+
+ const getCrystalValueByServer = (baseValue, serverType) => {
+     if (baseValue == null) return null;
+     return serverType === 'heroic' ? baseValue * HEROIC_MULTIPLIER : baseValue;
+ };
+
+ const getPartyCrystalBreakdown = (baseValue, serverType, maxPartySize = 6) => {
+     const adjustedValue = getCrystalValueByServer(baseValue, serverType);
+     if (adjustedValue == null) return [];
+
+     return Array.from({ length: maxPartySize }, (_, index) => {
+         const partySize = index + 1;
+         return {
+             partySize,
+             value: Math.floor(adjustedValue / partySize),
+         };
+     });
+ };
+
 const calculateHPThreshold = (totalHp, percentage) =>
     Number((totalHp * percentage / 100).toFixed(1));
 
@@ -54,7 +76,62 @@ const RequirementTooltip = ({ type, requirement }) => {
     );
 };
 
-const BossCard = ({ boss }) => {
+ const CrystalTooltip = ({ breakdown }) => {
+     if (breakdown.length === 0) return null;
+
+     return (
+         <div className="overflow-visible absolute bottom-full right-0 mb-2 w-56 bg-background-dim border border-primary-dim text-primary-bright text-sm rounded-lg shadow-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-100">
+             <div className="font-bold text-center mb-2">Party Split Breakdown</div>
+             <ul className="space-y-1.5">
+                 {breakdown.map(({ partySize, value }) => (
+                     <li key={partySize} className="flex items-center justify-between gap-3">
+                         <span>{partySize} member{partySize > 1 ? 's' : ''}</span>
+                         <span className="text-secondary">{formatMesoValue(value)}</span>
+                     </li>
+                 ))}
+             </ul>
+             <div className="absolute right-6 bottom-[-4px] w-2 h-2 bg-background-dim transform rotate-45"></div>
+         </div>
+     );
+ };
+
+ const CrystalValueCard = ({ boss, difficultyName, serverType }) => {
+     const activeDifficultyData = boss.difficulties.find(diff => diff.name === difficultyName);
+     const baseValue = activeDifficultyData?.intensePowerCrystalValue ?? null;
+
+     if (baseValue == null) return null;
+
+     const currentValue = getCrystalValueByServer(baseValue, serverType);
+     const breakdown = getPartyCrystalBreakdown(baseValue, serverType, boss.maxPartySize || 6);
+     const crystalIcon = boss.frequency === 'monthly'
+         ? '/bossImages/powerCrystals/intense-power-crystal-monthly.png'
+         : '/bossImages/powerCrystals/intense-power-crystal-weekly.png';
+
+     return (
+         <div className="relative group bg-background-bright rounded-lg p-3">
+             <div className="flex items-center gap-3">
+                 <Image
+                     src={crystalIcon}
+                     alt="Intense Power Crystal"
+                     width={36}
+                     height={36}
+                     className="h-9 w-9 object-contain"
+                 />
+                 <div className="min-w-0 flex-1">
+                     <div className="flex items-center justify-between gap-2">
+                         <span className="text-xs font-bold text-primary uppercase tracking-wider">Crystal Value</span>
+                         <span className="text-[11px] text-primary-dim capitalize">{serverType}</span>
+                     </div>
+                     <div className="text-base font-semibold text-secondary truncate">{formatMesoValue(currentValue)}</div>
+                     <div className="text-[11px] text-primary-dim">Hover for party split</div>
+                 </div>
+             </div>
+             <CrystalTooltip breakdown={breakdown} />
+         </div>
+     );
+ };
+
+const BossCard = ({ boss, serverType }) => {
     const getInitialDifficulty = () => {
         if (typeof window !== 'undefined') {
             const savedDifficulty = localStorage.getItem(`boss-difficulty-${boss.name}`);
@@ -152,6 +229,7 @@ const BossCard = ({ boss }) => {
                                 </p>
                             </div>
                         </div>
+                        <CrystalValueCard boss={boss} difficultyName={activeDifficulty} serverType={serverType} />
                     </div>
                 )}
             </div>
@@ -237,6 +315,11 @@ const SORT_OPTIONS = [
     { value: 'level-desc', label: 'Level ↓' },
 ];
 
+ const SERVER_OPTIONS = [
+     { value: 'heroic', label: 'Heroic' },
+     { value: 'interactive', label: 'Interactive' },
+ ];
+
 const DEFAULT_FILTERS = {
     categories: [],
     frequencies: [],
@@ -313,6 +396,7 @@ const FilterPills = ({ options, value, onChange, label }) => (
 const BossesPageClient = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filters, setFilters] = useState(loadFilters);
+    const [serverType, setServerType] = useState('heroic');
 
     const updateFilter = (key, value) => {
         setFilters(prev => {
@@ -393,6 +477,12 @@ const BossesPageClient = () => {
                         value={filters.sort}
                         onChange={(v) => updateFilter('sort', v)}
                     />
+                    <FilterPills
+                        label="Crystal Prices"
+                        options={SERVER_OPTIONS}
+                        value={serverType}
+                        onChange={setServerType}
+                    />
                 </div>
             </div>
 
@@ -403,7 +493,7 @@ const BossesPageClient = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {filteredBosses.map(boss => (
-                        <BossCard key={boss.name} boss={boss} />
+                        <BossCard key={boss.name} boss={boss} serverType={serverType} />
                     ))}
                 </div>
             )}
