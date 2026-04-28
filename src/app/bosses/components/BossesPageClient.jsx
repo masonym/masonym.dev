@@ -131,6 +131,16 @@ const RequirementTooltip = ({ type, requirement }) => {
      );
  };
 
+const SeasonalBadge = ({ boss }) => {
+    if (boss.category !== 'seasonal') return null;
+    return (
+        <div className="flex flex-col gap-1 bg-background-bright rounded-lg px-3 py-2 text-xs text-center">
+            <span className="font-bold text-secondary uppercase tracking-wider">Challenger Season {boss.challengerSeason}</span>
+            <span className="text-primary-dim">Available from {new Date(boss.availableFrom + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+        </div>
+    );
+};
+
 const BossCard = ({ boss, serverType }) => {
     const getInitialDifficulty = () => {
         if (typeof window !== 'undefined') {
@@ -230,6 +240,7 @@ const BossCard = ({ boss, serverType }) => {
                             </div>
                         </div>
                         <CrystalValueCard boss={boss} difficultyName={activeDifficulty} serverType={serverType} />
+                        <SeasonalBadge boss={boss} />
                     </div>
                 )}
             </div>
@@ -302,6 +313,7 @@ const CATEGORY_OPTIONS = [
     { value: 'pre-lomien', label: 'Pre-Lomien' },
     { value: 'lomien-arcane', label: 'Lomien + Arcane River' },
     { value: 'grandis', label: 'Grandis' },
+    { value: 'seasonal', label: 'Seasonal' },
 ];
 
 const FREQUENCY_OPTIONS = [

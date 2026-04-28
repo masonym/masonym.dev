@@ -812,6 +812,33 @@ export const bossData = [
         ]
     },
     {
+        name: "Kai",
+        category: "seasonal",
+        frequency: "weekly",
+        pdr: "380%",
+        maxPartySize: 1,
+        availableFrom: "2025-06-17",
+        challengerSeason: 3,
+        difficulties: [
+            {
+                name: "Normal",
+                hpPhases: [
+                    { hp: formatShortformNumber("63T") },
+                    { hp: formatShortformNumber("63T") },
+                ],
+                level: 270,
+            },
+            {
+                name: "Hard",
+                hpPhases: [
+                    { hp: formatShortformNumber("214.5T") },
+                    { hp: formatShortformNumber("214.5T") },
+                ],
+                level: 280,
+            }
+        ]
+    },
+    {
         name: "Black Mage",
         category: "lomien-arcane",
         frequency: "monthly",
