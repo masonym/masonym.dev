@@ -229,13 +229,19 @@ export function buildStarTable({
 
 // Fast Monte-Carlo run using a precomputed table. Returns the same shape as
 // simulateStarForce for interoperability.
-export function simulateStarForceFast(table, startingStar, targetStar, maxAttempts = 10000) {
+//
+// There is no attempt cap: every star has pSuccess > 0, so the chain is a
+// positive-recurrent Markov process with a single absorbing state and
+// terminates with probability 1 in finite expected time. Capping the loop
+// biases downstream statistics because capped (unlucky) runs are dropped
+// from the reached-target population.
+export function simulateStarForceFast(table, startingStar, targetStar) {
     let currentStar = startingStar;
     let attempts = 0;
     let booms = 0;
     let totalCost = 0;
 
-    while (currentStar < targetStar && attempts < maxAttempts) {
+    while (currentStar < targetStar) {
         const e = table[currentStar];
         attempts++;
         totalCost += e.cost;

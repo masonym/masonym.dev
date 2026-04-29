@@ -66,8 +66,6 @@ export default function StarForceSimulator() {
         const N = simulationSettings.numSimulations;
         const costs = new Float64Array(N);
         const booms = new Float64Array(N);
-        let numReached = 0;
-        let numStuck = 0; // sims that hit the attempt cap without reaching target
         let totalAttempts = 0;
         let totalCostAllRuns = 0;
         let totalBoomsAllRuns = 0;
@@ -98,47 +96,32 @@ export default function StarForceSimulator() {
                 totalAttempts += result.attempts;
                 totalCostAllRuns += result.totalCost;
                 totalBoomsAllRuns += result.booms;
-
-                if (result.success) {
-                    costs[numReached] = result.totalCost;
-                    booms[numReached] = result.booms;
-                    numReached++;
-                } else {
-                    numStuck++;
-                }
+                costs[i] = result.totalCost;
+                booms[i] = result.booms;
             }
 
             setProgress((batch + 1) / totalBatches * 100);
             await new Promise(resolve => setTimeout(resolve, 0));
         }
 
-        // Sort only the populated portion of the typed arrays.
-        const reachedCosts = costs.subarray(0, numReached);
-        const reachedBooms = booms.subarray(0, numReached);
-        reachedCosts.sort();
-        reachedBooms.sort();
-
-        const sumReachedCost = reachedCosts.reduce((a, b) => a + b, 0);
-        const sumReachedBooms = reachedBooms.reduce((a, b) => a + b, 0);
+        costs.sort();
+        booms.sort();
 
         setResults({
             numSimulations: N,
-            numReached,
-            numStuck,
+            numReached: N,
+            numStuck: 0,
             attempts: totalAttempts,
             totalCost: totalCostAllRuns,
             totalBooms: totalBoomsAllRuns,
-            // Cost/boom stats are computed over simulations that reached the
-            // target so the average is on the same population as the
-            // percentiles.
-            averageCost: numReached > 0 ? sumReachedCost / numReached : 0,
-            p5Cost: percentile(reachedCosts, 0.05),
-            p50Cost: percentile(reachedCosts, 0.50),
-            p95Cost: percentile(reachedCosts, 0.95),
-            averageBooms: numReached > 0 ? sumReachedBooms / numReached : 0,
-            p5Booms: percentile(reachedBooms, 0.05),
-            p50Booms: percentile(reachedBooms, 0.50),
-            p95Booms: percentile(reachedBooms, 0.95),
+            averageCost: N > 0 ? totalCostAllRuns / N : 0,
+            p5Cost: percentile(costs, 0.05),
+            p50Cost: percentile(costs, 0.50),
+            p95Cost: percentile(costs, 0.95),
+            averageBooms: N > 0 ? totalBoomsAllRuns / N : 0,
+            p5Booms: percentile(booms, 0.05),
+            p50Booms: percentile(booms, 0.50),
+            p95Booms: percentile(booms, 0.95),
         });
 
         setIsSimulating(false);
