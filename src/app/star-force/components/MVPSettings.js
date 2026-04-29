@@ -6,7 +6,9 @@ const mvpTypes = [
     { id: 'none', label: 'None' },
     { id: 'silver', label: 'MVP Silver (3% discount up to 17th star)' },
     { id: 'gold', label: 'MVP Gold (5% discount up to 17th star)' },
-    { id: 'platinum', label: 'MVP Platinum (10% discount up to 17th star)' }
+    { id: 'diamond', label: 'MVP Diamond (10% discount up to 17th star)' },
+    { id: 'red', label: 'MVP Red (10% discount up to 17th star)' },
+    { id: 'black', label: 'MVP Black (10% discount up to 17th star)' }
 ];
 
 export default function MVPSettings({ settings, onChange }) {

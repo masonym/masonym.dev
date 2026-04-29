@@ -79,7 +79,10 @@ export function applyMVPDiscount(cost, mvpType, currentStar) {
     const discounts = {
         silver: 0.03,
         gold: 0.05,
-        platinum: 0.10
+        platinum: 0.10,
+        diamond: 0.10,
+        red: 0.10,
+        black: 0.10
     };
 
     return mvpType === 'none' ? cost : Math.floor(cost * (1 - discounts[mvpType]));

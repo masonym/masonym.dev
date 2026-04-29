@@ -7,6 +7,7 @@ import SafeguardSettings from './SafeguardSettings';
 import StarCatchSettings from './StarCatchSettings';
 import EventSettings from './EventSettings';
 import MVPSettings from './MVPSettings';
+import SpareItemSettings from './SpareItemSettings';
 import SimulationResults from './SimulationResults';
 import { simulateStarForce } from '../utils';
 
@@ -35,6 +36,12 @@ export default function StarForceSimulator() {
 
     const [mvpSettings, setMvpSettings] = useState({
         type: 'none'  // none, silver, gold, platinum
+    });
+
+    const [spareItemSettings, setSpareItemSettings] = useState({
+        sparePrice: 0,
+        currency: 'mesos',
+        label: ''
     });
 
     const [results, setResults] = useState(null);
@@ -118,10 +125,17 @@ export default function StarForceSimulator() {
     return (
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <EquipmentInfo 
-                    info={equipmentInfo} 
-                    onChange={setEquipmentInfo} 
-                />
+                <div className="flex flex-col gap-4">
+                    <EquipmentInfo 
+                        info={equipmentInfo} 
+                        onChange={setEquipmentInfo} 
+                    />
+                    <SpareItemSettings
+                        settings={spareItemSettings}
+                        onChange={setSpareItemSettings}
+                        onEquipmentChange={setEquipmentInfo}
+                    />
+                </div>
                 <SimulationSettings 
                     settings={simulationSettings} 
                     onChange={setSimulationSettings} 
@@ -170,7 +184,14 @@ export default function StarForceSimulator() {
                 )}
             </div>
 
-            {results && !isSimulating && <SimulationResults results={results} />}
+            {results && !isSimulating && (
+                <SimulationResults
+                    results={results}
+                    sparePrice={spareItemSettings.sparePrice}
+                    spareCurrency={spareItemSettings.currency}
+                    spareLabel={spareItemSettings.label}
+                />
+            )}
         </div>
     );
 }

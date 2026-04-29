@@ -631,7 +631,7 @@ const AstraSecondaryCalculator = () => {
             <h2 className="text-2xl font-semibold text-primary-bright mb-4">Boss Configuration</h2>
             <p className="text-sm text-primary-bright/70 mb-4">
               Select difficulty, party size, and whether you cleared this week.
-              Traces are divided by party size. Erion's Fragment Exchange Tickets drop every kill — set how many you keep per week (0 = sell all).
+              Traces are divided by party size. Erion's Fragment Exchange Tickets drop every kill - set how many you keep per week (0 = sell all).
             </p>
 
             {TRACES_BOSS_DATA.map((boss) => {

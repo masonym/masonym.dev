@@ -2,13 +2,31 @@
 
 import React from 'react';
 
-export default function SimulationResults({ results }) {
+export default function SimulationResults({ results, sparePrice = 0, spareCurrency = 'mesos', spareLabel = '' }) {
     const formatNumber = (num) => {
         return new Intl.NumberFormat('en-US').format(Math.round(num));
     };
 
+    const formatCurrency = (num, currency) => {
+        const formatted = formatNumber(num);
+        return currency === 'mesos' ? `${formatted} mesos` : `${formatted} ${currency}`;
+    };
+
     // Calculate total simulations (each simulation either succeeds or is destroyed)
     const totalSimulations = results.successes + Math.floor(results.destructions);
+
+    const hasSpare = sparePrice > 0;
+
+    // Spare cost stats (based on per-success boom averages from simulation)
+    const avgSpareCost = hasSpare ? results.averageBooms * sparePrice : 0;
+    const medianSpareCost = hasSpare ? results.medianBooms * sparePrice : 0;
+    const minSpareCost = hasSpare ? results.minBooms * sparePrice : 0;
+    const maxSpareCost = hasSpare ? results.maxBooms * sparePrice : 0;
+
+    const avgTotalCost = results.averageCost + avgSpareCost;
+    const medianTotalCost = results.medianCost + medianSpareCost;
+    const minTotalCost = results.minCost + minSpareCost;
+    const maxTotalCost = results.maxCost + maxSpareCost;
 
     return (
         <div className="p-4 bg-[color:var(--primary-dark)] rounded-lg shadow mt-6">
@@ -61,7 +79,7 @@ export default function SimulationResults({ results }) {
 
             {/* Destruction Stats */}
             <h3 className="text-lg font-semibold mb-3 text-[color:var(--primary-bright)]">Destruction Statistics</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div className="p-3 bg-[color:var(--background)] rounded">
                     <div className="text-sm text-[color:var(--primary-dim)]">Average Booms</div>
                     <div className="text-lg font-semibold text-[color:var(--progress-red)]">{results.averageBooms.toFixed(2)} per success</div>
@@ -77,6 +95,67 @@ export default function SimulationResults({ results }) {
                     </div>
                 </div>
             </div>
+
+            {/* Spare Item Cost Stats */}
+            {hasSpare && (
+                <>
+                    <h3 className="text-lg font-semibold mb-1 text-[color:var(--primary-bright)]">
+                        Spare Item Cost
+                        {spareLabel && (
+                            <span className="ml-2 text-sm font-normal text-[color:var(--secondary)]">
+                                - {spareLabel}
+                            </span>
+                        )}
+                    </h3>
+                    <p className="text-sm text-[color:var(--primary-dim)] mb-3">
+                        {formatCurrency(sparePrice, spareCurrency)} per spare × booms per success
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div className="p-3 bg-[color:var(--background)] rounded">
+                            <div className="text-sm text-[color:var(--primary-dim)]">Avg Spare Cost</div>
+                            <div className="text-lg font-semibold text-[color:var(--secondary)]">
+                                {formatCurrency(avgSpareCost, spareCurrency)}
+                            </div>
+                        </div>
+                        <div className="p-3 bg-[color:var(--background)] rounded">
+                            <div className="text-sm text-[color:var(--primary-dim)]">Median Spare Cost</div>
+                            <div className="text-lg font-semibold text-[color:var(--secondary)]">
+                                {formatCurrency(medianSpareCost, spareCurrency)}
+                            </div>
+                        </div>
+                        <div className="p-3 bg-[color:var(--background)] rounded">
+                            <div className="text-sm text-[color:var(--primary-dim)]">Spare Cost Range</div>
+                            <div className="text-lg font-semibold text-[color:var(--secondary)]">
+                                {formatCurrency(minSpareCost, spareCurrency)} – {formatCurrency(maxSpareCost, spareCurrency)}
+                            </div>
+                        </div>
+                    </div>
+
+                    {spareCurrency === 'mesos' && (
+                        <>
+                            <h3 className="text-lg font-semibold mb-3 text-[color:var(--primary-bright)]">
+                                Total Cost (Mesos + Spare)
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="p-3 bg-[color:var(--background)] rounded border border-[color:var(--secondary)]">
+                                    <div className="text-sm text-[color:var(--primary-dim)]">Average Total</div>
+                                    <div className="text-lg font-semibold text-[color:var(--primary)]">{formatNumber(avgTotalCost)} mesos</div>
+                                </div>
+                                <div className="p-3 bg-[color:var(--background)] rounded border border-[color:var(--secondary)]">
+                                    <div className="text-sm text-[color:var(--primary-dim)]">Median Total</div>
+                                    <div className="text-lg font-semibold text-[color:var(--primary)]">{formatNumber(medianTotalCost)} mesos</div>
+                                </div>
+                                <div className="p-3 bg-[color:var(--background)] rounded border border-[color:var(--secondary)]">
+                                    <div className="text-sm text-[color:var(--primary-dim)]">Total Range</div>
+                                    <div className="text-lg font-semibold text-[color:var(--primary)]">
+                                        {formatNumber(minTotalCost)} – {formatNumber(maxTotalCost)} mesos
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </>
+            )}
         </div>
     );
 }
