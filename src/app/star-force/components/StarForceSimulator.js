@@ -9,7 +9,17 @@ import EventSettings from './EventSettings';
 import MVPSettings from './MVPSettings';
 import SpareItemSettings from './SpareItemSettings';
 import SimulationResults from './SimulationResults';
-import { simulateStarForce } from '../utils';
+import { buildStarTable, simulateStarForceFast } from '../utils';
+
+// Sorted-array percentile using nearest-rank (0 <= p <= 1).
+function percentile(sortedArr, p) {
+    if (sortedArr.length === 0) return 0;
+    const idx = Math.min(
+        sortedArr.length - 1,
+        Math.max(0, Math.floor(p * (sortedArr.length - 1)))
+    );
+    return sortedArr[idx];
+}
 
 export default function StarForceSimulator() {
     const [equipmentInfo, setEquipmentInfo] = useState({
@@ -53,69 +63,82 @@ export default function StarForceSimulator() {
         setResults(null);
         setProgress(0);
 
-        const allResults = [];
+        const N = simulationSettings.numSimulations;
+        const costs = new Float64Array(N);
+        const booms = new Float64Array(N);
+        let numReached = 0;
+        let numStuck = 0; // sims that hit the attempt cap without reaching target
         let totalAttempts = 0;
-        let totalSuccesses = 0;
-        let totalFailures = 0;
-        let totalDestructions = 0;
-        let totalCost = 0;
+        let totalCostAllRuns = 0;
+        let totalBoomsAllRuns = 0;
+
+        // Precompute the per-star rate + cost table once for this run.
+        const table = buildStarTable({
+            level: equipmentInfo.level,
+            safeguardStars: safeguardSettings.stars,
+            starCatchStars: starCatchSettings.stars,
+            eventTypes: eventSettings.types,
+            mvpType: mvpSettings.type,
+        });
 
         const batchSize = 100; // Process in batches to update UI
-        const totalBatches = Math.ceil(simulationSettings.numSimulations / batchSize);
+        const totalBatches = Math.ceil(N / batchSize);
 
         for (let batch = 0; batch < totalBatches; batch++) {
             const batchStart = batch * batchSize;
-            const batchEnd = Math.min((batch + 1) * batchSize, simulationSettings.numSimulations);
-            
-            // Process one batch
-            for (let i = batchStart; i < batchEnd; i++) {
-                const result = simulateStarForce({
-                    level: equipmentInfo.level,
-                    startingStar: equipmentInfo.currentStars,
-                    targetStar: equipmentInfo.targetStars,
-                    safeguardStars: safeguardSettings.stars,
-                    starCatchStars: starCatchSettings.stars,
-                    eventTypes: eventSettings.types,
-                    mvpType: mvpSettings.type
-                });
+            const batchEnd = Math.min((batch + 1) * batchSize, N);
 
-                allResults.push(result);
-                totalSuccesses += result.success ? 1 : 0;
+            for (let i = batchStart; i < batchEnd; i++) {
+                const result = simulateStarForceFast(
+                    table,
+                    equipmentInfo.currentStars,
+                    equipmentInfo.targetStars,
+                );
+
                 totalAttempts += result.attempts;
-                totalDestructions += result.booms;
-                totalCost += result.totalCost;
+                totalCostAllRuns += result.totalCost;
+                totalBoomsAllRuns += result.booms;
+
+                if (result.success) {
+                    costs[numReached] = result.totalCost;
+                    booms[numReached] = result.booms;
+                    numReached++;
+                } else {
+                    numStuck++;
+                }
             }
 
-            // Update progress and allow UI to refresh
             setProgress((batch + 1) / totalBatches * 100);
             await new Promise(resolve => setTimeout(resolve, 0));
         }
 
-        totalFailures = totalAttempts - totalSuccesses - totalDestructions;
+        // Sort only the populated portion of the typed arrays.
+        const reachedCosts = costs.subarray(0, numReached);
+        const reachedBooms = booms.subarray(0, numReached);
+        reachedCosts.sort();
+        reachedBooms.sort();
 
-        // Get successful attempts for median/min/max calculations
-        const successfulResults = allResults.filter(r => r.success);
-        const costs = successfulResults.map(r => r.totalCost);
-        const booms = successfulResults.map(r => r.booms);
-
-        // Sort arrays for median calculation
-        costs.sort((a, b) => a - b);
-        booms.sort((a, b) => a - b);
+        const sumReachedCost = reachedCosts.reduce((a, b) => a + b, 0);
+        const sumReachedBooms = reachedBooms.reduce((a, b) => a + b, 0);
 
         setResults({
+            numSimulations: N,
+            numReached,
+            numStuck,
             attempts: totalAttempts,
-            successes: totalSuccesses,
-            failures: totalFailures,
-            destructions: totalDestructions,
-            totalCost: totalCost,
-            averageCost: totalCost / simulationSettings.numSimulations,
-            medianCost: totalSuccesses > 0 ? costs[Math.floor(costs.length / 2)] : 0,
-            minCost: totalSuccesses > 0 ? costs[0] : 0,
-            maxCost: totalSuccesses > 0 ? costs[costs.length - 1] : 0,
-            averageBooms: totalDestructions / simulationSettings.numSimulations,
-            medianBooms: totalSuccesses > 0 ? booms[Math.floor(booms.length / 2)] : 0,
-            minBooms: totalSuccesses > 0 ? booms[0] : 0,
-            maxBooms: totalSuccesses > 0 ? booms[booms.length - 1] : 0
+            totalCost: totalCostAllRuns,
+            totalBooms: totalBoomsAllRuns,
+            // Cost/boom stats are computed over simulations that reached the
+            // target so the average is on the same population as the
+            // percentiles.
+            averageCost: numReached > 0 ? sumReachedCost / numReached : 0,
+            p5Cost: percentile(reachedCosts, 0.05),
+            p50Cost: percentile(reachedCosts, 0.50),
+            p95Cost: percentile(reachedCosts, 0.95),
+            averageBooms: numReached > 0 ? sumReachedBooms / numReached : 0,
+            p5Booms: percentile(reachedBooms, 0.05),
+            p50Booms: percentile(reachedBooms, 0.50),
+            p95Booms: percentile(reachedBooms, 0.95),
         });
 
         setIsSimulating(false);

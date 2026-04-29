@@ -150,6 +150,114 @@ export function getAttemptResult(currentStar, starCatchEnabled, eventTypes) {
     return 'destroy';
 }
 
+// Build a per-star lookup table of final probabilities and costs for a given
+// set of settings. This is computed once before a simulation batch so the
+// inner loop performs only a table lookup + one Math.random().
+//
+// Each entry:
+//   pSuccess     - probability of advancing
+//   pCumNoChange - pSuccess + P(no star change); a single random roll is
+//                  classified with two comparisons against pSuccess and this
+//   pBoom        - probability of being destroyed (0 when safeguarded)
+//   cost         - total meso cost of the attempt (MVP + event + safeguard)
+//   successStars - stars gained on success (2 under the twoStars event <11)
+//   recoverStar  - star level to snap to after a boom
+export function buildStarTable({
+    level,
+    safeguardStars = [],
+    starCatchStars = [],
+    eventTypes = [],
+    mvpType = 'none',
+}) {
+    const sgSet = new Set(safeguardStars);
+    const scSet = new Set(starCatchStars);
+    const hasTwoStars = eventTypes.includes('twoStars');
+    const hasDestructionReduction = eventTypes.includes('destructionReduction');
+
+    const table = new Array(31);
+    for (let star = 0; star <= 30; star++) {
+        const base = STAR_FORCE_RATES[star];
+        let pSuccess = base.success;
+        let pMaintain = base.maintain;
+        let pDestroy = base.destroy;
+
+        // Star catch: +5% multiplicative to success, redistribute remainder
+        if (scSet.has(star)) {
+            pSuccess = Math.min(1, base.success * 1.05);
+            const remaining = 1 - pSuccess;
+            const origFail = base.maintain + base.destroy;
+            if (origFail > 0) {
+                pMaintain = remaining * (base.maintain / origFail);
+                pDestroy = remaining * (base.destroy / origFail);
+            } else {
+                pMaintain = 0;
+                pDestroy = 0;
+            }
+        }
+
+        // Destruction reduction event: 30% multiplicative cut to destroy
+        if (hasDestructionReduction && star <= 21 && pDestroy > 0) {
+            const reduction = pDestroy * 0.3;
+            pDestroy -= reduction;
+            pMaintain += reduction;
+        }
+
+        // Safeguard folds destroy into no-change and zeroes booms
+        const safeguarded = sgSet.has(star) && star >= 15 && star <= 17;
+        const pNoChange = safeguarded ? pMaintain + pDestroy : pMaintain;
+        const pBoom = safeguarded ? 0 : pDestroy;
+
+        // Cost: MVP + event discounts on base, safeguard added on top (no discount)
+        const baseCost = calculateMesoCost(level, star);
+        let cost = applyMVPDiscount(baseCost, mvpType, star);
+        cost = applyEventDiscount(cost, eventTypes);
+        if (safeguarded) cost += calculateSafeguardCost(baseCost, star, true);
+
+        const successStars = (hasTwoStars && star < 11) ? 2 : 1;
+
+        table[star] = {
+            pSuccess,
+            pCumNoChange: pSuccess + pNoChange,
+            pBoom,
+            cost,
+            successStars,
+            recoverStar: getRecoveredStars(star),
+        };
+    }
+    return table;
+}
+
+// Fast Monte-Carlo run using a precomputed table. Returns the same shape as
+// simulateStarForce for interoperability.
+export function simulateStarForceFast(table, startingStar, targetStar, maxAttempts = 10000) {
+    let currentStar = startingStar;
+    let attempts = 0;
+    let booms = 0;
+    let totalCost = 0;
+
+    while (currentStar < targetStar && attempts < maxAttempts) {
+        const e = table[currentStar];
+        attempts++;
+        totalCost += e.cost;
+
+        const r = Math.random();
+        if (r < e.pSuccess) {
+            currentStar += e.successStars;
+        } else if (r >= e.pCumNoChange) {
+            booms++;
+            currentStar = e.recoverStar;
+        }
+        // else: no change
+    }
+
+    return {
+        success: currentStar >= targetStar,
+        attempts,
+        booms,
+        totalCost,
+    };
+}
+
 // Main simulation function
 export function simulateStarForce({
     level,
