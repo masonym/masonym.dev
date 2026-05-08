@@ -9,6 +9,7 @@ import sol_erda from '../../assets/sol_erda.png';
 import CalcRoute from "../CalcRoute/CalcRoute";
 import { originUpgradeCost, skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost, jobBranchUpgradeCost } from "@/data/solErda";
 import { formatSkillToUnderscores } from "../../utils";
+import ShineCalculator, { SHINE_CLASSES } from "../ShineCalculator/ShineCalculator";
 
 const ClassSelector = () => {
   const [isClient, setIsClient] = useState(false);
@@ -238,44 +239,45 @@ const ClassSelector = () => {
       <div className="flex flex-col items-center">
         {selectedClass && classes[selectedClass] && (
           <>
-            {selectedClass === "Sia Astelle" && (
-              <div className="mt-4 p-3 bg-yellow-900/30 border border-yellow-600 rounded-lg text-yellow-200 text-sm text-center max-w-md">
-                <strong>Note:</strong> Fragment counts for spent/remaining will not be accurate as Erda Link logic is not yet implemented. This may be added in a future update; we'll see :)
-              </div>
+            {SHINE_CLASSES.has(selectedClass) ? (
+              <ShineCalculator selectedClass={selectedClass} />
+            ) : (
+              <>
+                <InputGrid
+                  classKey={selectedClass}
+                  classDetails={classes[selectedClass]}
+                  skillLevels={skillLevels}
+                  updateSkillLevels={updateSkillLevels}
+                  resetSkillLevels={resetSkillLevels}
+                />
+                <h2 className="mb-4 text-[32px] text-center p-4 pb-2 text-primary-bright border-b-2 border-b-primary-bright">Materials Spent:</h2>
+                <div className="flex flex-row justify-between items-center w-fit gap-[50px]">
+                  <div className="flex flex-col items-center">
+                    <Image
+                      src={sol_erda}
+                      width={64}
+                      height={64}
+                      alt={"Sol Erda Energy"}
+                    />
+                    <h3>{calculateTotalSolErda()}</h3>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <Image
+                      src={sol_erda_fragment}
+                      width={64}
+                      height={64}
+                      alt={"Sol Erda Fragment"}
+                    />
+                    <h3>{calculateTotalFrags()}</h3>
+                  </div>
+                </div>
+                <CalcRoute
+                  selectedClass={selectedClass}
+                  classDetails={classes[selectedClass]}
+                  skillLevels={skillLevels}
+                />
+              </>
             )}
-            <InputGrid
-              classKey={selectedClass}
-              classDetails={classes[selectedClass]}
-              skillLevels={skillLevels}
-              updateSkillLevels={updateSkillLevels}
-              resetSkillLevels={resetSkillLevels}
-            />
-            <h2 className="mb-4 text-[32px] text-center p-4 pb-2 text-primary-bright border-b-2 border-b-primary-bright">Materials Spent:</h2>
-            <div className="flex flex-row justify-between items-center w-fit gap-[50px]">
-              <div className="flex flex-col items-center">
-                <Image
-                  src={sol_erda}
-                  width={64}
-                  height={64}
-                  alt={"Sol Erda Energy"}
-                />
-                <h3>{calculateTotalSolErda()}</h3>
-              </div>
-              <div className="flex flex-col items-center">
-                <Image
-                  src={sol_erda_fragment}
-                  width={64}
-                  height={64}
-                  alt={"Sol Erda Fragment"}
-                />
-                <h3>{calculateTotalFrags()}</h3>
-              </div>
-            </div>
-            <CalcRoute
-              selectedClass={selectedClass}
-              classDetails={classes[selectedClass]}
-              skillLevels={skillLevels}
-            />
           </>
         )}
       </div>
