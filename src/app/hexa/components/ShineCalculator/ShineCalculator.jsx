@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import erdaLinkData from "@/data/erda-link-data.json";
 
 const SHINE_CLASSES = new Set(["Sia Astelle"]);
@@ -108,6 +108,9 @@ const ShineCalculator = ({ selectedClass }) => {
   const [selectedNodeIndex, setSelectedNodeIndex] = useState(null);
   const [nodeLevels, setNodeLevels] = useState({});
   const [goalLevels, setGoalLevels] = useState({});
+  const [isDraggingBoard, setIsDraggingBoard] = useState(false);
+  const boardViewportRef = useRef(null);
+  const dragStartRef = useRef({ x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
 
   const stoneMap = useMemo(() => new Map(erdaLinkData.stones.map((stone) => [stone.id, stone])), []);
   const shineStoneMap = useMemo(() => new Map(erdaLinkData.shineStones.map((stone) => [stone.id, stone])), []);
@@ -122,6 +125,7 @@ const ShineCalculator = ({ selectedClass }) => {
     () => character?.nodes.find((node) => node.nodeIndex === selectedNodeIndex) || regularNodes[0] || null,
     [character, regularNodes, selectedNodeIndex]
   );
+  const nodeMap = useMemo(() => new Map(character?.nodes.map((node) => [node.nodeIndex, node]) || []), [character]);
 
   useEffect(() => {
     setIsClient(true);
@@ -149,13 +153,124 @@ const ShineCalculator = ({ selectedClass }) => {
     return null;
   }
 
-  const setNodeLevel = (node, value, setter) => {
+  const applyPrerequisiteLevels = (node, levels) => {
+    const compareCosts = (a, b) => {
+      if (a.solErda !== b.solErda) return a.solErda - b.solErda;
+      if (a.fragments !== b.fragments) return a.fragments - b.fragments;
+      return a.meso - b.meso;
+    };
+
+    const activateNode = (currentNode, currentLevels, path = new Set()) => {
+      if (!currentNode || path.has(currentNode.nodeIndex)) {
+        return null;
+      }
+
+      const nextPath = new Set(path);
+      const nextLevels = { ...currentLevels };
+      let addedCost = { solErda: 0, fragments: 0, meso: 0 };
+      nextPath.add(currentNode.nodeIndex);
+
+      currentNode.prereqAnd.forEach((prereqIndex) => {
+        const prereqNode = nodeMap.get(prereqIndex);
+        const result = activateNode(prereqNode, nextLevels, nextPath);
+        if (!result) return;
+        Object.assign(nextLevels, result.levels);
+        addedCost = addCost(addedCost, result.addedCost);
+      });
+
+      if (currentNode.prereqOr.length > 0 && !currentNode.prereqOr.some((prereqIndex) => (nextLevels[prereqIndex] || 0) > 0)) {
+        const cheapestRoute = currentNode.prereqOr.reduce((cheapest, prereqIndex) => {
+          const prereqNode = nodeMap.get(prereqIndex);
+          if (!prereqNode) return cheapest;
+          const result = activateNode(prereqNode, { ...nextLevels }, nextPath);
+          if (!result) return cheapest;
+          return !cheapest || compareCosts(result.addedCost, cheapest.addedCost) < 0 ? result : cheapest;
+        }, null);
+
+        if (cheapestRoute) {
+          Object.assign(nextLevels, cheapestRoute.levels);
+          addedCost = addCost(addedCost, cheapestRoute.addedCost);
+        }
+      }
+
+      if ((nextLevels[currentNode.nodeIndex] || 0) === 0) {
+        const stone = stoneMap.get(currentNode.stoneId);
+        nextLevels[currentNode.nodeIndex] = 1;
+        addedCost = addCost(addedCost, stone ? calculateCostToLevel(stone, 1) : {});
+      }
+
+      return { levels: nextLevels, addedCost };
+    };
+
+    const updatedLevels = { ...levels };
+
+    node.prereqAnd.forEach((prereqIndex) => {
+      const result = activateNode(nodeMap.get(prereqIndex), { ...updatedLevels });
+      if (!result) return;
+      Object.assign(updatedLevels, result.levels);
+    });
+
+    if (node.prereqOr.length > 0 && !node.prereqOr.some((prereqIndex) => (updatedLevels[prereqIndex] || 0) > 0)) {
+      const cheapestRoute = node.prereqOr.reduce((cheapest, prereqIndex) => {
+        const result = activateNode(nodeMap.get(prereqIndex), { ...updatedLevels });
+        if (!result) return cheapest;
+        return !cheapest || compareCosts(result.addedCost, cheapest.addedCost) < 0 ? result : cheapest;
+      }, null);
+
+      if (cheapestRoute) {
+        Object.assign(updatedLevels, cheapestRoute.levels);
+      }
+    }
+
+    return updatedLevels;
+  };
+
+  const setNodeLevel = (node, value, setter, shouldApplyPrerequisites = false) => {
     const stone = stoneMap.get(node.stoneId);
     if (!stone) return;
-    setter((previous) => ({
-      ...previous,
-      [node.nodeIndex]: clampLevel(value, stone.maxLevel),
-    }));
+    const level = clampLevel(value, stone.maxLevel);
+    setter((previous) => {
+      const updatedLevels = shouldApplyPrerequisites && level > 0 ? applyPrerequisiteLevels(node, previous) : { ...previous };
+      updatedLevels[node.nodeIndex] = level;
+      return updatedLevels;
+    });
+  };
+
+  const adjustCurrentLevel = (node, amount) => {
+    const stone = stoneMap.get(node.stoneId);
+    if (!stone) return;
+    const nextLevel = clampLevel((nodeLevels[node.nodeIndex] || 0) + amount, stone.maxLevel);
+    setNodeLevel(node, nextLevel, setNodeLevels, true);
+  };
+
+  const handleBoardPointerDown = (event) => {
+    if (event.target.closest("button")) return;
+    const viewport = boardViewportRef.current;
+    if (!viewport) return;
+    setIsDraggingBoard(true);
+    dragStartRef.current = {
+      x: event.clientX,
+      y: event.clientY,
+      scrollLeft: viewport.scrollLeft,
+      scrollTop: viewport.scrollTop,
+    };
+    viewport.setPointerCapture(event.pointerId);
+  };
+
+  const handleBoardPointerMove = (event) => {
+    if (!isDraggingBoard) return;
+    const viewport = boardViewportRef.current;
+    if (!viewport) return;
+    viewport.scrollLeft = dragStartRef.current.scrollLeft - (event.clientX - dragStartRef.current.x);
+    viewport.scrollTop = dragStartRef.current.scrollTop - (event.clientY - dragStartRef.current.y);
+  };
+
+  const handleBoardPointerUp = (event) => {
+    const viewport = boardViewportRef.current;
+    setIsDraggingBoard(false);
+    if (viewport?.hasPointerCapture(event.pointerId)) {
+      viewport.releasePointerCapture(event.pointerId);
+    }
   };
 
   const resetBuild = () => {
@@ -248,25 +363,19 @@ const ShineCalculator = ({ selectedClass }) => {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="overflow-auto rounded-xl border border-primary-dim bg-primary-dark/40 p-3">
-          <div className="relative min-w-[1600px]" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
-            <img src="/erda-link/erdalink-background.png" alt="Erda Link board" className="absolute inset-0 h-full w-full select-none" draggable="false" />
-            <svg className="absolute inset-0 h-full w-full" viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}>
-              {regularNodes.map((node) => {
-                const parents = [...node.prereqAnd, ...node.prereqOr];
-                if (parents.length === 0) {
-                  return (
-                    <line key={`${node.nodeIndex}-sp`} x1={character.spPosition.x} y1={character.spPosition.y} x2={node.position.x} y2={node.position.y} stroke="rgba(255,255,255,0.25)" strokeWidth="3" />
-                  );
-                }
-                return parents.map((parentIndex) => {
-                  const parent = regularNodes.find((entry) => entry.nodeIndex === parentIndex);
-                  if (!parent?.position) return null;
-                  return <line key={`${node.nodeIndex}-${parentIndex}`} x1={parent.position.x} y1={parent.position.y} x2={node.position.x} y2={node.position.y} stroke="rgba(255,255,255,0.25)" strokeWidth="3" />;
-                });
-              })}
-            </svg>
-            {regularNodes.map(renderNode)}
+        <div className="rounded-xl border border-primary-dim bg-primary-dark/40 p-3">
+          <div
+            ref={boardViewportRef}
+            onPointerDown={handleBoardPointerDown}
+            onPointerMove={handleBoardPointerMove}
+            onPointerUp={handleBoardPointerUp}
+            onPointerCancel={handleBoardPointerUp}
+            className={`overflow-hidden rounded-xl border border-primary-dim bg-primary-dark/40 p-3 ${isDraggingBoard ? "cursor-grabbing" : "cursor-grab"}`}
+          >
+            <div className="relative min-w-[1600px]" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
+              <img src="/erda-link/erdalink-background.png" alt="Erda Link board" className="absolute inset-0 h-full w-full select-none" draggable="false" />
+              {regularNodes.map(renderNode)}
+            </div>
           </div>
         </div>
 
@@ -284,14 +393,30 @@ const ShineCalculator = ({ selectedClass }) => {
               <div className="grid grid-cols-2 gap-3">
                 <label className="text-sm text-primary">
                   Current Level
-                  <input
-                    type="number"
-                    min="0"
-                    max={selectedStone.maxLevel}
-                    value={selectedCurrentLevel}
-                    onChange={(event) => setNodeLevel(selectedNode, event.target.value, setNodeLevels)}
-                    className="mt-1 w-full rounded border border-primary-dim bg-primary-dark p-2 text-primary-bright"
-                  />
+                  <div className="mt-1 flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => adjustCurrentLevel(selectedNode, -1)}
+                      className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      min="0"
+                      max={selectedStone.maxLevel}
+                      value={selectedCurrentLevel}
+                      onChange={(event) => setNodeLevel(selectedNode, event.target.value, setNodeLevels, true)}
+                      className="w-full rounded border border-primary-dim bg-primary-dark p-2 text-center text-primary-bright"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => adjustCurrentLevel(selectedNode, 1)}
+                      className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                    >
+                      +
+                    </button>
+                  </div>
                 </label>
                 <label className="text-sm text-primary">
                   Goal Level
