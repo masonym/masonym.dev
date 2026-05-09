@@ -2,6 +2,8 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import erdaLinkData from "@/data/erda-link-data.json";
+import solErda from "../../assets/sol_erda.png";
+import solErdaFragment from "../../assets/sol_erda_fragment.png";
 
 const SHINE_CLASSES = new Set(["Sia Astelle"]);
 const CANVAS_WIDTH = 1600;
@@ -48,6 +50,11 @@ const getStoneIconPath = (stone, disabled = false) => {
   return `/erda-link/stones/${stone.category}/${stone.id}/${file}`;
 };
 
+const getStoneLabelPath = (stone) => {
+  const label = stone.costType === "rushEnd" ? "rushEnd" : stone.category === "SHINE" ? "shine" : stone.category;
+  return `/erda-link/labels/${label}.png`;
+};
+
 const isNodeUnlockable = (node, nodeLevels) => {
   const andMet = node.prereqAnd.every((nodeIndex) => (nodeLevels[nodeIndex] || 0) > 0);
   const orMet = node.prereqOr.length === 0 || node.prereqOr.some((nodeIndex) => (nodeLevels[nodeIndex] || 0) > 0);
@@ -64,12 +71,6 @@ const getStatsAtLevel = (stone, level) => {
     });
   });
   return merged;
-};
-
-const formatStats = (stats) => {
-  const entries = Object.entries(stats || {}).filter(([, value]) => value !== 0);
-  if (entries.length === 0) return "No passive stats";
-  return entries.map(([key, value]) => `${STAT_LABELS[key] || key}: ${value}`).join(", ");
 };
 
 const getTransitionCost = (stone, fromLevel) => {
@@ -98,7 +99,11 @@ const calculateDeltaCost = (stone, currentLevel, targetLevel) => {
 
 const CostPill = ({ label, value }) => (
   <div className="rounded-lg border border-primary-dim bg-primary-dark px-3 py-2 text-center min-w-[110px]">
-    <div className="text-xs uppercase tracking-wide text-primary-dim">{label}</div>
+    <div className="flex h-8 items-center justify-center">
+      {label === "Sol Erda" && <img src={solErda.src} alt="Sol Erda" className="h-8 w-8" />}
+      {label === "Fragments" && <img src={solErdaFragment.src} alt="Sol Erda Fragment" className="h-8 w-8" />}
+      {label !== "Sol Erda" && label !== "Fragments" && <span className="text-xs uppercase tracking-wide text-primary-dim">{label}</span>}
+    </div>
     <div className="text-lg font-semibold text-primary-bright">{value.toLocaleString()}</div>
   </div>
 );
@@ -324,6 +329,8 @@ const ShineCalculator = ({ selectedClass }) => {
   const selectedGoalLevel = selectedNode ? goalLevels[selectedNode.nodeIndex] || 0 : 0;
   const selectedCurrentCost = selectedStone ? calculateCostToLevel(selectedStone, selectedCurrentLevel) : { solErda: 0, fragments: 0, meso: 0 };
   const selectedGoalCost = selectedStone ? calculateDeltaCost(selectedStone, selectedCurrentLevel, Math.max(selectedCurrentLevel, selectedGoalLevel)) : { solErda: 0, fragments: 0, meso: 0 };
+  const selectedStoneUsesMeso = selectedStone?.category === "SHINE";
+  const selectedStoneHasGoalLevels = selectedStone?.maxLevel > 1;
 
   return (
     <div className="flex w-full max-w-[1800px] flex-col gap-6 px-2 py-4">
@@ -341,6 +348,9 @@ const ShineCalculator = ({ selectedClass }) => {
         <p className="max-w-3xl text-sm text-primary">
           Click a stone on the board to enter your current level and goal level. Yellow stones are available from current prerequisites, green stones are activated, and dim stones are locked.
         </p>
+        <p className="max-w-3xl text-sm text-primary">
+        Light Module functionaity is not implemented. I may add it later, but for now, nodes with no requirement aside from being within the Light Module will be unlocked. Sorry!
+        </p>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
@@ -349,15 +359,15 @@ const ShineCalculator = ({ selectedClass }) => {
           <div className="flex flex-wrap justify-center gap-3">
             <CostPill label="Sol Erda" value={spentTotal.solErda} />
             <CostPill label="Fragments" value={spentTotal.fragments} />
-            <CostPill label="Meso" value={spentTotal.meso} />
+            {/* <CostPill label="Meso" value={spentTotal.meso} /> */}
           </div>
         </div>
         <div className="rounded-xl border border-primary-dim bg-background p-4">
-          <h3 className="mb-3 text-center text-xl font-semibold text-primary-bright">Remaining to Goals</h3>
+          <h3 className="mb-3 text-center text-xl font-semibold text-primary-bright">Remaining to Goal</h3>
           <div className="flex flex-wrap justify-center gap-3">
             <CostPill label="Sol Erda" value={remainingTotal.solErda} />
             <CostPill label="Fragments" value={remainingTotal.fragments} />
-            <CostPill label="Meso" value={remainingTotal.meso} />
+            {/* <CostPill label="Meso" value={remainingTotal.meso} /> */}
           </div>
         </div>
       </div>
@@ -386,11 +396,11 @@ const ShineCalculator = ({ selectedClass }) => {
                 <img src={getStoneIconPath(selectedStone, selectedCurrentLevel === 0)} alt={selectedStone.name} className="h-12 w-12" />
                 <div>
                   <h3 className="text-lg font-semibold text-primary-bright">{selectedStone.name}</h3>
-                  <p className="text-xs uppercase text-primary-dim">{selectedStone.category}</p>
+                  <img src={getStoneLabelPath(selectedStone)} alt={selectedStone.category} className="mt-1 h-5 w-auto" />
                 </div>
               </div>
               <p className="mb-4 text-sm text-primary">{selectedStone.desc}</p>
-              <div className="grid grid-cols-2 gap-3">
+              <div className={`grid gap-3 ${selectedStoneHasGoalLevels ? "grid-cols-2" : "grid-cols-1"}`}>
                 <label className="text-sm text-primary">
                   Current Level
                   <div className="mt-1 flex items-center gap-2">
@@ -418,21 +428,19 @@ const ShineCalculator = ({ selectedClass }) => {
                     </button>
                   </div>
                 </label>
-                <label className="text-sm text-primary">
-                  Goal Level
-                  <input
-                    type="number"
-                    min="0"
-                    max={selectedStone.maxLevel}
-                    value={selectedGoalLevel}
-                    onChange={(event) => setNodeLevel(selectedNode, event.target.value, setGoalLevels)}
-                    className="mt-1 w-full rounded border border-primary-dim bg-primary-dark p-2 text-primary-bright"
-                  />
-                </label>
-              </div>
-              <div className="mt-4 space-y-2 text-sm text-primary">
-                <div><span className="font-semibold text-primary-bright">Current stats:</span> {formatStats(getStatsAtLevel(selectedStone, selectedCurrentLevel))}</div>
-                <div><span className="font-semibold text-primary-bright">Goal stats:</span> {formatStats(getStatsAtLevel(selectedStone, Math.max(selectedCurrentLevel, selectedGoalLevel)))}</div>
+                {selectedStoneHasGoalLevels && (
+                  <label className="text-sm text-primary">
+                    Goal Level
+                    <input
+                      type="number"
+                      min="0"
+                      max={selectedStone.maxLevel}
+                      value={selectedGoalLevel}
+                      onChange={(event) => setNodeLevel(selectedNode, event.target.value, setGoalLevels)}
+                      className="mt-1 w-full rounded border border-primary-dim bg-primary-dark p-2 text-primary-bright"
+                    />
+                  </label>
+                )}
               </div>
               <div className="mt-4 grid gap-3">
                 <div>
@@ -440,17 +448,19 @@ const ShineCalculator = ({ selectedClass }) => {
                   <div className="flex flex-wrap gap-2">
                     <CostPill label="Sol Erda" value={selectedCurrentCost.solErda} />
                     <CostPill label="Fragments" value={selectedCurrentCost.fragments} />
-                    <CostPill label="Meso" value={selectedCurrentCost.meso} />
+                    {selectedStoneUsesMeso && <CostPill label="Meso" value={selectedCurrentCost.meso} />}
                   </div>
                 </div>
-                <div>
-                  <h4 className="mb-2 text-sm font-semibold text-primary-bright">Remaining for this goal</h4>
-                  <div className="flex flex-wrap gap-2">
-                    <CostPill label="Sol Erda" value={selectedGoalCost.solErda} />
-                    <CostPill label="Fragments" value={selectedGoalCost.fragments} />
-                    <CostPill label="Meso" value={selectedGoalCost.meso} />
+                {selectedStoneHasGoalLevels && (
+                  <div>
+                    <h4 className="mb-2 text-sm font-semibold text-primary-bright">Remaining for this goal</h4>
+                    <div className="flex flex-wrap gap-2">
+                      <CostPill label="Sol Erda" value={selectedGoalCost.solErda} />
+                      <CostPill label="Fragments" value={selectedGoalCost.fragments} />
+                      {selectedStoneUsesMeso && <CostPill label="Meso" value={selectedGoalCost.meso} />}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           )}
@@ -458,6 +468,7 @@ const ShineCalculator = ({ selectedClass }) => {
           <div className="rounded-xl border border-primary-dim bg-background p-4">
             <h3 className="mb-3 text-lg font-semibold text-primary-bright">SHINE Stones</h3>
             <div className="grid gap-3">
+              <p className="text-sm text-primary">Not yet developed :) Check back later.</p>
               {shineNodes.map((node) => {
                 const stone = stoneMap.get(node.stoneId);
                 const shineStone = shineStoneMap.get(node.stoneId);
