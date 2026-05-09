@@ -2327,8 +2327,8 @@
     "activation": {
       "origin": {
         "origin": {
-          "fragments": 100,
-          "solErda": 5
+          "fragments": 0,
+          "solErda": 0
         },
         "ascent": {
           "fragments": 100,
