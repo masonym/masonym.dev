@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-03T03:03:40Z",
+  "generatedAt": "2026-05-13T19:09:31Z",
   "jobs": [
     {
       "name": "Hero",
@@ -5141,7 +5141,18 @@
             90,
             480,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "400041025",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              480
+            ],
+            "linkDelay": 660
+          }
         },
         {
           "id": "4221016",
@@ -5159,7 +5170,21 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "400041025",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              120,
+              60
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "4221017",
@@ -5251,7 +5276,18 @@
             90,
             480,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "400041025",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              480
+            ],
+            "linkDelay": 660
+          }
         },
         {
           "id": "4241001",
@@ -5269,7 +5305,21 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "400041025",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              120,
+              60
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "4241002",
@@ -5287,7 +5337,18 @@
             60,
             300,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "400041025",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 180
+          }
         },
         {
           "id": "4241003",
@@ -5305,7 +5366,21 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "400041025",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              120,
+              60
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "4241011",
@@ -5482,7 +5557,24 @@
             60,
             60,
             240
-          ]
+          ],
+          "addAttack": {
+            "skill": "4331011",
+            "pattern": 151,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              30,
+              30,
+              30,
+              30,
+              30,
+              60,
+              60,
+              60,
+              240
+            ],
+            "linkDelay": 570
+          }
         },
         {
           "id": "4301007",
@@ -5563,7 +5655,20 @@
             90,
             270,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "4331000",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "4321007",
@@ -5593,7 +5698,22 @@
             60,
             60,
             330
-          ]
+          ],
+          "addAttack": {
+            "skill": "4301004",
+            "pattern": 151,
+            "skipActionFrame": 10,
+            "linkFrames": [
+              90,
+              60,
+              60,
+              60,
+              60,
+              60,
+              330
+            ],
+            "linkDelay": 720
+          }
         },
         {
           "id": "4331002",
@@ -5661,7 +5781,19 @@
             90,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "4321006",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              60,
+              60,
+              90
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "4341002",
@@ -6073,7 +6205,17 @@
             30,
             510,
             210
-          ]
+          ],
+          "addAttack": {
+            "skill": "5121007",
+            "pattern": 151,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              30,
+              510
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "5111017",
@@ -7770,7 +7912,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "5710026",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              360,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 630
+          }
         },
         {
           "id": "5081020",
@@ -7882,7 +8036,18 @@
             90,
             90,
             360
-          ]
+          ],
+          "addAttack": {
+            "skill": "5710026",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "5710023",
@@ -7897,7 +8062,18 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "5710024",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "5710024",
@@ -7942,7 +8118,20 @@
             120,
             120,
             240
-          ]
+          ],
+          "addAttack": {
+            "skill": "5710023",
+            "pattern": 151,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              120,
+              240
+            ],
+            "linkDelay": 720
+          }
         },
         {
           "id": "5711001",
@@ -11438,7 +11627,18 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "14101021",
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "14101021",
@@ -12268,7 +12468,19 @@
             90,
             90,
             360
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001021",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "15001021",
@@ -12283,7 +12495,18 @@
             120,
             90,
             450
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "15001022",
@@ -12325,7 +12548,19 @@
             90,
             120,
             150
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "15101021",
@@ -12339,7 +12574,18 @@
             30,
             120,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              60,
+              30,
+              120
+            ],
+            "linkDelay": 210
+          }
         },
         {
           "id": "15101026",
@@ -12374,7 +12620,20 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "15111021",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              30,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "15111021",
@@ -12391,7 +12650,20 @@
             60,
             60,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "15111022",
@@ -12409,7 +12681,22 @@
             120,
             60,
             360
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              120,
+              60
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "15120003",
@@ -12428,7 +12715,22 @@
             30,
             30,
             360
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              30
+            ],
+            "linkDelay": 390
+          }
         },
         {
           "id": "15121001",
@@ -12446,7 +12748,21 @@
             90,
             150,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              120,
+              90
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "15121002",
@@ -12463,7 +12779,21 @@
             60,
             30,
             390
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              120,
+              60,
+              60,
+              60,
+              30
+            ],
+            "linkDelay": 390
+          }
         },
         {
           "id": "15121004",
@@ -12508,7 +12838,21 @@
             90,
             90,
             1410
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "15121054",
@@ -12552,7 +12896,19 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              180
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "15141000",
@@ -12570,7 +12926,21 @@
             90,
             150,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              120,
+              90
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "15141003",
@@ -12587,7 +12957,21 @@
             60,
             30,
             390
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              120,
+              60,
+              60,
+              60,
+              30
+            ],
+            "linkDelay": 390
+          }
         },
         {
           "id": "15141004",
@@ -12604,7 +12988,21 @@
             60,
             30,
             390
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              120,
+              60,
+              60,
+              60,
+              30
+            ],
+            "linkDelay": 390
+          }
         },
         {
           "id": "15141006",
@@ -12623,7 +13021,22 @@
             30,
             30,
             360
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              30
+            ],
+            "linkDelay": 390
+          }
         },
         {
           "id": "15141007",
@@ -12642,7 +13055,21 @@
             90,
             90,
             1410
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "15141500",
@@ -13280,7 +13707,20 @@
             60,
             60,
             300
-          ]
+          ],
+          "addAttack": {
+            "skill": "21111033",
+            "pattern": 153,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              300
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "21111033",
@@ -13354,7 +13794,22 @@
             60,
             60,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "21121017",
+            "pattern": 153,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              120
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "21121017",
@@ -13374,7 +13829,24 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "400010070",
+            "pattern": 153,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "21121022",
@@ -13389,7 +13861,20 @@
             60,
             60,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "21121016",
+            "pattern": 153,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              180
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "21121029",
@@ -13413,7 +13898,18 @@
             60,
             60,
             300
-          ]
+          ],
+          "addAttack": {
+            "skill": "21121055",
+            "pattern": 153,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              60,
+              60,
+              300
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "21121055",
@@ -13425,7 +13921,17 @@
           "frames": [
             120,
             300
-          ]
+          ],
+          "addAttack": {
+            "skill": "21121056",
+            "pattern": 153,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              120,
+              300
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "21121056",
@@ -13473,7 +13979,21 @@
             60,
             60,
             240
-          ]
+          ],
+          "addAttack": {
+            "skill": "21001010",
+            "pattern": 150,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "400011031",
@@ -13534,7 +14054,20 @@
             60,
             60,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "21141001",
+            "pattern": 153,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              180
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "21141001",
@@ -13551,7 +14084,22 @@
             60,
             60,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "21141002",
+            "pattern": 153,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              120
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "21141002",
@@ -13571,7 +14119,24 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "400010070",
+            "pattern": 153,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "21141004",
@@ -13596,7 +14161,19 @@
             60,
             90,
             240
-          ]
+          ],
+          "addAttack": {
+            "skill": "21141010",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              60,
+              90,
+              240
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "21141010",
@@ -13609,7 +14186,18 @@
             30,
             90,
             300
-          ]
+          ],
+          "addAttack": {
+            "skill": "21141011",
+            "pattern": 153,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              30,
+              90,
+              300
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "21141011",
@@ -14084,7 +14672,16 @@
             120,
             150,
             150
-          ]
+          ],
+          "addAttack": {
+            "skill": "22111017",
+            "pattern": 151,
+            "skipActionFrame": 1,
+            "linkFrames": [
+              120
+            ],
+            "linkDelay": 120
+          }
         },
         {
           "id": "22110013",
@@ -14095,7 +14692,16 @@
           "icon": "icons/22110013.png",
           "frames": [
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "22111017",
+            "pattern": 151,
+            "skipActionFrame": 1,
+            "linkFrames": [
+              30
+            ],
+            "linkDelay": 30
+          }
         },
         {
           "id": "22111011",
@@ -14141,7 +14747,16 @@
             90,
             60,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "22111017",
+            "pattern": 151,
+            "skipActionFrame": 1,
+            "linkFrames": [
+              60
+            ],
+            "linkDelay": 60
+          }
         },
         {
           "id": "22140013",
@@ -14152,7 +14767,16 @@
           "icon": "icons/22140013.png",
           "frames": [
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "22111017",
+            "pattern": 151,
+            "skipActionFrame": 1,
+            "linkFrames": [
+              30
+            ],
+            "linkDelay": 30
+          }
         },
         {
           "id": "22141011",
@@ -14201,7 +14825,19 @@
             90,
             60,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "22170061",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              30,
+              90,
+              60
+            ],
+            "linkDelay": 240
+          }
         },
         {
           "id": "22170061",
@@ -14216,7 +14852,16 @@
             60,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "22111017",
+            "pattern": 151,
+            "skipActionFrame": 1,
+            "linkFrames": [
+              120
+            ],
+            "linkDelay": 120
+          }
         },
         {
           "id": "22170064",
@@ -14227,7 +14872,16 @@
           "icon": "icons/22170064.png",
           "frames": [
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "22111017",
+            "pattern": 151,
+            "skipActionFrame": 1,
+            "linkFrames": [
+              30
+            ],
+            "linkDelay": 30
+          }
         },
         {
           "id": "22171062",
@@ -14344,7 +14998,19 @@
             90,
             60,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "22201001",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              30,
+              90,
+              60
+            ],
+            "linkDelay": 240
+          }
         },
         {
           "id": "22201001",
@@ -14359,7 +15025,16 @@
             60,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "22111017",
+            "pattern": 151,
+            "skipActionFrame": 1,
+            "linkFrames": [
+              120
+            ],
+            "linkDelay": 120
+          }
         },
         {
           "id": "22201002",
@@ -14922,7 +15597,18 @@
             90,
             120,
             240
-          ]
+          ],
+          "addAttack": {
+            "skill": "23100004",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "23110006",
@@ -14941,7 +15627,21 @@
             60,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "23111001",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              120,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "23111000",
@@ -14958,7 +15658,20 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "23101001",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "23111001",
@@ -14977,7 +15690,21 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "23111003",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              30,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "23111002",
@@ -14990,7 +15717,17 @@
             120,
             480,
             210
-          ]
+          ],
+          "addAttack": {
+            "skill": "23101001",
+            "pattern": 151,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              120,
+              480
+            ],
+            "linkDelay": 600
+          }
         },
         {
           "id": "23111003",
@@ -15007,7 +15744,20 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "23101001",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              120,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "23111005",
@@ -15037,7 +15787,20 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "23101001",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "23121000",
@@ -15075,7 +15838,24 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "23111001",
+            "pattern": 151,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              90
+            ],
+            "linkDelay": 570
+          }
         },
         {
           "id": "23121003",
@@ -15093,7 +15873,22 @@
             90,
             150,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "23101001",
+            "pattern": 151,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              300,
+              90,
+              90,
+              150
+            ],
+            "linkDelay": 810
+          }
         },
         {
           "id": "23121004",
@@ -15125,7 +15920,22 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "23111001",
+            "pattern": 151,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 630
+          }
         },
         {
           "id": "23121014",
@@ -15175,7 +15985,17 @@
             240,
             450,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "23121003",
+            "pattern": 151,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              30,
+              240
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "23121054",
@@ -15275,7 +16095,17 @@
             240,
             450,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "23121003",
+            "pattern": 151,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              30,
+              240
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "23141004",
@@ -15289,7 +16119,17 @@
             240,
             450,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "23121003",
+            "pattern": 151,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              30,
+              240
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "23141005",
@@ -15311,7 +16151,24 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "23111001",
+            "pattern": 151,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              90
+            ],
+            "linkDelay": 570
+          }
         },
         {
           "id": "23141006",
@@ -15333,7 +16190,24 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "23111001",
+            "pattern": 151,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              90
+            ],
+            "linkDelay": 570
+          }
         },
         {
           "id": "23141007",
@@ -15353,7 +16227,21 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "23111003",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              30,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "23141008",
@@ -15373,7 +16261,21 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "23111003",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              30,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "23141009",
@@ -15393,7 +16295,21 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "23111003",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              30,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "23141010",
@@ -15410,7 +16326,20 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "23101001",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "23141011",
@@ -15423,7 +16352,17 @@
             120,
             480,
             210
-          ]
+          ],
+          "addAttack": {
+            "skill": "23101001",
+            "pattern": 151,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              120,
+              480
+            ],
+            "linkDelay": 600
+          }
         },
         {
           "id": "23141012",
@@ -15441,7 +16380,20 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "23101001",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              120,
+              90,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 390
+          }
         },
         {
           "id": "23141500",
@@ -15978,7 +16930,24 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "24111006",
+            "pattern": 151,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              30,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 750
+          }
         },
         {
           "id": "24111000",
@@ -16042,7 +17011,20 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "24121003",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              30,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "24121000",
@@ -17660,7 +18642,21 @@
             90,
             270,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "25001000",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              30,
+              60,
+              90,
+              90,
+              270,
+              90
+            ],
+            "linkDelay": 630
+          }
         },
         {
           "id": "25101004",
@@ -17678,7 +18674,22 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "25001000",
+            "pattern": 151,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              30,
+              60,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "25101012",
@@ -17696,7 +18707,21 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "25001000",
+            "pattern": 151,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              30,
+              60,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "25101013",
@@ -17751,7 +18776,16 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "25110001",
+            "skipActionFrame": 2,
+            "linkFrames": [
+              90,
+              90
+            ],
+            "linkDelay": 180
+          }
         },
         {
           "id": "25111005",
@@ -17824,7 +18858,18 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "25120002",
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              60,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "25120002",
@@ -17865,7 +18910,16 @@
             90,
             180,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "25120001",
+            "skipActionFrame": 2,
+            "linkFrames": [
+              90,
+              180
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "25121005",
@@ -18045,7 +19099,16 @@
             90,
             180,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "25141004",
+            "skipActionFrame": 2,
+            "linkFrames": [
+              90,
+              180
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "25141004",
@@ -18060,7 +19123,18 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "25141005",
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              60,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "25141005",
@@ -18118,7 +19192,19 @@
             60,
             120,
             420
-          ]
+          ],
+          "addAttack": {
+            "skill": "25141009",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "25141009",
@@ -18133,7 +19219,19 @@
             60,
             120,
             420
-          ]
+          ],
+          "addAttack": {
+            "skill": "25141010",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "25141010",
@@ -18328,7 +19426,18 @@
             90,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "30011167",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              120,
+              120
+            ],
+            "linkDelay": 330
+          }
         },
         {
           "id": "30010183",
@@ -19530,7 +20639,18 @@
             90,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "30011167",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              120,
+              120
+            ],
+            "linkDelay": 330
+          }
         },
         {
           "id": "30010183",
@@ -22218,7 +23338,20 @@
             60,
             330,
             270
-          ]
+          ],
+          "addAttack": {
+            "skill": "32121002",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              30,
+              30,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 240
+          }
         },
         {
           "id": "32101005",
@@ -22267,7 +23400,19 @@
             90,
             270,
             390
-          ]
+          ],
+          "addAttack": {
+            "skill": "32121002",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              60,
+              90,
+              270
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "32120055",
@@ -25182,7 +26327,14 @@
           "icon": "icons/36101001.png",
           "frames": [
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "23101001",
+            "pattern": 151,
+            "skipActionFrame": 0,
+            "linkFrames": [],
+            "linkDelay": 0
+          }
         },
         {
           "id": "36101008",
@@ -25256,7 +26408,17 @@
             300,
             30,
             270
-          ]
+          ],
+          "addAttack": {
+            "skill": "36111009",
+            "pattern": 151,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              300,
+              30
+            ],
+            "linkDelay": 330
+          }
         },
         {
           "id": "36111002",
@@ -25276,7 +26438,18 @@
             60,
             60,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "36111001",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              270
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "36111009",
@@ -25321,7 +26494,17 @@
             30,
             330,
             210
-          ]
+          ],
+          "addAttack": {
+            "skill": "36111009",
+            "pattern": 151,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              30,
+              330
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "36121000",
@@ -27280,7 +28463,17 @@
             60,
             60,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "40021185",
+            "pattern": 150,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              60,
+              60
+            ],
+            "linkDelay": 120
+          }
         },
         {
           "id": "40021185",
@@ -29576,7 +30769,18 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "61001004",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "61001004",
@@ -29592,7 +30796,18 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "61001005",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "61001005",
@@ -29608,7 +30823,18 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "61001000",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "61001101",
@@ -31218,7 +32444,19 @@
             60,
             90,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "63121005",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              90,
+              60,
+              90
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "63121005",
@@ -31473,7 +32711,19 @@
             30,
             120,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "63141012",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              90,
+              30,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "63141012",
@@ -32018,7 +33268,19 @@
             60,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "60021279",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              30,
+              60,
+              150
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "60021279",
@@ -32156,7 +33418,19 @@
             60,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "64001006",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              30,
+              60,
+              150
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "64001002",
@@ -32502,7 +33776,20 @@
             60,
             210,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "64121016",
+            "pattern": 153,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              210
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "64121011",
@@ -32543,7 +33830,24 @@
             180,
             30,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "64121011",
+            "pattern": 153,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              30,
+              60,
+              60,
+              60,
+              60,
+              60,
+              180,
+              30,
+              30
+            ],
+            "linkDelay": 570
+          }
         },
         {
           "id": "64121021",
@@ -32706,7 +34010,19 @@
             60,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "64141001",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              30,
+              60,
+              150
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "64141001",
@@ -32755,7 +34071,20 @@
             60,
             60,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "64141009",
+            "pattern": 153,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              120,
+              60,
+              60,
+              60,
+              180
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "64141009",
@@ -32774,7 +34103,24 @@
             180,
             30,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "64141010",
+            "pattern": 153,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              30,
+              60,
+              60,
+              60,
+              60,
+              60,
+              180,
+              30,
+              30
+            ],
+            "linkDelay": 570
+          }
         },
         {
           "id": "64141010",
@@ -33976,7 +35322,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "100000278",
+            "pattern": 150,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              150,
+              120,
+              90
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "100000278",
@@ -34228,7 +35586,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "100000275",
+            "pattern": 150,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              120,
+              90,
+              90
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "100001283",
@@ -34401,7 +35771,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101000201",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              150,
+              120,
+              90
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "101000201",
@@ -34419,7 +35801,18 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101000202",
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "101000202",
@@ -34448,7 +35841,19 @@
             120,
             120,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "101000100",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              150
+            ],
+            "linkDelay": 510
+          }
         },
         {
           "id": "101001200",
@@ -34463,7 +35868,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101000200",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              120,
+              90,
+              90
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "101100100",
@@ -34529,7 +35946,18 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101100202",
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "101100202",
@@ -34557,7 +35985,20 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "101100100",
+            "pattern": 153,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 600
+          }
         },
         {
           "id": "101101200",
@@ -34574,7 +36015,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101100200",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "101110101",
@@ -34652,7 +36105,26 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101110202",
+            "pattern": 153,
+            "skipActionFrame": 11,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 990
+          }
         },
         {
           "id": "101110201",
@@ -34738,7 +36210,19 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "101110101",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "101111200",
@@ -34762,7 +36246,26 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101110202",
+            "pattern": 153,
+            "skipActionFrame": 11,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 990
+          }
         },
         {
           "id": "101120100",
@@ -34781,7 +36284,19 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "101120101",
+            "skipActionFrame": 5,
+            "linkFrames": [
+              3,
+              27,
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 390
+          }
         },
         {
           "id": "101120101",
@@ -34794,7 +36309,18 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101120102",
+            "pattern": 153,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "101120102",
@@ -34817,7 +36343,21 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "101120103",
+            "skipActionFrame": 7,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              120,
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 840
+          }
         },
         {
           "id": "101120103",
@@ -34852,7 +36392,21 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "101120105",
+            "skipActionFrame": 7,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              120,
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 840
+          }
         },
         {
           "id": "101120105",
@@ -34921,7 +36475,22 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101120202",
+            "pattern": 153,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 630
+          }
         },
         {
           "id": "101120202",
@@ -34978,7 +36547,21 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "101120100",
+            "pattern": 153,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 720
+          }
         },
         {
           "id": "101121200",
@@ -34996,7 +36579,21 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101120201",
+            "pattern": 153,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "400001045",
@@ -35077,7 +36674,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141001",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              30
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "101141001",
@@ -35096,7 +36705,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141002",
+            "skipActionFrame": 5,
+            "linkFrames": [
+              3,
+              27,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "101141002",
@@ -35109,7 +36730,16 @@
             30,
             30,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141003",
+            "pattern": 153,
+            "skipActionFrame": 1,
+            "linkFrames": [
+              30
+            ],
+            "linkDelay": 30
+          }
         },
         {
           "id": "101141003",
@@ -35132,7 +36762,21 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141004",
+            "skipActionFrame": 7,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "101141004",
@@ -35174,7 +36818,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141008",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              30
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "101141008",
@@ -35194,7 +36850,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141009",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              30
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "101141009",
@@ -35225,7 +36893,19 @@
             120,
             120,
             240
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141015",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "101141015",
@@ -35267,7 +36947,26 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141019",
+            "pattern": 153,
+            "skipActionFrame": 11,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 990
+          }
         },
         {
           "id": "101141018",
@@ -35328,7 +37027,20 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141022",
+            "pattern": 153,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 600
+          }
         },
         {
           "id": "101141022",
@@ -35358,7 +37070,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141024",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "101141024",
@@ -35382,7 +37106,18 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141025",
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 240
+          }
         },
         {
           "id": "101141025",
@@ -35411,7 +37146,19 @@
             120,
             120,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141027",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              120,
+              120,
+              150
+            ],
+            "linkDelay": 510
+          }
         },
         {
           "id": "101141027",
@@ -35451,7 +37198,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141030",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              120,
+              90,
+              90
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "101141030",
@@ -35467,7 +37226,18 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141031",
+            "pattern": 153,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              120,
+              150,
+              120
+            ],
+            "linkDelay": 390
+          }
         },
         {
           "id": "101141031",
@@ -35485,7 +37255,17 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "101141032",
+            "skipActionFrame": 3,
+            "linkFrames": [
+              30,
+              90,
+              90
+            ],
+            "linkDelay": 210
+          }
         },
         {
           "id": "101141032",
@@ -36206,7 +37986,19 @@
             60,
             90,
             150
-          ]
+          ],
+          "addAttack": {
+            "skill": "112100001",
+            "pattern": 150,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              60,
+              90,
+              150
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "112100001",
@@ -36221,7 +38013,19 @@
             60,
             60,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "112100002",
+            "pattern": 150,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 240
+          }
         },
         {
           "id": "112100002",
@@ -36236,7 +38040,19 @@
             60,
             60,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "112100003",
+            "pattern": 150,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 240
+          }
         },
         {
           "id": "112100003",
@@ -36310,7 +38126,20 @@
             60,
             60,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "112100006",
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "112101007",
@@ -39177,7 +41006,18 @@
             240,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "152001002",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              30,
+              210,
+              240
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "152001002",
@@ -39192,7 +41032,18 @@
             240,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "152001001",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              30,
+              210,
+              240
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "152001003",
@@ -39273,7 +41124,18 @@
             180,
             180,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "152141014",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              180,
+              180,
+              180
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "152111003",
@@ -39313,7 +41175,18 @@
             240,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "152120003",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              30,
+              210,
+              240
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "152120003",
@@ -39328,7 +41201,18 @@
             240,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "152120001",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              30,
+              210,
+              240
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "152120008",
@@ -39503,7 +41387,18 @@
             240,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "152120003",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              30,
+              210,
+              240
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "152141002",
@@ -39518,7 +41413,18 @@
             240,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "152120003",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              30,
+              210,
+              240
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "152141004",
@@ -39531,7 +41437,18 @@
             180,
             180,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "152141014",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              180,
+              180,
+              180
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "152141005",
@@ -39544,7 +41461,18 @@
             180,
             180,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "152141014",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              180,
+              180,
+              180
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "152141009",
@@ -39612,7 +41540,18 @@
             30,
             30,
             30
-          ]
+          ],
+          "addAttack": {
+            "skill": "152001001",
+            "pattern": 151,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              180,
+              180,
+              180
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "152141015",
@@ -46971,7 +48910,23 @@
             180,
             90,
             300
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001827",
+            "pattern": 151,
+            "skipActionFrame": 8,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              180,
+              90
+            ],
+            "linkDelay": 810
+          }
         },
         {
           "id": "80001818",
@@ -46990,7 +48945,23 @@
             180,
             90,
             300
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001827",
+            "pattern": 151,
+            "skipActionFrame": 8,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              180,
+              90
+            ],
+            "linkDelay": 810
+          }
         },
         {
           "id": "80001819",
@@ -47022,7 +48993,19 @@
             120,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001821",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              90,
+              120,
+              60
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "80001821",
@@ -47098,7 +49081,25 @@
             90,
             90,
             360
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001818",
+            "pattern": 151,
+            "skipActionFrame": 10,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              270
+            ],
+            "linkDelay": 1080
+          }
         },
         {
           "id": "80001826",
@@ -47118,7 +49119,19 @@
             90,
             90,
             390
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001827",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "80001827",
@@ -47137,7 +49150,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001818",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "80001828",
@@ -47502,7 +49527,18 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001849",
+            "pattern": 153,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "80001849",
@@ -47517,7 +49553,18 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001850",
+            "pattern": 153,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "80001850",
@@ -47584,7 +49631,18 @@
             60,
             180,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001854",
+            "pattern": 153,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              60,
+              60,
+              180
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "80001854",
@@ -47598,7 +49656,18 @@
             60,
             120,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001855",
+            "pattern": 153,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              60,
+              60,
+              120
+            ],
+            "linkDelay": 240
+          }
         },
         {
           "id": "80001855",
@@ -47613,7 +49682,19 @@
             60,
             120,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001856",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "80001856",
@@ -47900,7 +49981,18 @@
             90,
             180,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001907",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              90,
+              180,
+              90
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "80001896",
@@ -47942,7 +50034,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001908",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              60,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "80001908",
@@ -47957,7 +50061,19 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001909",
+            "pattern": 153,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              60,
+              90,
+              90
+            ],
+            "linkDelay": 270
+          }
         },
         {
           "id": "80001909",
@@ -47998,7 +50114,18 @@
             90,
             120,
             240
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001912",
+            "pattern": 153,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              90,
+              90,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "80001912",
@@ -48017,7 +50144,21 @@
             60,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001913",
+            "pattern": 153,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              120,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "80001913",
@@ -48058,7 +50199,24 @@
             90,
             90,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001915",
+            "pattern": 153,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              90
+            ],
+            "linkDelay": 570
+          }
         },
         {
           "id": "80001915",
@@ -48077,7 +50235,21 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001916",
+            "pattern": 153,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              30,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "80001916",
@@ -48141,7 +50313,21 @@
             90,
             90,
             270
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001928",
+            "pattern": 153,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              60,
+              60,
+              90,
+              60,
+              90,
+              90
+            ],
+            "linkDelay": 450
+          }
         },
         {
           "id": "80001928",
@@ -48156,7 +50342,20 @@
             60,
             60,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001929",
+            "pattern": 153,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              180
+            ],
+            "linkDelay": 420
+          }
         },
         {
           "id": "80001929",
@@ -48173,7 +50372,22 @@
             60,
             60,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001930",
+            "pattern": 153,
+            "skipActionFrame": 8,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              120
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "80001930",
@@ -48237,7 +50451,20 @@
             90,
             90,
             270
-          ]
+          ],
+          "addAttack": {
+            "skill": "80001928",
+            "pattern": 153,
+            "skipActionFrame": 6,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              90,
+              270
+            ],
+            "linkDelay": 630
+          }
         },
         {
           "id": "80001944",
@@ -50840,7 +53067,18 @@
             60,
             60,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "80003409",
+            "pattern": 153,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              60,
+              60,
+              180
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "80003398",
@@ -51001,7 +53239,19 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "80003410",
+            "pattern": 153,
+            "skipActionFrame": 8,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 240
+          }
         },
         {
           "id": "80003410",
@@ -52200,7 +54450,18 @@
             60,
             180,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "80011071",
+            "pattern": 154,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              60,
+              60,
+              180
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "80011071",
@@ -52214,7 +54475,18 @@
             60,
             120,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "80011072",
+            "pattern": 154,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              60,
+              60,
+              120
+            ],
+            "linkDelay": 240
+          }
         },
         {
           "id": "80011072",
@@ -52229,7 +54501,19 @@
             60,
             120,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "80011073",
+            "pattern": 154,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "80011073",
@@ -55031,7 +57315,19 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "131001001",
+            "pattern": 150,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              120,
+              180,
+              120,
+              120
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "131001001",
@@ -55045,7 +57341,18 @@
             150,
             150,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "131001002",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              180,
+              150,
+              150
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "131001002",
@@ -55059,7 +57366,18 @@
             150,
             150,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "131001003",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              180,
+              150,
+              150
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "131001003",
@@ -55076,7 +57394,20 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "131001013",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              150,
+              150,
+              150,
+              180,
+              120
+            ],
+            "linkDelay": 750
+          }
         },
         {
           "id": "131001004",
@@ -55202,7 +57533,22 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "131001011",
+            "pattern": 153,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              120,
+              120,
+              90,
+              90
+            ],
+            "linkDelay": 690
+          }
         },
         {
           "id": "131001011",
@@ -55222,7 +57568,22 @@
             90,
             90,
             90
-          ]
+          ],
+          "addAttack": {
+            "skill": "131001010",
+            "pattern": 153,
+            "skipActionFrame": 7,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              120,
+              120,
+              90,
+              90
+            ],
+            "linkDelay": 690
+          }
         },
         {
           "id": "131001012",
@@ -55603,7 +57964,18 @@
             150,
             150,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "131001002",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              180,
+              150,
+              150
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "131001102",
@@ -55617,7 +57989,18 @@
             150,
             150,
             180
-          ]
+          ],
+          "addAttack": {
+            "skill": "131001003",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              180,
+              150,
+              150
+            ],
+            "linkDelay": 480
+          }
         },
         {
           "id": "131001103",
@@ -55634,7 +58017,20 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "131001013",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              150,
+              150,
+              150,
+              180,
+              120
+            ],
+            "linkDelay": 750
+          }
         },
         {
           "id": "131001104",
@@ -56004,7 +58400,18 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "135001001",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "135001001",
@@ -56020,7 +58427,18 @@
             120,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "135001002",
+            "pattern": 150,
+            "skipActionFrame": 3,
+            "linkFrames": [
+              120,
+              120,
+              120
+            ],
+            "linkDelay": 360
+          }
         },
         {
           "id": "135001002",
@@ -56096,7 +58514,24 @@
             60,
             60,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "135001014",
+            "pattern": 150,
+            "skipActionFrame": 9,
+            "linkFrames": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "linkDelay": 540
+          }
         },
         {
           "id": "135001007",
@@ -58451,7 +60886,19 @@
             90,
             90,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              30,
+              120,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "400051060",
@@ -58469,7 +60916,19 @@
             90,
             90,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              30,
+              120,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "400051061",
@@ -58487,7 +60946,19 @@
             90,
             90,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              30,
+              120,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "400051062",
@@ -58505,7 +60976,19 @@
             90,
             90,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              30,
+              120,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "400051063",
@@ -58523,7 +61006,19 @@
             90,
             90,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              30,
+              120,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "400051064",
@@ -58541,7 +61036,19 @@
             90,
             90,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 4,
+            "linkFrames": [
+              30,
+              30,
+              120,
+              120
+            ],
+            "linkDelay": 300
+          }
         },
         {
           "id": "400051066",
@@ -58557,7 +61064,20 @@
             180,
             150,
             60
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 5,
+            "linkFrames": [
+              90,
+              90,
+              90,
+              180,
+              150
+            ],
+            "linkDelay": 600
+          }
         },
         {
           "id": "400051071",
@@ -58627,7 +61147,17 @@
             60,
             120,
             120
-          ]
+          ],
+          "addAttack": {
+            "skill": "15001020",
+            "pattern": 151,
+            "skipActionFrame": 2,
+            "linkFrames": [
+              60,
+              120
+            ],
+            "linkDelay": 180
+          }
         },
         {
           "id": "400051097",

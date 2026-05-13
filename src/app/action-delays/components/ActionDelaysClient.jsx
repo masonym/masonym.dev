@@ -131,6 +131,16 @@ function getBaseDelay(frames) {
   return frames.reduce((a, b) => a + Math.abs(b), 0);
 }
 
+function getComboFrames(skill) {
+  if (!skill.addAttack) return skill.frames;
+  return skill.frames.slice(skill.addAttack.skipActionFrame || 0);
+}
+
+function getSkippedFrames(skill) {
+  if (!skill.addAttack) return [];
+  return skill.frames.slice(0, skill.addAttack.skipActionFrame || 0);
+}
+
 // get floor penalty amount at a given stage
 function getFloorPenalty(frames, stage) {
   const actual = computeScaledDelay(frames, stage);
@@ -192,6 +202,7 @@ function Preamble() {
             At Stage 4 (AS6, the "base" speed), the multiplier is exactly 1.0. For this reason, Stage 4 (AS6) is considered the "base" speed.
           </p>
         </div>
+
 
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">The 30ms Frame Rule/Penalty</h3>
@@ -255,6 +266,28 @@ function Preamble() {
           </p>
           <p className="text-primary text-sm">
             <strong className="text-primary-bright">Note:</strong> This is currently an assumption based on in-game testing and observation, not confirmed game code. The behavior appears consistent with this model, but may not be 100% accurate.
+          </p>
+        </div>
+
+        <div className="bg-background-dim rounded-lg p-4">
+          <div className="text-xs text-primary-dark bg-secondary rounded px-2 py-1 inline-block mb-2">New Info - 2026-05-11</div>
+          <h3 className="text-lg font-bold text-secondary mb-2">Combo Skills and skipped Action Frames</h3>
+          <p className="mb-2">
+            Some skills have an <strong className="text-primary-bright">addAttack</strong> property in the WZ data, meaning they can chain into another skill. When this happens, the skill may use <strong className="text-primary-bright">skipActionFrame</strong> to cut off part of the original action delay.
+          </p>
+          <p className="mb-2">
+            For delay math, <strong className="text-secondary">skipActionFrame=N means the first N action frames are skipped from the remaining delay</strong>. So if a skill has <span className="font-mono text-primary-bright">skipActionFrame=4</span>, this page removes frames 0, 1, 2, and 3, then recalculates the delay from frame 4 onward.
+          </p>
+          <div className="bg-background rounded-lg p-3 text-sm mb-2">
+            <p className="text-primary mb-1"><strong className="text-primary-bright">Example:</strong></p>
+            <p className="text-primary">
+              Frames: <span className="font-mono text-primary-bright">[90, 90, 90, 30, 60, 90, 90, 90, 30]</span><br />
+              <span className="font-mono text-primary-bright">skipActionFrame=4</span> removes <span className="font-mono text-secondary">[90, 90, 90, 30]</span><br />
+              Combo frames used for delay: <span className="font-mono text-green-400">[60, 90, 90, 90, 30]</span>
+            </p>
+          </div>
+          <p className="text-primary text-sm">
+            The visible animation appears to include one more frame than the delay actually consumes. In other words, the animation renders frames 0 through N, but the delay calculation only uses frames N+1 through the end. The actual delay consumed is frames 0 through N-1 worth of delay.
           </p>
         </div>
 
@@ -330,11 +363,17 @@ function Preamble() {
 function SkillCard({ skill }) {
   const [expanded, setExpanded] = useState(false);
   const [selectedStage, setSelectedStage] = useState(null);
+  const hasCombo = Boolean(skill.addAttack);
+  const comboFrames = getComboFrames(skill);
+  const skippedFrames = getSkippedFrames(skill);
   const baseDelay = getBaseDelay(skill.frames);
+  const comboBaseDelay = hasCombo ? getBaseDelay(comboFrames) : null;
   const fastestDelay = computeScaledDelay(skill.frames, 10);
+  const comboFastestDelay = hasCombo ? computeScaledDelay(comboFrames, 10) : null;
   const theoreticalFastest = computeTheoreticalDelay(skill.frames, 10);
   const delayReduction = baseDelay - fastestDelay;
   const reductionPercent = ((delayReduction / baseDelay) * 100).toFixed(1);
+  const comboDelaySaved = hasCombo ? fastestDelay - comboFastestDelay : null;
 
   // count frames that hit the floor at stage 10
   const floorHits = skill.frames.filter(f => frameHitsFloor(f, 10)).length;
@@ -365,6 +404,11 @@ function SkillCard({ skill }) {
           <div className="flex-1 min-w-0">
             <h4 className="text-primary-bright font-bold truncate">{skill.name}</h4>
             <p className="text-primary text-sm truncate">{skill.action}</p>
+            {hasCombo && (
+              <div className="mt-1 inline-flex items-center rounded-full bg-secondary/10 border border-secondary/30 px-2 py-0.5 text-[10px] font-bold text-secondary">
+                Combo: skips {skill.addAttack.skipActionFrame} frames
+              </div>
+            )}
           </div>
           <div className="text-right flex-shrink-0">
             <div className="text-primary-bright font-bold">{baseDelay}ms</div>
@@ -377,6 +421,11 @@ function SkillCard({ skill }) {
                 <span className="text-green-400">→ {fastestDelay}ms</span>
               )}
             </div>
+            {hasCombo && (
+              <div className="text-xs text-secondary" title={`Combo delay after skipping ${skill.addAttack.skipActionFrame} action frames`}>
+                combo → {comboFastestDelay}ms
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -414,6 +463,77 @@ function SkillCard({ skill }) {
                   })}
                 </div>
               </div>
+
+              {hasCombo && (
+                <div className="mb-3 bg-background-dim rounded-lg border border-secondary/30 p-3">
+                  <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                    <div>
+                      <h5 className="text-sm font-bold text-secondary mb-1">Combo Delay</h5>
+                      <p className="text-primary text-xs">
+                        When this skill combos, the first {skill.addAttack.skipActionFrame} action frames are skipped.
+                      </p>
+                    </div>
+                    <div className="text-right text-xs">
+                      <div>
+                        <span className="text-primary">Base: </span>
+                        <span className="text-primary-bright font-bold">{baseDelay}ms → {comboBaseDelay}ms</span>
+                      </div>
+                      <div>
+                        <span className="text-primary">AS0: </span>
+                        <span className="text-secondary font-bold">{fastestDelay}ms → {comboFastestDelay}ms</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <div className="text-xs font-bold text-primary mb-1">Skipped Frames</div>
+                    <div className="flex flex-wrap gap-1">
+                      {skippedFrames.map((frame, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-1 rounded text-xs font-mono bg-secondary/10 text-secondary border border-secondary/30 line-through"
+                        >
+                          {frame}ms
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 text-xs">
+                    {[6, 7, 8, 9, 10].map(stage => {
+                      const normalDelay = computeScaledDelay(skill.frames, stage);
+                      const comboDelay = computeScaledDelay(comboFrames, stage);
+                      const comboTheoretical = computeTheoreticalDelay(comboFrames, stage);
+                      const comboLastFrame = comboFrames[comboFrames.length - 1];
+                      const showComboPenalty = frameHitsFloor(comboLastFrame, stage) && comboDelay !== comboTheoretical;
+                      return (
+                        <div key={stage} className="rounded p-2 text-center bg-background">
+                          <div className="text-primary">AS {10 - stage}</div>
+                          <div className="font-bold text-secondary">{comboDelay}ms</div>
+                          <div className="text-green-400 text-[10px]">-{normalDelay - comboDelay}ms</div>
+                          {showComboPenalty && (
+                            <div className="text-primary text-[10px]">({comboTheoretical}ms)</div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {(skill.addAttack.skill || skill.addAttack.linkDelay) && (
+                    <div className="mt-3 flex flex-wrap gap-3 text-xs text-primary">
+                      {skill.addAttack.skill && (
+                        <div>
+                          <span>Links to skill: </span>
+                          <span className="font-mono text-primary-bright">{skill.addAttack.skill}</span>
+                        </div>
+                      )}
+                      {skill.addAttack.linkDelay !== undefined && (
+                        <div>
+                          <span>Link delay: </span>
+                          <span className="font-mono text-primary-bright">{skill.addAttack.linkDelay}ms</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* delay at different stages - clickable */}
               <div className="mb-3">
@@ -538,6 +658,12 @@ function SkillCard({ skill }) {
                   <div>
                     <span className="text-primary">Floor penalty at AS0: </span>
                     <span className="text-secondary font-bold">+{floorPenaltyAmount}ms ({floorHits}/{skill.frames.length} frames)</span>
+                  </div>
+                )}
+                {hasCombo && (
+                  <div>
+                    <span className="text-primary">Combo saves at AS0: </span>
+                    <span className="text-secondary font-bold">{comboDelaySaved}ms</span>
                   </div>
                 )}
               </div>
