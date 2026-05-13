@@ -36,7 +36,7 @@ export async function POST(request) {
       body: JSON.stringify({
         from: process.env.CONTACT_FROM_EMAIL,
         to: [process.env.CONTACT_TO_EMAIL],
-        subject: 'hello',
+        subject: `Contact from ${email}`,
         text: body.message,
         reply_to: email,
       }),
