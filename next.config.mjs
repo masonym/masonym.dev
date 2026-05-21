@@ -20,8 +20,15 @@ const nextConfig = {
     experimental: {
         runtime: true
     },
-    turbopack: {
-    }
+    turbopack: {},
+    async headers() {
+        return [
+            {
+                source: '/.well-known/matrix/:path*',
+                headers: [{ key: 'Access-Control-Allow-Origin', value: '*' }],
+            },
+        ];
+    },
 };
 
 const withMDX = createMDX({
@@ -33,12 +40,3 @@ const withMDX = createMDX({
 });
 
 export default withMDX(nextConfig);
-
-async headers() {
-  return [
-    {
-      source: '/.well-known/matrix/:path*',
-      headers: [{ key: 'Access-Control-Allow-Origin', value: '*' }],
-    },
-  ];
-},
