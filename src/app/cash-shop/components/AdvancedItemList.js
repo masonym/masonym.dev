@@ -76,9 +76,13 @@ function AdvancedItemList() {
         const now = new Date();
         if (viewMode === 'past') {
             if (filters.dateRange.start && filters.dateRange.end) {
+                const toApiFormat = (yyyymmdd) => {
+                    const [y, m, d] = yyyymmdd.split('-');
+                    return `${m}-${d}-${y}`;
+                };
                 return {
-                    startDate: filters.dateRange.start,
-                    endDate: filters.dateRange.end
+                    startDate: toApiFormat(filters.dateRange.start),
+                    endDate: toApiFormat(filters.dateRange.end)
                 };
             }
             const thirtyDaysAgo = new Date(now);
