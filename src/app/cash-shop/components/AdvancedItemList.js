@@ -42,6 +42,8 @@ function AdvancedItemList() {
     const [collapsedCategories, setCollapsedCategories] = useState({});
     const [loading, setLoading] = useState(true);
     const [filteredCategories, setFilteredCategories] = useState({});
+    const [version, setVersion] = useState(null);
+    const [lastUpdated, setLastUpdated] = useState(null);
     const [itemsPerPage] = useState(50);
     const [displayedDates, setDisplayedDates] = useState([]);
 
@@ -112,8 +114,13 @@ function AdvancedItemList() {
         setLoading(true);
         try {
             const { data } = await axios.get(API_URL, { params: getApiParams() });
-            setItems(data);
-            setCategorizedItems(categorizeAndSortItems(data));
+            const itemList = Array.isArray(data) ? data : (data.items ?? []);
+            if (!Array.isArray(data)) {
+                setVersion(data.version ?? null);
+                setLastUpdated(data.lastUpdated ?? null);
+            }
+            setItems(itemList);
+            setCategorizedItems(categorizeAndSortItems(itemList));
         } catch (error) {
             console.error('Error fetching items:', error);
         } finally {
@@ -177,7 +184,9 @@ function AdvancedItemList() {
         <div className="flex flex-col min-h-dvh h-auto pb-20 bg-cs-bg" style={{ backgroundAttachment: 'fixed' }}>
             <h1 className="text-center text-3xl mb-0 mt-16 text-primary-bright font-bold">Cash Shop Sales</h1>
             <h4 className="text-center text-xl my-5 mb-4 italic text-primary">
-                Last Updated for v.268 (April 22nd, 2026)
+                {version && lastUpdated
+                    ? `Last Updated for ${version} (${lastUpdated})`
+                    : loading ? '\u00A0' : 'Last Updated: unknown'}
             </h4>
 
             <FilterControls
