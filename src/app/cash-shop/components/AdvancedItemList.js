@@ -193,6 +193,10 @@ function AdvancedItemList() {
                     : loading ? '\u00A0' : 'Last Updated: unknown'}
             </h4>
 
+            <div className="text-center text-sm text-yellow-800 bg-yellow-100 border border-yellow-400 rounded-lg px-4 py-2 mx-auto max-w-2xl mb-4">
+                Note: As of May 21st, the Curio Catalog sale date has changed. Nexon updated the end date, but the start date remained the same - presuambly because they plan to enable to server-side. I've updated the start time with the expected start date, but again, this could be subject to change.
+            </div>
+
             <FilterControls
                 filters={filters}
                 viewMode={viewMode}
