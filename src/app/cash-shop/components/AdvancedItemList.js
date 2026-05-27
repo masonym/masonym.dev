@@ -194,7 +194,7 @@ function AdvancedItemList() {
             </h4>
 
             <div className="text-center text-sm text-yellow-800 bg-yellow-100 border border-yellow-400 rounded-lg px-4 py-2 mx-auto max-w-2xl mb-4">
-                Note: As of May 21st, the Curio Catalog sale date has changed. Nexon updated the end date, but the start date remained the same - presuambly because they plan to enable the sale server-side. I've updated the start time with the expected start date, but again, this could be subject to change.
+                Note: you may notice that the curio catalog did not start again. blame nexon :) - as a reminder, all data is sourced from the game client
             </div>
 
             <FilterControls
