@@ -1,0 +1,998 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<dir name="ErdaLinkSolerda.img">
+  <dir name="runeStone">
+    <dir name="activation">
+      <dir name="origin">
+        <dir name="origin">
+          <int32 name="main" value="5" />
+          <int32 name="sub" value="100" />
+        </dir>
+        <dir name="ascent">
+          <int32 name="main" value="5" />
+          <int32 name="sub" value="100" />
+        </dir>
+      </dir>
+      <dir name="skill">
+        <dir name="default">
+          <int32 name="main" value="4" />
+          <int32 name="sub" value="75" />
+        </dir>
+        <dir name="half">
+          <int32 name="main" value="3" />
+          <int32 name="sub" value="37" />
+        </dir>
+        <dir name="solJanus">
+          <int32 name="main" value="7" />
+          <int32 name="sub" value="125" />
+        </dir>
+      </dir>
+      <dir name="rush">
+        <dir name="default">
+          <int32 name="main" value="1" />
+          <int32 name="sub" value="50" />
+        </dir>
+        <dir name="rushEnd">
+          <int32 name="main" value="5" />
+          <int32 name="sub" value="100" />
+        </dir>
+      </dir>
+      <dir name="boost">
+        <dir name="default">
+          <int32 name="main" value="7" />
+          <int32 name="sub" value="125" />
+        </dir>
+      </dir>
+      <dir name="ultimate">
+        <dir name="default">
+          <int32 name="main" value="2" />
+          <int32 name="sub" value="50" />
+        </dir>
+      </dir>
+      <dir name="SHINE">
+        <dir name="default">
+          <int32 name="main" value="7" />
+          <int32 name="sub" value="100" />
+        </dir>
+      </dir>
+    </dir>
+    <dir name="enforcement">
+      <dir name="origin">
+        <dir name="1">
+          <dir name="origin">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="30" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="30" />
+          </dir>
+        </dir>
+        <dir name="2">
+          <dir name="origin">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="30" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="35" />
+          </dir>
+        </dir>
+        <dir name="3">
+          <dir name="origin">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="40" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="40" />
+          </dir>
+        </dir>
+        <dir name="4">
+          <dir name="origin">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="40" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="45" />
+          </dir>
+        </dir>
+        <dir name="5">
+          <dir name="origin">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="50" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="50" />
+          </dir>
+        </dir>
+        <dir name="6">
+          <dir name="origin">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="55" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="55" />
+          </dir>
+        </dir>
+        <dir name="7">
+          <dir name="origin">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="60" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="60" />
+          </dir>
+        </dir>
+        <dir name="8">
+          <dir name="origin">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="60" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="65" />
+          </dir>
+        </dir>
+        <dir name="9">
+          <dir name="origin">
+            <int32 name="main" value="10" />
+            <int32 name="sub" value="200" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="10" />
+            <int32 name="sub" value="200" />
+          </dir>
+        </dir>
+        <dir name="10">
+          <dir name="origin">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="80" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="80" />
+          </dir>
+        </dir>
+        <dir name="11">
+          <dir name="origin">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="100" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="90" />
+          </dir>
+        </dir>
+        <dir name="12">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="110" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="100" />
+          </dir>
+        </dir>
+        <dir name="13">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="120" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="110" />
+          </dir>
+        </dir>
+        <dir name="14">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="130" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="120" />
+          </dir>
+        </dir>
+        <dir name="15">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="135" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="130" />
+          </dir>
+        </dir>
+        <dir name="16">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="140" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="140" />
+          </dir>
+        </dir>
+        <dir name="17">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="145" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="150" />
+          </dir>
+        </dir>
+        <dir name="18">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="150" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="160" />
+          </dir>
+        </dir>
+        <dir name="19">
+          <dir name="origin">
+            <int32 name="main" value="15" />
+            <int32 name="sub" value="350" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="15" />
+            <int32 name="sub" value="350" />
+          </dir>
+        </dir>
+        <dir name="20">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="170" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="170" />
+          </dir>
+        </dir>
+        <dir name="21">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="180" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="180" />
+          </dir>
+        </dir>
+        <dir name="22">
+          <dir name="origin">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="190" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="190" />
+          </dir>
+        </dir>
+        <dir name="23">
+          <dir name="origin">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="200" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="200" />
+          </dir>
+        </dir>
+        <dir name="24">
+          <dir name="origin">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="210" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="210" />
+          </dir>
+        </dir>
+        <dir name="25">
+          <dir name="origin">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="220" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="220" />
+          </dir>
+        </dir>
+        <dir name="26">
+          <dir name="origin">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="230" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="230" />
+          </dir>
+        </dir>
+        <dir name="27">
+          <dir name="origin">
+            <int32 name="main" value="7" />
+            <int32 name="sub" value="240" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="240" />
+          </dir>
+        </dir>
+        <dir name="28">
+          <dir name="origin">
+            <int32 name="main" value="8" />
+            <int32 name="sub" value="250" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="7" />
+            <int32 name="sub" value="250" />
+          </dir>
+        </dir>
+        <dir name="29">
+          <dir name="origin">
+            <int32 name="main" value="20" />
+            <int32 name="sub" value="500" />
+          </dir>
+          <dir name="ascent">
+            <int32 name="main" value="20" />
+            <int32 name="sub" value="500" />
+          </dir>
+        </dir>
+      </dir>
+      <dir name="skill">
+        <dir name="1">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="23" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="0" />
+            <int32 name="sub" value="22" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="38" />
+          </dir>
+        </dir>
+        <dir name="2">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="27" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="0" />
+            <int32 name="sub" value="23" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="44" />
+          </dir>
+        </dir>
+        <dir name="3">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="30" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="0" />
+            <int32 name="sub" value="25" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="50" />
+          </dir>
+        </dir>
+        <dir name="4">
+          <dir name="default">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="34" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="45" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="57" />
+          </dir>
+        </dir>
+        <dir name="5">
+          <dir name="default">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="38" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="0" />
+            <int32 name="sub" value="39" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="63" />
+          </dir>
+        </dir>
+        <dir name="6">
+          <dir name="default">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="42" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="0" />
+            <int32 name="sub" value="41" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="69" />
+          </dir>
+        </dir>
+        <dir name="7">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="45" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="0" />
+            <int32 name="sub" value="42" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="75" />
+          </dir>
+        </dir>
+        <dir name="8">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="49" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="0" />
+            <int32 name="sub" value="45" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="82" />
+          </dir>
+        </dir>
+        <dir name="9">
+          <dir name="default">
+            <int32 name="main" value="8" />
+            <int32 name="sub" value="150" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="10" />
+            <int32 name="sub" value="110" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="14" />
+            <int32 name="sub" value="300" />
+          </dir>
+        </dir>
+        <dir name="10">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="60" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="50" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="110" />
+          </dir>
+        </dir>
+        <dir name="11">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="68" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="54" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="124" />
+          </dir>
+        </dir>
+        <dir name="12">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="75" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="57" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="138" />
+          </dir>
+        </dir>
+        <dir name="13">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="83" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="62" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="152" />
+          </dir>
+        </dir>
+        <dir name="14">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="90" />
+          </dir>
+          <dir name="half">
+            <int32 name="main" value="10" />
+            <int32 name="sub" value="175" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="165" />
+          </dir>
+        </dir>
+        <dir name="15">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="98" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="179" />
+          </dir>
+        </dir>
+        <dir name="16">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="105" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="193" />
+          </dir>
+        </dir>
+        <dir name="17">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="113" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="207" />
+          </dir>
+        </dir>
+        <dir name="18">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="120" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="7" />
+            <int32 name="sub" value="220" />
+          </dir>
+        </dir>
+        <dir name="19">
+          <dir name="default">
+            <int32 name="main" value="12" />
+            <int32 name="sub" value="263" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="17" />
+            <int32 name="sub" value="525" />
+          </dir>
+        </dir>
+        <dir name="20">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="128" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="7" />
+            <int32 name="sub" value="234" />
+          </dir>
+        </dir>
+        <dir name="21">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="135" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="7" />
+            <int32 name="sub" value="248" />
+          </dir>
+        </dir>
+        <dir name="22">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="143" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="7" />
+            <int32 name="sub" value="262" />
+          </dir>
+        </dir>
+        <dir name="23">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="150" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="7" />
+            <int32 name="sub" value="275" />
+          </dir>
+        </dir>
+        <dir name="24">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="158" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="7" />
+            <int32 name="sub" value="289" />
+          </dir>
+        </dir>
+        <dir name="25">
+          <dir name="default">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="165" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="9" />
+            <int32 name="sub" value="303" />
+          </dir>
+        </dir>
+        <dir name="26">
+          <dir name="default">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="173" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="9" />
+            <int32 name="sub" value="317" />
+          </dir>
+        </dir>
+        <dir name="27">
+          <dir name="default">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="180" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="9" />
+            <int32 name="sub" value="330" />
+          </dir>
+        </dir>
+        <dir name="28">
+          <dir name="default">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="188" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="10" />
+            <int32 name="sub" value="344" />
+          </dir>
+        </dir>
+        <dir name="29">
+          <dir name="default">
+            <int32 name="main" value="15" />
+            <int32 name="sub" value="375" />
+          </dir>
+          <dir name="solJanus">
+            <int32 name="main" value="20" />
+            <int32 name="sub" value="750" />
+          </dir>
+        </dir>
+      </dir>
+      <dir name="ultimate">
+        <dir name="1">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="15" />
+          </dir>
+        </dir>
+        <dir name="2">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="15" />
+          </dir>
+        </dir>
+        <dir name="3">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="20" />
+          </dir>
+        </dir>
+        <dir name="4">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="25" />
+          </dir>
+        </dir>
+        <dir name="5">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="25" />
+          </dir>
+        </dir>
+        <dir name="6">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="28" />
+          </dir>
+        </dir>
+        <dir name="7">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="30" />
+          </dir>
+        </dir>
+        <dir name="8">
+          <dir name="default">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="30" />
+          </dir>
+        </dir>
+        <dir name="9">
+          <dir name="default">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="100" />
+          </dir>
+        </dir>
+        <dir name="10">
+          <dir name="default">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="37" />
+          </dir>
+        </dir>
+        <dir name="11">
+          <dir name="default">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="45" />
+          </dir>
+        </dir>
+        <dir name="12">
+          <dir name="default">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="50" />
+          </dir>
+        </dir>
+        <dir name="13">
+          <dir name="default">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="55" />
+          </dir>
+        </dir>
+        <dir name="14">
+          <dir name="default">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="60" />
+          </dir>
+        </dir>
+        <dir name="15">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="65" />
+          </dir>
+        </dir>
+        <dir name="16">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="70" />
+          </dir>
+        </dir>
+        <dir name="17">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="75" />
+          </dir>
+        </dir>
+        <dir name="18">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="80" />
+          </dir>
+        </dir>
+        <dir name="19">
+          <dir name="default">
+            <int32 name="main" value="10" />
+            <int32 name="sub" value="175" />
+          </dir>
+        </dir>
+        <dir name="20">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="85" />
+          </dir>
+        </dir>
+        <dir name="21">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="90" />
+          </dir>
+        </dir>
+        <dir name="22">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="95" />
+          </dir>
+        </dir>
+        <dir name="23">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="100" />
+          </dir>
+        </dir>
+        <dir name="24">
+          <dir name="default">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="105" />
+          </dir>
+        </dir>
+        <dir name="25">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="110" />
+          </dir>
+        </dir>
+        <dir name="26">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="115" />
+          </dir>
+        </dir>
+        <dir name="27">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="120" />
+          </dir>
+        </dir>
+        <dir name="28">
+          <dir name="default">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="125" />
+          </dir>
+        </dir>
+        <dir name="29">
+          <dir name="default">
+            <int32 name="main" value="10" />
+            <int32 name="sub" value="250" />
+          </dir>
+        </dir>
+      </dir>
+      <dir name="SHINE">
+        <dir name="1">
+          <dir name="default">
+            <int32 name="sub" value="5" />
+            <int64 name="meso" value="16000000" />
+          </dir>
+        </dir>
+        <dir name="2">
+          <dir name="default">
+            <int32 name="sub" value="5" />
+            <int64 name="meso" value="33000000" />
+          </dir>
+        </dir>
+        <dir name="3">
+          <dir name="default">
+            <int32 name="sub" value="5" />
+            <int64 name="meso" value="50000000" />
+          </dir>
+        </dir>
+        <dir name="4">
+          <dir name="default">
+            <int32 name="sub" value="5" />
+            <int64 name="meso" value="84000000" />
+          </dir>
+        </dir>
+        <dir name="5">
+          <dir name="default">
+            <int32 name="sub" value="7" />
+            <int64 name="meso" value="84000000" />
+          </dir>
+        </dir>
+        <dir name="6">
+          <dir name="default">
+            <int32 name="sub" value="7" />
+            <int64 name="meso" value="84000000" />
+          </dir>
+        </dir>
+        <dir name="7">
+          <dir name="default">
+            <int32 name="sub" value="7" />
+            <int64 name="meso" value="101000000" />
+          </dir>
+        </dir>
+        <dir name="8">
+          <dir name="default">
+            <int32 name="sub" value="7" />
+            <int64 name="meso" value="101000000" />
+          </dir>
+        </dir>
+        <dir name="9">
+          <dir name="default">
+            <int32 name="sub" value="10" />
+            <int64 name="meso" value="101000000" />
+          </dir>
+        </dir>
+        <dir name="10">
+          <dir name="default">
+            <int32 name="sub" value="10" />
+            <int64 name="meso" value="101000000" />
+          </dir>
+        </dir>
+        <dir name="11">
+          <dir name="default">
+            <int32 name="sub" value="10" />
+            <int64 name="meso" value="135000000" />
+          </dir>
+        </dir>
+        <dir name="12">
+          <dir name="default">
+            <int32 name="sub" value="10" />
+            <int64 name="meso" value="135000000" />
+          </dir>
+        </dir>
+        <dir name="13">
+          <dir name="default">
+            <int32 name="sub" value="10" />
+            <int64 name="meso" value="135000000" />
+          </dir>
+        </dir>
+        <dir name="14">
+          <dir name="default">
+            <int32 name="sub" value="10" />
+            <int64 name="meso" value="135000000" />
+          </dir>
+        </dir>
+        <dir name="15">
+          <dir name="default">
+            <int32 name="sub" value="20" />
+            <int64 name="meso" value="169000000" />
+          </dir>
+        </dir>
+        <dir name="16">
+          <dir name="default">
+            <int32 name="sub" value="20" />
+            <int64 name="meso" value="169000000" />
+          </dir>
+        </dir>
+        <dir name="17">
+          <dir name="default">
+            <int32 name="sub" value="20" />
+            <int64 name="meso" value="339000000" />
+          </dir>
+        </dir>
+        <dir name="18">
+          <dir name="default">
+            <int32 name="sub" value="20" />
+            <int64 name="meso" value="339000000" />
+          </dir>
+        </dir>
+        <dir name="19">
+          <dir name="default">
+            <int32 name="sub" value="50" />
+            <int64 name="meso" value="339000000" />
+          </dir>
+        </dir>
+      </dir>
+    </dir>
+  </dir>
+  <dir name="solerdaSub">
+    <int32 name="0" value="4009548" />
+    <int32 name="1" value="4009547" />
+    <int32 name="2" value="4009550" />
+  </dir>
+</dir>

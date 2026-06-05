@@ -1413,6 +1413,27 @@ export const classes = {
             "Sol Hecate"
         ]
     },
+    "Erel Light": {
+        "originSkill": "Celestial Design",
+        "ascentSkill": "Starlit Cosmos",
+        "masterySkills": [
+            "SHINE Ray",
+            "SHINE Stellar I - Antares",
+            "SHINE Boom",
+            "SHINE Stellar II - Algol",
+            "SHINE Stellar V - Fomalhaut",
+        ],
+        "boostSkills": [
+            "Shine Boost",
+            "Stellar XI - Sirius Boost",
+            "Stellar XII - Sadalsuud Boost",
+            "Savior's Circle Boost",
+        ],
+        "commonSkills": [
+            "Sol Janus",
+            "Sol Hecate"
+        ]
+    },
     "Ren": {
         "originSkill": "Rising Azure Dragon: Divided Heavens",
         "ascentSkill": "Rising Azure Dragon: Heartbound Verse",

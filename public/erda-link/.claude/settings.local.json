@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk -F'\"' '{print NR, $2}')",
+      "Bash(awk '/  <dir name=\"stone\">/,0' /mnt/c/Users/Mason/Documents/coding_projects/masonym.dev/public/erda-link/Etc.ErdaLink.img.xml)",
+      "Bash(grep -E '^\\\\s{2,6}<dir name=')",
+      "Bash(python3 -c ' *)",
+      "Bash(awk 'NR>=2090 && NR<=4408 && /<dir name=\"[0-9]/ { match\\($0, /name=\"\\([0-9]+\\)\"/, a\\); print a[1] }' /mnt/c/Users/Mason/Documents/coding_projects/masonym.dev/public/erda-link/Etc.ErdaLink.img.xml)",
+      "Bash(awk 'NR>=4409 && NR<=6703 && /<dir name=\"[0-9]/ { match\\($0, /name=\"\\([0-9]+\\)\"/, a\\); print a[1] }' /mnt/c/Users/Mason/Documents/coding_projects/masonym.dev/public/erda-link/Etc.ErdaLink.img.xml)",
+      "Bash(awk 'NR>=14 && NR<=1048 && /name=\"stoneId\"/ { match\\($0, /value=\"\\([0-9]+\\)\"/, a\\); print a[1] }' /mnt/c/Users/Mason/Documents/coding_projects/masonym.dev/public/erda-link/Etc.ErdaLink.img.xml)",
+      "Bash(awk 'NR>=1049 && NR<=2089 && /name=\"stoneId\"/ { match\\($0, /value=\"\\([0-9]+\\)\"/, a\\); print a[1] }' /mnt/c/Users/Mason/Documents/coding_projects/masonym.dev/public/erda-link/Etc.ErdaLink.img.xml)",
+      "Bash(node *)"
+    ]
+  }
+}

@@ -5,9 +5,9 @@ import erdaLinkData from "@/data/erda-link-data.json";
 import solErda from "../../assets/sol_erda.png";
 import solErdaFragment from "../../assets/sol_erda_fragment.png";
 
-const SHINE_CLASSES = new Set(["Sia Astelle"]);
-const CANVAS_WIDTH = 1600;
-const CANVAS_HEIGHT = 1080;
+const SHINE_CLASSES = new Set(["Sia Astelle", "Erel Light"]);
+const CANVAS_WIDTH = 1800;
+const CANVAS_HEIGHT = 1440;
 const NODE_SIZE = 48;
 const STORAGE_PREFIX = "erdaLinkBuild";
 
@@ -45,15 +45,29 @@ const clampLevel = (value, maxLevel) => {
   return Math.max(0, Math.min(maxLevel, parsed));
 };
 
-const getStoneIconPath = (stone, disabled = false) => {
+const getStoneIconPath = (stone, treeId, disabled = false) => {
   const file = disabled ? "iconDisabled.png" : "icon.png";
-  return `/erda-link/stones/${stone.category}/${stone.id}/${file}`;
+  return `/erda-link/stones/${treeId}/${stone.category}/${stone.id}/${file}`;
 };
 
 const getStoneLabelPath = (stone) => {
   const label = stone.costType === "rushEnd" ? "rushEnd" : stone.category === "SHINE" ? "shine" : stone.category;
   return `/erda-link/labels/${label}.png`;
 };
+
+const parseDesc = (desc) =>
+  desc.split(/(\\n|#c[^#]*#)/).map((part, i) => {
+    if (part === '\\n') return <br key={i} />;
+    if (part.startsWith('#c')) {
+      const lines = part.slice(2, -1).split('\\n');
+      return (
+        <span key={i} style={{ color: '#c84b00' }}>
+          {lines.flatMap((line, j) => j === 0 ? [line] : [<br key={j} />, line])}
+        </span>
+      );
+    }
+    return part;
+  });
 
 const isNodeUnlockable = (node, nodeLevels) => {
   const andMet = node.prereqAnd.every((nodeIndex) => (nodeLevels[nodeIndex] || 0) > 0);
@@ -117,12 +131,15 @@ const ShineCalculator = ({ selectedClass }) => {
   const boardViewportRef = useRef(null);
   const dragStartRef = useRef({ x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
 
-  const stoneMap = useMemo(() => new Map(erdaLinkData.stones.map((stone) => [stone.id, stone])), []);
-  const shineStoneMap = useMemo(() => new Map(erdaLinkData.shineStones.map((stone) => [stone.id, stone])), []);
   const character = useMemo(
     () => erdaLinkData.characters.find((entry) => entry.name === selectedClass),
     [selectedClass]
   );
+  const stoneMap = useMemo(
+    () => new Map(erdaLinkData.stones.filter((s) => s.treeId === character?.treeId).map((s) => [s.id, s])),
+    [character],
+  );
+  const shineStoneMap = useMemo(() => new Map(erdaLinkData.shineStones.map((stone) => [stone.id, stone])), []);
 
   const regularNodes = useMemo(() => character?.nodes.filter((node) => node.sector !== "SHINE" && node.position) || [], [character]);
   const shineNodes = useMemo(() => character?.nodes.filter((node) => node.sector === "SHINE") || [], [character]);
@@ -316,7 +333,7 @@ const ShineCalculator = ({ selectedClass }) => {
         style={{ left: node.position.x, top: node.position.y }}
         title={stone.name}
       >
-        <img src={getStoneIconPath(stone, !activated)} alt={stone.name} className="h-10 w-10 rounded-full" />
+        <img src={getStoneIconPath(stone, character.treeId, !activated)} alt={stone.name} className="h-10 w-10 rounded-full" />
         <span className="absolute -bottom-2 rounded bg-primary-dark px-1 text-[10px] text-primary-bright">
           {level}/{stone.maxLevel}
         </span>
@@ -382,7 +399,7 @@ const ShineCalculator = ({ selectedClass }) => {
             onPointerCancel={handleBoardPointerUp}
             className={`overflow-hidden rounded-xl border border-primary-dim bg-primary-dark/40 p-3 ${isDraggingBoard ? "cursor-grabbing" : "cursor-grab"}`}
           >
-            <div className="relative min-w-[1600px]" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
+            <div className="relative min-w-[1800px]" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
               <img src="/erda-link/erdalink-background.png" alt="Erda Link board" className="absolute inset-0 h-full w-full select-none" draggable="false" />
               {regularNodes.map(renderNode)}
             </div>
@@ -393,13 +410,13 @@ const ShineCalculator = ({ selectedClass }) => {
           {selectedStone && selectedNode && (
             <div className="rounded-xl border border-primary-dim bg-background p-4">
               <div className="mb-4 flex items-center gap-3">
-                <img src={getStoneIconPath(selectedStone, selectedCurrentLevel === 0)} alt={selectedStone.name} className="h-12 w-12" />
+                <img src={getStoneIconPath(selectedStone, character.treeId, selectedCurrentLevel === 0)} alt={selectedStone.name} className="h-12 w-12" />
                 <div>
                   <h3 className="text-lg font-semibold text-primary-bright">{selectedStone.name}</h3>
                   <img src={getStoneLabelPath(selectedStone)} alt={selectedStone.category} className="mt-1 h-5 w-auto" />
                 </div>
               </div>
-              <p className="mb-4 text-sm text-primary">{selectedStone.desc}</p>
+              <p className="mb-4 text-sm text-primary">{parseDesc(selectedStone.desc)}</p>
               <div className={`grid gap-3 ${selectedStoneHasGoalLevels ? "grid-cols-2" : "grid-cols-1"}`}>
                 <label className="text-sm text-primary">
                   Current Level
@@ -483,7 +500,7 @@ const ShineCalculator = ({ selectedClass }) => {
                     className={`rounded-lg border p-3 text-left transition ${selectedNode?.nodeIndex === node.nodeIndex ? "border-secondary bg-primary-dark" : "border-primary-dim bg-primary-dark/60 hover:bg-primary-dark"}`}
                   >
                     <div className="flex items-center gap-3">
-                      <img src={getStoneIconPath(stone, level === 0)} alt={stone.name} className="h-10 w-10" />
+                      <img src={getStoneIconPath(stone, character.treeId, level === 0)} alt={stone.name} className="h-10 w-10" />
                       <div className="min-w-0 flex-1">
                         <div className="font-semibold text-primary-bright">{stone.name}</div>
                         <div className="text-xs text-primary">Level {level}/{stone.maxLevel}</div>

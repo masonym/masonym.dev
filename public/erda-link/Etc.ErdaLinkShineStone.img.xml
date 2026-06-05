@@ -1,0 +1,2977 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<dir name="ErdaLinkShineStone.img">
+  <dir name="stone">
+    <dir name="info">
+      <string name="info" value="샤인스톤은 img 파일 분리" />
+      <string name="shine" value="샤인스톤은 활성화 조건 condition, 강화 확률 enforceProb, 강화시 올라가는 스탯 passive 이 구성되어 있음" />
+      <string name="enforceProb" value="enforceProb/0 에 들어 있는 확률은 0렙에서 1렙가는확률. 20렙까지면 enforceProb/19 (19렙에서 20렙 가는 확률) 까지 있어야 함." />
+      <string name="passive" value="passive 는 최대 20레벨이면 passive/0 부터 passive/20 까지 있어야 함" />
+      <string name="condition - stone" value="stone : type, count 필요. 어떤 타입의 스톤을 count 만큼 활성화 해야함." />
+      <string name="condition - skill" value="skill : skillID, lv 필요. skillID 스킬을 lv 만큼 레벨을 찍어야 함.    level : level 필요. 캐릭터 레벨이 level 을 넘어야 함.  " />
+      <string name="condition - level" value="level : level 필요. 캐릭터 레벨이 level 을 넘어야 함.  " />
+      <string name="condition - stonelevel" value="stonelevel : type, lv 필요. 어떤 타입의 스톤을 해당 lv 만큼 강화해야함. 같은 타입의 스톤이 여러개 있어도 하나만 달성하면 됨. ex) 샤인스톤 10렙 달성이면 어떤 샤인스톤이건 10렙 이상만 찍으면 됨" />
+      <string name="condition - endstone" value="endstone : count 필요. endstone을 count 만큼 활성화 되어있어야 함. 지금은 rushEnd만 있음." />
+      <string name="condition - all" value="all : all 필요. all = 1 로 넣어주면 모든 스톤이 활성화 되어있어야 함." />
+    </dir>
+    <dir name="18112">
+      <dir name="SHINE">
+        <dir name="1000">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="0" />
+          <string name="desc" value="You must meet the conditions to make the Runestone shine." />
+          <dir name="condition">
+            <dir name="stone">
+              <string name="type" value="ultimate" />
+              <int32 name="count" value="1" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="bdR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="bdR" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="bdR" value="100" />
+              </dir>
+              <dir name="3">
+                <int32 name="bdR" value="150" />
+              </dir>
+              <dir name="4">
+                <int32 name="bdR" value="200" />
+              </dir>
+              <dir name="5">
+                <int32 name="bdR" value="400" />
+              </dir>
+              <dir name="6">
+                <int32 name="bdR" value="500" />
+              </dir>
+              <dir name="7">
+                <int32 name="bdR" value="550" />
+              </dir>
+              <dir name="8">
+                <int32 name="bdR" value="650" />
+              </dir>
+              <dir name="9">
+                <int32 name="bdR" value="800" />
+              </dir>
+              <dir name="10">
+                <int32 name="bdR" value="1000" />
+              </dir>
+              <dir name="11">
+                <int32 name="bdR" value="1100" />
+              </dir>
+              <dir name="12">
+                <int32 name="bdR" value="1200" />
+              </dir>
+              <dir name="13">
+                <int32 name="bdR" value="1500" />
+              </dir>
+              <dir name="14">
+                <int32 name="bdR" value="1700" />
+              </dir>
+              <dir name="15">
+                <int32 name="bdR" value="2000" />
+              </dir>
+              <dir name="16">
+                <int32 name="bdR" value="2500" />
+              </dir>
+              <dir name="17">
+                <int32 name="bdR" value="3000" />
+              </dir>
+              <dir name="18">
+                <int32 name="bdR" value="3500" />
+              </dir>
+              <dir name="19">
+                <int32 name="bdR" value="4000" />
+              </dir>
+              <dir name="20">
+                <int32 name="bdR" value="5000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="strFX" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="strFX" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="strFX" value="60" />
+              </dir>
+              <dir name="3">
+                <int32 name="strFX" value="70" />
+              </dir>
+              <dir name="4">
+                <int32 name="strFX" value="90" />
+              </dir>
+              <dir name="5">
+                <int32 name="strFX" value="110" />
+              </dir>
+              <dir name="6">
+                <int32 name="strFX" value="150" />
+              </dir>
+              <dir name="7">
+                <int32 name="strFX" value="200" />
+              </dir>
+              <dir name="8">
+                <int32 name="strFX" value="300" />
+              </dir>
+              <dir name="9">
+                <int32 name="strFX" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="strFX" value="500" />
+              </dir>
+              <dir name="11">
+                <int32 name="strFX" value="600" />
+              </dir>
+              <dir name="12">
+                <int32 name="strFX" value="700" />
+              </dir>
+              <dir name="13">
+                <int32 name="strFX" value="900" />
+              </dir>
+              <dir name="14">
+                <int32 name="strFX" value="1000" />
+              </dir>
+              <dir name="15">
+                <int32 name="strFX" value="1200" />
+              </dir>
+              <dir name="16">
+                <int32 name="strFX" value="1300" />
+              </dir>
+              <dir name="17">
+                <int32 name="strFX" value="1500" />
+              </dir>
+              <dir name="18">
+                <int32 name="strFX" value="1800" />
+              </dir>
+              <dir name="19">
+                <int32 name="strFX" value="2000" />
+              </dir>
+              <dir name="20">
+                <int32 name="strFX" value="2500" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+        <dir name="1001">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="1" />
+          <string name="desc" value="You must meet the conditions to make the Runestone shine." />
+          <dir name="condition">
+            <dir name="stone">
+              <string name="type" value="skill" />
+              <int32 name="count" value="2" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="ignoreMobpdpR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="ignoreMobpdpR" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="ignoreMobpdpR" value="100" />
+              </dir>
+              <dir name="3">
+                <int32 name="ignoreMobpdpR" value="150" />
+              </dir>
+              <dir name="4">
+                <int32 name="ignoreMobpdpR" value="200" />
+              </dir>
+              <dir name="5">
+                <int32 name="ignoreMobpdpR" value="400" />
+              </dir>
+              <dir name="6">
+                <int32 name="ignoreMobpdpR" value="500" />
+              </dir>
+              <dir name="7">
+                <int32 name="ignoreMobpdpR" value="550" />
+              </dir>
+              <dir name="8">
+                <int32 name="ignoreMobpdpR" value="650" />
+              </dir>
+              <dir name="9">
+                <int32 name="ignoreMobpdpR" value="800" />
+              </dir>
+              <dir name="10">
+                <int32 name="ignoreMobpdpR" value="1000" />
+              </dir>
+              <dir name="11">
+                <int32 name="ignoreMobpdpR" value="1100" />
+              </dir>
+              <dir name="12">
+                <int32 name="ignoreMobpdpR" value="1200" />
+              </dir>
+              <dir name="13">
+                <int32 name="ignoreMobpdpR" value="1500" />
+              </dir>
+              <dir name="14">
+                <int32 name="ignoreMobpdpR" value="1700" />
+              </dir>
+              <dir name="15">
+                <int32 name="ignoreMobpdpR" value="2000" />
+              </dir>
+              <dir name="16">
+                <int32 name="ignoreMobpdpR" value="2300" />
+              </dir>
+              <dir name="17">
+                <int32 name="ignoreMobpdpR" value="2500" />
+              </dir>
+              <dir name="18">
+                <int32 name="ignoreMobpdpR" value="3000" />
+              </dir>
+              <dir name="19">
+                <int32 name="ignoreMobpdpR" value="3300" />
+              </dir>
+              <dir name="20">
+                <int32 name="ignoreMobpdpR" value="4000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="padX" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="padX" value="10" />
+              </dir>
+              <dir name="2">
+                <int32 name="padX" value="15" />
+              </dir>
+              <dir name="3">
+                <int32 name="padX" value="20" />
+              </dir>
+              <dir name="4">
+                <int32 name="padX" value="25" />
+              </dir>
+              <dir name="5">
+                <int32 name="padX" value="30" />
+              </dir>
+              <dir name="6">
+                <int32 name="padX" value="35" />
+              </dir>
+              <dir name="7">
+                <int32 name="padX" value="40" />
+              </dir>
+              <dir name="8">
+                <int32 name="padX" value="45" />
+              </dir>
+              <dir name="9">
+                <int32 name="padX" value="50" />
+              </dir>
+              <dir name="10">
+                <int32 name="padX" value="55" />
+              </dir>
+              <dir name="11">
+                <int32 name="padX" value="60" />
+              </dir>
+              <dir name="12">
+                <int32 name="padX" value="70" />
+              </dir>
+              <dir name="13">
+                <int32 name="padX" value="80" />
+              </dir>
+              <dir name="14">
+                <int32 name="padX" value="100" />
+              </dir>
+              <dir name="15">
+                <int32 name="padX" value="120" />
+              </dir>
+              <dir name="16">
+                <int32 name="padX" value="140" />
+              </dir>
+              <dir name="17">
+                <int32 name="padX" value="160" />
+              </dir>
+              <dir name="18">
+                <int32 name="padX" value="190" />
+              </dir>
+              <dir name="19">
+                <int32 name="padX" value="210" />
+              </dir>
+              <dir name="20">
+                <int32 name="padX" value="250" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+        <dir name="1002">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="2" />
+          <string name="desc" value="You must meet the conditions to make the Runestone shine." />
+          <dir name="condition">
+            <dir name="level">
+              <string name="level" value="270" />
+            </dir>
+            <dir name="stone">
+              <string name="type" value="boost" />
+              <int32 name="count" value="2" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="damR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="damR" value="25" />
+              </dir>
+              <dir name="2">
+                <int32 name="damR" value="50" />
+              </dir>
+              <dir name="3">
+                <int32 name="damR" value="75" />
+              </dir>
+              <dir name="4">
+                <int32 name="damR" value="150" />
+              </dir>
+              <dir name="5">
+                <int32 name="damR" value="200" />
+              </dir>
+              <dir name="6">
+                <int32 name="damR" value="250" />
+              </dir>
+              <dir name="7">
+                <int32 name="damR" value="300" />
+              </dir>
+              <dir name="8">
+                <int32 name="damR" value="350" />
+              </dir>
+              <dir name="9">
+                <int32 name="damR" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="damR" value="450" />
+              </dir>
+              <dir name="11">
+                <int32 name="damR" value="500" />
+              </dir>
+              <dir name="12">
+                <int32 name="damR" value="550" />
+              </dir>
+              <dir name="13">
+                <int32 name="damR" value="600" />
+              </dir>
+              <dir name="14">
+                <int32 name="damR" value="650" />
+              </dir>
+              <dir name="15">
+                <int32 name="damR" value="900" />
+              </dir>
+              <dir name="16">
+                <int32 name="damR" value="1050" />
+              </dir>
+              <dir name="17">
+                <int32 name="damR" value="1200" />
+              </dir>
+              <dir name="18">
+                <int32 name="damR" value="1400" />
+              </dir>
+              <dir name="19">
+                <int32 name="damR" value="1600" />
+              </dir>
+              <dir name="20">
+                <int32 name="damR" value="2000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="incCrDam" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="incCrDam" value="20" />
+              </dir>
+              <dir name="2">
+                <int32 name="incCrDam" value="40" />
+              </dir>
+              <dir name="3">
+                <int32 name="incCrDam" value="60" />
+              </dir>
+              <dir name="4">
+                <int32 name="incCrDam" value="80" />
+              </dir>
+              <dir name="5">
+                <int32 name="incCrDam" value="140" />
+              </dir>
+              <dir name="6">
+                <int32 name="incCrDam" value="172" />
+              </dir>
+              <dir name="7">
+                <int32 name="incCrDam" value="204" />
+              </dir>
+              <dir name="8">
+                <int32 name="incCrDam" value="236" />
+              </dir>
+              <dir name="9">
+                <int32 name="incCrDam" value="268" />
+              </dir>
+              <dir name="10">
+                <int32 name="incCrDam" value="300" />
+              </dir>
+              <dir name="11">
+                <int32 name="incCrDam" value="350" />
+              </dir>
+              <dir name="12">
+                <int32 name="incCrDam" value="450" />
+              </dir>
+              <dir name="13">
+                <int32 name="incCrDam" value="500" />
+              </dir>
+              <dir name="14">
+                <int32 name="incCrDam" value="550" />
+              </dir>
+              <dir name="15">
+                <int32 name="incCrDam" value="800" />
+              </dir>
+              <dir name="16">
+                <int32 name="incCrDam" value="1000" />
+              </dir>
+              <dir name="17">
+                <int32 name="incCrDam" value="1100" />
+              </dir>
+              <dir name="18">
+                <int32 name="incCrDam" value="1200" />
+              </dir>
+              <dir name="19">
+                <int32 name="incCrDam" value="1300" />
+              </dir>
+              <dir name="20">
+                <int32 name="incCrDam" value="1500" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+        <dir name="1003">
+          <int32 name="maxLevel" value="20" />
+          <string name="desc" value="You must meet the conditions to make the Runestone shine." />
+          <dir name="condition">
+            <dir name="stonelevel">
+              <string name="type" value="SHINE" />
+              <int32 name="lv" value="10" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="bdR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="bdR" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="bdR" value="100" />
+              </dir>
+              <dir name="3">
+                <int32 name="bdR" value="150" />
+              </dir>
+              <dir name="4">
+                <int32 name="bdR" value="200" />
+              </dir>
+              <dir name="5">
+                <int32 name="bdR" value="400" />
+              </dir>
+              <dir name="6">
+                <int32 name="bdR" value="500" />
+              </dir>
+              <dir name="7">
+                <int32 name="bdR" value="550" />
+              </dir>
+              <dir name="8">
+                <int32 name="bdR" value="650" />
+              </dir>
+              <dir name="9">
+                <int32 name="bdR" value="800" />
+              </dir>
+              <dir name="10">
+                <int32 name="bdR" value="1000" />
+              </dir>
+              <dir name="11">
+                <int32 name="bdR" value="1100" />
+              </dir>
+              <dir name="12">
+                <int32 name="bdR" value="1200" />
+              </dir>
+              <dir name="13">
+                <int32 name="bdR" value="1500" />
+              </dir>
+              <dir name="14">
+                <int32 name="bdR" value="1700" />
+              </dir>
+              <dir name="15">
+                <int32 name="bdR" value="2000" />
+              </dir>
+              <dir name="16">
+                <int32 name="bdR" value="2500" />
+              </dir>
+              <dir name="17">
+                <int32 name="bdR" value="3000" />
+              </dir>
+              <dir name="18">
+                <int32 name="bdR" value="3500" />
+              </dir>
+              <dir name="19">
+                <int32 name="bdR" value="4000" />
+              </dir>
+              <dir name="20">
+                <int32 name="bdR" value="5000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="strFX" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="strFX" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="strFX" value="60" />
+              </dir>
+              <dir name="3">
+                <int32 name="strFX" value="70" />
+              </dir>
+              <dir name="4">
+                <int32 name="strFX" value="90" />
+              </dir>
+              <dir name="5">
+                <int32 name="strFX" value="110" />
+              </dir>
+              <dir name="6">
+                <int32 name="strFX" value="150" />
+              </dir>
+              <dir name="7">
+                <int32 name="strFX" value="200" />
+              </dir>
+              <dir name="8">
+                <int32 name="strFX" value="300" />
+              </dir>
+              <dir name="9">
+                <int32 name="strFX" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="strFX" value="500" />
+              </dir>
+              <dir name="11">
+                <int32 name="strFX" value="600" />
+              </dir>
+              <dir name="12">
+                <int32 name="strFX" value="700" />
+              </dir>
+              <dir name="13">
+                <int32 name="strFX" value="900" />
+              </dir>
+              <dir name="14">
+                <int32 name="strFX" value="1000" />
+              </dir>
+              <dir name="15">
+                <int32 name="strFX" value="1200" />
+              </dir>
+              <dir name="16">
+                <int32 name="strFX" value="1300" />
+              </dir>
+              <dir name="17">
+                <int32 name="strFX" value="1500" />
+              </dir>
+              <dir name="18">
+                <int32 name="strFX" value="1800" />
+              </dir>
+              <dir name="19">
+                <int32 name="strFX" value="2000" />
+              </dir>
+              <dir name="20">
+                <int32 name="strFX" value="2500" />
+              </dir>
+            </dir>
+          </dir>
+          <int32 name="order" value="3" />
+        </dir>
+        <dir name="1004">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="4" />
+          <int32 name="locked" value="1" />
+          <string name="desc" value="The Runestone isn't shining yet... But it may activate soon." />
+          <dir name="condition">
+            <dir name="endstone">
+              <int32 name="count" value="1" />
+            </dir>
+            <dir name="level">
+              <string name="level" value="275" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="intFX" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="intFX" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="intFX" value="60" />
+              </dir>
+              <dir name="3">
+                <int32 name="intFX" value="70" />
+              </dir>
+              <dir name="4">
+                <int32 name="intFX" value="90" />
+              </dir>
+              <dir name="5">
+                <int32 name="intFX" value="110" />
+              </dir>
+              <dir name="6">
+                <int32 name="intFX" value="150" />
+              </dir>
+              <dir name="7">
+                <int32 name="intFX" value="200" />
+              </dir>
+              <dir name="8">
+                <int32 name="intFX" value="300" />
+              </dir>
+              <dir name="9">
+                <int32 name="intFX" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="intFX" value="500" />
+              </dir>
+              <dir name="11">
+                <int32 name="intFX" value="600" />
+              </dir>
+              <dir name="12">
+                <int32 name="intFX" value="700" />
+              </dir>
+              <dir name="13">
+                <int32 name="intFX" value="800" />
+              </dir>
+              <dir name="14">
+                <int32 name="intFX" value="900" />
+              </dir>
+              <dir name="15">
+                <int32 name="intFX" value="1000" />
+              </dir>
+              <dir name="16">
+                <int32 name="intFX" value="1100" />
+              </dir>
+              <dir name="17">
+                <int32 name="intFX" value="1300" />
+              </dir>
+              <dir name="18">
+                <int32 name="intFX" value="1500" />
+              </dir>
+              <dir name="19">
+                <int32 name="intFX" value="1700" />
+              </dir>
+              <dir name="20">
+                <int32 name="intFX" value="2000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="damR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="damR" value="25" />
+              </dir>
+              <dir name="2">
+                <int32 name="damR" value="50" />
+              </dir>
+              <dir name="3">
+                <int32 name="damR" value="75" />
+              </dir>
+              <dir name="4">
+                <int32 name="damR" value="150" />
+              </dir>
+              <dir name="5">
+                <int32 name="damR" value="200" />
+              </dir>
+              <dir name="6">
+                <int32 name="damR" value="250" />
+              </dir>
+              <dir name="7">
+                <int32 name="damR" value="300" />
+              </dir>
+              <dir name="8">
+                <int32 name="damR" value="350" />
+              </dir>
+              <dir name="9">
+                <int32 name="damR" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="damR" value="450" />
+              </dir>
+              <dir name="11">
+                <int32 name="damR" value="500" />
+              </dir>
+              <dir name="12">
+                <int32 name="damR" value="550" />
+              </dir>
+              <dir name="13">
+                <int32 name="damR" value="600" />
+              </dir>
+              <dir name="14">
+                <int32 name="damR" value="650" />
+              </dir>
+              <dir name="15">
+                <int32 name="damR" value="700" />
+              </dir>
+              <dir name="16">
+                <int32 name="damR" value="800" />
+              </dir>
+              <dir name="17">
+                <int32 name="damR" value="900" />
+              </dir>
+              <dir name="18">
+                <int32 name="damR" value="1100" />
+              </dir>
+              <dir name="19">
+                <int32 name="damR" value="1300" />
+              </dir>
+              <dir name="20">
+                <int32 name="damR" value="1500" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+        <dir name="1005">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="5" />
+          <int32 name="locked" value="1" />
+          <string name="desc" value="The Runestone isn't shining yet... But it may activate soon." />
+          <dir name="condition">
+            <dir name="all">
+              <string name="all" value="1" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="incCrDam" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="incCrDam" value="20" />
+              </dir>
+              <dir name="2">
+                <int32 name="incCrDam" value="40" />
+              </dir>
+              <dir name="3">
+                <int32 name="incCrDam" value="60" />
+              </dir>
+              <dir name="4">
+                <int32 name="incCrDam" value="80" />
+              </dir>
+              <dir name="5">
+                <int32 name="incCrDam" value="140" />
+              </dir>
+              <dir name="6">
+                <int32 name="incCrDam" value="172" />
+              </dir>
+              <dir name="7">
+                <int32 name="incCrDam" value="204" />
+              </dir>
+              <dir name="8">
+                <int32 name="incCrDam" value="236" />
+              </dir>
+              <dir name="9">
+                <int32 name="incCrDam" value="268" />
+              </dir>
+              <dir name="10">
+                <int32 name="incCrDam" value="300" />
+              </dir>
+              <dir name="11">
+                <int32 name="incCrDam" value="350" />
+              </dir>
+              <dir name="12">
+                <int32 name="incCrDam" value="450" />
+              </dir>
+              <dir name="13">
+                <int32 name="incCrDam" value="500" />
+              </dir>
+              <dir name="14">
+                <int32 name="incCrDam" value="550" />
+              </dir>
+              <dir name="15">
+                <int32 name="incCrDam" value="600" />
+              </dir>
+              <dir name="16">
+                <int32 name="incCrDam" value="700" />
+              </dir>
+              <dir name="17">
+                <int32 name="incCrDam" value="800" />
+              </dir>
+              <dir name="18">
+                <int32 name="incCrDam" value="900" />
+              </dir>
+              <dir name="19">
+                <int32 name="incCrDam" value="1000" />
+              </dir>
+              <dir name="20">
+                <int32 name="incCrDam" value="1200" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="ignoreMobpdpR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="ignoreMobpdpR" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="ignoreMobpdpR" value="100" />
+              </dir>
+              <dir name="3">
+                <int32 name="ignoreMobpdpR" value="150" />
+              </dir>
+              <dir name="4">
+                <int32 name="ignoreMobpdpR" value="200" />
+              </dir>
+              <dir name="5">
+                <int32 name="ignoreMobpdpR" value="400" />
+              </dir>
+              <dir name="6">
+                <int32 name="ignoreMobpdpR" value="500" />
+              </dir>
+              <dir name="7">
+                <int32 name="ignoreMobpdpR" value="550" />
+              </dir>
+              <dir name="8">
+                <int32 name="ignoreMobpdpR" value="650" />
+              </dir>
+              <dir name="9">
+                <int32 name="ignoreMobpdpR" value="800" />
+              </dir>
+              <dir name="10">
+                <int32 name="ignoreMobpdpR" value="1000" />
+              </dir>
+              <dir name="11">
+                <int32 name="ignoreMobpdpR" value="1100" />
+              </dir>
+              <dir name="12">
+                <int32 name="ignoreMobpdpR" value="1200" />
+              </dir>
+              <dir name="13">
+                <int32 name="ignoreMobpdpR" value="1300" />
+              </dir>
+              <dir name="14">
+                <int32 name="ignoreMobpdpR" value="1400" />
+              </dir>
+              <dir name="15">
+                <int32 name="ignoreMobpdpR" value="1500" />
+              </dir>
+              <dir name="16">
+                <int32 name="ignoreMobpdpR" value="1700" />
+              </dir>
+              <dir name="17">
+                <int32 name="ignoreMobpdpR" value="1800" />
+              </dir>
+              <dir name="18">
+                <int32 name="ignoreMobpdpR" value="2000" />
+              </dir>
+              <dir name="19">
+                <int32 name="ignoreMobpdpR" value="2500" />
+              </dir>
+              <dir name="20">
+                <int32 name="ignoreMobpdpR" value="3000" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+      </dir>
+    </dir>
+    <dir name="18212">
+      <dir name="SHINE">
+        <dir name="1000">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="0" />
+          <string name="desc" value="You must meet the conditions to make the Runestone shine." />
+          <dir name="condition">
+            <dir name="stone">
+              <string name="type" value="ultimate" />
+              <int32 name="count" value="1" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="bdR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="bdR" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="bdR" value="100" />
+              </dir>
+              <dir name="3">
+                <int32 name="bdR" value="150" />
+              </dir>
+              <dir name="4">
+                <int32 name="bdR" value="200" />
+              </dir>
+              <dir name="5">
+                <int32 name="bdR" value="400" />
+              </dir>
+              <dir name="6">
+                <int32 name="bdR" value="500" />
+              </dir>
+              <dir name="7">
+                <int32 name="bdR" value="550" />
+              </dir>
+              <dir name="8">
+                <int32 name="bdR" value="650" />
+              </dir>
+              <dir name="9">
+                <int32 name="bdR" value="800" />
+              </dir>
+              <dir name="10">
+                <int32 name="bdR" value="1000" />
+              </dir>
+              <dir name="11">
+                <int32 name="bdR" value="1100" />
+              </dir>
+              <dir name="12">
+                <int32 name="bdR" value="1200" />
+              </dir>
+              <dir name="13">
+                <int32 name="bdR" value="1500" />
+              </dir>
+              <dir name="14">
+                <int32 name="bdR" value="1700" />
+              </dir>
+              <dir name="15">
+                <int32 name="bdR" value="2000" />
+              </dir>
+              <dir name="16">
+                <int32 name="bdR" value="2500" />
+              </dir>
+              <dir name="17">
+                <int32 name="bdR" value="3000" />
+              </dir>
+              <dir name="18">
+                <int32 name="bdR" value="3500" />
+              </dir>
+              <dir name="19">
+                <int32 name="bdR" value="4000" />
+              </dir>
+              <dir name="20">
+                <int32 name="bdR" value="5000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="intFX" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="intFX" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="intFX" value="60" />
+              </dir>
+              <dir name="3">
+                <int32 name="intFX" value="70" />
+              </dir>
+              <dir name="4">
+                <int32 name="intFX" value="90" />
+              </dir>
+              <dir name="5">
+                <int32 name="intFX" value="110" />
+              </dir>
+              <dir name="6">
+                <int32 name="intFX" value="150" />
+              </dir>
+              <dir name="7">
+                <int32 name="intFX" value="200" />
+              </dir>
+              <dir name="8">
+                <int32 name="intFX" value="300" />
+              </dir>
+              <dir name="9">
+                <int32 name="intFX" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="intFX" value="500" />
+              </dir>
+              <dir name="11">
+                <int32 name="intFX" value="600" />
+              </dir>
+              <dir name="12">
+                <int32 name="intFX" value="700" />
+              </dir>
+              <dir name="13">
+                <int32 name="intFX" value="900" />
+              </dir>
+              <dir name="14">
+                <int32 name="intFX" value="1000" />
+              </dir>
+              <dir name="15">
+                <int32 name="intFX" value="1200" />
+              </dir>
+              <dir name="16">
+                <int32 name="intFX" value="1300" />
+              </dir>
+              <dir name="17">
+                <int32 name="intFX" value="1500" />
+              </dir>
+              <dir name="18">
+                <int32 name="intFX" value="1800" />
+              </dir>
+              <dir name="19">
+                <int32 name="intFX" value="2000" />
+              </dir>
+              <dir name="20">
+                <int32 name="intFX" value="2500" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+        <dir name="1001">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="1" />
+          <string name="desc" value="You must meet the conditions to make the Runestone shine." />
+          <dir name="condition">
+            <dir name="stone">
+              <string name="type" value="skill" />
+              <int32 name="count" value="2" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="ignoreMobpdpR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="ignoreMobpdpR" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="ignoreMobpdpR" value="100" />
+              </dir>
+              <dir name="3">
+                <int32 name="ignoreMobpdpR" value="150" />
+              </dir>
+              <dir name="4">
+                <int32 name="ignoreMobpdpR" value="200" />
+              </dir>
+              <dir name="5">
+                <int32 name="ignoreMobpdpR" value="400" />
+              </dir>
+              <dir name="6">
+                <int32 name="ignoreMobpdpR" value="500" />
+              </dir>
+              <dir name="7">
+                <int32 name="ignoreMobpdpR" value="550" />
+              </dir>
+              <dir name="8">
+                <int32 name="ignoreMobpdpR" value="650" />
+              </dir>
+              <dir name="9">
+                <int32 name="ignoreMobpdpR" value="800" />
+              </dir>
+              <dir name="10">
+                <int32 name="ignoreMobpdpR" value="1000" />
+              </dir>
+              <dir name="11">
+                <int32 name="ignoreMobpdpR" value="1100" />
+              </dir>
+              <dir name="12">
+                <int32 name="ignoreMobpdpR" value="1200" />
+              </dir>
+              <dir name="13">
+                <int32 name="ignoreMobpdpR" value="1500" />
+              </dir>
+              <dir name="14">
+                <int32 name="ignoreMobpdpR" value="1700" />
+              </dir>
+              <dir name="15">
+                <int32 name="ignoreMobpdpR" value="2000" />
+              </dir>
+              <dir name="16">
+                <int32 name="ignoreMobpdpR" value="2300" />
+              </dir>
+              <dir name="17">
+                <int32 name="ignoreMobpdpR" value="2500" />
+              </dir>
+              <dir name="18">
+                <int32 name="ignoreMobpdpR" value="3000" />
+              </dir>
+              <dir name="19">
+                <int32 name="ignoreMobpdpR" value="3300" />
+              </dir>
+              <dir name="20">
+                <int32 name="ignoreMobpdpR" value="4000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="madX" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="madX" value="10" />
+              </dir>
+              <dir name="2">
+                <int32 name="madX" value="15" />
+              </dir>
+              <dir name="3">
+                <int32 name="madX" value="20" />
+              </dir>
+              <dir name="4">
+                <int32 name="madX" value="25" />
+              </dir>
+              <dir name="5">
+                <int32 name="madX" value="30" />
+              </dir>
+              <dir name="6">
+                <int32 name="madX" value="35" />
+              </dir>
+              <dir name="7">
+                <int32 name="madX" value="40" />
+              </dir>
+              <dir name="8">
+                <int32 name="madX" value="45" />
+              </dir>
+              <dir name="9">
+                <int32 name="madX" value="50" />
+              </dir>
+              <dir name="10">
+                <int32 name="madX" value="55" />
+              </dir>
+              <dir name="11">
+                <int32 name="madX" value="60" />
+              </dir>
+              <dir name="12">
+                <int32 name="madX" value="70" />
+              </dir>
+              <dir name="13">
+                <int32 name="madX" value="80" />
+              </dir>
+              <dir name="14">
+                <int32 name="madX" value="100" />
+              </dir>
+              <dir name="15">
+                <int32 name="madX" value="120" />
+              </dir>
+              <dir name="16">
+                <int32 name="madX" value="140" />
+              </dir>
+              <dir name="17">
+                <int32 name="madX" value="160" />
+              </dir>
+              <dir name="18">
+                <int32 name="madX" value="190" />
+              </dir>
+              <dir name="19">
+                <int32 name="madX" value="210" />
+              </dir>
+              <dir name="20">
+                <int32 name="madX" value="250" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+        <dir name="1002">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="2" />
+          <string name="desc" value="You must meet the conditions to make the Runestone shine." />
+          <dir name="condition">
+            <dir name="level">
+              <string name="level" value="270" />
+            </dir>
+            <dir name="stone">
+              <string name="type" value="boost" />
+              <int32 name="count" value="2" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="damR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="damR" value="25" />
+              </dir>
+              <dir name="2">
+                <int32 name="damR" value="50" />
+              </dir>
+              <dir name="3">
+                <int32 name="damR" value="75" />
+              </dir>
+              <dir name="4">
+                <int32 name="damR" value="150" />
+              </dir>
+              <dir name="5">
+                <int32 name="damR" value="200" />
+              </dir>
+              <dir name="6">
+                <int32 name="damR" value="250" />
+              </dir>
+              <dir name="7">
+                <int32 name="damR" value="300" />
+              </dir>
+              <dir name="8">
+                <int32 name="damR" value="350" />
+              </dir>
+              <dir name="9">
+                <int32 name="damR" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="damR" value="450" />
+              </dir>
+              <dir name="11">
+                <int32 name="damR" value="500" />
+              </dir>
+              <dir name="12">
+                <int32 name="damR" value="550" />
+              </dir>
+              <dir name="13">
+                <int32 name="damR" value="600" />
+              </dir>
+              <dir name="14">
+                <int32 name="damR" value="650" />
+              </dir>
+              <dir name="15">
+                <int32 name="damR" value="900" />
+              </dir>
+              <dir name="16">
+                <int32 name="damR" value="1050" />
+              </dir>
+              <dir name="17">
+                <int32 name="damR" value="1200" />
+              </dir>
+              <dir name="18">
+                <int32 name="damR" value="1400" />
+              </dir>
+              <dir name="19">
+                <int32 name="damR" value="1600" />
+              </dir>
+              <dir name="20">
+                <int32 name="damR" value="2000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="incCrDam" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="incCrDam" value="20" />
+              </dir>
+              <dir name="2">
+                <int32 name="incCrDam" value="40" />
+              </dir>
+              <dir name="3">
+                <int32 name="incCrDam" value="60" />
+              </dir>
+              <dir name="4">
+                <int32 name="incCrDam" value="80" />
+              </dir>
+              <dir name="5">
+                <int32 name="incCrDam" value="140" />
+              </dir>
+              <dir name="6">
+                <int32 name="incCrDam" value="172" />
+              </dir>
+              <dir name="7">
+                <int32 name="incCrDam" value="204" />
+              </dir>
+              <dir name="8">
+                <int32 name="incCrDam" value="236" />
+              </dir>
+              <dir name="9">
+                <int32 name="incCrDam" value="268" />
+              </dir>
+              <dir name="10">
+                <int32 name="incCrDam" value="300" />
+              </dir>
+              <dir name="11">
+                <int32 name="incCrDam" value="350" />
+              </dir>
+              <dir name="12">
+                <int32 name="incCrDam" value="450" />
+              </dir>
+              <dir name="13">
+                <int32 name="incCrDam" value="500" />
+              </dir>
+              <dir name="14">
+                <int32 name="incCrDam" value="550" />
+              </dir>
+              <dir name="15">
+                <int32 name="incCrDam" value="800" />
+              </dir>
+              <dir name="16">
+                <int32 name="incCrDam" value="1000" />
+              </dir>
+              <dir name="17">
+                <int32 name="incCrDam" value="1100" />
+              </dir>
+              <dir name="18">
+                <int32 name="incCrDam" value="1200" />
+              </dir>
+              <dir name="19">
+                <int32 name="incCrDam" value="1300" />
+              </dir>
+              <dir name="20">
+                <int32 name="incCrDam" value="1500" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+        <dir name="1003">
+          <int32 name="maxLevel" value="20" />
+          <string name="desc" value="You must meet the conditions to make the Runestone shine." />
+          <dir name="condition">
+            <dir name="stonelevel">
+              <string name="type" value="SHINE" />
+              <int32 name="lv" value="10" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="bdR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="bdR" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="bdR" value="100" />
+              </dir>
+              <dir name="3">
+                <int32 name="bdR" value="150" />
+              </dir>
+              <dir name="4">
+                <int32 name="bdR" value="200" />
+              </dir>
+              <dir name="5">
+                <int32 name="bdR" value="400" />
+              </dir>
+              <dir name="6">
+                <int32 name="bdR" value="500" />
+              </dir>
+              <dir name="7">
+                <int32 name="bdR" value="550" />
+              </dir>
+              <dir name="8">
+                <int32 name="bdR" value="650" />
+              </dir>
+              <dir name="9">
+                <int32 name="bdR" value="800" />
+              </dir>
+              <dir name="10">
+                <int32 name="bdR" value="1000" />
+              </dir>
+              <dir name="11">
+                <int32 name="bdR" value="1100" />
+              </dir>
+              <dir name="12">
+                <int32 name="bdR" value="1200" />
+              </dir>
+              <dir name="13">
+                <int32 name="bdR" value="1500" />
+              </dir>
+              <dir name="14">
+                <int32 name="bdR" value="1700" />
+              </dir>
+              <dir name="15">
+                <int32 name="bdR" value="2000" />
+              </dir>
+              <dir name="16">
+                <int32 name="bdR" value="2500" />
+              </dir>
+              <dir name="17">
+                <int32 name="bdR" value="3000" />
+              </dir>
+              <dir name="18">
+                <int32 name="bdR" value="3500" />
+              </dir>
+              <dir name="19">
+                <int32 name="bdR" value="4000" />
+              </dir>
+              <dir name="20">
+                <int32 name="bdR" value="5000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="intFX" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="intFX" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="intFX" value="60" />
+              </dir>
+              <dir name="3">
+                <int32 name="intFX" value="70" />
+              </dir>
+              <dir name="4">
+                <int32 name="intFX" value="90" />
+              </dir>
+              <dir name="5">
+                <int32 name="intFX" value="110" />
+              </dir>
+              <dir name="6">
+                <int32 name="intFX" value="150" />
+              </dir>
+              <dir name="7">
+                <int32 name="intFX" value="200" />
+              </dir>
+              <dir name="8">
+                <int32 name="intFX" value="300" />
+              </dir>
+              <dir name="9">
+                <int32 name="intFX" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="intFX" value="500" />
+              </dir>
+              <dir name="11">
+                <int32 name="intFX" value="600" />
+              </dir>
+              <dir name="12">
+                <int32 name="intFX" value="700" />
+              </dir>
+              <dir name="13">
+                <int32 name="intFX" value="900" />
+              </dir>
+              <dir name="14">
+                <int32 name="intFX" value="1000" />
+              </dir>
+              <dir name="15">
+                <int32 name="intFX" value="1200" />
+              </dir>
+              <dir name="16">
+                <int32 name="intFX" value="1300" />
+              </dir>
+              <dir name="17">
+                <int32 name="intFX" value="1500" />
+              </dir>
+              <dir name="18">
+                <int32 name="intFX" value="1800" />
+              </dir>
+              <dir name="19">
+                <int32 name="intFX" value="2000" />
+              </dir>
+              <dir name="20">
+                <int32 name="intFX" value="2500" />
+              </dir>
+            </dir>
+          </dir>
+          <int32 name="order" value="3" />
+        </dir>
+        <dir name="1004">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="4" />
+          <int32 name="locked" value="1" />
+          <string name="desc" value="The Runestone isn't shining yet... But it may activate soon." />
+          <dir name="condition">
+            <dir name="endstone">
+              <int32 name="count" value="1" />
+            </dir>
+            <dir name="level">
+              <string name="level" value="275" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="intFX" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="intFX" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="intFX" value="60" />
+              </dir>
+              <dir name="3">
+                <int32 name="intFX" value="70" />
+              </dir>
+              <dir name="4">
+                <int32 name="intFX" value="90" />
+              </dir>
+              <dir name="5">
+                <int32 name="intFX" value="110" />
+              </dir>
+              <dir name="6">
+                <int32 name="intFX" value="150" />
+              </dir>
+              <dir name="7">
+                <int32 name="intFX" value="200" />
+              </dir>
+              <dir name="8">
+                <int32 name="intFX" value="300" />
+              </dir>
+              <dir name="9">
+                <int32 name="intFX" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="intFX" value="500" />
+              </dir>
+              <dir name="11">
+                <int32 name="intFX" value="600" />
+              </dir>
+              <dir name="12">
+                <int32 name="intFX" value="700" />
+              </dir>
+              <dir name="13">
+                <int32 name="intFX" value="800" />
+              </dir>
+              <dir name="14">
+                <int32 name="intFX" value="900" />
+              </dir>
+              <dir name="15">
+                <int32 name="intFX" value="1000" />
+              </dir>
+              <dir name="16">
+                <int32 name="intFX" value="1100" />
+              </dir>
+              <dir name="17">
+                <int32 name="intFX" value="1300" />
+              </dir>
+              <dir name="18">
+                <int32 name="intFX" value="1500" />
+              </dir>
+              <dir name="19">
+                <int32 name="intFX" value="1700" />
+              </dir>
+              <dir name="20">
+                <int32 name="intFX" value="2000" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="damR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="damR" value="25" />
+              </dir>
+              <dir name="2">
+                <int32 name="damR" value="50" />
+              </dir>
+              <dir name="3">
+                <int32 name="damR" value="75" />
+              </dir>
+              <dir name="4">
+                <int32 name="damR" value="150" />
+              </dir>
+              <dir name="5">
+                <int32 name="damR" value="200" />
+              </dir>
+              <dir name="6">
+                <int32 name="damR" value="250" />
+              </dir>
+              <dir name="7">
+                <int32 name="damR" value="300" />
+              </dir>
+              <dir name="8">
+                <int32 name="damR" value="350" />
+              </dir>
+              <dir name="9">
+                <int32 name="damR" value="400" />
+              </dir>
+              <dir name="10">
+                <int32 name="damR" value="450" />
+              </dir>
+              <dir name="11">
+                <int32 name="damR" value="500" />
+              </dir>
+              <dir name="12">
+                <int32 name="damR" value="550" />
+              </dir>
+              <dir name="13">
+                <int32 name="damR" value="600" />
+              </dir>
+              <dir name="14">
+                <int32 name="damR" value="650" />
+              </dir>
+              <dir name="15">
+                <int32 name="damR" value="700" />
+              </dir>
+              <dir name="16">
+                <int32 name="damR" value="800" />
+              </dir>
+              <dir name="17">
+                <int32 name="damR" value="900" />
+              </dir>
+              <dir name="18">
+                <int32 name="damR" value="1100" />
+              </dir>
+              <dir name="19">
+                <int32 name="damR" value="1300" />
+              </dir>
+              <dir name="20">
+                <int32 name="damR" value="1500" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+        <dir name="1005">
+          <int32 name="maxLevel" value="20" />
+          <int32 name="order" value="5" />
+          <int32 name="locked" value="1" />
+          <string name="desc" value="The Runestone isn't shining yet... But it may activate soon." />
+          <dir name="condition">
+            <dir name="all">
+              <string name="all" value="1" />
+            </dir>
+          </dir>
+          <dir name="enforceProb">
+            <dir name="0">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="1">
+              <double name="successRate" value="100" />
+              <double name="failRate" value="0" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="2">
+              <double name="successRate" value="90" />
+              <double name="failRate" value="10" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="3">
+              <double name="successRate" value="85" />
+              <double name="failRate" value="15" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="4">
+              <double name="successRate" value="80" />
+              <double name="failRate" value="20" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="5">
+              <double name="successRate" value="70" />
+              <double name="failRate" value="30" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="6">
+              <double name="successRate" value="65" />
+              <double name="failRate" value="35" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="7">
+              <double name="successRate" value="55" />
+              <double name="failRate" value="45" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="8">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="9">
+              <double name="successRate" value="50" />
+              <double name="failRate" value="50" />
+              <double name="downgradeRate" value="0" />
+            </dir>
+            <dir name="10">
+              <double name="successRate" value="30" />
+              <double name="failRate" value="67.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="11">
+              <double name="successRate" value="25" />
+              <double name="failRate" value="72.9" />
+              <double name="downgradeRate" value="2.1" />
+            </dir>
+            <dir name="12">
+              <double name="successRate" value="15" />
+              <double name="failRate" value="78.2" />
+              <double name="downgradeRate" value="6.8" />
+            </dir>
+            <dir name="13">
+              <double name="successRate" value="13" />
+              <double name="failRate" value="74.5" />
+              <double name="downgradeRate" value="12.5" />
+            </dir>
+            <dir name="14">
+              <double name="successRate" value="10" />
+              <double name="failRate" value="72" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="15">
+              <double name="successRate" value="9" />
+              <double name="failRate" value="73" />
+              <double name="downgradeRate" value="18" />
+            </dir>
+            <dir name="16">
+              <double name="successRate" value="8" />
+              <double name="failRate" value="73.8" />
+              <double name="downgradeRate" value="18.2" />
+            </dir>
+            <dir name="17">
+              <double name="successRate" value="7" />
+              <double name="failRate" value="74.4" />
+              <double name="downgradeRate" value="18.6" />
+            </dir>
+            <dir name="18">
+              <double name="successRate" value="5" />
+              <double name="failRate" value="76" />
+              <double name="downgradeRate" value="19" />
+            </dir>
+            <dir name="19">
+              <double name="successRate" value="1" />
+              <double name="failRate" value="79" />
+              <double name="downgradeRate" value="20" />
+            </dir>
+          </dir>
+          <dir name="passive">
+            <dir name="0">
+              <dir name="0">
+                <int32 name="incCrDam" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="incCrDam" value="20" />
+              </dir>
+              <dir name="2">
+                <int32 name="incCrDam" value="40" />
+              </dir>
+              <dir name="3">
+                <int32 name="incCrDam" value="60" />
+              </dir>
+              <dir name="4">
+                <int32 name="incCrDam" value="80" />
+              </dir>
+              <dir name="5">
+                <int32 name="incCrDam" value="140" />
+              </dir>
+              <dir name="6">
+                <int32 name="incCrDam" value="172" />
+              </dir>
+              <dir name="7">
+                <int32 name="incCrDam" value="204" />
+              </dir>
+              <dir name="8">
+                <int32 name="incCrDam" value="236" />
+              </dir>
+              <dir name="9">
+                <int32 name="incCrDam" value="268" />
+              </dir>
+              <dir name="10">
+                <int32 name="incCrDam" value="300" />
+              </dir>
+              <dir name="11">
+                <int32 name="incCrDam" value="350" />
+              </dir>
+              <dir name="12">
+                <int32 name="incCrDam" value="450" />
+              </dir>
+              <dir name="13">
+                <int32 name="incCrDam" value="500" />
+              </dir>
+              <dir name="14">
+                <int32 name="incCrDam" value="550" />
+              </dir>
+              <dir name="15">
+                <int32 name="incCrDam" value="600" />
+              </dir>
+              <dir name="16">
+                <int32 name="incCrDam" value="700" />
+              </dir>
+              <dir name="17">
+                <int32 name="incCrDam" value="800" />
+              </dir>
+              <dir name="18">
+                <int32 name="incCrDam" value="900" />
+              </dir>
+              <dir name="19">
+                <int32 name="incCrDam" value="1000" />
+              </dir>
+              <dir name="20">
+                <int32 name="incCrDam" value="1200" />
+              </dir>
+            </dir>
+            <dir name="1">
+              <dir name="0">
+                <int32 name="ignoreMobpdpR" value="0" />
+              </dir>
+              <dir name="1">
+                <int32 name="ignoreMobpdpR" value="50" />
+              </dir>
+              <dir name="2">
+                <int32 name="ignoreMobpdpR" value="100" />
+              </dir>
+              <dir name="3">
+                <int32 name="ignoreMobpdpR" value="150" />
+              </dir>
+              <dir name="4">
+                <int32 name="ignoreMobpdpR" value="200" />
+              </dir>
+              <dir name="5">
+                <int32 name="ignoreMobpdpR" value="400" />
+              </dir>
+              <dir name="6">
+                <int32 name="ignoreMobpdpR" value="500" />
+              </dir>
+              <dir name="7">
+                <int32 name="ignoreMobpdpR" value="550" />
+              </dir>
+              <dir name="8">
+                <int32 name="ignoreMobpdpR" value="650" />
+              </dir>
+              <dir name="9">
+                <int32 name="ignoreMobpdpR" value="800" />
+              </dir>
+              <dir name="10">
+                <int32 name="ignoreMobpdpR" value="1000" />
+              </dir>
+              <dir name="11">
+                <int32 name="ignoreMobpdpR" value="1100" />
+              </dir>
+              <dir name="12">
+                <int32 name="ignoreMobpdpR" value="1200" />
+              </dir>
+              <dir name="13">
+                <int32 name="ignoreMobpdpR" value="1300" />
+              </dir>
+              <dir name="14">
+                <int32 name="ignoreMobpdpR" value="1400" />
+              </dir>
+              <dir name="15">
+                <int32 name="ignoreMobpdpR" value="1500" />
+              </dir>
+              <dir name="16">
+                <int32 name="ignoreMobpdpR" value="1700" />
+              </dir>
+              <dir name="17">
+                <int32 name="ignoreMobpdpR" value="1800" />
+              </dir>
+              <dir name="18">
+                <int32 name="ignoreMobpdpR" value="2000" />
+              </dir>
+              <dir name="19">
+                <int32 name="ignoreMobpdpR" value="2500" />
+              </dir>
+              <dir name="20">
+                <int32 name="ignoreMobpdpR" value="3000" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+      </dir>
+    </dir>
+  </dir>
+</dir>

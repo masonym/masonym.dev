@@ -21,6 +21,8 @@ export type CostType = 'default' | 'rushEnd' | 'half' | 'solJanus' | 'origin' | 
 
 export interface Stone {
   id: number;
+  /** treeId of the character this stone belongs to (e.g. 18112 = Erel Light, 18212 = Sia Astelle). */
+  treeId: number;
   category: StoneCategory;
   name: string;
   desc: string;
@@ -60,7 +62,6 @@ export interface TreeNode {
 export interface CharacterData {
   name: string;
   treeId: number;
-  jobId: number;
   /** Center SP node position — unconnected nodes link here. */
   spPosition: { x: number; y: number };
   nodes: TreeNode[];
@@ -112,14 +113,12 @@ export interface ErdaLinkData {
 }
 
 // ─── Character mapping ────────────────────────────────────────────────────────
-// treeId: key in ErdaLink.img/tree/
-// jobId:  key in ErdaLink.img/nodePos/
-// Erel/Iel are not yet in the game — add when their data is available.
+// treeId: key in ErdaLink.img/tree/ AND ErdaLink.img/nodePos/ (both use treeId)
 
 const CHARACTERS = [
-  { name: 'Sia Astelle', treeId: 182, jobId: 18214 },
-  // { name: 'Erel', treeId: 181, jobId: 181XX },
-  // { name: 'Iel', treeId: 183, jobId: 183XX },
+  { name: 'Sia Astelle', treeId: 18212 },
+  { name: 'Erel Light', treeId: 18112 },
+  // { name: 'Iel', treeId: 183XX },
 ] as const;
 
 // ─── WZ XML → plain object ────────────────────────────────────────────────────
@@ -224,7 +223,7 @@ function extractPassives(
 
 // ─── Stone extraction ─────────────────────────────────────────────────────────
 
-function extractStonesFromCategory(stoneDir: WzNode, category: StoneCategory): Stone[] {
+function extractStonesFromCategory(stoneDir: WzNode, category: StoneCategory, treeId: number): Stone[] {
   const stones: Stone[] = [];
 
   for (const [idStr, raw] of Object.entries(stoneDir)) {
@@ -240,6 +239,7 @@ function extractStonesFromCategory(stoneDir: WzNode, category: StoneCategory): S
 
     const stone: Stone = {
       id,
+      treeId,
       category,
       name: (s.name as string) ?? '',
       desc: (s.desc as string) ?? '',
@@ -277,13 +277,21 @@ function extractStonesFromCategory(stoneDir: WzNode, category: StoneCategory): S
 
 function extractAllStones(erdaLink: WzNode): Stone[] {
   const stoneRoot = erdaLink.stone as WzNode;
-  return [
-    ...extractStonesFromCategory(stoneRoot.rush as WzNode, 'rush'),
-    ...extractStonesFromCategory(stoneRoot.skill as WzNode, 'skill'),
-    ...extractStonesFromCategory(stoneRoot.boost as WzNode, 'boost'),
-    ...extractStonesFromCategory(stoneRoot.ultimate as WzNode, 'ultimate'),
-    ...extractStonesFromCategory(stoneRoot.origin as WzNode, 'origin'),
-  ];
+  const stones: Stone[] = [];
+
+  for (const char of CHARACTERS) {
+    const charStones = stoneRoot[char.treeId] as WzNode | undefined;
+    if (!charStones) continue;
+    stones.push(
+      ...extractStonesFromCategory(charStones.rush as WzNode, 'rush', char.treeId),
+      ...extractStonesFromCategory(charStones.skill as WzNode, 'skill', char.treeId),
+      ...extractStonesFromCategory(charStones.boost as WzNode, 'boost', char.treeId),
+      ...extractStonesFromCategory(charStones.ultimate as WzNode, 'ultimate', char.treeId),
+      ...extractStonesFromCategory(charStones.origin as WzNode, 'origin', char.treeId),
+    );
+  }
+
+  return stones;
 }
 
 // ─── Character tree + nodePos extraction ─────────────────────────────────────
@@ -291,12 +299,12 @@ function extractAllStones(erdaLink: WzNode): Stone[] {
 const SECTORS: Sector[] = ['top', 'right', 'bottom', 'left', 'center', 'SHINE'];
 
 function extractCharacter(
-  char: { name: string; treeId: number; jobId: number },
+  char: { name: string; treeId: number },
   treeRoot: WzNode,
   nodePosRoot: WzNode,
 ): CharacterData {
   const treeChar = treeRoot[char.treeId] as WzNode;
-  const posChar = nodePosRoot[char.jobId] as WzNode | undefined;
+  const posChar = nodePosRoot[char.treeId] as WzNode | undefined;
 
   if (!treeChar) throw new Error(`No tree data for treeId ${char.treeId}`);
 
@@ -352,7 +360,6 @@ function extractCharacter(
   return {
     name: char.name,
     treeId: char.treeId,
-    jobId: char.jobId,
     spPosition,
     nodes,
   };
