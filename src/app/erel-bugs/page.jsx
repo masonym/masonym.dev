@@ -60,9 +60,6 @@ export default function ErelBugsPage() {
           <p className="text-sm uppercase tracking-widest text-primary-dim mb-2">
             Informal Bug Report
           </p>
-          // <p className="text-xs italic tracking-widest text-primary-dim mb-2">
-          //   nexon please don't get mad at me for datamining, im helping!
-          // </p>
           <h1 className="text-4xl font-bold text-primary-bright mb-3">
             Erel Bugs - PTS v.269
           </h1>
