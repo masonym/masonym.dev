@@ -405,6 +405,9 @@ export default function ErelBugsPage() {
             <Callout>
               It is important to note that these only apply to the NON-SHINE versions of Sentinel Captain. SHINE Sentinel Captain has the correct numbers.
             </Callout>
+            <Callout>
+              Another thing to note about Sentinel Captain is that while this might not be a bug per-se, when he copies the attacks for Fury of Roan and Sting of Roan, they are not boosted by the 5th job boosts for Fury/Sting of Roan. In Comparison, the 6th job &ldquo;Destruction of Roan Boost&rdquo; DOES boost Sentinel Captain's Destruction of Roan copy. Additionally, the 6th job &ldquo;Eternal Guardian Boost&rdquo; applies boosts to Sentinel Captain's Fury and Sting of Roan (both SHINE and non-SHINE). I'm not comfortable labelling this is a bug, but it's worth noting for balance reasons.
+            </Callout>
           </SubSection>
         </Section>
 
