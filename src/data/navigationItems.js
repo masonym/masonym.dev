@@ -28,11 +28,10 @@ export const navigationItems = [
             { name: "Action Delays", href: "/action-delays", image: "/images/green-pot.png", },
         ],
     },
-    // {
-    //     title: "Temporary",
-    //     items: [
-    //         { name: "v.265 New Familiar Options", href: "/new-familiar-options" },
-    //         { name: "Jan 8 Familiar Lines Hotfix", href: "/familiar-lines-hotfix" },
-    //     ],
-    // },
+    {
+        title: "Temporary",
+        items: [
+            { name: "Erel Bugs", href: "/erel-bugs", image: "/images/erel-spear.png" },
+        ],
+    },
 ];
