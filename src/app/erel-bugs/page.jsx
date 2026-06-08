@@ -174,7 +174,7 @@ export default function ErelBugsPage() {
           </ol>
 
           <p className="text-sm uppercase tracking-wider text-primary-dim mt-5 mb-2">
-            Update - 2026-06-07
+            Update - 2026-06-08
           </p>
           <ol start={6} className="list-decimal list-inside space-y-1 text-primary/90">
             <li>
@@ -206,6 +206,12 @@ export default function ErelBugsPage() {
                 Erda Link - Cooldown Reduction Rush Stones Use Wrong Stat
               </a>
               <Severity level="Minor" />
+            </li>
+            <li>
+              <a href="#stellar-strike" className="hover:text-primary-bright hover:underline">
+                Stellar Strike - Damage Doesn&apos;t Match Tooltip
+              </a>
+              <Severity level="Major" />
             </li>
           </ol>
         </nav>
@@ -1171,6 +1177,178 @@ Cooldown: #cooltime sec`}</Code>
             <InlineCode>coolTimeR</InlineCode> instead of{" "}
             <InlineCode>abnormalDamR</InlineCode>.
           </Callout>
+        </Section>
+
+        <Section
+          id="stellar-strike"
+          number="11"
+          title={
+            <>
+              Stellar Strike - Damage Doesn&apos;t Match Tooltip
+              <Severity level="Major" />
+            </>
+          }
+        >
+          <p>
+            SHINE Spear of Lugh&apos;s tooltip has a couple of issues. The big one: <strong>Stellar Strike</strong> - the follow-up attack it summons — does noticeably less damage in-game than the tooltip claims.
+          </p>
+
+          <p>
+            <strong>How the skills are wired:</strong> when you cast SHINE Spear
+            of Lugh (<InlineCode>181141000</InlineCode>), its{" "}
+            <InlineCode>extraSkillInfo</InlineCode> summons Eternal Light and
+            Stellar Strike (<InlineCode>181141001</InlineCode>):
+          </p>
+
+          <Code>{`<dir name="181141000"> <!-- SHINE Spear of Lugh -->
+  <dir name="common">
+    <int32 name="maxLevel" value="30" />
+    <string name="mpCon" value="20+2*d(x/5)" />
+    <string name="damage" value="470+x*8+4" />  <!-- SHINE Spear of Lugh's own damage -->
+    <string name="mobCount" value="8" />
+    <string name="attackCount" value="8" />
+    <vector name="lt" value="-482, -280" />
+    <vector name="rb" value="20, 60" />
+    <string name="y" value="9" />
+    <string name="x" value="15" />
+    <string name="s" value="565+x*2+10" />      <!-- Tooltip placeholder: Stellar Strike damage. 635% at lvl 30. -->
+    <string name="u" value="10" />              <!-- Tooltip placeholder: Stellar Strike attack count -->
+    <string name="a" value="6" />               <!-- Tooltip placeholder: Stellar Strike chase cut count -->
+  </dir>
+  <dir name="extraSkillInfo"> <!-- Skills cast when SHINE Spear of Lugh is used -->
+    <dir name="0">
+      <int32 name="skill" value="400011165" /> <!-- Eternal Light -->
+      <int32 name="delay" value="0" />
+    </dir>
+    <dir name="1">
+      <int32 name="skill" value="181141001" /> <!-- Stellar Strike -->
+      <int32 name="delay" value="0" />
+    </dir>
+  </dir>
+</dir>`}</Code>
+
+          <SubSection
+            id="stellar-strike-damage"
+            number="11.1"
+            title={
+              <>
+                Tooltip Damage Formula vs Actual Skill Data
+                <Severity level="Major" />
+              </>
+            }
+          >
+            <p>
+              The tooltip displays Stellar Strike&apos;s damage using
+              placeholder <InlineCode>s</InlineCode> on SHINE Spear of Lugh
+              (above), which evaluates to{" "}
+              <InlineCode>565 + x*2 + 10</InlineCode> →{" "}
+              <strong>635%</strong> at level 30.
+            </p>
+            <p>
+              But the actual Stellar Strike skill (
+              <InlineCode>181141001</InlineCode>) defines its damage as{" "}
+              <InlineCode>320 + 8*x</InlineCode> → <strong>560%</strong> at
+              level 30:
+            </p>
+
+            <Code>{`<dir name="181141001"> <!-- Stellar Strike -->
+  <dir name="common">
+    <int32 name="maxLevel" value="30" />
+    <string name="attackCount" value="10" />
+    <string name="mobCount" value="15" />
+    <string name="damage" value="320+8*x" />    <!-- Actual damage. 560% at lvl 30. -->
+    <vector name="lt" value="-784, -437" />
+    <vector name="rb" value="84, 32" />
+    <string name="updatableTime" value="2800" />
+  </dir>
+</dir>`}</Code>
+
+            <p>
+              <strong>Verification</strong> - compare Stellar Strike against
+              Erda Shower (690% per hit at level 16).
+            </p>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border border-primary/20 rounded">
+                <thead className="bg-background-bright/50">
+                  <tr>
+                    <th className="px-4 py-2 border-b border-primary/20">
+                      Scenario
+                    </th>
+                    <th className="px-4 py-2 border-b border-primary/20">
+                      Stellar Strike damage
+                    </th>
+                    <th className="px-4 py-2 border-b border-primary/20">
+                      Expected gap vs Erda Shower (690%)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="px-4 py-2 border-b border-primary/10">
+                      If tooltip is correct
+                    </td>
+                    <td className="px-4 py-2 border-b border-primary/10">
+                      635%
+                    </td>
+                    <td className="px-4 py-2 border-b border-primary/10">
+                      ~8% (690 / 635)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2">If skill data is correct</td>
+                    <td className="px-4 py-2">560%</td>
+                    <td className="px-4 py-2">~23% (690 / 560)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>
+              <strong>Test conditions:</strong> 198 attacks each side (3 Stellar Strike procs × 66 hits and 33 Erda Shower casts × 6 hits). +20% Boss / +20% Damage Hyper Skills for Spear of Lugh were removed to make the math simple.
+            </p>
+
+            <Image
+              src="/erel-bugs/stellar-strike-damage.png"
+              alt="Battle analysis comparing 198 Stellar Strike hits against 198 Erda Shower hits"
+              caption="Stellar Strike vs Erda Shower, 198 hits each - observed cumulative damage gap is ~21.5%"
+            />
+
+            <Callout>
+              The observed gap (~21.5%) lines up almost exactly with{" "}
+              <strong>Stellar Strike actually dealing 560%</strong>, not the
+              tooltip&apos;s claimed 635%. The skill is under-tuned by roughly
+              <strong> 12%</strong> relative to its tooltip.
+            </Callout>
+          </SubSection>
+
+          <SubSection
+            id="stellar-strike-chase-cuts"
+            number="11.2"
+            title={
+              <>
+                Number of Chase Cuts Uses Wrong Placeholder
+                <Severity level="Trivial" />
+              </>
+            }
+          >
+            <p>
+              The SHINE Spear of Lugh tooltip template string references{" "}
+              <InlineCode>#dummyStr</InlineCode> where it should reference{" "}
+              <InlineCode>#a</InlineCode> for the chase cut count (
+              <InlineCode>a = 6</InlineCode> in the skill data above):
+            </p>
+
+            <Code>{`MP Cost: #mpCon, Max Enemies Hit: #mobCount, Damage: #damage%, Number of Attacks: #attackCount
+Upon using Spear of Lugh #y times, the Sentinel Captain is summoned and strikes.
+#c[Blown]#: Max Enemies Hit: #x, Damage: #s%, Number of Attacks: #u, Number of Chase Cuts: #dummyStr`}</Code>
+
+            <Callout>
+              <InlineCode>#dummyStr</InlineCode> is undefined, so the chase cut
+              count never renders in the tooltip. Should be{" "}
+              <InlineCode>#a</InlineCode>.
+            </Callout>
+          </SubSection>
         </Section>
 
         <footer className="mt-12 pt-6 border-t border-primary/20 text-sm text-primary-dim">
