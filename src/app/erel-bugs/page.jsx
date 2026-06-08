@@ -52,6 +52,73 @@ function InlineCode({ children }) {
   );
 }
 
+function Severity({ level }) {
+  const styles = {
+    Major: "bg-red-900/40 text-red-300 border-red-700/50",
+    Minor: "bg-amber-900/40 text-amber-300 border-amber-700/50",
+    Trivial: "bg-sky-900/40 text-sky-300 border-sky-700/50",
+  };
+  return (
+    <span
+      className={`inline-block align-middle ml-3 px-2 py-0.5 text-xs font-medium uppercase tracking-wider border rounded ${
+        styles[level] || ""
+      }`}
+    >
+      {level}
+    </span>
+  );
+}
+
+function ImagePlaceholder({ caption }) {
+  return (
+    <div className="border-2 border-dashed border-primary-dim/40 bg-background-dim/40 rounded-lg p-5 text-center text-primary-dim text-sm italic">
+      [Image placeholder] {caption}
+    </div>
+  );
+}
+
+function Image({ src, alt, caption, maxWidth = 800 }) {
+  return (
+    <figure className="my-4">
+      <a
+        href={src}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block group"
+        title="Click to open full-size"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          className="rounded-lg border border-primary/15 mx-auto max-w-full h-auto group-hover:border-primary-bright/40 transition-colors"
+          style={{ maxWidth: `${maxWidth}px` }}
+        />
+      </a>
+      {caption && (
+        <figcaption className="text-center text-primary-dim text-sm italic mt-2">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+function UpdateDivider({ date, title, description }) {
+  return (
+    <div className="my-12 py-6 border-y-2 border-primary/30 bg-background-bright/20 px-6">
+      <p className="text-xs uppercase tracking-widest text-primary-dim">
+        Update - {date}
+      </p>
+      <h2 className="text-2xl font-bold text-primary-bright mt-1">{title}</h2>
+      <p className="mt-2 text-sm tracking-widest text-primary-dim">
+      {description}
+      </p>
+    </div>
+  );
+}
+
 export default function ErelBugsPage() {
   return (
     <main className="min-h-screen px-6 py-10">
@@ -78,31 +145,78 @@ export default function ErelBugsPage() {
               <a href="#boost-nodes" className="hover:text-primary-bright hover:underline">
                 Boost Node Failures
               </a>
+              <Severity level="Major" />
             </li>
             <li>
               <a href="#shining-sentinel" className="hover:text-primary-bright hover:underline">
                 Shining Sentinel Not Upgraded on SHINE Mastery
               </a>
+              <Severity level="Major" />
             </li>
             <li>
               <a href="#sentinel-captain" className="hover:text-primary-bright hover:underline">
                 Sentinel Captain - Wrong Hit Counts and Damage Formula
               </a>
+              <Severity level="Minor" />
             </li>
             <li>
               <a href="#sentinel-rise" className="hover:text-primary-bright hover:underline">
                 Sentinel Rise Underperforming
               </a>
+              <Severity level="Major" />
             </li>
             <li>
               <a href="#ascent" className="hover:text-primary-bright hover:underline">
                 Ascent (Radiant Spear) - Wrong Tooltip
               </a>
+              <Severity level="Minor" />
+            </li>
+          </ol>
+
+          <p className="text-sm uppercase tracking-wider text-primary-dim mt-5 mb-2">
+            Update - 2026-06-07
+          </p>
+          <ol start={6} className="list-decimal list-inside space-y-1 text-primary/90">
+            <li>
+              <a href="#radiant-sentinel" className="hover:text-primary-bright hover:underline">
+                Radiant Sentinel - Wrong Values + Extra Hits
+              </a>
+              <Severity level="Major" />
+            </li>
+            <li>
+              <a href="#origin" className="hover:text-primary-bright hover:underline">
+                Origin (Fall of Melin) Hits 1540 Times Instead of 1554
+              </a>
+              <Severity level="Minor" />
+            </li>
+            <li>
+              <a href="#female-anim" className="hover:text-primary-bright hover:underline">
+                Ascent and Origin Do Not Play Female Animations
+              </a>
+              <Severity level="Trivial" />
+            </li>
+            <li>
+              <a href="#destruction-roan" className="hover:text-primary-bright hover:underline">
+                Destruction of Roan - Extra Hit During Eternal Guardian
+              </a>
+              <Severity level="Minor" />
+            </li>
+            <li>
+              <a href="#rush-stones" className="hover:text-primary-bright hover:underline">
+                Erda Link - Cooldown Reduction Rush Stones Use Wrong Stat
+              </a>
+              <Severity level="Minor" />
             </li>
           </ol>
         </nav>
 
-        <Section id="boost-nodes" number="1" title="Boost Node Failures">
+        <Section id="boost-nodes" number="1" title={
+            <>
+            Boost Node Failures
+            <Severity level="Major" />
+            </>
+        }
+      >
           <p>
             5th job Enhancement Nodes that grant +120% Final Damage are not
             registering the upgraded SHINE versions of their target skills in
@@ -197,7 +311,12 @@ export default function ErelBugsPage() {
         <Section
           id="shining-sentinel"
           number="2"
-          title="Shining Sentinel Not Upgraded on SHINE Mastery"
+          title={
+            <>
+              Shining Sentinel Not Upgraded on SHINE Mastery
+              <Severity level="Major" />
+            </>
+          }
         >
           <p>
             When the player unlocks SHINE Fury of Roan and SHINE Sting of Roan,
@@ -323,7 +442,12 @@ export default function ErelBugsPage() {
         <Section
           id="sentinel-captain"
           number="3"
-          title="Sentinel Captain - Wrong Hit Counts and Damage Formula"
+          title={
+            <>
+              Sentinel Captain - Wrong Hit Counts and Damage Formula
+              <Severity level="Minor" />
+            </>
+          }
         >
           <p>
             The Eternal Guardian tooltip states that{" "}
@@ -411,7 +535,12 @@ export default function ErelBugsPage() {
         <Section
           id="sentinel-rise"
           number="4"
-          title="Sentinel Rise Underperforming"
+          title={
+            <>
+              Sentinel Rise Underperforming
+              <Severity level="Major" />
+            </>
+          }
         >
           <p>
             Sentinel Rise is dealing <strong>less damage than expected</strong>,
@@ -467,11 +596,21 @@ export default function ErelBugsPage() {
           </Callout>
         </Section>
 
-        <Section id="ascent" number="5" title="Ascent (Radiant Spear) - Wrong Tooltip">
+        <Section id="ascent" number="5" title={
+            <>
+                Ascent (Radiant Spear) - Wrong Tooltip"
+                <Severity level="Minor" />
+            </>
+            }
+        >
           <SubSection
             id="ascent-2part"
             number="5.1"
-            title="Radiant Spear is Actually a 2-Part Skill"
+            title={
+              <>
+                Radiant Spear is Actually a 2-Part Skill
+              </>
+            }
           >
             <p>Two Ascent skills exist in the files:</p>
 
@@ -637,6 +776,401 @@ export default function ErelBugsPage() {
               the player.
             </p>
           </SubSection>
+        </Section>
+
+        <UpdateDivider date="2026-06-07" title="More bugs!" description="I also added severity labels - these are obviously subjective!" />
+
+        <Section
+          id="radiant-sentinel"
+          number="6"
+          title={
+            <>
+              Radiant Sentinel - Wrong Values + Extra Hits
+              <Severity level="Major" />
+            </>
+          }
+        >
+          <p>
+            Radiant Sentinel is an attack summoned when attacking with Spear of
+            Lugh, granted by the 5th job passive Eternal Light.
+          </p>
+          <p>
+            The tooltip of Eternal Light states that Radiant Sentinel should
+            attack <strong>6 times for 250% damage</strong> at level 30, using
+            the formula <InlineCode>130 + 4 * level</InlineCode>.
+          </p>
+
+          <Image src="/erel-bugs/eternal-light-tooltip.png" alt="Eternal Light Tooltip" caption="Eternal Light Tooltip" />
+
+          <p>
+            A battle analysis (see image below) of the skill makes it immediately
+            clear those numbers are wrong. Inspecting the skill data confirms
+            it:
+          </p>
+
+          <Code>{`<dir name="400011166"> <!-- Radiant Sentinel (Eternal Light) -->
+  <dir name="common">
+    <int32 name="maxLevel" value="30" />
+    <string name="damage" value="600+6*x" />   <!-- Actual damage the skill applies -->
+    <string name="time" value="10" />
+    <string name="mobCount" value="6" />       <!-- Mobs hit per cast -->
+    <string name="attackCount" value="8" />    <!-- Hits per cast -->
+    <vector name="lt" value="-617, -490" />
+    <vector name="rb" value="721, 170" />
+    <string name="attackDelay" value="2900" />
+    <string name="s" value="90" />
+    <string name="cooltime" value="10" />
+  </dir>
+</dir>`}</Code>
+
+          <Callout>
+            Notably, <InlineCode>attackCount</InlineCode> and{" "}
+            <InlineCode>mobCount</InlineCode> have swapped values vs. what the
+            Eternal Light tooltip describes (tooltip implies 6 hits, 8 mobs;
+            data shows 8 hits, 6 mobs).
+          </Callout>
+
+          <p>
+            While the damage value (780% at level 30) looks correct when
+            compared to other skills, the skill does <strong>not</strong> hit
+            the correct number of times in-game.
+          </p>
+
+          <Image src="/erel-bugs/ba-radiant-sentinel.png" alt="Battle Analysis of Radiant Sentinel hititng 12 times" caption="Radiant Sentinel should hit 8 times; not 12." />
+
+          <Callout>
+            I have no idea what causes this - nothing in the data that I've been able to discern explains this.
+          </Callout>
+        </Section>
+
+        <Section
+          id="origin"
+          number="7"
+          title={
+            <>
+              Origin (Fall of Melin) Hits 1540 Times Instead of 1554
+              <Severity level="Minor" />
+            </>
+          }
+        >
+          <p>
+            As with all 2-part skills, Fall of Melin is split across two skill
+            IDs:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>
+              <InlineCode>181141500</InlineCode> - Part 1: 14 hits × 70
+              activations, <InlineCode>254 + 7 * level</InlineCode>
+            </li>
+            <li>
+              <InlineCode>181141501</InlineCode> - Part 2: 14 hits × 40
+              activations, <InlineCode>219 + 7 * level</InlineCode>
+            </li>
+          </ul>
+
+          <Code>{`<dir name="181141500"> <!-- Tooltip shown for Fall of Melin -->
+  <dir name="common">
+    <int32 name="maxLevel" value="30" />
+    <string name="mpCon" value="1200" />
+    <string name="mobCount" value="15" />
+    <string name="attackCount" value="14" />   <!-- Part 1 attack count -->
+    <string name="damage" value="254+7*x" />   <!-- Part 1 damage -->
+    <string name="x" value="70" />             <!-- Part 1 activations -->
+    <string name="y" value="219+7*x" />        <!-- Tooltip placeholder: Part 2 damage -->
+    <string name="z" value="15" />             <!-- Tooltip placeholder: Part 2 mob count -->
+    <string name="v" value="14" />             <!-- Tooltip placeholder: Part 2 attack count -->
+    <string name="s" value="41" />             <!-- Tooltip placeholder: Part 2 activations -->
+    <string name="cooltime" value="360" />
+    <string name="updatableTime" value="7000" />
+    <string name="ndTime" value="8440" />
+    <string name="ignoreMobpdpR" value="log10(x)*20+log30(x)*30" />
+    <string name="bdR" value="log20(x)*20+log30(x)*30" />
+    <vector name="lt" value="-1200, -800" />
+    <vector name="rb" value="1200, 800" />
+  </dir>
+</dir>`}</Code>
+
+          <p>Tooltip template string:</p>
+          <Code>{`MP Cost: #mpCon, Invincible during casting
+Max Enemies Hit: #mobCount, Damage: #damage%, Number of Attacks: #attackCount, Blows: #x
+Afterwards, Damage: #y%, Number of Attacks: #v, Blows: #s
+Cooldown: #cooltime sec`}</Code>
+
+          <Code>{`<dir name="181141501">
+  <dir name="common">
+    <int32 name="maxLevel" value="30" />
+    <string name="damage" value="219+7*x" />
+    <string name="mobCount" value="15" />
+    <string name="attackCount" value="14" />
+    <string name="x" value="40" />             <!-- Part 2 activations -->
+    <vector name="lt" value="-1200, -800" />
+    <vector name="rb" value="1200, 800" />
+  </dir>
+</dir>`}</Code>
+
+          <Callout>
+            Note: the tooltip placeholder{" "}
+            <InlineCode>s = 41</InlineCode> in <InlineCode>181141500</InlineCode>{" "} (the tooltip) does not match <InlineCode>181141501.x = 40</InlineCode>. The tooltip claims Part 2 activates 41 times, but the per-skill data says 40.
+          </Callout>
+
+          <p>
+            Testing in-game with a battle analysis reveals the actual behavior:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Part 1 deals 966 hits (= 14 × 69 activations)</li>
+            <li>Part 2 deals 574 hits (= 14 × 41 activations)</li>
+            <li>
+              <strong>Total: 1540 hits</strong>
+            </li>
+          </ul>
+
+          <Image src="/erel-bugs/origin-part1.png" caption="BA showing Part 1 only doing 966 hits" />
+          <Image src="/erel-bugs/origin-part2.png" caption="BA showing Part 2 doing 574 hits" />
+          <Image src="/erel-bugs/origin-total.png" caption="BA showing total hit count of 1540" />
+
+          <p>
+            The cause is the <InlineCode>multiAttackInfo</InlineCode> array,
+            which is what the game actually uses to schedule hits. Each entry
+            triggers one cast of the referenced skill ID (which then deals{" "}
+            <InlineCode>attackCount = 14</InlineCode> hits). The array is
+            presumably generated automatically - and it generated 110 entries
+            instead of 111 since part 2 has 1 fewer hit than intended. As a result, the auto-generation appears to have messed up the sequencing.
+          </p>
+
+          <p>Truncated for clarity:</p>
+
+          <Code>{`<dir name="multiAttackInfo">
+  <dir name="0"><int32 name="attackTime" value="30"/><int32 name="x" value="181141500"/></dir>
+  <dir name="1"><int32 name="attackTime" value="30"/><int32 name="x" value="181141500"/></dir>
+  ... <!-- entries 2 through 67 all reference 181141500 -->
+  <dir name="68">
+    <int32 name="attackTime" value="30" />
+    <int32 name="x" value="181141500" />
+  </dir>
+  <dir name="69">                                  <!-- SHOULD still be 181141500, since this is 0-indexed -->
+    <int32 name="attackTime" value="2300" />
+    <int32 name="x" value="181141501" />            <!-- but switches to part 2 here -->
+  </dir>
+  <dir name="70"><int32 name="attackTime" value="10"/><int32 name="x" value="181141501"/></dir>
+  ... <!-- entries 71 through 108 all reference 181141501 -->
+  <dir name="109"><int32 name="attackTime" value="10"/><int32 name="x" value="181141501"/></dir>
+</dir>`}</Code>
+
+          <p>What this tells us:</p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>
+              <strong>0–68</strong> (69 entries) trigger Part 1 →{" "}
+              <InlineCode>69 × 14 = 966 hits</InlineCode>
+            </li>
+            <li>
+              <strong>69–109</strong> (41 entries) trigger Part 2 →{" "}
+              <InlineCode>41 × 14 = 574 hits</InlineCode>
+            </li>
+            <li>
+              <strong>Total: 110 entries</strong>, when there should be{" "}
+              <strong>111</strong> (70 + 41).
+            </li>
+          </ul>
+
+          <Callout>
+            The generator appears to have honored the tooltip placeholder{" "}
+            <InlineCode>s = 41</InlineCode> for Part 2&apos;s entry count, but
+            came up one entry short overall. Part 2 got its intended 41
+            activations; <strong>Part 1 silently absorbed the missing one</strong>,
+            ending up with 69 instead of 70.
+          </Callout>
+
+          <p>
+            <strong>Damage breakdown at level 30:</strong>
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>
+              Part 1: <InlineCode>254 + 7 × 30 = 464%</InlineCode> per hit
+            </li>
+            <li>
+              Part 2: <InlineCode>219 + 7 × 30 = 429%</InlineCode> per hit
+            </li>
+          </ul>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border border-primary/20 rounded">
+              <thead className="bg-background-bright/50">
+                <tr>
+                  <th className="px-4 py-2 border-b border-primary/20">
+                    Scenario
+                  </th>
+                  <th className="px-4 py-2 border-b border-primary/20">Math</th>
+                  <th className="px-4 py-2 border-b border-primary/20">
+                    Total
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-4 py-2 border-b border-primary/10">
+                    Expected
+                  </td>
+                  <td className="px-4 py-2 border-b border-primary/10 font-mono text-sm">
+                    (464 × 14 × 70) + (429 × 14 × 41)
+                  </td>
+                  <td className="px-4 py-2 border-b border-primary/10">
+                    <strong>700,966%</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2">Actual</td>
+                  <td className="px-4 py-2 font-mono text-sm">
+                    (464 × 14 × 69) + (429 × 14 × 41)
+                  </td>
+                  <td className="px-4 py-2">
+                    <strong>694,470%</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <Callout>
+            Origin is dealing roughly <strong>~0.9% less damage</strong> than intended. Obviously the origin is very weak in general, but this bug does not have a significant impact.
+          </Callout>
+        </Section>
+
+        <Section
+          id="female-anim"
+          number="8"
+          title={
+            <>
+              Ascent and Origin Do Not Play Female Animations
+              <Severity level="Trivial" />
+            </>
+          }
+        >
+          <p>
+            Pretty self-explanatory. Female-character animations for Origin and
+            Ascent exist in the game files but aren&apos;t being used - female
+            Erel characters play the male animations for both skills.
+          </p>
+        </Section>
+
+        <Section
+          id="destruction-roan"
+          number="9"
+          title={
+            <>
+              Destruction of Roan - Extra Hit During Eternal Guardian
+              <Severity level="Minor" />
+            </>
+          }
+        >
+          <p>
+            Destruction of Roan hits one extra time when the Eternal Guardian
+            buff is active.
+          </p>
+
+          <Code>{`<dir name="400011176"> <!-- Destruction of Roan -->
+  <dir name="common">
+    <int32 name="maxLevel" value="30" />
+    <string name="mpCon" value="450" />
+    <string name="damage" value="680+40*x" />
+    <string name="attackCount" value="8" />     <!-- Hits per activation -->
+    <string name="updatableTime" value="1800" /><!-- Hold duration in ms -->
+    <string name="mobCount" value="15" />
+    <string name="attackDelay" value="120" />   <!-- Delay between activations -->
+    <string name="cooltime" value="120" />
+    <vector name="lt" value="-540, -600" />
+    <vector name="rb" value="99, 25" />
+    <string name="s" value="40" />
+    <string name="t" value="1.8" />
+    <string name="u" value="300" />
+  </dir>
+</dir>`}</Code>
+
+          <p>
+            Math: with a 1800ms hold duration and 120ms delay between
+            activations, the skill should activate<br/>{" "}
+            <InlineCode>1800 / 120 = 15</InlineCode> times, each dealing 8 hits
+            →{" "}
+            <strong>120 hits total</strong>. In normal use, that&apos;s exactly
+            what we see.
+          </p>
+          <p>
+            However, when Eternal Guardian is active, Destruction of Roan
+            instead hits <strong>128 times</strong> (16 activations) -
+            alongside the Sentinel Captain doing its own 128 hits. It&apos;s not
+            clear from the visible data why the extra activation occurs.
+          </p>
+
+          <Image src="/erel-bugs/destruction-of-roan-1.png" caption="BA of Destruction of Roan hits" />
+          <Image src="/erel-bugs/destruction-of-roan-and-captain.png" caption="BA of Destruction of Roan hits + Sentinel Captain during Eternal Guardian" />
+        </Section>
+
+        <Section
+          id="rush-stones"
+          number="10"
+          title={
+            <>
+              Erda Link - Cooldown Reduction Rush Stones Use Wrong Stat
+              <Severity level="Minor" />
+            </>
+          }
+        >
+          <p>
+            Erel Light has five Rush Stones that should grant Skill Cooldown
+            Reduction. Three are wired up correctly, but{" "}
+            <strong>two are linked to the wrong stat</strong>. The name,
+            description, and icon all say cooldown - but the actual stat being
+            granted is something else.
+          </p>
+
+          <p>
+            <strong>Example of an incorrect stone</strong> - name, description,
+            and icon all reference cooldown, but the applied stat is{" "}
+            <InlineCode>abnormalDamR</InlineCode> (Abnormal Status Damage Rate):
+          </p>
+
+          <Code>{`<dir name="37">
+  <int32 name="maxLevel" value="1" />
+  <dir name="passive">
+    <dir name="0">
+      <dir name="0">  <!-- Value when inactive -->
+        <int32 name="abnormalDamR" value="0" />  <!-- WRONG STAT -->
+      </dir>
+      <dir name="1">  <!-- Value when active -->
+        <int32 name="abnormalDamR" value="1" />  <!-- WRONG STAT -->
+      </dir>
+    </dir>
+  </dir>
+  <string name="name" value="Skill Cooldown" />
+  <string name="desc" value="Decreases skill cooldown by 1%." />
+</dir>`}</Code>
+
+          <p>
+            <strong>Example of a correct stone</strong> - uses{" "}
+            <InlineCode>coolTimeR</InlineCode> as expected:
+          </p>
+
+          <Code>{`<dir name="36">
+  <int32 name="maxLevel" value="1" />
+  <dir name="passive">
+    <dir name="0">
+      <dir name="0">
+        <int32 name="coolTimeR" value="0" />
+      </dir>
+      <dir name="1">
+        <int32 name="coolTimeR" value="1" />
+      </dir>
+    </dir>
+  </dir>
+  <string name="name" value="Skill Cooldown" />
+  <string name="desc" value="Decreases skill cooldown by 1%." />
+</dir>`}</Code>
+
+          <Callout>
+            The other broken stone is Rush Stone ID{" "}
+            <InlineCode>41</InlineCode> - same issue, both should be granting{" "}
+            <InlineCode>coolTimeR</InlineCode> instead of{" "}
+            <InlineCode>abnormalDamR</InlineCode>.
+          </Callout>
         </Section>
 
         <footer className="mt-12 pt-6 border-t border-primary/20 text-sm text-primary-dim">

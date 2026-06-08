@@ -17,9 +17,6 @@ const nextConfig = {
         ],
     },
     pageExtensions: ['js', 'jsx', 'mdx'],
-    experimental: {
-        runtime: true
-    },
     turbopack: {},
     async headers() {
         return [
