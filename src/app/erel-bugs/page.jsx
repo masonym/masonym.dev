@@ -604,7 +604,7 @@ export default function ErelBugsPage() {
 
         <Section id="ascent" number="5" title={
             <>
-                Ascent (Radiant Spear) - Wrong Tooltip"
+                Ascent (Radiant Spear) - Wrong Tooltip
                 <Severity level="Minor" />
             </>
             }
