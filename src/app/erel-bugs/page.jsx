@@ -1190,7 +1190,7 @@ Cooldown: #cooltime sec`}</Code>
           }
         >
           <p>
-            SHINE Spear of Lugh&apos;s tooltip has a couple of issues. The big one: <strong>Stellar Strike</strong> - the follow-up attack it summons — does noticeably less damage in-game than the tooltip claims.
+            SHINE Spear of Lugh&apos;s tooltip has a couple of issues. The big one: <strong>Stellar Strike</strong> - the follow-up attack it summons - does noticeably less damage in-game than the tooltip claims.
           </p>
 
           <p>
