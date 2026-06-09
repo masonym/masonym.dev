@@ -46,7 +46,7 @@ const RewardSlot = ({ slot, isOpen, onSlotClick, isTouchDevice }) => {
 
     return (
         <li
-            className="list-none m-1 flex flex-col items-center cursor-default"
+            className="list-none m-1 flex flex-col items-center cursor-default w-[5.5rem]"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onMouseMove={handleMouseMove}
@@ -69,7 +69,7 @@ const RewardSlot = ({ slot, isOpen, onSlotClick, isTouchDevice }) => {
                     </span>
                 )}
             </div>
-            <p className="mt-1 max-w-[5.5rem] text-[11px] leading-tight text-center text-primary line-clamp-2">
+            <p className="mt-1 w-full h-10 text-[11px] leading-tight text-center text-primary">
                 {name}
             </p>
 

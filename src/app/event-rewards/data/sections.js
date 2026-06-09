@@ -36,12 +36,42 @@ export const eventSections = {
         ],
     },
     GenesisPass: { name: "Genesis Pass" },
-    ChallengersMain: { name: "Challenger World" },
+    ChallengersMain: {
+        name: "Challenger World",
+        sections: [
+            { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
+            { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
+        ],
+    },
     "2512Kinetic": { name: "Kinesis Remaster" },
-    "2512momentumPassS1": { name: "Momentum Pass S1" },
-    "2601momentumPassS2": { name: "Momentum Pass S2" },
-    "2601burningExpress": { name: "Burning Express" },
-    "2602FrontierPassS2": { name: "Frontier Pass S2" },
+    "2512momentumPassS1": {
+        name: "Momentum Pass S1",
+        sections: [
+            { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
+            { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
+        ],
+    },
+    "2601momentumPassS2": {
+        name: "Momentum Pass S2",
+        sections: [
+            { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
+            { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
+        ],
+    },
+    "2601burningExpress": {
+        name: "Burning Express",
+        sections: [
+            { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
+            { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
+        ],
+    },
+    "2602FrontierPassS2": {
+        name: "Frontier Pass S2",
+        sections: [
+            { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
+            { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
+        ],
+    },
     "2512ChallengersDuo": { name: "Challenger Duo" },
 };
 

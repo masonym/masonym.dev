@@ -132,24 +132,6 @@
       }
     ]
   },
-  "GenesisPass": {
-    "source_img": "UIWindowEvent2.img",
-    "rewards": [
-      {
-        "slot": "itemslot:0",
-        "parent_path": "itemList/itemSlot",
-        "itemID": 1,
-        "count": 1,
-        "item": {
-          "name": "",
-          "desc": "",
-          "category": "Unknown",
-          "icon": "",
-          "tradability": {}
-        }
-      }
-    ]
-  },
   "2512Kinetic": {
     "source_img": "UIWindowEvent2.img",
     "rewards": [
@@ -2776,10 +2758,6 @@
         }
       }
     ]
-  },
-  "2512ChallengersDuo": {
-    "source_img": "UIWindowEvent5.img",
-    "rewards": []
   },
   "ErelLight_Pass": {
     "source_img": "UIWindowGL.img",
