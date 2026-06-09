@@ -69,7 +69,7 @@ const RewardSlot = ({ slot, isOpen, onSlotClick, isTouchDevice }) => {
                     </span>
                 )}
             </div>
-            <p className="mt-1 w-full h-10 text-[11px] leading-tight text-center text-primary">
+            <p className="mt-1 w-full h-16 text-[11px] leading-tight text-center text-primary">
                 {name}
             </p>
 

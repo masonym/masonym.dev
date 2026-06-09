@@ -72,6 +72,13 @@ export const eventSections = {
             { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
         ],
     },
+    "2512Fantasia": {
+        name: "Tallahart Fantasia (Check-in Event)",
+        sections: [
+            { name: "Daily Check-In", parentPath: "dlgtab:tab/dlgTabInfo/0" },
+            { name: "Event Track", parentPath: "dlgtab:tab/dlgTabInfo/0/itemSlot" },
+        ],
+    },
     "2512ChallengersDuo": { name: "Challenger Duo" },
 };
 

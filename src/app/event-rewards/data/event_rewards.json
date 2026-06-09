@@ -3654,5 +3654,1014 @@
         }
       }
     ]
+  },
+    "2512Fantasia": {
+    "source_img": "UIWindowEvent3.img",
+    "rewards": [
+      {
+        "slot": "itemslot:basic3",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0",
+        "itemID": 2450163,
+        "count": 1,
+        "item": {
+          "name": "3x EXP Coupon (30 min)",
+          "desc": "#cDouble-click# for a buff granting #c3x EXP# for #c30 minutes.#\\r\\n\\r\\n#cEffect does not stack with similar\\r\\nevent buffs.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2450163.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:1",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637920,
+        "count": 3,
+        "item": {
+          "name": "Spiegelette's Golden Strawberry Farm One-Time Entry Pass",
+          "desc": "#cDouble-click# to enter the #cGolden Strawberry Farm# and gain a significant amount of EXP points by defeating monsters.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637920.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:2",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2433808,
+        "count": 50,
+        "item": {
+          "name": "Special Medal of Honor",
+          "desc": "#cDouble-click# this Medal of Honor to receive 10,000 Honor EXP.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2433808.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:3",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2831229,
+        "count": 1,
+        "item": {
+          "name": "Ellanosroid Coupon",
+          "desc": "#cDouble-click# to receive an #cEllanosroid# and a #cPermanent Lidium Heart.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2831229.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:4",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:5",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2437095,
+        "count": 1,
+        "item": {
+          "name": "Pendant of the Spirit Coupon (30 Days)",
+          "desc": "Double-click to receive a #cPendant of the Spirit#.#c\\n\\n* Obtained pendant is untradable.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2437095.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:6",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637464,
+        "count": 150,
+        "item": {
+          "name": "Symbol Selector Coupon",
+          "desc": "Double-click to choose and obtain one of the following items:\\r\\n\\r\\n#c- Arcane Symbol Selector Coupon x5\\r\\n-Sacred Symbol Selector Coupon x2",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637464.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:7",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:8",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2831227,
+        "count": 1,
+        "item": {
+          "name": "Permanent Phantasmal Drifting Mount Coupon",
+          "desc": "#cDouble-Click# to obtain a permanent #cPhantasmal Drifting# mount.",
+          "category": "Consume",
+          "icon": "/event_reward_icons/2831227.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:9",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638500,
+        "count": 2000,
+        "item": {
+          "name": "Advanced EXP Voucher",
+          "desc": "#cDouble-click# to get EXP that fits #cyour character's current level#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638500.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:10",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637337,
+        "count": 1,
+        "item": {
+          "name": "Sol Erda/Sol Erda Fragment Selector Coupon",
+          "desc": "#cDouble-click# to choose\\none of the following items:\\n\\r\\r\\n#c- Sol Erda x1\\n  (Untradable, 7 Days)\\n- Sol Erda Fragment x30\\n  (Untradable, Permanent)",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637337.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:11",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637168,
+        "count": 10,
+        "item": {
+          "name": "VIP Booster",
+          "desc": "#cDouble-click# to summon #cFlame\\r\\nMonsters# that give a #cmassive\\r\\namount of EXP# for 100 seconds.\\r\\n\\r\\n#cVIP Boosters can used 10 times a day per character.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637168.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:12",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2632290,
+        "count": 50,
+        "item": {
+          "name": "Experience Nodestone",
+          "desc": "#cDouble-click# to use.\\nObtain #c3 V Points#, which can be\\nused to unlock or enhance #cNodes#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2632290.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:13",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 3019732,
+        "count": 1,
+        "item": {
+          "name": "Phantasmal Tree Chair",
+          "desc": "A chair that looks just like the tree in the Night of Phantasms. Sit on this chair to hear the Night of Phantasms BGM.\\r\\n#cRestores 50 HP and 50 MP every 10 seconds.#",
+          "category": "Install",
+          "icon": "event_reward_icons/3019732.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:14",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:15",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2049793,
+        "count": 1,
+        "item": {
+          "name": "Karma Unique Potential Scroll 100%",
+          "desc": "Grants Unique Potential to #cuntradable# items that are ranked Epic or below.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2049793.png",
+          "tradability": {
+            "accountSharable": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:16",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2048766,
+        "count": 100,
+        "item": {
+          "name": "Karma Black Rebirth Flame",
+          "desc": "Use this on an #cuntradable# piece of equipment to reroll the bonus stats on the item. If used, it will reroll the bonus stats, and you can #cdecide whether or not to apply the rerolled bonus stats to the item.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2048766.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:17",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:18",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2636350,
+        "count": 1,
+        "item": {
+          "name": "Rosy or Flushed Skin Coupon",
+          "desc": "#cDouble-click# to receive your choice of either the#c Rosy Skin Coupon# or the#c Flushed Skin Coupon.\\r\\n\\r\\nObtained items are permanent, can only be transferred between your characters within the same world, and cannot be used on androids.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2636350.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:19",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638500,
+        "count": 2000,
+        "item": {
+          "name": "Advanced EXP Voucher",
+          "desc": "#cDouble-click# to get EXP that fits #cyour character's current level#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638500.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:20",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2831238,
+        "count": 1,
+        "item": {
+          "name": "Leap Growth Potion (200 - 259)",
+          "desc": "A legendary elixir of power. Take a sip to gain a level.\\n#c- Character must be at least Lv. 200 to use.# Use this between Lv. 200 and Lv. 259 to gain a level and at Lv. 260 to obtain a considerable amount of EXP.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2831238.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:21",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637168,
+        "count": 10,
+        "item": {
+          "name": "VIP Booster",
+          "desc": "#cDouble-click# to summon #cFlame\\r\\nMonsters# that give a #cmassive\\r\\namount of EXP# for 100 seconds.\\r\\n\\r\\n#cVIP Boosters can used 10 times a day per character.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637168.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:22",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2433808,
+        "count": 50,
+        "item": {
+          "name": "Special Medal of Honor",
+          "desc": "#cDouble-click# this Medal of Honor to receive 10,000 Honor EXP.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2433808.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:23",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2740126,
+        "count": 1,
+        "item": {
+          "name": "Tallahart Fantasia Damage Skin (Unit)",
+          "desc": "Applies the Tallahart Fantasia Damage Skin (Unit).\\r\\n\\r\\n#cOnce used, it will remain applied until you replace it with another damage skin.#\\r\\n\\r\\n",
+          "category": "Consume",
+          "icon": "event_reward_icons/2740126.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:24",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:25",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637337,
+        "count": 1,
+        "item": {
+          "name": "Sol Erda/Sol Erda Fragment Selector Coupon",
+          "desc": "#cDouble-click# to choose\\none of the following items:\\n\\r\\r\\n#c- Sol Erda x1\\n  (Untradable, 7 Days)\\n- Sol Erda Fragment x30\\n  (Untradable, Permanent)",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637337.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:26",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637464,
+        "count": 150,
+        "item": {
+          "name": "Symbol Selector Coupon",
+          "desc": "Double-click to choose and obtain one of the following items:\\r\\n\\r\\n#c- Arcane Symbol Selector Coupon x5\\r\\n-Sacred Symbol Selector Coupon x2",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637464.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:27",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:28",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2831234,
+        "count": 1,
+        "item": {
+          "name": "Tallahart-Style Brazier Coupon",
+          "desc": "#cDouble-click# to obtain a #cTallahart-Style Brazier# furnishing.\\r\\n\\r\\n#cThe furnishing is shared across worlds.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2831234.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:29",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638500,
+        "count": 2000,
+        "item": {
+          "name": "Advanced EXP Voucher",
+          "desc": "#cDouble-click# to get EXP that fits #cyour character's current level#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638500.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:30",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638098,
+        "count": 1,
+        "item": {
+          "name": "Fairy Heart Coupon",
+          "desc": "#cDouble-click# to obtain a #cPermanent Fairy Heart (Cannot be traded)#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638098.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:31",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637168,
+        "count": 10,
+        "item": {
+          "name": "VIP Booster",
+          "desc": "#cDouble-click# to summon #cFlame\\r\\nMonsters# that give a #cmassive\\r\\namount of EXP# for 100 seconds.\\r\\n\\r\\n#cVIP Boosters can used 10 times a day per character.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637168.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:32",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2632290,
+        "count": 50,
+        "item": {
+          "name": "Experience Nodestone",
+          "desc": "#cDouble-click# to use.\\nObtain #c3 V Points#, which can be\\nused to unlock or enhance #cNodes#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2632290.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:33",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2831228,
+        "count": 1,
+        "item": {
+          "name": "Phantasmal Blossoms Effect Coupon",
+          "desc": "#cDouble-click# to obtain a #cPhantasmal Blossoms\\nEffect#.\\n\\n#cObtained items are permanent and\\ncannot be traded.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2831228.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:34",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:35",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637337,
+        "count": 1,
+        "item": {
+          "name": "Sol Erda/Sol Erda Fragment Selector Coupon",
+          "desc": "#cDouble-click# to choose\\none of the following items:\\n\\r\\r\\n#c- Sol Erda x1\\n  (Untradable, 7 Days)\\n- Sol Erda Fragment x30\\n  (Untradable, Permanent)",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637337.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:36",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2048766,
+        "count": 100,
+        "item": {
+          "name": "Karma Black Rebirth Flame",
+          "desc": "Use this on an #cuntradable# piece of equipment to reroll the bonus stats on the item. If used, it will reroll the bonus stats, and you can #cdecide whether or not to apply the rerolled bonus stats to the item.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2048766.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:37",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:38",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2831230,
+        "count": 1,
+        "item": {
+          "name": "Tallahart Festival Set Coupon",
+          "desc": "#cDouble-click# to receive a #cTallahart Festival Set#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2831230.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:39",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638500,
+        "count": 2000,
+        "item": {
+          "name": "Advanced EXP Voucher",
+          "desc": "#cDouble-click# to get EXP that fits #cyour character's current level#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638500.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:40",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637928,
+        "count": 1,
+        "item": {
+          "name": "Transcendent Growth Potion (200 - 269)",
+          "desc": "A legendary elixir of power. Take a sip to gain a level.\\n#c- Character must be at least Lv. 200 to use.# Use this between Lv. 200 and Lv. 269 to gain a level and at Lv. 270 to obtain a considerable amount of EXP.\\n",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637928.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:41",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637168,
+        "count": 10,
+        "item": {
+          "name": "VIP Booster",
+          "desc": "#cDouble-click# to summon #cFlame\\r\\nMonsters# that give a #cmassive\\r\\namount of EXP# for 100 seconds.\\r\\n\\r\\n#cVIP Boosters can used 10 times a day per character.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637168.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:42",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2433808,
+        "count": 50,
+        "item": {
+          "name": "Special Medal of Honor",
+          "desc": "#cDouble-click# this Medal of Honor to receive 10,000 Honor EXP.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2433808.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:43",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2636631,
+        "count": 1,
+        "item": {
+          "name": "Beauty Salon/Slot Expansion Coupon",
+          "desc": "Choose an obtain one Beauty Salon item.#c\\n\\nObtained items cannot be traded, and have a 14-day duration.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2636631.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:44",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:45",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637337,
+        "count": 1,
+        "item": {
+          "name": "Sol Erda/Sol Erda Fragment Selector Coupon",
+          "desc": "#cDouble-click# to choose\\none of the following items:\\n\\r\\r\\n#c- Sol Erda x1\\n  (Untradable, 7 Days)\\n- Sol Erda Fragment x30\\n  (Untradable, Permanent)",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637337.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:46",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637464,
+        "count": 200,
+        "item": {
+          "name": "Symbol Selector Coupon",
+          "desc": "Double-click to choose and obtain one of the following items:\\r\\n\\r\\n#c- Arcane Symbol Selector Coupon x5\\r\\n-Sacred Symbol Selector Coupon x2",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637464.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:47",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:48",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2831231,
+        "count": 1,
+        "item": {
+          "name": "Phantasmal Tallahart Background Coupon",
+          "desc": "#cDouble-click# to obtain the\\n#cPhantasmal Tallahart Background#.\\n\\n#cBackgrounds can be applied to \\nall your characters within the \\nsame world.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2831231.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:49",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638500,
+        "count": 2000,
+        "item": {
+          "name": "Advanced EXP Voucher",
+          "desc": "#cDouble-click# to get EXP that fits #cyour character's current level#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638500.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:50",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2644004,
+        "count": 1,
+        "item": {
+          "name": "Karma Star Force 17-Star Enhancement",
+          "desc": "Enhances the Star Force of #cLv. 160 or lower untradable equipment# to a specified value without consuming the effect of Guardian Scrolls.\\r\\n\\r\\n#cCannot be used on equipment without enough remaining scroll uses, or superior equipment items.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2644004.png",
+          "tradability": {
+            "accountSharable": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:51",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2637168,
+        "count": 10,
+        "item": {
+          "name": "VIP Booster",
+          "desc": "#cDouble-click# to summon #cFlame\\r\\nMonsters# that give a #cmassive\\r\\namount of EXP# for 100 seconds.\\r\\n\\r\\n#cVIP Boosters can used 10 times a day per character.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2637168.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:52",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2632290,
+        "count": 50,
+        "item": {
+          "name": "Experience Nodestone",
+          "desc": "#cDouble-click# to use.\\nObtain #c3 V Points#, which can be\\nused to unlock or enhance #cNodes#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2632290.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:53",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2831233,
+        "count": 1,
+        "item": {
+          "name": "Phantasmal Tree Coupon",
+          "desc": "#cDouble-click# to obtain a #cPhantasmal Tree# furnishing.\\r\\n\\r\\n#cThe furnishing is shared across worlds.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2831233.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:54",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:55",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2710054,
+        "count": 20,
+        "item": {
+          "name": "Karma Bright Cube",
+          "desc": "A mysterious cube that configures the Potential on a piece of #cuntradable# equipment according to set probability rates. Offers you the chance to decide whether or not to#c apply the new Potential to your item#. However, it does not influence Bonus Potentials. \\n#cOnly usable on items from Rare to Legendary.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2710054.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:56",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2048766,
+        "count": 100,
+        "item": {
+          "name": "Karma Black Rebirth Flame",
+          "desc": "Use this on an #cuntradable# piece of equipment to reroll the bonus stats on the item. If used, it will reroll the bonus stats, and you can #cdecide whether or not to apply the rerolled bonus stats to the item.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2048766.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:57",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638457,
+        "count": 1,
+        "item": {
+          "name": "Luxe Sauna Coupon",
+          "desc": "#cDouble-click# to restore #c30 minutes# of #cLuxe Sauna usage#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638457.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:58",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2831235,
+        "count": 1,
+        "item": {
+          "name": "Character Select Theme Coupon - Phantasmal Tallahart",
+          "desc": "#cDouble-click# to obtain a #cPhantasmal Tallahart# character select theme.\\r\\n\\r\\n#cThemes are shared across worlds.#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2831235.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:59",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2638500,
+        "count": 2000,
+        "item": {
+          "name": "Advanced EXP Voucher",
+          "desc": "#cDouble-click# to get EXP that fits #cyour character's current level#.",
+          "category": "Consume",
+          "icon": "event_reward_icons/2638500.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1,
+            "noDrop": 1
+          }
+        }
+      },
+      {
+        "slot": "itemslot:60",
+        "parent_path": "dlgtab:tab/dlgTabInfo/0/itemSlot",
+        "itemID": 2730018,
+        "count": 20,
+        "item": {
+          "name": "Karma Bonus Bright Cube",
+          "desc": "This cube allows the user to #cdecide# if they want to accept the resulting Bonus Potential reset on a piece of #cuntradable# equipment before it is completed. Does not affect Potentials.\\n#cOnly works on items with Rare to Legendary bonus potential.#\\n#cMax Result: Legendary#",
+          "category": "Consume",
+          "icon": "event_reward_icons/2730018.png",
+          "tradability": {
+            "accountSharable": 1,
+            "notSale": 1
+          }
+        }
+      }
+    ]
   }
 }
