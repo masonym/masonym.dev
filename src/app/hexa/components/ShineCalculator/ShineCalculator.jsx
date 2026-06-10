@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import erdaLinkData from "@/data/erda-link-data.json";
 import solErda from "../../assets/sol_erda.png";
 import solErdaFragment from "../../assets/sol_erda_fragment.png";
@@ -39,11 +39,15 @@ const addCost = (total, cost) => ({
   meso: total.meso + (cost.meso || 0),
 });
 
-const clampLevel = (value, maxLevel) => {
+const clampLevel = (value, maxLevel, minLevel = 0) => {
   const parsed = Number.parseInt(value, 10);
-  if (Number.isNaN(parsed)) return 0;
-  return Math.max(0, Math.min(maxLevel, parsed));
+  if (Number.isNaN(parsed)) return minLevel;
+  return Math.max(minLevel, Math.min(maxLevel, parsed));
 };
+
+// The origin node is granted for free at level 1 and can never be deactivated.
+const isFreeOrigin = (stone) => stone?.costType === "origin";
+const minLevelFor = (stone) => (isFreeOrigin(stone) ? 1 : 0);
 
 const getStoneIconPath = (stone, treeId, disabled = false) => {
   const file = disabled ? "iconDisabled.png" : "icon.png";
@@ -90,6 +94,8 @@ const getStatsAtLevel = (stone, level) => {
 const getTransitionCost = (stone, fromLevel) => {
   const costType = stone.costType || "default";
   if (fromLevel === 0) {
+    // Origin starts unlocked at level 1, so its activation is free.
+    if (isFreeOrigin(stone)) return formatCost();
     return formatCost(erdaLinkData.costs.activation?.[stone.category]?.[costType]);
   }
   return formatCost(erdaLinkData.costs.enforcement?.[stone.category]?.[fromLevel]?.[costType]);
@@ -127,6 +133,8 @@ const ShineCalculator = ({ selectedClass }) => {
   const [selectedNodeIndex, setSelectedNodeIndex] = useState(null);
   const [nodeLevels, setNodeLevels] = useState({});
   const [goalLevels, setGoalLevels] = useState({});
+  const [currentDraft, setCurrentDraft] = useState(null);
+  const [goalDraft, setGoalDraft] = useState(null);
   const [isDraggingBoard, setIsDraggingBoard] = useState(false);
   const boardViewportRef = useRef(null);
   const dragStartRef = useRef({ x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
@@ -148,6 +156,27 @@ const ShineCalculator = ({ selectedClass }) => {
     [character, regularNodes, selectedNodeIndex]
   );
   const nodeMap = useMemo(() => new Map(character?.nodes.map((node) => [node.nodeIndex, node]) || []), [character]);
+  const defaultNodeLevels = useMemo(() => {
+    const defaults = {};
+    character?.nodes.forEach((node) => {
+      if (isFreeOrigin(stoneMap.get(node.stoneId))) defaults[node.nodeIndex] = 1;
+    });
+    return defaults;
+  }, [character, stoneMap]);
+  const normalizeLevels = useCallback((levels = {}, includeDefaults = false) => {
+    const normalized = includeDefaults ? { ...defaultNodeLevels, ...levels } : { ...levels };
+    character?.nodes.forEach((node) => {
+      const stone = stoneMap.get(node.stoneId);
+      if (!stone) return;
+      const level = clampLevel(normalized[node.nodeIndex] || 0, stone.maxLevel, minLevelFor(stone));
+      if (level > 0 || isFreeOrigin(stone)) {
+        normalized[node.nodeIndex] = level;
+      } else {
+        delete normalized[node.nodeIndex];
+      }
+    });
+    return normalized;
+  }, [character, defaultNodeLevels, stoneMap]);
 
   useEffect(() => {
     setIsClient(true);
@@ -158,38 +187,56 @@ const ShineCalculator = ({ selectedClass }) => {
     const saved = localStorage.getItem(`${STORAGE_PREFIX}_${selectedClass}`);
     if (saved) {
       const parsed = JSON.parse(saved);
-      setNodeLevels(parsed.nodeLevels || {});
-      setGoalLevels(parsed.goalLevels || {});
+      setNodeLevels(normalizeLevels(parsed.nodeLevels || {}, true));
+      setGoalLevels(normalizeLevels(parsed.goalLevels || {}));
     } else {
-      setNodeLevels({});
+      setNodeLevels(defaultNodeLevels);
       setGoalLevels({});
     }
-  }, [isClient, selectedClass]);
+  }, [isClient, selectedClass, defaultNodeLevels, normalizeLevels]);
 
   useEffect(() => {
     if (!isClient || !selectedClass) return;
     localStorage.setItem(`${STORAGE_PREFIX}_${selectedClass}`, JSON.stringify({ nodeLevels, goalLevels }));
   }, [goalLevels, isClient, nodeLevels, selectedClass]);
 
+  // Reset the in-progress input drafts whenever the selected node changes.
+  useEffect(() => {
+    setCurrentDraft(null);
+    setGoalDraft(null);
+  }, [selectedNodeIndex]);
+
   if (!isClient || !character) {
     return null;
   }
 
-  const applyPrerequisiteLevels = (node, levels) => {
+  // `externalLevels` are levels already satisfied elsewhere (e.g. the current
+  // build when resolving goal prerequisites) — they count as active but are
+  // never charged for again.
+  const applyPrerequisiteLevels = (node, levels, externalLevels = {}) => {
     const compareCosts = (a, b) => {
       if (a.solErda !== b.solErda) return a.solErda - b.solErda;
       if (a.fragments !== b.fragments) return a.fragments - b.fragments;
       return a.meso - b.meso;
     };
 
+    const isActive = (workingLevels, nodeIndex) =>
+      (workingLevels[nodeIndex] || 0) > 0 || (externalLevels[nodeIndex] || 0) > 0;
+
     const activateNode = (currentNode, currentLevels, path = new Set()) => {
       if (!currentNode || path.has(currentNode.nodeIndex)) {
         return null;
       }
 
+      const zeroCost = { solErda: 0, fragments: 0, meso: 0 };
+      // Already satisfied (by the working set or the current build): nothing to do.
+      if (isActive(currentLevels, currentNode.nodeIndex)) {
+        return { levels: currentLevels, addedCost: zeroCost };
+      }
+
       const nextPath = new Set(path);
       const nextLevels = { ...currentLevels };
-      let addedCost = { solErda: 0, fragments: 0, meso: 0 };
+      let addedCost = { ...zeroCost };
       nextPath.add(currentNode.nodeIndex);
 
       currentNode.prereqAnd.forEach((prereqIndex) => {
@@ -200,7 +247,7 @@ const ShineCalculator = ({ selectedClass }) => {
         addedCost = addCost(addedCost, result.addedCost);
       });
 
-      if (currentNode.prereqOr.length > 0 && !currentNode.prereqOr.some((prereqIndex) => (nextLevels[prereqIndex] || 0) > 0)) {
+      if (currentNode.prereqOr.length > 0 && !currentNode.prereqOr.some((prereqIndex) => isActive(nextLevels, prereqIndex))) {
         const cheapestRoute = currentNode.prereqOr.reduce((cheapest, prereqIndex) => {
           const prereqNode = nodeMap.get(prereqIndex);
           if (!prereqNode) return cheapest;
@@ -215,11 +262,9 @@ const ShineCalculator = ({ selectedClass }) => {
         }
       }
 
-      if ((nextLevels[currentNode.nodeIndex] || 0) === 0) {
-        const stone = stoneMap.get(currentNode.stoneId);
-        nextLevels[currentNode.nodeIndex] = 1;
-        addedCost = addCost(addedCost, stone ? calculateCostToLevel(stone, 1) : {});
-      }
+      const stone = stoneMap.get(currentNode.stoneId);
+      nextLevels[currentNode.nodeIndex] = 1;
+      addedCost = addCost(addedCost, stone ? calculateCostToLevel(stone, 1) : {});
 
       return { levels: nextLevels, addedCost };
     };
@@ -232,7 +277,7 @@ const ShineCalculator = ({ selectedClass }) => {
       Object.assign(updatedLevels, result.levels);
     });
 
-    if (node.prereqOr.length > 0 && !node.prereqOr.some((prereqIndex) => (updatedLevels[prereqIndex] || 0) > 0)) {
+    if (node.prereqOr.length > 0 && !node.prereqOr.some((prereqIndex) => isActive(updatedLevels, prereqIndex))) {
       const cheapestRoute = node.prereqOr.reduce((cheapest, prereqIndex) => {
         const result = activateNode(nodeMap.get(prereqIndex), { ...updatedLevels });
         if (!result) return cheapest;
@@ -247,13 +292,17 @@ const ShineCalculator = ({ selectedClass }) => {
     return updatedLevels;
   };
 
-  const setNodeLevel = (node, value, setter, shouldApplyPrerequisites = false) => {
+  const setNodeLevel = (node, value, setter, shouldApplyPrerequisites = false, externalLevels = {}) => {
     const stone = stoneMap.get(node.stoneId);
     if (!stone) return;
-    const level = clampLevel(value, stone.maxLevel);
+    const level = clampLevel(value, stone.maxLevel, minLevelFor(stone));
     setter((previous) => {
-      const updatedLevels = shouldApplyPrerequisites && level > 0 ? applyPrerequisiteLevels(node, previous) : { ...previous };
-      updatedLevels[node.nodeIndex] = level;
+      const updatedLevels = shouldApplyPrerequisites && level > 0 ? applyPrerequisiteLevels(node, previous, externalLevels) : { ...previous };
+      if (level > 0 || isFreeOrigin(stone)) {
+        updatedLevels[node.nodeIndex] = level;
+      } else {
+        delete updatedLevels[node.nodeIndex];
+      }
       return updatedLevels;
     });
   };
@@ -261,8 +310,16 @@ const ShineCalculator = ({ selectedClass }) => {
   const adjustCurrentLevel = (node, amount) => {
     const stone = stoneMap.get(node.stoneId);
     if (!stone) return;
-    const nextLevel = clampLevel((nodeLevels[node.nodeIndex] || 0) + amount, stone.maxLevel);
+    const nextLevel = clampLevel((nodeLevels[node.nodeIndex] || 0) + amount, stone.maxLevel, minLevelFor(stone));
     setNodeLevel(node, nextLevel, setNodeLevels, true);
+  };
+
+  const adjustGoalLevel = (node, amount) => {
+    const stone = stoneMap.get(node.stoneId);
+    if (!stone) return;
+    const base = goalLevels[node.nodeIndex] ?? nodeLevels[node.nodeIndex] ?? 0;
+    const nextLevel = clampLevel(base + amount, stone.maxLevel, minLevelFor(stone));
+    setNodeLevel(node, nextLevel, setGoalLevels, true, nodeLevels);
   };
 
   const handleBoardPointerDown = (event) => {
@@ -297,11 +354,18 @@ const ShineCalculator = ({ selectedClass }) => {
 
   const resetBuild = () => {
     localStorage.removeItem(`${STORAGE_PREFIX}_${selectedClass}`);
-    setNodeLevels({});
+    setNodeLevels(defaultNodeLevels);
     setGoalLevels({});
   };
 
   const allNodes = character.nodes;
+  const resolvedGoalLevels = allNodes.reduce((resolved, node) => {
+    const currentLevel = nodeLevels[node.nodeIndex] || 0;
+    const goalLevel = goalLevels[node.nodeIndex] || 0;
+    if (goalLevel <= currentLevel) return resolved;
+    return applyPrerequisiteLevels(node, { ...resolved, [node.nodeIndex]: goalLevel }, nodeLevels);
+  }, {});
+
   const spentTotal = allNodes.reduce((total, node) => {
     const stone = stoneMap.get(node.stoneId);
     if (!stone) return total;
@@ -312,7 +376,7 @@ const ShineCalculator = ({ selectedClass }) => {
     const stone = stoneMap.get(node.stoneId);
     if (!stone) return total;
     const currentLevel = nodeLevels[node.nodeIndex] || 0;
-    const goalLevel = Math.max(currentLevel, goalLevels[node.nodeIndex] || 0);
+    const goalLevel = Math.max(currentLevel, resolvedGoalLevels[node.nodeIndex] || goalLevels[node.nodeIndex] || 0);
     return addCost(total, calculateDeltaCost(stone, currentLevel, goalLevel));
   }, { solErda: 0, fragments: 0, meso: 0 });
 
@@ -343,11 +407,13 @@ const ShineCalculator = ({ selectedClass }) => {
 
   const selectedStone = selectedNode ? stoneMap.get(selectedNode.stoneId) : null;
   const selectedCurrentLevel = selectedNode ? nodeLevels[selectedNode.nodeIndex] || 0 : 0;
-  const selectedGoalLevel = selectedNode ? goalLevels[selectedNode.nodeIndex] || 0 : 0;
+  const selectedGoalLevel = selectedNode ? goalLevels[selectedNode.nodeIndex] ?? selectedCurrentLevel : 0;
+  const selectedResolvedGoalLevel = selectedNode ? Math.max(selectedCurrentLevel, resolvedGoalLevels[selectedNode.nodeIndex] || selectedGoalLevel) : 0;
   const selectedCurrentCost = selectedStone ? calculateCostToLevel(selectedStone, selectedCurrentLevel) : { solErda: 0, fragments: 0, meso: 0 };
-  const selectedGoalCost = selectedStone ? calculateDeltaCost(selectedStone, selectedCurrentLevel, Math.max(selectedCurrentLevel, selectedGoalLevel)) : { solErda: 0, fragments: 0, meso: 0 };
+  const selectedGoalCost = selectedStone ? calculateDeltaCost(selectedStone, selectedCurrentLevel, selectedResolvedGoalLevel) : { solErda: 0, fragments: 0, meso: 0 };
   const selectedStoneUsesMeso = selectedStone?.category === "SHINE";
   const selectedStoneHasGoalLevels = selectedStone?.maxLevel > 1;
+  const selectedStoneMinLevel = selectedStone ? minLevelFor(selectedStone) : 0;
 
   return (
     <div className="flex w-full max-w-[1800px] flex-col gap-6 px-2 py-4">
@@ -430,10 +496,17 @@ const ShineCalculator = ({ selectedClass }) => {
                     </button>
                     <input
                       type="number"
-                      min="0"
+                      min={selectedStoneMinLevel}
                       max={selectedStone.maxLevel}
-                      value={selectedCurrentLevel}
-                      onChange={(event) => setNodeLevel(selectedNode, event.target.value, setNodeLevels, true)}
+                      value={currentDraft ?? String(selectedCurrentLevel)}
+                      onChange={(event) => {
+                        setCurrentDraft(event.target.value);
+                        if (event.target.value !== "") setNodeLevel(selectedNode, event.target.value, setNodeLevels, true);
+                      }}
+                      onBlur={() => {
+                        if (currentDraft !== null) setNodeLevel(selectedNode, currentDraft, setNodeLevels, true);
+                        setCurrentDraft(null);
+                      }}
                       className="w-full rounded border border-primary-dim bg-primary-dark p-2 text-center text-primary-bright"
                     />
                     <button
@@ -448,14 +521,37 @@ const ShineCalculator = ({ selectedClass }) => {
                 {selectedStoneHasGoalLevels && (
                   <label className="text-sm text-primary">
                     Goal Level
-                    <input
-                      type="number"
-                      min="0"
-                      max={selectedStone.maxLevel}
-                      value={selectedGoalLevel}
-                      onChange={(event) => setNodeLevel(selectedNode, event.target.value, setGoalLevels)}
-                      className="mt-1 w-full rounded border border-primary-dim bg-primary-dark p-2 text-primary-bright"
-                    />
+                    <div className="mt-1 flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => adjustGoalLevel(selectedNode, -1)}
+                        className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        min={selectedStoneMinLevel}
+                        max={selectedStone.maxLevel}
+                        value={goalDraft ?? String(selectedGoalLevel)}
+                        onChange={(event) => {
+                          setGoalDraft(event.target.value);
+                          if (event.target.value !== "") setNodeLevel(selectedNode, event.target.value, setGoalLevels, true, nodeLevels);
+                        }}
+                        onBlur={() => {
+                          if (goalDraft !== null) setNodeLevel(selectedNode, goalDraft, setGoalLevels, true, nodeLevels);
+                          setGoalDraft(null);
+                        }}
+                        className="w-full rounded border border-primary-dim bg-primary-dark p-2 text-center text-primary-bright"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => adjustGoalLevel(selectedNode, 1)}
+                        className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                      >
+                        +
+                      </button>
+                    </div>
                   </label>
                 )}
               </div>
