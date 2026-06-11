@@ -25,6 +25,16 @@ export const eventSections = {
             { name: "Fashion Pass", slotRange: [39, 52] },
         ],
     },
+    "ErelLight_premiumTimeGift": {
+        name: "Erel Light Pass - Premium Login Rewards",
+    },
+    "2512ChallengersPass": {
+        name: "Challenger's Pass",
+        sections: [
+            { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
+            { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
+        ]
+    },
     "2512ChallengersPartner": {
         name: "Challenger's Partner",
         sections: [

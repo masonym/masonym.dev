@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node *)",
+      "Bash(npx eslint *)",
+      "Bash(npx next *)",
+      "Bash(npx --no-install tsc --noEmit --jsx preserve --allowJs --checkJs false --moduleResolution bundler --skipLibCheck src/app/hexa/components/ShineCalculator/ShineCalculator.jsx)"
+    ]
+  }
+}
