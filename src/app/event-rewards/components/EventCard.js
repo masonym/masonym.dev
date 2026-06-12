@@ -14,7 +14,7 @@ const EventCard = ({ eventId, name, details, eventData, isTouchDevice }) => {
     if (groups.length === 0) return null;
 
     return (
-        <section className="my-8 px-4">
+        <section id={`event-${eventId}`} className="my-8 scroll-mt-6 px-4">
             <header className="mb-3">
                 <h2 className="text-2xl font-bold text-primary-bright">{name}</h2>
                 {hasDetails && (

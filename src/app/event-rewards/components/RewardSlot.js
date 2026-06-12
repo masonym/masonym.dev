@@ -65,7 +65,7 @@ const RewardSlot = ({ slot, isOpen, onSlotClick, isTouchDevice }) => {
                 />
                 {count > 1 && (
                     <span className="absolute bottom-0 right-0 text-[10px] leading-none px-1 py-[1px] rounded bg-background-dim text-primary-bright border border-primary-dim/40 font-bold">
-                        x{count}
+                        x{count.toLocaleString()}
                     </span>
                 )}
             </div>
