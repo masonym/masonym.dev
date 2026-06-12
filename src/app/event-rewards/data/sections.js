@@ -87,6 +87,9 @@ export const eventSections = {
     },
     "2601burningExpress": {
         name: "Burning Express",
+        premiumCost: "30,000 NX",
+        startDate: "2026-07-08",
+        endDate: "2026-08-04",
         sections: [
             { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
             { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
