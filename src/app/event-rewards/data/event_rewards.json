@@ -3652,15 +3652,10 @@
                         "notSale": 1
                     }
                 }
-            }
-        ]
-    },
-    "ErelLight_premiumTimeGift": {
-        "source_img": "UIWindowGL.img",
-        "rewards": [
+            },
             {
                 "slot": "itemslot:0",
-                "parent_path": "itemslot",
+                "parent_path": "premiumTimeGift",
                 "itemID": 2832147,
                 "count": 1,
                 "item": {
@@ -3677,7 +3672,7 @@
             },
             {
                 "slot": "itemslot:1",
-                "parent_path": "itemslot",
+                "parent_path": "premiumTimeGift",
                 "itemID": 2832148,
                 "count": 1,
                 "item": {
@@ -3694,7 +3689,7 @@
             },
             {
                 "slot": "itemslot:2",
-                "parent_path": "itemslot",
+                "parent_path": "premiumTimeGift",
                 "itemID": 2832149,
                 "count": 1,
                 "item": {
@@ -3711,7 +3706,7 @@
             },
             {
                 "slot": "itemslot:3",
-                "parent_path": "itemslot",
+                "parent_path": "premiumTimeGift",
                 "itemID": 2832150,
                 "count": 1,
                 "item": {

@@ -26,10 +26,8 @@ export const eventSections = {
             { name: "Power of Fate", slotRange: [33, 35] },
             { name: "Power of Life", slotRange: [36, 38] },
             { name: "Fashion Pass", slotRange: [39, 52] },
+            { name: "Premium Login Rewards", parentPath: "premiumTimeGift" },
         ],
-    },
-    "ErelLight_premiumTimeGift": {
-        name: "Erel Light Pass - Premium Login Rewards",
     },
     "2512ChallengersPass": {
         name: "Challenger's Pass",
