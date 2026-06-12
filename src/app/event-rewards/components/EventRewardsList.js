@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import EventCard from "./EventCard";
-import { displayName, eventSections } from "../data/sections";
+import { displayName, eventDetails, eventSections } from "../data/sections";
 
 const EventRewardsList = ({ events }) => {
     const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -55,6 +55,7 @@ const EventRewardsList = ({ events }) => {
                         key={eventId}
                         eventId={eventId}
                         name={displayName(eventId)}
+                        details={eventDetails(eventId)}
                         eventData={events[eventId]}
                         isTouchDevice={isTouchDevice}
                     />

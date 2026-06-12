@@ -16,6 +16,9 @@
 export const eventSections = {
     ErelLight_Pass: {
         name: "Erel Light Pass",
+        premiumCost: "35,000 MP",
+        startDate: "2026-06-17",
+        endDate: "2026-09-08",
         sections: [
             { name: "Regular Rewards", slotRange: [0, 14] },
             { name: "Premium Rewards", slotRange: [15, 29] },
@@ -30,6 +33,9 @@ export const eventSections = {
     },
     "2512ChallengersPass": {
         name: "Challenger's Pass",
+        premiumCost: "19,800 MP",
+        startDate: "2026-06-17",
+        endDate: "2026-09-08",
         sections: [
             { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
             { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
@@ -45,7 +51,12 @@ export const eventSections = {
             { name: "Lotus (Hard)", parentPath: "combat/childWnd:5" },
         ],
     },
-    GenesisPass: { name: "Genesis Pass" },
+    GenesisPass: {
+        name: "Genesis Pass",
+        premiumCost: "30,000 NX",
+        startDate: "2026-06-17",
+        endDate: "2026-11-03",
+    },
     ChallengersMain: {
         name: "Challenger World",
         sections: [
@@ -56,6 +67,9 @@ export const eventSections = {
     "2512Kinetic": { name: "Kinesis Remaster" },
     "2512momentumPassS1": {
         name: "Momentum Pass S1",
+        premiumCost: "49,800 NX",
+        startDate: "?",
+        endDate: "2026-08-04",
         sections: [
             { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
             { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
@@ -63,6 +77,9 @@ export const eventSections = {
     },
     "2601momentumPassS2": {
         name: "Momentum Pass S2",
+        premiumCost: "49,800 NX",
+        startDate: "?",
+        endDate: "2026-09-08",
         sections: [
             { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
             { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
@@ -77,6 +94,9 @@ export const eventSections = {
     },
     "2602FrontierPassS2": {
         name: "Frontier Pass S2",
+        premiumCost: "49,800 MP",
+        startDate: "2026-06-17",
+        endDate: "2026-09-08",
         sections: [
             { name: "Regular Rewards", parentPath: "scrollBox:0/rewardSlot/general" },
             { name: "Premium Rewards", parentPath: "scrollBox:0/rewardSlot/special" },
@@ -147,3 +167,12 @@ export const groupRewards = (eventId, eventData) => {
 };
 
 export const displayName = (eventId) => eventSections[eventId]?.name || eventId;
+
+export const eventDetails = (eventId) => {
+    const cfg = eventSections[eventId] || {};
+    return {
+        premiumCost: cfg.premiumCost,
+        startDate: cfg.startDate,
+        endDate: cfg.endDate,
+    };
+};
