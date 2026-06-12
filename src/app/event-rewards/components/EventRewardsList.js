@@ -3,7 +3,38 @@
 import React, { useEffect, useMemo, useState } from "react";
 import EventCard from "./EventCard";
 import RewardSlot from "./RewardSlot";
-import { displayName, eventDetails, eventSections } from "../data/sections";
+import { displayName, eventDetails, eventSections, groupRewards } from "../data/sections";
+
+const sortedRewardSlots = (slots) => {
+    return slots.sort((a, b) => {
+        const aName = a.item?.name || "";
+        const bName = b.item?.name || "";
+        return aName.localeCompare(bName) || a.itemID - b.itemID;
+    });
+};
+
+const addRewardToBucket = (bucket, reward) => {
+    const existing = bucket.get(reward.itemID);
+    if (existing) {
+        existing.count += reward.count || 1;
+    } else {
+        bucket.set(reward.itemID, {
+            ...reward,
+            slot: `aggregated:${reward.itemID}`,
+            parent_path: "aggregated",
+            count: reward.count || 1,
+        });
+    }
+};
+
+const parsePremiumCost = (premiumCost) => {
+    const match = /^([\d,]+)\s*(MP|NX)$/i.exec(premiumCost || "");
+    if (!match) return null;
+    return {
+        amount: Number(match[1].replace(/,/g, "")),
+        currency: match[2].toUpperCase(),
+    };
+};
 
 const EventRewardsList = ({ events }) => {
     const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -47,28 +78,36 @@ const EventRewardsList = ({ events }) => {
     }, [ordered]);
 
     const aggregatedRewards = useMemo(() => {
-        const byItemId = new Map();
+        const regular = new Map();
+        const premium = new Map();
         for (const eventId of ordered) {
-            for (const reward of events[eventId]?.rewards ?? []) {
-                const existing = byItemId.get(reward.itemID);
-                if (existing) {
-                    existing.count += reward.count || 1;
-                } else {
-                    byItemId.set(reward.itemID, {
-                        ...reward,
-                        slot: `aggregated:${reward.itemID}`,
-                        parent_path: "aggregated",
-                        count: reward.count || 1,
-                    });
+            for (const group of groupRewards(eventId, events[eventId])) {
+                const bucket = group.name?.toLowerCase().includes("premium") ? premium : regular;
+                for (const reward of group.slots) {
+                    addRewardToBucket(bucket, reward);
                 }
             }
         }
-        return Array.from(byItemId.values()).sort((a, b) => {
-            const aName = a.item?.name || "";
-            const bName = b.item?.name || "";
-            return aName.localeCompare(bName) || a.itemID - b.itemID;
-        });
+        return {
+            regular: sortedRewardSlots(Array.from(regular.values())),
+            premium: sortedRewardSlots(Array.from(premium.values())),
+        };
     }, [events, ordered]);
+
+    const uniqueRewardCount = aggregatedRewards.regular.length + aggregatedRewards.premium.length;
+
+    const premiumCostTotals = useMemo(() => {
+        return eventSummaries.reduce((totals, summary) => {
+            const cost = parsePremiumCost(summary.details.premiumCost);
+            if (cost) totals[cost.currency] += cost.amount;
+            return totals;
+        }, { MP: 0, NX: 0 });
+    }, [eventSummaries]);
+
+    const premiumCostText = [
+        premiumCostTotals.MP > 0 ? `${premiumCostTotals.MP.toLocaleString()} MP` : null,
+        premiumCostTotals.NX > 0 ? `${premiumCostTotals.NX.toLocaleString()} NX` : null,
+    ].filter(Boolean).join(" + ");
 
     if (ordered.length === 0) {
         return (
@@ -98,8 +137,13 @@ const EventRewardsList = ({ events }) => {
                         <div>
                             <h2 className="text-xl font-bold text-primary-bright">Event Summary</h2>
                             <p className="mt-1 text-sm text-primary-dim">
-                                {ordered.length} events, {aggregatedRewards.length} unique reward items.
+                                {ordered.length} events, {uniqueRewardCount} unique reward items.
                             </p>
+                            {premiumCostText && (
+                                <p className="mt-1 text-sm text-primary-dim">
+                                    Total premium cost: <span className="text-primary">{premiumCostText}</span>
+                                </p>
+                            )}
                         </div>
                         <button
                             type="button"
@@ -141,23 +185,35 @@ const EventRewardsList = ({ events }) => {
                         <header className="mb-3">
                             <h2 className="text-2xl font-bold text-primary-bright">Total Rewards</h2>
                             <p className="mt-1 text-sm text-primary-dim">
-                                Combined totals across every listed event.
+                                Combined totals across every listed event, separated by regular and premium tracks.
                             </p>
                         </header>
-                        <ul className="flex flex-wrap items-start">
-                            {aggregatedRewards.map((slot) => {
-                                const key = `aggregated::${slot.itemID}`;
-                                return (
-                                    <RewardSlot
-                                        key={key}
-                                        slot={slot}
-                                        isOpen={openSlotKey === key}
-                                        onSlotClick={() => setOpenSlotKey(openSlotKey === key ? null : key)}
-                                        isTouchDevice={isTouchDevice}
-                                    />
-                                );
-                            })}
-                        </ul>
+                        <div className="space-y-6">
+                            {[
+                                ["Regular Rewards", aggregatedRewards.regular],
+                                ["Premium Rewards", aggregatedRewards.premium],
+                            ].map(([name, slots]) => (
+                                <div key={name}>
+                                    <h3 className="text-sm uppercase tracking-wide text-primary mb-2 border-b border-primary-dim/30 pb-1">
+                                        {name}
+                                    </h3>
+                                    <ul className="flex flex-wrap items-start">
+                                        {slots.map((slot) => {
+                                            const key = `aggregated::${name}::${slot.itemID}`;
+                                            return (
+                                                <RewardSlot
+                                                    key={key}
+                                                    slot={slot}
+                                                    isOpen={openSlotKey === key}
+                                                    onSlotClick={() => setOpenSlotKey(openSlotKey === key ? null : key)}
+                                                    isTouchDevice={isTouchDevice}
+                                                />
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
                     </section>
                 ) : (
                     ordered.map((eventId) => (
