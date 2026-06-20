@@ -2818,7 +2818,7 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/50/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18212/rush/34/icon"
     },
     {
       "id": 35,
@@ -2858,7 +2858,7 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/50/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18212/rush/34/icon"
     },
     {
       "id": 37,
@@ -2878,7 +2878,7 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/50/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18212/rush/34/icon"
     },
     {
       "id": 38,
@@ -2898,7 +2898,7 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/50/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18212/rush/34/icon"
     },
     {
       "id": 39,
@@ -2918,7 +2918,7 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/51/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/37/icon"
     },
     {
       "id": 40,
@@ -2958,7 +2958,7 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/50/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18212/rush/34/icon"
     },
     {
       "id": 42,
@@ -3158,7 +3158,7 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/51/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/37/icon"
     },
     {
       "id": 52,
@@ -3340,7 +3340,7 @@
       "name": "Sol Hecate",
       "desc": "Coalesce Sol Erda drawn to the Adversary's determination into a guardian spirit.",
       "maxLevel": 30,
-      "costType": "default",
+      "costType": "solJanus",
       "passives": [],
       "connectSkills": [
         500001005
@@ -4217,17 +4217,17 @@
       "id": 34,
       "treeId": 18112,
       "category": "rush",
-      "name": "Skill Cooldown",
-      "desc": "Decreases skill cooldown by 1%.",
+      "name": "Critical Rate",
+      "desc": "Increases Critical Rate by 1%.",
       "maxLevel": 1,
       "costType": "default",
       "passives": [
         {
           "0": {
-            "coolTimeR": 0
+            "cr": 0
           },
           "1": {
-            "coolTimeR": 1
+            "cr": 1
           }
         }
       ],
@@ -4257,17 +4257,17 @@
       "id": 36,
       "treeId": 18112,
       "category": "rush",
-      "name": "Skill Cooldown",
-      "desc": "Decreases skill cooldown by 1%.",
+      "name": "Critical Rate",
+      "desc": "Increases Critical Rate by 1%.",
       "maxLevel": 1,
       "costType": "default",
       "passives": [
         {
           "0": {
-            "coolTimeR": 0
+            "cr": 0
           },
           "1": {
-            "coolTimeR": 1
+            "cr": 1
           }
         }
       ],
@@ -4277,8 +4277,8 @@
       "id": 37,
       "treeId": 18112,
       "category": "rush",
-      "name": "Skill Cooldown",
-      "desc": "Decreases skill cooldown by 1%.",
+      "name": "Abnormal Status Damage Boost",
+      "desc": "Increases damage to targets with an Abnormal Status by 1%.",
       "maxLevel": 1,
       "costType": "default",
       "passives": [
@@ -4291,23 +4291,23 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/34/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/37/icon"
     },
     {
       "id": 38,
       "treeId": 18112,
       "category": "rush",
-      "name": "Skill Cooldown",
-      "desc": "Decreases skill cooldown by 1%.",
+      "name": "Critical Rate",
+      "desc": "Increases Critical Rate by 1%.",
       "maxLevel": 1,
       "costType": "default",
       "passives": [
         {
           "0": {
-            "coolTimeR": 0
+            "cr": 0
           },
           "1": {
-            "coolTimeR": 1
+            "cr": 1
           }
         }
       ],
@@ -4357,8 +4357,8 @@
       "id": 41,
       "treeId": 18112,
       "category": "rush",
-      "name": "Skill Cooldown",
-      "desc": "Decreases skill cooldown by 1%.",
+      "name": "Abnormal Status Damage Boost",
+      "desc": "Increases damage to targets with an Abnormal Status by 1%.",
       "maxLevel": 1,
       "costType": "default",
       "passives": [
@@ -4371,7 +4371,7 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/34/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/37/icon"
     },
     {
       "id": 42,
@@ -4397,21 +4397,21 @@
       "id": 43,
       "treeId": 18112,
       "category": "rush",
-      "name": "Buff Duration",
-      "desc": "Increases Buff Duration by 2%.",
+      "name": "Critical Rate",
+      "desc": "Increases Critical Rate by 2%.",
       "maxLevel": 1,
       "costType": "default",
       "passives": [
         {
           "0": {
-            "bufftimeR": 0
+            "cr": 0
           },
           "1": {
-            "bufftimeR": 2
+            "cr": 2
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/33/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/34/icon"
     },
     {
       "id": 44,
@@ -4537,21 +4537,21 @@
       "id": 50,
       "treeId": 18112,
       "category": "rush",
-      "name": "Summon Duration",
-      "desc": "Increases Summon Duration by 7%.",
+      "name": "Buff Duration",
+      "desc": "Increases Buff Duration by 4%.",
       "maxLevel": 1,
       "costType": "rushEnd",
       "passives": [
         {
           "0": {
-            "summonTimeR": 0
+            "bufftimeR": 0
           },
           "1": {
-            "summonTimeR": 7
+            "bufftimeR": 4
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/50/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/33/icon"
     },
     {
       "id": 51,
@@ -4571,7 +4571,7 @@
           }
         }
       ],
-      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/51/icon"
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/rush/37/icon"
     },
     {
       "id": 52,
@@ -4753,7 +4753,7 @@
       "name": "Sol Hecate",
       "desc": "Coalesce Sol Erda drawn to the Adversary's determination into a guardian spirit.",
       "maxLevel": 30,
-      "costType": "default",
+      "costType": "solJanus",
       "passives": [],
       "connectSkills": [
         500001005
