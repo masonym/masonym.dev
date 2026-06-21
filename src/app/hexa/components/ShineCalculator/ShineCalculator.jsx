@@ -20,11 +20,29 @@ const STAT_LABELS = {
   allR: "All Stats",
   intFX: "INT",
   lukFX: "LUK",
+  strFX: "STR",
+  dexFX: "DEX",
   madX: "Magic ATT",
+  padX: "ATT",
   damR: "Damage",
   bdR: "Boss Damage",
   incCrDam: "Critical Damage",
   ignoreMobpdpR: "Ignore DEF",
+};
+
+// Stats whose stored value is in 0.01% units (rate stats); everything else is flat.
+const isPercentStat = (key) => key.endsWith("R") || key === "incCrDam";
+const formatStatValue = (key, value) =>
+  isPercentStat(key)
+    ? `${(value / 100).toLocaleString(undefined, { maximumFractionDigits: 2 })}%`
+    : `+${value.toLocaleString()}`;
+
+const formatMeso = (value) => {
+  const n = Math.round(value);
+  if (n >= 1e12) return `${(n / 1e12).toLocaleString(undefined, { maximumFractionDigits: 2 })}T`;
+  if (n >= 1e9) return `${(n / 1e9).toLocaleString(undefined, { maximumFractionDigits: 2 })}B`;
+  if (n >= 1e6) return `${(n / 1e6).toLocaleString(undefined, { maximumFractionDigits: 1 })}M`;
+  return n.toLocaleString();
 };
 
 const formatCost = (cost = {}) => ({
@@ -117,30 +135,109 @@ const calculateDeltaCost = (stone, currentLevel, targetLevel) => {
   return total;
 };
 
-const CostPill = ({ label, value }) => (
+// ─── SHINE stone (RNG) cost model ─────────────────────────────────────────────
+// Enforcing a SHINE stone is random: each attempt can succeed, fail (no change),
+// or downgrade a level. We report the *expected* (average) material cost.
+
+const getShineAttemptCost = (level) => {
+  // Level 0 → 1 is the one-time activation (Sol Erda + fragments); every higher
+  // level is a meso + fragment enforcement attempt.
+  if (level === 0) return formatCost(erdaLinkData.costs.activation?.SHINE?.default);
+  return formatCost(erdaLinkData.costs.enforcement?.SHINE?.[level]?.default);
+};
+
+const getShineProb = (shineStone, level) =>
+  shineStone.enforceProbs?.[level] || { successRate: 100, failRate: 0, downgradeRate: 0 };
+
+// steps[L] = expected cost to advance from level L to L+1 for the first time.
+// A failed attempt repeats level L; a downgrade drops to L-1, forcing a re-climb:
+//   C_L = (attemptCost_L + downgradeRate · C_{L-1}) / successRate
+const calcShineStepCosts = (shineStone) => {
+  const steps = [];
+  for (let level = 0; level < shineStone.maxLevel; level += 1) {
+    const attempt = getShineAttemptCost(level);
+    const { successRate, downgradeRate } = getShineProb(shineStone, level);
+    const success = successRate / 100;
+    const downgrade = downgradeRate / 100;
+    const prev = level > 0 ? steps[level - 1] : { solErda: 0, fragments: 0, meso: 0 };
+    steps[level] = success > 0
+      ? {
+          solErda: (attempt.solErda + downgrade * prev.solErda) / success,
+          fragments: (attempt.fragments + downgrade * prev.fragments) / success,
+          meso: (attempt.meso + downgrade * prev.meso) / success,
+        }
+      : { solErda: 0, fragments: 0, meso: 0 };
+  }
+  return steps;
+};
+
+const sumShineCost = (steps, fromLevel, toLevel) => {
+  let total = { solErda: 0, fragments: 0, meso: 0 };
+  for (let level = fromLevel; level < toLevel; level += 1) {
+    if (steps[level]) total = addCost(total, steps[level]);
+  }
+  return total;
+};
+
+// SHINE stones carry no name in the WZ data, so label them by the stats they grant.
+const getShineStoneTitle = (shineStone) =>
+  shineStone.passives
+    .map((group) => {
+      const key = Object.keys(group?.[1] || group?.[shineStone.maxLevel] || {})[0];
+      return STAT_LABELS[key] || key || "Stat";
+    })
+    .join(" / ");
+
+const formatShineConditions = (conditions = []) =>
+  conditions
+    .map((cond) => {
+      switch (cond.type) {
+        case "stone":
+          return `${cond.count}× ${cond.stoneType} stone${cond.count > 1 ? "s" : ""}`;
+        case "stonelevel":
+          return `${cond.stoneType} stone Lv ${cond.lv}`;
+        case "skill":
+          return `Skill ${cond.skillId ?? ""} Lv ${cond.lv}`.trim();
+        case "level":
+          return `Character Lv ${cond.level}`;
+        case "endstone":
+          return `${cond.count}× end stone`;
+        case "all":
+          return "All stones activated";
+        default:
+          return cond.type;
+      }
+    })
+    .join(", ");
+
+const CostPill = ({ label, value, formatValue }) => (
   <div className="rounded-lg border border-primary-dim bg-primary-dark px-3 py-2 text-center min-w-[110px]">
     <div className="flex h-8 items-center justify-center">
       {label === "Sol Erda" && <img src={solErda.src} alt="Sol Erda" className="h-8 w-8" />}
       {label === "Fragments" && <img src={solErdaFragment.src} alt="Sol Erda Fragment" className="h-8 w-8" />}
       {label !== "Sol Erda" && label !== "Fragments" && <span className="text-xs uppercase tracking-wide text-primary-dim">{label}</span>}
     </div>
-    <div className="text-lg font-semibold text-primary-bright">{value.toLocaleString()}</div>
+    <div className="text-lg font-semibold text-primary-bright">
+      {formatValue ? formatValue(value) : Math.round(value).toLocaleString()}
+    </div>
   </div>
 );
 
 // Compact inline cost readout (icons + values on a single row).
 const CostInline = ({ cost, usesMeso }) => (
   <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-    <span className="flex items-center gap-1 text-sm font-semibold text-primary-bright">
-      <img src={solErda.src} alt="Sol Erda" className="h-5 w-5" />
-      {cost.solErda.toLocaleString()}
-    </span>
+    {cost.solErda > 0 && (
+      <span className="flex items-center gap-1 text-sm font-semibold text-primary-bright">
+        <img src={solErda.src} alt="Sol Erda" className="h-5 w-5" />
+        {Math.round(cost.solErda).toLocaleString()}
+      </span>
+    )}
     <span className="flex items-center gap-1 text-sm font-semibold text-primary-bright">
       <img src={solErdaFragment.src} alt="Fragments" className="h-5 w-5" />
-      {cost.fragments.toLocaleString()}
+      {Math.round(cost.fragments).toLocaleString()}
     </span>
     {usesMeso && (
-      <span className="text-sm font-semibold text-primary-bright">{cost.meso.toLocaleString()} meso</span>
+      <span className="text-sm font-semibold text-primary-bright">{Math.round(cost.meso).toLocaleString()} meso</span>
     )}
   </div>
 );
@@ -198,6 +295,86 @@ const CostTableTooltip = ({ stone, usesMeso }) => {
   );
 };
 
+// Hoverable chip revealing the full per-level success / fail / downgrade rates.
+const ShineProbTableTooltip = ({ shineStone }) => (
+  <div className="group relative">
+    <span className="flex cursor-help items-center gap-1 rounded border border-primary-dim px-2 py-1 text-xs text-primary-dim transition group-hover:border-secondary group-hover:text-secondary">
+      Rates
+      <span className="flex h-4 w-4 items-center justify-center rounded-full border border-current text-[10px] font-semibold">i</span>
+    </span>
+    <div className="invisible absolute right-0 top-full z-30 mt-1 w-64 rounded-lg border border-primary-dim bg-primary-dark p-3 opacity-0 shadow-xl transition group-hover:visible group-hover:opacity-100">
+      <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-primary-dim">Enforcement rates</div>
+      <table className="w-full text-xs text-primary">
+        <thead>
+          <tr className="text-primary-dim">
+            <th className="pb-1 text-left font-medium">Lv</th>
+            <th className="pb-1 text-right font-medium">Success</th>
+            <th className="pb-1 text-right font-medium">Fail</th>
+            <th className="pb-1 text-right font-medium">Down</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: shineStone.maxLevel }, (_, level) => {
+            const prob = getShineProb(shineStone, level);
+            return (
+              <tr key={level} className="border-t border-primary-dim/40">
+                <td className="py-1 text-left text-primary-bright">{level} → {level + 1}</td>
+                <td className="py-1 text-right text-green-400">{prob.successRate}%</td>
+                <td className="py-1 text-right">{prob.failRate}%</td>
+                <td className="py-1 text-right text-red-400">{prob.downgradeRate}%</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
+// Hoverable chip revealing the expected (average) cost to clear each level.
+const ShineCostTableTooltip = ({ shineStone, steps }) => {
+  const total = sumShineCost(steps, 0, shineStone.maxLevel);
+  return (
+    <div className="group relative">
+      <span className="flex cursor-help items-center gap-1 rounded border border-primary-dim px-2 py-1 text-xs text-primary-dim transition group-hover:border-secondary group-hover:text-secondary">
+        Avg cost
+        <span className="flex h-4 w-4 items-center justify-center rounded-full border border-current text-[10px] font-semibold">i</span>
+      </span>
+      <div className="invisible absolute right-0 top-full z-30 mt-1 w-64 rounded-lg border border-primary-dim bg-primary-dark p-3 opacity-0 shadow-xl transition group-hover:visible group-hover:opacity-100">
+        <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-primary-dim">Expected cost per level</div>
+        <table className="w-full text-xs text-primary">
+          <thead>
+            <tr className="text-primary-dim">
+              <th className="pb-1 text-left font-medium">Lv</th>
+              <th className="pb-1 text-right font-medium">
+                <img src={solErdaFragment.src} alt="Fragments" className="ml-auto h-4 w-4" />
+              </th>
+              <th className="pb-1 text-right font-medium">Meso</th>
+            </tr>
+          </thead>
+          <tbody>
+            {steps.map((step, level) => (
+              <tr key={level} className="border-t border-primary-dim/40">
+                <td className="py-1 text-left text-primary-bright">{level} → {level + 1}</td>
+                <td className="py-1 text-right">{Math.round(step.fragments).toLocaleString()}</td>
+                <td className="py-1 text-right">{formatMeso(step.meso)}</td>
+              </tr>
+            ))}
+            <tr className="border-t border-primary-dim font-semibold text-primary-bright">
+              <td className="py-1 text-left">Total</td>
+              <td className="py-1 text-right">{Math.round(total.fragments).toLocaleString()}</td>
+              <td className="py-1 text-right">{formatMeso(total.meso)}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="mt-2 text-[10px] text-primary-dim">
+          Plus {total.solErda.toLocaleString()} Sol Erda to activate.
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ShineCalculator = ({ selectedClass }) => {
   const [isClient, setIsClient] = useState(false);
   const [selectedNodeIndex, setSelectedNodeIndex] = useState(null);
@@ -217,7 +394,12 @@ const ShineCalculator = ({ selectedClass }) => {
     () => new Map(erdaLinkData.stones.filter((s) => s.treeId === character?.treeId).map((s) => [s.id, s])),
     [character],
   );
-  const shineStoneMap = useMemo(() => new Map(erdaLinkData.shineStones.map((stone) => [stone.id, stone])), []);
+  // SHINE stone ids repeat across characters with different stats, so scope the
+  // lookup to this character's treeId.
+  const shineStoneMap = useMemo(
+    () => new Map(erdaLinkData.shineStones.filter((stone) => stone.treeId === character?.treeId).map((stone) => [stone.id, stone])),
+    [character],
+  );
 
   const regularNodes = useMemo(() => character?.nodes.filter((node) => node.sector !== "SHINE" && node.position) || [], [character]);
   const shineNodes = useMemo(() => character?.nodes.filter((node) => node.sector === "SHINE") || [], [character]);
@@ -392,6 +574,29 @@ const ShineCalculator = ({ selectedClass }) => {
     setNodeLevel(node, nextLevel, setGoalLevels, true, nodeLevels);
   };
 
+  // SHINE stones have no positional prerequisites in the tree data (their unlock
+  // conditions reference other systems), so leveling them is a plain clamp+set.
+  const setShineLevel = (node, value, setter) => {
+    const shineStone = shineStoneMap.get(node.stoneId);
+    if (!shineStone) return;
+    const level = clampLevel(value, shineStone.maxLevel, 0);
+    setter((previous) => {
+      const updated = { ...previous };
+      if (level > 0) updated[node.nodeIndex] = level;
+      else delete updated[node.nodeIndex];
+      return updated;
+    });
+  };
+
+  const adjustShineCurrentLevel = (node, amount) => {
+    setShineLevel(node, (nodeLevels[node.nodeIndex] || 0) + amount, setNodeLevels);
+  };
+
+  const adjustShineGoalLevel = (node, amount) => {
+    const base = goalLevels[node.nodeIndex] ?? nodeLevels[node.nodeIndex] ?? 0;
+    setShineLevel(node, base + amount, setGoalLevels);
+  };
+
   const handleBoardPointerDown = (event) => {
     if (event.target.closest("button")) return;
     const viewport = boardViewportRef.current;
@@ -437,16 +642,27 @@ const ShineCalculator = ({ selectedClass }) => {
   }, {});
 
   const spentTotal = allNodes.reduce((total, node) => {
+    const currentLevel = nodeLevels[node.nodeIndex] || 0;
+    if (node.sector === "SHINE") {
+      const shineStone = shineStoneMap.get(node.stoneId);
+      if (!shineStone) return total;
+      return addCost(total, sumShineCost(calcShineStepCosts(shineStone), 0, currentLevel));
+    }
     const stone = stoneMap.get(node.stoneId);
     if (!stone) return total;
-    return addCost(total, calculateCostToLevel(stone, nodeLevels[node.nodeIndex] || 0));
+    return addCost(total, calculateCostToLevel(stone, currentLevel));
   }, { solErda: 0, fragments: 0, meso: 0 });
 
   const remainingTotal = allNodes.reduce((total, node) => {
-    const stone = stoneMap.get(node.stoneId);
-    if (!stone) return total;
     const currentLevel = nodeLevels[node.nodeIndex] || 0;
     const goalLevel = Math.max(currentLevel, resolvedGoalLevels[node.nodeIndex] || goalLevels[node.nodeIndex] || 0);
+    if (node.sector === "SHINE") {
+      const shineStone = shineStoneMap.get(node.stoneId);
+      if (!shineStone) return total;
+      return addCost(total, sumShineCost(calcShineStepCosts(shineStone), currentLevel, goalLevel));
+    }
+    const stone = stoneMap.get(node.stoneId);
+    if (!stone) return total;
     return addCost(total, calculateDeltaCost(stone, currentLevel, goalLevel));
   }, { solErda: 0, fragments: 0, meso: 0 });
 
@@ -486,6 +702,15 @@ const ShineCalculator = ({ selectedClass }) => {
   const selectedAtMaxLevel = selectedStone ? selectedCurrentLevel >= selectedStone.maxLevel : false;
   const selectedNextLevelCost = selectedStone && !selectedAtMaxLevel ? getTransitionCost(selectedStone, selectedCurrentLevel) : null;
 
+  // SHINE stone detail (RNG / expected-cost variant of the panel above).
+  const selectedShineStone = selectedNode?.sector === "SHINE" ? shineStoneMap.get(selectedNode.stoneId) : null;
+  const shineSteps = selectedShineStone ? calcShineStepCosts(selectedShineStone) : null;
+  const shineSpentCost = selectedShineStone ? sumShineCost(shineSteps, 0, selectedCurrentLevel) : null;
+  const shineGoalCost = selectedShineStone ? sumShineCost(shineSteps, selectedCurrentLevel, selectedResolvedGoalLevel) : null;
+  const shineCurrentStats = selectedShineStone ? getStatsAtLevel(selectedShineStone, selectedCurrentLevel) : {};
+  const shineAtMaxLevel = selectedShineStone ? selectedCurrentLevel >= selectedShineStone.maxLevel : false;
+  const shineNextLevelCost = selectedShineStone && !shineAtMaxLevel ? shineSteps[selectedCurrentLevel] : null;
+
   return (
     <div className="flex w-full max-w-[1800px] flex-col gap-6 px-2 py-4">
       <div className="flex flex-col items-center gap-3 text-center">
@@ -513,7 +738,7 @@ const ShineCalculator = ({ selectedClass }) => {
           <div className="flex flex-wrap justify-center gap-3">
             <CostPill label="Sol Erda" value={spentTotal.solErda} />
             <CostPill label="Fragments" value={spentTotal.fragments} />
-            {/* <CostPill label="Meso" value={spentTotal.meso} /> */}
+            {spentTotal.meso > 0 && <CostPill label="Meso" value={spentTotal.meso} formatValue={formatMeso} />}
           </div>
         </div>
         <div className="rounded-xl border border-primary-dim bg-background p-4">
@@ -521,7 +746,7 @@ const ShineCalculator = ({ selectedClass }) => {
           <div className="flex flex-wrap justify-center gap-3">
             <CostPill label="Sol Erda" value={remainingTotal.solErda} />
             <CostPill label="Fragments" value={remainingTotal.fragments} />
-            {/* <CostPill label="Meso" value={remainingTotal.meso} /> */}
+            {remainingTotal.meso > 0 && <CostPill label="Meso" value={remainingTotal.meso} formatValue={formatMeso} />}
           </div>
         </div>
       </div>
@@ -660,34 +885,176 @@ const ShineCalculator = ({ selectedClass }) => {
             </div>
           )}
 
+          {selectedShineStone && selectedNode && (
+            <div className="rounded-xl border border-primary-dim bg-background p-4">
+              <div className="mb-3 flex items-center gap-3">
+                <img src={getStoneLabelPath({ category: "SHINE" })} alt="Shine" className="h-5 w-auto" />
+                <h3 className="text-lg font-semibold text-primary-bright">{getShineStoneTitle(selectedShineStone)}</h3>
+              </div>
+              {selectedShineStone.conditions.length > 0 && (
+                <p className="mb-2 text-xs text-primary-dim">Unlock: {formatShineConditions(selectedShineStone.conditions)}</p>
+              )}
+              <p className="mb-4 text-xs text-primary-dim">
+                Enforcement is RNG — costs shown are the <span className="text-primary">expected (average)</span> materials.
+              </p>
+
+              <div className="mb-4 grid gap-1 rounded-lg border border-primary-dim bg-primary-dark/40 p-3">
+                {selectedShineStone.passives.map((group, index) => {
+                  const key = Object.keys(group?.[1] || {})[0];
+                  return (
+                    <div key={index} className="flex items-center justify-between text-sm">
+                      <span className="text-primary">{STAT_LABELS[key] || key}</span>
+                      <span className="font-semibold text-primary-bright">{formatStatValue(key, shineCurrentStats[key] || 0)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <label className="text-sm text-primary">
+                  Current Level
+                  <div className="mt-1 flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => adjustShineCurrentLevel(selectedNode, -1)}
+                      className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      min={0}
+                      max={selectedShineStone.maxLevel}
+                      value={currentDraft ?? String(selectedCurrentLevel)}
+                      onChange={(event) => {
+                        setCurrentDraft(event.target.value);
+                        if (event.target.value !== "") setShineLevel(selectedNode, event.target.value, setNodeLevels);
+                      }}
+                      onBlur={() => {
+                        if (currentDraft !== null) setShineLevel(selectedNode, currentDraft, setNodeLevels);
+                        setCurrentDraft(null);
+                      }}
+                      className="w-full rounded border border-primary-dim bg-primary-dark p-2 text-center text-primary-bright"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => adjustShineCurrentLevel(selectedNode, 1)}
+                      className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                    >
+                      +
+                    </button>
+                  </div>
+                </label>
+                <label className="text-sm text-primary">
+                  Goal Level
+                  <div className="mt-1 flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => adjustShineGoalLevel(selectedNode, -1)}
+                      className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      min={0}
+                      max={selectedShineStone.maxLevel}
+                      value={goalDraft ?? String(selectedGoalLevel)}
+                      onChange={(event) => {
+                        setGoalDraft(event.target.value);
+                        if (event.target.value !== "") setShineLevel(selectedNode, event.target.value, setGoalLevels);
+                      }}
+                      onBlur={() => {
+                        if (goalDraft !== null) setShineLevel(selectedNode, goalDraft, setGoalLevels);
+                        setGoalDraft(null);
+                      }}
+                      className="w-full rounded border border-primary-dim bg-primary-dark p-2 text-center text-primary-bright"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => adjustShineGoalLevel(selectedNode, 1)}
+                      className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                    >
+                      +
+                    </button>
+                  </div>
+                </label>
+              </div>
+
+              <div className="mt-4 rounded-lg border border-primary-dim bg-primary-dark/40 px-3 py-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-sm font-semibold text-primary-bright">
+                    {shineAtMaxLevel
+                      ? "Max level reached"
+                      : `Next level (Lv ${selectedCurrentLevel} → ${selectedCurrentLevel + 1})`}
+                  </span>
+                  <div className="flex gap-2">
+                    <ShineProbTableTooltip shineStone={selectedShineStone} />
+                    <ShineCostTableTooltip shineStone={selectedShineStone} steps={shineSteps} />
+                  </div>
+                </div>
+                {shineNextLevelCost && (
+                  <div className="mt-2 flex items-center gap-3">
+                    <CostInline cost={shineNextLevelCost} usesMeso />
+                    <span className="text-xs text-primary-dim">
+                      @ {getShineProb(selectedShineStone, selectedCurrentLevel).successRate}% success
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-4 grid gap-3">
+                <div>
+                  <h4 className="mb-2 text-sm font-semibold text-primary-bright">Expected spent</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <CostPill label="Sol Erda" value={shineSpentCost.solErda} />
+                    <CostPill label="Fragments" value={shineSpentCost.fragments} />
+                    <CostPill label="Meso" value={shineSpentCost.meso} formatValue={formatMeso} />
+                  </div>
+                </div>
+                <div>
+                  <h4 className="mb-2 text-sm font-semibold text-primary-bright">Expected remaining for goal</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <CostPill label="Sol Erda" value={shineGoalCost.solErda} />
+                    <CostPill label="Fragments" value={shineGoalCost.fragments} />
+                    <CostPill label="Meso" value={shineGoalCost.meso} formatValue={formatMeso} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="rounded-xl border border-primary-dim bg-background p-4">
             <h3 className="mb-3 text-lg font-semibold text-primary-bright">SHINE Stones</h3>
             <div className="grid gap-3">
-              <p className="text-sm text-primary">Not yet developed :) Check back later.</p>
               {shineNodes.map((node) => {
-                const stone = stoneMap.get(node.stoneId);
                 const shineStone = shineStoneMap.get(node.stoneId);
-                if (!stone) return null;
                 const level = nodeLevels[node.nodeIndex] || 0;
-                const probability = shineStone?.enforceProbs?.[level];
+                const selected = selectedNode?.nodeIndex === node.nodeIndex;
+                if (!shineStone) {
+                  return (
+                    <div
+                      key={node.nodeIndex}
+                      className="rounded-lg border border-primary-dim bg-primary-dark/30 p-3 text-sm text-primary-dim"
+                    >
+                      Not yet available — check back later.
+                    </div>
+                  );
+                }
+                const nextProb = shineStone.enforceProbs?.[level];
                 return (
                   <button
                     key={node.nodeIndex}
                     type="button"
                     onClick={() => setSelectedNodeIndex(node.nodeIndex)}
-                    className={`rounded-lg border p-3 text-left transition ${selectedNode?.nodeIndex === node.nodeIndex ? "border-secondary bg-primary-dark" : "border-primary-dim bg-primary-dark/60 hover:bg-primary-dark"}`}
+                    className={`rounded-lg border p-3 text-left transition ${selected ? "border-secondary bg-primary-dark" : level > 0 ? "border-green-400/60 bg-primary-dark/60 hover:bg-primary-dark" : "border-primary-dim bg-primary-dark/60 hover:bg-primary-dark"}`}
                   >
-                    <div className="flex items-center gap-3">
-                      <img src={getStoneIconPath(stone, character.treeId, level === 0)} alt={stone.name} className="h-10 w-10" />
-                      <div className="min-w-0 flex-1">
-                        <div className="font-semibold text-primary-bright">{stone.name}</div>
-                        <div className="text-xs text-primary">Level {level}/{stone.maxLevel}</div>
-                      </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-semibold text-primary-bright">{getShineStoneTitle(shineStone)}</span>
+                      <span className="text-xs text-primary">{level}/{shineStone.maxLevel}</span>
                     </div>
-                    {probability && (
-                      <div className="mt-2 text-xs text-primary-dim">
-                        Next: {probability.successRate}% success, {probability.failRate}% fail, {probability.downgradeRate}% downgrade
-                      </div>
+                    {level < shineStone.maxLevel && nextProb && (
+                      <div className="mt-1 text-xs text-primary-dim">Next: {nextProb.successRate}% success</div>
                     )}
                   </button>
                 );

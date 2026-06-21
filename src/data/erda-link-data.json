@@ -5954,5 +5954,1998 @@
       }
     }
   },
-  "shineStones": []
+  "shineStones": [
+    {
+      "id": 1000,
+      "treeId": 18112,
+      "order": 0,
+      "maxLevel": 20,
+      "desc": "You must meet the conditions to make the Runestone shine.",
+      "conditions": [
+        {
+          "type": "stone",
+          "stoneType": "ultimate",
+          "count": 1
+        }
+      ],
+      "enforceProbs": [
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 90,
+          "failRate": 10,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 85,
+          "failRate": 15,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 80,
+          "failRate": 20,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 70,
+          "failRate": 30,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 65,
+          "failRate": 35,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 55,
+          "failRate": 45,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 30,
+          "failRate": 67.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 25,
+          "failRate": 72.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 15,
+          "failRate": 78.2,
+          "downgradeRate": 6.8
+        },
+        {
+          "successRate": 13,
+          "failRate": 74.5,
+          "downgradeRate": 12.5
+        },
+        {
+          "successRate": 10,
+          "failRate": 72,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 9,
+          "failRate": 73,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 8,
+          "failRate": 73.8,
+          "downgradeRate": 18.2
+        },
+        {
+          "successRate": 7,
+          "failRate": 74.4,
+          "downgradeRate": 18.6
+        },
+        {
+          "successRate": 5,
+          "failRate": 76,
+          "downgradeRate": 19
+        },
+        {
+          "successRate": 1,
+          "failRate": 79,
+          "downgradeRate": 20
+        }
+      ],
+      "passives": [
+        {
+          "0": {
+            "bdR": 0
+          },
+          "1": {
+            "bdR": 50
+          },
+          "2": {
+            "bdR": 100
+          },
+          "3": {
+            "bdR": 150
+          },
+          "4": {
+            "bdR": 200
+          },
+          "5": {
+            "bdR": 400
+          },
+          "6": {
+            "bdR": 500
+          },
+          "7": {
+            "bdR": 550
+          },
+          "8": {
+            "bdR": 650
+          },
+          "9": {
+            "bdR": 800
+          },
+          "10": {
+            "bdR": 1000
+          },
+          "11": {
+            "bdR": 1100
+          },
+          "12": {
+            "bdR": 1200
+          },
+          "13": {
+            "bdR": 1500
+          },
+          "14": {
+            "bdR": 1700
+          },
+          "15": {
+            "bdR": 2000
+          },
+          "16": {
+            "bdR": 2500
+          },
+          "17": {
+            "bdR": 3000
+          },
+          "18": {
+            "bdR": 3500
+          },
+          "19": {
+            "bdR": 4000
+          },
+          "20": {
+            "bdR": 5000
+          }
+        },
+        {
+          "0": {
+            "strFX": 0
+          },
+          "1": {
+            "strFX": 50
+          },
+          "2": {
+            "strFX": 60
+          },
+          "3": {
+            "strFX": 70
+          },
+          "4": {
+            "strFX": 90
+          },
+          "5": {
+            "strFX": 110
+          },
+          "6": {
+            "strFX": 150
+          },
+          "7": {
+            "strFX": 200
+          },
+          "8": {
+            "strFX": 300
+          },
+          "9": {
+            "strFX": 400
+          },
+          "10": {
+            "strFX": 500
+          },
+          "11": {
+            "strFX": 600
+          },
+          "12": {
+            "strFX": 700
+          },
+          "13": {
+            "strFX": 900
+          },
+          "14": {
+            "strFX": 1000
+          },
+          "15": {
+            "strFX": 1200
+          },
+          "16": {
+            "strFX": 1300
+          },
+          "17": {
+            "strFX": 1500
+          },
+          "18": {
+            "strFX": 1800
+          },
+          "19": {
+            "strFX": 2000
+          },
+          "20": {
+            "strFX": 2500
+          }
+        }
+      ]
+    },
+    {
+      "id": 1001,
+      "treeId": 18112,
+      "order": 1,
+      "maxLevel": 20,
+      "desc": "You must meet the conditions to make the Runestone shine.",
+      "conditions": [
+        {
+          "type": "stone",
+          "stoneType": "skill",
+          "count": 2
+        }
+      ],
+      "enforceProbs": [
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 90,
+          "failRate": 10,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 85,
+          "failRate": 15,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 80,
+          "failRate": 20,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 70,
+          "failRate": 30,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 65,
+          "failRate": 35,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 55,
+          "failRate": 45,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 30,
+          "failRate": 67.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 25,
+          "failRate": 72.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 15,
+          "failRate": 78.2,
+          "downgradeRate": 6.8
+        },
+        {
+          "successRate": 13,
+          "failRate": 74.5,
+          "downgradeRate": 12.5
+        },
+        {
+          "successRate": 10,
+          "failRate": 72,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 9,
+          "failRate": 73,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 8,
+          "failRate": 73.8,
+          "downgradeRate": 18.2
+        },
+        {
+          "successRate": 7,
+          "failRate": 74.4,
+          "downgradeRate": 18.6
+        },
+        {
+          "successRate": 5,
+          "failRate": 76,
+          "downgradeRate": 19
+        },
+        {
+          "successRate": 1,
+          "failRate": 79,
+          "downgradeRate": 20
+        }
+      ],
+      "passives": [
+        {
+          "0": {
+            "ignoreMobpdpR": 0
+          },
+          "1": {
+            "ignoreMobpdpR": 50
+          },
+          "2": {
+            "ignoreMobpdpR": 100
+          },
+          "3": {
+            "ignoreMobpdpR": 150
+          },
+          "4": {
+            "ignoreMobpdpR": 200
+          },
+          "5": {
+            "ignoreMobpdpR": 400
+          },
+          "6": {
+            "ignoreMobpdpR": 500
+          },
+          "7": {
+            "ignoreMobpdpR": 550
+          },
+          "8": {
+            "ignoreMobpdpR": 650
+          },
+          "9": {
+            "ignoreMobpdpR": 800
+          },
+          "10": {
+            "ignoreMobpdpR": 1000
+          },
+          "11": {
+            "ignoreMobpdpR": 1100
+          },
+          "12": {
+            "ignoreMobpdpR": 1200
+          },
+          "13": {
+            "ignoreMobpdpR": 1500
+          },
+          "14": {
+            "ignoreMobpdpR": 1700
+          },
+          "15": {
+            "ignoreMobpdpR": 2000
+          },
+          "16": {
+            "ignoreMobpdpR": 2300
+          },
+          "17": {
+            "ignoreMobpdpR": 2500
+          },
+          "18": {
+            "ignoreMobpdpR": 3000
+          },
+          "19": {
+            "ignoreMobpdpR": 3300
+          },
+          "20": {
+            "ignoreMobpdpR": 4000
+          }
+        },
+        {
+          "0": {
+            "padX": 0
+          },
+          "1": {
+            "padX": 10
+          },
+          "2": {
+            "padX": 15
+          },
+          "3": {
+            "padX": 20
+          },
+          "4": {
+            "padX": 25
+          },
+          "5": {
+            "padX": 30
+          },
+          "6": {
+            "padX": 35
+          },
+          "7": {
+            "padX": 40
+          },
+          "8": {
+            "padX": 45
+          },
+          "9": {
+            "padX": 50
+          },
+          "10": {
+            "padX": 55
+          },
+          "11": {
+            "padX": 60
+          },
+          "12": {
+            "padX": 70
+          },
+          "13": {
+            "padX": 80
+          },
+          "14": {
+            "padX": 100
+          },
+          "15": {
+            "padX": 120
+          },
+          "16": {
+            "padX": 140
+          },
+          "17": {
+            "padX": 160
+          },
+          "18": {
+            "padX": 190
+          },
+          "19": {
+            "padX": 210
+          },
+          "20": {
+            "padX": 250
+          }
+        }
+      ]
+    },
+    {
+      "id": 1002,
+      "treeId": 18112,
+      "order": 2,
+      "maxLevel": 20,
+      "desc": "You must meet the conditions to make the Runestone shine.",
+      "conditions": [
+        {
+          "type": "level",
+          "level": 270
+        },
+        {
+          "type": "stone",
+          "stoneType": "boost",
+          "count": 2
+        }
+      ],
+      "enforceProbs": [
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 90,
+          "failRate": 10,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 85,
+          "failRate": 15,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 80,
+          "failRate": 20,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 70,
+          "failRate": 30,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 65,
+          "failRate": 35,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 55,
+          "failRate": 45,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 30,
+          "failRate": 67.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 25,
+          "failRate": 72.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 15,
+          "failRate": 78.2,
+          "downgradeRate": 6.8
+        },
+        {
+          "successRate": 13,
+          "failRate": 74.5,
+          "downgradeRate": 12.5
+        },
+        {
+          "successRate": 10,
+          "failRate": 72,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 9,
+          "failRate": 73,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 8,
+          "failRate": 73.8,
+          "downgradeRate": 18.2
+        },
+        {
+          "successRate": 7,
+          "failRate": 74.4,
+          "downgradeRate": 18.6
+        },
+        {
+          "successRate": 5,
+          "failRate": 76,
+          "downgradeRate": 19
+        },
+        {
+          "successRate": 1,
+          "failRate": 79,
+          "downgradeRate": 20
+        }
+      ],
+      "passives": [
+        {
+          "0": {
+            "damR": 0
+          },
+          "1": {
+            "damR": 25
+          },
+          "2": {
+            "damR": 50
+          },
+          "3": {
+            "damR": 75
+          },
+          "4": {
+            "damR": 150
+          },
+          "5": {
+            "damR": 200
+          },
+          "6": {
+            "damR": 250
+          },
+          "7": {
+            "damR": 300
+          },
+          "8": {
+            "damR": 350
+          },
+          "9": {
+            "damR": 400
+          },
+          "10": {
+            "damR": 450
+          },
+          "11": {
+            "damR": 500
+          },
+          "12": {
+            "damR": 550
+          },
+          "13": {
+            "damR": 600
+          },
+          "14": {
+            "damR": 650
+          },
+          "15": {
+            "damR": 900
+          },
+          "16": {
+            "damR": 1050
+          },
+          "17": {
+            "damR": 1200
+          },
+          "18": {
+            "damR": 1400
+          },
+          "19": {
+            "damR": 1600
+          },
+          "20": {
+            "damR": 2000
+          }
+        },
+        {
+          "0": {
+            "incCrDam": 0
+          },
+          "1": {
+            "incCrDam": 20
+          },
+          "2": {
+            "incCrDam": 40
+          },
+          "3": {
+            "incCrDam": 60
+          },
+          "4": {
+            "incCrDam": 80
+          },
+          "5": {
+            "incCrDam": 140
+          },
+          "6": {
+            "incCrDam": 172
+          },
+          "7": {
+            "incCrDam": 204
+          },
+          "8": {
+            "incCrDam": 236
+          },
+          "9": {
+            "incCrDam": 268
+          },
+          "10": {
+            "incCrDam": 300
+          },
+          "11": {
+            "incCrDam": 350
+          },
+          "12": {
+            "incCrDam": 450
+          },
+          "13": {
+            "incCrDam": 500
+          },
+          "14": {
+            "incCrDam": 550
+          },
+          "15": {
+            "incCrDam": 800
+          },
+          "16": {
+            "incCrDam": 1000
+          },
+          "17": {
+            "incCrDam": 1100
+          },
+          "18": {
+            "incCrDam": 1200
+          },
+          "19": {
+            "incCrDam": 1300
+          },
+          "20": {
+            "incCrDam": 1500
+          }
+        }
+      ]
+    },
+    {
+      "id": 1003,
+      "treeId": 18112,
+      "order": 3,
+      "maxLevel": 20,
+      "desc": "You must meet the conditions to make the Runestone shine.",
+      "conditions": [
+        {
+          "type": "stonelevel",
+          "stoneType": "SHINE",
+          "lv": 10
+        }
+      ],
+      "enforceProbs": [
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 90,
+          "failRate": 10,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 85,
+          "failRate": 15,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 80,
+          "failRate": 20,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 70,
+          "failRate": 30,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 65,
+          "failRate": 35,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 55,
+          "failRate": 45,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 30,
+          "failRate": 67.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 25,
+          "failRate": 72.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 15,
+          "failRate": 78.2,
+          "downgradeRate": 6.8
+        },
+        {
+          "successRate": 13,
+          "failRate": 74.5,
+          "downgradeRate": 12.5
+        },
+        {
+          "successRate": 10,
+          "failRate": 72,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 9,
+          "failRate": 73,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 8,
+          "failRate": 73.8,
+          "downgradeRate": 18.2
+        },
+        {
+          "successRate": 7,
+          "failRate": 74.4,
+          "downgradeRate": 18.6
+        },
+        {
+          "successRate": 5,
+          "failRate": 76,
+          "downgradeRate": 19
+        },
+        {
+          "successRate": 1,
+          "failRate": 79,
+          "downgradeRate": 20
+        }
+      ],
+      "passives": [
+        {
+          "0": {
+            "bdR": 0
+          },
+          "1": {
+            "bdR": 50
+          },
+          "2": {
+            "bdR": 100
+          },
+          "3": {
+            "bdR": 150
+          },
+          "4": {
+            "bdR": 200
+          },
+          "5": {
+            "bdR": 400
+          },
+          "6": {
+            "bdR": 500
+          },
+          "7": {
+            "bdR": 550
+          },
+          "8": {
+            "bdR": 650
+          },
+          "9": {
+            "bdR": 800
+          },
+          "10": {
+            "bdR": 1000
+          },
+          "11": {
+            "bdR": 1100
+          },
+          "12": {
+            "bdR": 1200
+          },
+          "13": {
+            "bdR": 1500
+          },
+          "14": {
+            "bdR": 1700
+          },
+          "15": {
+            "bdR": 2000
+          },
+          "16": {
+            "bdR": 2500
+          },
+          "17": {
+            "bdR": 3000
+          },
+          "18": {
+            "bdR": 3500
+          },
+          "19": {
+            "bdR": 4000
+          },
+          "20": {
+            "bdR": 5000
+          }
+        },
+        {
+          "0": {
+            "strFX": 0
+          },
+          "1": {
+            "strFX": 50
+          },
+          "2": {
+            "strFX": 60
+          },
+          "3": {
+            "strFX": 70
+          },
+          "4": {
+            "strFX": 90
+          },
+          "5": {
+            "strFX": 110
+          },
+          "6": {
+            "strFX": 150
+          },
+          "7": {
+            "strFX": 200
+          },
+          "8": {
+            "strFX": 300
+          },
+          "9": {
+            "strFX": 400
+          },
+          "10": {
+            "strFX": 500
+          },
+          "11": {
+            "strFX": 600
+          },
+          "12": {
+            "strFX": 700
+          },
+          "13": {
+            "strFX": 900
+          },
+          "14": {
+            "strFX": 1000
+          },
+          "15": {
+            "strFX": 1200
+          },
+          "16": {
+            "strFX": 1300
+          },
+          "17": {
+            "strFX": 1500
+          },
+          "18": {
+            "strFX": 1800
+          },
+          "19": {
+            "strFX": 2000
+          },
+          "20": {
+            "strFX": 2500
+          }
+        }
+      ]
+    },
+    {
+      "id": 1000,
+      "treeId": 18212,
+      "order": 0,
+      "maxLevel": 20,
+      "desc": "You must meet the conditions to make the Runestone shine.",
+      "conditions": [
+        {
+          "type": "stone",
+          "stoneType": "ultimate",
+          "count": 1
+        }
+      ],
+      "enforceProbs": [
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 90,
+          "failRate": 10,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 85,
+          "failRate": 15,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 80,
+          "failRate": 20,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 70,
+          "failRate": 30,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 65,
+          "failRate": 35,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 55,
+          "failRate": 45,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 30,
+          "failRate": 67.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 25,
+          "failRate": 72.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 15,
+          "failRate": 78.2,
+          "downgradeRate": 6.8
+        },
+        {
+          "successRate": 13,
+          "failRate": 74.5,
+          "downgradeRate": 12.5
+        },
+        {
+          "successRate": 10,
+          "failRate": 72,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 9,
+          "failRate": 73,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 8,
+          "failRate": 73.8,
+          "downgradeRate": 18.2
+        },
+        {
+          "successRate": 7,
+          "failRate": 74.4,
+          "downgradeRate": 18.6
+        },
+        {
+          "successRate": 5,
+          "failRate": 76,
+          "downgradeRate": 19
+        },
+        {
+          "successRate": 1,
+          "failRate": 79,
+          "downgradeRate": 20
+        }
+      ],
+      "passives": [
+        {
+          "0": {
+            "bdR": 0
+          },
+          "1": {
+            "bdR": 50
+          },
+          "2": {
+            "bdR": 100
+          },
+          "3": {
+            "bdR": 150
+          },
+          "4": {
+            "bdR": 200
+          },
+          "5": {
+            "bdR": 400
+          },
+          "6": {
+            "bdR": 500
+          },
+          "7": {
+            "bdR": 550
+          },
+          "8": {
+            "bdR": 650
+          },
+          "9": {
+            "bdR": 800
+          },
+          "10": {
+            "bdR": 1000
+          },
+          "11": {
+            "bdR": 1100
+          },
+          "12": {
+            "bdR": 1200
+          },
+          "13": {
+            "bdR": 1500
+          },
+          "14": {
+            "bdR": 1700
+          },
+          "15": {
+            "bdR": 2000
+          },
+          "16": {
+            "bdR": 2500
+          },
+          "17": {
+            "bdR": 3000
+          },
+          "18": {
+            "bdR": 3500
+          },
+          "19": {
+            "bdR": 4000
+          },
+          "20": {
+            "bdR": 5000
+          }
+        },
+        {
+          "0": {
+            "intFX": 0
+          },
+          "1": {
+            "intFX": 50
+          },
+          "2": {
+            "intFX": 60
+          },
+          "3": {
+            "intFX": 70
+          },
+          "4": {
+            "intFX": 90
+          },
+          "5": {
+            "intFX": 110
+          },
+          "6": {
+            "intFX": 150
+          },
+          "7": {
+            "intFX": 200
+          },
+          "8": {
+            "intFX": 300
+          },
+          "9": {
+            "intFX": 400
+          },
+          "10": {
+            "intFX": 500
+          },
+          "11": {
+            "intFX": 600
+          },
+          "12": {
+            "intFX": 700
+          },
+          "13": {
+            "intFX": 900
+          },
+          "14": {
+            "intFX": 1000
+          },
+          "15": {
+            "intFX": 1200
+          },
+          "16": {
+            "intFX": 1300
+          },
+          "17": {
+            "intFX": 1500
+          },
+          "18": {
+            "intFX": 1800
+          },
+          "19": {
+            "intFX": 2000
+          },
+          "20": {
+            "intFX": 2500
+          }
+        }
+      ]
+    },
+    {
+      "id": 1001,
+      "treeId": 18212,
+      "order": 1,
+      "maxLevel": 20,
+      "desc": "You must meet the conditions to make the Runestone shine.",
+      "conditions": [
+        {
+          "type": "stone",
+          "stoneType": "skill",
+          "count": 2
+        }
+      ],
+      "enforceProbs": [
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 90,
+          "failRate": 10,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 85,
+          "failRate": 15,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 80,
+          "failRate": 20,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 70,
+          "failRate": 30,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 65,
+          "failRate": 35,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 55,
+          "failRate": 45,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 30,
+          "failRate": 67.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 25,
+          "failRate": 72.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 15,
+          "failRate": 78.2,
+          "downgradeRate": 6.8
+        },
+        {
+          "successRate": 13,
+          "failRate": 74.5,
+          "downgradeRate": 12.5
+        },
+        {
+          "successRate": 10,
+          "failRate": 72,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 9,
+          "failRate": 73,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 8,
+          "failRate": 73.8,
+          "downgradeRate": 18.2
+        },
+        {
+          "successRate": 7,
+          "failRate": 74.4,
+          "downgradeRate": 18.6
+        },
+        {
+          "successRate": 5,
+          "failRate": 76,
+          "downgradeRate": 19
+        },
+        {
+          "successRate": 1,
+          "failRate": 79,
+          "downgradeRate": 20
+        }
+      ],
+      "passives": [
+        {
+          "0": {
+            "ignoreMobpdpR": 0
+          },
+          "1": {
+            "ignoreMobpdpR": 50
+          },
+          "2": {
+            "ignoreMobpdpR": 100
+          },
+          "3": {
+            "ignoreMobpdpR": 150
+          },
+          "4": {
+            "ignoreMobpdpR": 200
+          },
+          "5": {
+            "ignoreMobpdpR": 400
+          },
+          "6": {
+            "ignoreMobpdpR": 500
+          },
+          "7": {
+            "ignoreMobpdpR": 550
+          },
+          "8": {
+            "ignoreMobpdpR": 650
+          },
+          "9": {
+            "ignoreMobpdpR": 800
+          },
+          "10": {
+            "ignoreMobpdpR": 1000
+          },
+          "11": {
+            "ignoreMobpdpR": 1100
+          },
+          "12": {
+            "ignoreMobpdpR": 1200
+          },
+          "13": {
+            "ignoreMobpdpR": 1500
+          },
+          "14": {
+            "ignoreMobpdpR": 1700
+          },
+          "15": {
+            "ignoreMobpdpR": 2000
+          },
+          "16": {
+            "ignoreMobpdpR": 2300
+          },
+          "17": {
+            "ignoreMobpdpR": 2500
+          },
+          "18": {
+            "ignoreMobpdpR": 3000
+          },
+          "19": {
+            "ignoreMobpdpR": 3300
+          },
+          "20": {
+            "ignoreMobpdpR": 4000
+          }
+        },
+        {
+          "0": {
+            "madX": 0
+          },
+          "1": {
+            "madX": 10
+          },
+          "2": {
+            "madX": 15
+          },
+          "3": {
+            "madX": 20
+          },
+          "4": {
+            "madX": 25
+          },
+          "5": {
+            "madX": 30
+          },
+          "6": {
+            "madX": 35
+          },
+          "7": {
+            "madX": 40
+          },
+          "8": {
+            "madX": 45
+          },
+          "9": {
+            "madX": 50
+          },
+          "10": {
+            "madX": 55
+          },
+          "11": {
+            "madX": 60
+          },
+          "12": {
+            "madX": 70
+          },
+          "13": {
+            "madX": 80
+          },
+          "14": {
+            "madX": 100
+          },
+          "15": {
+            "madX": 120
+          },
+          "16": {
+            "madX": 140
+          },
+          "17": {
+            "madX": 160
+          },
+          "18": {
+            "madX": 190
+          },
+          "19": {
+            "madX": 210
+          },
+          "20": {
+            "madX": 250
+          }
+        }
+      ]
+    },
+    {
+      "id": 1002,
+      "treeId": 18212,
+      "order": 2,
+      "maxLevel": 20,
+      "desc": "You must meet the conditions to make the Runestone shine.",
+      "conditions": [
+        {
+          "type": "level",
+          "level": 270
+        },
+        {
+          "type": "stone",
+          "stoneType": "boost",
+          "count": 2
+        }
+      ],
+      "enforceProbs": [
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 90,
+          "failRate": 10,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 85,
+          "failRate": 15,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 80,
+          "failRate": 20,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 70,
+          "failRate": 30,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 65,
+          "failRate": 35,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 55,
+          "failRate": 45,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 30,
+          "failRate": 67.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 25,
+          "failRate": 72.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 15,
+          "failRate": 78.2,
+          "downgradeRate": 6.8
+        },
+        {
+          "successRate": 13,
+          "failRate": 74.5,
+          "downgradeRate": 12.5
+        },
+        {
+          "successRate": 10,
+          "failRate": 72,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 9,
+          "failRate": 73,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 8,
+          "failRate": 73.8,
+          "downgradeRate": 18.2
+        },
+        {
+          "successRate": 7,
+          "failRate": 74.4,
+          "downgradeRate": 18.6
+        },
+        {
+          "successRate": 5,
+          "failRate": 76,
+          "downgradeRate": 19
+        },
+        {
+          "successRate": 1,
+          "failRate": 79,
+          "downgradeRate": 20
+        }
+      ],
+      "passives": [
+        {
+          "0": {
+            "damR": 0
+          },
+          "1": {
+            "damR": 25
+          },
+          "2": {
+            "damR": 50
+          },
+          "3": {
+            "damR": 75
+          },
+          "4": {
+            "damR": 150
+          },
+          "5": {
+            "damR": 200
+          },
+          "6": {
+            "damR": 250
+          },
+          "7": {
+            "damR": 300
+          },
+          "8": {
+            "damR": 350
+          },
+          "9": {
+            "damR": 400
+          },
+          "10": {
+            "damR": 450
+          },
+          "11": {
+            "damR": 500
+          },
+          "12": {
+            "damR": 550
+          },
+          "13": {
+            "damR": 600
+          },
+          "14": {
+            "damR": 650
+          },
+          "15": {
+            "damR": 900
+          },
+          "16": {
+            "damR": 1050
+          },
+          "17": {
+            "damR": 1200
+          },
+          "18": {
+            "damR": 1400
+          },
+          "19": {
+            "damR": 1600
+          },
+          "20": {
+            "damR": 2000
+          }
+        },
+        {
+          "0": {
+            "incCrDam": 0
+          },
+          "1": {
+            "incCrDam": 20
+          },
+          "2": {
+            "incCrDam": 40
+          },
+          "3": {
+            "incCrDam": 60
+          },
+          "4": {
+            "incCrDam": 80
+          },
+          "5": {
+            "incCrDam": 140
+          },
+          "6": {
+            "incCrDam": 172
+          },
+          "7": {
+            "incCrDam": 204
+          },
+          "8": {
+            "incCrDam": 236
+          },
+          "9": {
+            "incCrDam": 268
+          },
+          "10": {
+            "incCrDam": 300
+          },
+          "11": {
+            "incCrDam": 350
+          },
+          "12": {
+            "incCrDam": 450
+          },
+          "13": {
+            "incCrDam": 500
+          },
+          "14": {
+            "incCrDam": 550
+          },
+          "15": {
+            "incCrDam": 800
+          },
+          "16": {
+            "incCrDam": 1000
+          },
+          "17": {
+            "incCrDam": 1100
+          },
+          "18": {
+            "incCrDam": 1200
+          },
+          "19": {
+            "incCrDam": 1300
+          },
+          "20": {
+            "incCrDam": 1500
+          }
+        }
+      ]
+    },
+    {
+      "id": 1003,
+      "treeId": 18212,
+      "order": 3,
+      "maxLevel": 20,
+      "desc": "You must meet the conditions to make the Runestone shine.",
+      "conditions": [
+        {
+          "type": "stonelevel",
+          "stoneType": "SHINE",
+          "lv": 10
+        }
+      ],
+      "enforceProbs": [
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 100,
+          "failRate": 0,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 90,
+          "failRate": 10,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 85,
+          "failRate": 15,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 80,
+          "failRate": 20,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 70,
+          "failRate": 30,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 65,
+          "failRate": 35,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 55,
+          "failRate": 45,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 50,
+          "failRate": 50,
+          "downgradeRate": 0
+        },
+        {
+          "successRate": 30,
+          "failRate": 67.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 25,
+          "failRate": 72.9,
+          "downgradeRate": 2.1
+        },
+        {
+          "successRate": 15,
+          "failRate": 78.2,
+          "downgradeRate": 6.8
+        },
+        {
+          "successRate": 13,
+          "failRate": 74.5,
+          "downgradeRate": 12.5
+        },
+        {
+          "successRate": 10,
+          "failRate": 72,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 9,
+          "failRate": 73,
+          "downgradeRate": 18
+        },
+        {
+          "successRate": 8,
+          "failRate": 73.8,
+          "downgradeRate": 18.2
+        },
+        {
+          "successRate": 7,
+          "failRate": 74.4,
+          "downgradeRate": 18.6
+        },
+        {
+          "successRate": 5,
+          "failRate": 76,
+          "downgradeRate": 19
+        },
+        {
+          "successRate": 1,
+          "failRate": 79,
+          "downgradeRate": 20
+        }
+      ],
+      "passives": [
+        {
+          "0": {
+            "bdR": 0
+          },
+          "1": {
+            "bdR": 50
+          },
+          "2": {
+            "bdR": 100
+          },
+          "3": {
+            "bdR": 150
+          },
+          "4": {
+            "bdR": 200
+          },
+          "5": {
+            "bdR": 400
+          },
+          "6": {
+            "bdR": 500
+          },
+          "7": {
+            "bdR": 550
+          },
+          "8": {
+            "bdR": 650
+          },
+          "9": {
+            "bdR": 800
+          },
+          "10": {
+            "bdR": 1000
+          },
+          "11": {
+            "bdR": 1100
+          },
+          "12": {
+            "bdR": 1200
+          },
+          "13": {
+            "bdR": 1500
+          },
+          "14": {
+            "bdR": 1700
+          },
+          "15": {
+            "bdR": 2000
+          },
+          "16": {
+            "bdR": 2500
+          },
+          "17": {
+            "bdR": 3000
+          },
+          "18": {
+            "bdR": 3500
+          },
+          "19": {
+            "bdR": 4000
+          },
+          "20": {
+            "bdR": 5000
+          }
+        },
+        {
+          "0": {
+            "intFX": 0
+          },
+          "1": {
+            "intFX": 50
+          },
+          "2": {
+            "intFX": 60
+          },
+          "3": {
+            "intFX": 70
+          },
+          "4": {
+            "intFX": 90
+          },
+          "5": {
+            "intFX": 110
+          },
+          "6": {
+            "intFX": 150
+          },
+          "7": {
+            "intFX": 200
+          },
+          "8": {
+            "intFX": 300
+          },
+          "9": {
+            "intFX": 400
+          },
+          "10": {
+            "intFX": 500
+          },
+          "11": {
+            "intFX": 600
+          },
+          "12": {
+            "intFX": 700
+          },
+          "13": {
+            "intFX": 900
+          },
+          "14": {
+            "intFX": 1000
+          },
+          "15": {
+            "intFX": 1200
+          },
+          "16": {
+            "intFX": 1300
+          },
+          "17": {
+            "intFX": 1500
+          },
+          "18": {
+            "intFX": 1800
+          },
+          "19": {
+            "intFX": 2000
+          },
+          "20": {
+            "intFX": 2500
+          }
+        }
+      ]
+    }
+  ]
 }
