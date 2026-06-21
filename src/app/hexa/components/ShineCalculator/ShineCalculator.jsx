@@ -1037,7 +1037,7 @@ const ShineCalculator = ({ selectedClass }) => {
                       key={node.nodeIndex}
                       className="rounded-lg border border-primary-dim bg-primary-dark/30 p-3 text-sm text-primary-dim"
                     >
-                      Not yet available — check back later.
+                      Not yet available - check back later.
                     </div>
                   );
                 }
