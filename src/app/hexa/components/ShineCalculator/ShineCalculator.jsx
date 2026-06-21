@@ -128,6 +128,76 @@ const CostPill = ({ label, value }) => (
   </div>
 );
 
+// Compact inline cost readout (icons + values on a single row).
+const CostInline = ({ cost, usesMeso }) => (
+  <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+    <span className="flex items-center gap-1 text-sm font-semibold text-primary-bright">
+      <img src={solErda.src} alt="Sol Erda" className="h-5 w-5" />
+      {cost.solErda.toLocaleString()}
+    </span>
+    <span className="flex items-center gap-1 text-sm font-semibold text-primary-bright">
+      <img src={solErdaFragment.src} alt="Fragments" className="h-5 w-5" />
+      {cost.fragments.toLocaleString()}
+    </span>
+    {usesMeso && (
+      <span className="text-sm font-semibold text-primary-bright">{cost.meso.toLocaleString()} meso</span>
+    )}
+  </div>
+);
+
+// Hoverable chip that reveals the per-level cost breakdown for a stone.
+const CostTableTooltip = ({ stone, usesMeso }) => {
+  const rows = [];
+  let total = { solErda: 0, fragments: 0, meso: 0 };
+  for (let level = 0; level < stone.maxLevel; level += 1) {
+    const cost = getTransitionCost(stone, level);
+    total = addCost(total, cost);
+    rows.push({ to: level + 1, cost });
+  }
+
+  return (
+    <div className="group relative">
+      <span className="flex cursor-help items-center gap-1 rounded border border-primary-dim px-2 py-1 text-xs text-primary-dim transition group-hover:border-secondary group-hover:text-secondary">
+        Total cost
+        <span className="flex h-4 w-4 items-center justify-center rounded-full border border-current text-[10px] font-semibold">i</span>
+      </span>
+      <div className="invisible absolute right-0 top-full z-30 mt-1 w-64 rounded-lg border border-primary-dim bg-primary-dark p-3 opacity-0 shadow-xl transition group-hover:visible group-hover:opacity-100">
+        <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-primary-dim">Cost per level</div>
+        <table className="w-full text-xs text-primary">
+          <thead>
+            <tr className="text-primary-dim">
+              <th className="pb-1 text-left font-medium">Lv</th>
+              <th className="pb-1 text-right font-medium">
+                <img src={solErda.src} alt="Sol Erda" className="ml-auto h-4 w-4" />
+              </th>
+              <th className="pb-1 text-right font-medium">
+                <img src={solErdaFragment.src} alt="Fragments" className="ml-auto h-4 w-4" />
+              </th>
+              {usesMeso && <th className="pb-1 text-right font-medium">Meso</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.to} className="border-t border-primary-dim/40">
+                <td className="py-1 text-left text-primary-bright">{row.to}</td>
+                <td className="py-1 text-right">{row.cost.solErda.toLocaleString()}</td>
+                <td className="py-1 text-right">{row.cost.fragments.toLocaleString()}</td>
+                {usesMeso && <td className="py-1 text-right">{row.cost.meso.toLocaleString()}</td>}
+              </tr>
+            ))}
+            <tr className="border-t border-primary-dim font-semibold text-primary-bright">
+              <td className="py-1 text-left">Total</td>
+              <td className="py-1 text-right">{total.solErda.toLocaleString()}</td>
+              <td className="py-1 text-right">{total.fragments.toLocaleString()}</td>
+              {usesMeso && <td className="py-1 text-right">{total.meso.toLocaleString()}</td>}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
 const ShineCalculator = ({ selectedClass }) => {
   const [isClient, setIsClient] = useState(false);
   const [selectedNodeIndex, setSelectedNodeIndex] = useState(null);
@@ -412,8 +482,9 @@ const ShineCalculator = ({ selectedClass }) => {
   const selectedCurrentCost = selectedStone ? calculateCostToLevel(selectedStone, selectedCurrentLevel) : { solErda: 0, fragments: 0, meso: 0 };
   const selectedGoalCost = selectedStone ? calculateDeltaCost(selectedStone, selectedCurrentLevel, selectedResolvedGoalLevel) : { solErda: 0, fragments: 0, meso: 0 };
   const selectedStoneUsesMeso = selectedStone?.category === "SHINE";
-  const selectedStoneHasGoalLevels = selectedStone?.maxLevel > 1;
   const selectedStoneMinLevel = selectedStone ? minLevelFor(selectedStone) : 0;
+  const selectedAtMaxLevel = selectedStone ? selectedCurrentLevel >= selectedStone.maxLevel : false;
+  const selectedNextLevelCost = selectedStone && !selectedAtMaxLevel ? getTransitionCost(selectedStone, selectedCurrentLevel) : null;
 
   return (
     <div className="flex w-full max-w-[1800px] flex-col gap-6 px-2 py-4">
@@ -483,7 +554,7 @@ const ShineCalculator = ({ selectedClass }) => {
                 </div>
               </div>
               <p className="mb-4 text-sm text-primary">{parseDesc(selectedStone.desc)}</p>
-              <div className={`grid gap-3 ${selectedStoneHasGoalLevels ? "grid-cols-2" : "grid-cols-1"}`}>
+              <div className="grid grid-cols-2 gap-3">
                 <label className="text-sm text-primary">
                   Current Level
                   <div className="mt-1 flex items-center gap-2">
@@ -518,41 +589,54 @@ const ShineCalculator = ({ selectedClass }) => {
                     </button>
                   </div>
                 </label>
-                {selectedStoneHasGoalLevels && (
-                  <label className="text-sm text-primary">
-                    Goal Level
-                    <div className="mt-1 flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => adjustGoalLevel(selectedNode, -1)}
-                        className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        min={selectedStoneMinLevel}
-                        max={selectedStone.maxLevel}
-                        value={goalDraft ?? String(selectedGoalLevel)}
-                        onChange={(event) => {
-                          setGoalDraft(event.target.value);
-                          if (event.target.value !== "") setNodeLevel(selectedNode, event.target.value, setGoalLevels, true, nodeLevels);
-                        }}
-                        onBlur={() => {
-                          if (goalDraft !== null) setNodeLevel(selectedNode, goalDraft, setGoalLevels, true, nodeLevels);
-                          setGoalDraft(null);
-                        }}
-                        className="w-full rounded border border-primary-dim bg-primary-dark p-2 text-center text-primary-bright"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => adjustGoalLevel(selectedNode, 1)}
-                        className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </label>
+                <label className="text-sm text-primary">
+                  Goal Level
+                  <div className="mt-1 flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => adjustGoalLevel(selectedNode, -1)}
+                      className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      min={selectedStoneMinLevel}
+                      max={selectedStone.maxLevel}
+                      value={goalDraft ?? String(selectedGoalLevel)}
+                      onChange={(event) => {
+                        setGoalDraft(event.target.value);
+                        if (event.target.value !== "") setNodeLevel(selectedNode, event.target.value, setGoalLevels, true, nodeLevels);
+                      }}
+                      onBlur={() => {
+                        if (goalDraft !== null) setNodeLevel(selectedNode, goalDraft, setGoalLevels, true, nodeLevels);
+                        setGoalDraft(null);
+                      }}
+                      className="w-full rounded border border-primary-dim bg-primary-dark p-2 text-center text-primary-bright"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => adjustGoalLevel(selectedNode, 1)}
+                      className="h-10 w-10 rounded border border-primary-dim bg-primary-dark text-xl text-primary-bright transition hover:bg-primary-dim"
+                    >
+                      +
+                    </button>
+                  </div>
+                </label>
+              </div>
+              <div className="mt-4 rounded-lg border border-primary-dim bg-primary-dark/40 px-3 py-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-sm font-semibold text-primary-bright">
+                    {selectedAtMaxLevel
+                      ? "Max level reached"
+                      : `Next level (Lv ${selectedCurrentLevel} → ${selectedCurrentLevel + 1})`}
+                  </span>
+                  <CostTableTooltip stone={selectedStone} usesMeso={selectedStoneUsesMeso} />
+                </div>
+                {selectedNextLevelCost && (
+                  <div className="mt-2">
+                    <CostInline cost={selectedNextLevelCost} usesMeso={selectedStoneUsesMeso} />
+                  </div>
                 )}
               </div>
               <div className="mt-4 grid gap-3">
@@ -564,16 +648,14 @@ const ShineCalculator = ({ selectedClass }) => {
                     {selectedStoneUsesMeso && <CostPill label="Meso" value={selectedCurrentCost.meso} />}
                   </div>
                 </div>
-                {selectedStoneHasGoalLevels && (
-                  <div>
-                    <h4 className="mb-2 text-sm font-semibold text-primary-bright">Remaining for this goal</h4>
-                    <div className="flex flex-wrap gap-2">
-                      <CostPill label="Sol Erda" value={selectedGoalCost.solErda} />
-                      <CostPill label="Fragments" value={selectedGoalCost.fragments} />
-                      {selectedStoneUsesMeso && <CostPill label="Meso" value={selectedGoalCost.meso} />}
-                    </div>
+                <div>
+                  <h4 className="mb-2 text-sm font-semibold text-primary-bright">Remaining for this goal</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <CostPill label="Sol Erda" value={selectedGoalCost.solErda} />
+                    <CostPill label="Fragments" value={selectedGoalCost.fragments} />
+                    {selectedStoneUsesMeso && <CostPill label="Meso" value={selectedGoalCost.meso} />}
                   </div>
-                )}
+                </div>
               </div>
             </div>
           )}
