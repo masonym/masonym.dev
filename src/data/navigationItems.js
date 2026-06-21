@@ -28,10 +28,10 @@ export const navigationItems = [
             { name: "Action Delays", href: "/action-delays", image: "/images/green-pot.png", },
         ],
     },
-    {
-        title: "Temporary",
-        items: [
-            { name: "Erel Bugs", href: "/erel-bugs", image: "/images/erel-spear.png" },
-        ],
-    },
+    // {
+    //     title: "Temporary",
+    //     items: [
+    //         { name: "Erel Bugs", href: "/erel-bugs", image: "/images/erel-spear.png" },
+    //     ],
+    // },
 ];
