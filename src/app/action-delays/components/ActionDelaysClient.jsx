@@ -331,6 +331,9 @@ function Preamble() {
           <h3 className="text-lg font-bold text-secondary mb-2">References & Attributions</h3>
           <ul className="list-disc list-inside space-y-2 text-primary mb-2">
             <li>
+              Thank you to ForeverDuo (tabbycat) from the Zero discord for bringing the concept of Link delays/skipped action frames to my attention, with some helpful datapoints to help understand how they work!
+            </li>
+            <li>
               <a href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/" target="_blank" rel="noopener noreferrer" className="text-primary-bright underline">
                 Reddit post by /u/screeeeeeee investigating the attack speed-to-delay discrepancy in Gigas Wave (2022)
               </a>
