@@ -831,8 +831,8 @@ export const bossData = [
             {
                 name: "Hard",
                 hpPhases: [
-                    { hp: formatShortformNumber("214.5T") },
-                    { hp: formatShortformNumber("214.5T") },
+                    { hp: formatShortformNumber("241.5T") },
+                    { hp: formatShortformNumber("241.5T") },
                 ],
                 level: 280,
             }
