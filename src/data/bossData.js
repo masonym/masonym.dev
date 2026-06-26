@@ -692,7 +692,7 @@ export const bossData = [
         ]
     },
     {
-        name: "Radiant Malefic Star",
+        name: "Malefic Star",
         category: "grandis",
         frequency: "weekly",
         level: 280,
@@ -701,7 +701,7 @@ export const bossData = [
         difficulties: [
             {
                 name: "Normal",
-                // intensePowerCrystalValue: 658000000,
+                intensePowerCrystalValue: 290400000,
                 sacRequirement: 400,
                 hpPhases: [
                     { hp: formatShortformNumber("657.6T") },
@@ -711,7 +711,7 @@ export const bossData = [
             },
             {
                 name: "Hard",
-                // intensePowerCrystalValue: 2819000000,
+                intensePowerCrystalValue: 798000000,
                 sacRequirement: 550,
                 hpPhases: [
                     { hp: formatShortformNumber("2.948Q") },
