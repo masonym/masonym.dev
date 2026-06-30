@@ -214,12 +214,6 @@ function AdvancedItemList() {
             ? "\u00A0"
             : "Last Updated: unknown"}
       </h4>
-      //{" "}
-      <div className="text-center text-sm text-yellow-800 bg-yellow-100 border border-yellow-400 rounded-lg px-4 py-2 mx-auto max-w-2xl mb-4">
-        // HUGE DISCLAIMER: THE ITEMS LISTED FOR SALE BEYOND JUNE 10TH USE DATA
-        FROM THE <b>PUBLIC TEST SERVER v.269 BUILD</b>. There is a possibility,
-        as there always is, that these change ahead of time! //{" "}
-      </div>
       <FilterControls
         filters={filters}
         viewMode={viewMode}
