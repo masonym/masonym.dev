@@ -83,8 +83,8 @@ const BOSS_DATA = [
     ],
   },
   {
-    id: "radiant_malefic_star",
-    name: "Radiant Malefic Star",
+    id: "malefic_star",
+    name: "Malefic Star",
     maxPartySize: 3,
     difficulties: [
       { name: "None", traces: 0 },
