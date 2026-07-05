@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import EquipmentInfo from './EquipmentInfo';
 import SimulationSettings from './SimulationSettings';
-import SafeguardSettings from './SafeguardSettings';
+import EnhanceModeSettings from './EnhanceModeSettings';
 import StarCatchSettings from './StarCatchSettings';
 import EventSettings from './EventSettings';
 import MVPSettings from './MVPSettings';
@@ -32,8 +32,8 @@ export default function StarForceSimulator() {
         numSimulations: 10000
     });
 
-    const [safeguardSettings, setSafeguardSettings] = useState({
-        stars: []  // Can contain 15, 16, 17
+    const [enhanceModeSettings, setEnhanceModeSettings] = useState({
+        modes: { 15: 1, 16: 1, 17: 1, 18: 1, 19: 1, 20: 1, 21: 1 }  // Enhancement Mode 1-4 per star
     });
 
     const [starCatchSettings, setStarCatchSettings] = useState({
@@ -73,7 +73,7 @@ export default function StarForceSimulator() {
         // Precompute the per-star rate + cost table once for this run.
         const table = buildStarTable({
             level: equipmentInfo.level,
-            safeguardStars: safeguardSettings.stars,
+            enhanceModes: enhanceModeSettings.modes,
             starCatchStars: starCatchSettings.stars,
             eventTypes: eventSettings.types,
             mvpType: mvpSettings.type,
@@ -130,11 +130,11 @@ export default function StarForceSimulator() {
 
     return (
         <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
                 <div className="flex flex-col gap-4">
-                    <EquipmentInfo 
-                        info={equipmentInfo} 
-                        onChange={setEquipmentInfo} 
+                    <EquipmentInfo
+                        info={equipmentInfo}
+                        onChange={setEquipmentInfo}
                     />
                     <SpareItemSettings
                         settings={spareItemSettings}
@@ -142,27 +142,35 @@ export default function StarForceSimulator() {
                         onEquipmentChange={setEquipmentInfo}
                     />
                 </div>
-                <SimulationSettings 
-                    settings={simulationSettings} 
-                    onChange={setSimulationSettings} 
-                />
-                <SafeguardSettings 
-                    settings={safeguardSettings} 
-                    onChange={setSafeguardSettings} 
-                />
-                <StarCatchSettings 
-                    settings={starCatchSettings} 
-                    onChange={setStarCatchSettings} 
-                />
-                <EventSettings 
-                    settings={eventSettings} 
-                    onChange={setEventSettings} 
-                />
-                <MVPSettings 
-                    settings={mvpSettings} 
-                    onChange={setMvpSettings} 
+                <div className="flex flex-col gap-4">
+                    <SimulationSettings
+                        settings={simulationSettings}
+                        onChange={setSimulationSettings}
+                    />
+                    <EventSettings
+                        settings={eventSettings}
+                        onChange={setEventSettings}
+                    />
+                    <MVPSettings
+                        settings={mvpSettings}
+                        onChange={setMvpSettings}
+                    />
+                </div>
+                <StarCatchSettings
+                    settings={starCatchSettings}
+                    onChange={setStarCatchSettings}
                 />
             </div>
+
+            <EnhanceModeSettings
+                settings={enhanceModeSettings}
+                onChange={setEnhanceModeSettings}
+                equipmentInfo={equipmentInfo}
+                starCatchStars={starCatchSettings.stars}
+                eventTypes={eventSettings.types}
+                mvpType={mvpSettings.type}
+                spareItemSettings={spareItemSettings}
+            />
             
             <div className="space-y-4">
                 <button
