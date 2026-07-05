@@ -45,3 +45,19 @@ export function formatClassName(className) {
 
     return formattedClassName;
 }
+
+// Skills shared by every class (Sol Janus/Sol Hecate) live under /common.
+// Everything else has a per-class icon under /classImages/<class>/Skill_<name>.png.
+export function getSkillImagePath(classKey, skillName, isCommon) {
+    if (isCommon) {
+        return getCommonSkillImagePath(skillName);
+    }
+    return `/classImages/${formatClassName(classKey)}/Skill_${skillName}.png`;
+}
+
+// Job branch skills (3rd Common Core) have per-class art, but not every class
+// has custom art yet. This is the shared fallback used when the per-class
+// icon 404s.
+export function getCommonSkillImagePath(skillName) {
+    return `/common/${skillName}.png`;
+}

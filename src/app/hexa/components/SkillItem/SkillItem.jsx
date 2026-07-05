@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { formatClassName } from '../../utils';
+import { getSkillImagePath, getCommonSkillImagePath } from '../../utils';
 
 export const SkillItem = ({ skills, altText, classKey, isCommon, isJobBranch, inputValue: initialInputValue, itemStyle, onInputChange }) => {
     const [inputValue, setInputValue] = useState(initialInputValue);
@@ -9,12 +9,8 @@ export const SkillItem = ({ skills, altText, classKey, isCommon, isJobBranch, in
         setInputValue(initialInputValue);
     }, [initialInputValue]);
 
-    const formattedClassName = formatClassName(classKey)
-
-    const commonImagePath = `/common/${altText}.png`;
-    const classImagePath = `/classImages/${formattedClassName}/Skill_${altText}.png`;
-
-    const defaultImagePath = isCommon ? commonImagePath : classImagePath;
+    const commonImagePath = getCommonSkillImagePath(altText);
+    const defaultImagePath = getSkillImagePath(classKey, altText, isCommon);
     const [imagePath, setImagePath] = useState(defaultImagePath);
 
     useEffect(() => {
