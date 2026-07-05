@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import EquipmentInfo from './EquipmentInfo';
-import SimulationSettings from './SimulationSettings';
 import EnhanceModeSettings from './EnhanceModeSettings';
 import StarCatchSettings from './StarCatchSettings';
 import EventSettings from './EventSettings';
@@ -10,6 +9,11 @@ import MVPSettings from './MVPSettings';
 import SpareItemSettings from './SpareItemSettings';
 import SimulationResults from './SimulationResults';
 import { buildStarTable, simulateStarForceFast } from '../utils';
+
+// Monte Carlo runs per simulation. Fixed rather than user-configurable: the
+// percentile spread is stable at this count and a run takes well under a
+// second, so exposing it only added noise to the UI.
+const NUM_SIMULATIONS = 10000;
 
 // Sorted-array percentile using nearest-rank (0 <= p <= 1).
 function percentile(sortedArr, p) {
@@ -26,10 +30,6 @@ export default function StarForceSimulator() {
         level: 0,
         currentStars: 0,
         targetStars: 0
-    });
-
-    const [simulationSettings, setSimulationSettings] = useState({
-        numSimulations: 10000
     });
 
     const [enhanceModeSettings, setEnhanceModeSettings] = useState({
@@ -63,7 +63,7 @@ export default function StarForceSimulator() {
         setResults(null);
         setProgress(0);
 
-        const N = simulationSettings.numSimulations;
+        const N = NUM_SIMULATIONS;
         const costs = new Float64Array(N);
         const booms = new Float64Array(N);
         let totalAttempts = 0;
@@ -143,10 +143,6 @@ export default function StarForceSimulator() {
                     />
                 </div>
                 <div className="flex flex-col gap-4">
-                    <SimulationSettings
-                        settings={simulationSettings}
-                        onChange={setSimulationSettings}
-                    />
                     <EventSettings
                         settings={eventSettings}
                         onChange={setEventSettings}
