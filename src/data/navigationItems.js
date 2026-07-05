@@ -1,37 +1,63 @@
 export const navigationItems = [
-    {
-        title: "Calculators",
-        items: [
-            { name: "Star Force", href: "/star-force", image: '/images/star-force.png' },
-            { name: "Hexa", href: "/hexa", image: '/images/hexa.png' },
-            { name: "Liberation", href: "/liberation", image: '/images/liberation.png', new: false },
-            { name: "Astra Secondary", href: "/astra-secondary", image: '/astra-secondary/erion-fragment.webp', new: true },
-        ]
-    },
-    // {
-    //     title: "Tools",
-    //     items: []
-    // },
-    {
-        title: "Info",
-        items: [
-            // { name: "Flames", href: "/flames", image: "/images/flames.png" },
-            // { name: "Potentials", href: "/potentials", image: "/images/potentials.png" },
-            { name: "Familiar Directory", href: "/familiars", image: "/images/familiars.png" },
-            // { name: "Souls", href: "/souls" },
-            // { name: "MAPLE Daily Gift", href: "/maple-daily-gift" },
-            // { name: "Inner Ability", href: "/inner-ability" },
-            // { name: "Formulas", href: "/formulas", image: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM4YzhjOGMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zcXVhcmUtc2lnbWEiPjxyZWN0IHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgeD0iMyIgeT0iMyIgcng9IjIiLz48cGF0aCBkPSJNMTYgOC45VjdIOGw0IDUtNCA1aDh2LTEuOSIvPjwvc3ZnPg==" },
-            { name: "Cash Shop", href: "/cash-shop", image: "/images/cash-shop.png" },
-            { name: "Boss Info", href: "/bosses", image: "/images/bosses.png" },
-            { name: "Sunny Sunday", href: "/sunny-sunday", image: "/images/sunny-sunday.png" },
-            { name: "Action Delays", href: "/action-delays", image: "/images/green-pot.png", },
-        ],
-    },
-    // {
-    //     title: "Temporary",
-    //     items: [
-    //         { name: "Erel Bugs", href: "/erel-bugs", image: "/images/erel-spear.png" },
-    //     ],
-    // },
+  {
+    title: "Calculators",
+    items: [
+      {
+        name: "Star Force",
+        href: "/star-force",
+        image: "/images/star-force.png",
+        label: "Updated!",
+      },
+      { name: "Hexa", href: "/hexa", image: "/images/hexa.png" },
+      {
+        name: "Liberation",
+        href: "/liberation",
+        image: "/images/liberation.png",
+        new: false,
+      },
+      {
+        name: "Astra Secondary",
+        href: "/astra-secondary",
+        image: "/astra-secondary/erion-fragment.webp",
+      },
+    ],
+  },
+  // {
+  //     title: "Tools",
+  //     items: []
+  // },
+  {
+    title: "Info",
+    items: [
+      // { name: "Flames", href: "/flames", image: "/images/flames.png" },
+      // { name: "Potentials", href: "/potentials", image: "/images/potentials.png" },
+      {
+        name: "Familiar Directory",
+        href: "/familiars",
+        image: "/images/familiars.png",
+      },
+      // { name: "Souls", href: "/souls" },
+      // { name: "MAPLE Daily Gift", href: "/maple-daily-gift" },
+      // { name: "Inner Ability", href: "/inner-ability" },
+      // { name: "Formulas", href: "/formulas", image: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM4YzhjOGMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1zcXVhcmUtc2lnbWEiPjxyZWN0IHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgeD0iMyIgeT0iMyIgcng9IjIiLz48cGF0aCBkPSJNMTYgOC45VjdIOGw0IDUtNCA1aDh2LTEuOSIvPjwvc3ZnPg==" },
+      { name: "Cash Shop", href: "/cash-shop", image: "/images/cash-shop.png" },
+      { name: "Boss Info", href: "/bosses", image: "/images/bosses.png" },
+      {
+        name: "Sunny Sunday",
+        href: "/sunny-sunday",
+        image: "/images/sunny-sunday.png",
+      },
+      {
+        name: "Action Delays",
+        href: "/action-delays",
+        image: "/images/green-pot.png",
+      },
+    ],
+  },
+  // {
+  //     title: "Temporary",
+  //     items: [
+  //         { name: "Erel Bugs", href: "/erel-bugs", image: "/images/erel-spear.png" },
+  //     ],
+  // },
 ];
