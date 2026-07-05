@@ -73,7 +73,7 @@ export const GoalInputGrid = ({ classKey, classDetails, skillLevels, updateSkill
                         <SkillGroup
                             skills={classDetails.jobBranchSkills}
                             classKey={classKey}
-                            isCommon={true}
+                            isJobBranch={true}
                             itemStyle={styles.commonItem}
                             columns={1}
                             skillLevels={skillLevels}

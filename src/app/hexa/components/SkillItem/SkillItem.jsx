@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { formatClassName } from '../../utils';
 
-export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: initialInputValue, itemStyle, onInputChange }) => {
+export const SkillItem = ({ skills, altText, classKey, isCommon, isJobBranch, inputValue: initialInputValue, itemStyle, onInputChange }) => {
     const [inputValue, setInputValue] = useState(initialInputValue);
 
     useEffect(() => {
@@ -11,9 +11,15 @@ export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: ini
 
     const formattedClassName = formatClassName(classKey)
 
-    const imagePath = isCommon
-        ? `/common/${altText}.png`
-        : `/classImages/${formattedClassName}/Skill_${altText}.png`;
+    const commonImagePath = `/common/${altText}.png`;
+    const classImagePath = `/classImages/${formattedClassName}/Skill_${altText}.png`;
+
+    const defaultImagePath = isCommon ? commonImagePath : classImagePath;
+    const [imagePath, setImagePath] = useState(defaultImagePath);
+
+    useEffect(() => {
+        setImagePath(defaultImagePath);
+    }, [defaultImagePath]);
 
     const handleInputChange = (event) => {
         let value = parseInt(event.target.value, 10);
@@ -37,6 +43,11 @@ export const SkillItem = ({ skills, altText, classKey, isCommon, inputValue: ini
                 alt={altText}
                 width={50}
                 height={50}
+                onError={() => {
+                    if (isJobBranch && imagePath !== commonImagePath) {
+                        setImagePath(commonImagePath);
+                    }
+                }}
             />
             <span className="whitespace-pre-line">
                 <p className="mt-2 mb-0">{Array.isArray(skills) ? skills.join('\n') : skills}</p>

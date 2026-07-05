@@ -2,7 +2,7 @@ import React from 'react';
 import { SkillItem } from '../SkillItem/SkillItem';
 import { formatSkillPath } from '../../utils';
 
-export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, columns = 1, skillLevels, updateSkillLevels, skillType }) => {
+export const SkillGroup = ({ skills, classKey, isCommon = false, isJobBranch = false, itemStyle, columns = 1, skillLevels, updateSkillLevels, skillType }) => {
     const handleInputChange = (skillName, value) => {
         updateSkillLevels({ [skillName]: value }, skillType);
     };
@@ -27,6 +27,7 @@ export const SkillGroup = ({ skills, classKey, isCommon = false, itemStyle, colu
                                 altText={skillName}
                                 classKey={classKey}
                                 isCommon={isCommon}
+                                isJobBranch={isJobBranch}
                                 itemStyle={`${itemStyle} p-4 rounded-lg shadow-md h-full`}
                                 inputValue={skillLevels[skillName]?.level || ''}
                                 onInputChange={handleInputChange}

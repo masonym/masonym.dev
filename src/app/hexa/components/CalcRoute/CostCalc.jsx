@@ -14,6 +14,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   const [collapsedCards, setCollapsedCards] = useState({});
   const [allExpanded, setAllExpanded] = useState(true);
   const [hideCompleted, setHideCompleted] = useState(false);
+  const [brokenJobBranchIcons, setBrokenJobBranchIcons] = useState({});
 
   useEffect(() => {
     setIsClient(true);
@@ -158,11 +159,16 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
 
   const formattedClassName = formatClassName(selectedClass)
   const getSkillImage = (skillName, skillType) => {
-    if (skillType === 'common' || skillType === 'jobBranch') {
+    if (skillType === 'common') {
       return `/common/${skillName}.png`;
-    } else {
+    }
+    if (skillType === 'jobBranch' && !brokenJobBranchIcons[skillName]) {
       return `/classImages/${formattedClassName}/Skill_${skillName}.png`;
     }
+    if (skillType === 'jobBranch') {
+      return `/common/${skillName}.png`;
+    }
+    return `/classImages/${formattedClassName}/Skill_${skillName}.png`;
   };
 
   const getOrderedSkills = (classDetails, desiredSkillLevels) => {
@@ -385,6 +391,11 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                       width={40}
                       height={40}
                       className="mr-3 flex-shrink-0"
+                      onError={() => {
+                        if (skillType === 'jobBranch' && !brokenJobBranchIcons[skillName]) {
+                          setBrokenJobBranchIcons(prev => ({ ...prev, [skillName]: true }));
+                        }
+                      }}
                     />
                     {/* skill name & collapse arrow */}
                     <div className="flex flex-1 items-center min-w-0">
