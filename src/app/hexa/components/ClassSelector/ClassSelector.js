@@ -7,8 +7,8 @@ import Image from "next/image";
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
 import CalcRoute from "../CalcRoute/CalcRoute";
-import { originUpgradeCost, skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost, jobBranchUpgradeCost } from "@/data/solErda";
 import { formatSkillToUnderscores } from "../../utils";
+import { calculateSkillCost } from "../CalcRoute/costCalc.utils";
 import ShineCalculator, { SHINE_CLASSES } from "../ShineCalculator/ShineCalculator";
 
 const ClassSelector = () => {
@@ -142,65 +142,21 @@ const ClassSelector = () => {
     });
   };
 
-  const calculateTotalSolErda = () => {
-    let totalSolErda = 0;
+  const calculateTotalCost = (costType) => {
     const classDetails = classes[selectedClass];
     const originSkillKey = formatSkillToUnderscores(classDetails?.originSkill);
 
-    Object.entries(skillLevels).forEach(([skillName, { level, type }]) => {
+    const total = Object.entries(skillLevels).reduce((sum, [skillName, { level, type }]) => {
       const isOriginSkill = skillName === originSkillKey;
       const skillType = isOriginSkill ? 'origin' : (type === 'origin' ? 'skill' : type);
-      const costTable = getCostTable(skillType);
+      return sum + calculateSkillCost({ level, type: skillType }, costType);
+    }, 0);
 
-      for (let i = 0; i < level; i++) {
-        const cost = costTable[i][i + 1].solErda;
-        totalSolErda += cost;
-      }
-    });
-
-    return totalSolErda.toLocaleString();
+    return total.toLocaleString();
   };
 
-  const calculateTotalFrags = () => {
-    let totalFrags = 0;
-    const classDetails = classes[selectedClass];
-    const originSkillKey = formatSkillToUnderscores(classDetails?.originSkill);
-
-    Object.entries(skillLevels).forEach(([skillName, { level, type }]) => {
-      const isOriginSkill = skillName === originSkillKey;
-      const skillType = isOriginSkill ? 'origin' : (type === 'origin' ? 'skill' : type);
-      const costTable = getCostTable(skillType);
-
-      for (let i = 0; i < level; i++) {
-        const cost = costTable[i][i + 1].frags;
-        totalFrags += cost;
-      }
-    });
-
-    return totalFrags.toLocaleString();
-  };
-
-  const getCostTable = (skillType) => {
-    switch (skillType) {
-      case 'origin':
-        return originUpgradeCost;
-      case 'skill':
-        return skillUpgradeCost;
-      case 'mastery':
-        return masteryUpgradeCost;
-      case 'common':
-        return commonUpgradeCost;
-      case 'enhancement':
-        return enhancementUpgradeCost;
-      case 'ascent':
-        return skillUpgradeCost;
-      case 'jobBranch':
-        return jobBranchUpgradeCost;
-      default:
-        console.error('Unknown skill type');
-        return [];
-    }
-  };
+  const calculateTotalSolErda = () => calculateTotalCost('solErda');
+  const calculateTotalFrags = () => calculateTotalCost('frags');
 
   if (!isClient) {
     return null;

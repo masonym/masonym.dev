@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { originUpgradeCost, skillUpgradeCost, masteryUpgradeCost, enhancementUpgradeCost, commonUpgradeCost, jobBranchUpgradeCost } from "@/data/solErda";
-import { GoalInputGrid } from './GoalInputGrid';
-import { formatSkillName, formatSkillPath, getSkillImagePath, getCommonSkillImagePath } from '../../utils';
+import { InputGrid } from '../InputGrid/InputGrid';
+import { formatSkillName, getSkillImagePath, getCommonSkillImagePath } from '../../utils';
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
-import { masteryDesignation } from '@/data/masteryDesignation';
 import { ChevronDown, ChevronRight } from 'lucide-react';
+import { calculateCosts, calculateTotal, getOrderedSkills, calculateProgress, getProgressColor } from './costCalc.utils';
 
 const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   const [desiredSkillLevels, setDesiredSkillLevels] = useState({});
@@ -69,189 +68,11 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
     });
   };
 
-  const getCostTable = (skillType) => {
-    switch (skillType) {
-      case 'origin':
-        return originUpgradeCost;
-      case 'skill':
-        return skillUpgradeCost;
-      case 'mastery':
-        return masteryUpgradeCost;
-      case 'common':
-        return commonUpgradeCost;
-      case 'enhancement':
-        return enhancementUpgradeCost;
-      case 'ascent':
-        return skillUpgradeCost;
-      case 'jobBranch':
-        return jobBranchUpgradeCost;
-      default:
-        console.error('Unknown skill type');
-        return [];
-    }
-  };
-
-  const calculateSkillCost = (skill, costType) => {
-    let totalCost = 0;
-    const costTable = getCostTable(skill.type);
-    const level = skill.level;
-
-    for (let i = 0; i < level; i++) {
-      const cost = costTable[i][i + 1][costType];
-      totalCost += cost;
-    }
-
-    return Math.max(totalCost, 0);
-  };
-
-  const calculateCosts = (skillName) => {
-    var currentSkill = skillLevels[skillName];
-    const desiredSkill = desiredSkillLevels[skillName];
-
-    if (!currentSkill) {
-      currentSkill = { 'level': 0, type: desiredSkill.type }
-    }
-
-    if (!currentSkill || !desiredSkill) {
-      return { current: { solErda: 0, frags: 0 }, remaining: { solErda: 0, frags: 0 }, levels: { current: 0, desired: 0 } };
-    }
-
-    const formattedOriginSkill = formatSkillPath(classDetails.originSkill);
-    const isOriginSkill = skillName === formattedOriginSkill;
-    
-    const currentSkillWithType = {
-      ...currentSkill,
-      type: isOriginSkill ? 'origin' : (currentSkill.type === 'origin' ? 'skill' : currentSkill.type)
-    };
-    
-    const desiredSkillWithType = {
-      ...desiredSkill,
-      type: isOriginSkill ? 'origin' : (desiredSkill.type === 'origin' ? 'skill' : desiredSkill.type)
-    };
-
-    const currentSolErdaSpent = calculateSkillCost(currentSkillWithType, 'solErda');
-    const currentFragSpent = calculateSkillCost(currentSkillWithType, 'frags');
-    const finalSolErdaCost = calculateSkillCost(desiredSkillWithType, 'solErda');
-    const finalFragCost = calculateSkillCost(desiredSkillWithType, 'frags');
-
-    const remainingSolErda = Math.max(0, finalSolErdaCost - currentSolErdaSpent);
-    const remainingFrags = Math.max(0, finalFragCost - currentFragSpent);
-
-    return {
-      current: { solErda: currentSolErdaSpent, frags: currentFragSpent },
-      remaining: { solErda: remainingSolErda, frags: remainingFrags },
-      levels: { current: currentSkill.level, desired: desiredSkill.level }
-    };
-  };
-
-  const calculateTotal = () => {
-    let totalRemainingSolErda = 0;
-    let totalRemainingFrags = 0;
-
-    Object.keys(desiredSkillLevels).forEach((skillName) => {
-      const costs = calculateCosts(skillName);
-      totalRemainingSolErda += costs.remaining.solErda;
-      totalRemainingFrags += costs.remaining.frags;
-    });
-
-    return { solErda: totalRemainingSolErda, frags: totalRemainingFrags };
-  };
-
   const getSkillImage = (skillName, skillType) => {
     if (skillType === 'jobBranch' && brokenJobBranchIcons[skillName]) {
       return getCommonSkillImagePath(skillName);
     }
     return getSkillImagePath(selectedClass, skillName, skillType === 'common');
-  };
-
-  const getOrderedSkills = (classDetails, desiredSkillLevels) => {
-    if (!classDetails || !desiredSkillLevels) return [];
-
-    const orderedSkills = [];
-    const classMasteryDesignation = masteryDesignation[selectedClass];
-
-    if (!classMasteryDesignation) return [];
-
-    // Origin skill
-    const formattedOriginSkill = formatSkillPath(classDetails.originSkill);
-    if (desiredSkillLevels[formattedOriginSkill]) {
-      orderedSkills.push(formattedOriginSkill);
-    }
-
-    // Ascent skills
-    const ascentList = Array.isArray(classDetails.ascentSkills)
-      ? classDetails.ascentSkills
-      : (classDetails.ascentSkill ? [classDetails.ascentSkill] : []);
-    ascentList.forEach((skill) => {
-      if (!skill) return;
-      const formattedSkill = formatSkillPath(skill);
-      if (desiredSkillLevels[formattedSkill]) {
-        orderedSkills.push(formattedSkill);
-      }
-    });
-
-    // First Mastery skills
-    classMasteryDesignation.firstMastery.forEach(skill => {
-      const formattedSkill = formatSkillPath(skill);
-      if (desiredSkillLevels[formattedSkill]) {
-        orderedSkills.push(formattedSkill);
-      }
-    });
-
-    // Second Mastery skills
-    classMasteryDesignation.secondMastery.forEach(skill => {
-      if (!skill) return;
-      const formattedSkill = formatSkillPath(skill);
-      if (desiredSkillLevels[formattedSkill]) {
-        orderedSkills.push(formattedSkill);
-      }
-    });
-
-    // Third Mastery skills
-    classMasteryDesignation.thirdMastery.forEach(skill => {
-      if (!skill) return;
-      const formattedSkill = formatSkillPath(skill);
-      if (desiredSkillLevels[formattedSkill]) {
-        orderedSkills.push(formattedSkill);
-      }
-    });
-
-    // Fourth Mastery skills
-    classMasteryDesignation.fourthMastery.forEach(skill => {
-      if (!skill) return;
-      const formattedSkill = formatSkillPath(skill);
-      if (desiredSkillLevels[formattedSkill]) {
-        orderedSkills.push(formattedSkill);
-      }
-    });
-
-    // Boost skills
-    classDetails.boostSkills.forEach(skill => {
-      const formattedSkill = formatSkillPath(skill);
-      if (desiredSkillLevels[formattedSkill]) {
-        orderedSkills.push(formattedSkill);
-      }
-    });
-
-    // Job Branch skills
-    if (classDetails.jobBranchSkills) {
-      classDetails.jobBranchSkills.forEach(skill => {
-        const formattedSkill = formatSkillPath(skill);
-        if (desiredSkillLevels[formattedSkill]) {
-          orderedSkills.push(formattedSkill);
-        }
-      });
-    }
-
-    // Common skills
-    classDetails.commonSkills.forEach(skill => {
-      const formattedSkill = formatSkillPath(skill);
-      if (desiredSkillLevels[formattedSkill]) {
-        orderedSkills.push(formattedSkill);
-      }
-    });
-
-    return orderedSkills;
   };
 
   const toggleCard = (skillName) => {
@@ -289,24 +110,13 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   }
 
 
-  const calculateProgress = (costs) => {
-    const totalFrags = costs.current.frags + costs.remaining.frags;
-    return totalFrags > 0 ? (costs.current.frags / totalFrags) * 100 : 0;
-  };
-
-  const getProgressColor = (progress) => {
-    if (progress < 33) return 'bg-progress-red';
-    if (progress < 66) return 'bg-progress-orange';
-    if (progress < 100) return 'bg-progress-yellow';
-    return 'bg-progress-green';
-  };
-
-  const totalRemaining = calculateTotal();
-  const orderedSkills = getOrderedSkills(classDetails, desiredSkillLevels);
+  const totalRemaining = calculateTotal({ skillLevels, desiredSkillLevels, classDetails });
+  const orderedSkills = getOrderedSkills(classDetails, desiredSkillLevels, selectedClass);
 
   return (
     <div className="flex flex-col">
-      <GoalInputGrid
+      <InputGrid
+        mode="goal"
         classKey={selectedClass}
         classDetails={classDetails}
         skillLevels={desiredSkillLevels}
@@ -358,7 +168,7 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
             </button>
           </div>
           {orderedSkills.map((skillName) => {
-            const costs = calculateCosts(skillName);
+            const costs = calculateCosts(skillName, { skillLevels, desiredSkillLevels, classDetails });
             const skillType = desiredSkillLevels[skillName]?.type || 'enhancement';
             const progress = calculateProgress(costs);
             const progressColor = getProgressColor(progress);

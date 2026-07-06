@@ -3,28 +3,39 @@ import styles from './InputGrid.module.css';
 import { masteryDesignation } from '@/data/masteryDesignation';
 import { SkillGroup } from '../SkillGroup/SkillGroup';
 
-export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLevels, resetSkillLevels }) => {
+// mode="current" is used for entering existing Hexa levels (ClassSelector);
+// mode="goal" is used for entering target levels in the cost calculator.
+export const InputGrid = ({ classKey, classDetails, skillLevels, updateSkillLevels, resetSkillLevels, mode = 'current' }) => {
     const firstMasterySkills = masteryDesignation[classKey]?.firstMastery || [];
     const secondMasterySkills = masteryDesignation[classKey]?.secondMastery || [];
     const thirdMasterySkills = masteryDesignation[classKey]?.thirdMastery || [];
     const fourthMasterySkills = masteryDesignation[classKey]?.fourthMastery || [];
 
+    const resetButton = resetSkillLevels && (
+        <button
+            onClick={resetSkillLevels}
+            className="px-3 py-1 text-sm rounded bg-[color:var(--primary-dark)] text-[color:var(--primary)] hover:bg-[color:var(--primary-dim)] transition-colors border border-[color:var(--primary-dim)]"
+        >
+            Reset
+        </button>
+    );
+
     return (
         <div>
             <div className={styles.container}>
-                <div className="flex items-center gap-3">
-                    <h1 className="text-[32px]">{classKey}</h1>
-                    {resetSkillLevels && (
-                        <button
-                            onClick={resetSkillLevels}
-                            className="px-3 py-1 text-sm rounded bg-[color:var(--primary-dark)] text-[color:var(--primary)] hover:bg-[color:var(--primary-dim)] transition-colors border border-[color:var(--primary-dim)]"
-                        >
-                            Reset
-                        </button>
-                    )}
-                </div>
+                {mode === 'goal' ? (
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                        <span className="text-2xl font-bold">Cost Calculator</span>
+                        {resetButton}
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-[32px]">{classKey}</h1>
+                        {resetButton}
+                    </div>
+                )}
                 <div className="my-4">
-                    <p>Enter in your current Hexa levels:</p>
+                    <p>Enter in your {mode === 'goal' ? 'desired' : 'current'} Hexa levels:</p>
                 </div>
                 <div className={styles.gridHexaLevels}>
                     {/* Skill Nodes */}
