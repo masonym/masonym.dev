@@ -934,7 +934,7 @@ const AstraSecondaryCalculator = () => {
                         <label className="block text-primary-bright text-sm mb-1">
                           Vouchers Kept
                           <span className="text-primary-bright/50 font-normal ml-1">
-                            (of {selectedDifficulty.voucherCount})
+                            (of {selectedDifficulty.voucherCount}, avg. ok)
                           </span>
                         </label>
                         <input
@@ -943,6 +943,7 @@ const AstraSecondaryCalculator = () => {
                           value={selection?.vouchersKept ?? 0}
                           min={0}
                           max={selectedDifficulty.voucherCount}
+                          step={0.1}
                           onChange={(e) =>
                             handleBossSelectionChange(
                               boss.id,
