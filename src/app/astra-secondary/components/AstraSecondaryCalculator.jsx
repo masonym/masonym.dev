@@ -4,6 +4,8 @@ import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 
 const STORAGE_KEY = "astraSecondaryState";
+const PRESETS_STORAGE_KEY = "astraSecondaryPresets";
+const PRESET_COUNT = 3;
 
 // Astra Subweapon Mission Requirements
 const MISSIONS = [
@@ -254,7 +256,74 @@ const AstraSecondaryCalculator = () => {
   const [futureQuestDate, setFutureQuestDate] = useState("");
   const [futureQuestId, setFutureQuestId] = useState("");
 
+  // Saved configuration presets (3 slots)
+  const [presets, setPresets] = useState(() =>
+    Array.from({ length: PRESET_COUNT }, (_, i) => ({
+      name: `Preset ${i + 1}`,
+      savedAt: null,
+      config: null,
+    })),
+  );
+  const [presetsLoaded, setPresetsLoaded] = useState(false);
+
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // Gathers the current form state into a plain object suitable for storage
+  // (localStorage autosave or a preset slot).
+  const getCurrentConfig = () => ({
+    currentMission,
+    currentTraces,
+    currentFragments,
+    startDate,
+    bossSelections,
+    highestDailyQuest,
+    daysPerWeek,
+    futureQuestDate,
+    futureQuestId,
+  });
+
+  // Applies a saved config (from localStorage or a preset) to the live form
+  // state. Boss selections are rebuilt from the current boss list so
+  // renamed/removed/added bosses don't break the page - saved values are
+  // merged in by id, with a migration map for ids that have been renamed.
+  const applyState = (config) => {
+    if (config.currentMission !== undefined)
+      setCurrentMission(config.currentMission);
+    if (config.currentTraces !== undefined)
+      setCurrentTraces(config.currentTraces);
+    if (config.currentFragments !== undefined)
+      setCurrentFragments(config.currentFragments);
+    if (config.startDate)
+      setStartDate(
+        config.startDate < MIN_START_DATE
+          ? MIN_START_DATE
+          : config.startDate,
+      );
+    if (config.bossSelections) {
+      const savedById = new Map(
+        config.bossSelections.map((b) => [ID_MIGRATIONS[b.id] ?? b.id, b]),
+      );
+      setBossSelections(
+        TRACES_BOSS_DATA.map((boss) => {
+          const saved = savedById.get(boss.id);
+          return {
+            id: boss.id,
+            selectedDifficulty: saved?.selectedDifficulty ?? "None",
+            partySize: saved?.partySize ?? 1,
+            clearedThisWeek: saved?.clearedThisWeek ?? false,
+            vouchersKept: saved?.vouchersKept ?? 0,
+          };
+        }),
+      );
+    }
+    if (config.highestDailyQuest)
+      setHighestDailyQuest(config.highestDailyQuest);
+    if (config.daysPerWeek !== undefined) setDaysPerWeek(config.daysPerWeek);
+    if (config.futureQuestDate !== undefined)
+      setFutureQuestDate(config.futureQuestDate);
+    if (config.futureQuestId !== undefined)
+      setFutureQuestId(config.futureQuestId);
+  };
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -264,47 +333,7 @@ const AstraSecondaryCalculator = () => {
           ? localStorage.getItem(STORAGE_KEY)
           : null;
       if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.currentMission !== undefined)
-          setCurrentMission(parsed.currentMission);
-        if (parsed.currentTraces !== undefined)
-          setCurrentTraces(parsed.currentTraces);
-        if (parsed.currentFragments !== undefined)
-          setCurrentFragments(parsed.currentFragments);
-        if (parsed.startDate)
-          setStartDate(
-            parsed.startDate < MIN_START_DATE
-              ? MIN_START_DATE
-              : parsed.startDate,
-          );
-        if (parsed.bossSelections) {
-          // Rebuild from the current boss list so renamed/removed/added bosses
-          // don't break the page. Saved values are merged in by id, with a
-          // migration map for ids that have been renamed.
-          const savedById = new Map(
-            parsed.bossSelections.map((b) => [ID_MIGRATIONS[b.id] ?? b.id, b]),
-          );
-          setBossSelections(
-            TRACES_BOSS_DATA.map((boss) => {
-              const saved = savedById.get(boss.id);
-              return {
-                id: boss.id,
-                selectedDifficulty: saved?.selectedDifficulty ?? "None",
-                partySize: saved?.partySize ?? 1,
-                clearedThisWeek: saved?.clearedThisWeek ?? false,
-                vouchersKept: saved?.vouchersKept ?? 0,
-              };
-            }),
-          );
-        }
-        if (parsed.highestDailyQuest)
-          setHighestDailyQuest(parsed.highestDailyQuest);
-        if (parsed.daysPerWeek !== undefined)
-          setDaysPerWeek(parsed.daysPerWeek);
-        if (parsed.futureQuestDate !== undefined)
-          setFutureQuestDate(parsed.futureQuestDate);
-        if (parsed.futureQuestId !== undefined)
-          setFutureQuestId(parsed.futureQuestId);
+        applyState(JSON.parse(saved));
       }
     } catch {
       // ignore storage errors
@@ -316,19 +345,8 @@ const AstraSecondaryCalculator = () => {
   useEffect(() => {
     if (!isLoaded) return;
     try {
-      const state = {
-        currentMission,
-        currentTraces,
-        currentFragments,
-        startDate,
-        bossSelections,
-        highestDailyQuest,
-        daysPerWeek,
-        futureQuestDate,
-        futureQuestId,
-      };
       if (typeof window !== "undefined") {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(getCurrentConfig()));
       }
     } catch {
       // ignore storage errors
@@ -345,6 +363,95 @@ const AstraSecondaryCalculator = () => {
     futureQuestId,
     isLoaded,
   ]);
+
+  // Load presets from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved =
+        typeof window !== "undefined"
+          ? localStorage.getItem(PRESETS_STORAGE_KEY)
+          : null;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setPresets((prev) =>
+            prev.map((slot, i) => ({ ...slot, ...(parsed[i] || {}) })),
+          );
+        }
+      }
+    } catch {
+      // ignore storage errors
+    }
+    setPresetsLoaded(true);
+  }, []);
+
+  // Save presets to localStorage when they change
+  useEffect(() => {
+    if (!presetsLoaded) return;
+    try {
+      if (typeof window !== "undefined") {
+        localStorage.setItem(PRESETS_STORAGE_KEY, JSON.stringify(presets));
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, [presets, presetsLoaded]);
+
+  // Save the current form state into a preset slot (confirms before
+  // overwriting an occupied one)
+  const handleSavePreset = (idx) => {
+    const existing = presets[idx];
+    if (
+      existing?.config &&
+      typeof window !== "undefined" &&
+      !window.confirm(`Overwrite "${existing.name}" with the current setup?`)
+    ) {
+      return;
+    }
+    setPresets((prev) =>
+      prev.map((slot, i) =>
+        i === idx
+          ? {
+              ...slot,
+              savedAt: new Date().toISOString(),
+              config: getCurrentConfig(),
+            }
+          : slot,
+      ),
+    );
+  };
+
+  // Load a preset slot into the live form state
+  const handleLoadPreset = (idx) => {
+    const preset = presets[idx];
+    if (!preset?.config) return;
+    applyState(preset.config);
+  };
+
+  // Clear a preset slot back to empty
+  const handleClearPreset = (idx) => {
+    const existing = presets[idx];
+    if (
+      typeof window !== "undefined" &&
+      !window.confirm(`Clear "${existing.name}"?`)
+    ) {
+      return;
+    }
+    setPresets((prev) =>
+      prev.map((slot, i) =>
+        i === idx
+          ? { name: `Preset ${idx + 1}`, savedAt: null, config: null }
+          : slot,
+      ),
+    );
+  };
+
+  // Rename a preset slot
+  const handleRenamePreset = (idx, name) => {
+    setPresets((prev) =>
+      prev.map((slot, i) => (i === idx ? { ...slot, name } : slot)),
+    );
+  };
 
   // Reset all state
   const handleReset = () => {
@@ -654,6 +761,64 @@ const AstraSecondaryCalculator = () => {
 
   return (
     <div className="max-w-7xl mx-auto bg-primary-dark border border-primary-dim p-6 rounded-2xl">
+      {/* Presets Section */}
+      <div className="mb-6 p-4 bg-background-bright border border-primary-dim rounded-xl">
+        <h2 className="text-lg font-semibold text-primary-bright mb-3">
+          Presets
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {presets.map((preset, idx) => (
+            <div
+              key={idx}
+              className="p-3 bg-primary-dark border border-primary-dim rounded-lg"
+            >
+              <input
+                type="text"
+                value={preset.name}
+                onChange={(e) => handleRenamePreset(idx, e.target.value)}
+                placeholder={`Preset ${idx + 1}`}
+                className="w-full bg-transparent text-primary-bright font-medium text-sm mb-1 border-b border-transparent hover:border-primary-dim focus:border-secondary focus:outline-none transition-colors"
+              />
+              <p className="text-xs text-primary-bright/50 mb-2 h-4">
+                {preset.config
+                  ? `Saved ${new Date(preset.savedAt).toLocaleDateString(
+                      "en-US",
+                      { month: "short", day: "numeric" },
+                    )}`
+                  : "Empty"}
+              </p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleLoadPreset(idx)}
+                  disabled={!preset.config}
+                  className="flex-1 text-xs px-2 py-1.5 bg-secondary/20 text-secondary rounded border border-secondary/30 hover:bg-secondary/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  Load
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSavePreset(idx)}
+                  className="flex-1 text-xs px-2 py-1.5 bg-primary-dim/50 text-primary-bright rounded border border-primary-dim hover:bg-primary-dim transition-colors"
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleClearPreset(idx)}
+                  disabled={!preset.config}
+                  aria-label={`Clear ${preset.name}`}
+                  title="Clear preset"
+                  className="text-xs px-2 py-1.5 bg-primary-dim/50 text-primary-bright/70 rounded border border-primary-dim hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Current Status Section */}
       <div className="mb-8">
         <div className="flex items-center justify-center gap-4 mb-4">
