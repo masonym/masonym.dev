@@ -208,6 +208,20 @@ const MAX_TRACES_CAPACITY = 1000;
 // (averaged) voucher counts, e.g. 1.1 * 30 === 33.000000000000004.
 const round2 = (n) => Math.round(n * 100) / 100;
 
+// Earliest selectable start date (UTC) - Astra Secondary release date.
+const MIN_START_DATE = "2026-07-22";
+
+// Today's date (UTC), clamped to not be earlier than MIN_START_DATE.
+const getDefaultStartDate = () => {
+  const now = new Date();
+  const todayUTC = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  )
+    .toISOString()
+    .split("T")[0];
+  return todayUTC < MIN_START_DATE ? MIN_START_DATE : todayUTC;
+};
+
 // Maps old (cached) boss ids to their current id so saved selections in
 // localStorage carry over when a boss id is renamed.
 const ID_MIGRATIONS = {
@@ -219,14 +233,7 @@ const AstraSecondaryCalculator = () => {
   const [currentMission, setCurrentMission] = useState(1);
   const [currentTraces, setCurrentTraces] = useState(0);
   const [currentFragments, setCurrentFragments] = useState(0);
-  const [startDate, setStartDate] = useState(() => {
-    const now = new Date();
-    return new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-    )
-      .toISOString()
-      .split("T")[0];
-  });
+  const [startDate, setStartDate] = useState(getDefaultStartDate);
 
   // Boss configuration state
   const [bossSelections, setBossSelections] = useState(
@@ -264,7 +271,12 @@ const AstraSecondaryCalculator = () => {
           setCurrentTraces(parsed.currentTraces);
         if (parsed.currentFragments !== undefined)
           setCurrentFragments(parsed.currentFragments);
-        if (parsed.startDate) setStartDate(parsed.startDate);
+        if (parsed.startDate)
+          setStartDate(
+            parsed.startDate < MIN_START_DATE
+              ? MIN_START_DATE
+              : parsed.startDate,
+          );
         if (parsed.bossSelections) {
           // Rebuild from the current boss list so renamed/removed/added bosses
           // don't break the page. Saved values are merged in by id, with a
@@ -336,17 +348,10 @@ const AstraSecondaryCalculator = () => {
 
   // Reset all state
   const handleReset = () => {
-    const now = new Date();
-    const defaultDate = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-    )
-      .toISOString()
-      .split("T")[0];
-
     setCurrentMission(1);
     setCurrentTraces(0);
     setCurrentFragments(0);
-    setStartDate(defaultDate);
+    setStartDate(getDefaultStartDate());
     setBossSelections(
       TRACES_BOSS_DATA.map((boss) => ({
         id: boss.id,
@@ -375,6 +380,22 @@ const AstraSecondaryCalculator = () => {
     setBossSelections((prev) =>
       prev.map((boss) =>
         boss.id === bossId ? { ...boss, [field]: value } : boss,
+      ),
+    );
+  };
+
+  // Nudge a boss's vouchersKept up/down by a fixed step, clamped to [0, max]
+  const adjustVouchersKept = (bossId, delta, max) => {
+    setBossSelections((prev) =>
+      prev.map((boss) =>
+        boss.id === bossId
+          ? {
+              ...boss,
+              vouchersKept: round2(
+                Math.min(max, Math.max(0, (boss.vouchersKept || 0) + delta)),
+              ),
+            }
+          : boss,
       ),
     );
   };
@@ -829,7 +850,14 @@ const AstraSecondaryCalculator = () => {
               type="date"
               className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim text-center font-semibold"
               value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              min={MIN_START_DATE}
+              onChange={(e) =>
+                setStartDate(
+                  e.target.value < MIN_START_DATE
+                    ? MIN_START_DATE
+                    : e.target.value,
+                )
+              }
             />
           </div>
         </div>
@@ -878,7 +906,7 @@ const AstraSecondaryCalculator = () => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
                     {/* Difficulty Selection */}
-                    <div className="sm:col-span-4">
+                    <div className="sm:col-span-6">
                       <label className="block text-primary-bright text-sm mb-1">
                         Difficulty
                       </label>
@@ -907,7 +935,7 @@ const AstraSecondaryCalculator = () => {
                     </div>
 
                     {/* Party Size */}
-                    <div className="sm:col-span-2">
+                    <div className="sm:col-span-1">
                       <label className="block text-primary-bright text-sm mb-1">
                         Party
                       </label>
@@ -935,31 +963,63 @@ const AstraSecondaryCalculator = () => {
 
                     {/* Tickets Kept */}
                     {selectedDifficulty?.hasVoucher && (
-                      <div className="sm:col-span-3">
+                      <div className="sm:col-span-4">
                         <label className="block text-primary-bright text-sm mb-1">
                           Erion Coupons Kept
-                          <span className="text-primary-bright/50 font-normal ml-1">
-                            (of {selectedDifficulty.voucherCount}, avg. ok)
-                          </span>
                         </label>
-                        <input
-                          type="number"
-                          className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim text-center"
-                          value={selection?.vouchersKept ?? 0}
-                          min={0}
-                          max={selectedDifficulty.voucherCount}
-                          step={0.1}
-                          onChange={(e) =>
-                            handleBossSelectionChange(
-                              boss.id,
-                              "vouchersKept",
-                              Math.min(
-                                selectedDifficulty.voucherCount,
-                                Math.max(0, Number(e.target.value)),
-                              ),
-                            )
-                          }
-                        />
+                        <div className="flex items-stretch bg-primary-dark rounded border border-primary-dim overflow-hidden">
+                          <input
+                            type="number"
+                            className="w-full min-w-0 p-2 bg-transparent text-primary-bright text-center font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            value={selection?.vouchersKept ?? 0}
+                            min={0}
+                            max={selectedDifficulty.voucherCount}
+                            step={0.1}
+                            onChange={(e) =>
+                              handleBossSelectionChange(
+                                boss.id,
+                                "vouchersKept",
+                                Math.min(
+                                  selectedDifficulty.voucherCount,
+                                  Math.max(0, Number(e.target.value)),
+                                ),
+                              )
+                            }
+                          />
+                          <span className="flex items-center pr-2 text-primary-bright/50 whitespace-nowrap select-none">
+                            / {selectedDifficulty.voucherCount}
+                          </span>
+                          <div className="flex flex-col border-l border-primary-dim">
+                            <button
+                              type="button"
+                              aria-label="Increase coupons kept"
+                              onClick={() =>
+                                adjustVouchersKept(
+                                  boss.id,
+                                  0.5,
+                                  selectedDifficulty.voucherCount,
+                                )
+                              }
+                              className="flex-1 px-2 leading-none text-[10px] text-primary-bright/70 hover:text-primary-bright hover:bg-primary-dim/50"
+                            >
+                              ▲
+                            </button>
+                            <button
+                              type="button"
+                              aria-label="Decrease coupons kept"
+                              onClick={() =>
+                                adjustVouchersKept(
+                                  boss.id,
+                                  -0.5,
+                                  selectedDifficulty.voucherCount,
+                                )
+                              }
+                              className="flex-1 px-2 leading-none text-[10px] text-primary-bright/70 hover:text-primary-bright hover:bg-primary-dim/50 border-t border-primary-dim"
+                            >
+                              ▼
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     )}
 
