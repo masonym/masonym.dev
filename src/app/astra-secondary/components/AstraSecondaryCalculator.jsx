@@ -177,7 +177,7 @@ const TRACES_BOSS_DATA = [
   },
 ];
 
-// Daily Quest data for Erion's Fragments
+// Daily Quest data for Vestige of Erion
 const DAILY_QUESTS = [
   { id: "cernium", name: "Cernium Research", fragments: 1 },
   { id: "hotel_arcs", name: "Clean Up Around Hotel Arcus", fragments: 3 },
@@ -754,7 +754,7 @@ const AstraSecondaryCalculator = () => {
               <div className="w-10 h-10 bg-primary-dark rounded-lg flex items-center justify-center">
                 <Image
                   src="/astra-secondary/erion-fragment.webp"
-                  alt="Erion's Fragment"
+                  alt="Vestige of Erion"
                   width={32}
                   height={32}
                   className="object-contain"
@@ -762,7 +762,7 @@ const AstraSecondaryCalculator = () => {
               </div>
               <div>
                 <label className="block text-primary-bright font-medium text-sm">
-                  Erion's Fragments
+                  Vestige of Erion
                 </label>
                 <span className="text-xs text-primary-bright/60">
                   No capacity limit
@@ -846,9 +846,10 @@ const AstraSecondaryCalculator = () => {
             </h2>
             <p className="text-sm text-primary-bright/70 mb-4">
               Select difficulty, party size, and whether you cleared this week.
-              Traces are divided by party size. Erion's Fragment Exchange
-              Tickets drop every kill - set how many you keep per week (0 = sell
-              all).
+              Traces are divided by party size. Vestige of Erion's Coupons drop
+              every kill - set how many you keep per week. You can add
+              fractional amount to imply averages (i.e. 1.5 = 3 every other
+              week).
             </p>
 
             {TRACES_BOSS_DATA.map((boss) => {
@@ -936,7 +937,7 @@ const AstraSecondaryCalculator = () => {
                     {selectedDifficulty?.hasVoucher && (
                       <div className="sm:col-span-3">
                         <label className="block text-primary-bright text-sm mb-1">
-                          Vouchers Kept
+                          Erion Coupons Kept
                           <span className="text-primary-bright/50 font-normal ml-1">
                             (of {selectedDifficulty.voucherCount}, avg. ok)
                           </span>
@@ -1016,14 +1017,14 @@ const AstraSecondaryCalculator = () => {
                       </span>
                       {selectedDifficulty.hasVoucher && (
                         <span className="text-primary-bright/70">
-                          Vouchers:{" "}
+                          Erion Coupons:{" "}
                           <span className="font-semibold text-secondary">
                             {selectedDifficulty.voucherCount} drops
                           </span>
                           <span className="text-primary-bright/50">
                             {" "}
-                            × {selectedDifficulty.voucherValue} Erion's
-                            Fragments each
+                            × {selectedDifficulty.voucherValue} Vestige of Erion
+                            each
                           </span>
                           {(selection?.vouchersKept || 0) > 0 && (
                             <span className="text-secondary font-semibold ml-1">
@@ -1261,7 +1262,7 @@ const AstraSecondaryCalculator = () => {
                   className="opacity-80"
                 />
                 <span className="text-primary-bright text-sm">
-                  Weekly Fragments (vouchers):
+                  Weekly Fragments (boss coupons):
                 </span>
               </div>
               <span className="font-bold text-secondary">
