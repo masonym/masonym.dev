@@ -204,6 +204,10 @@ const DAILY_QUESTS = [
 // Maximum traces that can be accumulated
 const MAX_TRACES_CAPACITY = 1000;
 
+// Rounds to 2 decimal places to avoid floating-point drift from fractional
+// (averaged) voucher counts, e.g. 1.1 * 30 === 33.000000000000004.
+const round2 = (n) => Math.round(n * 100) / 100;
+
 // Maps old (cached) boss ids to their current id so saved selections in
 // localStorage carry over when a boss id is renamed.
 const ID_MIGRATIONS = {
@@ -403,8 +407,9 @@ const AstraSecondaryCalculator = () => {
       const vouchersKept = difficulty.hasVoucher
         ? selection.vouchersKept || 0
         : 0;
-      const voucherFragmentsPerWeek =
-        vouchersKept * (difficulty.voucherValue || 0);
+      const voucherFragmentsPerWeek = round2(
+        vouchersKept * (difficulty.voucherValue || 0),
+      );
 
       return {
         bossId: boss.id,
@@ -442,9 +447,8 @@ const AstraSecondaryCalculator = () => {
   const calculateSchedule = useMemo(() => {
     const bossData = calculateBossWeeklyData();
     const weeklyTraces = bossData.reduce((sum, b) => sum + b.tracesPerWeek, 0);
-    const weeklyVoucherFragments = bossData.reduce(
-      (sum, b) => sum + b.voucherFragmentsPerWeek,
-      0,
+    const weeklyVoucherFragments = round2(
+      bossData.reduce((sum, b) => sum + b.voucherFragmentsPerWeek, 0),
     );
     const dailyFragments = getDailyFragments();
     const weeklyDailyFragments = dailyFragments * daysPerWeek;
@@ -525,7 +529,7 @@ const AstraSecondaryCalculator = () => {
           currentDate > nextThursday
         ) {
           traces = Math.min(traces + weeklyTraces, MAX_TRACES_CAPACITY);
-          fragments += weeklyVoucherFragments;
+          fragments = round2(fragments + weeklyVoucherFragments);
 
           if (weeklyTraces > 0 || weeklyVoucherFragments > 0) {
             timeline.push({
@@ -1024,9 +1028,9 @@ const AstraSecondaryCalculator = () => {
                           {(selection?.vouchersKept || 0) > 0 && (
                             <span className="text-secondary font-semibold ml-1">
                               →{" "}
-                              {(
+                              {round2(
                                 selection.vouchersKept *
-                                selectedDifficulty.voucherValue
+                                  selectedDifficulty.voucherValue,
                               ).toLocaleString()}{" "}
                               frags/week kept
                             </span>
