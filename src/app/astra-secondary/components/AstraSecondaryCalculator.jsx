@@ -891,22 +891,68 @@ const AstraSecondaryCalculator = () => {
                   key={boss.id}
                   className="bg-background-bright border border-primary-dim p-4 rounded-xl mb-4"
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <Image
-                      src={`/bossImages/largeIcons/${boss.id === "seren" ? "seren" : boss.id === "kalos" ? "kalos" : boss.id === "first_adversary" ? "first_adversary" : boss.id}.png`}
-                      alt={boss.name}
-                      width={40}
-                      height={40}
-                      className="rounded-md"
-                    />
-                    <h3 className="text-lg font-medium text-primary-bright">
-                      {boss.name}
-                    </h3>
+                  <div className="flex items-center justify-between gap-3 mb-3">
+                    <div className="flex items-center gap-3">
+                      <Image
+                        src={`/bossImages/largeIcons/${boss.id === "seren" ? "seren" : boss.id === "kalos" ? "kalos" : boss.id === "first_adversary" ? "first_adversary" : boss.id}.png`}
+                        alt={boss.name}
+                        width={40}
+                        height={40}
+                        className="rounded-md"
+                      />
+                      <h3 className="text-lg font-medium text-primary-bright">
+                        {boss.name}
+                      </h3>
+                    </div>
+
+                    {/* Cleared This Week Toggle */}
+                    <label
+                      className={`flex items-center gap-2 select-none ${
+                        selection?.selectedDifficulty === "None"
+                          ? "cursor-not-allowed opacity-50"
+                          : "cursor-pointer"
+                      }`}
+                    >
+                      <span className="text-primary-bright/80 text-sm hidden sm:inline">
+                        Cleared This Week
+                      </span>
+                      <div className="relative">
+                        <input
+                          type="checkbox"
+                          className="sr-only"
+                          checked={selection?.clearedThisWeek || false}
+                          onChange={(e) =>
+                            handleBossSelectionChange(
+                              boss.id,
+                              "clearedThisWeek",
+                              e.target.checked,
+                            )
+                          }
+                          disabled={selection?.selectedDifficulty === "None"}
+                        />
+                        <div
+                          className={`block w-10 h-6 rounded-full border border-primary-dim ${selection?.clearedThisWeek ? "bg-secondary" : "bg-primary-dark"}`}
+                        ></div>
+                        <div
+                          className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition ${selection?.clearedThisWeek ? "transform translate-x-full" : ""}`}
+                        ></div>
+                      </div>
+                      <span className="text-primary-bright text-sm w-7">
+                        {selection?.clearedThisWeek ? "Yes" : "No"}
+                      </span>
+                    </label>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
                     {/* Difficulty Selection */}
-                    <div className="sm:col-span-6">
+                    <div
+                      className={
+                        selectedDifficulty?.hasVoucher
+                          ? "sm:col-span-6"
+                          : "sm:col-span-9"
+                      }
+                    >
+
                       <label className="block text-primary-bright text-sm mb-1">
                         Difficulty
                       </label>
@@ -935,7 +981,13 @@ const AstraSecondaryCalculator = () => {
                     </div>
 
                     {/* Party Size */}
-                    <div className="sm:col-span-1">
+                    <div
+                      className={
+                        selectedDifficulty?.hasVoucher
+                          ? "sm:col-span-2"
+                          : "sm:col-span-3"
+                      }
+                    >
                       <label className="block text-primary-bright text-sm mb-1">
                         Party
                       </label>
@@ -1022,45 +1074,6 @@ const AstraSecondaryCalculator = () => {
                         </div>
                       </div>
                     )}
-
-                    {/* Cleared This Week Toggle */}
-                    <div
-                      className={
-                        selectedDifficulty?.hasVoucher
-                          ? "sm:col-span-3"
-                          : "sm:col-span-6"
-                      }
-                    >
-                      <label className="block text-primary-bright text-sm mb-1">
-                        Cleared This Week
-                      </label>
-                      <label className="flex items-center cursor-pointer">
-                        <div className="relative">
-                          <input
-                            type="checkbox"
-                            className="sr-only"
-                            checked={selection?.clearedThisWeek || false}
-                            onChange={(e) =>
-                              handleBossSelectionChange(
-                                boss.id,
-                                "clearedThisWeek",
-                                e.target.checked,
-                              )
-                            }
-                            disabled={selection?.selectedDifficulty === "None"}
-                          />
-                          <div
-                            className={`block w-10 h-6 rounded-full border border-primary-dim ${selection?.clearedThisWeek ? "bg-secondary" : "bg-primary-dark"}`}
-                          ></div>
-                          <div
-                            className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition ${selection?.clearedThisWeek ? "transform translate-x-full" : ""}`}
-                          ></div>
-                        </div>
-                        <span className="ml-2 text-primary-bright text-sm">
-                          {selection?.clearedThisWeek ? "Yes" : "No"}
-                        </span>
-                      </label>
-                    </div>
                   </div>
 
                   {selectedDifficulty && selectedDifficulty.name !== "None" && (
