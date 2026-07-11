@@ -5,7 +5,79 @@ import { formatSkillName, getSkillImagePath, getCommonSkillImagePath } from '../
 import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
 import sol_erda from '../../assets/sol_erda.png';
 import { ChevronDown, ChevronRight } from 'lucide-react';
-import { calculateCosts, calculateTotal, getOrderedSkills, calculateProgress, getProgressColor } from './costCalc.utils';
+import {
+  calculateCosts,
+  calculateTotal,
+  getOrderedSkills,
+  calculateProgress,
+  getProgressColor,
+  getEffectiveSkillType,
+  getMaxLevel,
+  getNextLevelCost,
+  getCostTable,
+} from './costCalc.utils';
+
+// Compact inline readout for a single cost (icons + values on one row).
+const CostInline = ({ cost }) => (
+  <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+    <span className="flex items-center gap-1 text-sm font-semibold text-primary-bright">
+      <Image src={sol_erda} width={20} height={20} alt="Sol Erda Energy" />
+      {cost.solErda.toLocaleString()}
+    </span>
+    <span className="flex items-center gap-1 text-sm font-semibold text-primary-bright">
+      <Image src={sol_erda_fragment} width={20} height={20} alt="Sol Erda Fragment" />
+      {cost.frags.toLocaleString()}
+    </span>
+  </div>
+);
+
+// Click-to-expand per-level cost breakdown for a skill type. Renders inline
+// (not an absolutely-positioned overlay) so it can't leave dead scrollable
+// space behind it or lose hover partway between a trigger and a panel.
+const CostTableSection = ({ skillType }) => {
+  const costTable = getCostTable(skillType);
+  let total = { solErda: 0, frags: 0 };
+  const rows = costTable.map((entry, index) => {
+    const level = index + 1;
+    const cost = entry[level];
+    total = { solErda: total.solErda + cost.solErda, frags: total.frags + cost.frags };
+    return { level, cost };
+  });
+
+  return (
+    <details className="group/table mb-3 rounded-lg border border-primary-dim">
+      <summary className="flex list-none items-center justify-between gap-2 px-3 py-2 text-xs text-primary-dim transition cursor-pointer hover:text-secondary">
+        <span>Cost table</span>
+        <ChevronRight className="h-4 w-4 transition-transform group-open/table:rotate-90" />
+      </summary>
+      <div className="max-h-72 overflow-y-auto border-t border-primary-dim p-3">
+        <table className="w-full text-xs text-primary">
+          <thead>
+            <tr className="text-primary-dim">
+              <th className="pb-1 text-left font-medium">Lv</th>
+              <th className="pb-1 text-right font-medium">Sol Erda</th>
+              <th className="pb-1 text-right font-medium">Frags</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.level} className="border-t border-primary-dim/40">
+                <td className="py-1 text-left text-primary-bright">{row.level - 1} → {row.level}</td>
+                <td className="py-1 text-right">{row.cost.solErda.toLocaleString()}</td>
+                <td className="py-1 text-right">{row.cost.frags.toLocaleString()}</td>
+              </tr>
+            ))}
+            <tr className="border-t border-primary-dim font-semibold text-primary-bright">
+              <td className="py-1 text-left">Total</td>
+              <td className="py-1 text-right">{total.solErda.toLocaleString()}</td>
+              <td className="py-1 text-right">{total.frags.toLocaleString()}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  );
+};
 
 const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   const [desiredSkillLevels, setDesiredSkillLevels] = useState({});
@@ -172,17 +244,22 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
             const skillType = desiredSkillLevels[skillName]?.type || 'enhancement';
             const progress = calculateProgress(costs);
             const progressColor = getProgressColor(progress);
+            const effectiveType = getEffectiveSkillType(skillName, skillType, classDetails);
+            const atMaxLevel = costs.levels.current >= getMaxLevel(effectiveType);
+            const nextLevelCost = !atMaxLevel ? getNextLevelCost(effectiveType, costs.levels.current) : null;
 
             if (hideCompleted && progress === 100) {
               return null;
             }
 
             return (
-              <div key={skillName} className="mb-4 p-4 bg-primary-dark rounded-lg w-[75%] relative overflow-hidden">
-                <div
-                  className={`absolute top-0 left-0 h-full ${progressColor} opacity-25 transition-all duration-500 ease-in-out`}
-                  style={{ width: `${progress}%` }}
-                ></div>
+              <div key={skillName} className="mb-4 p-4 bg-primary-dark rounded-lg w-[75%] relative">
+                <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-lg">
+                  <div
+                    className={`h-full ${progressColor} opacity-25 transition-all duration-500 ease-in-out`}
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
                 <div className="relative z-10">
                   <div
                     className="flex items-center mb-2 cursor-pointer"
@@ -210,6 +287,15 @@ const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
                       Level {costs.levels.current} → {costs.levels.desired}
                     </span>
                   </div>
+                  <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-primary-dim bg-primary-dark/40 px-3 py-2">
+                    <span className="text-xs font-semibold text-primary-bright md:text-sm">
+                      {atMaxLevel
+                        ? 'Max level reached'
+                        : `Next level (Lv ${costs.levels.current} → ${costs.levels.current + 1})`}
+                    </span>
+                    {nextLevelCost && <CostInline cost={nextLevelCost} />}
+                  </div>
+                  <CostTableSection skillType={effectiveType} />
                   {!collapsedCards[skillName] && (
                     <div className="grid grid-cols-2 gap-4">
                       <div className="items-start flex flex-col">

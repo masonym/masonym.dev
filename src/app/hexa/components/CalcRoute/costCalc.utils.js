@@ -37,6 +37,22 @@ export const calculateSkillCost = (skill, costType) => {
     return Math.max(totalCost, 0);
 };
 
+// Origin nodes are tagged 'skill' like ascent skills everywhere except pricing,
+// where they use their own (cheaper) cost table.
+export const getEffectiveSkillType = (skillName, skillType, classDetails) => {
+    const isOriginSkill = skillName === formatSkillPath(classDetails.originSkill);
+    return isOriginSkill ? 'origin' : (skillType === 'origin' ? 'skill' : skillType);
+};
+
+export const getMaxLevel = (skillType) => getCostTable(skillType).length;
+
+// Cost to advance from `fromLevel` to `fromLevel + 1`, or null if already maxed.
+export const getNextLevelCost = (skillType, fromLevel) => {
+    const costTable = getCostTable(skillType);
+    if (fromLevel < 0 || fromLevel >= costTable.length) return null;
+    return costTable[fromLevel][fromLevel + 1];
+};
+
 // Origin skills are stored under the 'skill' type alongside ascent skills,
 // so the actual origin node needs to be re-tagged to price it correctly.
 const withOriginType = (skill, isOriginSkill) => ({
