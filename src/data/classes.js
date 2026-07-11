@@ -796,27 +796,24 @@ export const classes = {
         ]
     },
     "Wild Hunter": {
-        "originSkill": "Nature's Truth",
+        "originSkill": "Synchronous Hunt",
         "ascentSkill": "Gear Storm",
         "masterySkills": [
-            "HEXA Wild Arrow Blast",
-            "HEXA Swipe",
-            "HEXA Wild Lure",
-            "HEXA Dash 'n Slash",
-            "HEXA Sonic Roar",
-            "HEXA Jaguar Soul",
-            "HEXA Jaguar Rampage",
-            "HEXA Exploding Arrows",
-            "HEXA Summon Jaguar",
-            "HEXA Hunting Assistant Unit",
-            "HEXA Drill Salvo",
+            "HEXA Wild Arrow Blast: Apex",
+            "HEXA Assist: Rending Swipe",
+            "HEXA Assist: Snapping Fangs",
+            "HEXA Assist: Skull Bash",
+            "HEXA Command: Alpha Surge",
+            "HEXA Command: Titan Pounce",
+            "HEXA Another Bite",
             "HEXA Final Attack",
+            "HEXA Trap Seed",
         ],
         "boostSkills": [
-            "Jaguar Storm Boost",
-            "Primal Fury Boost",
-            "Primal Grenade Boost",
-            "Wild Arrow Blast Type X Boost"
+            "Command: Predator's Eye Boost",
+            "Overbite Boost",
+            "Primal Bloom Boost",
+            "Wild Arrow Blast: Overdrive Boost"
         ],
         "jobBranchSkills": [
             "HEXA Resistance Infantry"

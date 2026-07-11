@@ -516,23 +516,21 @@ export const masteryDesignation = {
     },
     "Wild Hunter": {
         "firstMastery": [
-            "HEXA Wild Arrow Blast"
+            "HEXA Wild Arrow Blast: Apex"
         ],
         "secondMastery": [
-            "HEXA Swipe",
-            "HEXA Dash n' Slash",
-            "HEXA Sonic Roar",
-            "HEXA Jaguar Soul",
-            "HEXA Exploding Arrows",
-            "HEXA Jaguar Rampage"
+            "HEXA Assist: Rending Swipe",
+            "HEXA Assist: Snapping Fangs",
+            "HEXA Assist: Skull Bash"
         ],
         "thirdMastery": [
-            "HEXA Summon Jaguar",
+            "HEXA Command: Alpha Surge",
+            "HEXA Command: Titan Pounce"
         ],
         "fourthMastery": [
-            "HEXA Hunting Assistant Unit",
-            "HEXA Drill Salvo",
+            "HEXA Another Bite",
             "HEXA Final Attack",
+            "HEXA Trap Seed",
         ]
     },
     "Xenon": {
