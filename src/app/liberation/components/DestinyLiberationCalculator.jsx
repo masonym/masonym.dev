@@ -168,10 +168,65 @@ const DestinyLiberationCalculator = () => {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) setScheduledChanges(parsed);
       }
+
+      const savedActivePart = localStorage.getItem("destinyActivePart");
+      if (savedActivePart === "part1" || savedActivePart === "part2") {
+        setActivePart(savedActivePart);
+      }
+
+      const savedCurrentQuest = localStorage.getItem("destinyCurrentQuest");
+      if (savedCurrentQuest !== null) {
+        setCurrentQuest(JSON.parse(savedCurrentQuest));
+      }
+
+      const savedCurrentTraces = localStorage.getItem("destinyCurrentTraces");
+      if (savedCurrentTraces !== null) {
+        setCurrentTraces(JSON.parse(savedCurrentTraces));
+      }
+
+      const savedStartDate = localStorage.getItem("destinyStartDate");
+      if (savedStartDate !== null) {
+        setStartDate(JSON.parse(savedStartDate));
+      }
+
+      const savedBossSelections = localStorage.getItem(
+        "destinyBossSelections",
+      );
+      if (savedBossSelections !== null) {
+        const parsed = JSON.parse(savedBossSelections);
+        if (Array.isArray(parsed)) {
+          setBossSelections((prev) =>
+            prev.map((boss) => {
+              const saved = parsed.find((b) => b.id === boss.id);
+              return saved ? { ...boss, ...saved } : boss;
+            }),
+          );
+        }
+      }
     } catch {
       // ignore storage errors
     }
   }, []);
+
+  // Persist user inputs whenever they change
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem("destinyActivePart", activePart);
+      localStorage.setItem("destinyCurrentQuest", JSON.stringify(currentQuest));
+      localStorage.setItem(
+        "destinyCurrentTraces",
+        JSON.stringify(currentTraces),
+      );
+      localStorage.setItem("destinyStartDate", JSON.stringify(startDate));
+      localStorage.setItem(
+        "destinyBossSelections",
+        JSON.stringify(bossSelections),
+      );
+    } catch {
+      // ignore storage errors
+    }
+  }, [activePart, currentQuest, currentTraces, startDate, bossSelections]);
 
   // Persist scheduled changes
   const handleScheduledChangesUpdate = (next) => {
