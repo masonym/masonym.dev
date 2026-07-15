@@ -592,8 +592,7 @@ const AstraSecondaryCalculator = () => {
     let fragments = currentFragments;
     let currentDate = new Date(startDate + "T00:00:00.000Z");
     const dayOfWeek = currentDate.getUTCDay();
-    const daysUntilThursdayReset =
-      dayOfWeek === 4 ? 7 : (4 - dayOfWeek + 7) % 7;
+    const daysUntilThursdayReset = (4 - dayOfWeek + 7) % 7;
     let nextThursday = new Date(currentDate);
     nextThursday.setDate(nextThursday.getDate() + daysUntilThursdayReset);
 
@@ -605,6 +604,27 @@ const AstraSecondaryCalculator = () => {
     let missionStartFragments = fragments;
     let missionStartDate = new Date(currentDate);
     let missionDays = 0;
+
+    // If the start date is itself a Thursday reset day, that week's boss
+    // traces/vouchers are available immediately (day 0) rather than making
+    // the player wait a full extra week for the "next" one.
+    if (daysUntilThursdayReset === 0) {
+      traces += weeklyTraces;
+      fragments = round2(fragments + weeklyVoucherFragments);
+
+      if (weeklyTraces > 0 || weeklyVoucherFragments > 0) {
+        timeline.push({
+          date: new Date(nextThursday),
+          type: "weekly",
+          tracesAdded: weeklyTraces,
+          fragmentsAdded: weeklyVoucherFragments,
+          tracesTotal: traces,
+          fragmentsTotal: fragments,
+        });
+      }
+
+      nextThursday.setDate(nextThursday.getDate() + 7);
+    }
 
     // Greedily completes every remaining mission affordable with the
     // current traces/fragments balance. A single big income event (e.g. a
@@ -686,6 +706,11 @@ const AstraSecondaryCalculator = () => {
       dayCount++;
       missionDays++;
 
+      // Advance to the day being simulated first, so the checks below (and
+      // the completion date they can trigger) reflect that day itself
+      // rather than lagging one day behind it.
+      currentDate.setDate(currentDate.getDate() + 1);
+
       // Add daily fragments (check for future quest upgrade)
       const fragmentsToday = getDailyFragmentsForDate(currentDate);
       if (dayCount % 7 <= daysPerWeek || daysPerWeek === 7) {
@@ -726,9 +751,6 @@ const AstraSecondaryCalculator = () => {
           fragmentsTotal: fragments,
         });
       }
-
-      // Move to next day
-      currentDate.setDate(currentDate.getDate() + 1);
 
       // Complete as many missions as this new balance allows, then cap
       // whatever's left idling (couldn't be spent yet) at the storage limit
