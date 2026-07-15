@@ -585,14 +585,7 @@ const AstraSecondaryCalculator = () => {
     const startMissionIndex = currentMission - 1;
     const remainingMissions = MISSIONS.slice(startMissionIndex);
 
-    // Check if completion is impossible (no weekly traces and need more traces)
-    const totalTracesNeeded = remainingMissions.reduce(
-      (sum, m) => sum + m.tracesRequired,
-      0,
-    );
     const tracesHave = Math.min(currentTraces, MAX_TRACES_CAPACITY);
-    const tracesNeeded = Math.max(0, totalTracesNeeded - tracesHave);
-    const isUnreachable = weeklyTraces === 0 && tracesNeeded > 0;
 
     // Initial state
     let traces = tracesHave;
@@ -607,6 +600,61 @@ const AstraSecondaryCalculator = () => {
     const missionResults = [];
     const timeline = [];
     let dayCount = 0;
+    let missionIndex = 0;
+    let missionStartTraces = traces;
+    let missionStartFragments = fragments;
+    let missionStartDate = new Date(currentDate);
+    let missionDays = 0;
+
+    // Greedily completes every remaining mission affordable with the
+    // current traces/fragments balance. A single big income event (e.g. a
+    // Thursday reset) can fund several consecutive missions at once -
+    // overflow from one mission's traces should carry straight into the
+    // next rather than being discarded by the storage cap prematurely.
+    const tryCompleteMissions = () => {
+      while (
+        missionIndex < remainingMissions.length &&
+        traces >= remainingMissions[missionIndex].tracesRequired &&
+        fragments >= remainingMissions[missionIndex].fragmentsRequired
+      ) {
+        const mission = remainingMissions[missionIndex];
+        const traceOverflow = Math.max(0, traces - mission.tracesRequired);
+        traces -= mission.tracesRequired;
+        fragments -= mission.fragmentsRequired;
+
+        missionResults.push({
+          mission,
+          startDate: missionStartDate,
+          completionDate: new Date(currentDate),
+          daysNeeded: missionDays,
+          startTraces: missionStartTraces,
+          startFragments: missionStartFragments,
+          traceOverflow,
+        });
+
+        missionIndex++;
+        missionStartTraces = traces;
+        missionStartFragments = fragments;
+        missionStartDate = new Date(currentDate);
+        missionDays = 0;
+      }
+    };
+
+    // Complete anything already affordable before any days pass
+    tryCompleteMissions();
+    traces = Math.min(traces, MAX_TRACES_CAPACITY);
+
+    // Check if completion is impossible (no weekly traces and need more
+    // traces than can ever be banked for what's left)
+    const totalTracesNeeded = remainingMissions
+      .slice(missionIndex)
+      .reduce((sum, m) => sum + m.tracesRequired, 0);
+    const tracesNeeded = Math.max(0, totalTracesNeeded - traces);
+    const isUnreachable =
+      missionIndex < remainingMissions.length &&
+      weeklyTraces === 0 &&
+      tracesNeeded > 0;
+
     // If unreachable, return early with infinity
     if (isUnreachable) {
       return {
@@ -615,15 +663,18 @@ const AstraSecondaryCalculator = () => {
         weeklyVoucherFragments,
         dailyFragments,
         weeklyDailyFragments,
-        missionResults: remainingMissions.map((mission) => ({
-          mission,
-          startDate: new Date(currentDate),
-          completionDate: null,
-          daysNeeded: Infinity,
-          startTraces: tracesHave,
-          startFragments: currentFragments,
-          traceOverflow: 0,
-        })),
+        missionResults: [
+          ...missionResults,
+          ...remainingMissions.slice(missionIndex).map((mission) => ({
+            mission,
+            startDate: new Date(currentDate),
+            completionDate: null,
+            daysNeeded: Infinity,
+            startTraces: traces,
+            startFragments: fragments,
+            traceOverflow: 0,
+          })),
+        ],
         completionDate: "Never (no trace income)",
         totalDays: Infinity,
         timeline: [],
@@ -631,81 +682,58 @@ const AstraSecondaryCalculator = () => {
       };
     }
 
-    for (const mission of remainingMissions) {
-      const missionStartTraces = traces;
-      const missionStartFragments = fragments;
-      const missionStartDate = new Date(currentDate);
-      let missionDays = 0;
-      let missionTraceOverflow = 0;
+    while (missionIndex < remainingMissions.length) {
+      dayCount++;
+      missionDays++;
 
-      while (
-        traces < mission.tracesRequired ||
-        fragments < mission.fragmentsRequired
+      // Add daily fragments (check for future quest upgrade)
+      const fragmentsToday = getDailyFragmentsForDate(currentDate);
+      if (dayCount % 7 <= daysPerWeek || daysPerWeek === 7) {
+        fragments += fragmentsToday;
+      }
+
+      // Check for Thursday reset (weekly boss traces + weekly voucher fragments)
+      if (
+        currentDate.getTime() === nextThursday.getTime() ||
+        currentDate > nextThursday
       ) {
-        dayCount++;
-        missionDays++;
+        traces += weeklyTraces;
+        fragments = round2(fragments + weeklyVoucherFragments);
 
-        // Add daily fragments (check for future quest upgrade)
-        const fragmentsToday = getDailyFragmentsForDate(currentDate);
-        if (dayCount % 7 <= daysPerWeek || daysPerWeek === 7) {
-          fragments += fragmentsToday;
-        }
-
-        // Check for Thursday reset (weekly boss traces + weekly voucher fragments)
-        if (
-          currentDate.getTime() === nextThursday.getTime() ||
-          currentDate > nextThursday
-        ) {
-          traces = Math.min(traces + weeklyTraces, MAX_TRACES_CAPACITY);
-          fragments = round2(fragments + weeklyVoucherFragments);
-
-          if (weeklyTraces > 0 || weeklyVoucherFragments > 0) {
-            timeline.push({
-              date: new Date(nextThursday),
-              type: "weekly",
-              tracesAdded: weeklyTraces,
-              fragmentsAdded: weeklyVoucherFragments,
-              tracesTotal: traces,
-              fragmentsTotal: fragments,
-            });
-          }
-
-          nextThursday = new Date(currentDate);
-          nextThursday.setDate(nextThursday.getDate() + 7);
-        }
-
-        // Add timeline entry for daily fragments milestone
-        if (dailyFragments > 0 && missionDays % 7 === 0) {
+        if (weeklyTraces > 0 || weeklyVoucherFragments > 0) {
           timeline.push({
-            date: new Date(currentDate),
-            type: "daily_week",
-            tracesAdded: 0,
-            fragmentsAdded: weeklyDailyFragments,
+            date: new Date(nextThursday),
+            type: "weekly",
+            tracesAdded: weeklyTraces,
+            fragmentsAdded: weeklyVoucherFragments,
             tracesTotal: traces,
             fragmentsTotal: fragments,
           });
         }
 
-        // Move to next day
-        currentDate.setDate(currentDate.getDate() + 1);
+        nextThursday = new Date(currentDate);
+        nextThursday.setDate(nextThursday.getDate() + 7);
       }
 
-      // Calculate overflow traces for next mission
-      missionTraceOverflow = Math.max(0, traces - mission.tracesRequired);
+      // Add timeline entry for daily fragments milestone
+      if (dailyFragments > 0 && missionDays % 7 === 0) {
+        timeline.push({
+          date: new Date(currentDate),
+          type: "daily_week",
+          tracesAdded: 0,
+          fragmentsAdded: weeklyDailyFragments,
+          tracesTotal: traces,
+          fragmentsTotal: fragments,
+        });
+      }
 
-      // Deduct mission costs
-      traces -= mission.tracesRequired;
-      fragments -= mission.fragmentsRequired;
+      // Move to next day
+      currentDate.setDate(currentDate.getDate() + 1);
 
-      missionResults.push({
-        mission,
-        startDate: missionStartDate,
-        completionDate: new Date(currentDate),
-        daysNeeded: missionDays,
-        startTraces: missionStartTraces,
-        startFragments: missionStartFragments,
-        traceOverflow: missionTraceOverflow,
-      });
+      // Complete as many missions as this new balance allows, then cap
+      // whatever's left idling (couldn't be spent yet) at the storage limit
+      tryCompleteMissions();
+      traces = Math.min(traces, MAX_TRACES_CAPACITY);
     }
 
     // Format completion date
