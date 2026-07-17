@@ -711,9 +711,10 @@ const AstraSecondaryCalculator = () => {
       // rather than lagging one day behind it.
       currentDate.setDate(currentDate.getDate() + 1);
 
-      // Add daily fragments (check for future quest upgrade)
+      // Add daily fragments (check for future quest upgrade). Grants
+      // fragments on exactly `daysPerWeek` of every 7 simulated days.
       const fragmentsToday = getDailyFragmentsForDate(currentDate);
-      if (dayCount % 7 <= daysPerWeek || daysPerWeek === 7) {
+      if ((dayCount - 1) % 7 < daysPerWeek) {
         fragments += fragmentsToday;
       }
 
