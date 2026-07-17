@@ -295,9 +295,7 @@ const AstraSecondaryCalculator = () => {
       setCurrentFragments(config.currentFragments);
     if (config.startDate)
       setStartDate(
-        config.startDate < MIN_START_DATE
-          ? MIN_START_DATE
-          : config.startDate,
+        config.startDate < MIN_START_DATE ? MIN_START_DATE : config.startDate,
       );
     if (config.bossSelections) {
       const savedById = new Map(
@@ -1168,7 +1166,6 @@ const AstraSecondaryCalculator = () => {
                           : "sm:col-span-9"
                       }
                     >
-
                       <label className="block text-primary-bright text-sm mb-1">
                         Difficulty
                       </label>
@@ -1480,18 +1477,18 @@ const AstraSecondaryCalculator = () => {
               <div className="mt-4 p-3 bg-primary-dark rounded-lg">
                 <div className="flex justify-between items-center">
                   <span className="text-primary-bright">
-                    Current Daily Fragment Income:
+                    Current Daily Erion Income:
                   </span>
                   <span className="font-bold text-secondary">
-                    {getDailyFragments()} fragments/day
+                    {getDailyFragments()} erion/day
                   </span>
                 </div>
                 <div className="flex justify-between items-center mt-1">
                   <span className="text-primary-bright">
-                    Weekly Fragment Income (dailies only):
+                    Weekly Erion Income (dailies only):
                   </span>
                   <span className="font-bold text-secondary">
-                    {getDailyFragments() * daysPerWeek} fragments/week
+                    {getDailyFragments() * daysPerWeek} erion/week
                   </span>
                 </div>
               </div>
@@ -1534,7 +1531,7 @@ const AstraSecondaryCalculator = () => {
                   className="opacity-80"
                 />
                 <span className="text-primary-bright text-sm">
-                  Weekly Fragments (dailies):
+                  Weekly Erion (dailies):
                 </span>
               </div>
               <span className="font-bold text-secondary">
@@ -1551,7 +1548,7 @@ const AstraSecondaryCalculator = () => {
                   className="opacity-80"
                 />
                 <span className="text-primary-bright text-sm">
-                  Weekly Fragments (boss coupons):
+                  Weekly Erion (boss coupons):
                 </span>
               </div>
               <span className="font-bold text-secondary">
