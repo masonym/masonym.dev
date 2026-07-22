@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import React, { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
   sunnySundaySchedule,
   SUNNY_SUNDAY_EVENT_TYPES,
@@ -10,7 +10,7 @@ import {
   resolveEvent,
   hasShiningStarForce,
   getCategoryStyle,
-} from '@/data/sunnySundayEvents';
+} from "@/data/sunnySundayEvents";
 import {
   Sun,
   ChevronRight,
@@ -23,14 +23,14 @@ import {
   BarChart3,
   Clock,
   ChevronsUpDown,
-} from 'lucide-react';
+} from "lucide-react";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 const parseYmdAsUtcDate = (ymd) => {
   if (ymd instanceof Date) return ymd;
-  if (typeof ymd !== 'string') return new Date(ymd);
-  const [year, month, day] = ymd.split('-').map(Number);
+  if (typeof ymd !== "string") return new Date(ymd);
+  const [year, month, day] = ymd.split("-").map(Number);
   return new Date(Date.UTC(year, month - 1, day));
 };
 
@@ -68,21 +68,21 @@ const getSundayOfWeekUtc = (date) => {
 
 const formatSundayDateUtc = (date) => {
   const d = parseYmdAsUtcDate(date);
-  return d.toLocaleDateString('en-US', {
+  return d.toLocaleDateString("en-US", {
     // weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
   });
 };
 
 const formatSundayDateShortUtc = (date) => {
   const d = parseYmdAsUtcDate(date);
-  return d.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    timeZone: 'UTC',
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
   });
 };
 
@@ -92,8 +92,8 @@ const EventIcon = ({ src, alt, size = 24 }) => {
   const [hasError, setHasError] = React.useState(false);
 
   return (
-    <div 
-      className="relative flex-shrink-0 bg-background-bright rounded" 
+    <div
+      className="relative flex-shrink-0 bg-background-bright rounded"
       style={{ width: size, height: size }}
     >
       {!hasError ? (
@@ -104,12 +104,12 @@ const EventIcon = ({ src, alt, size = 24 }) => {
           height={size}
           className="object-contain"
           onError={() => {
-            setImgSrc('/sunnySundayIcons/sunny-sunday.png');
+            setImgSrc("/sunnySundayIcons/sunny-sunday.png");
             setHasError(true);
           }}
         />
       ) : (
-        <div 
+        <div
           className="w-full h-full flex items-center justify-center text-primary"
           style={{ fontSize: size * 0.5 }}
         >
@@ -130,8 +130,14 @@ const EventBadge = ({ event, compact = false }) => {
         className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border ${categoryClass}`}
         title={event.name}
       >
-        <EventIcon src={event.icon} alt={event.shortName || event.name} size={20} />
-        <span className="text-sm font-medium">{event.shortName || event.name}</span>
+        <EventIcon
+          src={event.icon}
+          alt={event.shortName || event.name}
+          size={20}
+        />
+        <span className="text-sm font-medium">
+          {event.shortName || event.name}
+        </span>
       </div>
     );
   }
@@ -140,7 +146,11 @@ const EventBadge = ({ event, compact = false }) => {
     <div
       className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all hover:scale-[1.01] ${categoryClass}`}
     >
-      <EventIcon src={event.icon} alt={event.shortName || event.name} size={28} />
+      <EventIcon
+        src={event.icon}
+        alt={event.shortName || event.name}
+        size={28}
+      />
       <div className="flex-1 min-w-0">
         <p className="font-medium text-sm">{event.shortName || event.name}</p>
         {event.shortName && event.shortName !== event.name && (
@@ -172,12 +182,12 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
       exit={{ opacity: 0, y: -20 }}
       className={`relative rounded-2xl border transition-all duration-300 overflow-hidden ${
         today
-          ? 'border-secondary bg-secondary ring-2 ring-secondary dark:bg-primary-dark'
+          ? "border-secondary bg-secondary ring-2 ring-secondary dark:bg-primary-dark"
           : isCurrentWeek
-          ? 'border-secondary bg-primary-dark'
-          : past
-          ? 'border-primary-dim bg-primary-dark'
-          : 'border-primary-dim bg-primary-dark hover:border-secondary'
+            ? "border-secondary bg-primary-dark"
+            : past
+              ? "border-primary-dim bg-primary-dark"
+              : "border-primary-dim bg-primary-dark hover:border-secondary"
       }`}
     >
       {/* header */}
@@ -189,10 +199,10 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
           <div
             className={`w-12 h-12 rounded-xl flex items-center justify-center ${
               today
-                ? 'bg-primary-dark text-secondary dark:bg-secondary dark:text-primary-dark'
+                ? "bg-primary-dark text-secondary dark:bg-secondary dark:text-primary-dark"
                 : past
-                ? 'bg-primary-dim text-primary'
-                : 'bg-background-bright text-secondary'
+                  ? "bg-primary-dim text-primary"
+                  : "bg-background-bright text-secondary"
             }`}
           >
             <Sun className="w-6 h-6" />
@@ -202,10 +212,10 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
               <h3
                 className={`font-bold text-lg ${
                   today
-                    ? 'text-primary-dark dark:text-primary-bright'
+                    ? "text-primary-dark dark:text-primary-bright"
                     : past
-                    ? 'text-primary'
-                    : 'text-primary-bright'
+                      ? "text-primary"
+                      : "text-primary-bright"
                 }`}
               >
                 {formatSundayDateShortUtc(date)}
@@ -227,7 +237,9 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
                 </span>
               )}
             </div>
-            <p className={`text-sm ${today ? 'text-primary-dark dark:text-primary' : 'text-primary'}`}>
+            <p
+              className={`text-sm ${today ? "text-primary-dark dark:text-primary" : "text-primary"}`}
+            >
               {date.getUTCFullYear()}
             </p>
           </div>
@@ -251,7 +263,7 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
           </div>
           <ChevronRight
             className={`w-5 h-5 text-primary transition-transform ${
-              isExpanded ? 'rotate-90' : ''
+              isExpanded ? "rotate-90" : ""
             }`}
           />
         </div>
@@ -262,7 +274,7 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
         {isExpanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
@@ -291,8 +303,8 @@ const SundayCard = ({ sunday, isExpanded, onToggle, isCurrentWeek }) => {
 // timeline view component
 const TimelineView = ({ sundays, currentSunday }) => {
   // start with all expanded
-  const [expandedIds, setExpandedIds] = useState(() => 
-    new Set(sundays.map(s => s.date))
+  const [expandedIds, setExpandedIds] = useState(
+    () => new Set(sundays.map((s) => s.date)),
   );
 
   const nextUpcomingSundayUtc = (() => {
@@ -308,12 +320,12 @@ const TimelineView = ({ sundays, currentSunday }) => {
     if (allExpanded) {
       setExpandedIds(new Set());
     } else {
-      setExpandedIds(new Set(sundays.map(s => s.date)));
+      setExpandedIds(new Set(sundays.map((s) => s.date)));
     }
   };
 
   const toggleOne = (date) => {
-    setExpandedIds(prev => {
+    setExpandedIds((prev) => {
       const next = new Set(prev);
       if (next.has(date)) {
         next.delete(date);
@@ -333,7 +345,7 @@ const TimelineView = ({ sundays, currentSunday }) => {
           className="px-3 py-1.5 rounded-lg text-sm font-medium bg-background-bright text-primary hover:text-primary-bright transition-all flex items-center gap-2"
         >
           <ChevronsUpDown className="w-4 h-4" />
-          {allExpanded ? 'Collapse All' : 'Expand All'}
+          {allExpanded ? "Collapse All" : "Expand All"}
         </button>
       </div>
 
@@ -356,7 +368,11 @@ const TimelineView = ({ sundays, currentSunday }) => {
 };
 
 // filter panel
-const FilterPanel = ({ selectedCategories, onToggleCategory, onClearFilters }) => {
+const FilterPanel = ({
+  selectedCategories,
+  onToggleCategory,
+  onClearFilters,
+}) => {
   return (
     <div className="p-4 rounded-xl bg-primary-dark border border-primary-dim">
       <div className="flex items-center justify-between mb-3">
@@ -380,8 +396,8 @@ const FilterPanel = ({ selectedCategories, onToggleCategory, onClearFilters }) =
             onClick={() => onToggleCategory(key)}
             className={`px-3 py-1.5 rounded-full text-sm transition-all ${
               selectedCategories.includes(key)
-                ? 'bg-secondary text-primary-dark'
-                : 'bg-background-bright text-primary hover:text-primary-bright'
+                ? "bg-secondary text-primary-dark"
+                : "bg-background-bright text-primary hover:text-primary-bright"
             }`}
           >
             {cat.name}
@@ -395,12 +411,12 @@ const FilterPanel = ({ selectedCategories, onToggleCategory, onClearFilters }) =
 // event legend - grouped by category
 const EventLegend = () => {
   const allEvents = Object.values(SUNNY_SUNDAY_EVENT_TYPES);
-  
+
   // group events by category
   const groupedEvents = useMemo(() => {
     const groups = {};
     allEvents.forEach((event) => {
-      const cat = event.category || 'utility';
+      const cat = event.category || "utility";
       if (!groups[cat]) groups[cat] = [];
       groups[cat].push(event);
     });
@@ -417,10 +433,12 @@ const EventLegend = () => {
         {Object.entries(EVENT_CATEGORIES).map(([catKey, catInfo]) => {
           const events = groupedEvents[catKey];
           if (!events || events.length === 0) return null;
-          
+
           return (
             <div key={catKey}>
-              <h5 className={`text-sm font-medium mb-2 ${getCategoryStyle(catKey)} inline-block px-2 py-0.5 rounded border`}>
+              <h5
+                className={`text-sm font-medium mb-2 ${getCategoryStyle(catKey)} inline-block px-2 py-0.5 rounded border`}
+              >
                 {catInfo.name}
               </h5>
               <div className="grid gap-2 sm:grid-cols-2">
@@ -443,20 +461,27 @@ const ListView = ({ sundays }) => {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-primary-dim bg-background-bright">
-            <th className="text-left px-4 py-3 text-primary-bright font-medium">Date</th>
-            <th className="text-left px-4 py-3 text-primary-bright font-medium">Events</th>
+            <th className="text-left px-4 py-3 text-primary-bright font-medium">
+              Date
+            </th>
+            <th className="text-left px-4 py-3 text-primary-bright font-medium">
+              Events
+            </th>
           </tr>
         </thead>
         <tbody>
           {sundays.map((sunday) => {
             const events = sunday.events.map(resolveEvent).filter(Boolean);
             return (
-              <tr key={sunday.date} className="border-b border-primary-dim/50 hover:bg-background-bright/50">
+              <tr
+                key={sunday.date}
+                className="border-b border-primary-dim/50 hover:bg-background-bright/50"
+              >
                 <td className="px-4 py-2 text-primary whitespace-nowrap align-top">
                   {formatSundayDateUtc(sunday.date)}
                 </td>
                 <td className="px-4 py-2 text-primary">
-                  {events.map(e => e.shortName || e.name).join(', ')}
+                  {events.map((e) => e.shortName || e.name).join(", ")}
                 </td>
               </tr>
             );
@@ -471,8 +496,10 @@ const ListView = ({ sundays }) => {
 const AnalyticsView = ({ sundays }) => {
   const stats = useMemo(() => {
     const now = new Date();
-    const oneYearAgo = new Date(Date.UTC(now.getUTCFullYear() - 1, now.getUTCMonth(), now.getUTCDate()));
-    
+    const oneYearAgo = new Date(
+      Date.UTC(now.getUTCFullYear() - 1, now.getUTCMonth(), now.getUTCDate()),
+    );
+
     // count events
     const eventCounts = {};
     const categoryCounts = {};
@@ -480,14 +507,14 @@ const AnalyticsView = ({ sundays }) => {
     const yearCategoryCounts = {};
     let totalEvents = 0;
     let yearEvents = 0;
-    
+
     let shiningCount = 0;
     let yearShiningCount = 0;
 
     sundays.forEach((sunday) => {
       const sundayDate = parseYmdAsUtcDate(sunday.date);
       const isWithinYear = sundayDate >= oneYearAgo;
-      
+
       // check for shining star force
       if (hasShiningStarForce(sunday.events)) {
         shiningCount++;
@@ -499,36 +526,40 @@ const AnalyticsView = ({ sundays }) => {
         const event = resolveEvent(eventRef);
         return !event || !event.isCustom;
       });
-      
+
       filteredEvents.forEach((eventRef) => {
         const event = resolveEvent(eventRef);
         if (!event) return;
-        
+
         const name = event.shortName || event.name;
         const category = event.category;
-        
+
         // all time
         eventCounts[name] = (eventCounts[name] || 0) + 1;
         categoryCounts[category] = (categoryCounts[category] || 0) + 1;
         totalEvents++;
-        
+
         // last year
         if (isWithinYear) {
           yearEventCounts[name] = (yearEventCounts[name] || 0) + 1;
-          yearCategoryCounts[category] = (yearCategoryCounts[category] || 0) + 1;
+          yearCategoryCounts[category] =
+            (yearCategoryCounts[category] || 0) + 1;
           yearEvents++;
         }
       });
     });
-    
+
     // sort by count
-    const sortedEvents = Object.entries(eventCounts)
-      .sort((a, b) => b[1] - a[1]);
-    const sortedCategories = Object.entries(categoryCounts)
-      .sort((a, b) => b[1] - a[1]);
-    const sortedYearEvents = Object.entries(yearEventCounts)
-      .sort((a, b) => b[1] - a[1]);
-    
+    const sortedEvents = Object.entries(eventCounts).sort(
+      (a, b) => b[1] - a[1],
+    );
+    const sortedCategories = Object.entries(categoryCounts).sort(
+      (a, b) => b[1] - a[1],
+    );
+    const sortedYearEvents = Object.entries(yearEventCounts).sort(
+      (a, b) => b[1] - a[1],
+    );
+
     return {
       totalSundays: sundays.length,
       totalEvents,
@@ -547,21 +578,29 @@ const AnalyticsView = ({ sundays }) => {
       {/* date notice */}
       <div className="text-center mb-8">
         <p className="text-sm text-primary font-italic my-2 mx-auto">
-          Please note that data collection of previous Sunny Sundays only goes back to v.256, dated December 22, 2024.</p>
+          Please note that data collection of previous Sunny Sundays only goes
+          back to v.256, dated December 22, 2024.
+        </p>
       </div>
       {/* summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="bg-primary-dark border border-primary-dim rounded-xl p-4 text-center">
-          <div className="text-3xl font-bold text-secondary">{stats.totalSundays}</div>
+          <div className="text-3xl font-bold text-secondary">
+            {stats.totalSundays}
+          </div>
           <div className="text-sm text-primary">Total Sundays</div>
         </div>
         <div className="bg-primary-dark border border-primary-dim rounded-xl p-4 text-center">
-          <div className="text-3xl font-bold text-secondary">{stats.totalEvents}</div>
+          <div className="text-3xl font-bold text-secondary">
+            {stats.totalEvents}
+          </div>
           <div className="text-sm text-primary">Total Perks</div>
         </div>
         <div className="bg-primary-dark border border-primary-dim rounded-xl p-4 text-center">
           <div className="text-3xl font-bold text-secondary">
-            {stats.totalSundays > 0 ? (stats.totalEvents / stats.totalSundays).toFixed(1) : 0}
+            {stats.totalSundays > 0
+              ? (stats.totalEvents / stats.totalSundays).toFixed(1)
+              : 0}
           </div>
           <div className="text-sm text-primary">Avg Perks/Sunday</div>
         </div>
@@ -571,16 +610,22 @@ const AnalyticsView = ({ sundays }) => {
       <div className="bg-primary-dark border-2 border-secondary rounded-xl p-4">
         <div className="flex items-center justify-center gap-2 mb-2">
           <Sparkles className="w-5 h-5 text-secondary" />
-          <h3 className="text-lg font-bold text-secondary">Shining Star Force</h3>
+          <h3 className="text-lg font-bold text-secondary">
+            Shining Star Force
+          </h3>
           <Sparkles className="w-5 h-5 text-secondary" />
         </div>
         <div className="grid grid-cols-2 gap-4 text-center">
           <div>
-            <div className="text-3xl font-bold text-primary-bright">{stats.shiningCount}</div>
+            <div className="text-3xl font-bold text-primary-bright">
+              {stats.shiningCount}
+            </div>
             <div className="text-sm text-primary">All Time</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-primary-bright">{stats.yearShiningCount}</div>
+            <div className="text-3xl font-bold text-primary-bright">
+              {stats.yearShiningCount}
+            </div>
             <div className="text-sm text-primary">Last 12 Months</div>
           </div>
         </div>
@@ -588,14 +633,19 @@ const AnalyticsView = ({ sundays }) => {
 
       {/* last year event frequency */}
       <div className="bg-primary-dark border border-primary-dim rounded-xl p-4">
-        <h3 className="text-lg font-bold text-primary-bright mb-4">Event Frequency (Last 12 Months)</h3>
+        <h3 className="text-lg font-bold text-primary-bright mb-4">
+          Event Frequency (Last 12 Months)
+        </h3>
         <div className="space-y-2">
           {stats.yearEventCounts.map(([name, count]) => {
             const maxCount = stats.yearEventCounts[0]?.[1] || 1;
             const percentage = (count / maxCount) * 100;
             return (
               <div key={name} className="flex items-center gap-3">
-                <div className="w-40 sm:w-56 text-sm text-primary truncate" title={name}>
+                <div
+                  className="w-40 sm:w-56 text-sm text-primary truncate"
+                  title={name}
+                >
                   {name}
                 </div>
                 <div className="flex-1 h-6 bg-background-bright rounded overflow-hidden">
@@ -615,7 +665,9 @@ const AnalyticsView = ({ sundays }) => {
 
       {/* category breakdown */}
       <div className="bg-primary-dark border border-primary-dim rounded-xl p-4">
-        <h3 className="text-lg font-bold text-primary-bright mb-4">Category Breakdown (All Time)</h3>
+        <h3 className="text-lg font-bold text-primary-bright mb-4">
+          Category Breakdown (All Time)
+        </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {stats.categoryCounts.map(([category, count]) => {
             const catInfo = EVENT_CATEGORIES[category];
@@ -635,14 +687,19 @@ const AnalyticsView = ({ sundays }) => {
 
       {/* all time event frequency */}
       <div className="bg-primary-dark border border-primary-dim rounded-xl p-4">
-        <h3 className="text-lg font-bold text-primary-bright mb-4">All-Time Perk Frequency</h3>
+        <h3 className="text-lg font-bold text-primary-bright mb-4">
+          All-Time Perk Frequency
+        </h3>
         <div className="space-y-2">
           {stats.eventCounts.map(([name, count]) => {
             const maxCount = stats.eventCounts[0]?.[1] || 1;
             const percentage = (count / maxCount) * 100;
             return (
               <div key={name} className="flex items-center gap-3">
-                <div className="w-40 sm:w-56 text-sm text-primary truncate" title={name}>
+                <div
+                  className="w-40 sm:w-56 text-sm text-primary truncate"
+                  title={name}
+                >
                   {name}
                 </div>
                 <div className="flex-1 h-6 bg-background-bright rounded overflow-hidden">
@@ -681,7 +738,7 @@ const UpcomingBanner = ({ sunday }) => {
           </div>
           <div>
             <p className="text-xs font-semibold text-secondary uppercase tracking-widest">
-              {today ? 'Today' : 'Upcoming'} Sunny Sunday
+              {today ? "Today" : "Upcoming"} Sunny Sunday
             </p>
             <h2 className="text-xl font-bold text-primary-bright">
               {formatSundayDateUtc(date)}
@@ -713,14 +770,14 @@ const UpcomingBanner = ({ sunday }) => {
 
 // main component
 const SunnySundayClient = () => {
-  const [viewMode, setViewMode] = useState('timeline'); // 'timeline' | 'list' | 'analytics'
+  const [viewMode, setViewMode] = useState("timeline"); // 'timeline' | 'list' | 'analytics'
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [showLegend, setShowLegend] = useState(false);
 
   // sort sundays by date
   const sortedSundays = useMemo(() => {
     return [...sunnySundaySchedule].sort(
-      (a, b) => parseYmdAsUtcDate(b.date) - parseYmdAsUtcDate(a.date)
+      (a, b) => parseYmdAsUtcDate(b.date) - parseYmdAsUtcDate(a.date),
     );
   }, []);
 
@@ -733,7 +790,7 @@ const SunnySundayClient = () => {
       return events.some(
         (event) =>
           selectedCategories.includes(event.category) ||
-          (event.isCustom && selectedCategories.includes('seasonal'))
+          (event.isCustom && selectedCategories.includes("seasonal")),
       );
     });
   }, [sortedSundays, selectedCategories]);
@@ -755,14 +812,18 @@ const SunnySundayClient = () => {
     const todayUtcMs = getUtcStartOfDayMs(new Date());
     // sundays are sorted newest-first, so iterate in reverse for ascending order
     const ascending = [...sortedSundays].reverse();
-    return ascending.find((s) => getUtcStartOfDayMs(parseYmdAsUtcDate(s.date)) >= todayUtcMs) || null;
+    return (
+      ascending.find(
+        (s) => getUtcStartOfDayMs(parseYmdAsUtcDate(s.date)) >= todayUtcMs,
+      ) || null
+    );
   }, [sortedSundays]);
 
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
-        : [...prev, category]
+        : [...prev, category],
     );
   };
 
@@ -785,33 +846,33 @@ const SunnySundayClient = () => {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-1 p-1 rounded-xl bg-background-bright">
           <button
-            onClick={() => setViewMode('timeline')}
+            onClick={() => setViewMode("timeline")}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
-              viewMode === 'timeline'
-                ? 'bg-secondary text-primary-dark'
-                : 'text-primary hover:text-primary-bright'
+              viewMode === "timeline"
+                ? "bg-secondary text-primary-dark"
+                : "text-primary hover:text-primary-bright"
             }`}
           >
             <Clock className="w-4 h-4" />
             Timeline
           </button>
           <button
-            onClick={() => setViewMode('list')}
+            onClick={() => setViewMode("list")}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
-              viewMode === 'list'
-                ? 'bg-secondary text-primary-dark'
-                : 'text-primary hover:text-primary-bright'
+              viewMode === "list"
+                ? "bg-secondary text-primary-dark"
+                : "text-primary hover:text-primary-bright"
             }`}
           >
             <List className="w-4 h-4" />
             List
           </button>
           <button
-            onClick={() => setViewMode('analytics')}
+            onClick={() => setViewMode("analytics")}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
-              viewMode === 'analytics'
-                ? 'bg-secondary text-primary-dark'
-                : 'text-primary hover:text-primary-bright'
+              viewMode === "analytics"
+                ? "bg-secondary text-primary-dark"
+                : "text-primary hover:text-primary-bright"
             }`}
           >
             <BarChart3 className="w-4 h-4" />
@@ -823,8 +884,8 @@ const SunnySundayClient = () => {
           onClick={() => setShowLegend(!showLegend)}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
             showLegend
-              ? 'bg-secondary text-primary-dark'
-              : 'bg-background-bright text-primary hover:text-primary-bright'
+              ? "bg-secondary text-primary-dark"
+              : "bg-background-bright text-primary hover:text-primary-bright"
           }`}
         >
           <Star className="w-4 h-4" />
@@ -837,7 +898,7 @@ const SunnySundayClient = () => {
         {showLegend && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="mb-6 overflow-hidden"
           >
@@ -847,31 +908,32 @@ const SunnySundayClient = () => {
       </AnimatePresence>
 
       {/* filter panel */}
-      {viewMode != 'analytics' && 
-      <div className="mb-6">
-        <FilterPanel
-          selectedCategories={selectedCategories}
-          onToggleCategory={toggleCategory}
-          onClearFilters={() => setSelectedCategories([])}
-        />
-      </div>
-      }
+      {viewMode != "analytics" && (
+        <div className="mb-6">
+          <FilterPanel
+            selectedCategories={selectedCategories}
+            onToggleCategory={toggleCategory}
+            onClearFilters={() => setSelectedCategories([])}
+          />
+        </div>
+      )}
       {/* main content */}
       <div className="min-h-[400px]">
-        {viewMode === 'timeline' && (
-          <TimelineView sundays={filteredSundays} currentSunday={currentSunday} />
+        {viewMode === "timeline" && (
+          <TimelineView
+            sundays={filteredSundays}
+            currentSunday={currentSunday}
+          />
         )}
-        {viewMode === 'list' && (
-          <ListView sundays={filteredSundays} />
-        )}
-        {viewMode === 'analytics' && (
-          <AnalyticsView sundays={sortedSundays} />
-        )}
+        {viewMode === "list" && <ListView sundays={filteredSundays} />}
+        {viewMode === "analytics" && <AnalyticsView sundays={sortedSundays} />}
 
-        {viewMode !== 'analytics' && filteredSundays.length === 0 && (
+        {viewMode !== "analytics" && filteredSundays.length === 0 && (
           <div className="text-center py-12">
             <Sun className="w-16 h-16 text-primary mx-auto mb-4 opacity-50" />
-            <p className="text-primary text-lg">No Sunny Sundays match your filters</p>
+            <p className="text-primary text-lg">
+              No Sunny Sundays match your filters
+            </p>
             <button
               onClick={() => setSelectedCategories([])}
               className="mt-4 px-4 py-2 rounded-lg bg-secondary text-primary-dark text-sm font-medium"
@@ -884,11 +946,10 @@ const SunnySundayClient = () => {
 
       {/* footer info */}
       <footer className="text-center mt-12 text-primary text-sm space-y-2">
-        <p>
-          Sunny Sunday events are announced in MapleStory patch notes.
-        </p>
+        <p>Sunny Sunday events are announced in MapleStory patch notes.</p>
         <p className="text-xs">
-          Data is, unfortunately, manually updated. If you notice missing or incorrect information, please let me know!
+          Data is, unfortunately, manually updated. If you notice missing or
+          incorrect information, please let me know!
         </p>
       </footer>
     </div>
