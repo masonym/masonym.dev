@@ -21579,8 +21579,8 @@
     "Level": 287,
     "TypeId": 6,
     "TypeName": "Devil",
-    "ElementCode": "N",
-    "ElementName": "None",
+    "ElementCode": "d",
+    "ElementName": "Dark",
     "JumpOutlink": "Mob/_Canvas/8645423.img/stand/0",
     "JumpImage": "familiars/jump/9961476.png",
     "Cards": [
@@ -21803,6 +21803,294 @@
       {
         "ItemId": 2871457,
         "Icon": "familiars/cards/2871457.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961494,
+    "MobId": 9602620,
+    "MobName": "Saitama",
+    "Level": 30,
+    "TypeId": 0,
+    "TypeName": "Human",
+    "ElementCode": "N",
+    "ElementName": "None",
+    "JumpOutlink": "Mob/_Canvas/9602620.img/stand/0",
+    "JumpImage": "familiars/jump/9961494.png",
+    "Cards": [
+      {
+        "ItemId": 2871758,
+        "Icon": "familiars/cards/2871758.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961495,
+    "MobId": 9602621,
+    "MobName": "Genos",
+    "Level": 30,
+    "TypeId": 0,
+    "TypeName": "Human",
+    "ElementCode": "N",
+    "ElementName": "None",
+    "JumpOutlink": "Mob/_Canvas/9602621.img/stand/0",
+    "JumpImage": "familiars/jump/9961495.png",
+    "Cards": [
+      {
+        "ItemId": 2871759,
+        "Icon": "familiars/cards/2871759.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961496,
+    "MobId": 9602622,
+    "MobName": "Terrible Tornado",
+    "Level": 30,
+    "TypeId": 0,
+    "TypeName": "Human",
+    "ElementCode": "N",
+    "ElementName": "None",
+    "JumpOutlink": "Mob/_Canvas/9602622.img/stand/0",
+    "JumpImage": "familiars/jump/9961496.png",
+    "Cards": [
+      {
+        "ItemId": 2871760,
+        "Icon": "familiars/cards/2871760.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961503,
+    "MobId": 9602627,
+    "MobName": "Model Freshman Rock Spirit",
+    "Level": 30,
+    "TypeId": 5,
+    "TypeName": "Fairy",
+    "ElementCode": "H",
+    "ElementName": "Holy",
+    "JumpOutlink": "Mob/_Canvas/9602627.img/stand/0",
+    "JumpImage": "familiars/jump/9961503.png",
+    "Cards": [
+      {
+        "ItemId": 2871764,
+        "Icon": "familiars/cards/2871764.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961504,
+    "MobId": 9602628,
+    "MobName": "Eager Freshman Rock Spirit",
+    "Level": 30,
+    "TypeId": 5,
+    "TypeName": "Fairy",
+    "ElementCode": "H",
+    "ElementName": "Holy",
+    "JumpOutlink": "Mob/_Canvas/9602628.img/stand/0",
+    "JumpImage": "familiars/jump/9961504.png",
+    "Cards": [
+      {
+        "ItemId": 2871765,
+        "Icon": "familiars/cards/2871765.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961505,
+    "MobId": 9602629,
+    "MobName": "Problem Freshman Rock Spirit",
+    "Level": 30,
+    "TypeId": 5,
+    "TypeName": "Fairy",
+    "ElementCode": "H",
+    "ElementName": "Holy",
+    "JumpOutlink": "Mob/_Canvas/9602629.img/stand/0",
+    "JumpImage": "familiars/jump/9961505.png",
+    "Cards": [
+      {
+        "ItemId": 2871766,
+        "Icon": "familiars/cards/2871766.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961506,
+    "MobId": 9602630,
+    "MobName": "Model Graduate Rock Spirit Familiar",
+    "Level": 30,
+    "TypeId": 5,
+    "TypeName": "Fairy",
+    "ElementCode": "H",
+    "ElementName": "Holy",
+    "JumpOutlink": "Mob/_Canvas/9602630.img/stand/0",
+    "JumpImage": "familiars/jump/9961506.png",
+    "Cards": [
+      {
+        "ItemId": 2871767,
+        "Icon": "familiars/cards/2871767.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961507,
+    "MobId": 9602631,
+    "MobName": "Eager Graduate Rock Spirit Familiar",
+    "Level": 30,
+    "TypeId": 5,
+    "TypeName": "Fairy",
+    "ElementCode": "H",
+    "ElementName": "Holy",
+    "JumpOutlink": "Mob/_Canvas/9602631.img/stand/0",
+    "JumpImage": "familiars/jump/9961507.png",
+    "Cards": [
+      {
+        "ItemId": 2871768,
+        "Icon": "familiars/cards/2871768.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961508,
+    "MobId": 9602632,
+    "MobName": "Problem Graduate Rock Spirit Familiar",
+    "Level": 30,
+    "TypeId": 5,
+    "TypeName": "Fairy",
+    "ElementCode": "H",
+    "ElementName": "Holy",
+    "JumpOutlink": "Mob/_Canvas/9602632.img/stand/0",
+    "JumpImage": "familiars/jump/9961508.png",
+    "Cards": [
+      {
+        "ItemId": 2871769,
+        "Icon": "familiars/cards/2871769.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961509,
+    "MobId": 9602725,
+    "MobName": "Fire Roro",
+    "Level": 1,
+    "TypeId": 0,
+    "TypeName": "Human",
+    "ElementCode": "F",
+    "ElementName": "Fire",
+    "JumpOutlink": "Mob/_Canvas/9602725.img/stand/0",
+    "JumpImage": "familiars/jump/9961509.png",
+    "Cards": [
+      {
+        "ItemId": 2871778,
+        "Icon": "familiars/cards/2871778.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961510,
+    "MobId": 9602726,
+    "MobName": "Poison Roro",
+    "Level": 1,
+    "TypeId": 2,
+    "TypeName": "Plant",
+    "ElementCode": "P",
+    "ElementName": "Poison",
+    "JumpOutlink": "Mob/_Canvas/9602726.img/stand/0",
+    "JumpImage": "familiars/jump/9961510.png",
+    "Cards": [
+      {
+        "ItemId": 2871779,
+        "Icon": "familiars/cards/2871779.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961511,
+    "MobId": 9602727,
+    "MobName": "Lightning Roro",
+    "Level": 1,
+    "TypeId": 4,
+    "TypeName": "Reptile",
+    "ElementCode": "L",
+    "ElementName": "Lightning",
+    "JumpOutlink": "Mob/_Canvas/9602727.img/stand/0",
+    "JumpImage": "familiars/jump/9961511.png",
+    "Cards": [
+      {
+        "ItemId": 2871780,
+        "Icon": "familiars/cards/2871780.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961512,
+    "MobId": 9602728,
+    "MobName": "Ice Roro",
+    "Level": 1,
+    "TypeId": 1,
+    "TypeName": "Beast",
+    "ElementCode": "I",
+    "ElementName": "Ice",
+    "JumpOutlink": "Mob/_Canvas/9602728.img/stand/0",
+    "JumpImage": "familiars/jump/9961512.png",
+    "Cards": [
+      {
+        "ItemId": 2871781,
+        "Icon": "familiars/cards/2871781.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961513,
+    "MobId": 9602729,
+    "MobName": "Dark Roro",
+    "Level": 1,
+    "TypeId": 7,
+    "TypeName": "Undead",
+    "ElementCode": "D",
+    "ElementName": "Dark",
+    "JumpOutlink": "Mob/_Canvas/9602729.img/stand/0",
+    "JumpImage": "familiars/jump/9961513.png",
+    "Cards": [
+      {
+        "ItemId": 2871782,
+        "Icon": "familiars/cards/2871782.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961514,
+    "MobId": 9602730,
+    "MobName": "Holy Roro",
+    "Level": 1,
+    "TypeId": 5,
+    "TypeName": "Fairy",
+    "ElementCode": "H",
+    "ElementName": "Holy",
+    "JumpOutlink": "Mob/_Canvas/9602730.img/stand/0",
+    "JumpImage": "familiars/jump/9961514.png",
+    "Cards": [
+      {
+        "ItemId": 2871783,
+        "Icon": "familiars/cards/2871783.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961515,
+    "MobId": 9602765,
+    "MobName": "Roro",
+    "Level": 1,
+    "TypeId": 8,
+    "TypeName": "Machine",
+    "ElementCode": "N",
+    "ElementName": "None",
+    "JumpOutlink": "Mob/_Canvas/9602765.img/stand/0",
+    "JumpImage": "familiars/jump/9961515.png",
+    "Cards": [
+      {
+        "ItemId": 2871784,
+        "Icon": "familiars/cards/2871784.png"
       }
     ]
   },
