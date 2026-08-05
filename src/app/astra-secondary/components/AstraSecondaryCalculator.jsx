@@ -599,11 +599,16 @@ const AstraSecondaryCalculator = () => {
     const startMissionIndex = currentMission - 1;
     const remainingMissions = MISSIONS.slice(startMissionIndex);
 
-    const tracesHave = Math.min(currentTraces, MAX_TRACES_CAPACITY);
+    // Both inputs are allowed to sit empty while being typed into, so coerce
+    // before any arithmetic rather than letting "" reach it.
+    const tracesHave = Math.min(
+      Number(currentTraces) || 0,
+      MAX_TRACES_CAPACITY,
+    );
 
     // Initial state
     let traces = tracesHave;
-    let fragments = currentFragments;
+    let fragments = Number(currentFragments) || 0;
     let currentDate = new Date(startDate + "T00:00:00.000Z");
     const dayOfWeek = currentDate.getUTCDay();
     const daysUntilThursdayReset = (4 - dayOfWeek + 7) % 7;
@@ -978,14 +983,22 @@ const AstraSecondaryCalculator = () => {
                 type="number"
                 className="flex-1 p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim text-center font-semibold"
                 value={currentTraces}
-                onChange={(e) =>
+                onChange={(e) => {
+                  const val = e.target.value;
+                  // Let the field go empty while typing - clamping "" straight
+                  // back to 0 makes the 0 impossible to delete.
                   setCurrentTraces(
-                    Math.min(
-                      MAX_TRACES_CAPACITY,
-                      Math.max(0, Number(e.target.value)),
-                    ),
-                  )
-                }
+                    val === ""
+                      ? val
+                      : Math.min(
+                          MAX_TRACES_CAPACITY,
+                          Math.max(0, Number(val)),
+                        ),
+                  );
+                }}
+                onBlur={(e) => {
+                  if (e.target.value === "") setCurrentTraces(0);
+                }}
                 min="0"
                 max={MAX_TRACES_CAPACITY}
               />
