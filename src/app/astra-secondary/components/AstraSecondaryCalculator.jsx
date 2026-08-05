@@ -520,6 +520,9 @@ const AstraSecondaryCalculator = () => {
           tracesPerClear: 0,
           tracesPerWeek: 0,
           voucherFragmentsPerWeek: 0,
+          pendingTraces: 0,
+          pendingVoucherFragments: 0,
+          clearedThisWeek: false,
           voucherCount: 0,
           voucherValue: 0,
           vouchersKept: 0,
@@ -529,7 +532,6 @@ const AstraSecondaryCalculator = () => {
       const tracesPerClear = Math.floor(
         difficulty.traces / selection.partySize,
       );
-      const tracesPerWeek = selection.clearedThisWeek ? 0 : tracesPerClear;
       const vouchersKept = difficulty.hasVoucher
         ? selection.vouchersKept || 0
         : 0;
@@ -537,13 +539,21 @@ const AstraSecondaryCalculator = () => {
         vouchersKept * (difficulty.voucherValue || 0),
       );
 
+      // "Cleared this week" only removes the clear still standing between
+      // now and the next Thursday reset - every reset after that one is
+      // clearable again, so the steady weekly rate is unaffected.
+      const clearedThisWeek = !!selection.clearedThisWeek;
+
       return {
         bossId: boss.id,
         bossName: boss.name,
         difficulty: difficulty.name,
         tracesPerClear,
-        tracesPerWeek,
+        tracesPerWeek: tracesPerClear,
         voucherFragmentsPerWeek,
+        pendingTraces: clearedThisWeek ? 0 : tracesPerClear,
+        pendingVoucherFragments: clearedThisWeek ? 0 : voucherFragmentsPerWeek,
+        clearedThisWeek,
         voucherCount: difficulty.voucherCount || 0,
         voucherValue: difficulty.voucherValue || 0,
         vouchersKept,
@@ -576,6 +586,12 @@ const AstraSecondaryCalculator = () => {
     const weeklyVoucherFragments = round2(
       bossData.reduce((sum, b) => sum + b.voucherFragmentsPerWeek, 0),
     );
+    // Income still available before the next reset - bosses already cleared
+    // this week contribute nothing until that reset comes around.
+    const pendingTraces = bossData.reduce((sum, b) => sum + b.pendingTraces, 0);
+    const pendingVoucherFragments = round2(
+      bossData.reduce((sum, b) => sum + b.pendingVoucherFragments, 0),
+    );
     const dailyFragments = getDailyFragments();
     const weeklyDailyFragments = dailyFragments * daysPerWeek;
 
@@ -603,24 +619,25 @@ const AstraSecondaryCalculator = () => {
     let missionStartDate = new Date(currentDate);
     let missionDays = 0;
 
-    // If the start date is itself a Thursday reset day, that week's boss
-    // traces/vouchers are available immediately (day 0) rather than making
-    // the player wait a full extra week for the "next" one.
+    // Whatever is still clearable in the current week is available right now
+    // (day 0) rather than making the player wait for the next reset.
+    traces += pendingTraces;
+    fragments = round2(fragments + pendingVoucherFragments);
+
+    if (pendingTraces > 0 || pendingVoucherFragments > 0) {
+      timeline.push({
+        date: new Date(currentDate),
+        type: "pending",
+        tracesAdded: pendingTraces,
+        fragmentsAdded: pendingVoucherFragments,
+        tracesTotal: traces,
+        fragmentsTotal: fragments,
+      });
+    }
+
+    // A start date that is itself a Thursday has already had its reset
+    // consumed by the grant above, so the next payout is a full week out.
     if (daysUntilThursdayReset === 0) {
-      traces += weeklyTraces;
-      fragments = round2(fragments + weeklyVoucherFragments);
-
-      if (weeklyTraces > 0 || weeklyVoucherFragments > 0) {
-        timeline.push({
-          date: new Date(nextThursday),
-          type: "weekly",
-          tracesAdded: weeklyTraces,
-          fragmentsAdded: weeklyVoucherFragments,
-          tracesTotal: traces,
-          fragmentsTotal: fragments,
-        });
-      }
-
       nextThursday.setDate(nextThursday.getDate() + 7);
     }
 
@@ -679,6 +696,8 @@ const AstraSecondaryCalculator = () => {
         bossData,
         weeklyTraces,
         weeklyVoucherFragments,
+        pendingTraces,
+        pendingVoucherFragments,
         dailyFragments,
         weeklyDailyFragments,
         missionResults: [
@@ -774,6 +793,8 @@ const AstraSecondaryCalculator = () => {
       bossData,
       weeklyTraces,
       weeklyVoucherFragments,
+      pendingTraces,
+      pendingVoucherFragments,
       dailyFragments,
       weeklyDailyFragments,
       missionResults,
@@ -1555,6 +1576,19 @@ const AstraSecondaryCalculator = () => {
                 {calculateSchedule.weeklyVoucherFragments}
               </span>
             </div>
+            {calculateSchedule.weeklyTraces > 0 && (
+              <div className="flex items-center justify-between border-t border-primary-dim/50 pt-3">
+                <span className="text-primary-bright/70 text-sm">
+                  Still clearable this week:
+                </span>
+                <span className="font-bold text-secondary">
+                  {calculateSchedule.pendingTraces} traces
+                  {calculateSchedule.pendingVoucherFragments > 0
+                    ? ` + ${calculateSchedule.pendingVoucherFragments} Erion`
+                    : ""}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Mission Results */}
@@ -1757,6 +1791,7 @@ const AstraSecondaryCalculator = () => {
                       </div>
                       <div className="text-xs text-primary-bright/60">
                         {boss.difficulty}
+                        {boss.clearedThisWeek ? " · cleared this week" : ""}
                       </div>
                     </div>
                   </div>
