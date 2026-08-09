@@ -40,6 +40,7 @@ export const navigationItems = [
         name: "Familiar Directory",
         href: "/familiars",
         image: "/images/familiars.png",
+        label: "Updated!",
       },
       // { name: "Souls", href: "/souls" },
       // { name: "MAPLE Daily Gift", href: "/maple-daily-gift" },
