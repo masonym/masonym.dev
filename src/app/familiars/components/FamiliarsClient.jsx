@@ -109,7 +109,7 @@ const FilterDropdown = ({ label, value, options, onChange, valueKey = 'value', l
   );
 };
 
-const TypeFilter = ({ types, selectedType, onChange }) => {
+const MultiSelectFilter = ({ label, allLabel, values, options, onChange, valueKey = 'value', labelKey = 'label', imageFor = null }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -123,37 +123,38 @@ const TypeFilter = ({ types, selectedType, onChange }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const selectedTypeName = selectedType === 'all' 
-    ? 'All Types' 
-    : types.find(t => t.id === selectedType)?.name || 'All Types';
+  const toggleValue = (val) => {
+    if (values.includes(val)) {
+      onChange(values.filter(v => v !== val));
+    } else {
+      onChange([...values, val]);
+    }
+  };
+
+  const buttonLabel = values.length === 0
+    ? allLabel
+    : values.length === 1
+      ? options.find(o => o[valueKey] === values[0])?.[labelKey] || allLabel
+      : `${label} (${values.length})`;
 
   return (
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="
+        className={`
           flex items-center gap-2 px-3 py-2 rounded-lg
-          bg-[var(--background-bright)] border border-[var(--primary-dim)]/30
-          text-[var(--primary)] hover:text-[var(--primary-bright)]
-          hover:border-[var(--secondary)]/50
-          transition-all text-sm min-w-[140px] justify-between
-        "
+          border transition-all text-sm min-w-[140px] justify-between
+          ${values.length > 0
+            ? 'bg-[var(--secondary)]/10 border-[var(--secondary)]/50 text-[var(--secondary)]'
+            : 'bg-[var(--background-bright)] border-[var(--primary-dim)]/30 text-[var(--primary)] hover:text-[var(--primary-bright)] hover:border-[var(--secondary)]/50'
+          }
+        `}
       >
         <span className="flex items-center gap-2 truncate">
-          {selectedType === 'all' ? (
-            'All Types'
-          ) : (
-            <>
-              <Image 
-                src={`/familiar_data/familiars/elements/${types.find(t => t.id === selectedType)?.name.toLowerCase()}.png`} 
-                alt="" 
-                width={16} 
-                height={16} 
-                className="w-4 h-4" 
-              />
-              {types.find(t => t.id === selectedType)?.name || 'All Types'}
-            </>
+          {values.length === 1 && imageFor && imageFor(values[0]) && (
+            <Image src={imageFor(values[0])} alt="" width={16} height={16} className="w-4 h-4" />
           )}
+          {buttonLabel}
         </span>
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -166,49 +167,50 @@ const TypeFilter = ({ types, selectedType, onChange }) => {
           max-h-[50vh] overflow-y-auto
         ">
           <button
-            onClick={() => {
-              onChange('all');
-              setIsOpen(false);
-            }}
+            onClick={() => onChange([])}
             className={`
               w-full px-3 py-2 text-left text-sm
               hover:bg-[var(--background-bright)]
               transition-colors flex items-center gap-2
-              ${selectedType === 'all' 
-                ? 'bg-[var(--secondary)]/20 text-[var(--secondary)]' 
+              ${values.length === 0
+                ? 'bg-[var(--secondary)]/20 text-[var(--secondary)]'
                 : 'text-[var(--primary)]'
               }
             `}
           >
-            All Types
+            {allLabel}
           </button>
-          {types.map((type) => (
-            <button
-              key={type.id}
-              onClick={() => {
-                onChange(type.id);
-                setIsOpen(false);
-              }}
-              className={`
-                w-full px-3 py-2 text-left text-sm
-                hover:bg-[var(--background-bright)]
-                transition-colors flex items-center gap-2
-                ${type.id === selectedType 
-                  ? 'bg-[var(--secondary)]/20 text-[var(--secondary)]' 
-                  : 'text-[var(--primary)]'
-                }
-              `}
-            >
-              <Image 
-                src={`/familiar_data/familiars/elements/${type.name.toLowerCase()}.png`} 
-                alt="" 
-                width={16} 
-                height={16} 
-                className="w-4 h-4" 
-              />
-              {type.name}
-            </button>
-          ))}
+          {options.map((option) => {
+            const val = option[valueKey];
+            const checked = values.includes(val);
+            const img = imageFor ? imageFor(val) : option.image;
+            return (
+              <button
+                key={val}
+                onClick={() => toggleValue(val)}
+                className={`
+                  w-full px-3 py-2 text-left text-sm
+                  hover:bg-[var(--background-bright)]
+                  transition-colors flex items-center gap-2
+                  ${checked
+                    ? 'bg-[var(--secondary)]/20 text-[var(--secondary)]'
+                    : 'text-[var(--primary)]'
+                  }
+                `}
+              >
+                <span className={`
+                  w-4 h-4 rounded border flex items-center justify-center shrink-0
+                  ${checked ? 'bg-[var(--secondary)] border-[var(--secondary)]' : 'border-[var(--primary-dim)]/50'}
+                `}>
+                  {checked && <span className="w-2 h-2 rounded-sm bg-[var(--background-dim)]" />}
+                </span>
+                {img && (
+                  <Image src={img} alt="" width={16} height={16} className="w-4 h-4" />
+                )}
+                {option[labelKey]}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
@@ -225,20 +227,25 @@ const ActiveFilters = ({ filters, onClear, onClearAll }) => {
     });
   }
 
-  if (filters.element !== 'all') {
-    const elementName = ELEMENTS.find(e => e.code === filters.element)?.name || filters.element;
+  filters.elements.forEach((code) => {
+    const elementName = ELEMENTS.find(e => e.code === code)?.name || code;
     activeFilters.push({
-      key: 'element',
+      key: `element:${code}`,
+      group: 'element',
+      value: code,
       label: `Element: ${elementName}`,
     });
-  }
+  });
 
-  if (filters.type !== 'all') {
+  filters.types.forEach((id) => {
+    const typeName = filters.typeNames[id] || id;
     activeFilters.push({
-      key: 'type',
-      label: `Type: ${filters.typeName}`,
+      key: `type:${id}`,
+      group: 'type',
+      value: id,
+      label: `Type: ${typeName}`,
     });
-  }
+  });
 
   if (filters.search) {
     activeFilters.push({
@@ -255,7 +262,7 @@ const ActiveFilters = ({ filters, onClear, onClearAll }) => {
       {activeFilters.map((filter) => (
         <button
           key={filter.key}
-          onClick={() => onClear(filter.key)}
+          onClick={() => onClear(filter)}
           className="
             inline-flex items-center gap-1 px-2 py-1 rounded-full
             bg-[var(--secondary)]/20 text-[var(--secondary)]
@@ -285,8 +292,8 @@ const FamiliarsClient = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLevelRange, setSelectedLevelRange] = useState(LEVEL_RANGES[0]);
-  const [selectedElement, setSelectedElement] = useState('all');
-  const [selectedType, setSelectedType] = useState('all');
+  const [selectedElements, setSelectedElements] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
   const [sortOption, setSortOption] = useState('level-asc');
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
   const [showFilters, setShowFilters] = useState(false);
@@ -339,12 +346,12 @@ const FamiliarsClient = () => {
       );
     }
 
-    if (selectedElement !== 'all') {
-      result = result.filter(f => f.ElementCode === selectedElement);
+    if (selectedElements.length > 0) {
+      result = result.filter(f => selectedElements.includes(f.ElementCode));
     }
 
-    if (selectedType !== 'all') {
-      result = result.filter(f => f.TypeId === selectedType);
+    if (selectedTypes.length > 0) {
+      result = result.filter(f => selectedTypes.includes(f.TypeId));
     }
 
     const [sortKey, sortDir] = sortOption.split('-');
@@ -367,7 +374,7 @@ const FamiliarsClient = () => {
     });
 
     return result;
-  }, [familiars, searchTerm, selectedLevelRange, selectedElement, selectedType, sortOption]);
+  }, [familiars, searchTerm, selectedLevelRange, selectedElements, selectedTypes, sortOption]);
 
   const displayedFamiliars = useMemo(() => {
     return filteredAndSortedFamiliars.slice(0, displayCount);
@@ -377,7 +384,7 @@ const FamiliarsClient = () => {
 
   useEffect(() => {
     setDisplayCount(ITEMS_PER_PAGE);
-  }, [searchTerm, selectedLevelRange, selectedElement, selectedType, sortOption]);
+  }, [searchTerm, selectedLevelRange, selectedElements, selectedTypes, sortOption]);
 
   useEffect(() => {
     if (!hasMore) return;
@@ -402,33 +409,30 @@ const FamiliarsClient = () => {
     };
   }, [hasMore, filteredAndSortedFamiliars.length]);
 
-  const handleClearFilter = useCallback((filterKey) => {
-    switch (filterKey) {
-      case 'level':
-        setSelectedLevelRange(LEVEL_RANGES[0]);
-        break;
-      case 'element':
-        setSelectedElement('all');
-        break;
-      case 'type':
-        setSelectedType('all');
-        break;
-      case 'search':
-        setSearchTerm('');
-        break;
+  const handleClearFilter = useCallback((filter) => {
+    if (filter.key === 'level') {
+      setSelectedLevelRange(LEVEL_RANGES[0]);
+    } else if (filter.key === 'search') {
+      setSearchTerm('');
+    } else if (filter.group === 'element') {
+      setSelectedElements(prev => prev.filter(v => v !== filter.value));
+    } else if (filter.group === 'type') {
+      setSelectedTypes(prev => prev.filter(v => v !== filter.value));
     }
   }, []);
 
   const handleClearAllFilters = useCallback(() => {
     setSearchTerm('');
     setSelectedLevelRange(LEVEL_RANGES[0]);
-    setSelectedElement('all');
-    setSelectedType('all');
+    setSelectedElements([]);
+    setSelectedTypes([]);
   }, []);
 
-  const selectedTypeName = selectedType === 'all' 
-    ? '' 
-    : uniqueTypes.find(t => t.id === selectedType)?.name || '';
+  const typeNames = useMemo(() => {
+    const map = {};
+    uniqueTypes.forEach(t => { map[t.id] = t.name; });
+    return map;
+  }, [uniqueTypes]);
 
   if (isLoading) {
     return (
@@ -517,19 +521,29 @@ const FamiliarsClient = () => {
               labelKey="label"
             />
 
-            <FilterDropdown
+            <MultiSelectFilter
               label="Element"
-              value={selectedElement}
-              options={ELEMENTS}
-              onChange={setSelectedElement}
+              allLabel="All Elements"
+              values={selectedElements}
+              options={ELEMENTS.filter(e => e.code !== 'all')}
+              onChange={setSelectedElements}
               valueKey="code"
               labelKey="name"
+              imageFor={(code) => ELEMENTS.find(e => e.code === code)?.image}
             />
 
-            <TypeFilter
-              types={uniqueTypes}
-              selectedType={selectedType}
-              onChange={setSelectedType}
+            <MultiSelectFilter
+              label="Type"
+              allLabel="All Types"
+              values={selectedTypes}
+              options={uniqueTypes}
+              onChange={setSelectedTypes}
+              valueKey="id"
+              labelKey="name"
+              imageFor={(id) => {
+                const name = typeNames[id];
+                return name ? `/familiar_data/familiars/elements/${name.toLowerCase()}.png` : null;
+              }}
             />
 
             <FilterDropdown
@@ -544,9 +558,9 @@ const FamiliarsClient = () => {
         <ActiveFilters
           filters={{
             levelRange: selectedLevelRange,
-            element: selectedElement,
-            type: selectedType,
-            typeName: selectedTypeName,
+            elements: selectedElements,
+            types: selectedTypes,
+            typeNames: typeNames,
             search: searchTerm,
           }}
           onClear={handleClearFilter}
