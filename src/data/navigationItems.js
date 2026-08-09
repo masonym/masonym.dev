@@ -6,8 +6,13 @@ export const navigationItems = [
         name: "Star Force",
         href: "/star-force",
         image: "/images/star-force.png",
-        label: "Updated!",
       },
+      // {
+      //   name: "Equip Compare",
+      //   href: "/equip-compare",
+      //   image: "/images/star-force.png",
+      //   label: "New!",
+      // },
       { name: "Hexa", href: "/hexa", image: "/images/hexa.png" },
       {
         name: "Liberation",
