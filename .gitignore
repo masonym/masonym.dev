@@ -37,6 +37,6 @@ next-env.d.ts
 src/data/updateClassStructure.js
 public/changelog.json
 src/data/changelog.json
-*.md
+# *.md
 
 .env
