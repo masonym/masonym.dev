@@ -11,9 +11,13 @@ import {
   buildIndexes, resolveItem, resolveLoadout, diffLoadouts, diffItemSwap,
   resolveSetEffects, potentialLevelIndex, potentialValueAt, occupiedSlots,
   equippableSlots, itemFitsSlot, exceptionalGains, exceptionalSlots, LOADOUT_SLOTS,
+  setProgress,
 } from '../lib/equip/engine.js';
 import { itemMatchesClass } from '../lib/equip/classes.js';
-import { acceptsFlames, flameContext, flameLineValue, flameLinesFor } from '../lib/equip/flames.js';
+import {
+  acceptsFlames, flameContext, flameLineValue, flameLinesFor, isFlameAdvantaged,
+  migrateFlameLines,
+} from '../lib/equip/flames.js';
 import { maxStars, starCap, starFloor, isStarForceable } from '../lib/equip/starforce.js';
 import { itemPreset, configForItem } from '../lib/equip/specialItems.js';
 import {
@@ -23,6 +27,9 @@ import {
   EQUIP_SLOT_LAYOUT, SLOT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT,
 } from '../lib/equip/uiLayout.js';
 import { flattenStats, combineIed, diffStats, formatStat } from '../lib/equip/stats.js';
+import {
+  describePotential, isInertPotential, potentialOptions, potentialTextIsComplete,
+} from '../lib/equip/potentialText.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA = resolve(__dirname, '../../public/equip-data');
@@ -625,18 +632,158 @@ console.log('\n=== flames on real items ===');
   eq('a tier-7 STR flame on a lv200 hat', flamed.str - plain.str, 77);
   eq('a tier-7 attack flame on it is 7', flamed.att - plain.att, 7);
 
-  // On a weapon the two curves differ, which is why both are offered.
-  const ctx = flameContext(weapon);
-  const ordinary = flameLineValue('att', 5, ctx).value;
-  const boss = flameLineValue('attBoss', 5, ctx).value;
-  eq('ordinary and boss flame disagree at tier 5', ordinary === boss, false);
-  eq('the best roll is a tier-7 boss flame',
-    flameLineValue('attBoss', 7, ctx).value > ordinary, true);
-  eq('an ordinary weapon cannot roll tier 7', flameLineValue('att', 7, ctx), null);
+  // On a weapon the two curves differ, and which one applies is read off the
+  // item's own boss-drop flag rather than picked by hand.
+  eq('a boss weapon is flame advantaged', isFlameAdvantaged(weapon), true);
+
+  const advantaged = flameContext(weapon);
+  const ordinary = flameContext(weapon, { advantaged: false });
+  eq('the two curves disagree at tier 5',
+    flameLineValue('att', 5, advantaged).value === flameLineValue('att', 5, ordinary).value, false);
+  eq('the best roll is a tier-7 advantaged flame',
+    flameLineValue('att', 7, advantaged).value > flameLineValue('att', 5, ordinary).value, true);
+  eq('an ordinary weapon cannot roll tier 7', flameLineValue('att', 7, ordinary), null);
+  eq('an advantaged weapon cannot roll tier 2', flameLineValue('att', 2, advantaged), null);
+
+  // The override is what the config carries, so the resolved stats follow it.
+  // At a tier both curves reach the *ordinary* one is worth more — the advantage
+  // is the three tiers above it that only the advantaged curve can roll.
+  const asAdvantaged = flattenStats(resolveItem(weapon, {
+    flames: [{ line: 'att', tier: 5 }],
+  }, data.lineIndex));
+  const asOrdinary = flattenStats(resolveItem(weapon, {
+    advantaged: false, flames: [{ line: 'att', tier: 5 }],
+  }, data.lineIndex));
+  eq('the advantage override changes the resolved attack',
+    asOrdinary.att > asAdvantaged.att, true);
+
+  // Saved loadouts still name the retired lines.
+  eq('attBoss migrates onto att',
+    migrateFlameLines([{ line: 'attBoss', tier: 7 }]), [{ line: 'att', tier: 7 }]);
+  eq('a migration collision keeps one line',
+    migrateFlameLines([{ line: 'att', tier: 4 }, { line: 'attBoss', tier: 7 }]),
+    [{ line: 'att', tier: 4 }]);
+  eq('a line that never moved is left alone',
+    migrateFlameLines([{ line: 'def', tier: 7 }]), [{ line: 'def', tier: 7 }]);
 
   // Lines the item cannot roll never appear.
   eq('no boss damage flame on a hat', flameLinesFor(hat).includes('boss'), false);
   eq('no speed flame on a weapon', flameLinesFor(weapon).includes('speed'), false);
+}
+
+// ── Potential descriptions resolve for the whole dataset ─────────────────────
+console.log('\n=== potential text ===');
+{
+  // Every line the picker can offer must come out with its number filled in. A
+  // line the picker drops (nothing at this level, or nothing the diff shows) is
+  // not required to resolve, because it is never rendered.
+  const unresolved = [];
+  for (const line of potentials) {
+    for (const levelIndex of [1, 5, 10, 15, 20, 25]) {
+      if (isInertPotential(line, levelIndex)) continue;
+      if (!potentialTextIsComplete(line, levelIndex)) {
+        unresolved.push(`${line.id} @${levelIndex}: ${line.desc}`);
+      }
+    }
+  }
+  eq('every offered line resolves its tokens', unresolved.slice(0, 5), []);
+
+  const byId = (id) => potentials.find((p) => p.id === id);
+  // The same line, at two item levels: the value comes from the tier table, which
+  // is why the raw `desc` cannot be shown on its own.
+  eq('a flat stat line reads as a number',
+    [10, 20].map((li) => describePotential(byId(40001), li)),
+    ['STR: +18', 'STR: +19']);
+  // `incDAMr` is the damage key, but this line resolves it to boss damage —
+  // positional matching is what gets the value onto the page.
+  eq('boss damage resolves despite the token naming damage',
+    /^Boss Damage \+\d+%$/.test(describePotential(byId(40601), 20)), true);
+  // Defensive lines stay in the list — someone's item really did roll one, and
+  // the editor has to be able to say so. It is the *display* of defence that is
+  // suppressed, in the tooltip and the diff, not the ability to enter it.
+  eq('a defence line is still offered', isInertPotential(byId(40013), 20), false);
+  // A line whose tier table does not reach this level grants nothing, and those
+  // are the only ones dropped.
+  eq('a line with no row at this level is dropped', isInertPotential(byId(70083), 1), true);
+
+  const legendary = potentials.filter((p) => p.kind === 'regular' && p.grade === 4);
+  const offered = potentialOptions(legendary, 20);
+  eq('legendary lines deduplicate',
+    offered.length < legendary.length && offered.length > 0, true);
+  eq('and no two read the same',
+    new Set(offered.map((o) => o.label)).size, offered.length);
+}
+
+// ── The set panel's view of a set ────────────────────────────────────────────
+console.log('\n=== set progress ===');
+{
+  const pitched = sets.find((s) => s.name === 'Pitched Boss Set');
+  const belt = items.find((i) => i.name === 'Dreamy Belt');
+  const badge = items.find((i) => i.name === 'Genesis Badge');
+
+  // Nineteen member ids, ten pieces: five branch emblems are one emblem, four
+  // coloured spellbooks are one pocket item, and the Black Heart is in twice.
+  const empty = setProgress(pitched, {}, data.itemIndex);
+  eq('one-per-slot members collapse to the piece count',
+    [pitched.members.length, empty.total], [19, 10]);
+  eq('and nothing is worn yet', empty.pieces, 0);
+  eq('a slot that holds one names its alternatives',
+    empty.groups.find((g) => g.label === 'Emblem').options.length, 5);
+
+  // The regression: a set with two rings has two ring *pieces*, because a
+  // character has four ring slots to put them in.
+  const brilliant = sets.find((s) => s.name === 'Brilliant Boss Set');
+  const shining = setProgress(brilliant, {}, data.itemIndex);
+  eq('two rings in one set are two pieces, not one',
+    shining.groups.filter((g) => g.label === 'Ring').map((g) => g.options[0]),
+    ['Whisper of the Source', 'Blissful Nightmare']);
+  eq('so the set counts five', shining.total, 5);
+
+  // And a set whose weapons are split across two islots still has one weapon:
+  // AbsoLab lists eleven one-handers under Wp and three two-handers under WpSi.
+  const abso = sets.find((s) => s.name === 'AbsoLab Set (Warrior)');
+  const absoProgress = setProgress(abso, {}, data.itemIndex);
+  eq('one-handers and two-handers are the one weapon',
+    absoProgress.groups.filter((g) => g.label === 'Weapon').length, 1);
+  eq('and the set counts seven', absoProgress.total, 7);
+
+  // No set may print a threshold its own header says is out of reach.
+  const all = sets.map((s) => setProgress(s, {}, data.itemIndex));
+  const unreachable = all
+    .filter((p) => p.thresholds.length && p.total < p.thresholds.at(-1).at)
+    .map((p) => `${p.name}: ${p.total} of ${p.thresholds.at(-1).at}`);
+  eq('no set lists a threshold it has too few pieces for', unreachable, []);
+
+  // Where the member list falls short it is because the missing piece is not
+  // equipment — a Sengoku totem, the Alchemist Set's potions — so the panel says
+  // how many it could not name rather than quietly listing a short set.
+  eq('the Pitched set names every piece it counts',
+    [empty.listed, empty.total], [10, 10]);
+  const gap = all.find((p) => p.name === 'Amaterasu Set');
+  eq('a set with a piece outside the equipment data says so',
+    [gap.listed, gap.total], [8, 9]);
+
+  const worn = setProgress(
+    pitched,
+    { belt: { itemId: belt.id }, badge: { itemId: badge.id } },
+    data.itemIndex,
+  );
+  eq('wearing two counts two', worn.pieces, 2);
+  eq('and names them on their own rows',
+    worn.groups.filter((g) => g.equipped).map((g) => g.equipped).sort(),
+    ['Dreamy Belt', 'Genesis Badge']);
+  eq('thresholds at or below the count are active',
+    worn.thresholds.filter((t) => t.active).map((t) => t.at), [2]);
+  eq('and the rest are listed but not', worn.thresholds.length > 1, true);
+
+  // The count has to agree with the one the effects are actually resolved from,
+  // or the panel would light a threshold the diff has not granted.
+  const resolved = resolveLoadout(
+    { belt: { itemId: belt.id }, badge: { itemId: badge.id } },
+    data,
+  );
+  eq('the panel count matches the engine',
+    resolved.sets.find((s) => s.setId === pitched.id)?.pieces, worn.pieces);
 }
 
 console.log(`\n${fails === 0 ? 'All checks passed.' : `${fails} FAILURES`}`);

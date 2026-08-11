@@ -92,18 +92,21 @@ eq('boss damage is weapons only', flameLinesFor(hat).includes('boss'), false);
 eq('boss damage rolls on weapons', flameLinesFor(weapon).includes('boss'), true);
 eq('damage% is weapons only', flameLinesFor(hat).includes('dmg'), false);
 eq('speed is armour only', flameLinesFor(weapon).includes('speed'), false);
-eq('the boss-flame attack line is weapons only', flameLinesFor(hat).includes('attBoss'), false);
+eq('DEF rolls like any other single stat', flameLinesFor(hat).includes('def'), true);
 eq('All Stat needs level 70 off a weapon', flameLinesFor(lowHat).includes('allStat'), false);
 eq('All Stat rolls on a level 200 hat', flameLinesFor(hat).includes('allStat'), true);
 
 // A hat with no attack of its own still rolls the flat attack line, all 7 tiers.
 eq('a hat with no attack still rolls attack',
   [1, 4, 7].map((t) => flameLineValue('att', t, { level: 200, isWeapon: false })?.value), [1, 4, 7]);
-// An ordinary weapon's attack line stops at tier 5; the boss line starts at 3.
+// An ordinary weapon's attack line stops at tier 5; an advantaged one starts at 3.
 eq('ordinary weapon attack stops at t5',
   flameLineValue('att', 6, { level: 200, baseAttack: 276, isWeapon: true }), null);
-eq('boss flame attack starts at t3',
-  flameLineValue('attBoss', 2, { level: 200, baseAttack: 276, isWeapon: true }), null);
+eq('advantaged weapon attack starts at t3',
+  flameLineValue('att', 2, { level: 200, baseAttack: 276, isWeapon: true, advantaged: true }), null);
+eq('advantaged weapon attack reaches t7',
+  flameLineValue('att', 7, { level: 200, baseAttack: 276, isWeapon: true, advantaged: true }) !== null,
+  true);
 // Rings take no bonus stats at all, but that is acceptsFlames()' job, not this.
 eq('rings are not weapons', flameLinesFor(ring).includes('boss'), false);
 

@@ -98,13 +98,16 @@ function clamp(value, min, max) {
  * where the item's own configuration is the point.
  *
  * Stars are always brought inside the new item's range, so moving a 25★ config
- * onto a 20★-capped piece cannot leave an unreachable number behind.
+ * onto a 20★-capped piece cannot leave an unreachable number behind. A flame
+ * advantage override goes with the item it was entered for and is dropped, so
+ * the new piece starts on whatever its own data says.
  */
 export function configForItem(item, classKey, previous = null) {
   const preset = itemPreset(item, classKey);
   const next = { ...(previous || {}), ...(preset || {}), itemId: item.id };
 
   next.stars = clamp(next.stars ?? 0, starFloor(item), starCap(item));
+  delete next.advantaged;
 
   return next;
 }

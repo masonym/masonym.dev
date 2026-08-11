@@ -250,7 +250,7 @@ export function resolveItemBreakdown(item, config = {}, lineIndex = new Map()) {
   // Checked rather than trusted: a config can outlive the item it was entered
   // against, and rings and secondaries take no bonus stats at all.
   if (flames.length && acceptsFlames(item)) {
-    addInto(flame, resolveFlames(flames, { ...flameContext(item), level }));
+    addInto(flame, resolveFlames(flames, { ...flameContext(item, config), level }));
   }
 
   // potential + bonus potential
@@ -322,17 +322,14 @@ export function resolveSetEffects(entries, setIndex) {
 }
 
 /**
- * Resolves a whole loadout.
+ * The items a loadout actually has on, one entry per distinct item.
  *
- * @param {object} loadout   { [slotKey]: { itemId, ...config } }
- * @param {object} data      { itemIndex, lineIndex, setIndex }
- * @returns { stats, items, sets, setStats }
+ * A two-hander occupies two slots but is one item, so it must not be counted —
+ * or stat-summed — twice.
+ *
+ * @returns [{ slotKey, item, config }]
  */
-export function resolveLoadout(loadout = {}, data = {}) {
-  const { itemIndex = new Map(), lineIndex = new Map(), setIndex = new Map() } = data;
-
-  // Collect one entry per distinct item, so a two-hander occupying two slots is
-  // not counted (or stat-summed) twice.
+export function loadoutEntries(loadout = {}, itemIndex = new Map()) {
   const seen = new Set();
   const entries = [];
 
@@ -352,8 +349,143 @@ export function resolveLoadout(loadout = {}, data = {}) {
     if (seen.has(dedupeKey)) continue;
     seen.add(dedupeKey);
 
-    entries.push({ slotKey: key, item, config, stats: resolveItem(item, config, lineIndex) });
+    entries.push({ slotKey: key, item, config });
   }
+
+  return entries;
+}
+
+/**
+ * Slot label for an islot code: no "Ring 1" numbering, and "Acc" rather than
+ * "Accessory" so the longest of them still fits a narrow label column.
+ */
+const SLOT_LABELS = Object.fromEntries(
+  LOADOUT_SLOTS.map(({ key, label }) => [
+    key,
+    label.replace(/ \d+$/, '').replace(/ Accessory$/, ' Acc'),
+  ]),
+);
+const SLOT_RANK = Object.fromEntries(LOADOUT_SLOTS.map(({ key }, i) => [key, i]));
+
+/**
+ * A set, the pieces it is made of, and how much of it a loadout has on.
+ *
+ * The member id list is not the piece list and has to be reduced to one before
+ * it means anything — the Pitched Boss Set has nineteen member ids and is a
+ * ten-piece set. Two rules do that reduction, and both are needed:
+ *
+ *   - Members are grouped by the **loadout slot they compete for**, not by their
+ *     WZ islot. AbsoLab lists eleven one-handed weapons under `Wp` and three
+ *     two-handers under `WpSi`; they are all the one weapon you get to wear.
+ *
+ *   - Within a group, whether the members are separate pieces or alternatives
+ *     for one piece depends on **how many of that slot a character has**. Five
+ *     Mitra's Rage emblems are one emblem because there is one emblem slot. The
+ *     Brilliant Boss Set's two rings are two of its five pieces, because there
+ *     are four ring slots and you can wear both. Collapsing per slot regardless
+ *     is what reported that set as four pieces with one ring.
+ *
+ * The resulting piece count agrees with the thresholds the effects are keyed by:
+ * ten for Pitched, seven for AbsoLab, five for Brilliant.
+ *
+ * @returns {{
+ *   id, name, pieces, total,
+ *   groups: [{ key, label, options: string[], equipped: string|null }],
+ *   thresholds: [{ at, stats, active }],
+ * }|null}
+ */
+export function setProgress(set, loadout = {}, itemIndex = new Map()) {
+  if (!set) return null;
+
+  const entries = loadoutEntries(loadout, itemIndex);
+  const pieces = countSetPieces(entries).get(set.id) ?? 0;
+  const wornNames = entries
+    .filter((e) => e.item.setId === set.id)
+    .map((e) => e.item.name);
+
+  // Deduplicated by name, not by id: the Black Heart is in the Pitched set under
+  // two ids, and listing it twice would imply it is two of the ten pieces.
+  const families = new Map();
+  for (const id of set.members ?? []) {
+    const member = itemIndex.get(id);
+    if (!member) continue;
+
+    const slots = equippableSlots(member);
+    const key = slots[0];
+    if (!key) continue;
+
+    const family = families.get(key)
+      ?? { key, label: SLOT_LABELS[key] ?? key, capacity: slots.length, names: [] };
+    if (!family.names.includes(member.name)) family.names.push(member.name);
+    families.set(key, family);
+  }
+
+  const ordered = [...families.values()].sort(
+    (a, b) => (SLOT_RANK[a.key] ?? 99) - (SLOT_RANK[b.key] ?? 99),
+  );
+
+  const groups = [];
+  for (const { key, label, capacity, names } of ordered) {
+    const worn = names.filter((name) => wornNames.includes(name));
+
+    if (names.length <= capacity) {
+      // Room for all of them, so each is a piece in its own right.
+      for (const name of names) {
+        groups.push({
+          key: `${key}:${name}`,
+          label,
+          options: [name],
+          equipped: worn.includes(name) ? name : null,
+        });
+      }
+    } else {
+      // More versions than the slot can hold, so they are alternatives for one
+      // piece — repeated per wearable copy, which is one for every slot this
+      // actually happens on.
+      for (let i = 0; i < capacity; i += 1) {
+        groups.push({ key: `${key}:${i}`, label, options: names, equipped: worn[i] ?? null });
+      }
+    }
+  }
+
+  const thresholds = Object.keys(set.effects ?? {})
+    .map(Number)
+    .sort((a, b) => a - b)
+    .map((at) => ({ at, stats: set.effects[String(at)], active: at <= pieces }));
+
+  // The set's own effects table is the authority on how many pieces it counts
+  // to, not the member list — a handful of sets reach a threshold we cannot list
+  // the piece for, because it is a totem (the Sengoku sets) or a Use item (the
+  // Alchemist Set), neither of which is equipment. Taking the larger of the two
+  // keeps the header from disagreeing with the effects printed under it;
+  // `listed` is how many pieces are actually named, so the panel can say so.
+  const top = thresholds.length ? thresholds[thresholds.length - 1].at : 0;
+
+  return {
+    id: set.id,
+    name: set.name,
+    pieces,
+    listed: groups.length,
+    total: Math.max(groups.length, top),
+    groups,
+    thresholds,
+  };
+}
+
+/**
+ * Resolves a whole loadout.
+ *
+ * @param {object} loadout   { [slotKey]: { itemId, ...config } }
+ * @param {object} data      { itemIndex, lineIndex, setIndex }
+ * @returns { stats, items, sets, setStats }
+ */
+export function resolveLoadout(loadout = {}, data = {}) {
+  const { itemIndex = new Map(), lineIndex = new Map(), setIndex = new Map() } = data;
+
+  const entries = loadoutEntries(loadout, itemIndex).map((entry) => ({
+    ...entry,
+    stats: resolveItem(entry.item, entry.config, lineIndex),
+  }));
 
   const { stats: setStats, active: sets } = resolveSetEffects(entries, setIndex);
 

@@ -16,9 +16,11 @@
  *
  * Attack on a *weapon* is the exception, and the wiki lists it as two separate
  * tables. Advantaged weapons roll tiers 3-7 off one curve, ordinary weapons
- * tiers 1-5 off another, and at the same tier number the two do not agree. Both
- * are offered as their own line rather than hidden behind a toggle, so the value
- * you can see on your weapon is the value you click.
+ * tiers 1-5 off another, and at the same tier number the two do not agree.
+ *
+ * Which of the two a weapon uses is a property of the weapon, so it is read off
+ * the item rather than offered as a second attack line — see `isFlameAdvantaged`
+ * for how, and why the answer can be overridden.
  */
 
 export const FLAME_TIERS = [1, 2, 3, 4, 5, 6, 7];
@@ -58,6 +60,27 @@ export function acceptsFlames(item) {
 /** True when the item is a weapon, which several lines are restricted to. */
 export function isWeaponSlot(slot) {
   return slot === 'Wp' || slot === 'WpSi';
+}
+
+/**
+ * Whether an item is Flame Advantaged, which only changes the weapon attack curve.
+ *
+ * This is the WZ `bossReward` flag, carried through the build as `item.bossDrop`,
+ * and it is the game's own record of the thing: the boss sets (AbsoLab, Arcane
+ * Umbra, Eternal, the liberated Genesis weapons) carry it, and the gear that is
+ * not advantaged does not — Sweetwater and the Sealed Genesis weapons included.
+ *
+ * `config.advantaged` can still override it, because one wrong row in the dump
+ * should cost a click rather than make the tool unusable for that weapon. The
+ * override is only an escape hatch; nothing needs to set it.
+ */
+export function isFlameAdvantaged(item) {
+  return Boolean(item?.bossDrop);
+}
+
+/** The advantage in force for a configured item: the override, else the flag. */
+export function flameAdvantage(item, config = null) {
+  return config?.advantaged ?? isFlameAdvantaged(item);
 }
 
 /**
@@ -185,8 +208,10 @@ export function speedJumpFlame(tier) {
  * rolls the full 1-7 like every other line.
  */
 const ALL_TIERS = [1, 7];
-const ORDINARY_WEAPON_TIERS = (c) => (c.isWeapon ? [1, 5] : ALL_TIERS);
-const ADVANTAGED_WEAPON_TIERS = () => [3, 7];
+const WEAPON_ATTACK_TIERS = (c) => {
+  if (!c.isWeapon) return ALL_TIERS;
+  return c.advantaged ? [3, 7] : [1, 5];
+};
 
 /**
  * The kinds of flame line that can appear.
@@ -197,7 +222,7 @@ const ADVANTAGED_WEAPON_TIERS = () => [3, 7];
  *   minLevel           → the item level the line needs to roll at all
  *   tierRange          → ctx => [min, max] when the line cannot roll every tier
  *
- * `ctx` carries { level, baseAttack, baseMagic, isWeapon }.
+ * `ctx` carries { level, baseAttack, baseMagic, isWeapon, advantaged }.
  */
 export const FLAME_LINES = {
   str:      { label: 'STR',        resolve: (t, c) => ({ str: singleStatFlame(c.level, t) }) },
@@ -221,23 +246,19 @@ export const FLAME_LINES = {
   dmg:      { label: 'Damage %',   percent: true, on: 'weapon',
               resolve: (t) => ({ dmg: damageFlame(t) }) },
 
-  // Attack is the one line whose value depends on the item type. On a weapon it
-  // is a share of base attack and the flame-advantaged curve is its own line; on
-  // everything else it is a flat +1 per tier.
-  att:      { label: 'Attack Power', tierRange: ORDINARY_WEAPON_TIERS,
+  // Attack is the one line whose value depends on the item. On a weapon it is a
+  // share of base attack, off whichever of the two curves the weapon's flame
+  // advantage puts it on; on everything else it is a flat +1 per tier.
+  att:      { label: 'Attack Power', tierRange: WEAPON_ATTACK_TIERS,
               resolve: (t, c) => ({
-                att: c.isWeapon ? weaponAttackFlame(c.baseAttack, c.level, t, false)
+                att: c.isWeapon ? weaponAttackFlame(c.baseAttack, c.level, t, c.advantaged)
                                 : nonWeaponAttackFlame(t),
               }) },
-  matt:     { label: 'Magic ATT',  tierRange: ORDINARY_WEAPON_TIERS,
+  matt:     { label: 'Magic ATT',  tierRange: WEAPON_ATTACK_TIERS,
               resolve: (t, c) => ({
-                matt: c.isWeapon ? weaponAttackFlame(c.baseMagic, c.level, t, false)
+                matt: c.isWeapon ? weaponAttackFlame(c.baseMagic, c.level, t, c.advantaged)
                                  : nonWeaponAttackFlame(t),
               }) },
-  attBoss:  { label: 'Attack Power (boss)', on: 'weapon', tierRange: ADVANTAGED_WEAPON_TIERS,
-              resolve: (t, c) => ({ att: weaponAttackFlame(c.baseAttack, c.level, t, true) }) },
-  mattBoss: { label: 'Magic ATT (boss)', on: 'weapon', tierRange: ADVANTAGED_WEAPON_TIERS,
-              resolve: (t, c) => ({ matt: weaponAttackFlame(c.baseMagic, c.level, t, true) }) },
 
   hp:       { label: 'Max HP',     resolve: (t, c) => ({ hp: hpFlame(c.level, t) }) },
   mp:       { label: 'Max MP',     resolve: (t, c) => ({ mp: hpFlame(c.level, t) }) },
@@ -248,25 +269,63 @@ export const FLAME_LINES = {
 };
 
 /**
- * A line and its counterpart that cannot both be on one item, because they are
- * the same bonus stat rolled off a different table.
+ * Line keys that were once their own row and are now the same line.
+ *
+ * `attBoss` / `mattBoss` were the flame advantaged attack tables offered
+ * alongside the ordinary ones. Advantage is read off the item now, so both
+ * collapse into `att` / `matt`.
+ *
+ * Saved loadouts outlive the shape they were entered in, so the rename is
+ * applied on load rather than left to silently drop a line.
  */
-const FLAME_LINE_ALIASES = { att: 'attBoss', attBoss: 'att', matt: 'mattBoss', mattBoss: 'matt' };
+const RETIRED_FLAME_LINES = { attBoss: 'att', mattBoss: 'matt' };
 
-/** The other line key this one excludes, or null. */
-export function conflictingFlameLine(line) {
-  return FLAME_LINE_ALIASES[line] ?? null;
+/** The current key for a possibly-stale line key, or null if it is gone. */
+export function currentFlameLine(line) {
+  if (line in RETIRED_FLAME_LINES) return RETIRED_FLAME_LINES[line];
+  return line in FLAME_LINES ? line : null;
 }
 
-/** The resolution context for an item. */
-export function flameContext(item) {
+/**
+ * Brings a saved flame list onto the current line keys.
+ *
+ * Renaming can collide — a config holding both `att` and `attBoss` now names
+ * `att` twice — so the first of each line wins, which is the same rule the
+ * editor enforces when the lines are picked.
+ */
+export function migrateFlameLines(flames = []) {
+  const seen = new Set();
+  const out = [];
+
+  for (const entry of flames) {
+    const line = currentFlameLine(entry?.line);
+    if (!line || seen.has(line)) continue;
+    seen.add(line);
+    out.push({ line, tier: entry.tier });
+  }
+  return out;
+}
+
+/**
+ * The resolution context for an item.
+ *
+ * `config` is optional and only supplies the flame advantage override; nothing
+ * else in the context can be overridden.
+ */
+export function flameContext(item, config = null) {
   return {
     level: item?.reqLevel ?? 0,
     baseAttack: item?.stats?.att ?? 0,
     baseMagic: item?.stats?.matt ?? 0,
     isWeapon: isWeaponSlot(item?.slot),
+    advantaged: flameAdvantage(item, config),
   };
 }
+
+/** Defaults for a context, so a caller may pass only the parts it knows. */
+const EMPTY_CONTEXT = {
+  level: 0, baseAttack: 0, baseMagic: 0, isWeapon: false, advantaged: false,
+};
 
 /** True when `line` can roll on an item described by `ctx`. */
 export function flameLineApplies(line, ctx = {}) {
@@ -291,8 +350,8 @@ function tierIsRollable(line, tier, ctx) {
 }
 
 /** The line keys that can roll on an item, in display order. */
-export function flameLinesFor(item) {
-  const ctx = flameContext(item);
+export function flameLinesFor(item, config = null) {
+  const ctx = flameContext(item, config);
   return Object.keys(FLAME_LINES).filter((line) => flameLineApplies(line, ctx));
 }
 
@@ -310,7 +369,7 @@ export function flameLineValue(line, tier, ctx = {}) {
   const def = FLAME_LINES[line];
   if (!def) return null;
 
-  const context = { level: 0, baseAttack: 0, baseMagic: 0, isWeapon: false, ...ctx };
+  const context = { ...EMPTY_CONTEXT, ...ctx };
   if (!flameLineApplies(line, context)) return null;
   if (!tierIsRollable(line, tier, context)) return null;
 
@@ -324,11 +383,11 @@ export function flameLineValue(line, tier, ctx = {}) {
  * Resolves a set of flame lines into bucketed stats.
  *
  * @param {Array<{line: string, tier: number}>} lines Up to four flame lines.
- * @param {object} ctx { level, baseAttack, baseMagic, isWeapon }
+ * @param {object} ctx { level, baseAttack, baseMagic, isWeapon, advantaged }
  */
 export function resolveFlames(lines = [], ctx = {}) {
   const out = {};
-  const context = { level: 0, baseAttack: 0, baseMagic: 0, isWeapon: false, ...ctx };
+  const context = { ...EMPTY_CONTEXT, ...ctx };
 
   for (const { line, tier } of lines) {
     const def = FLAME_LINES[line];

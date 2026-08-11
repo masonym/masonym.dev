@@ -22,9 +22,9 @@
  * you can switch on, never as one applied for you.
  */
 
-import { itemFitsSlot } from './engine.js';
-import { getClass, itemMatchesClass } from './classes.js';
-import { starCap, starForceGains, gainsStarForceAttack } from './starforce.js';
+import { itemFitsSlot } from "./engine.js";
+import { getClass, itemMatchesClass } from "./classes.js";
+import { starCap, starForceGains, gainsStarForceAttack } from "./starforce.js";
 
 export const DEFAULT_FILTERS = { notableOnly: false, minLevel: 0 };
 
@@ -51,14 +51,16 @@ const ATTACK_WEIGHT = 3;
 const PERCENT_WEIGHT = 10;
 
 const SCORE_WEIGHTS = {
-  boss: PERCENT_WEIGHT, dmg: PERCENT_WEIGHT,
+  boss: PERCENT_WEIGHT,
+  dmg: PERCENT_WEIGHT,
   ied: 5,
-  critDmg: PERCENT_WEIGHT, critRate: 4,
+  critDmg: PERCENT_WEIGHT,
+  critRate: 4,
   attackCount: 24,
   hp: 0.01,
 };
 
-const MAIN_STATS = ['str', 'dex', 'int', 'luk'];
+const MAIN_STATS = ["str", "dex", "int", "luk"];
 
 /**
  * The star count every item is scored at, or its own ceiling if that is lower.
@@ -75,9 +77,13 @@ const MAIN_STATS = ['str', 'dex', 'int', 'luk'];
  * also closer to what people actually own.
  */
 const SCORE_STARS = 22;
+const SCORE_STARS_SUPERIOR = 12;
 
 function referenceStarStats(item) {
-  const stars = Math.min(starCap(item), SCORE_STARS);
+  const stars = Math.min(
+    starCap(item),
+    item.superior ? SCORE_STARS_SUPERIOR : SCORE_STARS,
+  );
   if (stars <= 0) return null;
 
   return starForceGains({
@@ -112,7 +118,7 @@ function referenceStarStats(item) {
  *   when no class has been picked.
  * @param {Map} setIndex setId → set record. Omitted, sets simply do not count.
  */
-export function itemScore(item, classKey = 'all', setIndex = null) {
+export function itemScore(item, classKey = "all", setIndex = null) {
   const main = getClass(classKey).mainStat;
   const stars = referenceStarStats(item);
   const set = item.setId ? setIndex?.get(item.setId) : null;
@@ -125,24 +131,32 @@ export function itemScore(item, classKey = 'all', setIndex = null) {
     s[key] = (s[key] ?? 0) + value;
   }
   if (stars) {
-    for (const key of [...MAIN_STATS, 'att', 'matt', 'hp']) {
+    for (const key of [...MAIN_STATS, "att", "matt", "hp"]) {
       s[key] = (s[key] ?? 0) + stars[key];
     }
   }
 
-  const magic = main === 'int';
-  const attack = main ? (magic ? s.matt : s.att) ?? 0 : Math.max(s.att ?? 0, s.matt ?? 0);
-  const attackP = main ? (magic ? s.mattP : s.attP) ?? 0 : Math.max(s.attP ?? 0, s.mattP ?? 0);
+  const magic = main === "int";
+  const attack = main
+    ? ((magic ? s.matt : s.att) ?? 0)
+    : Math.max(s.att ?? 0, s.matt ?? 0);
+  const attackP = main
+    ? ((magic ? s.mattP : s.attP) ?? 0)
+    : Math.max(s.attP ?? 0, s.mattP ?? 0);
 
-  const pick = (suffix) => (main
-    ? s[`${main}${suffix}`] ?? 0
-    : Math.max(...MAIN_STATS.map((k) => s[`${k}${suffix}`] ?? 0)));
+  const pick = (suffix) =>
+    main
+      ? (s[`${main}${suffix}`] ?? 0)
+      : Math.max(...MAIN_STATS.map((k) => s[`${k}${suffix}`] ?? 0));
 
-  const flatStat = pick('') + (s.allStat ?? 0);
-  const pctStat = pick('P') + (s.allStatP ?? 0);
+  const flatStat = pick("") + (s.allStat ?? 0);
+  const pctStat = pick("P") + (s.allStatP ?? 0);
 
-  let total = attack * ATTACK_WEIGHT + attackP * PERCENT_WEIGHT
-    + flatStat + pctStat * PERCENT_WEIGHT;
+  let total =
+    attack * ATTACK_WEIGHT +
+    attackP * PERCENT_WEIGHT +
+    flatStat +
+    pctStat * PERCENT_WEIGHT;
   for (const [key, weight] of Object.entries(SCORE_WEIGHTS)) {
     total += weight * (s[key] ?? 0);
   }
@@ -164,7 +178,8 @@ function cachedScore(item, classKey, setIndex) {
     byClass = new Map();
     scoreCache.set(item, byClass);
   }
-  if (!byClass.has(classKey)) byClass.set(classKey, itemScore(item, classKey, setIndex));
+  if (!byClass.has(classKey))
+    byClass.set(classKey, itemScore(item, classKey, setIndex));
   return byClass.get(classKey);
 }
 
@@ -187,7 +202,14 @@ export const LEVEL_STEPS = [0, 100, 120, 140, 160, 200];
  * these slots rather than applying it invisibly.
  */
 export const LEVEL_FILTERED_SLOTS = new Set([
-  'hat', 'top', 'bottom', 'shoes', 'gloves', 'cape', 'shoulder', 'weapon',
+  "hat",
+  "top",
+  "bottom",
+  "shoes",
+  "gloves",
+  "cape",
+  "shoulder",
+  "weapon",
 ]);
 
 /** True when the level floor has any effect on this slot. */
@@ -197,7 +219,9 @@ export function levelFilterApplies(slotKey) {
 
 /** Items that could go in `slotKey` at all, before the user's noise filter. */
 export function slotCandidates(items, slotKey, classKey) {
-  return items.filter((i) => itemFitsSlot(i, slotKey) && itemMatchesClass(i, classKey));
+  return items.filter(
+    (i) => itemFitsSlot(i, slotKey) && itemMatchesClass(i, classKey),
+  );
 }
 
 /**
@@ -206,13 +230,16 @@ export function slotCandidates(items, slotKey, classKey) {
  * @param {Array}  items
  * @param {object} opts { slotKey, classKey, currentId, notableOnly, minLevel }
  */
-export function filterItemsForSlot(items, {
-  slotKey,
-  classKey,
-  currentId = null,
-  notableOnly = DEFAULT_FILTERS.notableOnly,
-  minLevel = DEFAULT_FILTERS.minLevel,
-} = {}) {
+export function filterItemsForSlot(
+  items,
+  {
+    slotKey,
+    classKey,
+    currentId = null,
+    notableOnly = DEFAULT_FILTERS.notableOnly,
+    minLevel = DEFAULT_FILTERS.minLevel,
+  } = {},
+) {
   const byLevel = levelFilterApplies(slotKey);
 
   return slotCandidates(items, slotKey, classKey).filter((i) => {
@@ -230,8 +257,9 @@ export function filterItemsForSlot(items, {
  * Level breaks ties because two items with the same stats are usually the same
  * item re-issued, and the later one is the one still obtainable.
  */
-export function byPower(classKey = 'all', setIndex = null) {
-  return (a, b) => cachedScore(b, classKey, setIndex) - cachedScore(a, classKey, setIndex)
-    || b.reqLevel - a.reqLevel
-    || a.name.localeCompare(b.name);
+export function byPower(classKey = "all", setIndex = null) {
+  return (a, b) =>
+    cachedScore(b, classKey, setIndex) - cachedScore(a, classKey, setIndex) ||
+    b.reqLevel - a.reqLevel ||
+    a.name.localeCompare(b.name);
 }

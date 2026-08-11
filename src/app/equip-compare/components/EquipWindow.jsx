@@ -20,9 +20,12 @@ export default function EquipWindow({
   selectedSlot,
   onSelectSlot,
   onOpenSlot,
+  onCopySlot,
   onHoverSlot,
   scale = 1,
   changedSlots = null,
+  copyHint,
+  flashSlot = null,
 }) {
   // Slots covered by a multi-slot item equipped elsewhere (a two-hander covers
   // the secondary, an overall covers the bottom). The game blanks these.
@@ -76,7 +79,10 @@ export default function EquipWindow({
               changed={Boolean(slot.slotKey && changedSlots?.has(slot.slotKey))}
               onSelect={onSelectSlot}
               onOpen={onOpenSlot}
+              onCopy={onCopySlot}
               onHover={onHoverSlot}
+              copyHint={copyHint}
+              flash={flashSlot?.slotKey === slot.slotKey ? flashSlot.id : null}
             />
           ))}
         </div>
@@ -86,7 +92,8 @@ export default function EquipWindow({
 }
 
 function Slot({
-  slot, config, itemIndex, coveredBy, selected, changed, onSelect, onOpen, onHover,
+  slot, config, itemIndex, coveredBy, selected, changed, onSelect, onOpen, onCopy,
+  onHover, copyHint, flash,
 }) {
   const item = config?.itemId ? itemIndex.get(config.itemId) : null;
   const interactive = Boolean(slot.slotKey) && !coveredBy;
@@ -98,12 +105,22 @@ function Slot({
     onHover({ slot, item, config, coveredBy, anchor: rect });
   };
 
+  // Right-click sends this one slot to the other window — the reverse of "copy
+  // everything across and change one thing", for when only one piece is worth
+  // carrying over.
+  const handleContextMenu = (e) => {
+    if (!interactive || !onCopy) return;
+    e.preventDefault();
+    onCopy(slot.slotKey);
+  };
+
   return (
     <div
       role={interactive ? 'button' : undefined}
       tabIndex={interactive ? 0 : undefined}
       onClick={interactive ? () => onSelect?.(slot.slotKey) : undefined}
       onDoubleClick={interactive ? () => onOpen?.(slot.slotKey) : undefined}
+      onContextMenu={handleContextMenu}
       onKeyDown={
         interactive
           ? (e) => {
@@ -118,7 +135,11 @@ function Slot({
       onMouseLeave={() => onHover?.(null)}
       className={`absolute ${interactive ? 'cursor-pointer' : 'cursor-default'}`}
       style={{ left: slot.x, top: slot.y, width: SLOT_SIZE, height: SLOT_SIZE }}
-      title={slot.slotKey ? undefined : `${slot.name} — not supported`}
+      title={
+        slot.slotKey
+          ? (interactive && copyHint ? `${slot.name} — right-click to ${copyHint}` : undefined)
+          : `${slot.name} — not supported`
+      }
     >
       {/* The label tile is only drawn while the slot is empty. The window art
           already contains the slot box, so an occupied slot shows just the icon —
@@ -186,6 +207,12 @@ function Slot({
             </span>
           )}
         </>
+      )}
+
+      {/* Keyed on the copy that caused it, so copying the same slot twice
+          restarts the animation instead of leaving a finished one on screen. */}
+      {flash && (
+        <span key={flash} className="absolute inset-0 pointer-events-none equip-slot-flash" />
       )}
 
       {/* Selection and change highlights sit above everything. */}

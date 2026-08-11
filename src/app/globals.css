@@ -328,3 +328,29 @@ button {
   border-color: rgba(236, 72, 153, 0.5);
   color: #fb7185;
 }
+
+/*
+ * Equipment slot copy flash.
+ *
+ * Right-clicking a slot sends it to the other window, which is a change that can
+ * land entirely off-screen — an empty slot filling in, or a config swapping under
+ * an icon that does not change. The flash marks where it went without a toast,
+ * a prompt, or anything that moves the layout.
+ */
+@keyframes equip-slot-flash {
+  0%   { opacity: 1; box-shadow: inset 0 0 0 2px var(--secondary), 0 0 12px 2px var(--secondary); }
+  60%  { opacity: 1; box-shadow: inset 0 0 0 2px var(--secondary), 0 0 6px 1px var(--secondary); }
+  100% { opacity: 0; box-shadow: inset 0 0 0 2px var(--secondary), 0 0 0 0 var(--secondary); }
+}
+
+.equip-slot-flash {
+  border-radius: 3px;
+  animation: equip-slot-flash 850ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .equip-slot-flash {
+    animation-duration: 1400ms;
+    animation-timing-function: steps(1, end);
+  }
+}

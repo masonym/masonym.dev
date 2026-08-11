@@ -7,8 +7,12 @@ import SlotEditor from './SlotEditor';
 import DiffPanel from './DiffPanel';
 import ItemTooltip from './ItemTooltip';
 import ItemPickerModal from './ItemPickerModal';
-import { diffLoadouts, exceptionalSlots, occupiedSlots } from '@/lib/equip/engine';
-import { flameContext, flameLineValue, flameLinesFor } from '@/lib/equip/flames';
+import {
+  diffItemSwap, diffLoadouts, exceptionalSlots, occupiedSlots,
+} from '@/lib/equip/engine';
+import {
+  flameContext, flameLineValue, flameLinesFor, isFlameAdvantaged, migrateFlameLines,
+} from '@/lib/equip/flames';
 import { LAYOUT_BY_SLOT_KEY } from '@/lib/equip/uiLayout';
 import { CLASSES, DEFAULT_CLASS } from '@/lib/equip/classes';
 import { DEFAULT_FILTERS } from '@/lib/equip/itemFilter';
@@ -48,11 +52,15 @@ function reconcileLoadout(loadout, itemIndex) {
 
     next.stars = Math.min(Math.max(next.stars ?? 0, starFloor(item)), starCap(item));
 
+    // An override is only worth keeping when it disagrees with the item's own
+    // flag; otherwise it would pin a value the data may have since corrected.
+    if (next.advantaged === isFlameAdvantaged(item)) delete next.advantaged;
+
     if (next.flames?.length) {
-      const rollable = new Set(flameLinesFor(item));
-      const ctx = flameContext(item);
-      next.flames = next.flames.filter(
-        (f) => rollable.has(f?.line) && flameLineValue(f.line, f.tier, ctx),
+      const rollable = new Set(flameLinesFor(item, next));
+      const ctx = flameContext(item, next);
+      next.flames = migrateFlameLines(next.flames).filter(
+        (f) => rollable.has(f.line) && flameLineValue(f.line, f.tier, ctx),
       );
     }
 
@@ -83,6 +91,7 @@ export default function EquipCompare() {
   const [classKey, setClassKey] = useState(DEFAULT_CLASS);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [hover, setHover] = useState(null);
+  const [flash, setFlash] = useState(null);   // { side, slotKey, id }
   const [hydrated, setHydrated] = useState(false);
   const [reconciled, setReconciled] = useState(false);
 
@@ -143,6 +152,16 @@ export default function EquipCompare() {
         for (const s of occupiedSlots(item, slotKey)) {
           if (s !== slotKey) delete next[s];
         }
+
+        // And the same in reverse: filling a slot evicts whatever was covering
+        // it. Only right-clicking a slot across can reach this — the windows do
+        // not let a covered slot be clicked — but a shield left sitting under a
+        // two-hander would still have counted towards the totals.
+        for (const [key, other] of Object.entries(next)) {
+          if (key === slotKey || !other?.itemId) continue;
+          const covering = data.itemIndex.get(other.itemId);
+          if (occupiedSlots(covering, key).includes(slotKey)) delete next[key];
+        }
       }
 
       return { ...prev, [side]: next };
@@ -172,10 +191,45 @@ export default function EquipCompare() {
     setPicking({ side, slotKey });
   };
 
+  // Right-click: send one slot to the other window, configuration and all.
+  //
+  // The destination is flashed because the change is easy to miss — copying an
+  // identical-looking item, or filling a slot the eye is not on, otherwise looks
+  // like the right-click did nothing at all. A flash on the slot that received it
+  // says where it went without a toast or a confirmation to dismiss.
+  const copySlot = (side, slotKey) => {
+    const other = side === 'a' ? 'b' : 'a';
+    const config = loadouts[side]?.[slotKey];
+    setSlot(other, slotKey, config ? structuredClone(config) : null);
+    setFlash({ side: other, slotKey, id: Date.now() });
+  };
+
+  // The flash is a one-shot CSS animation; clearing it keeps a stale marker from
+  // replaying when the window re-renders for an unrelated reason.
+  useEffect(() => {
+    if (!flash) return undefined;
+    const timer = setTimeout(() => setFlash(null), 900);
+    return () => clearTimeout(timer);
+  }, [flash]);
+
   const result = useMemo(() => {
     if (status !== 'ready') return null;
     return diffLoadouts(loadouts.a, loadouts.b, data);
   }, [status, data, loadouts]);
+
+  /**
+   * The difference from changing *only* the selected slot.
+   *
+   * Expressed as a swap into the current loadout rather than as one item minus
+   * the other, so the set effects the swap makes or breaks are counted — which
+   * is the whole reason the tool compares loadouts in the first place.
+   */
+  const slotResult = useMemo(() => {
+    if (status !== 'ready' || !selected) return null;
+    const { slotKey } = selected;
+    if (!loadouts.a[slotKey] && !loadouts.b[slotKey]) return null;
+    return diffItemSwap(loadouts.a, slotKey, loadouts.b[slotKey] ?? null, data);
+  }, [status, data, loadouts, selected]);
 
   // Slots that differ between the two sides, so the windows can highlight them.
   const changedSlots = useMemo(() => {
@@ -240,7 +294,8 @@ export default function EquipCompare() {
       <p className="text-center text-xs text-primary-bright/40 max-w-2xl mx-auto">
         Pick your class to narrow the item lists, then click a slot to equip something and set its
         stars, flames and potential. Every item is listed, strongest first. Fill in what you have
-        now, copy it across, then change the pieces you are considering.
+        now, copy it across, then change the pieces you are considering — or right-click a single
+        slot to send just that piece to the other window.
       </p>
 
       <div className="flex flex-wrap justify-center gap-6">
@@ -252,8 +307,13 @@ export default function EquipCompare() {
             selectedSlot={selected?.side === 'a' ? selected.slotKey : null}
             onSelectSlot={(slotKey) => selectSlot('a', slotKey)}
             onOpenSlot={(slotKey) => openSlot('a', slotKey)}
-            onHoverSlot={setHover}
+            onCopySlot={(slotKey) => copySlot('a', slotKey)}
+            // The side rides along so the tooltip's set panel can count pieces
+            // against the loadout the hovered slot is actually in.
+            onHoverSlot={(next) => setHover(next && { ...next, side: 'a' })}
             changedSlots={changedSlots}
+            copyHint="copy it to Planned"
+            flashSlot={flash?.side === 'a' ? flash : null}
           />
           <EquipWindow
             title="PLANNED"
@@ -262,13 +322,20 @@ export default function EquipCompare() {
             selectedSlot={selected?.side === 'b' ? selected.slotKey : null}
             onSelectSlot={(slotKey) => selectSlot('b', slotKey)}
             onOpenSlot={(slotKey) => openSlot('b', slotKey)}
-            onHoverSlot={setHover}
+            onCopySlot={(slotKey) => copySlot('b', slotKey)}
+            onHoverSlot={(next) => setHover(next && { ...next, side: 'b' })}
             changedSlots={changedSlots}
+            copyHint="copy it to Current"
+            flashSlot={flash?.side === 'b' ? flash : null}
           />
         </div>
 
         <div className="w-full lg:w-[22rem] p-4 rounded-2xl border border-primary-dim bg-primary-dark">
-          <DiffPanel result={result} />
+          <DiffPanel
+            result={result}
+            slotResult={slotResult}
+            slotName={selected ? LAYOUT_BY_SLOT_KEY[selected.slotKey]?.name ?? selected.slotKey : null}
+          />
         </div>
       </div>
 
@@ -329,7 +396,13 @@ export default function EquipCompare() {
         />
       )}
 
-      <ItemTooltip hover={hover} lineIndex={data.lineIndex} />
+      <ItemTooltip
+        hover={hover}
+        lineIndex={data.lineIndex}
+        setIndex={data.setIndex}
+        itemIndex={data.itemIndex}
+        loadout={hover ? loadouts[hover.side] : null}
+      />
     </div>
   );
 }

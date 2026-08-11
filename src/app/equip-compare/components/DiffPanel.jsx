@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { STAT_GROUPS, HIDDEN_DIFF_GROUPS, formatStat } from '@/lib/equip/stats';
 
 const GROUP_LABELS = {
@@ -14,14 +14,27 @@ const GROUP_LABELS = {
 /**
  * Per-stat deltas between the two loadouts, grouped, plus the set-effect
  * changes that explain deltas on gear the user did not touch.
+ *
+ * `slotResult`, when given, is the same comparison narrowed to the selected
+ * slot: what changes if only that one piece is swapped. It is a separate
+ * calculation rather than a filter over `rows`, because the question is not
+ * "which of these deltas came from the hat" — set effects mean a delta need not
+ * belong to any single slot — but "what do I gain by changing only the hat".
  */
-export default function DiffPanel({ result }) {
+export default function DiffPanel({ result, slotResult = null, slotName = null }) {
+  const [slotOnly, setSlotOnly] = useState(false);
+
   if (!result) return null;
 
-  const { setChanges, before, after } = result;
+  // The preference is kept while the scope it names comes and goes: deselecting
+  // a slot falls back to the whole loadout without forgetting that the narrow
+  // view was wanted, so selecting the next slot lands straight back in it.
+  const scoped = slotOnly && slotResult && slotName ? slotResult : result;
+  const narrowed = scoped !== result;
+  const { setChanges, before, after } = scoped;
 
   // Defence and resistances resolve but are not shown — they never decide a swap.
-  const rows = result.rows.filter((r) => !HIDDEN_DIFF_GROUPS.has(r.group));
+  const rows = scoped.rows.filter((r) => !HIDDEN_DIFF_GROUPS.has(r.group));
 
   const byGroup = new Map();
   for (const row of rows) {
@@ -31,12 +44,41 @@ export default function DiffPanel({ result }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-baseline justify-between">
+      <div className="flex items-baseline justify-between gap-2">
         <h2 className="text-lg font-semibold text-primary-bright">Difference</h2>
-        <span className="text-xs text-primary-bright/50">
-          {before.items.length} → {after.items.length} items equipped
+        <span className="text-xs text-primary-bright/50 text-right">
+          {narrowed
+            ? 'this slot only'
+            : `${before.items.length} → ${after.items.length} items equipped`}
         </span>
       </div>
+
+      {slotResult && slotName && (
+        <div className="flex gap-1">
+          {[['Whole loadout', false], [slotName, true]].map(([label, value]) => (
+            <button
+              key={label}
+              type="button"
+              aria-pressed={slotOnly === value}
+              onClick={() => setSlotOnly(value)}
+              className={`flex-1 min-w-0 truncate px-2 py-1 text-[11px] rounded-lg border transition-colors ${
+                slotOnly === value
+                  ? 'border-secondary bg-secondary/20 text-secondary font-semibold'
+                  : 'border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {narrowed && (
+        <p className="-mt-2 text-[11px] text-primary-bright/40">
+          Planned&rsquo;s {slotName.toLowerCase()} moved into Current, everything else left alone.
+          Set bonuses the swap makes or breaks are counted.
+        </p>
+      )}
 
       {setChanges.length > 0 && (
         <div className="p-3 rounded-lg border border-secondary/30 bg-secondary/10">
@@ -60,7 +102,9 @@ export default function DiffPanel({ result }) {
 
       {rows.length === 0 ? (
         <p className="text-sm text-primary-bright/50 py-6 text-center">
-          No difference between the two loadouts yet.
+          {narrowed
+            ? 'This slot is the same on both sides.'
+            : 'No difference between the two loadouts yet.'}
         </p>
       ) : (
         <div className="space-y-4">
