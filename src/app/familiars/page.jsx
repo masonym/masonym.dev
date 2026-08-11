@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import FamiliarsPageClient from './components/FamiliarsPageClient';
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function FamiliarsPage() {
-  return <FamiliarsPageClient />;
+  return (
+    <Suspense fallback={null}>
+      <FamiliarsPageClient />
+    </Suspense>
+  );
 }
