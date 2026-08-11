@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import MysticFrontierClient from './components/MysticFrontierClient';
 import { AuthProvider } from './components/AuthProvider';
 
@@ -9,7 +10,9 @@ export const metadata = {
 export default function MysticFrontierPage() {
   return (
     <AuthProvider>
-      <MysticFrontierClient />
+      <Suspense fallback={null}>
+        <MysticFrontierClient />
+      </Suspense>
     </AuthProvider>
   );
 }

@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { 
+import {
   MAX_ROUNDS,
 } from '@/data/mysticFrontierData';
 import { Check, Compass, History, Plus, User } from 'lucide-react';
@@ -16,12 +17,36 @@ import {
   DEFAULT_REWARD,
 } from './mysticFrontierUiConstants';
 
+const TAB_KEYS = ['new', 'history'];
+
 export default function MysticFrontierClient() {
   const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [ign, setIgn] = useState('');
   const [ignSaved, setIgnSaved] = useState(false);
-  const [activeTab, setActiveTab] = useState('new');
-  
+  const tabFromUrl = searchParams.get('tab');
+  const [activeTab, setActiveTab] = useState(
+    TAB_KEYS.includes(tabFromUrl) ? tabFromUrl : 'new'
+  );
+
+  // Keep local state in sync with back/forward navigation
+  useEffect(() => {
+    if (tabFromUrl && TAB_KEYS.includes(tabFromUrl) && tabFromUrl !== activeTab) {
+      setActiveTab(tabFromUrl);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabFromUrl]);
+
+  const handleTabChange = useCallback((tab) => {
+    setActiveTab(tab);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', tab);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [pathname, router, searchParams]);
+
   // expedition form state
   const [siteRank, setSiteRank] = useState('');
   const [elementMatch, setElementMatch] = useState(false);
@@ -436,7 +461,7 @@ export default function MysticFrontierClient() {
         {/* tabs */}
         <div className="flex gap-2 mb-6">
           <button
-            onClick={() => setActiveTab('new')}
+            onClick={() => handleTabChange('new')}
             className={`flex items-center gap-2 px-4 py-2 rounded transition ${
               activeTab === 'new' 
                 ? 'bg-[var(--secondary)] text-[var(--background)]' 
@@ -447,7 +472,7 @@ export default function MysticFrontierClient() {
             New Expedition
           </button>
           <button
-            onClick={() => setActiveTab('history')}
+            onClick={() => handleTabChange('history')}
             className={`flex items-center gap-2 px-4 py-2 rounded transition ${
               activeTab === 'history' 
                 ? 'bg-[var(--secondary)] text-[var(--background)]' 
