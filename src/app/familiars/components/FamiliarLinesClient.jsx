@@ -57,7 +57,8 @@ const formatDescription = (description, stats) => {
   return description.replace(/#([A-Za-z0-9_]+)/g, (match, key) => {
     const statKey = stats[key] !== undefined ? key : PLACEHOLDER_ALIASES[key];
     if (statKey !== undefined && stats[statKey] !== undefined) {
-      return formatValue(stats[statKey]);
+      const suffix = key === 'mulx' ? 'x' : '';
+      return `${formatValue(stats[statKey])}${suffix}`;
     }
     return match;
   });
