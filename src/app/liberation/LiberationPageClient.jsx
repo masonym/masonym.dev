@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import GenesisLiberationCalculator from './components/GenesisLiberationCalculator';
 import DestinyLiberationCalculator from './components/DestinyLiberationCalculator';
 
@@ -12,10 +13,18 @@ const tabs = [
 const STORAGE_KEY = 'liberationActiveTab';
 
 export default function LiberationPageClient() {
-  const [active, setActive] = useState('genesis');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  // Initialize from localStorage on mount
+  const tabFromUrl = searchParams.get('tab');
+  const [active, setActive] = useState(
+    tabs.some(t => t.key === tabFromUrl) ? tabFromUrl : 'genesis'
+  );
+
+  // Initialize from localStorage on mount if the URL didn't specify a tab
   useEffect(() => {
+    if (tabFromUrl) return;
     try {
       const saved = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
       if (saved && tabs.some(t => t.key === saved)) {
@@ -24,7 +33,16 @@ export default function LiberationPageClient() {
     } catch {
       // ignore storage errors
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Keep local state in sync with back/forward navigation
+  useEffect(() => {
+    if (tabFromUrl && tabs.some(t => t.key === tabFromUrl) && tabFromUrl !== active) {
+      setActive(tabFromUrl);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabFromUrl]);
 
   // Persist changes to localStorage
   useEffect(() => {
@@ -36,6 +54,13 @@ export default function LiberationPageClient() {
       // ignore storage errors
     }
   }, [active]);
+
+  const handleTabChange = useCallback((key) => {
+    setActive(key);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', key);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [pathname, router, searchParams]);
 
   const baseBtn = 'inline-flex items-center justify-center rounded-xl px-4 py-2 font-semibold transition shadow-lg ring-1 ring-black/5';
   const activeBtn = 'bg-secondary text-primary-dark hover:bg-secondary-bright scale-[1.02]';
@@ -49,7 +74,7 @@ export default function LiberationPageClient() {
             key={t.key}
             type="button"
             aria-pressed={active === t.key}
-            onClick={() => setActive(t.key)}
+            onClick={() => handleTabChange(t.key)}
             className={`${baseBtn} ${active === t.key ? activeBtn : inactiveBtn}`}
           >
             {t.label}
