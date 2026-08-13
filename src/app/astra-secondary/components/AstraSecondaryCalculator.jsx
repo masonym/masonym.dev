@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
+import { Check, Pencil } from "lucide-react";
 
 const STORAGE_KEY = "astraSecondaryState";
 const PRESETS_STORAGE_KEY = "astraSecondaryPresets";
@@ -230,6 +231,158 @@ const ID_MIGRATIONS = {
   radiant_malefic_star: "malefic_star",
 };
 
+// Which preset slot the live form currently represents. Kept out of the
+// preset payload itself so saving a preset never bakes in "was active".
+const ACTIVE_PRESET_STORAGE_KEY = "astraSecondaryActivePreset";
+
+const emptyPreset = (idx) => ({
+  name: `Preset ${idx + 1}`,
+  savedAt: null,
+  config: null,
+  // Index of the preset this one hands its coupon Vestige to (null = keeps it)
+  funnelTo: null,
+});
+
+// Rebuilds boss selections from the current boss list so renamed/removed/added
+// bosses don't break saved data - saved values are merged in by id, with a
+// migration map for ids that have been renamed.
+const normalizeBossSelections = (saved) => {
+  const savedById = new Map(
+    (saved || []).map((b) => [ID_MIGRATIONS[b.id] ?? b.id, b]),
+  );
+  return TRACES_BOSS_DATA.map((boss) => {
+    const s = savedById.get(boss.id);
+    return {
+      id: boss.id,
+      selectedDifficulty: s?.selectedDifficulty ?? "None",
+      partySize: s?.partySize ?? 1,
+      clearedThisWeek: s?.clearedThisWeek ?? false,
+      vouchersKept: s?.vouchersKept ?? 0,
+    };
+  });
+};
+
+// Weekly traces / coupon fragments per boss. Takes plain selections rather
+// than reading component state so a preset's numbers can be computed without
+// loading it into the form.
+const computeBossWeeklyData = (bossSelections) =>
+  normalizeBossSelections(bossSelections).map((selection) => {
+    const boss = TRACES_BOSS_DATA.find((b) => b.id === selection.id);
+    const difficulty = boss.difficulties.find(
+      (d) => d.name === selection.selectedDifficulty,
+    );
+
+    if (!difficulty || selection.selectedDifficulty === "None") {
+      return {
+        bossId: boss.id,
+        bossName: boss.name,
+        tracesPerClear: 0,
+        tracesPerWeek: 0,
+        voucherFragmentsPerWeek: 0,
+        pendingTraces: 0,
+        pendingVoucherFragments: 0,
+        clearedThisWeek: false,
+        voucherCount: 0,
+        voucherValue: 0,
+        vouchersKept: 0,
+      };
+    }
+
+    const tracesPerClear = Math.floor(difficulty.traces / selection.partySize);
+    const vouchersKept = difficulty.hasVoucher
+      ? selection.vouchersKept || 0
+      : 0;
+    const voucherFragmentsPerWeek = round2(
+      vouchersKept * (difficulty.voucherValue || 0),
+    );
+
+    // "Cleared this week" only removes the clear still standing between now
+    // and the next Thursday reset - every reset after that one is clearable
+    // again, so the steady weekly rate is unaffected.
+    const clearedThisWeek = !!selection.clearedThisWeek;
+
+    return {
+      bossId: boss.id,
+      bossName: boss.name,
+      difficulty: difficulty.name,
+      tracesPerClear,
+      tracesPerWeek: tracesPerClear,
+      voucherFragmentsPerWeek,
+      pendingTraces: clearedThisWeek ? 0 : tracesPerClear,
+      pendingVoucherFragments: clearedThisWeek ? 0 : voucherFragmentsPerWeek,
+      clearedThisWeek,
+      voucherCount: difficulty.voucherCount || 0,
+      voucherValue: difficulty.voucherValue || 0,
+      vouchersKept,
+      hasVoucher: difficulty.hasVoucher,
+    };
+  });
+
+// Daily-quest Vestige income for a given date, honouring a scheduled quest
+// upgrade if the date is on/after its switch-over.
+const getDailyFragmentsForDate = (config, date) => {
+  if (config.futureQuestDate && config.futureQuestId) {
+    const futureDate = new Date(config.futureQuestDate + "T00:00:00.000Z");
+    if (date >= futureDate) {
+      const quest = DAILY_QUESTS.find((q) => q.id === config.futureQuestId);
+      return quest ? quest.fragments : 0;
+    }
+  }
+  const quest = DAILY_QUESTS.find((q) => q.id === config.highestDailyQuest);
+  return quest ? quest.fragments : 0;
+};
+
+// Headline weekly rates for a config, before any funnelling is applied.
+const computeWeeklySummary = (config) => {
+  const bossData = computeBossWeeklyData(config.bossSelections);
+  const dailyFragments = getDailyFragmentsForDate(config, new Date());
+  const daysPerWeek = config.daysPerWeek ?? 7;
+  return {
+    bossData,
+    weeklyTraces: bossData.reduce((sum, b) => sum + b.tracesPerWeek, 0),
+    weeklyVoucherFragments: round2(
+      bossData.reduce((sum, b) => sum + b.voucherFragmentsPerWeek, 0),
+    ),
+    pendingTraces: bossData.reduce((sum, b) => sum + b.pendingTraces, 0),
+    pendingVoucherFragments: round2(
+      bossData.reduce((sum, b) => sum + b.pendingVoucherFragments, 0),
+    ),
+    dailyFragments,
+    weeklyDailyFragments: dailyFragments * daysPerWeek,
+  };
+};
+
+// Follows a preset's funnel chain to the slot that ultimately ends up holding
+// the coupons (3 -> 2 -> 1 lands everything in 1). A chain that loops back on
+// itself has no valid destination, so the preset keeps its own coupons and the
+// UI flags the cycle.
+const resolveFunnelTarget = (presets, start) => {
+  const seen = new Set([start]);
+  let current = start;
+  for (;;) {
+    const next = presets[current]?.funnelTo;
+    // A dangling link (unset, or pointing at a slot that has since been
+    // cleared) stops the chain where it is rather than voiding it.
+    if (next === null || next === undefined || !presets[next]?.config) {
+      return { target: current, cycle: false };
+    }
+    if (seen.has(next)) return { target: start, cycle: true };
+    seen.add(next);
+    current = next;
+  }
+};
+
+// Stable string for "has this config changed?" checks. Numeric fields are
+// coerced because the inputs are allowed to hold "" mid-edit, and boss
+// selections are normalized so an older saved shape doesn't read as dirty.
+const configFingerprint = (config) =>
+  JSON.stringify({
+    ...config,
+    currentTraces: Number(config.currentTraces) || 0,
+    currentFragments: Number(config.currentFragments) || 0,
+    bossSelections: normalizeBossSelections(config.bossSelections),
+  });
+
 const AstraSecondaryCalculator = () => {
   // User input state
   const [currentMission, setCurrentMission] = useState(1);
@@ -258,13 +411,13 @@ const AstraSecondaryCalculator = () => {
 
   // Saved configuration presets (3 slots)
   const [presets, setPresets] = useState(() =>
-    Array.from({ length: PRESET_COUNT }, (_, i) => ({
-      name: `Preset ${i + 1}`,
-      savedAt: null,
-      config: null,
-    })),
+    Array.from({ length: PRESET_COUNT }, (_, i) => emptyPreset(i)),
   );
   const [presetsLoaded, setPresetsLoaded] = useState(false);
+
+  // Which preset slot the live form represents, so funnelled coupons from the
+  // other slots know where to land. null = working outside any preset.
+  const [activePresetIdx, setActivePresetIdx] = useState(null);
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -283,9 +436,7 @@ const AstraSecondaryCalculator = () => {
   });
 
   // Applies a saved config (from localStorage or a preset) to the live form
-  // state. Boss selections are rebuilt from the current boss list so
-  // renamed/removed/added bosses don't break the page - saved values are
-  // merged in by id, with a migration map for ids that have been renamed.
+  // state.
   const applyState = (config) => {
     if (config.currentMission !== undefined)
       setCurrentMission(config.currentMission);
@@ -298,21 +449,7 @@ const AstraSecondaryCalculator = () => {
         config.startDate < MIN_START_DATE ? MIN_START_DATE : config.startDate,
       );
     if (config.bossSelections) {
-      const savedById = new Map(
-        config.bossSelections.map((b) => [ID_MIGRATIONS[b.id] ?? b.id, b]),
-      );
-      setBossSelections(
-        TRACES_BOSS_DATA.map((boss) => {
-          const saved = savedById.get(boss.id);
-          return {
-            id: boss.id,
-            selectedDifficulty: saved?.selectedDifficulty ?? "None",
-            partySize: saved?.partySize ?? 1,
-            clearedThisWeek: saved?.clearedThisWeek ?? false,
-            vouchersKept: saved?.vouchersKept ?? 0,
-          };
-        }),
-      );
+      setBossSelections(normalizeBossSelections(config.bossSelections));
     }
     if (config.highestDailyQuest)
       setHighestDailyQuest(config.highestDailyQuest);
@@ -362,7 +499,7 @@ const AstraSecondaryCalculator = () => {
     isLoaded,
   ]);
 
-  // Load presets from localStorage on mount
+  // Load presets (and which one is active) from localStorage on mount
   useEffect(() => {
     try {
       const saved =
@@ -377,6 +514,14 @@ const AstraSecondaryCalculator = () => {
           );
         }
       }
+      const activeRaw =
+        typeof window !== "undefined"
+          ? localStorage.getItem(ACTIVE_PRESET_STORAGE_KEY)
+          : null;
+      const activeIdx = activeRaw === null ? NaN : Number(activeRaw);
+      if (Number.isInteger(activeIdx) && activeIdx >= 0 && activeIdx < PRESET_COUNT) {
+        setActivePresetIdx(activeIdx);
+      }
     } catch {
       // ignore storage errors
     }
@@ -389,11 +534,51 @@ const AstraSecondaryCalculator = () => {
     try {
       if (typeof window !== "undefined") {
         localStorage.setItem(PRESETS_STORAGE_KEY, JSON.stringify(presets));
+        if (activePresetIdx === null) {
+          localStorage.removeItem(ACTIVE_PRESET_STORAGE_KEY);
+        } else {
+          localStorage.setItem(ACTIVE_PRESET_STORAGE_KEY, String(activePresetIdx));
+        }
       }
     } catch {
       // ignore storage errors
     }
-  }, [presets, presetsLoaded]);
+  }, [presets, activePresetIdx, presetsLoaded]);
+
+  // Autosave: while a preset is selected, every edit to the form writes
+  // straight back into that slot, so "selected" always means "this preset is
+  // what you're looking at". Gated on both load flags so the pre-hydration
+  // defaults can't overwrite a saved slot on mount, and fingerprinted so an
+  // unchanged form doesn't churn savedAt.
+  useEffect(() => {
+    if (!isLoaded || !presetsLoaded) return;
+    if (activePresetIdx === null) return;
+    const config = getCurrentConfig();
+    const fingerprint = configFingerprint(config);
+    setPresets((prev) => {
+      const slot = prev[activePresetIdx];
+      if (!slot?.config) return prev;
+      if (configFingerprint(slot.config) === fingerprint) return prev;
+      return prev.map((s, i) =>
+        i === activePresetIdx
+          ? { ...s, savedAt: new Date().toISOString(), config }
+          : s,
+      );
+    });
+  }, [
+    currentMission,
+    currentTraces,
+    currentFragments,
+    startDate,
+    bossSelections,
+    highestDailyQuest,
+    daysPerWeek,
+    futureQuestDate,
+    futureQuestId,
+    activePresetIdx,
+    isLoaded,
+    presetsLoaded,
+  ]);
 
   // Save the current form state into a preset slot (confirms before
   // overwriting an occupied one)
@@ -417,6 +602,7 @@ const AstraSecondaryCalculator = () => {
           : slot,
       ),
     );
+    setActivePresetIdx(idx);
   };
 
   // Load a preset slot into the live form state
@@ -424,9 +610,11 @@ const AstraSecondaryCalculator = () => {
     const preset = presets[idx];
     if (!preset?.config) return;
     applyState(preset.config);
+    setActivePresetIdx(idx);
   };
 
-  // Clear a preset slot back to empty
+  // Clear a preset slot back to empty. Any other slot funnelling into it is
+  // reset too, so nothing is left pointing at an empty destination.
   const handleClearPreset = (idx) => {
     const existing = presets[idx];
     if (
@@ -436,18 +624,35 @@ const AstraSecondaryCalculator = () => {
       return;
     }
     setPresets((prev) =>
-      prev.map((slot, i) =>
-        i === idx
-          ? { name: `Preset ${idx + 1}`, savedAt: null, config: null }
-          : slot,
-      ),
+      prev.map((slot, i) => {
+        if (i === idx) return emptyPreset(idx);
+        return slot.funnelTo === idx ? { ...slot, funnelTo: null } : slot;
+      }),
     );
+    if (activePresetIdx === idx) setActivePresetIdx(null);
   };
 
   // Rename a preset slot
   const handleRenamePreset = (idx, name) => {
     setPresets((prev) =>
       prev.map((slot, i) => (i === idx ? { ...slot, name } : slot)),
+    );
+  };
+
+  // The name fields double as the rename UI, so the pencil button just hands
+  // focus to the matching input.
+  const presetNameRefs = useRef([]);
+  const focusPresetName = (idx) => {
+    const input = presetNameRefs.current[idx];
+    if (!input) return;
+    input.focus();
+    input.select();
+  };
+
+  // Point a preset's coupon Vestige at another slot (or null to keep it)
+  const handleSetFunnelTarget = (idx, targetIdx) => {
+    setPresets((prev) =>
+      prev.map((slot, i) => (i === idx ? { ...slot, funnelTo: targetIdx } : slot)),
     );
   };
 
@@ -470,6 +675,7 @@ const AstraSecondaryCalculator = () => {
     setDaysPerWeek(7);
     setFutureQuestDate("");
     setFutureQuestId("");
+    setActivePresetIdx(null);
 
     try {
       if (typeof window !== "undefined") {
@@ -505,95 +711,97 @@ const AstraSecondaryCalculator = () => {
     );
   };
 
-  // Calculate weekly traces and voucher fragments per boss
-  const calculateBossWeeklyData = () => {
-    return bossSelections.map((selection) => {
-      const boss = TRACES_BOSS_DATA.find((b) => b.id === selection.id);
-      const difficulty = boss.difficulties.find(
-        (d) => d.name === selection.selectedDifficulty,
-      );
+  // Daily fragments for the live config on a given date
+  const getDailyFragments = () =>
+    getDailyFragmentsForDate(
+      { highestDailyQuest, futureQuestDate, futureQuestId },
+      new Date(),
+    );
 
-      if (!difficulty || selection.selectedDifficulty === "None") {
-        return {
-          bossId: boss.id,
-          bossName: boss.name,
-          tracesPerClear: 0,
-          tracesPerWeek: 0,
-          voucherFragmentsPerWeek: 0,
-          pendingTraces: 0,
-          pendingVoucherFragments: 0,
-          clearedThisWeek: false,
-          voucherCount: 0,
-          voucherValue: 0,
-          vouchersKept: 0,
-        };
-      }
+  // Per-slot weekly rates, computed from each preset's *saved* config so the
+  // funnel maths doesn't depend on which preset happens to be loaded.
+  const presetSummaries = useMemo(
+    () => presets.map((p) => (p.config ? computeWeeklySummary(p.config) : null)),
+    [presets],
+  );
 
-      const tracesPerClear = Math.floor(
-        difficulty.traces / selection.partySize,
-      );
-      const vouchersKept = difficulty.hasVoucher
-        ? selection.vouchersKept || 0
-        : 0;
-      const voucherFragmentsPerWeek = round2(
-        vouchersKept * (difficulty.voucherValue || 0),
-      );
-
-      // "Cleared this week" only removes the clear still standing between
-      // now and the next Thursday reset - every reset after that one is
-      // clearable again, so the steady weekly rate is unaffected.
-      const clearedThisWeek = !!selection.clearedThisWeek;
-
-      return {
-        bossId: boss.id,
-        bossName: boss.name,
-        difficulty: difficulty.name,
-        tracesPerClear,
-        tracesPerWeek: tracesPerClear,
-        voucherFragmentsPerWeek,
-        pendingTraces: clearedThisWeek ? 0 : tracesPerClear,
-        pendingVoucherFragments: clearedThisWeek ? 0 : voucherFragmentsPerWeek,
-        clearedThisWeek,
-        voucherCount: difficulty.voucherCount || 0,
-        voucherValue: difficulty.voucherValue || 0,
-        vouchersKept,
-        hasVoucher: difficulty.hasVoucher,
-      };
-    });
-  };
-
-  // Calculate daily fragment acquisition for a specific date
-  const getDailyFragmentsForDate = (date) => {
-    // Check if we've passed the future quest date
-    if (futureQuestDate && futureQuestId) {
-      const futureDate = new Date(futureQuestDate + "T00:00:00.000Z");
-      if (date >= futureDate) {
-        const quest = DAILY_QUESTS.find((q) => q.id === futureQuestId);
-        return quest ? quest.fragments : 0;
-      }
+  // Where the active preset's coupons go, and what the other slots send it.
+  // Only coupon Vestige moves: daily-quest Vestige is untradable.
+  const funnelInfo = useMemo(() => {
+    const none = {
+      active: false,
+      donatesTo: null,
+      cycle: false,
+      incomingWeekly: 0,
+      incomingPending: 0,
+      sources: [],
+    };
+    if (activePresetIdx === null || !presets[activePresetIdx]?.config) {
+      return none;
     }
-    const quest = DAILY_QUESTS.find((q) => q.id === highestDailyQuest);
-    return quest ? quest.fragments : 0;
-  };
 
-  // Backward compatibility - get daily fragments for current date
-  const getDailyFragments = () => getDailyFragmentsForDate(new Date());
+    const self = resolveFunnelTarget(presets, activePresetIdx);
+    const sources = [];
+    let incomingWeekly = 0;
+    let incomingPending = 0;
+
+    presets.forEach((preset, i) => {
+      if (i === activePresetIdx || !preset.config) return;
+      const resolved = resolveFunnelTarget(presets, i);
+      if (resolved.cycle || resolved.target !== activePresetIdx) return;
+      const summary = presetSummaries[i];
+      if (!summary) return;
+      incomingWeekly += summary.weeklyVoucherFragments;
+      incomingPending += summary.pendingVoucherFragments;
+      sources.push({
+        idx: i,
+        name: preset.name,
+        weekly: summary.weeklyVoucherFragments,
+        pending: summary.pendingVoucherFragments,
+        // A slot two hops away routes through an intermediate preset
+        indirect: preset.funnelTo !== activePresetIdx,
+      });
+    });
+
+    return {
+      active: true,
+      donatesTo: self.cycle || self.target === activePresetIdx ? null : self.target,
+      cycle: self.cycle,
+      incomingWeekly: round2(incomingWeekly),
+      incomingPending: round2(incomingPending),
+      sources,
+    };
+  }, [presets, presetSummaries, activePresetIdx]);
 
   // Main calculation logic
   const calculateSchedule = useMemo(() => {
-    const bossData = calculateBossWeeklyData();
-    const weeklyTraces = bossData.reduce((sum, b) => sum + b.tracesPerWeek, 0);
+    const liveConfig = getCurrentConfig();
+    const own = computeWeeklySummary(liveConfig);
+    const bossData = own.bossData;
+    const weeklyTraces = own.weeklyTraces;
+
+    // Coupons handed to another preset leave this character entirely; coupons
+    // funnelled in from other presets land here on top of whatever is kept.
+    const donatingAway = funnelInfo.donatesTo !== null;
+    // Pre-funnel figure, kept for display so the "sent away" row reflects the
+    // live form rather than the donor preset's last save.
+    const ownVoucherFragments = own.weeklyVoucherFragments;
+    const keptVoucherFragments = donatingAway ? 0 : ownVoucherFragments;
+    const ownPendingVoucherFragments = donatingAway
+      ? 0
+      : own.pendingVoucherFragments;
+
     const weeklyVoucherFragments = round2(
-      bossData.reduce((sum, b) => sum + b.voucherFragmentsPerWeek, 0),
+      keptVoucherFragments + funnelInfo.incomingWeekly,
     );
     // Income still available before the next reset - bosses already cleared
     // this week contribute nothing until that reset comes around.
-    const pendingTraces = bossData.reduce((sum, b) => sum + b.pendingTraces, 0);
+    const pendingTraces = own.pendingTraces;
     const pendingVoucherFragments = round2(
-      bossData.reduce((sum, b) => sum + b.pendingVoucherFragments, 0),
+      ownPendingVoucherFragments + funnelInfo.incomingPending,
     );
-    const dailyFragments = getDailyFragments();
-    const weeklyDailyFragments = dailyFragments * daysPerWeek;
+    const dailyFragments = own.dailyFragments;
+    const weeklyDailyFragments = own.weeklyDailyFragments;
 
     // Get missions starting from current
     const startMissionIndex = currentMission - 1;
@@ -701,6 +909,7 @@ const AstraSecondaryCalculator = () => {
         bossData,
         weeklyTraces,
         weeklyVoucherFragments,
+        ownVoucherFragments,
         pendingTraces,
         pendingVoucherFragments,
         dailyFragments,
@@ -735,7 +944,7 @@ const AstraSecondaryCalculator = () => {
 
       // Add daily fragments (check for future quest upgrade). Grants
       // fragments on exactly `daysPerWeek` of every 7 simulated days.
-      const fragmentsToday = getDailyFragmentsForDate(currentDate);
+      const fragmentsToday = getDailyFragmentsForDate(liveConfig, currentDate);
       if ((dayCount - 1) % 7 < daysPerWeek) {
         fragments += fragmentsToday;
       }
@@ -798,6 +1007,7 @@ const AstraSecondaryCalculator = () => {
       bossData,
       weeklyTraces,
       weeklyVoucherFragments,
+      ownVoucherFragments,
       pendingTraces,
       pendingVoucherFragments,
       dailyFragments,
@@ -818,6 +1028,7 @@ const AstraSecondaryCalculator = () => {
     daysPerWeek,
     futureQuestDate,
     futureQuestId,
+    funnelInfo,
   ]);
 
   // Get traces cap for current mission
@@ -838,68 +1049,284 @@ const AstraSecondaryCalculator = () => {
     <div className="max-w-7xl mx-auto bg-primary-dark border border-primary-dim p-6 rounded-2xl">
       {/* Presets Section */}
       <div className="mb-6 p-4 bg-background-bright border border-primary-dim rounded-xl">
-        <h2 className="text-lg font-semibold text-primary-bright mb-3">
-          Presets
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {presets.map((preset, idx) => (
-            <div
-              key={idx}
-              className="p-3 bg-primary-dark border border-primary-dim rounded-lg"
-            >
-              <input
-                type="text"
-                value={preset.name}
-                onChange={(e) => handleRenamePreset(idx, e.target.value)}
-                placeholder={`Preset ${idx + 1}`}
-                className="w-full bg-transparent text-primary-bright font-medium text-sm mb-1 border-b border-transparent hover:border-primary-dim focus:border-secondary focus:outline-none transition-colors"
-              />
-              <p className="text-xs text-primary-bright/50 mb-2 h-4">
-                {preset.config
-                  ? `Saved ${new Date(preset.savedAt).toLocaleDateString(
-                      "en-US",
-                      { month: "short", day: "numeric" },
-                    )}`
-                  : "Empty"}
-              </p>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleLoadPreset(idx)}
-                  disabled={!preset.config}
-                  className="flex-1 text-xs px-2 py-1.5 bg-secondary/20 text-secondary rounded border border-secondary/30 hover:bg-secondary/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                >
-                  Load
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleSavePreset(idx)}
-                  className="flex-1 text-xs px-2 py-1.5 bg-primary-dim/50 text-primary-bright rounded border border-primary-dim hover:bg-primary-dim transition-colors"
-                >
-                  Save
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleClearPreset(idx)}
-                  disabled={!preset.config}
-                  aria-label={`Clear ${preset.name}`}
-                  title="Clear preset"
-                  className="text-xs px-2 py-1.5 bg-primary-dim/50 text-primary-bright/70 rounded border border-primary-dim hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-            </div>
-          ))}
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
+          <h2 className="text-lg font-semibold text-primary-bright">
+            Presets
+          </h2>
+          <p className="text-xs text-primary-bright/60">
+            You can use these to calculate mules, different permutations, or to
+            calculate funneling Erion Coupons. Edits save to the selected preset
+            automatically.
+          </p>
         </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {presets.map((preset, idx) => {
+            const summary = presetSummaries[idx];
+            const isActive = activePresetIdx === idx;
+            const resolved = preset.config
+              ? resolveFunnelTarget(presets, idx)
+              : { target: idx, cycle: false };
+            const donatesTo =
+              resolved.cycle || resolved.target === idx ? null : resolved.target;
+
+            return (
+              <div
+                key={idx}
+                className={`p-3 border-2 rounded-lg flex flex-col transition-colors ${
+                  isActive
+                    ? "border-secondary ring-2 ring-secondary/25 bg-secondary/[0.07]"
+                    : "border-primary-dim bg-primary-dark"
+                }`}
+              >
+                {/* Fixed-height status row so the cards stay aligned.
+                    Badge uses dark text: --secondary is light in both themes. */}
+                <div className="h-5 mb-1 flex items-center">
+                  {isActive ? (
+                    <span className="inline-flex items-center gap-1 shrink-0 text-[10px] font-bold uppercase tracking-wide bg-secondary text-black/90 px-1.5 py-0.5 rounded">
+                      <Check size={11} strokeWidth={3} aria-hidden="true" />
+                      Selected
+                    </span>
+                  ) : (
+                    <span className="text-[10px] uppercase tracking-wide text-primary-bright/35">
+                      {preset.config ? "Not selected" : "Empty slot"}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <input
+                    type="text"
+                    ref={(el) => {
+                      presetNameRefs.current[idx] = el;
+                    }}
+                    value={preset.name}
+                    onChange={(e) => handleRenamePreset(idx, e.target.value)}
+                    placeholder={`Preset ${idx + 1}`}
+                    aria-label={`Name for preset ${idx + 1}`}
+                    className="min-w-0 flex-1 bg-transparent text-primary-bright font-medium text-sm border-b border-transparent hover:border-primary-dim focus:border-secondary focus:outline-none transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => focusPresetName(idx)}
+                    aria-label={`Rename preset ${idx + 1}`}
+                    title="Rename preset"
+                    className="shrink-0 p-1 rounded text-primary-bright/40 hover:text-secondary hover:bg-primary-dim/40 transition-colors"
+                  >
+                    <Pencil size={13} aria-hidden="true" />
+                  </button>
+                </div>
+
+                <p className="text-xs text-primary-bright/50 mt-1 mb-2 h-4 truncate">
+                  {preset.config
+                    ? `Saved ${new Date(preset.savedAt).toLocaleDateString(
+                        "en-US",
+                        { month: "short", day: "numeric" },
+                      )}`
+                    : "Empty"}
+                  {isActive && preset.config && (
+                    <span className="text-secondary/80"> · autosaving</span>
+                  )}
+                </p>
+
+                {/* Weekly income summary for this slot */}
+                {summary ? (
+                  <dl className="text-xs space-y-1 mb-3 p-2 bg-background-bright/60 rounded border border-primary-dim/50">
+                    <div className="flex justify-between gap-2">
+                      <dt className="text-primary-bright/60">Traces</dt>
+                      <dd className="font-semibold text-secondary">
+                        +{summary.weeklyTraces.toLocaleString()}/wk
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-2">
+                      <dt className="text-primary-bright/60">Erion (dailies)</dt>
+                      <dd className="font-semibold text-secondary">
+                        +{summary.weeklyDailyFragments.toLocaleString()}/wk
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-2">
+                      <dt className="text-primary-bright/60">Erion (coupons)</dt>
+                      <dd
+                        className={
+                          donatesTo !== null
+                            ? "font-semibold text-primary-bright/40 line-through"
+                            : "font-semibold text-secondary"
+                        }
+                      >
+                        +{summary.weeklyVoucherFragments.toLocaleString()}/wk
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-2 pt-1 border-t border-primary-dim/50">
+                      <dt className="text-primary-bright/70">Erion kept</dt>
+                      <dd className="font-bold text-secondary">
+                        +
+                        {round2(
+                          summary.weeklyDailyFragments +
+                            (donatesTo === null
+                              ? summary.weeklyVoucherFragments
+                              : 0),
+                        ).toLocaleString()}
+                        /wk
+                      </dd>
+                    </div>
+                  </dl>
+                ) : (
+                  <div className="text-xs text-primary-bright/40 mb-3 p-2 bg-background-bright/60 rounded border border-primary-dim/50 text-center">
+                    Save a setup to see weekly stats
+                  </div>
+                )}
+
+                {/* Coupon funnel target */}
+                <div className="mb-3">
+                  <label
+                    htmlFor={`funnel-${idx}`}
+                    className="block text-primary-bright/70 text-xs mb-1"
+                  >
+                    Send Erion Coupons to
+                  </label>
+                  <select
+                    id={`funnel-${idx}`}
+                    className="w-full p-1.5 text-xs bg-background-bright text-primary-bright rounded border border-primary-dim disabled:opacity-40 disabled:cursor-not-allowed"
+                    value={preset.funnelTo === null ? "" : String(preset.funnelTo)}
+                    disabled={!preset.config}
+                    onChange={(e) =>
+                      handleSetFunnelTarget(
+                        idx,
+                        e.target.value === "" ? null : Number(e.target.value),
+                      )
+                    }
+                  >
+                    <option value="">Keep on this character</option>
+                    {presets.map((target, tIdx) =>
+                      tIdx === idx || !target.config ? null : (
+                        <option key={tIdx} value={tIdx}>
+                          {target.name || `Preset ${tIdx + 1}`}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                  {resolved.cycle && (
+                    <p className="text-[11px] text-amber-400 mt-1">
+                      Funnel loops back here - coupons kept until it's broken.
+                    </p>
+                  )}
+                  {donatesTo !== null && preset.funnelTo !== donatesTo && (
+                    <p className="text-[11px] text-primary-bright/50 mt-1">
+                      Ends up in {presets[donatesTo].name}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex gap-2 mt-auto">
+                  {isActive ? (
+                    // Nothing to save by hand while this slot is autosaving -
+                    // the only useful action left is to stop tracking it.
+                    <button
+                      type="button"
+                      onClick={() => setActivePresetIdx(null)}
+                      title="Keep these numbers on screen, but stop saving them to this preset"
+                      className="flex-1 text-xs px-2 py-1.5 bg-primary-dim/50 text-primary-bright rounded border border-primary-dim hover:bg-primary-dim transition-colors"
+                    >
+                      Stop editing
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => handleLoadPreset(idx)}
+                        disabled={!preset.config}
+                        className="flex-1 text-xs px-2 py-1.5 bg-secondary/20 text-secondary rounded border border-secondary/30 hover:bg-secondary/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                      >
+                        Load
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleSavePreset(idx)}
+                        title="Save the current setup into this slot and start editing it"
+                        className="flex-1 text-xs px-2 py-1.5 bg-primary-dim/50 text-primary-bright rounded border border-primary-dim hover:bg-primary-dim transition-colors"
+                      >
+                        Save
+                      </button>
+                    </>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleClearPreset(idx)}
+                    disabled={!preset.config}
+                    aria-label={`Clear ${preset.name}`}
+                    title="Clear preset"
+                    className="text-xs px-2 py-1.5 bg-primary-dim/50 text-primary-bright/70 rounded border border-primary-dim hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* How the funnel affects the numbers below */}
+        {funnelInfo.active &&
+          (funnelInfo.donatesTo !== null || funnelInfo.sources.length > 0) && (
+            <div className="mt-3 p-3 bg-secondary/10 border border-secondary/30 rounded-lg text-xs space-y-1">
+              {funnelInfo.donatesTo !== null && (
+                <p className="text-primary-bright/80">
+                  <span className="text-secondary font-semibold">
+                    {presets[activePresetIdx].name}
+                  </span>{" "}
+                  sends all coupon Vestige to{" "}
+                  <span className="text-secondary font-semibold">
+                    {presets[funnelInfo.donatesTo].name}
+                  </span>
+                  , so the projection below counts none of its own coupons.
+                </p>
+              )}
+              {funnelInfo.sources.length > 0 && (
+                <p className="text-primary-bright/80">
+                  Receiving{" "}
+                  <span className="text-secondary font-semibold">
+                    +{funnelInfo.incomingWeekly.toLocaleString()} Erion/week
+                  </span>{" "}
+                  from{" "}
+                  {funnelInfo.sources
+                    .map(
+                      (s) =>
+                        `${s.name} (${s.weekly.toLocaleString()}${s.indirect ? ", via another preset" : ""})`,
+                    )
+                    .join(", ")}
+                  .
+                </p>
+              )}
+            </div>
+          )}
+        {activePresetIdx === null && presets.some((p) => p.config) && (
+          <p className="mt-3 text-xs text-primary-bright/50">
+            Load a preset to apply coupon funnelling to the projection below.
+          </p>
+        )}
       </div>
 
       {/* Current Status Section */}
       <div className="mb-8">
-        <div className="flex items-center justify-center gap-4 mb-4">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-4">
           <h2 className="text-2xl font-semibold text-primary-bright">
             Current Status
           </h2>
+          {activePresetIdx !== null ? (
+            <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg border border-secondary/40 bg-secondary/10 text-secondary">
+              <Check size={13} strokeWidth={3} aria-hidden="true" />
+              Editing{" "}
+              <strong className="font-semibold">
+                {presets[activePresetIdx].name ||
+                  `Preset ${activePresetIdx + 1}`}
+              </strong>
+              <span className="text-secondary/70">· saved automatically</span>
+            </span>
+          ) : (
+            <span className="text-xs px-2.5 py-1 rounded-lg border border-primary-dim bg-primary-dark text-primary-bright/50">
+              No preset selected
+            </span>
+          )}
           <button
             onClick={handleReset}
             className="text-sm px-3 py-1 bg-primary-dark hover:bg-primary-dim text-primary-bright/70 hover:text-primary-bright rounded-lg border border-primary-dim transition-colors"
@@ -1589,6 +2016,27 @@ const AstraSecondaryCalculator = () => {
                 {calculateSchedule.weeklyVoucherFragments}
               </span>
             </div>
+            {funnelInfo.donatesTo !== null && (
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-primary-bright/60">
+                  ↳ funnelled out to {presets[funnelInfo.donatesTo].name}:
+                </span>
+                <span className="text-primary-bright/60">
+                  −{calculateSchedule.ownVoucherFragments}
+                </span>
+              </div>
+            )}
+            {funnelInfo.incomingWeekly > 0 && (
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-primary-bright/60">
+                  ↳ funnelled in from{" "}
+                  {funnelInfo.sources.map((s) => s.name).join(", ")}:
+                </span>
+                <span className="text-secondary/80">
+                  +{funnelInfo.incomingWeekly}
+                </span>
+              </div>
+            )}
             {calculateSchedule.weeklyTraces > 0 && (
               <div className="flex items-center justify-between border-t border-primary-dim/50 pt-3">
                 <span className="text-primary-bright/70 text-sm">
@@ -1779,6 +2227,12 @@ const AstraSecondaryCalculator = () => {
             bosses selected
           </span>
         </div>
+        {funnelInfo.donatesTo !== null && (
+          <p className="text-xs text-amber-400/90">
+            Erion Coupons below is what this character earns per week; you've selected to funnel all of it to {presets[funnelInfo.donatesTo].name}, so none of it
+            counts toward the projection above.
+          </p>
+        )}
         <div className="bg-background-bright border border-primary-dim p-4 rounded-xl">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {calculateSchedule.bossData
