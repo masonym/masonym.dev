@@ -21579,8 +21579,8 @@
     "Level": 287,
     "TypeId": 6,
     "TypeName": "Devil",
-    "ElementCode": "d",
-    "ElementName": "Dark",
+    "ElementCode": "N",
+    "ElementName": "None",
     "JumpOutlink": "Mob/_Canvas/8645423.img/stand/0",
     "JumpImage": "familiars/jump/9961476.png",
     "Cards": [
