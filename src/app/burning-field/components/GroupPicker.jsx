@@ -16,6 +16,10 @@ export default function GroupPicker({ myGroups, loading, onSelect, onChanged, de
   const [tab, setTab] = useState(myGroups.length ? 'mine' : 'create');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  // Asked for up front: a member with no IGN shows up as "unknown" on every log
+  // they make until they find it in the group settings panel.
+  const [ign, setIgn] = useState(defaultIgn || '');
+  const trimmedIgn = ign.trim();
 
   // create form
   const [name, setName] = useState('');
@@ -73,10 +77,10 @@ export default function GroupPicker({ myGroups, loading, onSelect, onChanged, de
       setError(insertError.message);
       return;
     }
-    if (defaultIgn) {
+    if (trimmedIgn) {
       await supabase
         .from('burning_group_members')
-        .update({ ign: defaultIgn })
+        .update({ ign: trimmedIgn })
         .eq('group_id', data.id)
         .eq('user_id', user.id);
     }
@@ -91,7 +95,7 @@ export default function GroupPicker({ myGroups, loading, onSelect, onChanged, de
     setError('');
     const { data, error: rpcError } = await supabase.rpc('burning_join_group', {
       p_code: code.trim(),
-      p_ign: defaultIgn || null,
+      p_ign: trimmedIgn || null,
     });
     setBusy(false);
     if (rpcError) {
@@ -107,7 +111,7 @@ export default function GroupPicker({ myGroups, loading, onSelect, onChanged, de
     setError('');
     const { error: rpcError } = await supabase.rpc('burning_join_public_group', {
       p_group_id: groupId,
-      p_ign: defaultIgn || null,
+      p_ign: trimmedIgn || null,
     });
     setBusy(false);
     if (rpcError) {
@@ -139,6 +143,22 @@ export default function GroupPicker({ myGroups, loading, onSelect, onChanged, de
       </div>
 
       {error && <p className="text-red-400 text-sm">{error}</p>}
+
+      {tab !== 'mine' && (
+        <label className="block max-w-md">
+          <span className="text-sm text-primary-dim">
+            Your in-game name <span className="text-primary">(shown on every reading you log)</span>
+          </span>
+          <input
+            value={ign}
+            onChange={(e) => setIgn(e.target.value)}
+            maxLength={30}
+            placeholder="e.g. MasonBishop"
+            className="w-full mt-1 p-2 rounded bg-background border border-primary-dim text-primary placeholder:text-primary-dim text-sm"
+          />
+        </label>
+      )}
+
 
       {tab === 'mine' && (
         loading ? (
@@ -206,7 +226,8 @@ export default function GroupPicker({ myGroups, loading, onSelect, onChanged, de
                     </p>
                   </div>
                   <button
-                    disabled={busy}
+                    disabled={busy || (!group.is_member && !trimmedIgn)}
+                    title={!group.is_member && !trimmedIgn ? 'Enter your in-game name first' : undefined}
                     onClick={() => (group.is_member ? onSelect(group.id) : handleJoinPublic(group.id))}
                     className="px-3 py-1.5 rounded bg-secondary text-background font-bold text-sm disabled:opacity-50 hover:brightness-110 transition"
                   >
@@ -229,11 +250,16 @@ export default function GroupPicker({ myGroups, loading, onSelect, onChanged, de
           />
           <button
             type="submit"
-            disabled={busy || !code.trim()}
+            disabled={busy || !code.trim() || !trimmedIgn}
             className="px-4 py-2 rounded bg-secondary text-background font-bold text-sm disabled:opacity-50 hover:brightness-110 transition"
           >
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Join'}
           </button>
+          {!trimmedIgn && (
+            <p className="w-full text-primary-dim text-xs">
+              Add your in-game name above so the group can tell whose readings are whose.
+            </p>
+          )}
         </form>
       )}
 
