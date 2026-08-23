@@ -122,7 +122,7 @@ const MODIFIER_KEYS = new Set([
 ]);
 
 /**
- * Non-stat `info` keys — trade rules, pricing, cosmetics, animation indices,
+ * Non-stat `info` keys - trade rules, pricing, cosmetics, animation indices,
  * requirements. Listed explicitly so the unmapped-key report at the end of the
  * run only ever surfaces genuinely unrecognised keys.
  *
@@ -303,7 +303,7 @@ const SLOT_INFO = {
  *   `Si` covers shields (109xxxx), secondary weapons (134/135xxxx) *and*
  *        emblems (119xxxx), which occupy a completely different slot.
  *   `Tm` covers mechanical hearts (167xxxx), androids (166xxxx) and mounts.
- *        Only hearts are gear — androids and mounts carry no combat stats and
+ *        Only hearts are gear - androids and mounts carry no combat stats and
  *        have no slot in the equipment window we model.
  *
  * Items whose slot is synthesised keep their original code on `islot`, because
@@ -343,7 +343,7 @@ const ACCESSORY_SLOTS = ["Af", "Ay", "Ae", "Pe", "Ri", "Be", "Tm"];
 // The dump is every piece of level-100+ equipment in the game, and most of it is
 // event gear, old questlines and achievement medals that nobody will ever put in
 // a comparison. Nothing in the WZ says "this item matters", so notability is
-// inferred from three signals and shipped as a flag the picker can filter on —
+// inferred from three signals and shipped as a flag the picker can filter on -
 // never as a deletion, because the judgement is a heuristic and the user can
 // always switch it off.
 
@@ -377,7 +377,7 @@ const COMBAT_STATS = new Set([
  * Slots the level fallback below must not apply to.
  *
  * Medals are achievement rewards, so a level-200 requirement says the player was
- * level 200, not that the medal is endgame gear — 108 of them carry 3 ATT. Every
+ * level 200, not that the medal is endgame gear - 108 of them carry 3 ATT. Every
  * medal worth comparing is either a boss reward or part of a set, so those two
  * signals cover the slot on their own.
  */
@@ -386,7 +386,7 @@ const NO_LEVEL_FALLBACK = new Set(["Me"]);
 const OPTION_TYPE_SLOTS = {
   10: WEAPON_SLOTS,
   11: ARMOR_SLOTS,
-  20: null, // unresolved — do not restrict
+  20: null, // unresolved - do not restrict
   40: ACCESSORY_SLOTS,
   51: ["Cp"],
   52: ["Ma", "MaPn"],
@@ -458,7 +458,7 @@ for (const r of rawItems) {
   }
 
   if (setId) item.setId = setId;
-  // Total upgrade count — the item's scroll slots. Carried even when it is zero,
+  // Total upgrade count - the item's scroll slots. Carried even when it is zero,
   // because zero is the signal that the item cannot be enhanced at all (and so
   // cannot be star forced); see the star force section below.
   if (stats.tuc !== undefined) item.tuc = stats.tuc;
@@ -468,10 +468,10 @@ for (const r of rawItems) {
   if (r.Category) item.category = r.Category;
 
   // Flags that change how modifiers apply, not stats in themselves.
-  //   superiorEqp  — Superior (Tyrant) gear, which uses a *different* star force
+  //   superiorEqp  - Superior (Tyrant) gear, which uses a *different* star force
   //                  stat-gain table from ordinary equipment.
-  //   Etuc         — exceptional upgrade slots (Exceptional Enhancement).
-  //   noPotential / tucIgnoreForPotential — potential availability rules.
+  //   Etuc         - exceptional upgrade slots (Exceptional Enhancement).
+  //   noPotential / tucIgnoreForPotential - potential availability rules.
   if (stats.superiorEqp) item.superior = true;
   if (stats.Etuc) item.exceptionalSlots = stats.Etuc;
   if (stats.fixedPotential) item.fixedPotential = true;
@@ -506,8 +506,8 @@ console.log(
 
 // ─── Dedupe ───────────────────────────────────────────────────────────────────
 //
-// The game ships the same item under several ids — five Royal Warrior Helms,
-// two Time Traveler's Laurels — usually because it was re-issued for a later
+// The game ships the same item under several ids - five Royal Warrior Helms,
+// two Time Traveler's Laurels - usually because it was re-issued for a later
 // event. Nothing distinguishes them to a comparison, so only the lowest id is
 // kept.
 //
@@ -561,8 +561,8 @@ console.log(
 // so EquipmentExtractor dumps it separately (see --dump-exceptional).
 //
 // The bonus is resolved per *slot* rather than per item id. Every hammer for a
-// slot grants the same stats — the boss-drop Exceptional Parts and the hammers
-// bought with Exceptional Hammer coupons are two routes to one bonus — and the
+// slot grants the same stats - the boss-drop Exceptional Parts and the hammers
+// bought with Exceptional Hammer coupons are two routes to one bonus - and the
 // hammers' own `req` lists have not kept up with the equipment: Original Sin of
 // Pride carries three Etuc slots and appears in no hammer's list, though the
 // Face Acc hammer's description names it.
@@ -613,20 +613,20 @@ if (exceptionalCount) {
 // Star force normally follows the item's level (see src/lib/equip/starforce.js).
 // Two things break that, and neither is recorded as such in the WZ:
 //
-//   1. Items that cannot be enhanced at all. `tuc` — total upgrade count — is 0
+//   1. Items that cannot be enhanced at all. `tuc` - total upgrade count - is 0
 //      on every medal, pocket item, badge and quest weapon in the dump, and 0
 //      upgrade slots is exactly what stops an item being star forced. That makes
 //      it the one signal the game does give us, so it is used directly.
 //
 //   2. Items that ship at a fixed star count and cap below their level's normal
-//      ceiling — the Genesis / Destiny weapons and the Red Beryl rental set, plus
+//      ceiling - the Genesis / Destiny weapons and the Red Beryl rental set, plus
 //      the three Astra secondary grades. Nothing distinguishes those in the data
 //      (the two Destiny weapons differ only by an unrelated `tuc` of 8 vs 9), so
 //      they are curated below and matched by set, name and stat rank.
 //
 // Output is two optional fields per item:
-//   starMin — the star count the item is granted at and cannot go below
-//   starMax — its ceiling, overriding the level table (0 = cannot be starred)
+//   starMin - the star count the item is granted at and cannot go below
+//   starMax - its ceiling, overriding the level table (0 = cannot be starred)
 
 /** The five Eternal sets, one per job branch, which the Genesis weapons sit in. */
 const ETERNAL_SET_IDS = new Set([886, 887, 888, 889, 890]);
@@ -656,7 +656,7 @@ function setStarRule(item, min, max) {
 }
 
 // Genesis weapons are liberated at 22 stars and can never be enhanced further.
-// The Destiny upgrade keeps those 22 and raises the ceiling — but only on its
+// The Destiny upgrade keeps those 22 and raises the ceiling - but only on its
 // second stage. The two stages carry identical stats and are told apart solely
 // by their upgrade count: 8 on the first, 9 on the second.
 for (const item of items) {
@@ -692,8 +692,8 @@ for (const item of items) {
     setStarRule(item, 20, 20);
 }
 
-// Exactly two badges can be star forced — Sengoku Hakase and Ghost Ship
-// Exorcist — and both cap at 22. They are also the only two badges that take
+// Exactly two badges can be star forced - Sengoku Hakase and Ghost Ship
+// Exorcist - and both cap at 22. They are also the only two badges that take
 // potential, so the same split decides both, and `tuc` picks them out on its
 // own: they are the only badges in the dump with any upgrade slots.
 //
@@ -710,7 +710,7 @@ for (const item of items) {
 //
 // Secondaries are exempt: `tuc` is 0 on the entire Princess No and Astra
 // generation, which is exactly the gear that gets starred, so for that slot the
-// upgrade count plainly is not tracking star force. Every other slot holds up —
+// upgrade count plainly is not tracking star force. Every other slot holds up -
 // the tuc-0 items are medals, badges, emblems, pocket items, event rings and
 // quest weapons, none of which can be enhanced.
 let unstarrable = 0;
@@ -797,7 +797,7 @@ console.log(
 // ─── Sets ─────────────────────────────────────────────────────────────────────
 //
 // Membership is built from each item's setItemID backlink, NOT from the set's
-// own ItemIds list — that list is stale (286 items are omitted from the set they
+// own ItemIds list - that list is stale (286 items are omitted from the set they
 // belong to, e.g. Root Abyss sets drop 19 of their own pieces).
 
 const membership = new Map();
@@ -811,7 +811,7 @@ for (const it of items) {
  * What one piece of a set is worth, on average, in set bonus alone.
  *
  * Set effects are cumulative and are earned in thresholds, so no single piece
- * "grants" any of it — but the picker has to rank pieces one at a time, and a
+ * "grants" any of it - but the picker has to rank pieces one at a time, and a
  * piece of a set with effects is worth more than the same stats loose. Dividing
  * the whole bonus by the pieces needed to earn all of it is the plainest way to
  * put a number on that, and it is only ever used as a sort key. The engine's own

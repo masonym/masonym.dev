@@ -1,10 +1,14 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
-  EQUIP_SLOT_LAYOUT, SLOT_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, slotLabelSprite,
-} from '@/lib/equip/uiLayout';
-import { occupiedSlots } from '@/lib/equip/engine';
+  EQUIP_SLOT_LAYOUT,
+  SLOT_SIZE,
+  WINDOW_WIDTH,
+  WINDOW_HEIGHT,
+  slotLabelSprite,
+} from "@/lib/equip/uiLayout";
+import { occupiedSlots } from "@/lib/equip/engine";
 
 /**
  * The in-game equipment window, rebuilt from the UI.wz assets.
@@ -56,7 +60,11 @@ export default function EquipWindow({
       >
         <div
           className="absolute top-0 left-0 origin-top-left"
-          style={{ width: WINDOW_WIDTH, height: WINDOW_HEIGHT, transform: `scale(${scale})` }}
+          style={{
+            width: WINDOW_WIDTH,
+            height: WINDOW_HEIGHT,
+            transform: `scale(${scale})`,
+          }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -92,8 +100,18 @@ export default function EquipWindow({
 }
 
 function Slot({
-  slot, config, itemIndex, coveredBy, selected, changed, onSelect, onOpen, onCopy,
-  onHover, copyHint, flash,
+  slot,
+  config,
+  itemIndex,
+  coveredBy,
+  selected,
+  changed,
+  onSelect,
+  onOpen,
+  onCopy,
+  onHover,
+  copyHint,
+  flash,
 }) {
   const item = config?.itemId ? itemIndex.get(config.itemId) : null;
   const interactive = Boolean(slot.slotKey) && !coveredBy;
@@ -105,7 +123,7 @@ function Slot({
     onHover({ slot, item, config, coveredBy, anchor: rect });
   };
 
-  // Right-click sends this one slot to the other window — the reverse of "copy
+  // Right-click sends this one slot to the other window - the reverse of "copy
   // everything across and change one thing", for when only one piece is worth
   // carrying over.
   const handleContextMenu = (e) => {
@@ -116,7 +134,7 @@ function Slot({
 
   return (
     <div
-      role={interactive ? 'button' : undefined}
+      role={interactive ? "button" : undefined}
       tabIndex={interactive ? 0 : undefined}
       onClick={interactive ? () => onSelect?.(slot.slotKey) : undefined}
       onDoubleClick={interactive ? () => onOpen?.(slot.slotKey) : undefined}
@@ -124,7 +142,7 @@ function Slot({
       onKeyDown={
         interactive
           ? (e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 onOpen?.(slot.slotKey);
               }
@@ -133,16 +151,18 @@ function Slot({
       }
       onMouseEnter={handleEnter}
       onMouseLeave={() => onHover?.(null)}
-      className={`absolute ${interactive ? 'cursor-pointer' : 'cursor-default'}`}
+      className={`absolute ${interactive ? "cursor-pointer" : "cursor-default"}`}
       style={{ left: slot.x, top: slot.y, width: SLOT_SIZE, height: SLOT_SIZE }}
       title={
         slot.slotKey
-          ? (interactive && copyHint ? `${slot.name} — right-click to ${copyHint}` : undefined)
-          : `${slot.name} — not supported`
+          ? interactive && copyHint
+            ? `${slot.name} - right-click to ${copyHint}`
+            : undefined
+          : `${slot.name} - not supported`
       }
     >
       {/* The label tile is only drawn while the slot is empty. The window art
-          already contains the slot box, so an occupied slot shows just the icon —
+          already contains the slot box, so an occupied slot shows just the icon -
           which is how the game does it, and keeps the name from bleeding through
           behind the item. */}
       {!item && (
@@ -179,14 +199,17 @@ function Slot({
               alt={item.name}
               className="absolute pointer-events-none"
               style={{
-                left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
-                maxWidth: SLOT_SIZE - 6, maxHeight: SLOT_SIZE - 6,
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                maxWidth: SLOT_SIZE - 6,
+                maxHeight: SLOT_SIZE - 6,
               }}
               draggable={false}
             />
           ) : (
             <span className="absolute inset-0 flex items-center justify-center text-[8px] leading-tight text-center px-0.5 text-[#2b3038] font-semibold pointer-events-none">
-              {item.name.split(' ').slice(-1)[0]}
+              {item.name.split(" ").slice(-1)[0]}
             </span>
           )}
 
@@ -196,11 +219,15 @@ function Slot({
             <span
               className="absolute pointer-events-none font-bold text-center tabular-nums"
               style={{
-                left: 0, right: 0, bottom: 0,
-                fontSize: 10, lineHeight: '12px',
-                color: '#ffd75e',
-                background: 'rgba(0, 0, 0, 0.78)',
-                borderBottomLeftRadius: 3, borderBottomRightRadius: 3,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                fontSize: 10,
+                lineHeight: "12px",
+                color: "#ffd75e",
+                background: "rgba(0, 0, 0, 0.78)",
+                borderBottomLeftRadius: 3,
+                borderBottomRightRadius: 3,
               }}
             >
               {stars}★
@@ -212,7 +239,10 @@ function Slot({
       {/* Keyed on the copy that caused it, so copying the same slot twice
           restarts the animation instead of leaving a finished one on screen. */}
       {flash && (
-        <span key={flash} className="absolute inset-0 pointer-events-none equip-slot-flash" />
+        <span
+          key={flash}
+          className="absolute inset-0 pointer-events-none equip-slot-flash"
+        />
       )}
 
       {/* Selection and change highlights sit above everything. */}

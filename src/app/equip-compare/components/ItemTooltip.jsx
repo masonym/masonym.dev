@@ -59,7 +59,7 @@ const TOOLTIP_ORDER = [
 /**
  * Defence, MP and the resistances are dropped rather than printed.
  *
- * The game's own tooltip shows them, so this deliberately does not — the DEF %
+ * The game's own tooltip shows them, so this deliberately does not - the DEF %
  * on a starred item comes from the star force table and the flat DEF from the
  * item, and neither reads as an answer to "should I equip this?". They are the
  * same stats the difference panel leaves out (HIDDEN_DIFF_GROUPS); this keeps
@@ -70,7 +70,7 @@ const isShown = (key) => !HIDDEN_DIFF_GROUPS.has(STAT_META[key]?.group);
 /**
  * Mount guard.
  *
- * Split from the body so the body can use hooks unconditionally — there is
+ * Split from the body so the body can use hooks unconditionally - there is
  * nothing to draw at all when no slot is hovered, and a tooltip that measures
  * itself needs its hooks to run every time it is on screen.
  */
@@ -115,7 +115,7 @@ function Tooltip({ hover, lineIndex, setIndex, itemIndex, loadout }) {
 
   // Anchor to the right of the slot, flipping left near the viewport edge. The
   // set panel is part of the same block, so the flip is decided on the pair's
-  // width — otherwise it fits going right and then runs off the screen anyway.
+  // width - otherwise it fits going right and then runs off the screen anyway.
   const width = FRAME_WIDTH + (progress ? PANEL_GAP + FRAME_WIDTH : 0);
   const left = anchor.right + 10;
   const flip =
@@ -124,7 +124,7 @@ function Tooltip({ hover, lineIndex, setIndex, itemIndex, loadout }) {
   // Measured rather than estimated: a set panel's height depends on how many
   // pieces the set has and how many of its effect lines wrap, which ranges from
   // shorter than the item tooltip to twice its length. Guessing a reserve cut
-  // the last thresholds off the bottom of the screen — the ones furthest from
+  // the last thresholds off the bottom of the screen - the ones furthest from
   // being reached, and so the ones most worth reading.
   //
   // Observed rather than measured once, because the frame art is three <img>
@@ -233,8 +233,8 @@ function Tooltip({ hover, lineIndex, setIndex, itemIndex, loadout }) {
 /**
  * The game's tooltip frame around whatever it is given.
  *
- * `UIToolTip.img/Equip/frame/common` is a vertical 3-slice — a 324x30 top, a
- * 324x1 middle repeated to whatever height is needed, and a 324x12 bottom — so
+ * `UIToolTip.img/Equip/frame/common` is a vertical 3-slice - a 324x30 top, a
+ * 324x1 middle repeated to whatever height is needed, and a 324x12 bottom - so
  * it stays crisp at any content length. The slices carry their intrinsic heights
  * so the frame occupies its full size before the images decode; the tooltip
  * measures itself to stay on screen, and a frame that starts 42px short measures
@@ -295,7 +295,7 @@ function Divider() {
  * One set effect written the way it reads: "Boss Damage +10%".
  *
  * The stat labels carry their own trailing "%", which is right in a two-column
- * table and wrong inline — "Boss Damage % +10%" — so it is dropped here.
+ * table and wrong inline - "Boss Damage % +10%" - so it is dropped here.
  */
 function effectPhrase(stats) {
   return Object.entries(stats)
@@ -312,7 +312,7 @@ function effectPhrase(stats) {
  *
  * Two questions in one panel: which pieces the set is made of and which of them
  * you are wearing, then what each piece count grants. Thresholds you have
- * reached are lit and the ones above are dimmed rather than hidden — the point
+ * reached are lit and the ones above are dimmed rather than hidden - the point
  * of looking at this is usually to see what the *next* piece would be worth.
  */
 function SetPanel({ progress, flip }) {
@@ -345,13 +345,17 @@ function SetPanel({ progress, flip }) {
           <li key={group.key} className="flex gap-2 text-[11px] leading-4">
             <span
               className="w-[74px] shrink-0"
-              style={{ color: group.equipped ? "#8ec9ff" : "rgba(255,255,255,0.3)" }}
+              style={{
+                color: group.equipped ? "#8ec9ff" : "rgba(255,255,255,0.3)",
+              }}
             >
               {group.label}
             </span>
             <span
               className="min-w-0 flex-1 truncate"
-              style={{ color: group.equipped ? "#ffffff" : "rgba(255,255,255,0.35)" }}
+              style={{
+                color: group.equipped ? "#ffffff" : "rgba(255,255,255,0.35)",
+              }}
               title={group.options.join(", ")}
             >
               {group.equipped ?? describeOptions(group.options)}
@@ -361,7 +365,10 @@ function SetPanel({ progress, flip }) {
         {listed < total && (
           // A totem or a Use item: real pieces of the set that are not equipment
           // and so are not in the dataset this is built from.
-          <li className="text-[11px] leading-4" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <li
+            className="text-[11px] leading-4"
+            style={{ color: "rgba(255,255,255,0.3)" }}
+          >
             +{total - listed} more not in the equipment data
           </li>
         )}
@@ -397,13 +404,13 @@ function SetPanel({ progress, flip }) {
 /**
  * What to call a slot you have not filled yet.
  *
- * Several sets offer alternatives for one slot — five branch emblems, four
- * coloured pocket items — and naming all of them costs more room than the panel
+ * Several sets offer alternatives for one slot - five branch emblems, four
+ * coloured pocket items - and naming all of them costs more room than the panel
  * has. The first plus a count says "one of these" without pretending there is
  * only one; the full list is on the row's title.
  */
 function describeOptions(names) {
-  if (!names.length) return "—";
+  if (!names.length) return "-";
   if (names.length === 1) return names[0];
   return `${names[0]} +${names.length - 1} more`;
 }

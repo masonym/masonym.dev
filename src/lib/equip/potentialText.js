@@ -3,18 +3,18 @@
  *
  * The WZ stores a potential's description as a template with the value left out:
  * `STR: +#incSTR`, `Boss Damage +#incDAMr%`. The number is not in the string
- * because one line covers every item level — the same `#incSTR` is +6 on a
+ * because one line covers every item level - the same `#incSTR` is +6 on a
  * level-10 item and +18 on a level-200 one, and which it is comes from the
  * line's own tier table.
  *
  * So the raw `desc` cannot be shown as-is, and the first attempt at fixing that
- * printed both halves — `STR: +#incSTR (str +18)` — which reads as an escaped
+ * printed both halves - `STR: +#incSTR (str +18)` - which reads as an escaped
  * placeholder followed by a debug dump. This substitutes instead, so a line
  * shows what the item would actually get: `STR: +18`.
  */
 
-import { potentialValueAt } from './engine.js';
-import { STAT_META, STAT_GROUPS } from './stats.js';
+import { potentialValueAt } from "./engine.js";
+import { STAT_META, STAT_GROUPS } from "./stats.js";
 
 /**
  * Template token → the normalized stat key it resolves to.
@@ -29,51 +29,51 @@ import { STAT_META, STAT_GROUPS } from './stats.js';
  * update that introduces a token cannot slip through unnoticed.
  */
 const TOKEN_STATS = {
-  incSTR: 'str',
-  incDEX: 'dex',
-  incINT: 'int',
-  incLUK: 'luk',
-  incSTRr: 'strP',
-  incDEXr: 'dexP',
-  incINTr: 'intP',
-  incLUKr: 'lukP',
-  incSTRlv: 'strPerLv',
-  incDEXlv: 'dexPerLv',
-  incINTlv: 'intPerLv',
-  incLUKlv: 'lukPerLv',
-  incMHPlv: 'hpPerLv',
-  incPAD: 'att',
-  incMAD: 'matt',
-  incPADr: 'attP',
-  incMADr: 'mattP',
-  incMHP: 'hp',
-  incMMP: 'mp',
-  incMHPr: 'hpP',
-  incMMPr: 'mpP',
-  incPDD: 'def',
-  incPDDr: 'defP',
-  incDAMr: 'dmg',
-  ignoreTargetDEF: 'ied',
-  incCr: 'critRate',
-  incCriticaldamage: 'critDmg',
-  incCriticaldamageMin: 'critDmgMin',
-  incCriticaldamageMax: 'critDmgMax',
-  incSpeed: 'speed',
-  incJump: 'jump',
-  incTerR: 'elemResist',
-  incAsrR: 'statusResist',
-  incAllskill: 'allSkill',
-  incMesoProp: 'meso',
-  incRewardProp: 'drop',
-  incEXPr: 'exp',
-  incPQEXPr: 'pqExp',
-  mpconReduce: 'mpCost',
-  reduceCooltime: 'cooldown',
+  incSTR: "str",
+  incDEX: "dex",
+  incINT: "int",
+  incLUK: "luk",
+  incSTRr: "strP",
+  incDEXr: "dexP",
+  incINTr: "intP",
+  incLUKr: "lukP",
+  incSTRlv: "strPerLv",
+  incDEXlv: "dexPerLv",
+  incINTlv: "intPerLv",
+  incLUKlv: "lukPerLv",
+  incMHPlv: "hpPerLv",
+  incPAD: "att",
+  incMAD: "matt",
+  incPADr: "attP",
+  incMADr: "mattP",
+  incMHP: "hp",
+  incMMP: "mp",
+  incMHPr: "hpP",
+  incMMPr: "mpP",
+  incPDD: "def",
+  incPDDr: "defP",
+  incDAMr: "dmg",
+  ignoreTargetDEF: "ied",
+  incCr: "critRate",
+  incCriticaldamage: "critDmg",
+  incCriticaldamageMin: "critDmgMin",
+  incCriticaldamageMax: "critDmgMax",
+  incSpeed: "speed",
+  incJump: "jump",
+  incTerR: "elemResist",
+  incAsrR: "statusResist",
+  incAllskill: "allSkill",
+  incMesoProp: "meso",
+  incRewardProp: "drop",
+  incEXPr: "exp",
+  incPQEXPr: "pqExp",
+  mpconReduce: "mpCost",
+  reduceCooltime: "cooldown",
 };
 
 const TOKEN_PATTERN = /#([A-Za-z0-9_]+)/g;
 
-/** Bare number for substitution — the template already carries any % or unit. */
+/** Bare number for substitution - the template already carries any % or unit. */
 function formatValue(value) {
   const rounded = Math.round(value * 10) / 10;
   return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
@@ -85,14 +85,16 @@ function formatValue(value) {
  *
  * Tokens are matched to stats by name first and then positionally, because the
  * two can legitimately disagree: `incDAMr` is the damage key, but a line
- * carrying the WZ `boss` flag resolves it to boss damage instead — so
+ * carrying the WZ `boss` flag resolves it to boss damage instead - so
  * "Boss Damage +#incDAMr%" has a token naming `dmg` and a value under `boss`.
  * Matching whatever is left over in order gets that right without teaching this
  * module about the flag, and it degrades to a `?` rather than to a wrong number
  * if a future line has more tokens than values.
  */
 export function describePotential(line, levelIndex) {
-  const desc = String(line?.desc ?? '').replace(/\s+/g, ' ').trim();
+  const desc = String(line?.desc ?? "")
+    .replace(/\s+/g, " ")
+    .trim();
   const stats = potentialValueAt(line, levelIndex) || {};
 
   const tokens = [...desc.matchAll(TOKEN_PATTERN)].map((m) => m[1]);
@@ -110,20 +112,21 @@ export function describePotential(line, levelIndex) {
 
   const leftovers = [...unclaimed];
   for (let i = 0; i < values.length; i += 1) {
-    if (values[i] === undefined && leftovers.length) values[i] = stats[leftovers.shift()];
+    if (values[i] === undefined && leftovers.length)
+      values[i] = stats[leftovers.shift()];
   }
 
   let next = 0;
   return desc.replace(TOKEN_PATTERN, () => {
     const value = values[next];
     next += 1;
-    return value === undefined ? '?' : formatValue(value);
+    return value === undefined ? "?" : formatValue(value);
   });
 }
 
 /** True when the line still has an unresolved token at this level. */
 export function potentialTextIsComplete(line, levelIndex) {
-  return !describePotential(line, levelIndex).includes('?');
+  return !describePotential(line, levelIndex).includes("?");
 }
 
 /**
@@ -154,9 +157,9 @@ function groupRank(line, levelIndex) {
  * The lines worth offering for an item, resolved, deduplicated and ordered.
  *
  * Duplicates are the reason this exists rather than a `.map()` at the call site.
- * The WZ carries the same line several times over — Legendary alone has 49
+ * The WZ carries the same line several times over - Legendary alone has 49
  * regular lines and 34 distinct ones, with "Boss Damage +40%" appearing three
- * times — and a dropdown that lists a line once per copy makes the user pick
+ * times - and a dropdown that lists a line once per copy makes the user pick
  * between identical rows.
  *
  * Ordering is by stat group, so the lines that decide a swap (stats, attack,
@@ -190,4 +193,3 @@ export function potentialLabel(lineIndex, optionId, levelIndex) {
   if (!line) return `Line ${optionId}`;
   return describePotential(line, levelIndex) || `Line ${optionId}`;
 }
-

@@ -10,39 +10,39 @@
  * docs/equip-compare-data.md).
  */
 
-import { emptyStats, addInto, sumStats, diffStats } from './stats.js';
-import { starForceGains, gainsStarForceAttack } from './starforce.js';
-import { resolveFlames, acceptsFlames, flameContext } from './flames.js';
+import { emptyStats, addInto, sumStats, diffStats } from "./stats.js";
+import { starForceGains, gainsStarForceAttack } from "./starforce.js";
+import { resolveFlames, acceptsFlames, flameContext } from "./flames.js";
 
 /**
  * Equipment slots a character actually has, and how many of each.
  * Rings are the only genuinely repeated slot.
  */
 export const LOADOUT_SLOTS = [
-  { key: 'hat',       label: 'Hat' },
-  { key: 'top',       label: 'Top' },
-  { key: 'bottom',    label: 'Bottom' },
-  { key: 'shoes',     label: 'Shoes' },
-  { key: 'gloves',    label: 'Gloves' },
-  { key: 'cape',      label: 'Cape' },
-  { key: 'shoulder',  label: 'Shoulder' },
-  { key: 'weapon',    label: 'Weapon' },
-  { key: 'secondary', label: 'Secondary' },
-  { key: 'face',      label: 'Face Accessory' },
-  { key: 'eye',       label: 'Eye Accessory' },
-  { key: 'earrings',  label: 'Earrings' },
-  { key: 'pendant',   label: 'Pendant 1' },
-  { key: 'pendant2',  label: 'Pendant 2' },
-  { key: 'ring1',     label: 'Ring 1' },
-  { key: 'ring2',     label: 'Ring 2' },
-  { key: 'ring3',     label: 'Ring 3' },
-  { key: 'ring4',     label: 'Ring 4' },
-  { key: 'belt',      label: 'Belt' },
-  { key: 'medal',     label: 'Medal' },
-  { key: 'badge',     label: 'Badge' },
-  { key: 'pocket',    label: 'Pocket' },
-  { key: 'emblem',    label: 'Emblem' },
-  { key: 'heart',     label: 'Heart' },
+  { key: "hat", label: "Hat" },
+  { key: "top", label: "Top" },
+  { key: "bottom", label: "Bottom" },
+  { key: "shoes", label: "Shoes" },
+  { key: "gloves", label: "Gloves" },
+  { key: "cape", label: "Cape" },
+  { key: "shoulder", label: "Shoulder" },
+  { key: "weapon", label: "Weapon" },
+  { key: "secondary", label: "Secondary" },
+  { key: "face", label: "Face Accessory" },
+  { key: "eye", label: "Eye Accessory" },
+  { key: "earrings", label: "Earrings" },
+  { key: "pendant", label: "Pendant 1" },
+  { key: "pendant2", label: "Pendant 2" },
+  { key: "ring1", label: "Ring 1" },
+  { key: "ring2", label: "Ring 2" },
+  { key: "ring3", label: "Ring 3" },
+  { key: "ring4", label: "Ring 4" },
+  { key: "belt", label: "Belt" },
+  { key: "medal", label: "Medal" },
+  { key: "badge", label: "Badge" },
+  { key: "pocket", label: "Pocket" },
+  { key: "emblem", label: "Emblem" },
+  { key: "heart", label: "Heart" },
 ];
 
 /**
@@ -55,28 +55,28 @@ export const LOADOUT_SLOTS = [
  * Both keep their original code in `item.islot` for potential-table lookups.
  */
 export const ISLOT_TO_SLOTS = {
-  Cp: ['hat'],
-  Ma: ['top'],
-  Pn: ['bottom'],
-  MaPn: ['top', 'bottom'],
-  So: ['shoes'],
-  Gv: ['gloves'],
-  Sr: ['cape'],
-  Sh: ['shoulder'],
-  Wp: ['weapon'],
-  WpSi: ['weapon', 'secondary'],
-  Si: ['secondary'],
-  Af: ['face'],
-  Ay: ['eye'],
-  Ae: ['earrings'],
-  Pe: ['pendant', 'pendant2'],
-  Ri: ['ring1', 'ring2', 'ring3', 'ring4'],
-  Be: ['belt'],
-  Me: ['medal'],
-  Ba: ['badge'],
-  Po: ['pocket'],
-  Em: ['emblem'],
-  Ht: ['heart'],
+  Cp: ["hat"],
+  Ma: ["top"],
+  Pn: ["bottom"],
+  MaPn: ["top", "bottom"],
+  So: ["shoes"],
+  Gv: ["gloves"],
+  Sr: ["cape"],
+  Sh: ["shoulder"],
+  Wp: ["weapon"],
+  WpSi: ["weapon", "secondary"],
+  Si: ["secondary"],
+  Af: ["face"],
+  Ay: ["eye"],
+  Ae: ["earrings"],
+  Pe: ["pendant", "pendant2"],
+  Ri: ["ring1", "ring2", "ring3", "ring4"],
+  Be: ["belt"],
+  Me: ["medal"],
+  Ba: ["badge"],
+  Po: ["pocket"],
+  Em: ["emblem"],
+  Ht: ["heart"],
 };
 
 /**
@@ -85,12 +85,12 @@ export const ISLOT_TO_SLOTS = {
  *
  * This is an *occupancy* list, not a list of slots the item can be equipped
  * into. A two-handed weapon goes in the weapon slot and merely covers the
- * secondary — it is not a secondary you can choose. Conflating the two is what
+ * secondary - it is not a secondary you can choose. Conflating the two is what
  * used to put every two-hander in the Secondary picker.
  */
 export const MULTI_SLOT_ISLOTS = {
-  WpSi: ['weapon', 'secondary'],
-  MaPn: ['top', 'bottom'],
+  WpSi: ["weapon", "secondary"],
+  MaPn: ["top", "bottom"],
 };
 
 /** Which loadout slots an item placed in `slotKey` actually occupies. */
@@ -126,7 +126,7 @@ export function potentialIslot(item) {
 /**
  * The potential lines actually on an item.
  *
- * 310 items ship with their potential already decided and recorded in the WZ —
+ * 310 items ship with their potential already decided and recorded in the WZ -
  * Dominator Pendant, the Tower of Oz emblems, the Krrr rings. Those lines are
  * used unless the user has entered their own, so the item resolves correctly the
  * moment it is equipped rather than reading as unpotentialed.
@@ -158,7 +158,7 @@ export function potentialValueAt(line, levelIndex) {
 
 /** True when `line` may roll on an item with this islot. */
 export function potentialAllowedOn(line, islot) {
-  if (!line.slots) return true;     // no restriction recorded → any slot
+  if (!line.slots) return true; // no restriction recorded → any slot
   return line.slots.includes(islot);
 }
 
@@ -170,8 +170,8 @@ export function exceptionalSlots(item) {
 /**
  * Stats from `count` Exceptional Hammers.
  *
- * Every hammer for a slot grants the same block, and an item may take several —
- * Immortal Legacy and Original Sin of Pride take three each — so the bonus is
+ * Every hammer for a slot grants the same block, and an item may take several -
+ * Immortal Legacy and Original Sin of Pride take three each - so the bonus is
  * simply multiplied. The count is clamped rather than trusted, because a saved
  * config outlives the data it was entered against.
  */
@@ -180,7 +180,8 @@ export function exceptionalGains(item, count = 0) {
   if (applied <= 0) return null;
 
   const out = {};
-  for (const [key, value] of Object.entries(item.exceptional)) out[key] = value * applied;
+  for (const [key, value] of Object.entries(item.exceptional))
+    out[key] = value * applied;
   return out;
 }
 
@@ -189,10 +190,10 @@ export function exceptionalGains(item, count = 0) {
  *
  * Modifier order matters and follows the game:
  *   1. base stats, scrolls / soul / exceptional (flat), and potential / bonus
- *      potential — everything that behaves like a fixed part of the item
- *   2. star force — for weapons below 15 stars the attack gain compounds over
+ *      potential - everything that behaves like a fixed part of the item
+ *   2. star force - for weapons below 15 stars the attack gain compounds over
  *      base + scroll attack, so scrolls must already be counted
- *   3. flames — attack flames scale off *base* attack only, not scrolled attack
+ *   3. flames - attack flames scale off *base* attack only, not scrolled attack
  *
  * Kept separate (rather than summed) so callers like the item tooltip can show
  * where each point of a stat came from.
@@ -235,27 +236,36 @@ export function resolveItemBreakdown(item, config = {}, lineIndex = new Map()) {
 
   // star force
   if (stars > 0) {
-    addInto(starforce, starForceGains({
-      level,
-      stars,
-      slot: item.slot,
-      superior: Boolean(item.superior),
-      gainsAtt: gainsStarForceAttack(item.slot),
-      baseAttack: baseAttack + scrollAttack,
-      baseMagic: baseMagic + scrollMagic,
-    }));
+    addInto(
+      starforce,
+      starForceGains({
+        level,
+        stars,
+        slot: item.slot,
+        superior: Boolean(item.superior),
+        gainsAtt: gainsStarForceAttack(item.slot),
+        baseAttack: baseAttack + scrollAttack,
+        baseMagic: baseMagic + scrollMagic,
+      }),
+    );
   }
 
-  // flames — scale off base attack, deliberately excluding scroll attack.
+  // flames - scale off base attack, deliberately excluding scroll attack.
   // Checked rather than trusted: a config can outlive the item it was entered
   // against, and rings and secondaries take no bonus stats at all.
   if (flames.length && acceptsFlames(item)) {
-    addInto(flame, resolveFlames(flames, { ...flameContext(item, config), level }));
+    addInto(
+      flame,
+      resolveFlames(flames, { ...flameContext(item, config), level }),
+    );
   }
 
   // potential + bonus potential
   const levelIndex = potentialLevelIndex(level);
-  for (const entry of [...effectivePotentials(item, potentials), ...bonusPotentials]) {
+  for (const entry of [
+    ...effectivePotentials(item, potentials),
+    ...bonusPotentials,
+  ]) {
     if (!entry?.optionId) continue;
     const line = lineIndex.get(entry.optionId);
     if (!line) continue;
@@ -268,14 +278,18 @@ export function resolveItemBreakdown(item, config = {}, lineIndex = new Map()) {
 
 /** Resolves one configured item into a single summed stat block. */
 export function resolveItem(item, config = {}, lineIndex = new Map()) {
-  const { base, starforce, flame } = resolveItemBreakdown(item, config, lineIndex);
+  const { base, starforce, flame } = resolveItemBreakdown(
+    item,
+    config,
+    lineIndex,
+  );
   return sumStats(base, starforce, flame);
 }
 
 /**
  * Counts how many pieces of each set a loadout has equipped.
  *
- * Multi-slot items (two-handers, overalls) still count as a single piece — they
+ * Multi-slot items (two-handers, overalls) still count as a single piece - they
  * fill two slots but are one item.
  *
  * @returns Map of setId → piece count.
@@ -324,8 +338,8 @@ export function resolveSetEffects(entries, setIndex) {
 /**
  * The items a loadout actually has on, one entry per distinct item.
  *
- * A two-hander occupies two slots but is one item, so it must not be counted —
- * or stat-summed — twice.
+ * A two-hander occupies two slots but is one item, so it must not be counted -
+ * or stat-summed - twice.
  *
  * @returns [{ slotKey, item, config }]
  */
@@ -362,16 +376,18 @@ export function loadoutEntries(loadout = {}, itemIndex = new Map()) {
 const SLOT_LABELS = Object.fromEntries(
   LOADOUT_SLOTS.map(({ key, label }) => [
     key,
-    label.replace(/ \d+$/, '').replace(/ Accessory$/, ' Acc'),
+    label.replace(/ \d+$/, "").replace(/ Accessory$/, " Acc"),
   ]),
 );
-const SLOT_RANK = Object.fromEntries(LOADOUT_SLOTS.map(({ key }, i) => [key, i]));
+const SLOT_RANK = Object.fromEntries(
+  LOADOUT_SLOTS.map(({ key }, i) => [key, i]),
+);
 
 /**
  * A set, the pieces it is made of, and how much of it a loadout has on.
  *
  * The member id list is not the piece list and has to be reduced to one before
- * it means anything — the Pitched Boss Set has nineteen member ids and is a
+ * it means anything - the Pitched Boss Set has nineteen member ids and is a
  * ten-piece set. Two rules do that reduction, and both are needed:
  *
  *   - Members are grouped by the **loadout slot they compete for**, not by their
@@ -414,8 +430,12 @@ export function setProgress(set, loadout = {}, itemIndex = new Map()) {
     const key = slots[0];
     if (!key) continue;
 
-    const family = families.get(key)
-      ?? { key, label: SLOT_LABELS[key] ?? key, capacity: slots.length, names: [] };
+    const family = families.get(key) ?? {
+      key,
+      label: SLOT_LABELS[key] ?? key,
+      capacity: slots.length,
+      names: [],
+    };
     if (!family.names.includes(member.name)) family.names.push(member.name);
     families.set(key, family);
   }
@@ -440,10 +460,15 @@ export function setProgress(set, loadout = {}, itemIndex = new Map()) {
       }
     } else {
       // More versions than the slot can hold, so they are alternatives for one
-      // piece — repeated per wearable copy, which is one for every slot this
+      // piece - repeated per wearable copy, which is one for every slot this
       // actually happens on.
       for (let i = 0; i < capacity; i += 1) {
-        groups.push({ key: `${key}:${i}`, label, options: names, equipped: worn[i] ?? null });
+        groups.push({
+          key: `${key}:${i}`,
+          label,
+          options: names,
+          equipped: worn[i] ?? null,
+        });
       }
     }
   }
@@ -451,10 +476,14 @@ export function setProgress(set, loadout = {}, itemIndex = new Map()) {
   const thresholds = Object.keys(set.effects ?? {})
     .map(Number)
     .sort((a, b) => a - b)
-    .map((at) => ({ at, stats: set.effects[String(at)], active: at <= pieces }));
+    .map((at) => ({
+      at,
+      stats: set.effects[String(at)],
+      active: at <= pieces,
+    }));
 
   // The set's own effects table is the authority on how many pieces it counts
-  // to, not the member list — a handful of sets reach a threshold we cannot list
+  // to, not the member list - a handful of sets reach a threshold we cannot list
   // the piece for, because it is a totem (the Sengoku sets) or a Use item (the
   // Alchemist Set), neither of which is equipment. Taking the larger of the two
   // keeps the header from disagreeing with the effects printed under it;
@@ -480,14 +509,21 @@ export function setProgress(set, loadout = {}, itemIndex = new Map()) {
  * @returns { stats, items, sets, setStats }
  */
 export function resolveLoadout(loadout = {}, data = {}) {
-  const { itemIndex = new Map(), lineIndex = new Map(), setIndex = new Map() } = data;
+  const {
+    itemIndex = new Map(),
+    lineIndex = new Map(),
+    setIndex = new Map(),
+  } = data;
 
   const entries = loadoutEntries(loadout, itemIndex).map((entry) => ({
     ...entry,
     stats: resolveItem(entry.item, entry.config, lineIndex),
   }));
 
-  const { stats: setStats, active: sets } = resolveSetEffects(entries, setIndex);
+  const { stats: setStats, active: sets } = resolveSetEffects(
+    entries,
+    setIndex,
+  );
 
   const stats = sumStats(...entries.map((e) => e.stats), setStats);
 
@@ -520,7 +556,8 @@ export function diffLoadouts(beforeLoadout, afterLoadout, data) {
 /** Sets whose piece count changed between two loadouts. */
 function diffSets(beforeSets, afterSets) {
   const byId = new Map();
-  for (const s of beforeSets) byId.set(s.setId, { ...s, beforePieces: s.pieces, afterPieces: 0 });
+  for (const s of beforeSets)
+    byId.set(s.setId, { ...s, beforePieces: s.pieces, afterPieces: 0 });
   for (const s of afterSets) {
     const existing = byId.get(s.setId);
     if (existing) existing.afterPieces = s.pieces;
@@ -530,7 +567,11 @@ function diffSets(beforeSets, afterSets) {
   return [...byId.values()]
     .filter((s) => s.beforePieces !== s.afterPieces)
     .map(({ setId, name, beforePieces, afterPieces }) => ({
-      setId, name, beforePieces, afterPieces, delta: afterPieces - beforePieces,
+      setId,
+      name,
+      beforePieces,
+      afterPieces,
+      delta: afterPieces - beforePieces,
     }))
     .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
 }
@@ -538,14 +579,16 @@ function diffSets(beforeSets, afterSets) {
 /**
  * Convenience: swap a single item into a loadout and diff against the original.
  * This is the common "should I equip this?" question, expressed the only way it
- * can be answered correctly — as a loadout comparison.
+ * can be answered correctly - as a loadout comparison.
  */
 export function diffItemSwap(loadout, slotKey, newConfig, data) {
   const after = { ...loadout, [slotKey]: newConfig };
 
   // Equipping a two-hander clears the secondary; equipping an overall clears
   // top and bottom. Without this the diff would double-count the displaced item.
-  const newItem = newConfig?.itemId ? data.itemIndex?.get(newConfig.itemId) : null;
+  const newItem = newConfig?.itemId
+    ? data.itemIndex?.get(newConfig.itemId)
+    : null;
   if (newItem) {
     for (const s of occupiedSlots(newItem, slotKey)) {
       if (s !== slotKey) delete after[s];

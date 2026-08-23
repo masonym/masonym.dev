@@ -31,7 +31,7 @@ export const DEFAULT_FILTERS = { notableOnly: false, minLevel: 0 };
 /**
  * Weights for the ordering score, in points of main stat.
  *
- * Main stat is the unit — one point of STR for a warrior is 1 — and everything
+ * Main stat is the unit - one point of STR for a warrior is 1 - and everything
  * else is priced against it:
  *
  *   1 attack / magic attack        3
@@ -67,7 +67,7 @@ const MAIN_STATS = ["str", "dex", "int", "luk"];
  *
  * Base stats alone rank the picker badly: the biggest single source of stat on
  * endgame gear is star force, and plenty of high-base gear cannot be starred at
- * all — quest weapons, badges, emblems, every medal. Scoring those on base stats
+ * all - quest weapons, badges, emblems, every medal. Scoring those on base stats
  * put them straight to the top of lists they do not belong in.
  *
  * 22 rather than each item's own cap, because comparing every item at whatever
@@ -108,7 +108,7 @@ function referenceStarStats(item) {
  * Set membership is counted as the average share of its set's whole bonus that
  * one piece unlocks (`set.perPiece`, computed at build time). Ignoring it used
  * to be defensible on the grounds that set pieces score well on raw stats
- * anyway — but the gear it misjudges is exactly the gear that has no set. A 15★
+ * anyway - but the gear it misjudges is exactly the gear that has no set. A 15★
  * Tyrant piece really does carry more attack than the Arcane Umbra piece that
  * replaced it, and the only reason it is not the better item is the set bonus.
  *
@@ -192,7 +192,7 @@ export const LEVEL_STEPS = [0, 100, 120, 140, 160, 200];
  * Armour and weapons come in level-ordered tiers, so a floor is exactly the
  * right way to skip the ones you have outgrown. Nothing else does.
  *
- * The accessory family doesn't — Crystal Ventus Badge is level 130, Black Heart
+ * The accessory family doesn't - Crystal Ventus Badge is level 130, Black Heart
  * 120, Golden Flower 120, and all three are current gear. Neither do secondaries:
  * there are essentially two generations of them, Princess No at 140 and Astra at
  * 200, and a floor at 140 empties the slot outright for bowmen and pirates.
@@ -243,7 +243,7 @@ export function filterItemsForSlot(
   const byLevel = levelFilterApplies(slotKey);
 
   return slotCandidates(items, slotKey, classKey).filter((i) => {
-    // Never hide what is already equipped — turning a filter on would otherwise
+    // Never hide what is already equipped - turning a filter on would otherwise
     // hide the very thing being replaced.
     if (i.id === currentId) return true;
     if (notableOnly && !i.notable) return false;

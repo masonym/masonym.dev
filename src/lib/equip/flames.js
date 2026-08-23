@@ -5,13 +5,13 @@
  * tables (https://maplestorywiki.net/w/Bonus_Stats/Stat_Tables), which is the
  * authority for every number here; all functions are pure.
  *
- * Flame tiers run 1-7, but not every tier is reachable on every line — see
+ * Flame tiers run 1-7, but not every tier is reachable on every line - see
  * `tierRange` below.
  *
  * ── Flame advantage ──────────────────────────────────────────────────────────
  * Most boss drops and boss-currency gear are Flame Advantaged: they roll higher
  * tiers and are guaranteed all four lines. For every stat except attack that is
- * purely a rolling rule — a tier-5 STR line is worth the same either way — so
+ * purely a rolling rule - a tier-5 STR line is worth the same either way - so
  * nothing here needs to know about it.
  *
  * Attack on a *weapon* is the exception, and the wiki lists it as two separate
@@ -19,7 +19,7 @@
  * tiers 1-5 off another, and at the same tier number the two do not agree.
  *
  * Which of the two a weapon uses is a property of the weapon, so it is read off
- * the item rather than offered as a second attack line — see `isFlameAdvantaged`
+ * the item rather than offered as a second attack line - see `isFlameAdvantaged`
  * for how, and why the answer can be overridden.
  */
 
@@ -34,9 +34,17 @@ export const FLAME_TIERS = [1, 2, 3, 4, 5, 6, 7];
  *
  * `Si` covers shields as well as class secondaries and katara. Androids are not
  * modelled as a slot, so only their hearts appear. Pocket items are deliberately
- * absent — the wiki's restriction list does not name them.
+ * absent - the wiki's restriction list does not name them.
  */
-const SLOTS_WITHOUT_FLAMES = new Set(['Ri', 'Sh', 'Me', 'Em', 'Ba', 'Ht', 'Si']);
+const SLOTS_WITHOUT_FLAMES = new Set([
+  "Ri",
+  "Sh",
+  "Me",
+  "Em",
+  "Ba",
+  "Ht",
+  "Si",
+]);
 
 /**
  * Individual items that take flames despite sitting in an excluded slot.
@@ -59,7 +67,7 @@ export function acceptsFlames(item) {
 
 /** True when the item is a weapon, which several lines are restricted to. */
 export function isWeaponSlot(slot) {
-  return slot === 'Wp' || slot === 'WpSi';
+  return slot === "Wp" || slot === "WpSi";
 }
 
 /**
@@ -68,7 +76,7 @@ export function isWeaponSlot(slot) {
  * This is the WZ `bossReward` flag, carried through the build as `item.bossDrop`,
  * and it is the game's own record of the thing: the boss sets (AbsoLab, Arcane
  * Umbra, Eternal, the liberated Genesis weapons) carry it, and the gear that is
- * not advantaged does not — Sweetwater and the Sealed Genesis weapons included.
+ * not advantaged does not - Sweetwater and the Sealed Genesis weapons included.
  *
  * `config.advantaged` can still override it, because one wrong row in the dump
  * should cost a click rather than make the tool unusable for that weapon. The
@@ -102,8 +110,18 @@ function bucketOf(ranges, level) {
  * listed as the wiki lists them.
  */
 const SINGLE_STAT_RANGES = [
-  [0, 19], [20, 39], [40, 59], [60, 79], [80, 99], [100, 119],
-  [120, 139], [140, 159], [160, 179], [180, 199], [200, 229], [230, Infinity],
+  [0, 19],
+  [20, 39],
+  [40, 59],
+  [60, 79],
+  [80, 99],
+  [100, 119],
+  [120, 139],
+  [140, 159],
+  [160, 179],
+  [180, 199],
+  [200, 229],
+  [230, Infinity],
 ];
 
 /** Single-stat flame value: bucket index × tier. */
@@ -113,11 +131,17 @@ export function singleStatFlame(level, tier) {
 }
 
 /**
- * Dual-stat (STR+DEX, INT+LUK, …) buckets — the value applies to *each* of the
+ * Dual-stat (STR+DEX, INT+LUK, …) buckets - the value applies to *each* of the
  * two stats. Forty levels wide, except 200-249 which is one bucket.
  */
 const DUAL_STAT_RANGES = [
-  [0, 39], [40, 79], [80, 119], [120, 159], [160, 199], [200, 249], [250, Infinity],
+  [0, 39],
+  [40, 79],
+  [80, 119],
+  [120, 159],
+  [160, 199],
+  [200, 249],
+  [250, Infinity],
 ];
 
 export function dualStatFlame(level, tier) {
@@ -129,7 +153,7 @@ export function dualStatFlame(level, tier) {
  * HP / MP flame values.
  *
  * Ten levels wide. The first bucket is 3 per tier and the rest step by 30 per
- * tier — until level 210, where the step drops to 20 and stays there to the
+ * tier - until level 210, where the step drops to 20 and stays there to the
  * 250+ cap of 700 per tier. Level 250 equipment exists (the Eternal set, the
  * Destiny weapons), so the flattening is not hypothetical.
  */
@@ -172,7 +196,7 @@ export function weaponAttackFlame(baseAttack, level, tier, advantaged = false) {
  * Attack / magic attack on anything that is not a weapon: a flat +1 per tier,
  * at every level, regardless of what the piece's own attack is.
  *
- * This is why armour with no attack at all can still roll an attack line — and
+ * This is why armour with no attack at all can still roll an attack line - and
  * why scaling it off base attack, as the weapon tables do, produced a column of
  * 1s on every accessory.
  */
@@ -225,47 +249,127 @@ const WEAPON_ATTACK_TIERS = (c) => {
  * `ctx` carries { level, baseAttack, baseMagic, isWeapon, advantaged }.
  */
 export const FLAME_LINES = {
-  str:      { label: 'STR',        resolve: (t, c) => ({ str: singleStatFlame(c.level, t) }) },
-  dex:      { label: 'DEX',        resolve: (t, c) => ({ dex: singleStatFlame(c.level, t) }) },
-  int:      { label: 'INT',        resolve: (t, c) => ({ int: singleStatFlame(c.level, t) }) },
-  luk:      { label: 'LUK',        resolve: (t, c) => ({ luk: singleStatFlame(c.level, t) }) },
+  str: {
+    label: "STR",
+    resolve: (t, c) => ({ str: singleStatFlame(c.level, t) }),
+  },
+  dex: {
+    label: "DEX",
+    resolve: (t, c) => ({ dex: singleStatFlame(c.level, t) }),
+  },
+  int: {
+    label: "INT",
+    resolve: (t, c) => ({ int: singleStatFlame(c.level, t) }),
+  },
+  luk: {
+    label: "LUK",
+    resolve: (t, c) => ({ luk: singleStatFlame(c.level, t) }),
+  },
 
-  strDex:   { label: 'STR + DEX',  resolve: (t, c) => ({ str: dualStatFlame(c.level, t), dex: dualStatFlame(c.level, t) }) },
-  strInt:   { label: 'STR + INT',  resolve: (t, c) => ({ str: dualStatFlame(c.level, t), int: dualStatFlame(c.level, t) }) },
-  strLuk:   { label: 'STR + LUK',  resolve: (t, c) => ({ str: dualStatFlame(c.level, t), luk: dualStatFlame(c.level, t) }) },
-  dexInt:   { label: 'DEX + INT',  resolve: (t, c) => ({ dex: dualStatFlame(c.level, t), int: dualStatFlame(c.level, t) }) },
-  dexLuk:   { label: 'DEX + LUK',  resolve: (t, c) => ({ dex: dualStatFlame(c.level, t), luk: dualStatFlame(c.level, t) }) },
-  intLuk:   { label: 'INT + LUK',  resolve: (t, c) => ({ int: dualStatFlame(c.level, t), luk: dualStatFlame(c.level, t) }) },
+  strDex: {
+    label: "STR + DEX",
+    resolve: (t, c) => ({
+      str: dualStatFlame(c.level, t),
+      dex: dualStatFlame(c.level, t),
+    }),
+  },
+  strInt: {
+    label: "STR + INT",
+    resolve: (t, c) => ({
+      str: dualStatFlame(c.level, t),
+      int: dualStatFlame(c.level, t),
+    }),
+  },
+  strLuk: {
+    label: "STR + LUK",
+    resolve: (t, c) => ({
+      str: dualStatFlame(c.level, t),
+      luk: dualStatFlame(c.level, t),
+    }),
+  },
+  dexInt: {
+    label: "DEX + INT",
+    resolve: (t, c) => ({
+      dex: dualStatFlame(c.level, t),
+      int: dualStatFlame(c.level, t),
+    }),
+  },
+  dexLuk: {
+    label: "DEX + LUK",
+    resolve: (t, c) => ({
+      dex: dualStatFlame(c.level, t),
+      luk: dualStatFlame(c.level, t),
+    }),
+  },
+  intLuk: {
+    label: "INT + LUK",
+    resolve: (t, c) => ({
+      int: dualStatFlame(c.level, t),
+      luk: dualStatFlame(c.level, t),
+    }),
+  },
 
   // Non-weapons must be level 70 or above; weapons can roll it at any level.
-  allStat:  { label: 'All Stats %', percent: true, minLevel: 70,
-              resolve: (t) => ({ allStatP: allStatFlame(t) }) },
+  allStat: {
+    label: "All Stats %",
+    percent: true,
+    minLevel: 70,
+    resolve: (t) => ({ allStatP: allStatFlame(t) }),
+  },
 
-  boss:     { label: 'Boss Damage %', percent: true, on: 'weapon', minLevel: 90,
-              resolve: (t) => ({ boss: bossDamageFlame(t) }) },
-  dmg:      { label: 'Damage %',   percent: true, on: 'weapon',
-              resolve: (t) => ({ dmg: damageFlame(t) }) },
+  boss: {
+    label: "Boss Damage %",
+    percent: true,
+    on: "weapon",
+    minLevel: 90,
+    resolve: (t) => ({ boss: bossDamageFlame(t) }),
+  },
+  dmg: {
+    label: "Damage %",
+    percent: true,
+    on: "weapon",
+    resolve: (t) => ({ dmg: damageFlame(t) }),
+  },
 
   // Attack is the one line whose value depends on the item. On a weapon it is a
   // share of base attack, off whichever of the two curves the weapon's flame
   // advantage puts it on; on everything else it is a flat +1 per tier.
-  att:      { label: 'Attack Power', tierRange: WEAPON_ATTACK_TIERS,
-              resolve: (t, c) => ({
-                att: c.isWeapon ? weaponAttackFlame(c.baseAttack, c.level, t, c.advantaged)
-                                : nonWeaponAttackFlame(t),
-              }) },
-  matt:     { label: 'Magic ATT',  tierRange: WEAPON_ATTACK_TIERS,
-              resolve: (t, c) => ({
-                matt: c.isWeapon ? weaponAttackFlame(c.baseMagic, c.level, t, c.advantaged)
-                                 : nonWeaponAttackFlame(t),
-              }) },
+  att: {
+    label: "Attack Power",
+    tierRange: WEAPON_ATTACK_TIERS,
+    resolve: (t, c) => ({
+      att: c.isWeapon
+        ? weaponAttackFlame(c.baseAttack, c.level, t, c.advantaged)
+        : nonWeaponAttackFlame(t),
+    }),
+  },
+  matt: {
+    label: "Magic ATT",
+    tierRange: WEAPON_ATTACK_TIERS,
+    resolve: (t, c) => ({
+      matt: c.isWeapon
+        ? weaponAttackFlame(c.baseMagic, c.level, t, c.advantaged)
+        : nonWeaponAttackFlame(t),
+    }),
+  },
 
-  hp:       { label: 'Max HP',     resolve: (t, c) => ({ hp: hpFlame(c.level, t) }) },
-  mp:       { label: 'Max MP',     resolve: (t, c) => ({ mp: hpFlame(c.level, t) }) },
-  def:      { label: 'DEF',        resolve: (t, c) => ({ def: singleStatFlame(c.level, t) }) },
+  hp: { label: "Max HP", resolve: (t, c) => ({ hp: hpFlame(c.level, t) }) },
+  mp: { label: "Max MP", resolve: (t, c) => ({ mp: hpFlame(c.level, t) }) },
+  def: {
+    label: "DEF",
+    resolve: (t, c) => ({ def: singleStatFlame(c.level, t) }),
+  },
 
-  speed:    { label: 'Speed',      on: 'nonWeapon', resolve: (t) => ({ speed: speedJumpFlame(t) }) },
-  jump:     { label: 'Jump',       on: 'nonWeapon', resolve: (t) => ({ jump: speedJumpFlame(t) }) },
+  speed: {
+    label: "Speed",
+    on: "nonWeapon",
+    resolve: (t) => ({ speed: speedJumpFlame(t) }),
+  },
+  jump: {
+    label: "Jump",
+    on: "nonWeapon",
+    resolve: (t) => ({ jump: speedJumpFlame(t) }),
+  },
 };
 
 /**
@@ -278,7 +382,7 @@ export const FLAME_LINES = {
  * Saved loadouts outlive the shape they were entered in, so the rename is
  * applied on load rather than left to silently drop a line.
  */
-const RETIRED_FLAME_LINES = { attBoss: 'att', mattBoss: 'matt' };
+const RETIRED_FLAME_LINES = { attBoss: "att", mattBoss: "matt" };
 
 /** The current key for a possibly-stale line key, or null if it is gone. */
 export function currentFlameLine(line) {
@@ -289,8 +393,8 @@ export function currentFlameLine(line) {
 /**
  * Brings a saved flame list onto the current line keys.
  *
- * Renaming can collide — a config holding both `att` and `attBoss` now names
- * `att` twice — so the first of each line wins, which is the same rule the
+ * Renaming can collide - a config holding both `att` and `attBoss` now names
+ * `att` twice - so the first of each line wins, which is the same rule the
  * editor enforces when the lines are picked.
  */
 export function migrateFlameLines(flames = []) {
@@ -324,16 +428,21 @@ export function flameContext(item, config = null) {
 
 /** Defaults for a context, so a caller may pass only the parts it knows. */
 const EMPTY_CONTEXT = {
-  level: 0, baseAttack: 0, baseMagic: 0, isWeapon: false, advantaged: false,
+  level: 0,
+  baseAttack: 0,
+  baseMagic: 0,
+  isWeapon: false,
+  advantaged: false,
 };
 
 /** True when `line` can roll on an item described by `ctx`. */
 export function flameLineApplies(line, ctx = {}) {
   const def = FLAME_LINES[line];
   if (!def) return false;
-  if (def.on === 'weapon' && !ctx.isWeapon) return false;
-  if (def.on === 'nonWeapon' && ctx.isWeapon) return false;
-  if (def.minLevel && !ctx.isWeapon && (ctx.level ?? 0) < def.minLevel) return false;
+  if (def.on === "weapon" && !ctx.isWeapon) return false;
+  if (def.on === "nonWeapon" && ctx.isWeapon) return false;
+  if (def.minLevel && !ctx.isWeapon && (ctx.level ?? 0) < def.minLevel)
+    return false;
   return true;
 }
 
@@ -360,8 +469,8 @@ export function flameLinesFor(item, config = null) {
  *
  * Dual-stat lines grant the same amount to both stats, so one number describes
  * them; nothing else resolves to more than one value. Returns null when the line
- * cannot roll that tier, or grants nothing on this item — an attack flame on a
- * weapon with no magic attack — so the caller can leave the cell blank.
+ * cannot roll that tier, or grants nothing on this item - an attack flame on a
+ * weapon with no magic attack - so the caller can leave the cell blank.
  *
  * @returns {{ value: number, percent: boolean }|null}
  */

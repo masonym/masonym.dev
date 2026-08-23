@@ -1,30 +1,43 @@
-'use client';
+"use client";
 
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 import {
-  FLAME_LINES, FLAME_TIERS, acceptsFlames, flameContext, flameLineValue,
-  flameLinesFor, flameTierRange, isFlameAdvantaged, isWeaponSlot,
-} from '@/lib/equip/flames';
+  FLAME_LINES,
+  FLAME_TIERS,
+  acceptsFlames,
+  flameContext,
+  flameLineValue,
+  flameLinesFor,
+  flameTierRange,
+  isFlameAdvantaged,
+  isWeaponSlot,
+} from "@/lib/equip/flames";
 import {
-  starCap, starFloor, starForceGains, gainsStarForceAttack,
-} from '@/lib/equip/starforce';
-import { getClass } from '@/lib/equip/classes';
-import { hasPreset } from '@/lib/equip/specialItems';
+  starCap,
+  starFloor,
+  starForceGains,
+  gainsStarForceAttack,
+} from "@/lib/equip/starforce";
+import { getClass } from "@/lib/equip/classes";
+import { hasPreset } from "@/lib/equip/specialItems";
 import {
-  exceptionalGains, exceptionalSlots, potentialAllowedOn, potentialIslot,
+  exceptionalGains,
+  exceptionalSlots,
+  potentialAllowedOn,
+  potentialIslot,
   potentialLevelIndex,
-} from '@/lib/equip/engine';
-import { potentialLabel, potentialOptions } from '@/lib/equip/potentialText';
-import { STAT_META, formatStat } from '@/lib/equip/stats';
+} from "@/lib/equip/engine";
+import { potentialLabel, potentialOptions } from "@/lib/equip/potentialText";
+import { STAT_META, formatStat } from "@/lib/equip/stats";
 
 const MAX_FLAME_LINES = 4;
 const POTENTIAL_LINES = 3;
 
 const POT_GRADES = [
-  { value: 4, label: 'Legendary' },
-  { value: 3, label: 'Unique' },
-  { value: 2, label: 'Epic' },
-  { value: 1, label: 'Rare' },
+  { value: 4, label: "Legendary" },
+  { value: 3, label: "Unique" },
+  { value: 2, label: "Epic" },
+  { value: 1, label: "Rare" },
 ];
 
 /**
@@ -32,10 +45,18 @@ const POT_GRADES = [
  * potential.
  *
  * Each of those is its own panel rather than another row in one long stack,
- * because they are answered independently — "how many stars" has nothing to do
- * with "which potential lines" — and a flat stack made the boundaries invisible.
+ * because they are answered independently - "how many stars" has nothing to do
+ * with "which potential lines" - and a flat stack made the boundaries invisible.
  */
-export default function SlotEditor({ slotName, config, item, data, classKey, onChange, onOpenPicker }) {
+export default function SlotEditor({
+  slotName,
+  config,
+  item,
+  data,
+  classKey,
+  onChange,
+  onOpenPicker,
+}) {
   const update = (patch) => onChange({ ...(config || {}), ...patch });
 
   const cap = starCap(item);
@@ -62,7 +83,13 @@ export default function SlotEditor({ slotName, config, item, data, classKey, onC
       <div className="grid gap-3 items-start xl:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="space-y-3">
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
-            <StarForce config={config} update={update} item={item} cap={cap} floor={floor} />
+            <StarForce
+              config={config}
+              update={update}
+              item={item}
+              cap={cap}
+              floor={floor}
+            />
             {exceptionalSlots(item) > 0 && (
               <Exceptional config={config} update={update} item={item} />
             )}
@@ -73,7 +100,8 @@ export default function SlotEditor({ slotName, config, item, data, classKey, onC
           ) : (
             <Panel title="Bonus Stats">
               <p className="text-[11px] text-primary-bright/40">
-                A Rebirth Flame cannot be used on this slot, so it carries no bonus stats.
+                A Rebirth Flame cannot be used on this slot, so it carries no
+                bonus stats.
               </p>
             </Panel>
           )}
@@ -105,7 +133,9 @@ function Panel({ title, aside, children }) {
   return (
     <section className="min-w-0 rounded-xl border border-primary-dim/70 bg-primary-dark/40 p-3">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2">
-        <h4 className="text-[11px] uppercase tracking-wide text-primary-bright/50">{title}</h4>
+        <h4 className="text-[11px] uppercase tracking-wide text-primary-bright/50">
+          {title}
+        </h4>
         {aside}
       </div>
       {children}
@@ -131,13 +161,17 @@ function ItemBar({ item, onOpenPicker, onChange }) {
 
       <span className="min-w-0 flex-1">
         <span className="block truncate text-sm text-primary-bright">
-          {item ? item.name : <span className="text-primary-bright/40">Empty</span>}
+          {item ? (
+            item.name
+          ) : (
+            <span className="text-primary-bright/40">Empty</span>
+          )}
         </span>
         {item && (
           <span className="block text-[11px] text-primary-bright/40 tabular-nums">
             REQ LEV {item.reqLevel}
-            {item.setId ? ' · set item' : ''}
-            {item.bossDrop ? ' · boss drop' : ''}
+            {item.setId ? " · set item" : ""}
+            {item.bossDrop ? " · boss drop" : ""}
           </span>
         )}
       </span>
@@ -147,7 +181,7 @@ function ItemBar({ item, onOpenPicker, onChange }) {
         onClick={onOpenPicker}
         className="shrink-0 px-2 py-1 text-xs rounded border border-primary-dim text-primary-bright/70 hover:text-primary-bright hover:border-secondary/50 transition-colors"
       >
-        {item ? 'Change' : 'Choose'}
+        {item ? "Change" : "Choose"}
       </button>
       {item && (
         <button
@@ -187,23 +221,24 @@ function starSummary(gains) {
   if (!gains) return null;
 
   const parts = [];
-  const main = ['str', 'dex', 'int', 'luk'].map((k) => gains[k] ?? 0);
+  const main = ["str", "dex", "int", "luk"].map((k) => gains[k] ?? 0);
   if (main[0] && main.every((v) => v === main[0])) {
     parts.push(`+${main[0]} all stats`);
   } else {
-    for (const [i, key] of ['str', 'dex', 'int', 'luk'].entries()) {
+    for (const [i, key] of ["str", "dex", "int", "luk"].entries()) {
       if (main[i]) parts.push(`+${main[i]} ${STAT_META[key].label}`);
     }
   }
 
-  if (gains.att && gains.att === gains.matt) parts.push(`+${gains.att} ATT / MATT`);
+  if (gains.att && gains.att === gains.matt)
+    parts.push(`+${gains.att} ATT / MATT`);
   else {
     if (gains.att) parts.push(`+${gains.att} ATT`);
     if (gains.matt) parts.push(`+${gains.matt} MATT`);
   }
   if (gains.hp) parts.push(`+${gains.hp} Max HP`);
 
-  return parts.join(' · ');
+  return parts.join(" · ");
 }
 
 /**
@@ -222,15 +257,17 @@ function StarForce({ config, update, item, cap, floor }) {
 
   const summary = useMemo(() => {
     if (stars <= 0) return null;
-    return starSummary(starForceGains({
-      level: item.reqLevel,
-      stars,
-      slot: item.slot,
-      superior: Boolean(item.superior),
-      gainsAtt: gainsStarForceAttack(item.slot),
-      baseAttack: item.stats?.att ?? 0,
-      baseMagic: item.stats?.matt ?? 0,
-    }));
+    return starSummary(
+      starForceGains({
+        level: item.reqLevel,
+        stars,
+        slot: item.slot,
+        superior: Boolean(item.superior),
+        gainsAtt: gainsStarForceAttack(item.slot),
+        baseAttack: item.stats?.att ?? 0,
+        baseMagic: item.stats?.matt ?? 0,
+      }),
+    );
   }, [item, stars]);
 
   const setStars = (n) => update({ stars: Math.max(floor, Math.min(cap, n)) });
@@ -240,13 +277,19 @@ function StarForce({ config, update, item, cap, floor }) {
       title="Star Force"
       aside={
         <span className="text-sm font-semibold tabular-nums text-secondary">
-          {stars}★<span className="text-[11px] font-normal text-primary-bright/40"> / {cap}</span>
+          {stars}★
+          <span className="text-[11px] font-normal text-primary-bright/40">
+            {" "}
+            / {cap}
+          </span>
         </span>
       }
     >
       {fixed ? (
         <p className="text-xs text-primary-bright/60">
-          {cap === 0 ? 'This item cannot be star forced.' : 'Fixed by the item.'}
+          {cap === 0
+            ? "This item cannot be star forced."
+            : "Fixed by the item."}
         </p>
       ) : (
         <div className="space-y-2">
@@ -259,8 +302,8 @@ function StarForce({ config, update, item, cap, floor }) {
                 onClick={() => setStars(n)}
                 className={`px-1.5 py-0.5 text-[11px] rounded border tabular-nums transition-colors ${
                   stars === n
-                    ? 'border-secondary bg-secondary/20 text-secondary font-semibold'
-                    : 'border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50'
+                    ? "border-secondary bg-secondary/20 text-secondary font-semibold"
+                    : "border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50"
                 }`}
               >
                 {n}★
@@ -269,7 +312,11 @@ function StarForce({ config, update, item, cap, floor }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <Stepper label="One star fewer" onClick={() => setStars(stars - 1)} disabled={stars <= floor}>
+            <Stepper
+              label="One star fewer"
+              onClick={() => setStars(stars - 1)}
+              disabled={stars <= floor}
+            >
               −
             </Stepper>
             <input
@@ -281,7 +328,11 @@ function StarForce({ config, update, item, cap, floor }) {
               className="flex-1 min-w-0 accent-[color:var(--secondary)]"
               aria-label="Star force"
             />
-            <Stepper label="One star more" onClick={() => setStars(stars + 1)} disabled={stars >= cap}>
+            <Stepper
+              label="One star more"
+              onClick={() => setStars(stars + 1)}
+              disabled={stars >= cap}
+            >
               +
             </Stepper>
           </div>
@@ -289,7 +340,9 @@ function StarForce({ config, update, item, cap, floor }) {
       )}
 
       {summary && (
-        <p className="mt-2 text-[10px] text-primary-bright/40">Grants {summary}</p>
+        <p className="mt-2 text-[10px] text-primary-bright/40">
+          Grants {summary}
+        </p>
       )}
     </Panel>
   );
@@ -313,7 +366,7 @@ function Stepper({ children, label, onClick, disabled }) {
  * Exceptional Enhancement.
  *
  * Six items in the game accept an Exceptional Hammer, and each application adds
- * the same block of stats — so the only thing to enter is how many have been
+ * the same block of stats - so the only thing to enter is how many have been
  * used. What one is worth comes from Item/Consume via the build; see
  * `docs/equip-compare-data.md`.
  */
@@ -324,16 +377,16 @@ function Exceptional({ config, update, item }) {
   // What one hammer is worth, so the control says what it is doing. Defence and
   // MP are dropped as noise; they are still counted in the difference.
   const each = Object.entries(exceptionalGains(item, 1) ?? {})
-    .filter(([key]) => ['stat', 'attack'].includes(STAT_META[key]?.group))
+    .filter(([key]) => ["stat", "attack"].includes(STAT_META[key]?.group))
     .map(([key, value]) => `${STAT_META[key].label} +${formatStat(key, value)}`)
-    .join(', ');
+    .join(", ");
 
   return (
     <Panel
       title="Exceptional"
       aside={
         <span className="text-[11px] text-primary-bright/40 tabular-nums">
-          {applied} / {max} hammer{max === 1 ? '' : 's'}
+          {applied} / {max} hammer{max === 1 ? "" : "s"}
         </span>
       }
     >
@@ -346,15 +399,17 @@ function Exceptional({ config, update, item }) {
             onClick={() => update({ exceptional: n })}
             className={`w-8 py-1 text-xs rounded border tabular-nums transition-colors ${
               applied === n
-                ? 'border-secondary bg-secondary/20 text-secondary font-semibold'
-                : 'border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50'
+                ? "border-secondary bg-secondary/20 text-secondary font-semibold"
+                : "border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50"
             }`}
           >
             {n}
           </button>
         ))}
       </div>
-      {each && <p className="mt-2 text-[10px] text-primary-bright/40">Each: {each}</p>}
+      {each && (
+        <p className="mt-2 text-[10px] text-primary-bright/40">Each: {each}</p>
+      )}
     </Panel>
   );
 }
@@ -365,39 +420,45 @@ function ItemNotes({ item, cap, floor, classKey }) {
 
   if (floor > 0) {
     notes.push([
-      'granted',
-      `Comes at ${floor}★${cap > floor ? `, and can be taken to ${cap}★` : ' and cannot be enhanced further'}.`,
+      "granted",
+      `Comes at ${floor}★${cap > floor ? `, and can be taken to ${cap}★` : " and cannot be enhanced further"}.`,
     ]);
   }
 
   if (hasPreset(item) && !getClass(classKey).mainStat) {
     notes.push([
-      'preset',
-      'This item is granted with a fixed potential and bonus stats. Pick a class above and'
-      + ' re-select it to have those filled in.',
+      "preset",
+      "This item is granted with a fixed potential and bonus stats. Pick a class above and" +
+        " re-select it to have those filled in.",
     ]);
   } else if (item.fixedPotential && !item.presetPotential && !hasPreset(item)) {
-    // The WZ records only that the potential is fixed, not which lines it rolls —
+    // The WZ records only that the potential is fixed, not which lines it rolls -
     // those are chosen per job when the item is granted.
     notes.push([
-      'fixed',
-      "Comes with a fixed potential that is not in the game files, so enter it from the item's"
-      + ' own description.',
+      "fixed",
+      "Comes with a fixed potential that is not in the game files, so enter it from the item's" +
+        " own description.",
     ]);
   }
 
   if (item.superior) {
-    notes.push(['superior', 'Superior equipment — caps at 15★ and uses a different star force table.']);
+    notes.push([
+      "superior",
+      "Superior equipment - caps at 15★ and uses a different star force table.",
+    ]);
   }
   if (item.growth) {
     notes.push([
-      'growth',
-      'Growth equip: stats are rolled randomly as it levels, so the base values here are the'
-      + ' unleveled ones.',
+      "growth",
+      "Growth equip: stats are rolled randomly as it levels, so the base values here are the" +
+        " unleveled ones.",
     ]);
   }
   if (cap > 0 && !gainsStarForceAttack(item.slot)) {
-    notes.push(['noattack', 'This slot takes stat from star force but never attack.']);
+    notes.push([
+      "noattack",
+      "This slot takes stat from star force but never attack.",
+    ]);
   }
 
   if (!notes.length) return null;
@@ -405,7 +466,9 @@ function ItemNotes({ item, cap, floor, classKey }) {
   return (
     <ul className="space-y-0.5">
       {notes.map(([key, text]) => (
-        <li key={key} className="text-[11px] text-primary-bright/50">{text}</li>
+        <li key={key} className="text-[11px] text-primary-bright/50">
+          {text}
+        </li>
       ))}
     </ul>
   );
@@ -414,13 +477,13 @@ function ItemNotes({ item, cap, floor, classKey }) {
 /**
  * Bonus stats as a stat × tier grid.
  *
- * A flame roll is two facts — which line, and what tier — and the pair of
+ * A flame roll is two facts - which line, and what tier - and the pair of
  * dropdowns per line made entering four of them eight interactions with no view
  * of what any of it was worth. The grid shows every value at once and takes one
  * click per line, which is the same shape whackybeanz uses.
  *
- * Only the lines that can actually roll on this item are listed — boss damage is
- * weapons-only, speed and jump are not — and only the tiers each line can reach
+ * Only the lines that can actually roll on this item are listed - boss damage is
+ * weapons-only, speed and jump are not - and only the tiers each line can reach
  * are clickable. On a weapon that second rule is doing real work: the attack line
  * runs 1-5 on an ordinary weapon and 3-7 on a flame advantaged one, and the two
  * are worth different amounts at the tiers they share.
@@ -432,13 +495,14 @@ function FlameMatrix({ config, update, item }) {
   const ctx = useMemo(() => flameContext(item, config), [item, config]);
 
   const rows = useMemo(
-    () => flameLinesFor(item, config)
-      .map((line) => ({
-        line,
-        label: FLAME_LINES[line].label,
-        cells: FLAME_TIERS.map((tier) => flameLineValue(line, tier, ctx)),
-      }))
-      .filter((row) => row.cells.some(Boolean)),
+    () =>
+      flameLinesFor(item, config)
+        .map((line) => ({
+          line,
+          label: FLAME_LINES[line].label,
+          cells: FLAME_TIERS.map((tier) => flameLineValue(line, tier, ctx)),
+        }))
+        .filter((row) => row.cells.some(Boolean)),
     [item, config, ctx],
   );
 
@@ -452,15 +516,18 @@ function FlameMatrix({ config, update, item }) {
       return;
     }
     if (current) {
-      update({ flames: flames.map((f) => (f.line === line ? { line, tier } : f)) });
+      update({
+        flames: flames.map((f) => (f.line === line ? { line, tier } : f)),
+      });
       return;
     }
-    if (flames.length < MAX_FLAME_LINES) update({ flames: [...flames, { line, tier }] });
+    if (flames.length < MAX_FLAME_LINES)
+      update({ flames: [...flames, { line, tier }] });
   };
 
   // Switching curves moves the tiers the attack line can reach, so an existing
   // roll is brought into the new range rather than left pointing at a tier that
-  // no longer exists — which would show as a selected cell with no value in it.
+  // no longer exists - which would show as a selected cell with no value in it.
   const setAdvantaged = (advantaged) => {
     const next = { ...(config || {}), advantaged };
     const nextCtx = flameContext(item, next);
@@ -478,7 +545,9 @@ function FlameMatrix({ config, update, item }) {
       title="Bonus Stats"
       aside={
         <span className="flex items-center gap-2 text-[11px] text-primary-bright/40">
-          <span className="tabular-nums">{flames.length} / {MAX_FLAME_LINES} lines</span>
+          <span className="tabular-nums">
+            {flames.length} / {MAX_FLAME_LINES} lines
+          </span>
           {flames.length > 0 && (
             <button
               type="button"
@@ -518,7 +587,7 @@ function FlameMatrix({ config, update, item }) {
                   <th
                     scope="row"
                     className={`pr-2 text-right font-normal whitespace-nowrap ${
-                      selected ? 'text-secondary' : 'text-primary-bright/60'
+                      selected ? "text-secondary" : "text-primary-bright/60"
                     }`}
                   >
                     {label}
@@ -540,13 +609,15 @@ function FlameMatrix({ config, update, item }) {
                           onClick={() => toggle(line, tier)}
                           className={`w-9 py-0.5 rounded border tabular-nums transition-colors ${
                             active
-                              ? 'border-secondary bg-secondary/20 text-secondary font-semibold'
+                              ? "border-secondary bg-secondary/20 text-secondary font-semibold"
                               : locked
-                                ? 'border-transparent text-primary-bright/15 cursor-default'
-                                : 'border-primary-dim/60 text-primary-bright/70 hover:border-secondary/60 hover:text-primary-bright'
+                                ? "border-transparent text-primary-bright/15 cursor-default"
+                                : "border-primary-dim/60 text-primary-bright/70 hover:border-secondary/60 hover:text-primary-bright"
                           }`}
                         >
-                          {cell ? `${cell.value}${cell.percent ? '%' : ''}` : '–'}
+                          {cell
+                            ? `${cell.value}${cell.percent ? "%" : ""}`
+                            : "–"}
                         </button>
                       </td>
                     );
@@ -575,9 +646,14 @@ function AdvantageToggle({ item, ctx, onChange }) {
 
   return (
     <div className="mb-2 flex flex-wrap items-center gap-2">
-      <span className="text-[11px] text-primary-bright/40">Attack flame table</span>
+      <span className="text-[11px] text-primary-bright/40">
+        Attack flame table
+      </span>
       <span className="flex gap-1">
-        {[['Advantaged', true], ['Ordinary', false]].map(([label, value]) => (
+        {[
+          ["Advantaged", true],
+          ["Ordinary", false],
+        ].map(([label, value]) => (
           <button
             key={label}
             type="button"
@@ -585,18 +661,20 @@ function AdvantageToggle({ item, ctx, onChange }) {
             onClick={() => onChange(value)}
             className={`px-1.5 py-0.5 text-[11px] rounded border transition-colors ${
               ctx.advantaged === value
-                ? 'border-secondary bg-secondary/20 text-secondary font-semibold'
-                : 'border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50'
+                ? "border-secondary bg-secondary/20 text-secondary font-semibold"
+                : "border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50"
             }`}
           >
             {label}
           </button>
         ))}
       </span>
-      <span className={`text-[10px] ${overridden ? 'text-progress-orange/70' : 'text-primary-bright/30'}`}>
+      <span
+        className={`text-[10px] ${overridden ? "text-progress-orange/70" : "text-primary-bright/30"}`}
+      >
         {overridden
-          ? `overridden — the game files call this ${fromData ? 'a boss drop' : 'ordinary gear'}`
-          : 'from the game files'}
+          ? `overridden - the game files call this ${fromData ? "a boss drop" : "ordinary gear"}`
+          : "from the game files"}
       </span>
     </div>
   );
@@ -606,7 +684,7 @@ function AdvantageToggle({ item, ctx, onChange }) {
  * The item's three potential lines.
  *
  * Every grade is offered in one list rather than behind a grade filter, because
- * a real potential mixes them — a Unique item rolls one unique line and two epic
+ * a real potential mixes them - a Unique item rolls one unique line and two epic
  * ones, which a filtered list could not represent.
  *
  * The lines themselves are resolved to the values *this* item would get and
@@ -619,24 +697,26 @@ function PotentialColumn({ lines, onLines, preset, item, data, levelIndex }) {
 
   const byGrade = useMemo(() => {
     const usable = data.potentials.filter(
-      (p) => p.kind === 'regular' && potentialAllowedOn(p, potentialIslot(item)),
+      (p) =>
+        p.kind === "regular" && potentialAllowedOn(p, potentialIslot(item)),
     );
 
-    return POT_GRADES
-      .map((grade) => ({
-        ...grade,
-        options: potentialOptions(
-          usable.filter((p) => p.grade === grade.value),
-          levelIndex,
-        ),
-      }))
-      .filter((g) => g.options.length > 0);
+    return POT_GRADES.map((grade) => ({
+      ...grade,
+      options: potentialOptions(
+        usable.filter((p) => p.grade === grade.value),
+        levelIndex,
+      ),
+    })).filter((g) => g.options.length > 0);
   }, [data.potentials, item, levelIndex]);
 
   // Indices are positions, so clearing the middle line must leave a hole rather
   // than pull the third line up into the select the user just emptied.
   const setLine = (idx, optionId) => {
-    const next = Array.from({ length: POTENTIAL_LINES }, (_, i) => lines[i] ?? null);
+    const next = Array.from(
+      { length: POTENTIAL_LINES },
+      (_, i) => lines[i] ?? null,
+    );
     next[idx] = optionId ? { optionId } : null;
     while (next.length && !next[next.length - 1]) next.pop();
     onLines(next);
@@ -651,7 +731,9 @@ function PotentialColumn({ lines, onLines, preset, item, data, levelIndex }) {
         aside={
           <button
             type="button"
-            onClick={() => onLines(preset.map(({ optionId }) => ({ optionId })))}
+            onClick={() =>
+              onLines(preset.map(({ optionId }) => ({ optionId })))
+            }
             className="text-[11px] text-primary-bright/50 hover:text-secondary"
           >
             Override
@@ -670,7 +752,7 @@ function PotentialColumn({ lines, onLines, preset, item, data, levelIndex }) {
         </ul>
 
         <p className="mt-2 text-[10px] text-primary-bright/40">
-          Fixed by the item — already counted in the difference.
+          Fixed by the item - already counted in the difference.
         </p>
       </Panel>
     );
@@ -695,20 +777,24 @@ function PotentialColumn({ lines, onLines, preset, item, data, levelIndex }) {
         {Array.from({ length: POTENTIAL_LINES }, (_, idx) => (
           <select
             key={idx}
-            value={lines[idx]?.optionId ?? ''}
-            onChange={(e) => setLine(idx, e.target.value ? Number(e.target.value) : null)}
+            value={lines[idx]?.optionId ?? ""}
+            onChange={(e) =>
+              setLine(idx, e.target.value ? Number(e.target.value) : null)
+            }
             aria-label={`Potential line ${idx + 1}`}
             className={`w-full px-1.5 py-1 text-xs rounded border bg-background-bright focus:outline-none focus:border-secondary ${
               lines[idx]?.optionId
-                ? 'border-primary-dim text-primary-bright'
-                : 'border-primary-dim/60 text-primary-bright/40'
+                ? "border-primary-dim text-primary-bright"
+                : "border-primary-dim/60 text-primary-bright/40"
             }`}
           >
-            <option value="">— line {idx + 1} —</option>
+            <option value="">- line {idx + 1} -</option>
             {byGrade.map((grade) => (
               <optgroup key={grade.value} label={grade.label}>
                 {grade.options.map((option) => (
-                  <option key={option.id} value={option.id}>{option.label}</option>
+                  <option key={option.id} value={option.id}>
+                    {option.label}
+                  </option>
                 ))}
               </optgroup>
             ))}

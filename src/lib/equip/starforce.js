@@ -1,7 +1,7 @@
 /**
  * Star force stat gains.
  *
- * These tables are NOT in the WZ files — the client only ships enhancement
+ * These tables are NOT in the WZ files - the client only ships enhancement
  * rates and costs, not the resulting stat gains. Transcribed from the
  * MapleStory Wiki's stat tables
  * (https://maplestorywiki.net/w/Star_Force_Enhancement/Stat_Tables), which
@@ -129,8 +129,8 @@ const SUPERIOR_GAINS = [
 /**
  * Slot codes that follow the badge table rather than the armour one.
  *
- * Only two badges in the game can be star forced at all — Sengoku Hakase and
- * Ghost Ship Exorcist, both capped at 22 — and what they gain is All Stats and
+ * Only two badges in the game can be star forced at all - Sengoku Hakase and
+ * Ghost Ship Exorcist, both capped at 22 - and what they gain is All Stats and
  * nothing else: no attack at any star, no Max HP, no DEF. Nexon said as much
  * when the cap was introduced, and the wiki's badge table agrees.
  */
@@ -177,9 +177,9 @@ export function maxStars(level, superior = false, cap = 30) {
  * Highest star a specific item can reach.
  *
  * The level table above is only the default. build-equip-data.mjs resolves the
- * exceptions the game does not state as rules — items with no upgrade slots,
+ * exceptions the game does not state as rules - items with no upgrade slots,
  * which cannot be star forced at all, and the fixed-star gear (Genesis and
- * Destiny weapons, Red Beryl, the three Astra secondary grades) — into an
+ * Destiny weapons, Red Beryl, the three Astra secondary grades) - into an
  * explicit `starMax`, which wins here whenever it is present.
  */
 export function starCap(item, cap = 30) {
@@ -189,7 +189,7 @@ export function starCap(item, cap = 30) {
 }
 
 /**
- * Stars an item is granted with and cannot be taken below — 22 on a Genesis
+ * Stars an item is granted with and cannot be taken below - 22 on a Genesis
  * weapon, 20 on a Red Beryl piece, 0 on everything you star yourself.
  */
 export function starFloor(item) {
@@ -266,7 +266,7 @@ export function starForceGains({
   const isWeapon = slot === "Wp" || slot === "WpSi";
   const tier = starTier(level, superior);
 
-  // DEF% is counted in whole stars and scaled once at the end — accumulating
+  // DEF% is counted in whole stars and scaled once at the end - accumulating
   // 0.05 per star in floating point produces values like 1.1000000000000003.
   let defStars = 0;
 

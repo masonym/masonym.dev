@@ -14,11 +14,11 @@
   Done. Hovering an item in a set draws a second panel beside its tooltip: the
   header counts pieces, the members are listed one row per piece (worn ones lit),
   and every threshold is listed with the reached ones lit and the rest dimmed.
-  Member ids are reduced to pieces by two rules — group by the loadout slot they
+  Member ids are reduced to pieces by two rules - group by the loadout slot they
   compete for (AbsoLab's 11 one-handers and 3 two-handers are one weapon), then
   split or collapse by how many of that slot exist (5 emblems are one piece,
   Brilliant's 2 rings are two, because there are four ring slots).
-  A few sets reach a threshold whose piece is not equipment — a Sengoku totem,
-  the Alchemist Set's potions — so the header counts to the top threshold and the
+  A few sets reach a threshold whose piece is not equipment - a Sengoku totem,
+  the Alchemist Set's potions - so the header counts to the top threshold and the
   list says how many pieces it could not name.
   Defence lines are left out of the effect text, same as the tooltip and diff.
