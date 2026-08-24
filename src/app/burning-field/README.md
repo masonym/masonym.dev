@@ -9,8 +9,10 @@ group of trusted loggers.
    [`docs/burning-field-schema.sql`](../../../docs/burning-field-schema.sql).
    It is idempotent, so re-running it after edits is safe. **Re-run it after
    pulling the `camped` status** (existing databases have a `status` check
-   constraint that rejects it until they do) **and after pulling occupancy**,
-   which adds the `burning_occupants` table and `burning_set_occupant`.
+   constraint that rejects it until they do), **after pulling occupancy**,
+   which adds the `burning_occupants` table and `burning_set_occupant`, and
+   **after pulling status syncing**, which adds `burning_logs.derived` -
+   without that column every occupancy edit fails on the insert.
 2. Confirm Realtime is on for `burning_logs` and `burning_occupants` (the script
    tries to add both to the `supabase_realtime` publication; if your project's
    publication is managed in the dashboard, tick the boxes there instead).
@@ -51,6 +53,37 @@ No new environment variables - it reuses `NEXT_PUBLIC_SUPABASE_URL` /
   else's, including their own. They never expire on their own, so the panel
   shows how long ago each one was placed.
 
+## Status and markers are one thing
+
+A reading's status and the markers are two descriptions of the same fact, so
+the board keeps them in step instead of trusting whichever you happened to
+update:
+
+- **Moving a marker writes a reading.** Whoever moves it logs that channel's
+  projected level under the status the markers now imply - `ours` if anyone
+  from the group is in the map, `taken` if only strangers are, `free` if it is
+  empty. `camped` survives a marked stranger, since that is a claim about the
+  same person not leaving. The row is flagged `derived`, shows as "inferred
+  from markers" in the history, is never treated as exact (`~`, not a plain
+  number) and never counts as a fresh reading. Only the person who moved the
+  marker writes it, so two clients don't both log the transition. A channel
+  nobody has ever scouted stays unscouted: a marker is not a level.
+- **Logging moves the markers.** Logging `free` clears the map; logging `ours`
+  marks you in it (and takes you off wherever you were), including from the
+  quick-entry bar, so `12 7o` both logs and moves you. Nothing invents a
+  stranger marker, because a reading doesn't say how many of them there are.
+- **The status picker opens on the channel's current status**, not on whatever
+  was picked for the previous channel.
+- **Leftover contradictions are shown, not silently resolved.** A reading that
+  disagrees with the markers - a channel logged `free` with people standing in
+  it, or `ours` with nobody from the group marked - gets a warning in the panel
+  and a one-click "trust the markers" fix. The projection maths always follows
+  the reading, so a mismatch really is wrong until one side is corrected. An
+  unmarked map is *not* a contradiction of `taken`/`camped`: nobody has to mark
+  a stranger. Where the two disagree, sorting and "best free channel" take the
+  more pessimistic of the two, so a channel with people in it can never be
+  offered as free.
+
 Everything is protected by RLS: you can only read logs for groups you belong to,
 and only `owner`/`logger` members can insert.
 
@@ -68,6 +101,9 @@ and only `owner`/`logger` members can insert.
   which reads as "worthless" when it really means "nobody has looked since".
 - a `camped` channel is the exception and does decay indefinitely, because the
   whole point of the status is that this one *isn't* being vacated.
+- a reading written by an occupancy change is a projection carried forward, so
+  it can never be exact and never reads as fresh - one confidence tier down,
+  and `~` where a hand-logged reading would have been an exact number.
 - projections carry a bound (`≤` for stale free readings that someone may have
   burned down, `≥` for occupied ones we can't see the end of, `~` for a `taken`
   channel past its assumed session where we're guessing in both directions) and
@@ -112,9 +148,12 @@ slot in the map, light for your group and dark for a stranger. Four filled pips
 plus a white border is a full map. The group settings panel also lists each
 member's current channel, which is the quickest read on where everyone is.
 
-The grid is a fixed 5 columns. While the pointer is over it the sort order is
-pinned, so tiles can't reshuffle out from under a click when a level ticks over
-mid-hover; the numbers on them keep updating.
+The grid is a fixed 5 columns, capped at `max-w-lg`; from `lg` up the selected
+channel's panel sits in the space to its right, sticky and scrolling internally,
+rather than below the board where clicking a tile scrolled its own controls out
+of view. Below `lg` the two stack. While the pointer is over the grid the sort
+order is pinned, so tiles can't reshuffle out from under a click when a level
+ticks over mid-hover; the numbers on them keep updating.
 
 ## Known rough edges
 

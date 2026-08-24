@@ -7,7 +7,11 @@ import { supabase } from "@/lib/supabase";
 import {
   buildBoard,
   compareByValue,
+  effectiveStatus,
   formatAge,
+  projectLevel,
+  statusAfterOccupancyChange,
+  statusFromOccupants,
 } from "@/lib/burning/projection";
 import { useAuth } from "./AuthProvider";
 import { LoginForm } from "./LoginForm";
@@ -32,6 +36,18 @@ const sameOccupant = (a, b) =>
       !b.user_id &&
       a.label?.toLowerCase() === b.label?.toLowerCase();
 const TICK_MS = 15 * 1000;
+
+/** The most recent reading on a channel, or null if it was never scouted. */
+function latestLogFor(logs, channel) {
+  let latest = null;
+  for (const log of logs) {
+    if (log.channel !== channel) continue;
+    if (!latest || new Date(log.observed_at) > new Date(latest.observed_at)) {
+      latest = log;
+    }
+  }
+  return latest;
+}
 
 export default function BurningFieldClient() {
   const { user, loading: authLoading } = useAuth();
@@ -219,7 +235,7 @@ export default function BurningFieldClient() {
 
   const bestFree = useMemo(() => {
     const free = board.filter(
-      (entry) => entry.projection && entry.projection.status === "free",
+      (entry) => entry.projection && effectiveStatus(entry) === "free",
     );
     if (free.length === 0) return null;
     return [...free].sort(compareByValue)[0];
@@ -227,9 +243,9 @@ export default function BurningFieldClient() {
 
   const unscoutedCount = board.filter((entry) => !entry.projection).length;
 
-  const handleLog = useCallback(
-    async ({ channel, level, status, note }) => {
-      if (!activeGroup || !user) return false;
+  const insertLog = useCallback(
+    async ({ channel, level, status, note = null, derived = false }) => {
+      if (!activeGroup || !user) return null;
       setError("");
       const { data, error: insertError } = await supabase
         .from("burning_logs")
@@ -239,6 +255,7 @@ export default function BurningFieldClient() {
           level,
           status,
           note,
+          derived,
           user_id: user.id,
           ign: myMembership?.ign || null,
           observed_at: new Date().toISOString(),
@@ -248,15 +265,63 @@ export default function BurningFieldClient() {
 
       if (insertError) {
         setError(insertError.message);
-        return false;
+        return null;
       }
       setLogs((prev) =>
         prev.some((log) => log.id === data.id) ? prev : [data, ...prev],
       );
       setNow(Date.now());
-      return true;
+      return data;
     },
     [activeGroup, user, myMembership],
+  );
+
+  const handleLog = useCallback(
+    async (entry) => Boolean(await insertLog(entry)),
+    [insertLog],
+  );
+
+  /**
+   * Keep the readings in step with the markers.
+   *
+   * Status used to live only on a reading, so a channel could say "free" while
+   * four people were marked standing in it, and a party that hopped away left
+   * "we are here" behind to drain the old channel to nothing. Whoever moves a
+   * marker now writes the reading that goes with it: the level projected to
+   * this instant, under the status the markers imply, flagged `derived` so it
+   * is never mistaken for something somebody actually looked at.
+   *
+   * Only the person who moved the marker writes it, so two clients watching the
+   * same group don't both log the same transition.
+   *
+   * @param channel the channel whose markers changed
+   * @param occupantsAfter every occupant row in the group after the change
+   */
+  const syncOccupancyStatus = useCallback(
+    async (channel, occupantsAfter) => {
+      if (!canLog) return;
+      const log = latestLogFor(logs, channel);
+      // Nothing to carry forward - a marker is not a level reading, so an
+      // unscouted channel stays unscouted.
+      if (!log) return;
+
+      const next = statusAfterOccupancyChange(
+        log.status,
+        statusFromOccupants(
+          occupantsAfter.filter((row) => row.channel === channel),
+        ),
+      );
+      if (!next) return;
+
+      const projection = projectLevel(log, Date.now());
+      await insertLog({
+        channel,
+        level: projection.level,
+        status: next,
+        derived: true,
+      });
+    },
+    [canLog, logs, insertLog],
   );
 
   const handleDeleteLog = useCallback(async (logId) => {
@@ -303,8 +368,18 @@ export default function BurningFieldClient() {
    * they had elsewhere first - so "one person, one place" holds even when two
    * people are dragging the same marker about at once.
    */
+  /**
+   * `syncStatus: false` suppresses the reading for the *destination* channel
+   * only, for the case where the caller has just logged that status by hand -
+   * the channel somebody was moved off still needs its own reading.
+   */
   const handleSetOccupant = useCallback(
-    async ({ channel, userId: memberId = null, label = null }) => {
+    async ({
+      channel,
+      userId: memberId = null,
+      label = null,
+      syncStatus = true,
+    }) => {
       if (!activeGroup) return null;
       setError("");
       const { data, error: rpcError } = await supabase.rpc(
@@ -320,30 +395,46 @@ export default function BurningFieldClient() {
         setError(rpcError.message);
         return null;
       }
-      setOccupants((prev) => [
-        ...prev.filter((row) => row.id !== data.id && !sameOccupant(row, data)),
+      const after = [
+        ...occupants.filter(
+          (row) => row.id !== data.id && !sameOccupant(row, data),
+        ),
         data,
-      ]);
+      ];
+      setOccupants(after);
+      // The channel they left needs a reading too - that is the one that would
+      // otherwise sit there draining under "we are here" with nobody in it.
+      const from = occupants.find((row) => sameOccupant(row, data));
+      if (from && from.channel !== channel) {
+        await syncOccupancyStatus(from.channel, after);
+      }
+      if (syncStatus) await syncOccupancyStatus(channel, after);
       return data;
     },
-    [activeGroup],
+    [activeGroup, occupants, syncOccupancyStatus],
   );
 
-  const handleRemoveOccupant = useCallback(async (occupantId) => {
-    const { error: deleteError } = await supabase
-      .from("burning_occupants")
-      .delete()
-      .eq("id", occupantId);
-    if (deleteError) {
-      setError(deleteError.message);
-      return false;
-    }
-    setOccupants((prev) => prev.filter((row) => row.id !== occupantId));
-    return true;
-  }, []);
+  const handleRemoveOccupant = useCallback(
+    async (occupantId) => {
+      const removed = occupants.find((row) => row.id === occupantId);
+      const { error: deleteError } = await supabase
+        .from("burning_occupants")
+        .delete()
+        .eq("id", occupantId);
+      if (deleteError) {
+        setError(deleteError.message);
+        return false;
+      }
+      const after = occupants.filter((row) => row.id !== occupantId);
+      setOccupants(after);
+      if (removed) await syncOccupancyStatus(removed.channel, after);
+      return true;
+    },
+    [occupants, syncOccupancyStatus],
+  );
 
   const handleClearOccupants = useCallback(
-    async (channel) => {
+    async (channel, { syncStatus = true } = {}) => {
       if (!activeGroup) return null;
       const { data, error: deleteError } = await supabase
         .from("burning_occupants")
@@ -356,10 +447,12 @@ export default function BurningFieldClient() {
         return null;
       }
       const removed = new Set((data || []).map((row) => row.id));
-      setOccupants((prev) => prev.filter((row) => !removed.has(row.id)));
+      const after = occupants.filter((row) => !removed.has(row.id));
+      setOccupants(after);
+      if (syncStatus) await syncOccupancyStatus(channel, after);
       return removed.size;
     },
-    [activeGroup],
+    [activeGroup, occupants, syncOccupancyStatus],
   );
 
   if (authLoading) {

@@ -25,6 +25,22 @@ pick the implementation when you pick up the item.
       a per-group setting, so a map with a different cap would need a column on
       `burning_groups`.
 
+- [x] ~~Status and occupancy were two independent truths - a channel could read
+      "free" with four people marked in it, and a party that hopped away left
+      "we are here" behind, draining the old channel to nothing.~~ Occupancy
+      edits now write the reading that goes with them (`derived` logs, flagged
+      as inferred), logging `free`/`ours` moves the markers to match, the status
+      picker opens on the channel's current status, and a leftover contradiction
+      gets a warning plus a "trust the markers" fix. **Needs the schema re-run**
+      for `burning_logs.derived`.
+
+      Left deliberately undone: a derived reading freezes the *projected* level,
+      so a long chain of marker moves without anyone actually looking at the
+      screen compounds whatever error the first reading had - the confidence
+      tier drops, but it doesn't decay per hop. Removal times aren't stored
+      either; a marker cleared by somebody whose client then dies leaves no
+      reading behind, since only the person who moved it writes one.
+
 ## Group management
 
 - [ ] **Merging is owner-of-both-groups only** (`burning_merge_groups`). The realistic

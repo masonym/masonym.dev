@@ -100,7 +100,14 @@ export function msUntilCurfewStart(now = Date.now()) {
  * the observation was made. Growth itself is deterministic - the risk is that
  * somebody else wandered into the map since we last looked.
  */
-export function confidenceFor(ageMs, status) {
+export function confidenceFor(ageMs, status, derived = false) {
+  const tier = confidenceTier(ageMs, status);
+  // A derived reading is a projection frozen at the moment somebody moved a
+  // marker - nobody actually looked at the map - so it never counts as fresh.
+  return derived && tier === "high" ? "medium" : tier;
+}
+
+function confidenceTier(ageMs, status) {
   if (status === "ours") {
     // We know exactly what our own party is doing, for a while at least.
     if (ageMs < 20 * 60 * 1000) return "high";
@@ -187,6 +194,10 @@ export function projectLevel(log, now = Date.now()) {
     }
   }
 
+  // A derived reading was itself a projection when it was written, so it can
+  // never be exact - only as good as the reading it was carried forward from.
+  if (log.derived && bound === "exact") bound = "approx";
+
   return {
     level,
     progress,
@@ -196,7 +207,7 @@ export function projectLevel(log, now = Date.now()) {
     bound,
     growing,
     curfew: growing && isCurfew(now),
-    confidence: confidenceFor(ageMs, status),
+    confidence: confidenceFor(ageMs, status, Boolean(log.derived)),
     isProjected: level !== log.level || ageMs > 60 * 1000,
     observedLevel: log.level,
   };
@@ -225,6 +236,51 @@ export function msUntilNextLevel(projection, now = Date.now()) {
     needed -= spend;
   }
   return cursor - now;
+}
+
+/**
+ * The status the occupancy markers imply for a channel, ignoring whatever the
+ * last reading said. Markers are the more direct evidence: a reading is a claim
+ * about a moment in the past, a marker is a claim about right now.
+ *
+ * A member marker means our party is in the map; strangers only, and somebody
+ * else is. No markers means nobody is marked - which is only the same as "the
+ * map is empty" for our own members, since nobody has to mark a stranger.
+ */
+export function statusFromOccupants(occupants = []) {
+  if (occupants.length === 0) return "free";
+  return occupants.some((occupant) => occupant.user_id) ? "ours" : "taken";
+}
+
+/**
+ * Does the last reading contradict who is marked in the map? `camped` is not a
+ * contradiction of a marked stranger - it is a claim about that same stranger
+ * not leaving - and an unmarked map does not contradict `taken`/`camped`,
+ * because strangers are only marked when somebody bothers to.
+ *
+ * The one thing we can always tell is where our own members are, so `ours` with
+ * nobody from the group marked is always wrong.
+ */
+export function statusMismatch(logStatus, occupancyStatus) {
+  if (!logStatus) return false;
+  if (occupancyStatus === "ours") return logStatus !== "ours";
+  if (occupancyStatus === "taken")
+    return logStatus !== "taken" && logStatus !== "camped";
+  return logStatus === "ours";
+}
+
+/**
+ * What to log after somebody moves a marker, or null when the reading already
+ * agrees with the markers and nothing needs writing.
+ *
+ * Unlike `statusMismatch` this is answering a narrower question - a marker on
+ * *this* channel just changed, so the marker count is known to be current, and
+ * an emptied map really does mean free.
+ */
+export function statusAfterOccupancyChange(logStatus, occupancyStatus) {
+  // A camper is a marked stranger who won't leave; still true either way.
+  if (occupancyStatus === "taken" && logStatus === "camped") return null;
+  return occupancyStatus === logStatus ? null : occupancyStatus;
 }
 
 /**
@@ -269,11 +325,18 @@ export function buildBoard(
   const board = [];
   for (let channel = 1; channel <= channelCount; channel += 1) {
     const log = latest.get(channel) || null;
+    const channelOccupants = here.get(channel) || [];
+    const occupancyStatus = statusFromOccupants(channelOccupants);
     board.push({
       channel,
       log,
       projection: projectLevel(log, now),
-      occupants: here.get(channel) || [],
+      occupants: channelOccupants,
+      occupancyStatus,
+      // Set when the markers and the reading disagree. Occupancy edits keep the
+      // two in step by themselves, so this is either a hand-logged
+      // contradiction or a channel last touched before that syncing existed.
+      statusMismatch: statusMismatch(log?.status, occupancyStatus),
     });
   }
   return board;
@@ -297,7 +360,24 @@ function statusRank(status) {
  */
 function entryRank(entry) {
   if (isFull(entry)) return 3;
-  return statusRank(entry.projection.status);
+  // Take whichever of the two views is the more pessimistic, so a channel with
+  // people standing in it can never sort as though it were free.
+  return Math.max(
+    statusRank(entry.projection.status),
+    statusRank(entry.occupancyStatus),
+  );
+}
+
+/**
+ * The status to judge a channel by: the reading, unless the markers say
+ * something worse. Used for "is this worth hopping to", not for the maths -
+ * the projection itself always follows the reading.
+ */
+export function effectiveStatus(entry) {
+  if (!entry?.projection) return entry?.occupancyStatus || "free";
+  return statusRank(entry.occupancyStatus) > statusRank(entry.projection.status)
+    ? entry.occupancyStatus
+    : entry.projection.status;
 }
 
 /** Sort comparator: most useful channel to hop to first. */
