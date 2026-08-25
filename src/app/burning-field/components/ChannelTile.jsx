@@ -23,25 +23,37 @@ const STATUS_ICON = {
   camped: { Icon: Tent, className: "text-red-200" },
 };
 
+/**
+ * A tile states what was last *logged*, not what we guess is true now.
+ *
+ * The projection is a chain of assumptions - that nobody wandered in, that the
+ * stranger we saw left after half an hour - and in practice it is wrong more
+ * often than it is right. So the big number is the reading somebody actually
+ * took, coloured by that reading, and the guess sits under it in small type as
+ * "may be N". Where the two disagree the tile shows both rather than picking.
+ */
 export default function ChannelTile({ entry, now, selected, onSelect }) {
   const { channel, projection, log, occupants = [] } = entry;
   const full = isFull(entry);
 
   const stale = projection?.confidence === "low";
+  // Colour follows the reading, not the guess: a tile that looks green should
+  // mean somebody saw it green.
   const background = projection
-    ? levelColor(projection.level, { stale })
+    ? levelColor(projection.observedLevel, { stale })
     : "var(--background-bright)";
 
   const nextLevelMs = projection ? msUntilNextLevel(projection, now) : null;
   const confidence = projection ? CONFIDENCE_META[projection.confidence] : null;
   const statusIcon = projection ? STATUS_ICON[projection.status] : null;
   const boundGlyph = projection ? BOUND_GLYPH[projection.bound] : null;
+  const drifted = projection && projection.level !== projection.observedLevel;
 
   const titleParts = projection
     ? [
-        `Ch ${channel} - projected level ${projection.level}`,
-        `logged at level ${projection.observedLevel} (${STATUS_META[projection.status]?.label ?? projection.status}) ${formatAge(projection.ageMs)}`,
+        `Ch ${channel} - logged at level ${projection.observedLevel} (${STATUS_META[projection.status]?.label ?? projection.status}) ${formatAge(projection.ageMs)}`,
         log?.ign ? `by ${log.ign}` : null,
+        `if nothing has changed since, it may be level ${projection.level} now`,
         projection.curfew
           ? "burning curfew - cannot climb until 08:00 UTC"
           : null,
@@ -65,7 +77,7 @@ export default function ChannelTile({ entry, now, selected, onSelect }) {
       style={{
         background,
         color: projection
-          ? levelTextColor(projection.level, { stale })
+          ? levelTextColor(projection.observedLevel, { stale })
           : "var(--primary-dim)",
       }}
     >
@@ -73,13 +85,24 @@ export default function ChannelTile({ entry, now, selected, onSelect }) {
         Redundant, non-colour encoding of the level: a bar up the left edge that
         fills level/10 of the tile height. The ramp is red -> green, which is
         exactly the pair red/green colour blindness collapses.
+
+        Solid = what was logged. The ghost behind it is where the projection
+        thinks the level has drifted to, so the gap between the two is the size
+        of the guess.
       */}
       {projection && (
-        <span
-          aria-hidden
-          className="absolute left-0 bottom-0 w-1 bg-white/70"
-          style={{ height: `${(projection.level / 10) * 100}%` }}
-        />
+        <>
+          <span
+            aria-hidden
+            className="absolute left-0 bottom-0 w-1 bg-white/25"
+            style={{ height: `${(projection.level / 10) * 100}%` }}
+          />
+          <span
+            aria-hidden
+            className="absolute left-0 bottom-0 w-1 bg-white/70"
+            style={{ height: `${(projection.observedLevel / 10) * 100}%` }}
+          />
+        </>
       )}
 
       <span className="absolute top-0.5 left-1.5 text-[10px] opacity-80">
@@ -96,16 +119,7 @@ export default function ChannelTile({ entry, now, selected, onSelect }) {
       )}
 
       <span className="text-xl leading-none font-bold mt-2">
-        {projection ? (
-          <>
-            {boundGlyph && (
-              <span className="text-xs align-top opacity-70">{boundGlyph}</span>
-            )}
-            {projection.level}
-          </>
-        ) : (
-          "?"
-        )}
+        {projection ? projection.observedLevel : "?"}
       </span>
 
       <span className="text-[10px] leading-tight opacity-80">
@@ -137,11 +151,23 @@ export default function ChannelTile({ entry, now, selected, onSelect }) {
         </span>
       )}
 
+      {/*
+        The guess, in the smallest type on the tile: where the maths thinks the
+        level has drifted to, or - when it hasn't drifted yet - how long until
+        it does. Never where the eye lands first.
+      */}
       {projection && (
         <span className={`text-[9px] leading-tight ${confidence.className}`}>
-          {nextLevelMs != null
-            ? `+1 in ${formatCountdown(nextLevelMs)}`
-            : confidence.label}
+          {drifted ? (
+            <>
+              may be {boundGlyph}
+              {projection.level}
+            </>
+          ) : nextLevelMs != null ? (
+            `+1 in ${formatCountdown(nextLevelMs)}`
+          ) : (
+            confidence.label
+          )}
         </span>
       )}
 
@@ -180,9 +206,13 @@ export function ChannelTileLegend() {
         pips = who is in the map (light = your group, dark = a stranger);{" "}
         {MAP_CAPACITY} pips + white border = full
       </span>
-      <span>bar up the left edge = level, same as the number</span>
-      <span>dashed + washed-out tile = stale reading</span>
-      <span>≥ / ≤ / ~ = projection is a bound, not a reading</span>
+      <span>big number + colour = the level somebody last logged</span>
+      <span>
+        &ldquo;may be N&rdquo; = the projection&apos;s guess for now, a guess
+        and nothing more
+      </span>
+      <span>bar up the left edge = logged level, ghost bar = the guess</span>
+      <span>dashed + washed-out tile = nobody has looked in a long time</span>
     </div>
   );
 }

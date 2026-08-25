@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Mail, Loader2, CheckCircle, LogOut } from 'lucide-react';
-import { useAuth } from './AuthProvider';
+import { useState } from "react";
+import { Mail, Loader2, CheckCircle, LogOut } from "lucide-react";
+import { useAuth } from "./AuthProvider";
 
 export function LoginForm() {
   const { user, loading, signInWithEmail, signOut } = useAuth();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim()) return;
 
     setSending(true);
-    setError('');
+    setError("");
     const { error: signInError } = await signInWithEmail(email.trim());
     if (signInError) setError(signInError.message);
     else setSent(true);
@@ -34,7 +34,9 @@ export function LoginForm() {
   if (user) {
     return (
       <div className="flex items-center gap-3 text-sm">
-        <span className="text-primary-dim truncate max-w-[220px]">{user.email}</span>
+        <span className="text-primary-dim truncate max-w-[220px]">
+          {user.email}
+        </span>
         <button
           onClick={signOut}
           className="flex items-center gap-1 px-2 py-1 rounded bg-background text-primary-dim hover:text-primary transition"
@@ -56,8 +58,15 @@ export function LoginForm() {
         <p className="text-green-400/70 text-sm mt-1">
           Magic link sent to <strong>{email}</strong>.
         </p>
+        <p className="text-green-400/70 text-sm mt-1">
+          There's a high likelihood it went to your Spam folder. Check there if
+          you can't find it!
+        </p>
         <button
-          onClick={() => { setSent(false); setEmail(''); }}
+          onClick={() => {
+            setSent(false);
+            setEmail("");
+          }}
           className="text-xs text-green-400/50 hover:text-green-400 mt-2"
         >
           Use a different email
@@ -95,7 +104,9 @@ export function LoginForm() {
             <span className="flex items-center justify-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin" /> Sending...
             </span>
-          ) : 'Send Magic Link'}
+          ) : (
+            "Send Magic Link"
+          )}
         </button>
       </form>
     </div>

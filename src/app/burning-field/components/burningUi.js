@@ -90,7 +90,7 @@ export const SITE_ASSUMPTIONS = [
   `A channel logged as "Someone else" drains for ${MINUTES(ASSUMED_SESSION_MS)} minutes, then is assumed to be empty again and starts climbing. Most people channel-hop after about that long.`,
   `A channel logged as "Camped" is assumed to stay occupied indefinitely, so it drains to 0 and stays there until somebody re-scouts it.`,
   `A channel logged as "We are here" is assumed to still have our party in it, so its level is a floor (≥).`,
-  `Readings older than 30 minutes are shown as bounds rather than exact numbers: ≥ at least, ≤ at most, ~ approximate.`,
+  `The board shows you what was last logged, not what the maths thinks is true now. The projection is the small "may be N" under it, and it carries a bound where the guess is one-sided: ≥ at least, ≤ at most, ~ approximate.`,
   `Who is standing in a channel is marked by hand, by whoever saw them. Markers never expire on their own - the age next to a name is how long ago somebody placed it.`,
   `Markers and status are one thing, not two: moving somebody in or out of a map logs that channel's projected level under the status the markers now imply, and logging "Free" or "We are here" moves the markers to match. Those inferred readings are shown as such and never count as fresh.`,
   `Nothing here reads the game - every number comes from what your group last logged, projected forward.`,

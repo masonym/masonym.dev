@@ -535,17 +535,26 @@ export default function BurningFieldClient() {
 
           <div className="flex flex-wrap gap-4 text-sm bg-background-bright border border-primary-dim rounded-lg p-3">
             {bestFree ? (
+              /* Ranked by the projection, but stated as the reading it came
+                 from - the guess is only ever the parenthetical. */
               <span className="text-primary">
                 Best free channel:{" "}
                 <strong className="text-secondary">
                   Ch {bestFree.channel}
                 </strong>{" "}
-                at level{" "}
+                - logged at level{" "}
                 <strong className="text-secondary">
-                  {bestFree.projection.level}
+                  {bestFree.projection.observedLevel}
                 </strong>{" "}
-                (+{bonusPercent(bestFree.projection.level)}% EXP), read{" "}
+                (+{bonusPercent(bestFree.projection.observedLevel)}% EXP){" "}
                 {formatAge(bestFree.projection.ageMs)}
+                {bestFree.projection.level !==
+                  bestFree.projection.observedLevel && (
+                  <span className="text-primary-dim">
+                    {" "}
+                    · may be {bestFree.projection.level} by now
+                  </span>
+                )}
               </span>
             ) : (
               <span className="text-primary-dim">

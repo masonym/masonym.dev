@@ -31,6 +31,7 @@ import {
 } from "@/lib/burning/projection";
 import ChannelTile, { ChannelTileLegend } from "./ChannelTile";
 import {
+  BOUND_GLYPH,
   STATUS_KEYS,
   STATUS_META,
   bonusPercent,
@@ -473,7 +474,9 @@ export default function ChannelBoard({
               now={now}
               selected={entry.channel === selectedChannel}
               onSelect={(channel) =>
-                setSelectedChannel((prev) => (prev === channel ? null : channel))
+                setSelectedChannel((prev) =>
+                  prev === channel ? null : channel,
+                )
               }
             />
           ))}
@@ -490,13 +493,35 @@ export default function ChannelBoard({
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="text-primary-bright text-lg">
                   Channel {selectedEntry.channel}
+                  {/*
+                    What was actually seen comes first and in the brighter type;
+                    the projection is an inference from it, and saying so in that
+                    order is the difference between a reading and a guess.
+                  */}
                   {selectedEntry.projection && (
                     <span className="text-primary-dim text-sm ml-3">
-                      projected level {selectedEntry.projection.level} (+
-                      {bonusPercent(selectedEntry.projection.level)}% EXP)
-                      {" · "}last read {selectedEntry.projection.observedLevel}{" "}
-                      {formatAge(selectedEntry.projection.ageMs)}
-                      {selectedEntry.log?.ign ? ` by ${selectedEntry.log.ign}` : ""}
+                      <span className="text-primary">
+                        last logged level{" "}
+                        {selectedEntry.projection.observedLevel} (+
+                        {bonusPercent(selectedEntry.projection.observedLevel)}%
+                        EXP),{" "}
+                        {STATUS_META[
+                          selectedEntry.projection.status
+                        ].label.toLowerCase()}
+                        , {formatAge(selectedEntry.projection.ageMs)}
+                        {selectedEntry.log?.ign
+                          ? ` by ${selectedEntry.log.ign}`
+                          : ""}
+                      </span>
+                      {selectedEntry.projection.level !==
+                        selectedEntry.projection.observedLevel && (
+                        <>
+                          {" · "}may be{" "}
+                          {BOUND_GLYPH[selectedEntry.projection.bound]}
+                          {selectedEntry.projection.level} now if nothing has
+                          changed
+                        </>
+                      )}
                     </span>
                   )}
                   {!selectedEntry.projection && (
@@ -510,7 +535,8 @@ export default function ChannelBoard({
                   className="flex items-center gap-1 text-sm text-primary-dim hover:text-primary"
                 >
                   <History className="w-4 h-4" />
-                  {showHistory ? "Hide" : "Show"} history ({channelHistory.length})
+                  {showHistory ? "Hide" : "Show"} history (
+                  {channelHistory.length})
                 </button>
               </div>
 
@@ -546,7 +572,9 @@ export default function ChannelBoard({
               {canLog ? (
                 <div className="space-y-3">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-primary-dim text-sm w-16">Status</span>
+                    <span className="text-primary-dim text-sm w-16">
+                      Status
+                    </span>
                     {STATUS_KEYS.map((key) => (
                       <button
                         key={key}
@@ -628,8 +656,8 @@ export default function ChannelBoard({
                 </div>
               ) : (
                 <p className="text-primary-dim text-sm">
-                  You have viewer access to this group, so you can read the board
-                  but not log to it.
+                  You have viewer access to this group, so you can read the
+                  board but not log to it.
                 </p>
               )}
 
@@ -659,7 +687,9 @@ export default function ChannelBoard({
                 </div>
 
                 {selectedOccupants.length === 0 ? (
-                  <p className="text-primary-dim text-sm">Nobody marked here.</p>
+                  <p className="text-primary-dim text-sm">
+                    Nobody marked here.
+                  </p>
                 ) : (
                   <ul className="flex flex-wrap gap-2">
                     {selectedOccupants.map((occupant) => (
@@ -677,10 +707,14 @@ export default function ChannelBoard({
                           {occupant.label}
                         </span>
                         {occupant.user_id === userId && (
-                          <span className="text-primary-dim text-xs">(you)</span>
+                          <span className="text-primary-dim text-xs">
+                            (you)
+                          </span>
                         )}
                         <span className="text-primary-dim text-xs">
-                          {formatAge(now - new Date(occupant.placed_at).getTime())}
+                          {formatAge(
+                            now - new Date(occupant.placed_at).getTime(),
+                          )}
                         </span>
                         {canLog && (
                           <button
@@ -755,7 +789,7 @@ export default function ChannelBoard({
                     <p className="text-primary-dim text-xs">
                       {selectedFull
                         ? `This map is full at ${MAP_CAPACITY}/${MAP_CAPACITY} - take somebody out before adding another.`
-                        : "Marking somebody here takes them off whatever channel they were on - nobody can be in two maps at once."}
+                        : "Marking somebody here takes them off whatever channel they were on"}
                     </p>
                   </div>
                 )}
@@ -781,7 +815,9 @@ export default function ChannelBoard({
                             {STATUS_META[log.status]?.label ?? log.status}
                           </span>
                           <span className="w-28">
-                            {formatAge(now - new Date(log.observed_at).getTime())}
+                            {formatAge(
+                              now - new Date(log.observed_at).getTime(),
+                            )}
                           </span>
                           <span className="flex-1 truncate">
                             {log.derived ? (
@@ -815,7 +851,7 @@ export default function ChannelBoard({
             </div>
           ) : (
             <div className="h-full border border-dashed border-primary-dim rounded-lg p-6 text-primary-dim text-sm">
-              Pick a channel to log a reading, or to mark who is standing in it.
+              Pick a channel to log a reading, or to mark who is training in it.
             </div>
           )}
         </div>

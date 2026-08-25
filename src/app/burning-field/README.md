@@ -87,6 +87,27 @@ update:
 Everything is protected by RLS: you can only read logs for groups you belong to,
 and only `owner`/`logger` members can insert.
 
+## The board states readings, not guesses
+
+The projection is a chain of assumptions - nobody wandered in, the stranger we
+saw left after half an hour, our party is still hunting - and in practice it is
+wrong more often than it is right. So the UI leads with what somebody actually
+logged:
+
+- a tile's big number, its colour and its solid left-edge bar are all the **last
+  logged level**, with the age of that reading under it
+- the projection is the smallest line on the tile, `may be ~7`, shown only when
+  it has drifted from the reading (otherwise that line is the `+1 in 12 min`
+  countdown), plus a ghost bar behind the solid one, so the gap between the two
+  bars is the size of the guess
+- the channel panel and the "best free channel" banner read the same way: the
+  reading in the brighter type, `· may be 9 now if nothing has changed` after it
+
+The maths itself is unchanged, and sorting by "Best burning" still ranks on the
+projection - ordering is a heuristic, not a claim about a number. Anything that
+*writes* a level from a projection (a derived reading, "trust the markers")
+still uses the projected value, because that is what it is carrying forward.
+
 ## Projection
 
 `src/lib/burning/projection.js` holds the maths, with no React or Supabase in it:
