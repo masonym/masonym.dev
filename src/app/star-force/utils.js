@@ -33,20 +33,20 @@ export const STAR_FORCE_RATES = {
   30: { success: 0.01, maintain: 0.792, decrease: 0, destroy: 0.198 },
 };
 
-// Enhancement Mode — the newer GMS star-force system (replaces the Safeguard
+// Enhancement Mode - the newer GMS star-force system (replaces the Safeguard
 // model in-game for stars 15→21; not available on Superior equipment). A 1–4
 // slider trades higher meso cost for a lower destroy chance. Modes do not
 // exist below 15★ (no boom) or at 22★+.
 //
 // Each entry, indexed by (mode - 1), carries:
-//   mult    — cost multiplier applied on top of the unchanged calculateMesoCost() formula
-//   success — success chance (the in-game displayed rate, before Star Catching)
-//   boom    — destroy chance; maintain = 1 - success - boom
+//   mult    - cost multiplier applied on top of the unchanged calculateMesoCost() formula
+//   success - success chance (the in-game displayed rate, before Star Catching)
+//   boom    - destroy chance; maintain = 1 - success - boom
 //
 // Mode 1 reproduces the vanilla STAR_FORCE_RATES and base cost exactly
 // (verified against in-game values at item levels 160 and 200). Modes 2–4 are
 // measured. Cost multipliers cluster into two tiers: 1/1.5/2.5/3 (15–17) and
-// 1/2/3.5/6.5 (18–21). Rates are stored verbatim — the per-mode reductions are
+// 1/2/3.5/6.5 (18–21). Rates are stored verbatim - the per-mode reductions are
 // not a clean closed form, so a lookup table is the accurate representation.
 export const ENHANCE_MODE = {
   15: [
@@ -378,7 +378,7 @@ export function evaluateStrategy(table, startingStar, targetStar) {
 
 // Find the Enhancement Mode per star (15–21) that minimizes expected total
 // cost to reach targetStar, where a boom is charged `spareCost` mesos on top
-// of the meso spent re-climbing. spareCost = 0 minimizes pure meso cost —
+// of the meso spent re-climbing. spareCost = 0 minimizes pure meso cost -
 // higher modes can still win there, because a boom resets to 12★ and the
 // climb back is not free.
 //
@@ -450,7 +450,7 @@ export function optimizeEnhanceModes({
 
 // The Pareto frontier of Enhancement Mode strategies: every mode selection
 // that is an efficient trade between expected meso cost and expected booms,
-// cheapest-meso first. Each point carries [spareFrom, spareTo) — the range of
+// cheapest-meso first. Each point carries [spareFrom, spareTo) - the range of
 // per-boom valuations (spare price in mesos) for which it is the single best
 // choice, so the frontier doubles as a "what is a spare worth to you" table.
 //
