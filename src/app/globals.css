@@ -333,7 +333,7 @@ button {
  * Equipment slot copy flash.
  *
  * Right-clicking a slot sends it to the other window, which is a change that can
- * land entirely off-screen — an empty slot filling in, or a config swapping under
+ * land entirely off-screen - an empty slot filling in, or a config swapping under
  * an icon that does not change. The flash marks where it went without a toast,
  * a prompt, or anything that moves the layout.
  */
