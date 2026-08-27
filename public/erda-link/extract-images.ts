@@ -9,60 +9,74 @@
  * Output: output/images/stones/{category}/{id}/{icon|iconDisabled|iconMouseover}.png
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { XMLParser } from 'fast-xml-parser';
+import {
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  existsSync,
+  readdirSync,
+} from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+import { XMLParser } from "fast-xml-parser";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const CANVAS_XML = join(__dirname, 'Etc._Canvas.ErdaLink.img.xml');
-const MAIN_XML = join(__dirname, 'Etc.ErdaLink.img.xml');
-const OUT_DIR = join(__dirname, 'output', 'images', 'stones');
+const CANVAS_XML = join(__dirname, "Etc._Canvas.ErdaLink.img.xml");
+const MAIN_XML = join(__dirname, "Etc.ErdaLink.img.xml");
+const OUT_DIR = join(__dirname, "output", "images", "stones");
 
-const STONE_CATEGORIES = ['rush', 'skill', 'boost', 'ultimate', 'origin'] as const;
-const ICON_VARIANTS = ['icon', 'iconDisabled', 'iconMouseover'] as const;
+const STONE_CATEGORIES = [
+  "rush",
+  "skill",
+  "boost",
+  "ultimate",
+  "origin",
+] as const;
+const ICON_VARIANTS = ["icon", "iconDisabled", "iconMouseover"] as const;
 
-type Category = typeof STONE_CATEGORIES[number];
-type Variant = typeof ICON_VARIANTS[number];
+type Category = (typeof STONE_CATEGORIES)[number];
+type Variant = (typeof ICON_VARIANTS)[number];
 
 // ─── Step 1: parse canvas XML → flat image data map ──────────────────────────
 // Key format: "rush/2/icon", "skill/100/iconDisabled", etc.
 
 function buildCanvasMap(xmlPath: string): Map<string, Buffer> {
-  const xml = readFileSync(xmlPath, 'utf-8');
+  const xml = readFileSync(xmlPath, "utf-8");
   const parser = new XMLParser({
     ignoreAttributes: false,
-    attributeNamePrefix: '@_',
-    isArray: (name) => ['dir', 'png'].includes(name),
+    attributeNamePrefix: "@_",
+    isArray: (name) => ["dir", "png"].includes(name),
   });
 
   const raw = parser.parse(xml);
   const rootDir = raw.dir?.[0];
-  if (!rootDir) throw new Error('No root <dir> in canvas XML');
+  if (!rootDir) throw new Error("No root <dir> in canvas XML");
 
-  const stoneSection = (rootDir.dir ?? []).find((d: any) => d['@_name'] === 'stone');
+  const stoneSection = (rootDir.dir ?? []).find(
+    (d: any) => d["@_name"] === "stone",
+  );
   if (!stoneSection) throw new Error('No <dir name="stone"> in canvas XML');
 
   const map = new Map<string, Buffer>();
 
   for (const treeDir of stoneSection.dir ?? []) {
-    const treeId: string = treeDir['@_name'];
+    const treeId: string = treeDir["@_name"];
     if (isNaN(parseInt(treeId))) continue; // skip 'info'
 
     for (const categoryDir of treeDir.dir ?? []) {
-      const category: string = categoryDir['@_name'];
+      const category: string = categoryDir["@_name"];
       if (!STONE_CATEGORIES.includes(category as Category)) continue;
 
       for (const stoneDir of categoryDir.dir ?? []) {
-        const stoneId: string = stoneDir['@_name'];
+        const stoneId: string = stoneDir["@_name"];
 
         for (const png of stoneDir.png ?? []) {
-          const variant: string = png['@_name'];
+          const variant: string = png["@_name"];
           if (!ICON_VARIANTS.includes(variant as Variant)) continue;
           // Key includes treeId to match the outlink path format.
           const key = `${treeId}/${category}/${stoneId}/${variant}`;
-          map.set(key, Buffer.from(png['@_value'], 'base64'));
+          map.set(key, Buffer.from(png["@_value"], "base64"));
         }
       }
     }
@@ -82,44 +96,46 @@ function parseOutlinkPath(outlink: string): string | null {
 }
 
 function buildOutlinkMap(xmlPath: string): Map<string, string> {
-  const xml = readFileSync(xmlPath, 'utf-8');
+  const xml = readFileSync(xmlPath, "utf-8");
   const parser = new XMLParser({
     ignoreAttributes: false,
-    attributeNamePrefix: '@_',
-    isArray: (name) => ['dir', 'string', 'png'].includes(name),
+    attributeNamePrefix: "@_",
+    isArray: (name) => ["dir", "string", "png"].includes(name),
   });
 
   const raw = parser.parse(xml);
   const rootDir = raw.dir?.[0];
-  if (!rootDir) throw new Error('No root <dir> in main XML');
+  if (!rootDir) throw new Error("No root <dir> in main XML");
 
-  const stoneSection = (rootDir.dir ?? []).find((d: any) => d['@_name'] === 'stone');
+  const stoneSection = (rootDir.dir ?? []).find(
+    (d: any) => d["@_name"] === "stone",
+  );
   if (!stoneSection) throw new Error('No <dir name="stone"> in main XML');
 
   const map = new Map<string, string>();
 
   for (const treeDir of stoneSection.dir ?? []) {
-    const treeId: string = treeDir['@_name'];
+    const treeId: string = treeDir["@_name"];
     if (isNaN(parseInt(treeId))) continue; // skip 'info'
 
     for (const categoryDir of treeDir.dir ?? []) {
-      const category: string = categoryDir['@_name'];
+      const category: string = categoryDir["@_name"];
       if (!STONE_CATEGORIES.includes(category as Category)) continue;
 
       for (const stoneDir of categoryDir.dir ?? []) {
-        const stoneId: string = stoneDir['@_name'];
+        const stoneId: string = stoneDir["@_name"];
 
         for (const png of stoneDir.png ?? []) {
-          const variant: string = png['@_name'];
+          const variant: string = png["@_name"];
           if (!ICON_VARIANTS.includes(variant as Variant)) continue;
 
           const outlinkStr = (png.string ?? []).find(
-            (s: any) => s['@_name'] === '_outlink',
-          )?.['@_value'];
+            (s: any) => s["@_name"] === "_outlink",
+          )?.["@_value"];
 
           if (!outlinkStr) continue;
 
-          // resolvedKey: "{treeId}/{category}/{stoneId}/{variant}" — matches canvas map key.
+          // resolvedKey: "{treeId}/{category}/{stoneId}/{variant}" - matches canvas map key.
           const resolvedKey = parseOutlinkPath(outlinkStr);
           if (!resolvedKey) continue;
 
@@ -141,11 +157,11 @@ function ensureDir(path: string) {
 }
 
 function main() {
-  console.log('Building canvas image map...');
+  console.log("Building canvas image map...");
   const canvasMap = buildCanvasMap(CANVAS_XML);
   console.log(`  ${canvasMap.size} unique images in canvas`);
 
-  console.log('Building outlink resolution map...');
+  console.log("Building outlink resolution map...");
   const outlinkMap = buildOutlinkMap(MAIN_XML);
   console.log(`  ${outlinkMap.size} stone+variant outlinks found`);
 
@@ -164,7 +180,7 @@ function main() {
     }
 
     // sourceKey: "18112/rush/15/icon"  →  output/images/stones/18112/rush/15/icon.png
-    const [treeId, category, stoneId, variant] = sourceKey.split('/');
+    const [treeId, category, stoneId, variant] = sourceKey.split("/");
     const stoneDir = join(OUT_DIR, treeId, category, stoneId);
     ensureDir(stoneDir);
 
@@ -179,13 +195,15 @@ function main() {
   }
 
   // Summary by treeId/category
-  console.log('\nDirectory structure:');
+  console.log("\nDirectory structure:");
   if (existsSync(OUT_DIR)) {
     for (const treeId of readdirSync(OUT_DIR)) {
       for (const category of STONE_CATEGORIES) {
         const categoryDir = join(OUT_DIR, treeId, category);
         if (!existsSync(categoryDir)) continue;
-        const ids = readdirSync(categoryDir).sort((a, b) => parseInt(a) - parseInt(b));
+        const ids = readdirSync(categoryDir).sort(
+          (a, b) => parseInt(a) - parseInt(b),
+        );
         console.log(`  stones/${treeId}/${category}/  (${ids.length} stones)`);
       }
     }
