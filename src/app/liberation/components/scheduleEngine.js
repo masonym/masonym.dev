@@ -7,11 +7,11 @@
 //
 // Bosses can only be killed once per weekly (or monthly) reset, so each boss
 // contributes exactly one clear per reset at whatever difficulty is active for
-// that reset date — you never stack two difficulties of the same boss.
+// that reset date - you never stack two difficulties of the same boss.
 
 // Parse a 'YYYY-MM-DD' string as UTC midnight.
 export function parseUTCDate(str) {
-  return new Date(str + 'T00:00:00.000Z');
+  return new Date(str + "T00:00:00.000Z");
 }
 
 // The 1st of the next month (monthly resets happen on the 1st, 00:00 UTC).
@@ -21,14 +21,19 @@ export function getNextMonthlyResetDate(date) {
 
 // Generate a stable-ish unique id for a scheduled change.
 export function makeChangeId() {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
     return crypto.randomUUID();
   }
   return `chg-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
 const fmtDate = (d) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) + ' (UTC)';
+  d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  }) + " (UTC)";
 
 // Build the effective per-boss config that applies on a given date.
 // Returns a map of bossId -> { difficulty, partySize }.
@@ -36,7 +41,7 @@ export function getConfigAtDate(baseSelections, changes, dateObj) {
   const config = {};
   baseSelections.forEach((s) => {
     config[s.id] = {
-      difficulty: s.isCleared ? s.selectedDifficulty : 'None',
+      difficulty: s.isCleared ? s.selectedDifficulty : "None",
       partySize: s.partySize || 1,
     };
   });
@@ -47,7 +52,10 @@ export function getConfigAtDate(baseSelections, changes, dateObj) {
     .forEach((c) => {
       Object.entries(c.overrides || {}).forEach(([bossId, ov]) => {
         if (!ov || !ov.difficulty) return;
-        config[bossId] = { difficulty: ov.difficulty, partySize: ov.partySize || 1 };
+        config[bossId] = {
+          difficulty: ov.difficulty,
+          partySize: ov.partySize || 1,
+        };
       });
     });
 
@@ -61,9 +69,13 @@ export function computeTraces(config, bossData, multiplier = 1) {
 
   bossData.forEach((boss) => {
     const cfg = config[boss.id];
-    const diff = cfg ? boss.difficulties.find((d) => d.name === cfg.difficulty) : null;
+    const diff = cfg
+      ? boss.difficulties.find((d) => d.name === cfg.difficulty)
+      : null;
     const tracesPerClear =
-      !diff || diff.name === 'None' ? 0 : Math.floor(diff.traces / (cfg.partySize || 1)) * multiplier;
+      !diff || diff.name === "None"
+        ? 0
+        : Math.floor(diff.traces / (cfg.partySize || 1)) * multiplier;
 
     const entry = {
       bossId: boss.id,
@@ -83,7 +95,10 @@ export function computeTraces(config, bossData, multiplier = 1) {
   });
 
   const totalWeekly = weeklyBosses.reduce((sum, b) => sum + b.tracesPerWeek, 0);
-  const totalMonthly = monthlyBosses.reduce((sum, b) => sum + b.tracesPerClear, 0);
+  const totalMonthly = monthlyBosses.reduce(
+    (sum, b) => sum + b.tracesPerClear,
+    0,
+  );
 
   return { weeklyBosses, monthlyBosses, totalWeekly, totalMonthly };
 }
@@ -122,7 +137,9 @@ export function simulateSchedule({
     totalWeeklyTraces: startTraces.totalWeekly,
     totalMonthlyTraces: startTraces.totalMonthly,
     weeksNeeded,
-    completionDate: completionDateObj ? fmtDate(completionDateObj) : 'Never (no traces)',
+    completionDate: completionDateObj
+      ? fmtDate(completionDateObj)
+      : "Never (no traces)",
     totalTracesNeeded,
     timeline,
   });
@@ -140,22 +157,25 @@ export function simulateSchedule({
     const cfg = startConfig[s.id];
     const boss = bossData.find((b) => b.id === s.id);
     const diff = boss.difficulties.find((d) => d.name === cfg.difficulty);
-    const tpc = !diff || diff.name === 'None' ? 0 : Math.floor(diff.traces / (cfg.partySize || 1)) * multiplier;
+    const tpc =
+      !diff || diff.name === "None"
+        ? 0
+        : Math.floor(diff.traces / (cfg.partySize || 1)) * multiplier;
     if (boss.monthlyReset) immediateMonthly += tpc;
     else immediateWeekly += tpc;
   });
 
-  // Step A — immediate payouts on the start date (monthly first, then weekly).
+  // Step A - immediate payouts on the start date (monthly first, then weekly).
   if (immediateMonthly > 0) {
-    record(startDateObj, 'Monthly', immediateMonthly);
+    record(startDateObj, "Monthly", immediateMonthly);
     if (remaining <= 0) return build(startDateObj, 0);
   }
   if (immediateWeekly > 0) {
-    record(startDateObj, 'Weekly', immediateWeekly);
+    record(startDateObj, "Weekly", immediateWeekly);
     if (remaining <= 0) return build(startDateObj, 0);
   }
 
-  // Step B — walk forward through weekly (Thursday) and monthly (1st) resets.
+  // Step B - walk forward through weekly (Thursday) and monthly (1st) resets.
   const dayOfWeek = startDateObj.getUTCDay();
   const daysUntilReset = dayOfWeek === 4 ? 7 : (4 - dayOfWeek + 7) % 7;
 
@@ -174,7 +194,7 @@ export function simulateSchedule({
       const cfg = getConfigAtDate(baseSelections, changes, monthlyResetDate);
       const { totalMonthly } = computeTraces(cfg, bossData, multiplier);
       if (totalMonthly > 0) {
-        record(monthlyResetDate, 'Monthly', totalMonthly);
+        record(monthlyResetDate, "Monthly", totalMonthly);
         if (remaining <= 0) return build(monthlyResetDate, weeksElapsed);
       }
       monthlyResetDate = getNextMonthlyResetDate(monthlyResetDate);
@@ -183,7 +203,7 @@ export function simulateSchedule({
       const { totalWeekly } = computeTraces(cfg, bossData, multiplier);
       weeksElapsed++;
       if (totalWeekly > 0) {
-        record(weeklyResetDate, 'Weekly', totalWeekly);
+        record(weeklyResetDate, "Weekly", totalWeekly);
         if (remaining <= 0) return build(weeklyResetDate, weeksElapsed);
       }
       weeklyResetDate = new Date(weeklyResetDate);
