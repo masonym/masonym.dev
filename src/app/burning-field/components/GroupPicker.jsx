@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { formatAge } from "@/lib/burning/projection";
+import { formatLevelRange } from "@/lib/maps/catalog";
+import MapPicker from "./MapPicker";
 
 const TABS = {
   mine: { label: "My groups", icon: Users },
@@ -37,7 +39,14 @@ export default function GroupPicker({
 
   // create form
   const [name, setName] = useState("");
+  // The picker is the normal path; `chosenMap` is what it hands back. `mapName`
+  // is the free-text fallback for a map the catalogue does not have - a brand
+  // new patch, or a map whose monsters are spawned by script rather than by a
+  // spawn point, which is how the extractor decides a map is huntable.
+  const [chosenMap, setChosenMap] = useState(null);
   const [mapName, setMapName] = useState("");
+  const [manualMap, setManualMap] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [world, setWorld] = useState("Kronos");
   const [channelCount, setChannelCount] = useState(40);
   const [isPublic, setIsPublic] = useState(true);
@@ -72,9 +81,17 @@ export default function GroupPicker({
     };
   }, [tab, search]);
 
+  const resolvedMap = manualMap
+    ? { name: mapName.trim(), id: null, street: null }
+    : chosenMap && {
+        name: chosenMap.name,
+        id: chosenMap.id,
+        street: chosenMap.street || null,
+      };
+
   const handleCreate = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !mapName.trim()) return;
+    if (!name.trim() || !resolvedMap?.name) return;
     setBusy(true);
     setError("");
 
@@ -85,7 +102,9 @@ export default function GroupPicker({
       .from("burning_groups")
       .insert({
         name: name.trim(),
-        map_name: mapName.trim(),
+        map_name: resolvedMap.name,
+        map_id: resolvedMap.id,
+        map_street: resolvedMap.street,
         world: world.trim() || "Kronos",
         channel_count: Number(channelCount) || 40,
         is_public: isPublic,
@@ -218,7 +237,10 @@ export default function GroupPicker({
                   </div>
                   <div className="flex items-center gap-1.5 text-sm text-primary-dim mt-1">
                     <MapPin className="w-3.5 h-3.5" />
-                    <span className="truncate">{group.map_name}</span>
+                    <span className="truncate">
+                      {group.map_name}
+                      {group.map_street ? ` (${group.map_street})` : ""}
+                    </span>
                     <span>· {group.world}</span>
                     <span>· {group.channel_count} ch</span>
                   </div>
@@ -235,7 +257,7 @@ export default function GroupPicker({
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search public groups by name, map or world"
+              placeholder="Search public groups by name, map, area or world"
               className="flex-1 p-2 rounded bg-background border border-primary-dim text-primary placeholder:text-primary-dim text-sm"
             />
           </div>
@@ -255,7 +277,9 @@ export default function GroupPicker({
                   <div className="min-w-0">
                     <p className="text-primary-bright truncate">{group.name}</p>
                     <p className="text-sm text-primary-dim truncate">
-                      {group.map_name} · {group.world} · {group.channel_count}{" "}
+                      {group.map_name}
+                      {group.map_street ? ` (${group.map_street})` : ""} ·{" "}
+                      {group.world} · {group.channel_count}{" "}
                       ch · {group.member_count} member
                       {group.member_count === 1 ? "" : "s"} ·{" "}
                       {group.last_log_at
@@ -325,16 +349,59 @@ export default function GroupPicker({
               className="w-full mt-1 p-2 rounded bg-background border border-primary-dim text-primary placeholder:text-primary-dim text-sm"
             />
           </label>
-          <label className="block">
+          <div>
             <span className="text-sm text-primary-dim">Map</span>
-            <input
-              value={mapName}
-              onChange={(e) => setMapName(e.target.value)}
-              maxLength={80}
-              placeholder="Robot Depot 8"
-              className="w-full mt-1 p-2 rounded bg-background border border-primary-dim text-primary placeholder:text-primary-dim text-sm"
-            />
-          </label>
+            {manualMap ? (
+              <input
+                value={mapName}
+                onChange={(e) => setMapName(e.target.value)}
+                maxLength={80}
+                placeholder="Robot Depot 8"
+                autoFocus
+                className="w-full mt-1 p-2 rounded bg-background border border-primary-dim text-primary placeholder:text-primary-dim text-sm"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setPickerOpen(true)}
+                className="w-full mt-1 p-2 rounded bg-background border border-primary-dim text-left text-sm hover:border-secondary transition"
+              >
+                {chosenMap ? (
+                  <>
+                    <span className="block text-primary-bright truncate">
+                      {chosenMap.name}
+                    </span>
+                    <span className="block text-xs text-primary-dim truncate">
+                      {[
+                        chosenMap.street,
+                        formatLevelRange(chosenMap),
+                        chosenMap.mobNames?.[0],
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </span>
+                  </>
+                ) : (
+                  <span className="flex items-center gap-1.5 text-primary-dim">
+                    <Search className="w-4 h-4" /> Choose a map…
+                  </span>
+                )}
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                setManualMap((v) => !v);
+                setChosenMap(null);
+                setMapName("");
+              }}
+              className="mt-1 text-xs text-primary-dim hover:text-primary underline"
+            >
+              {manualMap
+                ? "Pick from the map list instead"
+                : "Not in the list? Type a name instead"}
+            </button>
+          </div>
           <div className="flex gap-3">
             <label className="flex-1">
               <span className="text-sm text-primary-dim">World</span>
@@ -367,7 +434,7 @@ export default function GroupPicker({
           </label>
           <button
             type="submit"
-            disabled={busy || !name.trim() || !mapName.trim()}
+            disabled={busy || !name.trim() || !resolvedMap?.name}
             className="px-4 py-2 rounded bg-secondary text-background font-bold text-sm disabled:opacity-50 hover:brightness-110 transition"
           >
             {busy ? (
@@ -377,6 +444,17 @@ export default function GroupPicker({
             )}
           </button>
         </form>
+      )}
+
+      {pickerOpen && (
+        <MapPicker
+          currentMapId={chosenMap?.id ?? null}
+          onPick={(map) => {
+            setChosenMap(map);
+            setPickerOpen(false);
+          }}
+          onClose={() => setPickerOpen(false)}
+        />
       )}
     </div>
   );

@@ -58,9 +58,23 @@ pick the implementation when you pick up the item.
 
 ## Data model
 
-- [ ] **Map names are free text.** Two groups tracking the same map can spell it
+- [x] ~~**Map names are free text.** Two groups tracking the same map can spell it
       differently, which makes browsing and any future cross-group aggregation
-      unreliable. Only `map_name` changes shape if a real map picker is added.
+      unreliable.~~ Groups now pick their map from an extracted catalogue of the 168
+      Western Grandis field maps (`public/map-data/maps.json`, built by
+      `WzDataExtractor/MapExtractor` - see [`docs/map-data.md`](../../../docs/map-data.md))
+      and store the WZ `map_id`, with `map_name`/`map_street` kept alongside it for
+      display. **Needs the schema re-run** for `burning_groups.map_id` /
+      `map_street` and the new `burning_public_groups` row type.
+
+      Left deliberately undone: `map_id` is nullable and the create form keeps a
+      free-text fallback, so two groups *can* still disagree about a map that the
+      catalogue does not have - which now includes everything outside Western
+      Grandis, until somebody widens `REGIONS` in `src/scripts/build-map-data.mjs`. Existing groups keep their typed-in names - nothing
+      backfills `map_id` by matching the old text, because "Robot Depot 8" matches
+      one map but "Labyrinth of Suffering Core" matches four, and a wrong guess is
+      worse than a null. Cross-group aggregation would want that backfill done by
+      hand first.
 - [ ] **Realtime deletes don't propagate.** Supabase `DELETE` events carry only the
       primary key under the default replica identity, so the `group_id=eq.` filter
       drops them and other viewers keep a deleted log until they refresh. Fixed by

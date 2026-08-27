@@ -1,7 +1,6 @@
 /** Shared presentation bits for the burning field board. */
 
 import {
-  ASSUMED_SESSION_MS,
   DECAY_MS,
   GROWTH_MS,
   MAP_CAPACITY,
@@ -22,7 +21,7 @@ export const STATUS_META = {
   taken: {
     label: "Someone else",
     short: "taken",
-    hint: "Another player is in the map - assumed to move on within 30 min",
+    hint: "Another player is in the map - assumed to still be there until somebody re-scouts it",
   },
   camped: {
     label: "Camped",
@@ -77,17 +76,16 @@ const MINUTES = (ms) => Math.round(ms / 60000);
 
 /** The game's rules, stated as facts. Rendered as a list in the rules panel. */
 export const GAME_RULES = [
-  `Burning is tracked per map AND per channel - every channel of the same map has its own level.`,
   `An empty map gains +1 burning level every ${MINUTES(GROWTH_MS)} minutes, up to level ${MAX_LEVEL}.`,
   `Each level is +10% EXP, so level ${MAX_LEVEL} is +${MAX_LEVEL * 10}% EXP.`,
   `A map loses 1 level every ${MINUTES(DECAY_MS)} minutes while somebody is hunting in it.`,
-  `Burning curfew: between 00:00 and 08:00 UTC burning cannot climb. It can still drop - a curfew is not a freeze.`,
-  `A burning field map holds ${MAP_CAPACITY} characters. A ${MAP_CAPACITY + 1}th cannot get in, so a full channel is no use however high its level.`,
+  `Burning curfew: between 00:00 and 08:00 UTC burning level cannot climb.`,
+  `Maps have instanced mobs for up to ${MAP_CAPACITY} characters.`,
 ];
 
 /** Guesses the projection makes that the game does not guarantee. */
 export const SITE_ASSUMPTIONS = [
-  `A channel logged as "Someone else" drains for ${MINUTES(ASSUMED_SESSION_MS)} minutes, then is assumed to be empty again and starts climbing. Most people channel-hop after about that long.`,
+  `A channel logged as "Someone else" is assumed to still have them in it, so it keeps draining until somebody re-scouts it. Nobody sees a stranger leave, so its level is a floor (≥) - if they did leave, it has been climbing back since.`,
   `A channel logged as "Camped" is assumed to stay occupied indefinitely, so it drains to 0 and stays there until somebody re-scouts it.`,
   `A channel logged as "We are here" is assumed to still have our party in it, so its level is a floor (≥).`,
   `The board shows you what was last logged, not what the maths thinks is true now. The projection is the small "may be N" under it, and it carries a bound where the guess is one-sided: ≥ at least, ≤ at most, ~ approximate.`,

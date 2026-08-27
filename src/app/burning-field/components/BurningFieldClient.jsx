@@ -517,8 +517,9 @@ export default function BurningFieldClient() {
                 </h2>
                 <p className="flex items-center gap-1.5 text-sm text-primary-dim">
                   <MapPin className="w-3.5 h-3.5" />
-                  {activeGroup.map_name} · {activeGroup.world} ·{" "}
-                  {activeGroup.channel_count} channels
+                  {activeGroup.map_name}
+                  {activeGroup.map_street ? ` (${activeGroup.map_street})` : ""}{" "}
+                  · {activeGroup.world} · {activeGroup.channel_count} channels
                 </p>
               </div>
             </div>

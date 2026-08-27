@@ -12,7 +12,11 @@ group of trusted loggers.
    constraint that rejects it until they do), **after pulling occupancy**,
    which adds the `burning_occupants` table and `burning_set_occupant`, and
    **after pulling status syncing**, which adds `burning_logs.derived` -
-   without that column every occupancy edit fails on the insert.
+   without that column every occupancy edit fails on the insert - and **after
+   pulling the map picker**, which adds `burning_groups.map_id` /
+   `map_street` and changes the row type `burning_public_groups` returns (the
+   script drops the function first, because Postgres will not `create or
+   replace` a function whose return type changed).
 2. Confirm Realtime is on for `burning_logs` and `burning_occupants` (the script
    tries to add both to the `supabase_realtime` publication; if your project's
    publication is managed in the dashboard, tick the boxes there instead).
@@ -25,18 +29,22 @@ No new environment variables - it reuses `NEXT_PUBLIC_SUPABASE_URL` /
 ## Model
 
 - **Group** = one map, in one world, with a channel count (Kronos = 40).
-  Created by a user, who becomes its owner.
+  Created by a user, who becomes its owner. The map is chosen from the catalogue
+  (see [Picking the map](#picking-the-map)), so the group stores the WZ `map_id`
+  with the name and street kept alongside it for display.
 - **Membership** has a role: `owner`, `logger` (can log), `viewer` (read only).
   Joining happens by invite code, or by browsing if the group is public - both
   go through `security definer` RPCs so codes never leak to non-members.
 - **Log** = one reading: channel, level 0–10, and a status:
   - `free` - nobody in the map, burning is climbing
   - `ours` - our party is hunting there, burning is draining
-  - `taken` - someone else is in the map, assumed to move on within ~30 min
+  - `taken` - someone else is in the map, assumed to still be there until
+    somebody re-scouts the channel
   - `camped` - somebody is parked in the map long-term, sitting on a burnt-out
-    map instead of hopping. Assumed to stay put, so the channel is treated as
-    dead until re-scouted. (Often a bot, but the label deliberately isn't an
-    accusation - all we actually observed is that nobody is leaving.)
+    map instead of hopping. Drains like `taken`, but sorts below it and reads as
+    a ceiling: the channel is treated as dead until re-scouted. (Often a bot, but
+    the label deliberately isn't an accusation - all we actually observed is that
+    nobody is leaving.)
 - **Occupant** = a marker saying somebody is standing in a channel right now.
   Either a group member (`user_id` set) or a stranger somebody scouted, who has
   no account and is identified only by the name they were given. A burning field
@@ -89,8 +97,8 @@ and only `owner`/`logger` members can insert.
 
 ## The board states readings, not guesses
 
-The projection is a chain of assumptions - nobody wandered in, the stranger we
-saw left after half an hour, our party is still hunting - and in practice it is
+The projection is a chain of assumptions - nobody wandered in, whoever we saw is
+still hunting - and in practice it is
 wrong more often than it is right. So the UI leads with what somebody actually
 logged:
 
@@ -116,18 +124,20 @@ still uses the projected value, because that is what it is carrying forward.
   curfew**, capped at 10. "Curfew" rather than "freeze": levels can still *fall*
   during the window, they just can't climb.
 - occupied channels lose 1 level per 15 minutes of wall-clock time
-- a `taken` channel drains for at most `ASSUMED_SESSION_MS` (30 min, i.e. 2
-  levels) and then climbs again - most people channel-hop after about that long.
-  Without this a channel logged as taken decays to 0 and sits there forever,
-  which reads as "worthless" when it really means "nobody has looked since".
-- a `camped` channel is the exception and does decay indefinitely, because the
-  whole point of the status is that this one *isn't* being vacated.
+- a `taken` channel drains for as long as its reading is old. We do not guess a
+  session length: nobody ever sees a stranger leave, so an assumed departure
+  invented levels nobody observed. Its projection is a floor (`≥`) instead - if
+  they did leave, the channel has been climbing back since, and the fix for a
+  stale `taken` is to re-scout it, not to let the maths hallucinate a recovery.
+- a `camped` channel drains the same way, but reads as a ceiling (`≤`) and sorts
+  below `taken`, because the whole point of the status is that this one *isn't*
+  being vacated.
 - a reading written by an occupancy change is a projection carried forward, so
   it can never be exact and never reads as fresh - one confidence tier down,
   and `~` where a hand-logged reading would have been an exact number.
 - projections carry a bound (`≤` for stale free readings that someone may have
-  burned down, `≥` for occupied ones we can't see the end of, `~` for a `taken`
-  channel past its assumed session where we're guessing in both directions) and
+  burned down and for `camped` channels, `≥` for occupied ones we can't see the
+  end of, `~` for a reading that was itself inferred from markers) and
   a confidence tier driven by the reading's age
 
 The rules and the assumptions are both listed in the UI, in the collapsible
@@ -136,6 +146,37 @@ single source for that copy, derived from the same constants the maths uses.
 
 The board re-projects every 15 seconds, so countdowns stay live without polling
 the database.
+
+## Picking the map
+
+The map was free text once, which made two groups on the same map unsearchable
+against each other, and was ambiguous besides: 300 name+street pairs in the game
+name more than one map, so "Labyrinth of Suffering Core" does not identify
+anything on its own. Creating a group now goes through `MapPicker`, which reads
+`public/map-data/maps.json`: the 168 **Western Grandis** field maps, with their
+street, monster names and the level range of those monsters. That is the
+burning-field progression - Cernium at 260 through Gob's Workshop at 299 - and
+shipping only it means the picker offers ten areas rather than the 379 in the
+game. Widening it is one constant in `src/scripts/build-map-data.mjs`; see
+[`docs/map-data.md`](../../../docs/map-data.md) for that, the schema, and how to
+regenerate after a patch.
+
+The picker browses by **street**, not by the world map's own regions: `region`
+is missing on two thirds of the game's hunting maps (Hidden Streets,
+mini-dungeons and event maps have no world-map presence at all) while
+`streetName` is set on essentially every map, and lands at about the granularity
+somebody means by "the map I train on is in Geardock". Areas are listed in level
+order, so the column reads as the progression you walk; maps within an area are
+ordered by level too. Searching cuts across every area at once and matches the
+map name, the street, the monsters in it and the map id - so "combatron" finds
+the Robot Depot maps just as well as "robot depot" does.
+
+What gets stored is `map_id`, with `map_name` and `map_street` denormalized for
+display. `map_id` stays nullable and the create form keeps a "type a name
+instead" fallback, which is what makes the narrow catalogue safe: a map outside
+Western Grandis, one added by a patch newer than the catalogue, or one whose
+monsters are spawned by script rather than by a spawn point can still be tracked
+by name today, without waiting on a re-run of the extractor.
 
 ## Logging quickly
 

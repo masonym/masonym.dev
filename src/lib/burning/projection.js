@@ -11,11 +11,14 @@
  *
  * Assumptions this adds on top of the rules (they are guesses, not game rules,
  * and are surfaced to the user in the "Rules & assumptions" panel):
- *  - Somebody else found sitting in a map is assumed to move on after
- *    ASSUMED_SESSION_MS. After that the channel is assumed to start climbing
- *    again, and the projection is marked approximate rather than exact.
- *  - A channel marked `camped` is the exception: whoever is there is assumed
- *    to stay indefinitely, so it drains to 0 and stays there until re-scouted.
+ *  - Somebody else found sitting in a map is assumed to still be there until
+ *    somebody re-scouts the channel. We never see a stranger leave, so guessing
+ *    a session length only invented levels that were never observed; a `taken`
+ *    channel drains for as long as the reading is old, and its projection is a
+ *    floor (they may well have left and let it climb).
+ *  - A channel marked `camped` drains the same way, but is a stronger claim:
+ *    the point of the status is that this one is not being vacated, so it sorts
+ *    below `taken` and its level reads as a ceiling rather than a floor.
  */
 
 export const MAX_LEVEL = 10;
@@ -29,12 +32,6 @@ export const MAP_CAPACITY = 4;
 
 export const GROWTH_MS = 60 * 60 * 1000; // +1 level / hour when unvisited
 export const DECAY_MS = 15 * 60 * 1000; // -1 level / 15 min while occupied
-
-/**
- * How long we assume a stranger stays in a map before channel-hopping.
- * Most people swap channels after about half an hour (2 levels of burning).
- */
-export const ASSUMED_SESSION_MS = 30 * 60 * 1000;
 
 /** Burning cannot climb between these UTC hours - the nightly burning curfew. */
 export const CURFEW_START_HOUR = 0;
@@ -115,7 +112,8 @@ function confidenceTier(ageMs, status) {
     return "low";
   }
   if (status === "taken") {
-    // Someone else's session; we only guess at when they leave.
+    // Someone else's session. Nobody sees a stranger leave, so the reading is
+    // only worth much while it is fresh.
     if (ageMs < 15 * 60 * 1000) return "medium";
     return "low";
   }
@@ -166,32 +164,14 @@ export function projectLevel(log, now = Date.now()) {
     level = Math.max(0, log.level - Math.floor(lost));
     progress = level <= 0 ? 1 : lost - Math.floor(lost);
     bound = "atMost";
-  } else if (status === "ours") {
-    // Our own party - assume we kept hunting, so this is a floor.
+  } else {
+    // `ours` and `taken`: somebody is hunting here. Nobody has reported them
+    // leaving, so assume they haven't - the level keeps draining, and what we
+    // show is a floor: if they did leave, it has been climbing back since.
     const lost = ageMs / DECAY_MS;
     level = Math.max(0, log.level - Math.floor(lost));
     progress = level <= 0 ? 1 : lost - Math.floor(lost);
     bound = "atLeast";
-  } else {
-    // `taken`: someone else was here. They drain it for at most one assumed
-    // session, then we assume they moved on and the channel climbs again.
-    const occupiedMs = Math.min(ageMs, ASSUMED_SESSION_MS);
-    const drained = Math.floor(occupiedMs / DECAY_MS);
-    const floorLevel = Math.max(0, log.level - drained);
-
-    if (ageMs <= ASSUMED_SESSION_MS) {
-      level = floorLevel;
-      progress = level <= 0 ? 1 : occupiedMs / DECAY_MS - drained;
-      bound = "atLeast";
-    } else {
-      const usable = growthMsBetween(observedMs + ASSUMED_SESSION_MS, now);
-      const gained = usable / GROWTH_MS;
-      level = Math.min(MAX_LEVEL, floorLevel + Math.floor(gained));
-      progress = level >= MAX_LEVEL ? 1 : gained - Math.floor(gained);
-      growing = level < MAX_LEVEL;
-      // We never saw them leave, so this is a guess in both directions.
-      bound = "approx";
-    }
   }
 
   // A derived reading was itself a projection when it was written, so it can
@@ -349,8 +329,8 @@ export function isFull(entry) {
 
 /** Lower is better: how worth hopping to a channel in this state is. */
 function statusRank(status) {
-  if (status === "camped") return 2; // assumed occupied indefinitely
-  if (status === "ours" || status === "taken") return 1; // occupied, or recently was
+  if (status === "camped") return 2; // occupied by somebody who won't leave
+  if (status === "ours" || status === "taken") return 1; // occupied
   return 0; // free
 }
 
