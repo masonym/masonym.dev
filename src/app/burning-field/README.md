@@ -34,7 +34,9 @@ No new environment variables - it reuses `NEXT_PUBLIC_SUPABASE_URL` /
   with the name and street kept alongside it for display.
 - **Membership** has a role: `owner`, `logger` (can log), `viewer` (read only).
   Joining happens by invite code, or by browsing if the group is public - both
-  go through `security definer` RPCs so codes never leak to non-members.
+  go through `security definer` RPCs so codes never leak to non-members. The
+  owner flips public/invite-only from the group panel (`burning_set_group_visibility`)
+  and can remove members, which also clears their occupancy marker.
 - **Log** = one reading: channel, level 0–10, and a status:
   - `free` - nobody in the map, burning is climbing
   - `ours` - our party is hunting there, burning is draining

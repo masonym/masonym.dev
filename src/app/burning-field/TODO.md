@@ -46,11 +46,15 @@ pick the implementation when you pick up the item.
 - [ ] **Merging is owner-of-both-groups only** (`burning_merge_groups`). The realistic
       case - two separate groups tracking the same map, different owners, wanting to
       combine - needs an invite/accept handshake between owners.
-- [ ] **Public groups leak their invite code.** The `burning_groups_select` policy lets
+- [x] ~~**Public groups leak their invite code.** The `burning_groups_select` policy lets
       non-members read public group rows, `invite_code` included. Harmless while the
       group is public (anyone can join anyway), but a group flipped public→private
       keeps a code that strangers may already have. Rotating the code on that
-      transition would close it.
+      transition would close it.~~ The owner can now flip visibility from the group
+      panel, and `burning_set_group_visibility` rotates the invite code on the
+      public→private transition. Non-members can still read a *public* group's code
+      directly, which stays harmless: joining a public group needs no code.
+      **Needs the schema re-run** for the new RPC.
 - [ ] **No party co-ordination view.** The core use case is "four of us burn one
       channel down together", but nothing surfaces which channel the group is
       currently on. A status strip reading "your group is on Ch 12, level 6 and

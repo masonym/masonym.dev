@@ -5,7 +5,9 @@ import {
   Check,
   Copy,
   GitMerge,
+  Globe,
   Loader2,
+  Lock,
   LogOut,
   Settings,
   Trash2,
@@ -32,6 +34,12 @@ export default function GroupPanel({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [mergeSource, setMergeSource] = useState("");
+  const [visibilityNote, setVisibilityNote] = useState("");
+  // Bumped to remount the visibility checkbox. It is controlled by
+  // `group.is_public`, so backing out of the confirm below would otherwise leave
+  // the box visually flipped: nothing re-renders, and React only restores a
+  // controlled input's DOM value when something does.
+  const [visibilityNonce, setVisibilityNonce] = useState(0);
 
   const isOwner = group.owner_id === userId;
   const channelByMember = new Map(
@@ -47,6 +55,35 @@ export default function GroupPanel({
     await navigator.clipboard.writeText(group.invite_code);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
+  };
+
+  // Going private regenerates the invite code, so warn before the old one dies.
+  const setVisibility = async (nextPublic) => {
+    if (
+      !nextPublic &&
+      !confirm(
+        "Make this group invite-only? Its invite code is regenerated, so anyone holding the old one loses access.",
+      )
+    ) {
+      setVisibilityNonce((n) => n + 1);
+      return;
+    }
+    setBusy(true);
+    setError("");
+    const { error: rpcError } = await supabase.rpc(
+      "burning_set_group_visibility",
+      { p_group_id: group.id, p_is_public: nextPublic },
+    );
+    setBusy(false);
+    if (rpcError) {
+      setError(rpcError.message);
+      return;
+    }
+    if (!nextPublic) {
+      setVisibilityNote("Invite code regenerated - share the new one.");
+      setTimeout(() => setVisibilityNote(""), 6000);
+    }
+    onChanged();
   };
 
   const saveIgn = async () => {
@@ -95,6 +132,17 @@ export default function GroupPanel({
     setBusy(false);
     if (deleteError) setError(deleteError.message);
     else onChanged();
+  };
+
+  const kickMember = (member) => {
+    const label = member.ign || `member ${member.user_id.slice(0, 8)}`;
+    if (
+      !confirm(
+        `Remove ${label} from "${group.name}"? Their past logs stay on the board, but they lose access and can only return through the invite code.`,
+      )
+    )
+      return;
+    removeMember(member.user_id);
   };
 
   const leaveGroup = async () => {
@@ -189,22 +237,52 @@ export default function GroupPanel({
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm text-primary-dim">Invite code</span>
-            <code className="px-2 py-1 rounded bg-background text-secondary text-sm">
-              {group.invite_code}
-            </code>
-            <button
-              onClick={copyInvite}
-              className="flex items-center gap-1 text-sm text-primary-dim hover:text-primary"
-            >
-              {copied ? (
-                <Check className="w-3.5 h-3.5 text-green-400" />
-              ) : (
-                <Copy className="w-3.5 h-3.5" />
-              )}
-              {copied ? "Copied" : "Copy"}
-            </button>
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm text-primary-dim">Invite code</span>
+              <code className="px-2 py-1 rounded bg-background text-secondary text-sm">
+                {group.invite_code}
+              </code>
+              <button
+                onClick={copyInvite}
+                className="flex items-center gap-1 text-sm text-primary-dim hover:text-primary"
+              >
+                {copied ? (
+                  <Check className="w-3.5 h-3.5 text-green-400" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5" />
+                )}
+                {copied ? "Copied" : "Copy"}
+              </button>
+            </div>
+
+            {isOwner ? (
+              <label className="flex items-center gap-2 text-sm text-primary-dim">
+                <input
+                  key={visibilityNonce}
+                  type="checkbox"
+                  checked={group.is_public}
+                  disabled={busy}
+                  onChange={(e) => setVisibility(e.target.checked)}
+                />
+                Listed publicly so others can find and join it
+              </label>
+            ) : (
+              <p className="flex items-center gap-1.5 text-sm text-primary-dim">
+                {group.is_public ? (
+                  <Globe className="w-3.5 h-3.5" />
+                ) : (
+                  <Lock className="w-3.5 h-3.5" />
+                )}
+                {group.is_public
+                  ? "Listed publicly - anyone can find and join this group."
+                  : "Invite-only - joining needs the code above."}
+              </p>
+            )}
+
+            {visibilityNote && (
+              <p className="text-sm text-secondary">{visibilityNote}</p>
+            )}
           </div>
 
           <div>
@@ -244,7 +322,7 @@ export default function GroupPanel({
                         ))}
                       </select>
                       <button
-                        onClick={() => removeMember(member.user_id)}
+                        onClick={() => kickMember(member)}
                         disabled={busy}
                         title="Remove from group"
                         className="text-primary-dim hover:text-red-400"
