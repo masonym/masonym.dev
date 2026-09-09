@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import EquipmentInfo from './EquipmentInfo';
 import EnhanceModeSettings from './EnhanceModeSettings';
-import StarCatchSettings from './StarCatchSettings';
 import EventSettings from './EventSettings';
 import MVPSettings from './MVPSettings';
 import SpareItemSettings from './SpareItemSettings';
@@ -34,10 +33,6 @@ export default function StarForceSimulator() {
 
     const [enhanceModeSettings, setEnhanceModeSettings] = useState({
         modes: { 15: 1, 16: 1, 17: 1, 18: 1, 19: 1, 20: 1, 21: 1 }  // Enhancement Mode 1-4 per star
-    });
-
-    const [starCatchSettings, setStarCatchSettings] = useState({
-        stars: []  // Can contain 0-29
     });
 
     const [eventSettings, setEventSettings] = useState({
@@ -74,7 +69,6 @@ export default function StarForceSimulator() {
         const table = buildStarTable({
             level: equipmentInfo.level,
             enhanceModes: enhanceModeSettings.modes,
-            starCatchStars: starCatchSettings.stars,
             eventTypes: eventSettings.types,
             mvpType: mvpSettings.type,
         });
@@ -130,7 +124,7 @@ export default function StarForceSimulator() {
 
     return (
         <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                 <div className="flex flex-col gap-4">
                     <EquipmentInfo
                         info={equipmentInfo}
@@ -152,17 +146,12 @@ export default function StarForceSimulator() {
                         onChange={setMvpSettings}
                     />
                 </div>
-                <StarCatchSettings
-                    settings={starCatchSettings}
-                    onChange={setStarCatchSettings}
-                />
             </div>
 
             <EnhanceModeSettings
                 settings={enhanceModeSettings}
                 onChange={setEnhanceModeSettings}
                 equipmentInfo={equipmentInfo}
-                starCatchStars={starCatchSettings.stars}
                 eventTypes={eventSettings.types}
                 mvpType={mvpSettings.type}
                 spareItemSettings={spareItemSettings}

@@ -25,7 +25,6 @@ export default function EnhanceModeSettings({
   settings,
   onChange,
   equipmentInfo,
-  starCatchStars,
   eventTypes,
   mvpType,
   spareItemSettings,
@@ -61,26 +60,16 @@ export default function EnhanceModeSettings({
       level,
       startingStar: currentStars,
       targetStar: targetStars,
-      starCatchStars,
       eventTypes,
       mvpType,
     });
-  }, [
-    ready,
-    level,
-    currentStars,
-    targetStars,
-    starCatchStars,
-    eventTypes,
-    mvpType,
-  ]);
+  }, [ready, level, currentStars, targetStars, eventTypes, mvpType]);
 
   const current = useMemo(() => {
     if (!ready) return null;
     const table = buildStarTable({
       level,
       enhanceModes: settings.modes,
-      starCatchStars,
       eventTypes,
       mvpType,
     });
@@ -100,7 +89,6 @@ export default function EnhanceModeSettings({
     currentStars,
     targetStars,
     settings.modes,
-    starCatchStars,
     eventTypes,
     mvpType,
     spareMesos,
@@ -152,8 +140,10 @@ export default function EnhanceModeSettings({
 
   const rowRange = (point, isFirst, isLast) => {
     if (frontier.length === 1) return "Best at any spare price";
-    if (isFirst) return `when a spare is worth under ${formatMesos(point.spareTo)}`;
-    if (isLast) return `when a spare is worth over ${formatMesos(point.spareFrom)}`;
+    if (isFirst)
+      return `when a spare is worth under ${formatMesos(point.spareTo)}`;
+    if (isLast)
+      return `when a spare is worth over ${formatMesos(point.spareFrom)}`;
     return `when a spare is worth ${formatMesos(point.spareFrom)} - ${formatMesos(point.spareTo)}`;
   };
 
@@ -230,7 +220,8 @@ export default function EnhanceModeSettings({
             })}
           </div>
           <p className="mt-2 text-xs text-[color:var(--primary-dim)]">
-            Each cell: success % / destroy % and meso cost multiplier.
+            Each cell: success % / destroy % and meso cost multiplier. Star
+            Catch success bonus applied after removal in v.271.
           </p>
         </div>
 

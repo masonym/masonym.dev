@@ -40,7 +40,7 @@ export const STAR_FORCE_RATES = {
 //
 // Each entry, indexed by (mode - 1), carries:
 //   mult    - cost multiplier applied on top of the unchanged calculateMesoCost() formula
-//   success - success chance (the in-game displayed rate, before Star Catching)
+//   success - success chance before the default Star Catch bonus
 //   boom    - destroy chance; maintain = 1 - success - boom
 //
 // Mode 1 reproduces the vanilla STAR_FORCE_RATES and base cost exactly
@@ -98,25 +98,45 @@ export const ENHANCE_MODE_STARS = Object.keys(ENHANCE_MODE)
   .map(Number)
   .sort((a, b) => a - b);
 
-// Display info for one star/mode pair. Mode 1 (or a star without modes) falls
-// back to the vanilla table so the two sources can never drift apart in the UI.
+// The Star Catch minigame was removed from the game; the success-rate bonus a
+// completed catch used to grant is now applied to every attempt by default.
+// The bonus is a 5% multiplicative increase to the success rate - the
+// probability it frees up is taken out of maintain and destroy in proportion
+// to their original split, so a mode that cannot boom still cannot boom.
+//
+// STAR_FORCE_RATES and ENHANCE_MODE stay as the pre-bonus rates (the values
+// the rate tables are published with); everything user-facing goes through
+// getEnhanceModeInfo, which applies the bonus once.
+export const STAR_CATCH_BONUS = 1.05;
+
+function applyStarCatchBonus(success, maintain, boom) {
+  const pSuccess = Math.min(1, success * STAR_CATCH_BONUS);
+  const origFail = maintain + boom;
+  if (origFail <= 0) return { success: pSuccess, maintain: 0, boom: 0 };
+  const remaining = 1 - pSuccess;
+  return {
+    success: pSuccess,
+    maintain: remaining * (maintain / origFail),
+    boom: remaining * (boom / origFail),
+  };
+}
+
+// Display info for one star/mode pair, with the default Star Catch bonus
+// already applied. Mode 1 (or a star without modes) falls back to the vanilla
+// table so the two sources can never drift apart in the UI.
 export function getEnhanceModeInfo(star, mode) {
   const modes = ENHANCE_MODE[star];
   if (modes && mode >= 2) {
     const m = modes[mode - 1];
     return {
       mult: m.mult,
-      success: m.success,
-      boom: m.boom,
-      maintain: 1 - m.success - m.boom,
+      ...applyStarCatchBonus(m.success, 1 - m.success - m.boom, m.boom),
     };
   }
   const base = STAR_FORCE_RATES[star];
   return {
     mult: 1,
-    success: base.success,
-    boom: base.destroy,
-    maintain: base.maintain,
+    ...applyStarCatchBonus(base.success, base.maintain, base.destroy),
   };
 }
 
@@ -210,25 +230,11 @@ export function getRecoveredStars(destructionLevel) {
 // Mode cost multiplier is applied to the base formula first, then MVP and
 // event discounts on the multiplied amount (the mode premium is part of the
 // enhancement cost itself, unlike the old Safeguard surcharge).
-function computeAttempt(level, star, mode, { starCatch, eventTypes, mvpType }) {
+function computeAttempt(level, star, mode, { eventTypes, mvpType }) {
   const info = getEnhanceModeInfo(star, mode);
-  let pSuccess = info.success;
+  const pSuccess = info.success;
   let pMaintain = info.maintain;
   let pBoom = info.boom;
-
-  // Star catch: +5% multiplicative to success, redistribute remainder
-  if (starCatch) {
-    pSuccess = Math.min(1, info.success * 1.05);
-    const remaining = 1 - pSuccess;
-    const origFail = info.maintain + info.boom;
-    if (origFail > 0) {
-      pMaintain = remaining * (info.maintain / origFail);
-      pBoom = remaining * (info.boom / origFail);
-    } else {
-      pMaintain = 0;
-      pBoom = 0;
-    }
-  }
 
   // Destruction reduction event: 30% multiplicative cut to destroy
   if (eventTypes.includes("destructionReduction") && star <= 21 && pBoom > 0) {
@@ -271,20 +277,13 @@ function computeAttempt(level, star, mode, { starCatch, eventTypes, mvpType }) {
 export function buildStarTable({
   level,
   enhanceModes = {},
-  starCatchStars = [],
   eventTypes = [],
   mvpType = "none",
 }) {
-  const scSet = new Set(starCatchStars);
-
   const table = new Array(31);
   for (let star = 0; star <= 30; star++) {
     const mode = ENHANCE_MODE[star] ? enhanceModes[star] || 1 : 1;
-    const a = computeAttempt(level, star, mode, {
-      starCatch: scSet.has(star),
-      eventTypes,
-      mvpType,
-    });
+    const a = computeAttempt(level, star, mode, { eventTypes, mvpType });
 
     table[star] = {
       pSuccess: a.pSuccess,
@@ -389,24 +388,17 @@ export function optimizeEnhanceModes({
   level,
   startingStar,
   targetStar,
-  starCatchStars = [],
   eventTypes = [],
   mvpType = "none",
   spareCost = 0,
 }) {
-  const scSet = new Set(starCatchStars);
-
   // Precompute the attempt entry for every star/mode pair below target.
   const actions = new Array(targetStar);
   for (let s = 0; s < targetStar; s++) {
     const modeCount = ENHANCE_MODE[s] ? 4 : 1;
     const list = new Array(modeCount);
     for (let m = 1; m <= modeCount; m++) {
-      list[m - 1] = computeAttempt(level, s, m, {
-        starCatch: scSet.has(s),
-        eventTypes,
-        mvpType,
-      });
+      list[m - 1] = computeAttempt(level, s, m, { eventTypes, mvpType });
     }
     actions[s] = list;
   }
@@ -464,20 +456,12 @@ export function computeEnhanceFrontier({
   level,
   startingStar,
   targetStar,
-  starCatchStars = [],
   eventTypes = [],
   mvpType = "none",
 }) {
   if (startingStar >= targetStar) return [];
 
-  const ctx = {
-    level,
-    startingStar,
-    targetStar,
-    starCatchStars,
-    eventTypes,
-    mvpType,
-  };
+  const ctx = { level, startingStar, targetStar, eventTypes, mvpType };
   const keyOf = (modes) => ENHANCE_MODE_STARS.map((s) => modes[s]).join("");
 
   const optimizeAt = (lambda) => {
@@ -485,7 +469,6 @@ export function computeEnhanceFrontier({
     const table = buildStarTable({
       level,
       enhanceModes: modes,
-      starCatchStars,
       eventTypes,
       mvpType,
     });
