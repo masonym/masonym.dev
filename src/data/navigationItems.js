@@ -40,7 +40,6 @@ export const navigationItems = [
         name: "Familiar Directory",
         href: "/familiars",
         image: "/images/familiars.png",
-        label: "Updated!",
       },
       // { name: "Souls", href: "/souls" },
       // { name: "MAPLE Daily Gift", href: "/maple-daily-gift" },
@@ -58,6 +57,12 @@ export const navigationItems = [
         href: "/action-delays",
         image: "/images/green-pot.png",
       },
+      // {
+      //   // Drop a 64px icon at /images/burning-field.png to give this a tile image.
+      //   name: "Burning Field",
+      //   href: "/burning-field",
+      //   label: "New!",
+      // },
     ],
   },
   // {
