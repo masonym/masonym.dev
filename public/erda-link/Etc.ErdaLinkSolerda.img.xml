@@ -25,6 +25,10 @@
           <int32 name="main" value="7" />
           <int32 name="sub" value="125" />
         </dir>
+        <dir name="subType">
+          <int32 name="main" value="4" />
+          <int32 name="sub" value="90" />
+        </dir>
       </dir>
       <dir name="rush">
         <dir name="default">
@@ -362,6 +366,10 @@
             <int32 name="main" value="2" />
             <int32 name="sub" value="38" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="25" />
+          </dir>
         </dir>
         <dir name="2">
           <dir name="default">
@@ -375,6 +383,10 @@
           <dir name="solJanus">
             <int32 name="main" value="2" />
             <int32 name="sub" value="44" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="30" />
           </dir>
         </dir>
         <dir name="3">
@@ -390,6 +402,10 @@
             <int32 name="main" value="2" />
             <int32 name="sub" value="50" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="1" />
+            <int32 name="sub" value="35" />
+          </dir>
         </dir>
         <dir name="4">
           <dir name="default">
@@ -403,6 +419,10 @@
           <dir name="solJanus">
             <int32 name="main" value="3" />
             <int32 name="sub" value="57" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="40" />
           </dir>
         </dir>
         <dir name="5">
@@ -418,6 +438,10 @@
             <int32 name="main" value="3" />
             <int32 name="sub" value="63" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="45" />
+          </dir>
         </dir>
         <dir name="6">
           <dir name="default">
@@ -431,6 +455,10 @@
           <dir name="solJanus">
             <int32 name="main" value="3" />
             <int32 name="sub" value="69" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="2" />
+            <int32 name="sub" value="50" />
           </dir>
         </dir>
         <dir name="7">
@@ -446,6 +474,10 @@
             <int32 name="main" value="5" />
             <int32 name="sub" value="75" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="55" />
+          </dir>
         </dir>
         <dir name="8">
           <dir name="default">
@@ -459,6 +491,10 @@
           <dir name="solJanus">
             <int32 name="main" value="5" />
             <int32 name="sub" value="82" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="60" />
           </dir>
         </dir>
         <dir name="9">
@@ -474,6 +510,10 @@
             <int32 name="main" value="14" />
             <int32 name="sub" value="300" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="9" />
+            <int32 name="sub" value="180" />
+          </dir>
         </dir>
         <dir name="10">
           <dir name="default">
@@ -487,6 +527,10 @@
           <dir name="solJanus">
             <int32 name="main" value="5" />
             <int32 name="sub" value="110" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="73" />
           </dir>
         </dir>
         <dir name="11">
@@ -502,6 +546,10 @@
             <int32 name="main" value="5" />
             <int32 name="sub" value="124" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="81" />
+          </dir>
         </dir>
         <dir name="12">
           <dir name="default">
@@ -515,6 +563,10 @@
           <dir name="solJanus">
             <int32 name="main" value="6" />
             <int32 name="sub" value="138" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="90" />
           </dir>
         </dir>
         <dir name="13">
@@ -530,6 +582,10 @@
             <int32 name="main" value="6" />
             <int32 name="sub" value="152" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="3" />
+            <int32 name="sub" value="98" />
+          </dir>
         </dir>
         <dir name="14">
           <dir name="default">
@@ -544,6 +600,10 @@
             <int32 name="main" value="6" />
             <int32 name="sub" value="165" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="107" />
+          </dir>
         </dir>
         <dir name="15">
           <dir name="default">
@@ -553,6 +613,10 @@
           <dir name="solJanus">
             <int32 name="main" value="6" />
             <int32 name="sub" value="179" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="115" />
           </dir>
         </dir>
         <dir name="16">
@@ -564,6 +628,10 @@
             <int32 name="main" value="6" />
             <int32 name="sub" value="193" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="124" />
+          </dir>
         </dir>
         <dir name="17">
           <dir name="default">
@@ -573,6 +641,10 @@
           <dir name="solJanus">
             <int32 name="main" value="6" />
             <int32 name="sub" value="207" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="132" />
           </dir>
         </dir>
         <dir name="18">
@@ -584,6 +656,10 @@
             <int32 name="main" value="7" />
             <int32 name="sub" value="220" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="141" />
+          </dir>
         </dir>
         <dir name="19">
           <dir name="default">
@@ -593,6 +669,10 @@
           <dir name="solJanus">
             <int32 name="main" value="17" />
             <int32 name="sub" value="525" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="14" />
+            <int32 name="sub" value="315" />
           </dir>
         </dir>
         <dir name="20">
@@ -604,6 +684,10 @@
             <int32 name="main" value="7" />
             <int32 name="sub" value="234" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="4" />
+            <int32 name="sub" value="151" />
+          </dir>
         </dir>
         <dir name="21">
           <dir name="default">
@@ -613,6 +697,10 @@
           <dir name="solJanus">
             <int32 name="main" value="7" />
             <int32 name="sub" value="248" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="160" />
           </dir>
         </dir>
         <dir name="22">
@@ -624,6 +712,10 @@
             <int32 name="main" value="7" />
             <int32 name="sub" value="262" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="170" />
+          </dir>
         </dir>
         <dir name="23">
           <dir name="default">
@@ -633,6 +725,10 @@
           <dir name="solJanus">
             <int32 name="main" value="7" />
             <int32 name="sub" value="275" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="179" />
           </dir>
         </dir>
         <dir name="24">
@@ -644,6 +740,10 @@
             <int32 name="main" value="7" />
             <int32 name="sub" value="289" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="189" />
+          </dir>
         </dir>
         <dir name="25">
           <dir name="default">
@@ -653,6 +753,10 @@
           <dir name="solJanus">
             <int32 name="main" value="9" />
             <int32 name="sub" value="303" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="198" />
           </dir>
         </dir>
         <dir name="26">
@@ -664,6 +768,10 @@
             <int32 name="main" value="9" />
             <int32 name="sub" value="317" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="208" />
+          </dir>
         </dir>
         <dir name="27">
           <dir name="default">
@@ -673,6 +781,10 @@
           <dir name="solJanus">
             <int32 name="main" value="9" />
             <int32 name="sub" value="330" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="5" />
+            <int32 name="sub" value="217" />
           </dir>
         </dir>
         <dir name="28">
@@ -684,6 +796,10 @@
             <int32 name="main" value="10" />
             <int32 name="sub" value="344" />
           </dir>
+          <dir name="subType">
+            <int32 name="main" value="6" />
+            <int32 name="sub" value="227" />
+          </dir>
         </dir>
         <dir name="29">
           <dir name="default">
@@ -693,6 +809,10 @@
           <dir name="solJanus">
             <int32 name="main" value="20" />
             <int32 name="sub" value="750" />
+          </dir>
+          <dir name="subType">
+            <int32 name="main" value="18" />
+            <int32 name="sub" value="450" />
           </dir>
         </dir>
       </dir>
