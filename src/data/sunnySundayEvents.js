@@ -1229,6 +1229,72 @@ export const sunnySundaySchedule = [
     ],
     source: "Patch Notes",
   },
+  {
+    date: "2026-09-13",
+    events: [
+      "star_force_protection",
+      "star_force_discount",
+      "rune_cooldown",
+      "rune_exp",
+      "combo_kill_exp",
+    ],
+    source: "Patch Notes",
+  },
+  {
+    date: "2026-09-20",
+    events: ["ability_reset_discount", "monster_park_exp"],
+    source: "Patch Notes",
+  },
+  {
+    date: "2026-09-27",
+    events: [
+      "star_force_protection",
+      "star_force_discount",
+      "rune_cooldown",
+      "rune_exp",
+      "elite_monster_spawn",
+    ],
+    source: "Patch Notes",
+  },
+  {
+    date: "2026-10-04",
+    events: ["treasure_hunter_exp", "combo_kill_exp", "monster_park_exp"],
+    source: "Patch Notes",
+  },
+  {
+    date: "2026-10-11",
+    events: [
+      "star_force_protection",
+      "star_force_discount",
+      "spell_trace_discount",
+      "star_force_oneplusone",
+    ],
+    source: "Patch Notes",
+  },
+  {
+    date: "2026-10-18",
+    events: ["monster_park_exp", "hexa_enhancement"],
+    source: "Patch Notes",
+  },
+  {
+    date: "2026-10-25",
+    events: [
+      "star_force_protection",
+      "star_force_discount",
+      "ability_reset_discount",
+    ],
+    source: "Patch Notes",
+  },
+  {
+    date: "2026-11-01",
+    events: ["magnificent_souls", "sol_erda_2x", "treasure_hunter_exp"],
+    source: "Patch Notes",
+  },
+  {
+    date: "2026-11-08",
+    events: ["star_force_protection", "star_force_discount", "combo_kill_exp"],
+    source: "Patch Notes",
+  },
 ];
 
 // helper to resolve event data from id or custom object
