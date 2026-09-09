@@ -1,1462 +1,1201 @@
 export const classes = {
-    "Hero": {
-        "originSkill": "Spirit Calibur",
-        "ascentSkill": "Ultrasonic Slash",
-        "masterySkills": [
-            "HEXA Raging Blow",
-            "HEXA Rising Rage",
-            "HEXA Beam Blade",
-            "HEXA Cry Valhalla",
-            "Rending Edge",
-            "HEXA Puncture",
-            "HEXA Final Attack",
-        ],
-        "boostSkills": [
-            "Burning Soul Blade Boost",
-            "Instinctual Combo Boost",
-            "Worldreaver Boost",
-            "Sword Illusion Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Blitz Shield"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Dark Knight": {
-        "originSkill": "Dead Space",
-        "ascentSkill": "Dark Halidom",
-        "masterySkills": [
-            "HEXA Gungnir's Descent",
-            "HEXA Dark Impale",
-            "HEXA Nightshade Explosion",
-            "HEXA Revenge of the Evil Eye",
-            "HEXA Final Attack",
-            "HEXA Evil Eye Shock",
-        ],
-        "boostSkills": [
-            "Spear of Darkness Boost",
-            "Radiant Evil Boost",
-            "Calamitous Cyclone Boost",
-            "Darkness Aura Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Blitz Shield"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Paladin": {
-        "originSkill": "Sacred Bastion",
-        "ascentSkill": "Dominus Oblivion",
-        "masterySkills": [
-            "HEXA Blast",
-            "HEXA Divine Judgment",
-            "HEXA Divine Charge",
-            "HEXA Divine Mark",
-            "HEXA Heaven's Hammer",
-            "HEXA Final Attack",
-            "Rising Justice",
-        ],
-        "boostSkills": [
-            "Divine Echo Boost",
-            "Hammers of the Righteous Boost",
-            "Grand Guardian Boost",
-            "Mighty Mjolnir Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Blitz Shield"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Arch Mage (Ice, Lightning)": {
-        "originSkill": "Frozen Lightning",
-        "ascentSkill": "Parabolic Bolt",
-        "masterySkills": [
-            "HEXA Chain Lightning",
-            "HEXA Frozen Orb",
-            "HEXA Blizzard",
-            "HEXA Lightning Orb",
-            "Cryo Shock",
-            "HEXA Thunder Sphere",
-            "HEXA Elquines",
-        ],
-        "boostSkills": [
-            "Ice Age Boost",
-            "Bolt Barrage Boost",
-            "Spirit of Snow Boost",
-            "Jupiter Thunder Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Arcane Overdrive",
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Arch Mage (Fire, Poison)": {
-        "originSkill": "Infernal Venom",
-        "ascentSkill": "Immortal Flame",
-        "masterySkills": [
-            "HEXA Flame Sweep",
-            "HEXA Flame Haze",
-            "HEXA Mist Eruption",
-            "HEXA Ignite",
-            "HEXA Ifrit",
-            "HEXA Inferno Aura",
-            "HEXA Creeping Toxin",
-            "HEXA Meteor Shower",
-            "HEXA Megiddo Flame",
-        ],
-        "boostSkills": [
-            "DoT Punisher Boost",
-            "Poison Nova Boost",
-            "Elemental Fury Boost",
-            "Poison Chain Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Arcane Overdrive",
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Bishop": {
-        "originSkill": "Holy Advent",
-        "ascentSkill": "Commandment of Heaven",
-        "masterySkills": [
-            "HEXA Angel Ray",
-            "HEXA Big Bang",
-            "HEXA Triumph Feather",
-            "HEXA Angelic Wrath",
-            "HEXA Fountain of Vengeance",
-            "HEXA Bahamut",
-            "HEXA Genesis",
-            "HEXA Heaven's Door",
-        ],
-        "boostSkills": [
-            "Benediction Boost",
-            "Angel of Balance Boost",
-            "Peacemaker Boost",
-            "Divine Punishment Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Arcane Overdrive",
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Pathfinder": {
-        "originSkill": "Forsaken Relic",
-        "ascentSkill": "Piercing Relic",
-        "masterySkills": [
-            "HEXA Cardinal Burst",
-            "HEXA Bountiful Burst",
-            "HEXA Cardinal Deluge",
-            "HEXA Bountiful Deluge",
-            "HEXA Glyph of Impalement",
-            "HEXA Cardinal Torrent",
-            "HEXA Ancient Astra",
-            "HEXA Combo Assault",
-            "HEXA Shadow Raven",
-            "Manifest Curse",
-        ],
-        "boostSkills": [
-            "Nova Blast Boost",
-            "Raven Tempest Boost",
-            "Obsidian Barrier Boost",
-            "Relic Unbound Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Fury of the Wild"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Marksman": {
-        "originSkill": "Final Aim",
-        "ascentSkill": "Fatal Trigger",
-        "masterySkills": [
-            "HEXA Snipe",
-            "HEXA Piercing Arrow",
-            "HEXA Frostprey",
-            "HEXA Bolt Burst",
-            "HEXA Final Attack",
-            "HEXA High Speed Shot",
-        ],
-        "boostSkills": [
-            "Perfect Shot Boost",
-            "Split Shot Boost",
-            "Surge Bolt Boost",
-            "Repeating Crossbow Cartridge Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Fury of the Wild"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Bowmaster": {
-        "originSkill": "Ascendant Shadow",
-        "ascentSkill": "Flashpoint",
-        "masterySkills": [
-            "HEXA Hurricane",
-            "HEXA Arrow Stream",
-            "HEXA Arrow Blaster",
-            "HEXA Quiver Cartridge",
-            "HEXA Phoenix",
-            "Extra Quiver Cartridge",
-            "HEXA Speed Mirage",
-            "HEXA Gritty Gust",
-        ],
-        "boostSkills": [
-            "Storm of Arrows Boost",
-            "Inhuman Speed Boost",
-            "Quiver Barrage Boost",
-            "Silhouette Mirage Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Fury of the Wild"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Dual Blade": {
-        "originSkill": "Karma Blade",
-        "ascentSkill": "Yama's Decree",
-        "masterySkills": [
-            "HEXA Phantom Blow",
-            "HEXA Asura's Anger",
-            "HEXA Blade Clone",
-            "Mortality",
-            "HEXA Blade Fury",
-            "HEXA Sudden Raid",
-        ],
-        "boostSkills": [
-            "Blade Storm Boost",
-            "Blades of Destiny Boost",
-            "Blade Tornado Boost",
-            "Haunted Edge Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Shadow Walker"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Shadower": {
-        "originSkill": "Halve Cut",
-        "ascentSkill": "Covetous Darkness",
-        "masterySkills": [
-            "HEXA Assassinate",
-            "HEXA Pulverize",
-            "HEXA Meso Explosion",
-            "HEXA Meso Explosion",
-            "HEXA Dark Flare",
-            "HEXA Cruel Stab",
-            "HEXA Sudden Raid",
-            "HEXA Shadow Veil",
-            "Covert Edge",
-        ],
-        "boostSkills": [
-            "Shadow Assault Boost",
-            "Trickblade Boost",
-            "Sonic Blow Boost",
-            "Slash Shadow Formation Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Shadow Walker"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Night Lord": {
-        "originSkill": "Life and Death",
-        "ascentSkill": "Deep Strike",
-        "masterySkills": [
-            "HEXA Quad Star",
-            "Enhanced HEXA Quad Star",
-            "HEXA Assassin's Mark",
-            "HEXA Dark Flare",
-            "HEXA Showdown",
-            "Darkness Shuriken",
-            "HEXA Sudden Raid",
-            "HEXA Death Star",
-        ],
-        "boostSkills": [
-            "Throwing Star Barrage Boost",
-            "Shurrikane Boost",
-            "Dark Lord's Omen Boost",
-            "Throw Blasting Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Shadow Walker"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Cannoneer": {
-        "originSkill": "Super Cannon Explosion",
-        "ascentSkill": "Barrel of Monkeys",
-        "masterySkills": [
-            "HEXA Cannon Barrage",
-            "HEXA Cannon Bazooka",
-            "HEXA Monkey Mortar",
-            "HEXA Anchors Away",
-            "HEXA Nautilus Strike",
-            "HEXA Rolling Rainbow",
-            "HEXA Monkey Militia",
-            "HEXA Monkey Fury",
-        ],
-        "boostSkills": [
-            "Cannon of Mass Destruction Boost",
-            "The Nuclear Option Boost",
-            "Monkey Business Boost",
-            "Poolmaker Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Pirate's Banner"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Buccaneer": {
-        "originSkill": "Unleash Neptunus",
-        "ascentSkill": "Haymaker",
-        "masterySkills": [
-            "HEXA Octopunch",
-            "HEXA Sea Serpent Burst",
-            "HEXA Sea Serpent's Rage",
-            "HEXA Nautilus Strike",
-            "HEXA Serpent Scale",
-            "HEXA Hook Bomber",
-        ],
-        "boostSkills": [
-            "Lightning Form Boost",
-            "Lord of the Deep Boost",
-            "Serpent Vortex Boost",
-            "Howling Fist Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Pirate's Banner"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Corsair": {
-        "originSkill": "The Dreadnought",
-        "ascentSkill": "Firecracker Fusilade",
-        "masterySkills": [
-            "HEXA Rapid Fire",
-            "HEXA Broadside",
-            "HEXA Brain Scrambler",
-            "HEXA Eight-Legs Easton",
-            "HEXA Firing Orders",
-            "HEXA All Aboard",
-            "HEXA Siege Bomber",
-            "HEXA Ugly Bomb",
-            "HEXA Nautilus Strike",
-        ],
-        "boostSkills": [
-            "Bullet Barrage Boost",
-            "Target Lock Boost",
-            "Nautilus Assault Boost",
-            "Death Trigger Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Pirate's Banner"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Dawn Warrior": {
-        "originSkill": "Astral Blitz",
-        "ascentSkill": "Totality",
-        "masterySkills": [
-            "HEXA Luna Divide",
-            "HEXA Solar Slash",
-            "HEXA Cosmic Shower",
-            "HEXA Cosmic Burst",
-            "HEXA Equinox Slash",
-            "Equinox Power II",
-        ],
-        "boostSkills": [
-            "Cosmos Boost",
-            "Rift of Damnation Boost",
-            "Soul Eclipse Boost",
-            "Flare Slash Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Phalanx Charge"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Thunder Breaker": {
-        "originSkill": "Thunder Wall Sea Wave",
-        "ascentSkill": "Annihilating Rush",
-        "masterySkills": [
-            "HEXA Annihilate",
-            "HEXA Annihilate Lightning Strike",
-            "HEXA Thunderbolt",
-            "HEXA Typhoon",
-            "HEXA Deep Rising",
-            "HEXA Sea Wave",
-            "Deep Reinforcement",
-        ],
-        "boostSkills": [
-            "Lightning Cascade Boost",
-            "Shark Torpedo Boost",
-            "Lightning God Spear Strike Boost",
-            "Lightning Spear Multistrike Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Phalanx Charge"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Night Walker": {
-        "originSkill": "Silence",
-        "ascentSkill": "Stygian Command",
-        "masterySkills": [
-            "HEXA Quintuple Star",
-            "HEXA Quintuple Star - Jet Black",
-            "HEXA Shadow Bat",
-            "HEXA Ravenous Bat",
-            "HEXA Dark Omen",
-            "HEXA Dominion",
-            "Abyssal Darkness",
-        ],
-        "boostSkills": [
-            "Shadow Spear Boost",
-            "Greater Dark Servant Boost",
-            "Shadow Bite Boost",
-            "Rapid Throw Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Phalanx Charge"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Wind Archer": {
-        "originSkill": "Mistral Spring",
-        "ascentSkill": "Elemental Tempest",
-        "masterySkills": [
-            "HEXA Song of Heaven",
-            "HEXA Trifling Wind",
-            "HEXA Storm Bringer",
-            "HEXA Fairy Spiral",
-            "HEXA Monsoon",
-            "HEXA Storm Whim",
-            "Anemoi",
-        ],
-        "boostSkills": [
-            "Howling Gale Boost",
-            "Merciless Winds Boost",
-            "Gale Barrier Boost",
-            "Vortex Sphere Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Phalanx Charge"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Blaze Wizard": {
-        "originSkill": "Eternity",
-        "ascentSkill": "Flame Concerto",
-        "masterySkills": [
-            "HEXA Orbital Flame",
-            "HEXA Blazing Extinction",
-            "HEXA Orbital Explosion",
-            "HEXA Phoenix Drive",
-            "HEXA Towering Inferno",
-        ],
-        "boostSkills": [
-            "Orbital Inferno Boost",
-            "Savage Flame Boost",
-            "Inferno Sphere Boost",
-            "Salamander Mischief Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Phalanx Charge"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Mihile": {
-        "originSkill": "Durendal",
-        "ascentSkill": "Knights Immortal",
-        "masterySkills": [
-            "HEXA Radiant Cross",
-            "HEXA Radiant Cross - Assault",
-            "HEXA Royal Guard",
-            "HEXA Install Shield",
-            "HEXA Charging Light",
-            "HEXA Offensive Defense",
-            "HEXA Final Attack",
-            "HEXA Soul Majesty",
-        ],
-        "boostSkills": [
-            "Shield of Light Boost",
-            "Sword of Light Boost",
-            "Radiant Soul Boost",
-            "Light of Courage Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Phalanx Charge"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Mercedes": {
-        "originSkill": "Unfading Glory",
-        "ascentSkill": "Primeval Spirits",
-        "masterySkills": [
-            "HEXA Ishtar's Ring",
-            "HEXA Wrath of Enlil",
-            "HEXA Wrath of Enlil: Spirit Enchant",
-            "HEXA Spikes Royale",
-            "HEXA Spikes Royale: Spirit Enchant",
-            "HEXA Leaf Tornado",
-            "HEXA Leaf Tornado: Spirit Enchant",
-            "HEXA Unicorn Spike",
-            "HEXA Gust Dive",
-            "HEXA Stunning Strikes",
-            "HEXA Elemental Knights",
-            "HEXA Final Attack",
-        ],
-        "boostSkills": [
-            "Spirit of Elluel Boost",
-            "Sylvidia's Flight Boost",
-            "Irkalla's Wrath Boost",
-            "Royal Knights Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Freud's Wisdom"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Aran": {
-        "originSkill": "Endgame",
-        "ascentSkill": "Hailstorm Howl",
-        "masterySkills": [
-            "HEXA Beyond Blade",
-            "HEXA Finisher - Hunter's Prey",
-            "HEXA Last Stand",
-            "HEXA Adrenaline Overload",
-            "HEXA Permafrost",
-            "HEXA Final Attack"
-        ],
-        "boostSkills": [
-            "Finisher - Adrenaline Surge Boost",
-            "Maha's Carnage Boost",
-            "Final Beyond Blade - White Tiger Boost",
-            "Blizzard Tempest Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Freud's Wisdom"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Phantom": {
-        "originSkill": "Defying Fate",
-        "ascentSkill": "Moonlit Serenade",
-        "masterySkills": [
-            "HEXA Tempest",
-            "HEXA Mille Aiguilles",
-            "HEXA Mille Aiguilles: Fortune",
-            "HEXA Carte Noir",
-            "HEXA Carte Rose Finale",
-            "La Mort Carte",
-        ],
-        "boostSkills": [
-            "Luck of the Draw Boost",
-            "Ace in the Hole Boost",
-            "Phantom's Mark Boost",
-            "Rift Break Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Freud's Wisdom"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Luminous": {
-        "originSkill": "Harmonic Paradox",
-        "ascentSkill": "Lustrous Orb",
-        "masterySkills": [
-            "HEXA Ender",
-            "HEXA Reflection",
-            "Endless Darkness",
-            "HEXA Apocalypse",
-            "Eternal Light",
-            "HEXA Twilight Nova",
-        ],
-        "boostSkills": [
-            "Gate of Light Boost",
-            "Aether Conduit Boost",
-            "Baptism of Light and Darkness Boost",
-            "Liberation Orb Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Freud's Wisdom"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Evan": {
-        "originSkill": "Zodiac Burst",
-        "ascentSkill": "United Horizons",
-        "masterySkills": [
-            "HEXA Mana Burst",
-            "HEXA Thunder Circle",
-            "HEXA Dragon Flash",
-            "HEXA Thunder Flash",
-            "HEXA Wind Flash",
-            "HEXA Earth Circle",
-            "HEXA Dragon Dive",
-            "HEXA Earth Dive",
-            "HEXA Thunder Dive",
-            "HEXA Wind Circle",
-            "HEXA Dragon Breath",
-            "HEXA Earth Breath",
-            "HEXA Wind Breath",
-            "HEXA Magic Debris",
-            "HEXA Dragon Spark",
-        ],
-        "boostSkills": [
-            "Elemental Barrage Boost",
-            "Dragon Slam Boost",
-            "Elemental Radiance Boost",
-            "Spiral of Mana Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Freud's Wisdom"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Shade": {
-        "originSkill": "Advent of the Fox",
-        "ascentSkill": "Promise Unbroken",
-        "masterySkills": [
-            "HEXA Spirit Claw",
-            "HEXA Fox Spirits",
-            "HEXA Bomb Punch",
-            "HEXA Death Mark",
-            "Spirit Night Punch",
-            "HEXA Spirit Frenzy",
-        ],
-        "boostSkills": [
-            "Fox God Flash",
-            "Spiritgate Boost",
-            "True Spirit Claw Boost",
-            "Smashing Multipunch Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Freud's Wisdom"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Battle Mage": {
-        "originSkill": "Crimson Pact",
-        "ascentSkill": "Duskbound Aura",
-        "masterySkills": [
-            "HEXA Condemnation",
-            "HEXA Finishing Blow",
-            "HEXA Sweeping Staff",
-            "HEXA Dark Shock",
-            "HEXA Dark Genesis",
-        ],
-        "boostSkills": [
-            "Aura Scythe Boost",
-            "Altar of Annihilation Boost",
-            "Grim Harvest Boost",
-            "Abyssal Lightning Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Resistance Infantry"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Blaster": {
-        "originSkill": "Final Destroyer",
-        "ascentSkill": "Vanguard Strike",
-        "masterySkills": [
-            "HEXA Magnum Punch",
-            "HEXA Double Blast",
-            "HEXA Bunker Buster Explosion",
-            "Burst Pile Bunker",
-            "HEXA Revolving Cannon Mastery",
-            "HEXA Hammer Smash",
-            "HEXA Shotgun Punch",
-            "HEXA Revolving Cannon",
-            "HEXA Ballistic Hurricane",
-        ],
-        "boostSkills": [
-            "Rocket Punch Boost",
-            "Gatling Punch Boost",
-            "Bullet Blast Boost",
-            "Afterimage Shock Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Resistance Infantry"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Mechanic": {
-        "originSkill": "Ground Zero",
-        "ascentSkill": "Mechanized Extinction",
-        "masterySkills": [
-            "HEXA Heavy Salvo Plus",
-            "HEXA AP Salvo Plus",
-            "HEXA Homing Beacon",
-            "HEXA Distortion Bomb",
-            "HEXA Robo Launcher RM7",
-            "HEXA Rock 'n Shock",
-            "HEXA Bots 'n Tots",
-        ],
-        "boostSkills": [
-            "Doomsday Device Boost",
-            "Mobile Missile Battery Boost",
-            "Full Metal Barrage Boost",
-            "Mecha Carrier Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Resistance Infantry"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Wild Hunter": {
-        "originSkill": "Synchronous Hunt",
-        "ascentSkill": "Gear Storm",
-        "masterySkills": [
-            "HEXA Wild Arrow Blast: Apex",
-            "HEXA Assist: Rending Swipe",
-            "HEXA Assist: Snapping Fangs",
-            "HEXA Assist: Skull Bash",
-            "HEXA Command: Alpha Surge",
-            "HEXA Command: Titan Pounce",
-            "HEXA Another Bite",
-            "HEXA Final Attack",
-            "HEXA Trap Seed",
-        ],
-        "boostSkills": [
-            "Command: Predator's Eye Boost",
-            "Overbite Boost",
-            "Primal Bloom Boost",
-            "Wild Arrow Blast: Overdrive Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Resistance Infantry"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Xenon": {
-        "originSkill": "Artificial Evolution",
-        "ascentSkill": "Neoteric Snap",
-        "masterySkills": [
-            "HEXA Mecha Purge: Snipe",
-            "HEXA Mecha Purge: Execute",
-            "HEXA Mecha Purge: Bombardment",
-            "HEXA Mecha Purge: Fire",
-            "HEXA Hypogram Field: Penetrate",
-            "HEXA Hypogram Field: Force Field",
-            "HEXA Triangulation",
-            "HEXA Aegis System",
-            "HEXA Orbital Cataclysm",
-            "HEXA Beam Dance",
-        ],
-        "boostSkills": [
-            "Omega Blaster Boost",
-            "Core Overload Boost",
-            "Hypogram Field: Fusion Boost",
-            "Photon Ray Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Resistance Infantry"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Demon Slayer": {
-        "originSkill": "Nightmare",
-        "ascentSkill": "Amethystine Incursion",
-        "masterySkills": [
-            "HEXA Demon Impact",
-            "HEXA Demon Impact: Demon Chain",
-            "HEXA Demon Lash",
-            "HEXA Infernal Concussion",
-            "HEXA Demon Cry",
-            "HEXA Metamorphosis",
-            "HEXA Cerberus Chomp",
-            "Demonic Plume",
-        ],
-        "boostSkills": [
-            "Demon Awakening Boost",
-            "Spirit of Rage Boost",
-            "Orthrus Boost",
-            "Demon Bane Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Defender of the Demon"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Demon Avenger": {
-        "originSkill": "Requiem",
-        "ascentSkill": "Rageborne Daredevil",
-        "masterySkills": [
-            "HEXA Nether Shield",
-            "HEXA Exceed: Execution",
-            "HEXA Exceed: Lunar Slash",
-            "Maximal Exceed",
-            "HEXA Thousand Swords",
-            "HEXA Infernal Exceed",
-        ],
-        "boostSkills": [
-            "Demonic Frenzy Boost",
-            "Demonic Blast Boost",
-            "Dimensional Sword Boost",
-            "Revenant Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Defender of the Demon"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Angelic Buster": {
-        "originSkill": "Grand Finale",
-        "ascentSkill": "Surprise Encore",
-        "masterySkills": [
-            "HEXA Trinity",
-            "HEXA Soul Seeker",
-            "HEXA Supreme Supernova",
-            "HEXA Celestial Roar",
-            "Encore Ribbon",
-        ],
-        "boostSkills": [
-            "Sparkle Burst Boost",
-            "Superstar Spotlight Boost",
-            "Mighty Mascot Boost",
-            "Trinity Fusion Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Might of the Nova"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Kaiser": {
-        "originSkill": "Nova Triumphant",
-        "ascentSkill": "Pyroclastic Instinct",
-        "masterySkills": [
-            "HEXA Gigas Wave",
-            "HEXA Blade Burst",
-            "HEXA Tempest Blades",
-            "HEXA Inferno Breath",
-            "HEXA Wing Beat",
-            "HEXA Stone Dragon",
-        ],
-        "boostSkills": [
-            "Nova Guardians Boost",
-            "Bladefall Boost",
-            "Draco Surge Boost",
-            "Dragonflare Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Might of the Nova"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Cadena": {
-        "originSkill": "Chain Arts: Grand Arsenal",
-        "ascentSkill": "Brutal Rampage",
-        "masterySkills": [
-            "HEXA Chain Arts: Thrash",
-            "HEXA Muscle Memory",
-            "HEXA Summon Scimitar",
-            "HEXA Summon Claw",
-            "HEXA Summon Shuriken",
-            "HEXA Summon Spiked Bat",
-            "HEXA Chain Arts: Crush",
-            "HEXA Summon Shotgun",
-            "HEXA Summon Daggers",
-            "HEXA Summon Decoy Bomb",
-            "HEXA Summon Brick",
-            "HEXA Chain Arts: Beatdown",
-            "HEXA Veteran Shadowdealer",
-        ],
-        "boostSkills": [
-            "Chain Arts: Void Strike Boost",
-            "Apocalypse Cannon Boost",
-            "Chain Arts: Maelstrom Boost",
-            "Muscle Memory Finale Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Might of the Nova"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Kain": {
-        "originSkill": "Total Annihilation",
-        "ascentSkill": "Churning Malice",
-        "masterySkills": [
-            "HEXA Falling Dust",
-            "[Possess] HEXA Falling Dust",
-            "[Execute] HEXA Poison Needle",
-            "HEXA Strike Arrow",
-            "HEXA [Possess] Strike Arrow",
-            "HEXA Scattering Shot",
-            "HEXA [Possess] Scattering Shot",
-            "HEXA [Execute] Tearing Knife",
-            "HEXA [Execute] Chain Sickle",
-            "HEXA Dragon Fang",
-            "HEXA Shaft Break",
-            "HEXA [Posess] Shaft Break",
-            "HEXA [Execute] Phantom Blade",
-            "HEXA Lasting Grudge",
-            "HEXA Death's Blessing",
-            "HEXA Chasing Shot",
-            "HEXA Unseen Sniper",
-            "HEXA [Posess/Execute] Unseen Sniper",
-        ],
-        "boostSkills": [
-            "Dragon Burst Boost",
-            "Fatal Blitz Boost",
-            "Thanatos Descent Boost",
-            "Grip of Agony Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Might of the Nova"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Kanna": {
-        "originSkill": "[Divine Will] Advent of Crimson",
-        "ascentSkill": "[Divine Will] Final Rest",
-        "masterySkills": [
-            "HEXA Soul-Shatter Talisman: Dance",
-            "HEXA Heart-Wreck Talisman",
-            "HEXA Summon Oni",
-            "HEXA [Order] Spinning Strike",
-            "HEXA [Order] Pulverizing Strike",
-            "HEXA Summon Tengu",
-            "HEXA [Order] Shade-Fletched Arrow",
-            "HEXA Summon Orochi",
-            "HEXA [Order] Execute"
-        ],
-        "boostSkills": [
-            "[Spirit] Hakumenkonmou Juubi Boost",
-            "[Spirit] Unleash the Radiant Flame Boost",
-            "[Spirit] Unleash Black-Winged Destruction Boost",
-            "[Spirit] Unleash Soul-Searing Venom Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Twilight Bloom",
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Hayato": {
-        "originSkill": "Shin Quick Draw",
-        "ascentSkill": "Fleeting Breath",
-        "masterySkills": [
-            "HEXA [Shinsoku] Mist Slash",
-            "HEXA [Shinsoku] Afterimage Slash",
-            "HEXA [Shinsoku] Crescent Moon Cut",
-            "HEXA [Shinsoku] Silent Arc",
-            "HEXA [Battou] Dark Moon Cut",
-            "HEXA [Battou] Full Moon's Rage"
-        ],
-        "boostSkills": [
-            "Shogetsu Form Boost",
-            "[Shinsoku] Crashing Tide Boost",
-            "[Shinsoku] Light Cutter Boost",
-            "[Battou] Wailing Heavens Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Twilight Bloom",
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Adele": {
-        "originSkill": "Maestro",
-        "ascentSkill": "Einheit",
-        "masterySkills": [
-            "HEXA Cleave",
-            "HEXA Magic Dispatch",
-            "HEXA Hunting Decree",
-            "HEXA Plummet",
-            "HEXA Impale",
-            "HEXA Resonance Rush",
-            "HEXA Noble Summons",
-            "HEXA Aether Bloom",
-            "HEXA Aether Forge",
-            "HEXA Reign of Destruction",
-            "HEXA Shardbreaker",
-        ],
-        "boostSkills": [
-            "Ruin Boost",
-            "Infinity Blade Boost",
-            "Legacy Restoration Boost",
-            "Storm Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Conversion Overdrive"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Ark": {
-        "originSkill": "Primordial Abyss",
-        "ascentSkill": "Whisper of Deepest Abyss",
-        "masterySkills": [
-            "HEXA Basic Charge Drive",
-            "HEXA Scarlet Charge Drive",
-            "HEXA Gust Charge Drive",
-            "HEXA Abyssal Charge Drive",
-            "Awakened Abyss",
-            "HEXA Grievous Wound",
-            "HEXA Insatiable Hunger",
-            "HEXA Unbridled Chaos",
-            "HEXA Vengeful Hate",
-            "HEXA Blissful Restraint",
-            "HEXA Endless Agony",
-            "HEXA Endless Nightmare",
-            "HEXA Endless Dream",
-        ],
-        "boostSkills": [
-            "Abyssal Recall Boost",
-            "Infinity Spell Boost",
-            "Devious Nightmare Boost",
-            "Endlessly Starving Beast Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Conversion Overdrive"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Illium": {
-        "originSkill": "Mytocrystal Expanse",
-        "ascentSkill": "Excidium",
-        "masterySkills": [
-            "HEXA Radiant Javelin",
-            "HEXA Radiant Enchanted Javelin",
-            "HEXA Winged Javelin",
-            "HEXA Winged Enchanted Javelin",
-            "HEXA Reaction - Destruction",
-            "HEXA Reaction - Domination",
-            "HEXA Vortex Wings",
-            "HEXA Ex",
-            "HEXA Machina",
-            "HEXA Crystal Skill - Deus",
-            "HEXA Longinus Spear",
-            "HEXA Umbral Brand",
-            "HEXA Longinus Zone",
-        ],
-        "boostSkills": [
-            "Crystal Ignition Boost",
-            "Templar Knight Boost",
-            "Crystalline Spirit Boost",
-            "Crystal Gate Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Conversion Overdrive"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Khali": {
-        "originSkill": "Hex: Sandstorm",
-        "ascentSkill": "Wake the Void",
-        "masterySkills": [
-            "HEXA Arts: Flurry",
-            "HEXA Arts: Crescentum",
-            "HEXA Void Rush",
-            "HEXA Void Blitz",
-            "HEXA Hex: Chakram Split",
-            "HEXA Hex: Chakram Sweep",
-            "HEXA Hex: Chakram Fury",
-            "HEXA Death Blossom",
-            "HEXA Resonate",
-            "HEXA Deceiving Blade",
-        ],
-        "boostSkills": [
-            "Hex: Pandemonium Boost",
-            "Void Burst Boost",
-            "Arts: Astra Boost",
-            "Resonate: Ultimatum Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Conversion Overdrive"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Hoyoung": {
-        "originSkill": "Sage: Apotheosis",
-        "ascentSkill": "Millennium Spirit",
-        "masterySkills": [
-            "HEXA Heaven: Consuming Flames",
-            "HEXA Heaven: Consuming Flames (Enhanced)",
-            "HEXA Consuming Flames (Clone/True)",
-            "HEXA Consuming Flames (Clone/True) (Enhanced)",
-            "HEXA Earth: Stone Tremor",
-            "HEXA Earth: Stone Tremor (Enhanced)",
-            "HEXA Stone Tremor (Clone/True)",
-            "HEXA Stone Tremor (Clone/True) (Enhanced)",
-            "HEXA Humanity: Gold-Banded Cudgel",
-            "HEXA Humanity: Gold-Banded Cudgel (Enhanced)",
-            "HEXA Heaven: Iron Fan Gale",
-            "HEXA Heaven: Iron Fan Gale (Enhanced)",
-            "HEXA Heaven: Iron Fan Gale (Clone/True)",
-            "HEXA Heaven: Iron Fan Gale (Clone/True) (Enhanced)",
-            "HEXA Earth: Ground-Shattering Wave",
-            "HEXA Earth: Ground-Shattering Wave (Enhanced)",
-            "HEXA Earth: Ground-Shattering Wave (Clone/True)",
-            "HEXA Earth: Ground-Shattering Wave (Clone/True) (Enhanced)",
-            "HEXA Humanity: As-You-Will Fan",
-            "HEXA Humanity: As-You-Will Fan (Enhanced)",
-            "HEXA Talisman: Clone",
-            "HEXA Talisman: Seeking Ghost Flame",
-            "HEXA Scroll: Star Vortex",
-            "HEXA Scroll: Butterfly Dream",
-        ],
-        "boostSkills": [
-            "Sage: Clone Rampage Boost",
-            "Scroll: Tiger of Songyu Boost",
-            "Sage: Wrath of Gods Boost",
-            "Sage: Three Paths Apparition Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Lotus Flower"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Lara": {
-        "originSkill": "Universe in Bloom",
-        "ascentSkill": "Cornucopia",
-        "masterySkills": [
-            "HEXA Essence Sprinkle",
-            "HEXA Dragon Vein Eruption",
-            "HEXA Eruption: Heaving River",
-            "HEXA Eruption: Whirlwind",
-            "HEXA Eruption: Sunrise Well",
-            "HEXA Dragon Vein Absorption",
-            "HEXA Absorption: River Puddle Douse",
-            "HEXA Absorption: Fierce Wind",
-            "HEXA Absorption: Sunlit Grain",
-            "HEXA Wakeup Call",
-        ],
-        "boostSkills": [
-            "Big Stretch Boost",
-            "Land's Connection Boost",
-            "Surging Essence Boost",
-            "Winding Mountain Ridge Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Lotus Flower"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Kinesis": {
-        "originSkill": "From Another Realm",
-        "ascentSkill": "Fractal Horizon",
-        "jobBranchSkills": [
-            "HEXA Afterimage of the Otherworld"
-        ],
-        "masterySkills": [
-            "HEXA Ultimate - Metal Press",
-            "HEXA Psychic Grab",
-            "HEXA Ultimate - Psychic Shot",
-            "HEXA Ultimate - Trainwreck",
-            "HEXA Ultimate - B.P.M.",
-            "HEXA Kinetic Combo",
-        ],
-        "boostSkills": [
-            "Psychic Tornado Boost",
-            "Ultimate - Mind Over Matter Boost",
-            "Ultimate - Psychic Shockwave Boost",
-            "Law of Gravity Boost"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Zero": {
-        "originSkill": "End Time",
-        "ascentSkill": "Bitemporis",
-        "jobBranchSkills": [
-            "HEXA Transcendent"
-        ],
-        "masterySkills": [
-            "HEXA Giga Crash",
-            "HEXA Falling Star",
-            "HEXA Groundbreaker",
-            "HEXA Wind Cutter",
-            "HEXA Wind Striker",
-            "HEXA Storm Break",
-            "Time Piece",
-            "HEXA Spin Driver",
-            "HEXA Wheel Wind",
-            "HEXA Rolling Cross",
-            "HEXA Rolling Assault",
-            "HEXA Flash Assault",
-            "HEXA Blade Ring",
-            "HEXA Flash Cut",
-            "HEXA Throwing Weapon",
-            "HEXA Moon Strike",
-            "HEXA Piercing Thrust",
-            "HEXA Shadow Strike",
-            "HEXA Rising Slash",
-            "HEXA Air Raid",
-            "HEXA Shadow Rain",
-            "Infinite Resonance",
-        ],
-        "boostSkills": [
-            "Chrono Break Boost",
-            "Twin Blades of Time Boost",
-            "Shadow Flash Boost",
-            "Ego Weapon Boost"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Lynn": {
-        "originSkill": "Source Flow",
-        "ascentSkill": "Wild Hunt",
-        "masterySkills": [
-            "HEXA Strike",
-            "HEXA Sneak Attack",
-            "HEXA Raid",
-            "HEXA Peck",
-            "HEXA [Focus] Heal",
-            "HEXA [Focus] Forest Protection",
-            "HEXA Mother Nature's Touch",
-        ],
-        "boostSkills": [
-            "Beast's Rage Boost",
-            "Beak Strike Boost",
-            "[Focus] Awaken Boost",
-            "Nature's Grace Boost"
-        ],
-        "jobBranchSkills": [
-            "HEXA Power of Destiny"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Mo Xuan": {
-        "originSkill": "Soul Art: Jianghu Dragon",
-        "ascentSkill": "Soul Art: Where Destiny Falls",
-        "masterySkills": [
-            "HEXA Xuanshan Arts [Tian]",
-            "HEXA Xuanshan Arts [Di]",
-            "HEXA Divine Art: Howling Storm",
-            "HEXA Divine Art: Righteous Thunder",
-            "HEXA Divine Art: Swirling Tide",
-            "HEXA Soul Art: Black Wind",
-            "HEXA Divine Art: Tearing Wind",
-            "HEXA Secret Art: Qi Projection",
-        ],
-        "boostSkills": [
-            "Soul Art: Beneath Heaven Boost",
-            "Divine Art: Crashing Earth Boost",
-            "Soul Art: The Conquered Self Boost",
-            "Soul Art: The Opened Gate Boost",
-        ],
-        "jobBranchSkills": [
-            "HEXA Power of Destiny"
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Sia Astelle": {
-        "originSkill": "Celestial Design",
-        "ascentSkill": "Starlit Cosmos",
-        "masterySkills": [
-            "SHINE Ray",
-            "SHINE Stellar I - Antares",
-            "SHINE Boom",
-            "SHINE Stellar II - Algol",
-            "SHINE Stellar V - Fomalhaut",
-        ],
-        "boostSkills": [
-            "Shine Boost",
-            "Stellar XI - Sirius Boost",
-            "Stellar XII - Sadalsuud Boost",
-            "Savior's Circle Boost",
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Erel Light": {
-        "originSkill": "Celestial Design",
-        "ascentSkill": "Starlit Cosmos",
-        "masterySkills": [
-            "SHINE Ray",
-            "SHINE Stellar I - Antares",
-            "SHINE Boom",
-            "SHINE Stellar II - Algol",
-            "SHINE Stellar V - Fomalhaut",
-        ],
-        "boostSkills": [
-            "Shine Boost",
-            "Stellar XI - Sirius Boost",
-            "Stellar XII - Sadalsuud Boost",
-            "Savior's Circle Boost",
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
-    "Ren": {
-        "originSkill": "Rising Azure Dragon: Divided Heavens",
-        "ascentSkill": "Rising Azure Dragon: Heartbound Verse",
-        "jobBranchSkills": [
-            "HEXA Lotus Flower"
-        ],
-        "masterySkills": [
-            "HEXA Plum Blossom Sword: Storm",
-            "HEXA Imugi Spirit Sword: Spirit Strike",
-            "HEXA Imugi Spirit Sword: Serpent's Fang",
-            "HEXA Wish Unending",
-            "HEXA Final Imugi Spirit Sword: Burrowing Earth",
-            "HEXA Final Imugi Spirit Sword: Ravenous Spirit",
-            "HEXA Final Imugi Spirit Sword: Years Uncounted",
-            "HEXA Second Plum Blossom Sword: Raining Blossoms",
-            "HEXA Third Plum Blossom Sword: Riotous Heart",
-        ],
-        "boostSkills": [
-            "Final Plum Blossom Sword: Thousand Blossom Flurry Boost",
-            "Soul Immeasurable Boost",
-            "Final Plum Blossom Sword: Dancing Annihilation Boost",
-            "Final Imugi Spirit Sword: Blade of the Unbound Heart Boost",
-        ],
-        "commonSkills": [
-            "Sol Janus",
-            "Sol Hecate"
-        ]
-    },
+  Hero: {
+    originSkill: "Spirit Calibur",
+    ascentSkill: "Ultrasonic Slash",
+    masterySkills: [
+      "HEXA Raging Blow",
+      "HEXA Rising Rage",
+      "HEXA Beam Blade",
+      "HEXA Cry Valhalla",
+      "Rending Edge",
+      "HEXA Puncture",
+      "HEXA Final Attack",
+    ],
+    boostSkills: [
+      "Burning Soul Blade Boost",
+      "Instinctual Combo Boost",
+      "Worldreaver Boost",
+      "Sword Illusion Boost",
+    ],
+    jobBranchSkills: ["HEXA Blitz Shield"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Dark Knight": {
+    originSkill: "Dead Space",
+    ascentSkill: "Dark Halidom",
+    masterySkills: [
+      "HEXA Gungnir's Descent",
+      "HEXA Dark Impale",
+      "HEXA Nightshade Explosion",
+      "HEXA Revenge of the Evil Eye",
+      "HEXA Final Attack",
+      "HEXA Evil Eye Shock",
+    ],
+    boostSkills: [
+      "Spear of Darkness Boost",
+      "Radiant Evil Boost",
+      "Calamitous Cyclone Boost",
+      "Darkness Aura Boost",
+    ],
+    jobBranchSkills: ["HEXA Blitz Shield"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Paladin: {
+    originSkill: "Sacred Bastion",
+    ascentSkill: "Dominus Oblivion",
+    masterySkills: [
+      "HEXA Blast",
+      "HEXA Divine Judgment",
+      "HEXA Divine Charge",
+      "HEXA Divine Mark",
+      "HEXA Heaven's Hammer",
+      "HEXA Final Attack",
+      "Rising Justice",
+    ],
+    boostSkills: [
+      "Divine Echo Boost",
+      "Hammers of the Righteous Boost",
+      "Grand Guardian Boost",
+      "Mighty Mjolnir Boost",
+    ],
+    jobBranchSkills: ["HEXA Blitz Shield"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Arch Mage (Ice, Lightning)": {
+    originSkill: "Frozen Lightning",
+    ascentSkill: "Parabolic Bolt",
+    masterySkills: [
+      "HEXA Chain Lightning",
+      "HEXA Frozen Orb",
+      "HEXA Blizzard",
+      "HEXA Lightning Orb",
+      "Cryo Shock",
+      "HEXA Thunder Sphere",
+      "HEXA Elquines",
+    ],
+    boostSkills: [
+      "Ice Age Boost",
+      "Bolt Barrage Boost",
+      "Spirit of Snow Boost",
+      "Jupiter Thunder Boost",
+    ],
+    jobBranchSkills: ["HEXA Arcane Overdrive"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Arch Mage (Fire, Poison)": {
+    originSkill: "Infernal Venom",
+    ascentSkill: "Immortal Flame",
+    masterySkills: [
+      "HEXA Flame Sweep",
+      "HEXA Flame Haze",
+      "HEXA Mist Eruption",
+      "HEXA Ignite",
+      "HEXA Ifrit",
+      "HEXA Inferno Aura",
+      "HEXA Creeping Toxin",
+      "HEXA Meteor Shower",
+      "HEXA Megiddo Flame",
+    ],
+    boostSkills: [
+      "DoT Punisher Boost",
+      "Poison Nova Boost",
+      "Elemental Fury Boost",
+      "Poison Chain Boost",
+    ],
+    jobBranchSkills: ["HEXA Arcane Overdrive"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Bishop: {
+    originSkill: "Holy Advent",
+    ascentSkill: "Commandment of Heaven",
+    masterySkills: [
+      "HEXA Angel Ray",
+      "HEXA Big Bang",
+      "HEXA Triumph Feather",
+      "HEXA Angelic Wrath",
+      "HEXA Fountain of Vengeance",
+      "HEXA Bahamut",
+      "HEXA Genesis",
+      "HEXA Heaven's Door",
+    ],
+    boostSkills: [
+      "Benediction Boost",
+      "Angel of Balance Boost",
+      "Peacemaker Boost",
+      "Divine Punishment Boost",
+    ],
+    jobBranchSkills: ["HEXA Arcane Overdrive"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Pathfinder: {
+    originSkill: "Forsaken Relic",
+    ascentSkill: "Piercing Relic",
+    masterySkills: [
+      "HEXA Cardinal Burst",
+      "HEXA Bountiful Burst",
+      "HEXA Cardinal Deluge",
+      "HEXA Bountiful Deluge",
+      "HEXA Glyph of Impalement",
+      "HEXA Cardinal Torrent",
+      "HEXA Ancient Astra",
+      "HEXA Combo Assault",
+      "HEXA Shadow Raven",
+      "Manifest Curse",
+    ],
+    boostSkills: [
+      "Nova Blast Boost",
+      "Raven Tempest Boost",
+      "Obsidian Barrier Boost",
+      "Relic Unbound Boost",
+    ],
+    jobBranchSkills: ["HEXA Fury of the Wild"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Marksman: {
+    originSkill: "Final Aim",
+    ascentSkill: "Fatal Trigger",
+    masterySkills: [
+      "HEXA Snipe",
+      "HEXA Piercing Arrow",
+      "HEXA Frostprey",
+      "HEXA Bolt Burst",
+      "HEXA Final Attack",
+      "HEXA High Speed Shot",
+    ],
+    boostSkills: [
+      "Perfect Shot Boost",
+      "Split Shot Boost",
+      "Surge Bolt Boost",
+      "Repeating Crossbow Cartridge Boost",
+    ],
+    jobBranchSkills: ["HEXA Fury of the Wild"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Bowmaster: {
+    originSkill: "Ascendant Shadow",
+    ascentSkill: "Flashpoint",
+    masterySkills: [
+      "HEXA Hurricane",
+      "HEXA Arrow Stream",
+      "HEXA Arrow Blaster",
+      "HEXA Quiver Cartridge",
+      "HEXA Phoenix",
+      "Extra Quiver Cartridge",
+      "HEXA Speed Mirage",
+      "HEXA Gritty Gust",
+    ],
+    boostSkills: [
+      "Storm of Arrows Boost",
+      "Inhuman Speed Boost",
+      "Quiver Barrage Boost",
+      "Silhouette Mirage Boost",
+    ],
+    jobBranchSkills: ["HEXA Fury of the Wild"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Dual Blade": {
+    originSkill: "Karma Blade",
+    ascentSkill: "Yama's Decree",
+    masterySkills: [
+      "HEXA Phantom Blow",
+      "HEXA Asura's Anger",
+      "HEXA Blade Clone",
+      "Mortality",
+      "HEXA Blade Fury",
+      "HEXA Sudden Raid",
+    ],
+    boostSkills: [
+      "Blade Storm Boost",
+      "Blades of Destiny Boost",
+      "Blade Tornado Boost",
+      "Haunted Edge Boost",
+    ],
+    jobBranchSkills: ["HEXA Shadow Walker"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Shadower: {
+    originSkill: "Halve Cut",
+    ascentSkill: "Covetous Darkness",
+    masterySkills: [
+      "HEXA Assassinate",
+      "HEXA Pulverize",
+      "HEXA Meso Explosion",
+      "HEXA Meso Explosion",
+      "HEXA Dark Flare",
+      "HEXA Cruel Stab",
+      "HEXA Sudden Raid",
+      "HEXA Shadow Veil",
+      "Covert Edge",
+    ],
+    boostSkills: [
+      "Shadow Assault Boost",
+      "Trickblade Boost",
+      "Sonic Blow Boost",
+      "Slash Shadow Formation Boost",
+    ],
+    jobBranchSkills: ["HEXA Shadow Walker"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Night Lord": {
+    originSkill: "Life and Death",
+    ascentSkill: "Deep Strike",
+    masterySkills: [
+      "HEXA Quad Star",
+      "Enhanced HEXA Quad Star",
+      "HEXA Assassin's Mark",
+      "HEXA Dark Flare",
+      "HEXA Showdown",
+      "Darkness Shuriken",
+      "HEXA Sudden Raid",
+      "HEXA Death Star",
+    ],
+    boostSkills: [
+      "Throwing Star Barrage Boost",
+      "Shurrikane Boost",
+      "Dark Lord's Omen Boost",
+      "Throw Blasting Boost",
+    ],
+    jobBranchSkills: ["HEXA Shadow Walker"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Cannoneer: {
+    originSkill: "Super Cannon Explosion",
+    ascentSkill: "Barrel of Monkeys",
+    masterySkills: [
+      "HEXA Cannon Barrage",
+      "HEXA Cannon Bazooka",
+      "HEXA Monkey Mortar",
+      "HEXA Anchors Away",
+      "HEXA Nautilus Strike",
+      "HEXA Rolling Rainbow",
+      "HEXA Monkey Militia",
+      "HEXA Monkey Fury",
+    ],
+    boostSkills: [
+      "Cannon of Mass Destruction Boost",
+      "The Nuclear Option Boost",
+      "Monkey Business Boost",
+      "Poolmaker Boost",
+    ],
+    jobBranchSkills: ["HEXA Pirate's Banner"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Buccaneer: {
+    originSkill: "Unleash Neptunus",
+    ascentSkill: "Haymaker",
+    masterySkills: [
+      "HEXA Octopunch",
+      "HEXA Sea Serpent Burst",
+      "HEXA Sea Serpent's Rage",
+      "HEXA Nautilus Strike",
+      "HEXA Serpent Scale",
+      "HEXA Hook Bomber",
+    ],
+    boostSkills: [
+      "Lightning Form Boost",
+      "Lord of the Deep Boost",
+      "Serpent Vortex Boost",
+      "Howling Fist Boost",
+    ],
+    jobBranchSkills: ["HEXA Pirate's Banner"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Corsair: {
+    originSkill: "The Dreadnought",
+    ascentSkill: "Firecracker Fusilade",
+    masterySkills: [
+      "HEXA Rapid Fire",
+      "HEXA Broadside",
+      "HEXA Brain Scrambler",
+      "HEXA Eight-Legs Easton",
+      "HEXA Firing Orders",
+      "HEXA All Aboard",
+      "HEXA Siege Bomber",
+      "HEXA Ugly Bomb",
+      "HEXA Nautilus Strike",
+    ],
+    boostSkills: [
+      "Bullet Barrage Boost",
+      "Target Lock Boost",
+      "Nautilus Assault Boost",
+      "Death Trigger Boost",
+    ],
+    jobBranchSkills: ["HEXA Pirate's Banner"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Dawn Warrior": {
+    originSkill: "Astral Blitz",
+    ascentSkill: "Totality",
+    masterySkills: [
+      "HEXA Luna Divide",
+      "HEXA Solar Slash",
+      "HEXA Cosmic Shower",
+      "HEXA Cosmic Burst",
+      "HEXA Equinox Slash",
+      "Equinox Power II",
+    ],
+    boostSkills: [
+      "Cosmos Boost",
+      "Rift of Damnation Boost",
+      "Soul Eclipse Boost",
+      "Flare Slash Boost",
+    ],
+    jobBranchSkills: ["HEXA Phalanx Charge"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Thunder Breaker": {
+    originSkill: "Thunder Wall Sea Wave",
+    ascentSkill: "Annihilating Rush",
+    masterySkills: [
+      "HEXA Annihilate",
+      "HEXA Annihilate Lightning Strike",
+      "HEXA Thunderbolt",
+      "HEXA Typhoon",
+      "HEXA Deep Rising",
+      "HEXA Sea Wave",
+      "Deep Reinforcement",
+    ],
+    boostSkills: [
+      "Lightning Cascade Boost",
+      "Shark Torpedo Boost",
+      "Lightning God Spear Strike Boost",
+      "Lightning Spear Multistrike Boost",
+    ],
+    jobBranchSkills: ["HEXA Phalanx Charge"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Night Walker": {
+    originSkill: "Silence",
+    ascentSkill: "Stygian Command",
+    masterySkills: [
+      "HEXA Quintuple Star",
+      "HEXA Quintuple Star - Jet Black",
+      "HEXA Shadow Bat",
+      "HEXA Ravenous Bat",
+      "HEXA Dark Omen",
+      "HEXA Dominion",
+      "Abyssal Darkness",
+    ],
+    boostSkills: [
+      "Shadow Spear Boost",
+      "Greater Dark Servant Boost",
+      "Shadow Bite Boost",
+      "Rapid Throw Boost",
+    ],
+    jobBranchSkills: ["HEXA Phalanx Charge"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Wind Archer": {
+    originSkill: "Mistral Spring",
+    ascentSkill: "Elemental Tempest",
+    masterySkills: [
+      "HEXA Song of Heaven",
+      "HEXA Trifling Wind",
+      "HEXA Storm Bringer",
+      "HEXA Fairy Spiral",
+      "HEXA Monsoon",
+      "HEXA Storm Whim",
+      "Anemoi",
+    ],
+    boostSkills: [
+      "Howling Gale Boost",
+      "Merciless Winds Boost",
+      "Gale Barrier Boost",
+      "Vortex Sphere Boost",
+    ],
+    jobBranchSkills: ["HEXA Phalanx Charge"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Blaze Wizard": {
+    originSkill: "Eternity",
+    ascentSkill: "Flame Concerto",
+    masterySkills: [
+      "HEXA Orbital Flame",
+      "HEXA Blazing Extinction",
+      "HEXA Orbital Explosion",
+      "HEXA Phoenix Drive",
+      "HEXA Towering Inferno",
+    ],
+    boostSkills: [
+      "Orbital Inferno Boost",
+      "Savage Flame Boost",
+      "Inferno Sphere Boost",
+      "Salamander Mischief Boost",
+    ],
+    jobBranchSkills: ["HEXA Phalanx Charge"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Mihile: {
+    originSkill: "Durendal",
+    ascentSkill: "Knights Immortal",
+    masterySkills: [
+      "HEXA Radiant Cross",
+      "HEXA Radiant Cross - Assault",
+      "HEXA Royal Guard",
+      "HEXA Install Shield",
+      "HEXA Charging Light",
+      "HEXA Offensive Defense",
+      "HEXA Final Attack",
+      "HEXA Soul Majesty",
+    ],
+    boostSkills: [
+      "Shield of Light Boost",
+      "Sword of Light Boost",
+      "Radiant Soul Boost",
+      "Light of Courage Boost",
+    ],
+    jobBranchSkills: ["HEXA Phalanx Charge"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Mercedes: {
+    originSkill: "Unfading Glory",
+    ascentSkill: "Primeval Spirits",
+    masterySkills: [
+      "HEXA Ishtar's Ring",
+      "HEXA Wrath of Enlil",
+      "HEXA Wrath of Enlil: Spirit Enchant",
+      "HEXA Spikes Royale",
+      "HEXA Spikes Royale: Spirit Enchant",
+      "HEXA Leaf Tornado",
+      "HEXA Leaf Tornado: Spirit Enchant",
+      "HEXA Unicorn Spike",
+      "HEXA Gust Dive",
+      "HEXA Stunning Strikes",
+      "HEXA Elemental Knights",
+      "HEXA Final Attack",
+    ],
+    boostSkills: [
+      "Spirit of Elluel Boost",
+      "Sylvidia's Flight Boost",
+      "Irkalla's Wrath Boost",
+      "Royal Knights Boost",
+    ],
+    jobBranchSkills: ["HEXA Freud's Wisdom"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Aran: {
+    originSkill: "Endgame",
+    ascentSkill: "Hailstorm Howl",
+    masterySkills: [
+      "HEXA Beyond Blade",
+      "HEXA Finisher - Hunter's Prey",
+      "HEXA Last Stand",
+      "HEXA Adrenaline Overload",
+      "HEXA Permafrost",
+      "HEXA Final Attack",
+    ],
+    boostSkills: [
+      "Finisher - Adrenaline Surge Boost",
+      "Maha's Carnage Boost",
+      "Final Beyond Blade - White Tiger Boost",
+      "Blizzard Tempest Boost",
+    ],
+    jobBranchSkills: ["HEXA Freud's Wisdom"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Phantom: {
+    originSkill: "Defying Fate",
+    ascentSkill: "Moonlit Serenade",
+    masterySkills: [
+      "HEXA Tempest",
+      "HEXA Mille Aiguilles",
+      "HEXA Mille Aiguilles: Fortune",
+      "HEXA Carte Noir",
+      "HEXA Carte Rose Finale",
+      "La Mort Carte",
+    ],
+    boostSkills: [
+      "Luck of the Draw Boost",
+      "Ace in the Hole Boost",
+      "Phantom's Mark Boost",
+      "Rift Break Boost",
+    ],
+    jobBranchSkills: ["HEXA Freud's Wisdom"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Luminous: {
+    originSkill: "Harmonic Paradox",
+    ascentSkill: "Lustrous Orb",
+    masterySkills: [
+      "HEXA Ender",
+      "HEXA Reflection",
+      "Endless Darkness",
+      "HEXA Apocalypse",
+      "Eternal Light",
+      "HEXA Twilight Nova",
+    ],
+    boostSkills: [
+      "Gate of Light Boost",
+      "Aether Conduit Boost",
+      "Baptism of Light and Darkness Boost",
+      "Liberation Orb Boost",
+    ],
+    jobBranchSkills: ["HEXA Freud's Wisdom"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Evan: {
+    originSkill: "Zodiac Burst",
+    ascentSkill: "United Horizons",
+    masterySkills: [
+      "HEXA Mana Burst",
+      "HEXA Thunder Circle",
+      "HEXA Dragon Flash",
+      "HEXA Thunder Flash",
+      "HEXA Wind Flash",
+      "HEXA Earth Circle",
+      "HEXA Dragon Dive",
+      "HEXA Earth Dive",
+      "HEXA Thunder Dive",
+      "HEXA Wind Circle",
+      "HEXA Dragon Breath",
+      "HEXA Earth Breath",
+      "HEXA Wind Breath",
+      "HEXA Magic Debris",
+      "HEXA Dragon Spark",
+    ],
+    boostSkills: [
+      "Elemental Barrage Boost",
+      "Dragon Slam Boost",
+      "Elemental Radiance Boost",
+      "Spiral of Mana Boost",
+    ],
+    jobBranchSkills: ["HEXA Freud's Wisdom"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Shade: {
+    originSkill: "Advent of the Fox",
+    ascentSkill: "Promise Unbroken",
+    masterySkills: [
+      "HEXA Spirit Claw",
+      "HEXA Fox Spirits",
+      "HEXA Bomb Punch",
+      "HEXA Death Mark",
+      "Spirit Night Punch",
+      "HEXA Spirit Frenzy",
+    ],
+    boostSkills: [
+      "Fox God Flash",
+      "Spiritgate Boost",
+      "True Spirit Claw Boost",
+      "Smashing Multipunch Boost",
+    ],
+    jobBranchSkills: ["HEXA Freud's Wisdom"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Battle Mage": {
+    originSkill: "Crimson Pact",
+    ascentSkill: "Duskbound Aura",
+    masterySkills: [
+      "HEXA Condemnation",
+      "HEXA Finishing Blow",
+      "HEXA Sweeping Staff",
+      "HEXA Dark Shock",
+      "HEXA Dark Genesis",
+    ],
+    boostSkills: [
+      "Aura Scythe Boost",
+      "Altar of Annihilation Boost",
+      "Grim Harvest Boost",
+      "Abyssal Lightning Boost",
+    ],
+    jobBranchSkills: ["HEXA Resistance Infantry"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Blaster: {
+    originSkill: "Final Destroyer",
+    ascentSkill: "Vanguard Strike",
+    masterySkills: [
+      "HEXA Magnum Punch",
+      "HEXA Double Blast",
+      "HEXA Bunker Buster Explosion",
+      "Burst Pile Bunker",
+      "HEXA Revolving Cannon Mastery",
+      "HEXA Hammer Smash",
+      "HEXA Shotgun Punch",
+      "HEXA Revolving Cannon",
+      "HEXA Ballistic Hurricane",
+    ],
+    boostSkills: [
+      "Rocket Punch Boost",
+      "Gatling Punch Boost",
+      "Bullet Blast Boost",
+      "Afterimage Shock Boost",
+    ],
+    jobBranchSkills: ["HEXA Resistance Infantry"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Mechanic: {
+    originSkill: "Ground Zero",
+    ascentSkill: "Mechanized Extinction",
+    masterySkills: [
+      "HEXA Heavy Salvo Plus",
+      "HEXA AP Salvo Plus",
+      "HEXA Homing Beacon",
+      "HEXA Distortion Bomb",
+      "HEXA Robo Launcher RM7",
+      "HEXA Rock 'n Shock",
+      "HEXA Bots 'n Tots",
+    ],
+    boostSkills: [
+      "Doomsday Device Boost",
+      "Mobile Missile Battery Boost",
+      "Full Metal Barrage Boost",
+      "Mecha Carrier Boost",
+    ],
+    jobBranchSkills: ["HEXA Resistance Infantry"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Wild Hunter": {
+    originSkill: "Synchronous Hunt",
+    ascentSkill: "Gear Storm",
+    masterySkills: [
+      "HEXA Wild Arrow Blast: Apex",
+      "HEXA Assist: Rending Swipe",
+      "HEXA Assist: Snapping Fangs",
+      "HEXA Assist: Skull Bash",
+      "HEXA Command: Alpha Surge",
+      "HEXA Command: Titan Pounce",
+      "HEXA Another Bite",
+      "HEXA Final Attack",
+      "HEXA Trap Seed",
+    ],
+    boostSkills: [
+      "Command: Predator's Eye Boost",
+      "Overbite Boost",
+      "Primal Bloom Boost",
+      "Wild Arrow Blast: Overdrive Boost",
+    ],
+    jobBranchSkills: ["HEXA Resistance Infantry"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Xenon: {
+    originSkill: "Artificial Evolution",
+    ascentSkill: "Neoteric Snap",
+    masterySkills: [
+      "HEXA Mecha Purge: Snipe",
+      "HEXA Mecha Purge: Execute",
+      "HEXA Mecha Purge: Bombardment",
+      "HEXA Mecha Purge: Fire",
+      "HEXA Hypogram Field: Penetrate",
+      "HEXA Hypogram Field: Force Field",
+      "HEXA Triangulation",
+      "HEXA Aegis System",
+      "HEXA Orbital Cataclysm",
+      "HEXA Beam Dance",
+    ],
+    boostSkills: [
+      "Omega Blaster Boost",
+      "Core Overload Boost",
+      "Hypogram Field: Fusion Boost",
+      "Photon Ray Boost",
+    ],
+    jobBranchSkills: ["HEXA Resistance Infantry"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Demon Slayer": {
+    originSkill: "Nightmare",
+    ascentSkill: "Amethystine Incursion",
+    masterySkills: [
+      "HEXA Demon Impact",
+      "HEXA Demon Impact: Demon Chain",
+      "HEXA Demon Lash",
+      "HEXA Infernal Concussion",
+      "HEXA Demon Cry",
+      "HEXA Metamorphosis",
+      "HEXA Cerberus Chomp",
+      "Demonic Plume",
+    ],
+    boostSkills: [
+      "Demon Awakening Boost",
+      "Spirit of Rage Boost",
+      "Orthrus Boost",
+      "Demon Bane Boost",
+    ],
+    jobBranchSkills: ["HEXA Defender of the Demon"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Demon Avenger": {
+    originSkill: "Requiem",
+    ascentSkill: "Rageborne Daredevil",
+    masterySkills: [
+      "HEXA Nether Shield",
+      "HEXA Exceed: Execution",
+      "HEXA Exceed: Lunar Slash",
+      "Maximal Exceed",
+      "HEXA Thousand Swords",
+      "HEXA Infernal Exceed",
+    ],
+    boostSkills: [
+      "Demonic Frenzy Boost",
+      "Demonic Blast Boost",
+      "Dimensional Sword Boost",
+      "Revenant Boost",
+    ],
+    jobBranchSkills: ["HEXA Defender of the Demon"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Angelic Buster": {
+    originSkill: "Grand Finale",
+    ascentSkill: "Surprise Encore",
+    masterySkills: [
+      "HEXA Trinity",
+      "HEXA Soul Seeker",
+      "HEXA Supreme Supernova",
+      "HEXA Celestial Roar",
+      "Encore Ribbon",
+    ],
+    boostSkills: [
+      "Sparkle Burst Boost",
+      "Superstar Spotlight Boost",
+      "Mighty Mascot Boost",
+      "Trinity Fusion Boost",
+    ],
+    jobBranchSkills: ["HEXA Might of the Nova"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Kaiser: {
+    originSkill: "Nova Triumphant",
+    ascentSkill: "Pyroclastic Instinct",
+    masterySkills: [
+      "HEXA Gigas Wave",
+      "HEXA Blade Burst",
+      "HEXA Tempest Blades",
+      "HEXA Inferno Breath",
+      "HEXA Wing Beat",
+      "HEXA Stone Dragon",
+    ],
+    boostSkills: [
+      "Nova Guardians Boost",
+      "Bladefall Boost",
+      "Draco Surge Boost",
+      "Dragonflare Boost",
+    ],
+    jobBranchSkills: ["HEXA Might of the Nova"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Cadena: {
+    originSkill: "Chain Arts: Grand Arsenal",
+    ascentSkill: "Brutal Rampage",
+    masterySkills: [
+      "HEXA Chain Arts: Thrash",
+      "HEXA Muscle Memory",
+      "HEXA Summon Scimitar",
+      "HEXA Summon Claw",
+      "HEXA Summon Shuriken",
+      "HEXA Summon Spiked Bat",
+      "HEXA Chain Arts: Crush",
+      "HEXA Summon Shotgun",
+      "HEXA Summon Daggers",
+      "HEXA Summon Decoy Bomb",
+      "HEXA Summon Brick",
+      "HEXA Chain Arts: Beatdown",
+      "HEXA Veteran Shadowdealer",
+    ],
+    boostSkills: [
+      "Chain Arts: Void Strike Boost",
+      "Apocalypse Cannon Boost",
+      "Chain Arts: Maelstrom Boost",
+      "Muscle Memory Finale Boost",
+    ],
+    jobBranchSkills: ["HEXA Might of the Nova"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Kain: {
+    originSkill: "Total Annihilation",
+    ascentSkill: "Churning Malice",
+    masterySkills: [
+      "HEXA Falling Dust",
+      "[Possess] HEXA Falling Dust",
+      "[Execute] HEXA Poison Needle",
+      "HEXA Strike Arrow",
+      "HEXA [Possess] Strike Arrow",
+      "HEXA Scattering Shot",
+      "HEXA [Possess] Scattering Shot",
+      "HEXA [Execute] Tearing Knife",
+      "HEXA [Execute] Chain Sickle",
+      "HEXA Dragon Fang",
+      "HEXA Shaft Break",
+      "HEXA [Posess] Shaft Break",
+      "HEXA [Execute] Phantom Blade",
+      "HEXA Lasting Grudge",
+      "HEXA Death's Blessing",
+      "HEXA Chasing Shot",
+      "HEXA Unseen Sniper",
+      "HEXA [Posess/Execute] Unseen Sniper",
+    ],
+    boostSkills: [
+      "Dragon Burst Boost",
+      "Fatal Blitz Boost",
+      "Thanatos Descent Boost",
+      "Grip of Agony Boost",
+    ],
+    jobBranchSkills: ["HEXA Might of the Nova"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Kanna: {
+    originSkill: "[Divine Will] Advent of Crimson",
+    ascentSkill: "[Divine Will] Final Rest",
+    masterySkills: [
+      "HEXA Soul-Shatter Talisman: Dance",
+      "HEXA Heart-Wreck Talisman",
+      "HEXA Summon Oni",
+      "HEXA [Order] Spinning Strike",
+      "HEXA [Order] Pulverizing Strike",
+      "HEXA Summon Tengu",
+      "HEXA [Order] Shade-Fletched Arrow",
+      "HEXA Summon Orochi",
+      "HEXA [Order] Execute",
+    ],
+    boostSkills: [
+      "[Spirit] Hakumenkonmou Juubi Boost",
+      "[Spirit] Unleash the Radiant Flame Boost",
+      "[Spirit] Unleash Black-Winged Destruction Boost",
+      "[Spirit] Unleash Soul-Searing Venom Boost",
+    ],
+    jobBranchSkills: ["HEXA Twilight Bloom"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Hayato: {
+    originSkill: "Shin Quick Draw",
+    ascentSkill: "Fleeting Breath",
+    masterySkills: [
+      "HEXA [Shinsoku] Mist Slash",
+      "HEXA [Shinsoku] Afterimage Slash",
+      "HEXA [Shinsoku] Crescent Moon Cut",
+      "HEXA [Shinsoku] Silent Arc",
+      "HEXA [Battou] Dark Moon Cut",
+      "HEXA [Battou] Full Moon's Rage",
+    ],
+    boostSkills: [
+      "Shogetsu Form Boost",
+      "[Shinsoku] Crashing Tide Boost",
+      "[Shinsoku] Light Cutter Boost",
+      "[Battou] Wailing Heavens Boost",
+    ],
+    jobBranchSkills: ["HEXA Twilight Bloom"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Adele: {
+    originSkill: "Maestro",
+    ascentSkill: "Einheit",
+    masterySkills: [
+      "HEXA Cleave",
+      "HEXA Magic Dispatch",
+      "HEXA Hunting Decree",
+      "HEXA Plummet",
+      "HEXA Impale",
+      "HEXA Resonance Rush",
+      "HEXA Noble Summons",
+      "HEXA Aether Bloom",
+      "HEXA Aether Forge",
+      "HEXA Reign of Destruction",
+      "HEXA Shardbreaker",
+    ],
+    boostSkills: [
+      "Ruin Boost",
+      "Infinity Blade Boost",
+      "Legacy Restoration Boost",
+      "Storm Boost",
+    ],
+    jobBranchSkills: ["HEXA Conversion Overdrive"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Ark: {
+    originSkill: "Primordial Abyss",
+    ascentSkill: "Whisper of Deepest Abyss",
+    masterySkills: [
+      "HEXA Basic Charge Drive",
+      "HEXA Scarlet Charge Drive",
+      "HEXA Gust Charge Drive",
+      "HEXA Abyssal Charge Drive",
+      "Awakened Abyss",
+      "HEXA Grievous Wound",
+      "HEXA Insatiable Hunger",
+      "HEXA Unbridled Chaos",
+      "HEXA Vengeful Hate",
+      "HEXA Blissful Restraint",
+      "HEXA Endless Agony",
+      "HEXA Endless Nightmare",
+      "HEXA Endless Dream",
+    ],
+    boostSkills: [
+      "Abyssal Recall Boost",
+      "Infinity Spell Boost",
+      "Devious Nightmare Boost",
+      "Endlessly Starving Beast Boost",
+    ],
+    jobBranchSkills: ["HEXA Conversion Overdrive"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Illium: {
+    originSkill: "Mytocrystal Expanse",
+    ascentSkill: "Excidium",
+    masterySkills: [
+      "HEXA Radiant Javelin",
+      "HEXA Radiant Enchanted Javelin",
+      "HEXA Winged Javelin",
+      "HEXA Winged Enchanted Javelin",
+      "HEXA Reaction - Destruction",
+      "HEXA Reaction - Domination",
+      "HEXA Vortex Wings",
+      "HEXA Ex",
+      "HEXA Machina",
+      "HEXA Crystal Skill - Deus",
+      "HEXA Longinus Spear",
+      "HEXA Umbral Brand",
+      "HEXA Longinus Zone",
+    ],
+    boostSkills: [
+      "Crystal Ignition Boost",
+      "Templar Knight Boost",
+      "Crystalline Spirit Boost",
+      "Crystal Gate Boost",
+    ],
+    jobBranchSkills: ["HEXA Conversion Overdrive"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Khali: {
+    originSkill: "Hex: Sandstorm",
+    ascentSkill: "Wake the Void",
+    masterySkills: [
+      "HEXA Arts: Flurry",
+      "HEXA Arts: Crescentum",
+      "HEXA Void Rush",
+      "HEXA Void Blitz",
+      "HEXA Hex: Chakram Split",
+      "HEXA Hex: Chakram Sweep",
+      "HEXA Hex: Chakram Fury",
+      "HEXA Death Blossom",
+      "HEXA Resonate",
+      "HEXA Deceiving Blade",
+    ],
+    boostSkills: [
+      "Hex: Pandemonium Boost",
+      "Void Burst Boost",
+      "Arts: Astra Boost",
+      "Resonate: Ultimatum Boost",
+    ],
+    jobBranchSkills: ["HEXA Conversion Overdrive"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Hoyoung: {
+    originSkill: "Sage: Apotheosis",
+    ascentSkill: "Millennium Spirit",
+    masterySkills: [
+      "HEXA Heaven: Consuming Flames",
+      "HEXA Heaven: Consuming Flames (Enhanced)",
+      "HEXA Consuming Flames (Clone/True)",
+      "HEXA Consuming Flames (Clone/True) (Enhanced)",
+      "HEXA Earth: Stone Tremor",
+      "HEXA Earth: Stone Tremor (Enhanced)",
+      "HEXA Stone Tremor (Clone/True)",
+      "HEXA Stone Tremor (Clone/True) (Enhanced)",
+      "HEXA Humanity: Gold-Banded Cudgel",
+      "HEXA Humanity: Gold-Banded Cudgel (Enhanced)",
+      "HEXA Heaven: Iron Fan Gale",
+      "HEXA Heaven: Iron Fan Gale (Enhanced)",
+      "HEXA Heaven: Iron Fan Gale (Clone/True)",
+      "HEXA Heaven: Iron Fan Gale (Clone/True) (Enhanced)",
+      "HEXA Earth: Ground-Shattering Wave",
+      "HEXA Earth: Ground-Shattering Wave (Enhanced)",
+      "HEXA Earth: Ground-Shattering Wave (Clone/True)",
+      "HEXA Earth: Ground-Shattering Wave (Clone/True) (Enhanced)",
+      "HEXA Humanity: As-You-Will Fan",
+      "HEXA Humanity: As-You-Will Fan (Enhanced)",
+      "HEXA Talisman: Clone",
+      "HEXA Talisman: Seeking Ghost Flame",
+      "HEXA Scroll: Star Vortex",
+      "HEXA Scroll: Butterfly Dream",
+    ],
+    boostSkills: [
+      "Sage: Clone Rampage Boost",
+      "Scroll: Tiger of Songyu Boost",
+      "Sage: Wrath of Gods Boost",
+      "Sage: Three Paths Apparition Boost",
+    ],
+    jobBranchSkills: ["HEXA Lotus Flower"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Lara: {
+    originSkill: "Universe in Bloom",
+    ascentSkill: "Cornucopia",
+    masterySkills: [
+      "HEXA Essence Sprinkle",
+      "HEXA Dragon Vein Eruption",
+      "HEXA Eruption: Heaving River",
+      "HEXA Eruption: Whirlwind",
+      "HEXA Eruption: Sunrise Well",
+      "HEXA Dragon Vein Absorption",
+      "HEXA Absorption: River Puddle Douse",
+      "HEXA Absorption: Fierce Wind",
+      "HEXA Absorption: Sunlit Grain",
+      "HEXA Wakeup Call",
+    ],
+    boostSkills: [
+      "Big Stretch Boost",
+      "Land's Connection Boost",
+      "Surging Essence Boost",
+      "Winding Mountain Ridge Boost",
+    ],
+    jobBranchSkills: ["HEXA Lotus Flower"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Kinesis: {
+    originSkill: "From Another Realm",
+    ascentSkill: "Fractal Horizon",
+    jobBranchSkills: ["HEXA Afterimage of the Otherworld"],
+    masterySkills: [
+      "HEXA Ultimate - Metal Press",
+      "HEXA Psychic Grab",
+      "HEXA Ultimate - Psychic Shot",
+      "HEXA Ultimate - Trainwreck",
+      "HEXA Ultimate - B.P.M.",
+      "HEXA Kinetic Combo",
+    ],
+    boostSkills: [
+      "Psychic Tornado Boost",
+      "Ultimate - Mind Over Matter Boost",
+      "Ultimate - Psychic Shockwave Boost",
+      "Law of Gravity Boost",
+    ],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Zero: {
+    originSkill: "End Time",
+    ascentSkill: "Bitemporis",
+    jobBranchSkills: ["HEXA Transcendent"],
+    masterySkills: [
+      "HEXA Giga Crash",
+      "HEXA Falling Star",
+      "HEXA Groundbreaker",
+      "HEXA Wind Cutter",
+      "HEXA Wind Striker",
+      "HEXA Storm Break",
+      "Time Piece",
+      "HEXA Spin Driver",
+      "HEXA Wheel Wind",
+      "HEXA Rolling Cross",
+      "HEXA Rolling Assault",
+      "HEXA Flash Assault",
+      "HEXA Blade Ring",
+      "HEXA Flash Cut",
+      "HEXA Throwing Weapon",
+      "HEXA Moon Strike",
+      "HEXA Piercing Thrust",
+      "HEXA Shadow Strike",
+      "HEXA Rising Slash",
+      "HEXA Air Raid",
+      "HEXA Shadow Rain",
+      "Infinite Resonance",
+    ],
+    boostSkills: [
+      "Chrono Break Boost",
+      "Twin Blades of Time Boost",
+      "Shadow Flash Boost",
+      "Ego Weapon Boost",
+    ],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Lynn: {
+    originSkill: "Source Flow",
+    ascentSkill: "Wild Hunt",
+    masterySkills: [
+      "HEXA Strike",
+      "HEXA Sneak Attack",
+      "HEXA Raid",
+      "HEXA Peck",
+      "HEXA [Focus] Heal",
+      "HEXA [Focus] Forest Protection",
+      "HEXA Mother Nature's Touch",
+    ],
+    boostSkills: [
+      "Beast's Rage Boost",
+      "Beak Strike Boost",
+      "[Focus] Awaken Boost",
+      "Nature's Grace Boost",
+    ],
+    jobBranchSkills: ["HEXA Ring of Samsara"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Mo Xuan": {
+    originSkill: "Soul Art: Jianghu Dragon",
+    ascentSkill: "Soul Art: Where Destiny Falls",
+    masterySkills: [
+      "HEXA Xuanshan Arts [Tian]",
+      "HEXA Xuanshan Arts [Di]",
+      "HEXA Divine Art: Howling Storm",
+      "HEXA Divine Art: Righteous Thunder",
+      "HEXA Divine Art: Swirling Tide",
+      "HEXA Soul Art: Black Wind",
+      "HEXA Divine Art: Tearing Wind",
+      "HEXA Secret Art: Qi Projection",
+    ],
+    boostSkills: [
+      "Soul Art: Beneath Heaven Boost",
+      "Divine Art: Crashing Earth Boost",
+      "Soul Art: The Conquered Self Boost",
+      "Soul Art: The Opened Gate Boost",
+    ],
+    jobBranchSkills: ["HEXA Ring of Samsara"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Sia Astelle": {
+    originSkill: "Celestial Design",
+    ascentSkill: "Starlit Cosmos",
+    masterySkills: [
+      "SHINE Ray",
+      "SHINE Stellar I - Antares",
+      "SHINE Boom",
+      "SHINE Stellar II - Algol",
+      "SHINE Stellar V - Fomalhaut",
+    ],
+    boostSkills: [
+      "Shine Boost",
+      "Stellar XI - Sirius Boost",
+      "Stellar XII - Sadalsuud Boost",
+      "Savior's Circle Boost",
+    ],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  "Erel Light": {
+    originSkill: "Celestial Design",
+    ascentSkill: "Starlit Cosmos",
+    masterySkills: [
+      "SHINE Ray",
+      "SHINE Stellar I - Antares",
+      "SHINE Boom",
+      "SHINE Stellar II - Algol",
+      "SHINE Stellar V - Fomalhaut",
+    ],
+    boostSkills: [
+      "Shine Boost",
+      "Stellar XI - Sirius Boost",
+      "Stellar XII - Sadalsuud Boost",
+      "Savior's Circle Boost",
+    ],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
+  Ren: {
+    originSkill: "Rising Azure Dragon: Divided Heavens",
+    ascentSkill: "Rising Azure Dragon: Heartbound Verse",
+    jobBranchSkills: ["HEXA Lotus Flower"],
+    masterySkills: [
+      "HEXA Plum Blossom Sword: Storm",
+      "HEXA Imugi Spirit Sword: Spirit Strike",
+      "HEXA Imugi Spirit Sword: Serpent's Fang",
+      "HEXA Wish Unending",
+      "HEXA Final Imugi Spirit Sword: Burrowing Earth",
+      "HEXA Final Imugi Spirit Sword: Ravenous Spirit",
+      "HEXA Final Imugi Spirit Sword: Years Uncounted",
+      "HEXA Second Plum Blossom Sword: Raining Blossoms",
+      "HEXA Third Plum Blossom Sword: Riotous Heart",
+    ],
+    boostSkills: [
+      "Final Plum Blossom Sword: Thousand Blossom Flurry Boost",
+      "Soul Immeasurable Boost",
+      "Final Plum Blossom Sword: Dancing Annihilation Boost",
+      "Final Imugi Spirit Sword: Blade of the Unbound Heart Boost",
+    ],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
 };
