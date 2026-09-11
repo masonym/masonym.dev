@@ -3362,6 +3362,23 @@
       "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/skill/100/icon"
     },
     {
+      "id": 111,
+      "treeId": 18212,
+      "category": "skill",
+      "name": "SHINE Tree of Stars",
+      "desc": "Communes with the Star Garden to draw forth the power of the Star Flowers.",
+      "maxLevel": 30,
+      "costType": "subType",
+      "passives": [],
+      "connectSkills": [
+        500001143
+      ],
+      "reqForActivation": {
+        "400001100": 25
+      },
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/skill/111/icon"
+    },
+    {
       "id": 300,
       "treeId": 18212,
       "category": "boost",
@@ -4775,6 +4792,23 @@
       "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/skill/100/icon"
     },
     {
+      "id": 111,
+      "treeId": 18112,
+      "category": "skill",
+      "name": "SHINE Tree of Stars",
+      "desc": "Communes with the Star Garden to draw forth the power of the Star Flowers.",
+      "maxLevel": 30,
+      "costType": "subType",
+      "passives": [],
+      "connectSkills": [
+        500001144
+      ],
+      "reqForActivation": {
+        "400001100": 25
+      },
+      "iconOutlink": "Etc/_Canvas/ErdaLink.img/stone/18112/skill/111/icon"
+    },
+    {
       "id": 300,
       "treeId": 18112,
       "category": "boost",
@@ -4919,7 +4953,7 @@
       "id": 501,
       "treeId": 18112,
       "category": "ultimate",
-      "name": "SHINE Fury of Roan/SHINE Sting of Roan",
+      "name": "SHINE Fury of Roan/Sting of Roan",
       "desc": "[SHINE Fury of Roan]: Sweep Roan's spear, which is strengthened by rage, to deal damage to enemies in front of you.\\nCan be used without casting while attacking with Spear of Lugh.\\n&#xD;&#xA;Not affected by cooldown reset effects.\\n[SHINE Sting of Roan]: Strike true with Roan's spear and deal damage to enemies in front of you.\\nCan be used without casting while attacking with Spear of Lugh.\\n&#xD;&#xA;Not affected by cooldown reset effects.",
       "maxLevel": 30,
       "costType": "default",
@@ -4988,6 +5022,10 @@
         "solJanus": {
           "fragments": 125,
           "solErda": 7
+        },
+        "subType": {
+          "fragments": 90,
+          "solErda": 4
         }
       },
       "rush": {
@@ -5325,6 +5363,10 @@
           "solJanus": {
             "fragments": 38,
             "solErda": 2
+          },
+          "subType": {
+            "fragments": 25,
+            "solErda": 1
           }
         },
         "2": {
@@ -5339,6 +5381,10 @@
           "solJanus": {
             "fragments": 44,
             "solErda": 2
+          },
+          "subType": {
+            "fragments": 30,
+            "solErda": 1
           }
         },
         "3": {
@@ -5353,6 +5399,10 @@
           "solJanus": {
             "fragments": 50,
             "solErda": 2
+          },
+          "subType": {
+            "fragments": 35,
+            "solErda": 1
           }
         },
         "4": {
@@ -5367,6 +5417,10 @@
           "solJanus": {
             "fragments": 57,
             "solErda": 3
+          },
+          "subType": {
+            "fragments": 40,
+            "solErda": 2
           }
         },
         "5": {
@@ -5381,6 +5435,10 @@
           "solJanus": {
             "fragments": 63,
             "solErda": 3
+          },
+          "subType": {
+            "fragments": 45,
+            "solErda": 2
           }
         },
         "6": {
@@ -5395,6 +5453,10 @@
           "solJanus": {
             "fragments": 69,
             "solErda": 3
+          },
+          "subType": {
+            "fragments": 50,
+            "solErda": 2
           }
         },
         "7": {
@@ -5409,6 +5471,10 @@
           "solJanus": {
             "fragments": 75,
             "solErda": 5
+          },
+          "subType": {
+            "fragments": 55,
+            "solErda": 3
           }
         },
         "8": {
@@ -5423,6 +5489,10 @@
           "solJanus": {
             "fragments": 82,
             "solErda": 5
+          },
+          "subType": {
+            "fragments": 60,
+            "solErda": 3
           }
         },
         "9": {
@@ -5437,6 +5507,10 @@
           "solJanus": {
             "fragments": 300,
             "solErda": 14
+          },
+          "subType": {
+            "fragments": 180,
+            "solErda": 9
           }
         },
         "10": {
@@ -5451,6 +5525,10 @@
           "solJanus": {
             "fragments": 110,
             "solErda": 5
+          },
+          "subType": {
+            "fragments": 73,
+            "solErda": 3
           }
         },
         "11": {
@@ -5465,6 +5543,10 @@
           "solJanus": {
             "fragments": 124,
             "solErda": 5
+          },
+          "subType": {
+            "fragments": 81,
+            "solErda": 3
           }
         },
         "12": {
@@ -5479,6 +5561,10 @@
           "solJanus": {
             "fragments": 138,
             "solErda": 6
+          },
+          "subType": {
+            "fragments": 90,
+            "solErda": 3
           }
         },
         "13": {
@@ -5493,6 +5579,10 @@
           "solJanus": {
             "fragments": 152,
             "solErda": 6
+          },
+          "subType": {
+            "fragments": 98,
+            "solErda": 3
           }
         },
         "14": {
@@ -5507,6 +5597,10 @@
           "solJanus": {
             "fragments": 165,
             "solErda": 6
+          },
+          "subType": {
+            "fragments": 107,
+            "solErda": 4
           }
         },
         "15": {
@@ -5517,6 +5611,10 @@
           "solJanus": {
             "fragments": 179,
             "solErda": 6
+          },
+          "subType": {
+            "fragments": 115,
+            "solErda": 4
           }
         },
         "16": {
@@ -5527,6 +5625,10 @@
           "solJanus": {
             "fragments": 193,
             "solErda": 6
+          },
+          "subType": {
+            "fragments": 124,
+            "solErda": 4
           }
         },
         "17": {
@@ -5537,6 +5639,10 @@
           "solJanus": {
             "fragments": 207,
             "solErda": 6
+          },
+          "subType": {
+            "fragments": 132,
+            "solErda": 4
           }
         },
         "18": {
@@ -5547,6 +5653,10 @@
           "solJanus": {
             "fragments": 220,
             "solErda": 7
+          },
+          "subType": {
+            "fragments": 141,
+            "solErda": 4
           }
         },
         "19": {
@@ -5557,6 +5667,10 @@
           "solJanus": {
             "fragments": 525,
             "solErda": 17
+          },
+          "subType": {
+            "fragments": 315,
+            "solErda": 14
           }
         },
         "20": {
@@ -5567,6 +5681,10 @@
           "solJanus": {
             "fragments": 234,
             "solErda": 7
+          },
+          "subType": {
+            "fragments": 151,
+            "solErda": 4
           }
         },
         "21": {
@@ -5577,6 +5695,10 @@
           "solJanus": {
             "fragments": 248,
             "solErda": 7
+          },
+          "subType": {
+            "fragments": 160,
+            "solErda": 5
           }
         },
         "22": {
@@ -5587,6 +5709,10 @@
           "solJanus": {
             "fragments": 262,
             "solErda": 7
+          },
+          "subType": {
+            "fragments": 170,
+            "solErda": 5
           }
         },
         "23": {
@@ -5597,6 +5723,10 @@
           "solJanus": {
             "fragments": 275,
             "solErda": 7
+          },
+          "subType": {
+            "fragments": 179,
+            "solErda": 5
           }
         },
         "24": {
@@ -5607,6 +5737,10 @@
           "solJanus": {
             "fragments": 289,
             "solErda": 7
+          },
+          "subType": {
+            "fragments": 189,
+            "solErda": 5
           }
         },
         "25": {
@@ -5617,6 +5751,10 @@
           "solJanus": {
             "fragments": 303,
             "solErda": 9
+          },
+          "subType": {
+            "fragments": 198,
+            "solErda": 5
           }
         },
         "26": {
@@ -5627,6 +5765,10 @@
           "solJanus": {
             "fragments": 317,
             "solErda": 9
+          },
+          "subType": {
+            "fragments": 208,
+            "solErda": 5
           }
         },
         "27": {
@@ -5637,6 +5779,10 @@
           "solJanus": {
             "fragments": 330,
             "solErda": 9
+          },
+          "subType": {
+            "fragments": 217,
+            "solErda": 5
           }
         },
         "28": {
@@ -5647,6 +5793,10 @@
           "solJanus": {
             "fragments": 344,
             "solErda": 10
+          },
+          "subType": {
+            "fragments": 227,
+            "solErda": 6
           }
         },
         "29": {
@@ -5657,6 +5807,10 @@
           "solJanus": {
             "fragments": 750,
             "solErda": 20
+          },
+          "subType": {
+            "fragments": 450,
+            "solErda": 18
           }
         }
       },
@@ -6460,7 +6614,7 @@
       "conditions": [
         {
           "type": "level",
-          "level": 270
+          "level": "270"
         },
         {
           "type": "stone",
@@ -7456,7 +7610,7 @@
       "conditions": [
         {
           "type": "level",
-          "level": 270
+          "level": "270"
         },
         {
           "type": "stone",
