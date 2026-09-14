@@ -91,9 +91,16 @@ export default function GroupPicker({
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !resolvedMap?.name) return;
+    if (!resolvedMap?.name) return;
     setBusy(true);
     setError("");
+
+    // Naming the group after its map is what almost everyone types anyway, so
+    // an empty name falls back to it. Sliced to 60 because burning_groups.name
+    // is capped there while map_name allows 80 - only reachable through the
+    // free-text map fallback, but a check-constraint violation on insert is a
+    // rotten way to find that out.
+    const groupName = name.trim() || resolvedMap.name.slice(0, 60);
 
     const {
       data: { user },
@@ -101,7 +108,7 @@ export default function GroupPicker({
     const { data, error: insertError } = await supabase
       .from("burning_groups")
       .insert({
-        name: name.trim(),
+        name: groupName,
         map_name: resolvedMap.name,
         map_id: resolvedMap.id,
         map_street: resolvedMap.street,
@@ -279,8 +286,8 @@ export default function GroupPicker({
                     <p className="text-sm text-primary-dim truncate">
                       {group.map_name}
                       {group.map_street ? ` (${group.map_street})` : ""} ·{" "}
-                      {group.world} · {group.channel_count}{" "}
-                      ch · {group.member_count} member
+                      {group.world} · {group.channel_count} ch ·{" "}
+                      {group.member_count} member
                       {group.member_count === 1 ? "" : "s"} ·{" "}
                       {group.last_log_at
                         ? `last log ${formatAge(Date.now() - new Date(group.last_log_at).getTime())}`
@@ -340,12 +347,18 @@ export default function GroupPicker({
       {tab === "create" && (
         <form onSubmit={handleCreate} className="space-y-3 max-w-md">
           <label className="block">
-            <span className="text-sm text-primary-dim">Group name</span>
+            <span className="text-sm text-primary-dim">
+              Group name <span className="text-xs">(optional)</span>
+            </span>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               maxLength={60}
-              placeholder="Robot Depot crew"
+              placeholder={
+                resolvedMap?.name
+                  ? `${resolvedMap.name} (map name)`
+                  : "Defaults to the map name"
+              }
               className="w-full mt-1 p-2 rounded bg-background border border-primary-dim text-primary placeholder:text-primary-dim text-sm"
             />
           </label>
@@ -434,7 +447,7 @@ export default function GroupPicker({
           </label>
           <button
             type="submit"
-            disabled={busy || !name.trim() || !resolvedMap?.name}
+            disabled={busy || !resolvedMap?.name}
             className="px-4 py-2 rounded bg-secondary text-background font-bold text-sm disabled:opacity-50 hover:brightness-110 transition"
           >
             {busy ? (

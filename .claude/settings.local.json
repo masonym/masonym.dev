@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node *)",
+      "Bash(npx eslint *)",
+      "Bash(npx next *)",
+      "Bash(npx --no-install tsc --noEmit --jsx preserve --allowJs --checkJs false --moduleResolution bundler --skipLibCheck src/app/hexa/components/ShineCalculator/ShineCalculator.jsx)",
+      "Bash(npm run *)",
+      "Bash(npx tsx *)",
+      "Read(//tmp/**)",
+      "Bash(break)",
+      "Bash(curl -s -o /tmp/hexa.html -w \"%{http_code}\" http://localhost:3137/hexa)",
+      "Bash(cp src/app/hexa/components/ShineCalculator/ShineCalculator.jsx /tmp/Shine.tsx)",
+      "Bash(npx tsc *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(node --check src/app/astra-secondary/components/AstraSecondaryCalculator.jsx)",
+      "Bash(python3 *)",
+      "Bash(grep -n \"Current Status\\\\|return \\(\\\\s*$\\\\|max-w-7xl mx-auto bg-primary-dark\" /mnt/c/Users/Mason/Documents/coding_projects/masonym.dev/src/app/astra-secondary/components/AstraSecondaryCalculator.jsx)"
+    ]
+  }
+}
