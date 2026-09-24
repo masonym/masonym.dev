@@ -603,11 +603,21 @@ export function setProgress(set, loadout = {}, itemIndex = new Map()) {
 }
 
 /**
+ * The systems a loadout's stats come from, in the order the diff lists them.
+ *
+ * `items` is the gear itself: base stats (with scrolls, soul and exceptional
+ * hammers, which behave like part of the item) plus set effects - the two
+ * things that change when a piece is swapped rather than upgraded.
+ */
+export const STAT_SOURCES = ["potential", "flame", "starforce", "items"];
+
+/**
  * Resolves a whole loadout.
  *
  * @param {object} loadout   { [slotKey]: { itemId, ...config } }
  * @param {object} data      { itemIndex, lineIndex, setIndex }
- * @returns { stats, items, sets, setStats }
+ * @returns { stats, items, sets, setStats, bySource }
+ *   bySource is { [STAT_SOURCES key]: stat block }; the blocks sum to `stats`.
  */
 export function resolveLoadout(loadout = {}, data = {}) {
   const {
@@ -616,10 +626,19 @@ export function resolveLoadout(loadout = {}, data = {}) {
     setIndex = new Map(),
   } = data;
 
-  const entries = loadoutEntries(loadout, itemIndex).map((entry) => ({
-    ...entry,
-    stats: resolveItem(entry.item, entry.config, lineIndex),
-  }));
+  const entries = loadoutEntries(loadout, itemIndex).map((entry) => {
+    const breakdown = resolveItemBreakdown(entry.item, entry.config, lineIndex);
+    return {
+      ...entry,
+      breakdown,
+      stats: sumStats(
+        breakdown.base,
+        breakdown.starforce,
+        breakdown.flame,
+        breakdown.potential,
+      ),
+    };
+  });
 
   const { stats: setStats, active: sets } = resolveSetEffects(
     entries,
@@ -628,14 +647,27 @@ export function resolveLoadout(loadout = {}, data = {}) {
 
   const stats = sumStats(...entries.map((e) => e.stats), setStats);
 
-  return { stats, items: entries, sets, setStats };
+  const part = (key) => sumStats(...entries.map((e) => e.breakdown[key]));
+  const bySource = {
+    potential: part("potential"),
+    flame: part("flame"),
+    starforce: part("starforce"),
+    items: sumStats(part("base"), setStats),
+  };
+
+  return { stats, items: entries, sets, setStats, bySource };
 }
 
 /**
  * Diffs two loadouts.
  *
+ * `bySource` splits the same deltas by the system that produced them. Every
+ * additive stat sums back to its row in `rows`; IED does not, because it stacks
+ * multiplicatively and each system's IED is combined on its own.
+ *
  * @returns {
  *   rows,          per-stat deltas (see diffStats)
+ *   bySource,      { [STAT_SOURCES key]: rows } - the deltas per system
  *   before, after, the resolved loadouts
  *   setChanges,    sets whose piece count or thresholds changed
  * }
@@ -646,8 +678,16 @@ export function diffLoadouts(beforeLoadout, afterLoadout, data) {
 
   const setChanges = diffSets(before.sets, after.sets);
 
+  const bySource = Object.fromEntries(
+    STAT_SOURCES.map((key) => [
+      key,
+      diffStats(before.bySource[key], after.bySource[key]),
+    ]),
+  );
+
   return {
     rows: diffStats(before.stats, after.stats),
+    bySource,
     before,
     after,
     setChanges,

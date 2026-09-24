@@ -675,9 +675,8 @@ function FlatFlames({ config, update, item, classKey, modeToggle }) {
  * are worth different amounts at the tiers they share.
  *
  * Lines are also narrowed to the selected class, keeping any already taken. A
- * dual-stat line must fit on both stats: STR + INT is a real roll on a warrior's
- * hat, but offering it would put five of the six dual lines in front of every
- * class. Flat entry is where an off-class line gets typed in.
+ * dual-stat line shows when either of its stats fits: STR + INT is a real roll
+ * on a warrior's hat, and its STR half counts in full.
  */
 function FlameMatrix({ config, update, item, classKey, modeToggle }) {
   const flames = config?.flames ?? [];
@@ -693,8 +692,9 @@ function FlameMatrix({ config, update, item, classKey, modeToggle }) {
         .filter(
           (line) =>
             config?.flames?.some((f) => f.line === line) ||
-            Object.keys(FLAME_LINES[line].resolve(1, ctx)).every((key) =>
-              statsFitClass([key], classKey),
+            statsFitClass(
+              Object.keys(FLAME_LINES[line].resolve(1, ctx)),
+              classKey,
             ),
         )
         .map((line) => ({
