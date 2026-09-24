@@ -228,9 +228,15 @@ function Tooltip({ hover, lineIndex, setIndex, itemIndex, loadout }) {
 
         <ul className="space-y-[1px]">
           {ordered.map((key) => {
-            const parts = ["base", "starforce", "flame"]
+            // A stat with no base value still gets its breakdown once a bonus
+            // source adds to it, with the base written as 0 - the game prints
+            // a flame-only stat as "+6% (0% + 6%)", not as a bare base stat.
+            const bonuses = ["starforce", "flame"]
               .map((source) => ({ source, value: bySource[source][key] }))
               .filter((p) => p.value);
+            const parts = bonuses.length
+              ? [{ source: "base", value: bySource.base[key] ?? 0 }, ...bonuses]
+              : [];
 
             return (
               <li
