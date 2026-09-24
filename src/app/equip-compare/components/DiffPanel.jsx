@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import { STAT_GROUPS, HIDDEN_DIFF_GROUPS, formatStat } from "@/lib/equip/stats";
+import { statsFitClass } from "@/lib/equip/classes";
 
 const GROUP_LABELS = {
   stat: "Stats",
   attack: "Attack",
   damage: "Damage",
   scaling: "Level Scaling",
-  utility: "Utility",
 };
 
 /**
@@ -20,11 +20,16 @@ const GROUP_LABELS = {
  * calculation rather than a filter over `rows`, because the question is not
  * "which of these deltas came from the hat" - set effects mean a delta need not
  * belong to any single slot - but "what do I gain by changing only the hat".
+ *
+ * Rows are narrowed to the stats `classKey` scales off, the same rule the bonus
+ * stat and potential pickers use, so a warrior is not shown INT, LUK or Magic
+ * ATT. "All classes" shows everything.
  */
 export default function DiffPanel({
   result,
   slotResult = null,
   slotName = null,
+  classKey,
 }) {
   const [slotOnly, setSlotOnly] = useState(false);
 
@@ -37,8 +42,11 @@ export default function DiffPanel({
   const narrowed = scoped !== result;
   const { setChanges, before, after } = scoped;
 
-  // Defence and resistances resolve but are not shown - they never decide a swap.
-  const rows = scoped.rows.filter((r) => !HIDDEN_DIFF_GROUPS.has(r.group));
+  // Defence, resistances and utility resolve but are not shown - they never
+  // decide a swap. Nor does a stat the class does not use.
+  const rows = scoped.rows.filter(
+    (r) => !HIDDEN_DIFF_GROUPS.has(r.group) && statsFitClass([r.key], classKey),
+  );
 
   const byGroup = new Map();
   for (const row of rows) {

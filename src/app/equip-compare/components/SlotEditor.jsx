@@ -220,16 +220,15 @@ function ItemBar({ item, onOpenPicker, onChange }) {
 /**
  * Star counts worth one click.
  *
- * The ones people actually stop at: the safeguard boundaries (10, 15), the
- * points where the cost curve turns (17, 20, 22), and the ends of the item's own
- * range. Dragging a slider to exactly 17 is a fiddly way to enter a number that
- * only ever takes a handful of values.
+ * Only the endgame counts gear is actually compared at - anything below 18★ is
+ * a stepping stone, reachable with the slider. Counts outside the item's own
+ * range are left out, so a 22★-capped badge offers 18 to 22 and a 15★-capped
+ * item offers none.
  */
-const STAR_STEPS = [0, 5, 10, 12, 15, 17, 18, 20, 21, 22, 25, 30];
+const STAR_STEPS = [18, 20, 21, 22, 23, 24, 25, 26];
 
 function starPresets(floor, cap) {
-  const inside = STAR_STEPS.filter((s) => s > floor && s < cap);
-  return [...new Set([floor, ...inside, cap])].sort((a, b) => a - b);
+  return STAR_STEPS.filter((s) => s >= floor && s <= cap);
 }
 
 /**
@@ -314,23 +313,25 @@ function StarForce({ config, update, item, cap, floor }) {
         </p>
       ) : (
         <div className="space-y-2">
-          <div className="flex flex-wrap gap-1">
-            {presets.map((n) => (
-              <button
-                key={n}
-                type="button"
-                aria-pressed={stars === n}
-                onClick={() => setStars(n)}
-                className={`px-1.5 py-0.5 text-[11px] rounded border tabular-nums transition-colors ${
-                  stars === n
-                    ? "border-secondary bg-secondary/20 text-secondary font-semibold"
-                    : "border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50"
-                }`}
-              >
-                {n}★
-              </button>
-            ))}
-          </div>
+          {presets.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {presets.map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  aria-pressed={stars === n}
+                  onClick={() => setStars(n)}
+                  className={`px-1.5 py-0.5 text-[11px] rounded border tabular-nums transition-colors ${
+                    stars === n
+                      ? "border-secondary bg-secondary/20 text-secondary font-semibold"
+                      : "border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50"
+                  }`}
+                >
+                  {n}★
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="flex items-center gap-2">
             <Stepper

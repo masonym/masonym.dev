@@ -397,6 +397,7 @@ export default function EquipCompare() {
           <DiffPanel
             result={result}
             slotResult={slotResult}
+            classKey={classKey}
             slotName={
               selected
                 ? (LAYOUT_BY_SLOT_KEY[selected.slotKey]?.name ??

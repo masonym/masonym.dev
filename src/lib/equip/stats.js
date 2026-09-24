@@ -93,11 +93,12 @@ export const STAT_GROUPS = [
 /**
  * Groups the difference panel does not render.
  *
- * Defence, resistances and MP still resolve and still sit in the stat block -
- * item tooltips show them, matching the game - but they are noise in a
- * "should I equip this?" comparison, so the diff leaves them out.
+ * Defence, resistances, MP and utility (speed, drop rate, cooldown) still
+ * resolve and still sit in the stat block - item tooltips show them, matching
+ * the game - but they are noise in a "should I equip this?" comparison, so the
+ * diff leaves them out.
  */
-export const HIDDEN_DIFF_GROUPS = new Set(["survival"]);
+export const HIDDEN_DIFF_GROUPS = new Set(["survival", "utility"]);
 
 /** Stats that must not be added together. Only `ied` today, but kept general. */
 const MULTIPLICATIVE = new Set(
@@ -192,17 +193,36 @@ export function flattenStats(block) {
 }
 
 /**
+ * Moves flat All Stats onto each of the four main stats.
+ *
+ * Tooltips keep it as its own line because the game does, but in a comparison
+ * it is just STR, DEX, INT and LUK - a separate row would hide that a +10 All
+ * Stats piece and a +10 STR piece are worth the same to a warrior. All Stats %
+ * is left alone: it is a different bucket, not shorthand for four others.
+ */
+function foldAllStat(bag) {
+  const all = bag.allStat;
+  if (!all) return bag;
+  const out = { ...bag };
+  delete out.allStat;
+  for (const key of ["str", "dex", "int", "luk"])
+    out[key] = (out[key] || 0) + all;
+  return out;
+}
+
+/**
  * Per-stat difference between two loadout stat blocks.
  *
  * IED is diffed on the *combined* value, which is the only meaningful
- * comparison - the raw source lists are not commensurable.
+ * comparison - the raw source lists are not commensurable. Flat All Stats is
+ * folded into the main stats first (see foldAllStat).
  *
  * @returns Array of { key, label, group, kind, before, after, delta } sorted by
  *          group order, then by descending absolute delta.
  */
 export function diffStats(before, after) {
-  const a = flattenStats(before);
-  const b = flattenStats(after);
+  const a = foldAllStat(flattenStats(before));
+  const b = foldAllStat(flattenStats(after));
 
   const keys = new Set([...Object.keys(a), ...Object.keys(b)]);
   const rows = [];
