@@ -117,7 +117,9 @@ function Tooltip({ hover, lineIndex, setIndex, itemIndex, loadout }) {
     sumStats(breakdown.base, breakdown.starforce, breakdown.flame),
   );
 
-  const potentialConfig = coveredBy ? {} : (config ?? {});
+  // A badge's config can still carry lines from whatever the slot held before.
+  const potentialConfig =
+    coveredBy || shown.noPotential ? {} : (config ?? {});
   const levelIndex = potentialLevelIndex(
     potentialConfig.effectiveLevel ?? shown.reqLevel,
   );

@@ -140,8 +140,11 @@ export function potentialIslot(item) {
  * The rest of the fixed-potential items (Red Beryl and friends) carry only a
  * `fixedPotential` flag: their lines are picked per job when the item is granted
  * and are genuinely absent from the data, so nothing can be filled in for them.
+ *
+ * An item flagged `noPotential` (badges) has none, whatever a saved config says.
  */
 export function effectivePotentials(item, chosen = []) {
+  if (item?.noPotential) return [];
   if (chosen.length) return chosen;
   return item?.presetPotential ?? [];
 }
@@ -362,7 +365,7 @@ export function resolveItemBreakdown(item, config = {}, lineIndex = new Map()) {
   const levelIndex = potentialLevelIndex(level);
   for (const entry of [
     ...effectivePotentials(item, potentials),
-    ...bonusPotentials,
+    ...(item.noPotential ? [] : bonusPotentials),
   ]) {
     if (!entry?.optionId) continue;
     const line = lineIndex.get(entry.optionId);

@@ -104,7 +104,9 @@ function clamp(value, min, max) {
  * Stars are always brought inside the new item's range, so moving a 25★ config
  * onto a 20★-capped piece cannot leave an unreachable number behind. A flame
  * advantage override goes with the item it was entered for and is dropped, so
- * the new piece starts on whatever its own data says.
+ * the new piece starts on whatever its own data says. Potential is dropped the
+ * same way when the new item cannot take any (badges), rather than riding along
+ * invisibly - the editor hides it, but it would still count towards the totals.
  */
 export function configForItem(item, classKey, previous = null) {
   const preset = itemPreset(item, classKey);
@@ -112,6 +114,11 @@ export function configForItem(item, classKey, previous = null) {
 
   next.stars = clamp(next.stars ?? 0, starFloor(item), starCap(item));
   delete next.advantaged;
+  if (item.noPotential) {
+    delete next.potentials;
+    delete next.potentialGrade;
+    delete next.bonusPotentials;
+  }
 
   return next;
 }
