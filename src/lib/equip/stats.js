@@ -184,6 +184,11 @@ export function combineIed(sources = []) {
   return clean((1 - remaining) * 100);
 }
 
+/** Plain sum of a source list, ignoring how the sources stack. */
+function sumSources(sources = []) {
+  return sources.reduce((total, s) => total + (s || 0), 0);
+}
+
 /** Flattens a stat block into a plain {key: value} bag with IED combined. */
 export function flattenStats(block) {
   const out = { ...block.values };
@@ -213,9 +218,11 @@ function foldAllStat(bag) {
 /**
  * Per-stat difference between two loadout stat blocks.
  *
- * IED is diffed on the *combined* value, which is the only meaningful
- * comparison - the raw source lists are not commensurable. Flat All Stats is
- * folded into the main stats first (see foldAllStat).
+ * IED shows the *combined* value before and after, but its delta is the net
+ * source added, not the change in the combined value. Adding a 15% line to a
+ * 72.2% total reads as +15% rather than +4.2%: the combined gain shrinks the
+ * more IED you already have, so it hides what the swap actually brings. Flat
+ * All Stats is folded into the main stats first (see foldAllStat).
  *
  * @returns Array of { key, label, group, kind, before, after, delta } sorted by
  *          group order, then by descending absolute delta.
@@ -230,9 +237,12 @@ export function diffStats(before, after) {
   for (const key of keys) {
     const from = a[key] || 0;
     const to = b[key] || 0;
-    const delta = clean(to - from);
+    const combinedDelta = clean(to - from);
+    const delta = isMultiplicative(key)
+      ? clean(sumSources(after.ied) - sumSources(before.ied))
+      : combinedDelta;
     // Anything smaller than this is float dust, not a stat the game can grant.
-    if (Math.abs(delta) < 1e-6) continue;
+    if (Math.abs(delta) < 1e-6 && Math.abs(combinedDelta) < 1e-6) continue;
 
     const meta = STAT_META[key] || {
       label: key,

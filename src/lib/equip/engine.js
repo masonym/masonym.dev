@@ -662,8 +662,9 @@ export function resolveLoadout(loadout = {}, data = {}) {
  * Diffs two loadouts.
  *
  * `bySource` splits the same deltas by the system that produced them. Every
- * additive stat sums back to its row in `rows`; IED does not, because it stacks
- * multiplicatively and each system's IED is combined on its own.
+ * delta sums back to its row in `rows` - IED included, since its delta is the
+ * net source added (see diffStats) - though IED's before and after values do
+ * not, because each system's IED is combined on its own.
  *
  * @returns {
  *   rows,          per-stat deltas (see diffStats)

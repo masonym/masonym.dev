@@ -153,12 +153,6 @@ export default function DiffPanel({
               <StatRows rows={source.rows} />
             </Section>
           ))}
-          {rows.some((r) => r.key === "ied") && (
-            <p className="text-[11px] text-primary-bright/40">
-              Ignore DEF stacks multiplicatively, so each source&rsquo;s share
-              does not add up to the total.
-            </p>
-          )}
         </div>
       ) : (
         <div className="space-y-4">
