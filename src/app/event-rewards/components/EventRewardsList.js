@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState, useSyncExternalStore } from "react";
 import EventCard from "./EventCard";
 import RewardSlot from "./RewardSlot";
 import { displayName, eventDetails, eventSections, groupRewards } from "../data/sections";
@@ -36,8 +36,13 @@ const parsePremiumCost = (premiumCost) => {
     };
 };
 
+// Touch support does not change while the page is open, so there is nothing to
+// subscribe to; the server snapshot is false, as the old mount effect assumed.
+const subscribeNever = () => () => {};
+const detectTouch = () => "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
 const EventRewardsList = ({ events }) => {
-    const [isTouchDevice, setIsTouchDevice] = useState(false);
+    const isTouchDevice = useSyncExternalStore(subscribeNever, detectTouch, () => false);
     const [showAggregatedRewards, setShowAggregatedRewards] = useState(false);
     const [openSlotKey, setOpenSlotKey] = useState(null);
 
@@ -47,12 +52,6 @@ const EventRewardsList = ({ events }) => {
             document.getElementById(`event-${eventId}`)?.scrollIntoView({ behavior: "smooth" });
         });
     };
-
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
-        }
-    }, []);
 
     const ordered = useMemo(() => {
         const ids = Object.keys(events || {});

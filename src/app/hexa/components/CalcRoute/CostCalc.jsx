@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useHydrated } from '@/hooks/useHydrated';
 import Image from 'next/image'
 import { InputGrid } from '../InputGrid/InputGrid';
 import { formatSkillName, getSkillImagePath, getCommonSkillImagePath } from '../../utils';
@@ -79,42 +80,40 @@ const CostTableSection = ({ skillType }) => {
 
 const CostCalc = ({ selectedClass, classDetails, skillLevels }) => {
   const [desiredSkillLevels, setDesiredSkillLevels] = useState({});
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useHydrated();
+  const [loadedClass, setLoadedClass] = useState(null);
   const [collapsedCards, setCollapsedCards] = useState({});
   const [allExpanded, setAllExpanded] = useState(true);
   const [hideCompleted, setHideCompleted] = useState(false);
   const [brokenJobBranchIcons, setBrokenJobBranchIcons] = useState({});
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  // Load the class's saved targets whenever the class changes - during render,
+  // so the new class's cards never paint with the previous class's state.
+  if (isClient && loadedClass !== selectedClass) {
+    setLoadedClass(selectedClass);
+    const savedSkillLevels = localStorage.getItem(`desiredSkillLevels_${selectedClass}`);
+    const parsedSkillLevels = savedSkillLevels ? JSON.parse(savedSkillLevels) : {};
+    setDesiredSkillLevels(parsedSkillLevels);
 
-  useEffect(() => {
-    if (isClient) {
-      const savedSkillLevels = localStorage.getItem(`desiredSkillLevels_${selectedClass}`);
-      const parsedSkillLevels = savedSkillLevels ? JSON.parse(savedSkillLevels) : {};
-      setDesiredSkillLevels(parsedSkillLevels);
-
-      const savedHideCompleted = localStorage.getItem('hideCompletedSkills');
-      if (savedHideCompleted !== null) {
-        setHideCompleted(JSON.parse(savedHideCompleted));
-      }
-
-      const savedCollapsedCards = localStorage.getItem(`collapsedCards_${selectedClass}`);
-      const parsedCollapsedCards = savedCollapsedCards ? JSON.parse(savedCollapsedCards) : {};
-
-      // Only set collapsed cards if they were explicitly saved as collapsed
-      setCollapsedCards(
-        Object.keys(parsedSkillLevels).reduce((acc, skillName) => {
-          acc[skillName] = parsedCollapsedCards[skillName] === true;
-          return acc;
-        }, {})
-      );
-
-      // Set allExpanded based on whether any cards are collapsed
-      setAllExpanded(!Object.values(parsedCollapsedCards).some(value => value === true));
+    const savedHideCompleted = localStorage.getItem('hideCompletedSkills');
+    if (savedHideCompleted !== null) {
+      setHideCompleted(JSON.parse(savedHideCompleted));
     }
-  }, [selectedClass, isClient]);
+
+    const savedCollapsedCards = localStorage.getItem(`collapsedCards_${selectedClass}`);
+    const parsedCollapsedCards = savedCollapsedCards ? JSON.parse(savedCollapsedCards) : {};
+
+    // Only set collapsed cards if they were explicitly saved as collapsed
+    setCollapsedCards(
+      Object.keys(parsedSkillLevels).reduce((acc, skillName) => {
+        acc[skillName] = parsedCollapsedCards[skillName] === true;
+        return acc;
+      }, {})
+    );
+
+    // Set allExpanded based on whether any cards are collapsed
+    setAllExpanded(!Object.values(parsedCollapsedCards).some(value => value === true));
+  }
 
   const resetDesiredLevels = () => {
     localStorage.removeItem(`desiredSkillLevels_${selectedClass}`);

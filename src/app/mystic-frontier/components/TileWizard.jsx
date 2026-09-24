@@ -10,14 +10,18 @@ export default function TileWizard({ isOpen, onClose, onComplete, roundNum }) {
   const [currentTileIndex, setCurrentTileIndex] = useState(0);
   const [tiles, setTiles] = useState([]);
 
-  useEffect(() => {
+  // Start over each time the wizard opens. Done during render so the first
+  // frame after opening already shows step one, not the last run's final step.
+  const [wasOpen, setWasOpen] = useState(isOpen);
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen);
     if (isOpen) {
       setStep('count');
       setNumTiles(0);
       setCurrentTileIndex(0);
       setTiles([]);
     }
-  }, [isOpen]);
+  }
 
   useEffect(() => {
     if (!isOpen) return;

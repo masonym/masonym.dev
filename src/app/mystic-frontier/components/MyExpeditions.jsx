@@ -1,22 +1,27 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useHydrated } from '@/hooks/useHydrated';
 import { ChevronRight, Gift } from 'lucide-react';
 import { CHEST_TIER_CONFIG, POUCH_CONFIG, POUCH_TYPES, SITE_RANK_CONFIG } from '@/data/mysticFrontierData';
 import ExpeditionDetail from './ExpeditionDetail';
 
 export default function MyExpeditions({ expeditions, loading, selectedExpedition, setSelectedExpedition, onRefresh }) {
   const [hideClaimed, setHideClaimed] = useState(false);
+  const hydrated = useHydrated();
+  const [restored, setRestored] = useState(false);
 
-  useEffect(() => {
-    const stored = typeof window !== 'undefined' ? localStorage.getItem('mf_hide_claimed') : null;
-    if (stored === 'true') setHideClaimed(true);
-  }, []);
+  if (hydrated && !restored) {
+    setRestored(true);
+    if (localStorage.getItem('mf_hide_claimed') === 'true') setHideClaimed(true);
+  }
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    localStorage.setItem('mf_hide_claimed', hideClaimed ? 'true' : 'false');
-  }, [hideClaimed]);
+  // Saved from the toggle rather than an effect, which would run during
+  // hydration and overwrite the saved value before it is restored.
+  const toggleHideClaimed = (checked) => {
+    setHideClaimed(checked);
+    localStorage.setItem('mf_hide_claimed', checked ? 'true' : 'false');
+  };
 
   if (loading) {
     return (
@@ -59,7 +64,7 @@ export default function MyExpeditions({ expeditions, loading, selectedExpedition
           <input
             type="checkbox"
             checked={hideClaimed}
-            onChange={(e) => setHideClaimed(e.target.checked)}
+            onChange={(e) => toggleHideClaimed(e.target.checked)}
             className="w-4 h-4 rounded accent-[var(--secondary)]"
           />
           <span>Hide rewards-added</span>

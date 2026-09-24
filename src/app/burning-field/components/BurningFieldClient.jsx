@@ -61,7 +61,7 @@ export default function BurningFieldClient() {
   const [members, setMembers] = useState([]);
   const [logs, setLogs] = useState([]);
   const [occupants, setOccupants] = useState([]);
-  const [loadingLogs, setLoadingLogs] = useState(false);
+  const [loadingLogs, setLoadingLogs] = useState(Boolean(groupIdFromUrl));
   const [now, setNow] = useState(() => Date.now());
   const [error, setError] = useState("");
 
@@ -91,9 +91,11 @@ export default function BurningFieldClient() {
     [pathname, router, searchParams],
   );
 
-  // Signing in or out resets the group list here, during render, rather than
-  // in the fetch effect: a synchronous setState in an effect is a second render
-  // for nothing. The fetches below only set state once they have awaited.
+  // Loading is split so the effects never set state synchronously, which React
+  // flags as a cascading render: a change of user or group resets state here,
+  // during render, and each effect only starts a query and applies its result
+  // in `.then`. The load* functions are for event handlers, which may show the
+  // spinner straight away.
   const userId = user?.id ?? null;
   const [groupsUserId, setGroupsUserId] = useState(userId);
   if (groupsUserId !== userId) {
@@ -102,12 +104,16 @@ export default function BurningFieldClient() {
     setLoadingGroups(Boolean(userId));
   }
 
-  const fetchMyGroups = useCallback(async () => {
-    if (!user) return;
-    const { data, error: loadError } = await supabase
-      .from("burning_group_members")
-      .select("role, ign, group:burning_groups(*)")
-      .eq("user_id", user.id);
+  const queryMyGroups = useCallback(
+    () =>
+      supabase
+        .from("burning_group_members")
+        .select("role, ign, group:burning_groups(*)")
+        .eq("user_id", userId),
+    [userId],
+  );
+
+  const applyMyGroups = useCallback(({ data, error: loadError }) => {
     setLoadingGroups(false);
     if (loadError) {
       setError(loadError.message);
@@ -118,21 +124,18 @@ export default function BurningFieldClient() {
       .map((row) => ({ ...row.group, role: row.role, myIgn: row.ign }))
       .sort((a, b) => a.name.localeCompare(b.name));
     setMyGroups(groups);
-  }, [user]);
+  }, []);
 
   useEffect(() => {
-    fetchMyGroups();
-  }, [fetchMyGroups]);
+    if (userId) queryMyGroups().then(applyMyGroups);
+  }, [userId, queryMyGroups, applyMyGroups]);
 
-  // For event handlers, where showing the spinner straight away is fine.
   const loadMyGroups = useCallback(async () => {
-    if (!user) return;
+    if (!userId) return;
     setLoadingGroups(true);
-    await fetchMyGroups();
-  }, [user, fetchMyGroups]);
+    applyMyGroups(await queryMyGroups());
+  }, [userId, queryMyGroups, applyMyGroups]);
 
-  // Same split as the group list: leaving a group clears its board during
-  // render, and the effect only fetches.
   const [boardGroupId, setBoardGroupId] = useState(groupIdFromUrl);
   if (boardGroupId !== groupIdFromUrl) {
     setBoardGroupId(groupIdFromUrl);
@@ -145,11 +148,11 @@ export default function BurningFieldClient() {
     }
   }
 
-  const fetchGroupData = useCallback(async (groupId) => {
+  const queryGroupData = useCallback((groupId) => {
     const since = new Date(
       Date.now() - LOG_WINDOW_HOURS * 60 * 60 * 1000,
     ).toISOString();
-    const [memberResult, logResult, occupantResult] = await Promise.all([
+    return Promise.all([
       supabase
         .from("burning_group_members")
         .select("user_id, role, ign, joined_at")
@@ -168,29 +171,35 @@ export default function BurningFieldClient() {
         .eq("group_id", groupId)
         .order("placed_at"),
     ]);
-    setLoadingLogs(false);
-    const loadFailure =
-      memberResult.error || logResult.error || occupantResult.error;
-    if (loadFailure) {
-      setError(loadFailure.message);
-      return;
-    }
-    setMembers(memberResult.data || []);
-    setLogs(logResult.data || []);
-    setOccupants(occupantResult.data || []);
-    setNow(Date.now());
   }, []);
 
+  const applyGroupData = useCallback(
+    ([memberResult, logResult, occupantResult]) => {
+      setLoadingLogs(false);
+      const loadFailure =
+        memberResult.error || logResult.error || occupantResult.error;
+      if (loadFailure) {
+        setError(loadFailure.message);
+        return;
+      }
+      setMembers(memberResult.data || []);
+      setLogs(logResult.data || []);
+      setOccupants(occupantResult.data || []);
+      setNow(Date.now());
+    },
+    [],
+  );
+
   useEffect(() => {
-    if (groupIdFromUrl) fetchGroupData(groupIdFromUrl);
-  }, [groupIdFromUrl, fetchGroupData]);
+    if (groupIdFromUrl) queryGroupData(groupIdFromUrl).then(applyGroupData);
+  }, [groupIdFromUrl, queryGroupData, applyGroupData]);
 
   const loadGroupData = useCallback(
     async (groupId) => {
       setLoadingLogs(true);
-      await fetchGroupData(groupId);
+      applyGroupData(await queryGroupData(groupId));
     },
-    [fetchGroupData],
+    [queryGroupData, applyGroupData],
   );
 
   // Live updates so a scouting party sees each other's readings appear.

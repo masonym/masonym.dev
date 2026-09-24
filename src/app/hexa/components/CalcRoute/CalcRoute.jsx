@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import CostCalc from './CostCalc'
 
 const CalcRoute = ({ selectedClass, classDetails, skillLevels }) => {
-  const [selected, setSelected] = useState(null)
-
-  useEffect(() => {
-    const savedCalculator = localStorage.getItem(`selectedCalculator_${selectedClass}`)
-    if (savedCalculator) {
-      setSelected(savedCalculator)
-    }
-  }, [])
+  // Only ever mounted on the client (ClassSelector renders nothing until it is
+  // hydrated), so the saved choice can be read straight into the initial state.
+  const [selected, setSelected] = useState(
+    () => localStorage.getItem(`selectedCalculator_${selectedClass}`) || null
+  )
 
   const handleSelectCalculator = (calculator) => {
     setSelected(calculator)

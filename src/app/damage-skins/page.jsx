@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from 'react';
 import { Settings, X, ChevronDown } from 'lucide-react';
+import { useHydrated } from '@/hooks/useHydrated';
 import { skins } from './data';
 import Mob from './Mob';
 import DamageLine from './DamageLine';
@@ -55,16 +56,11 @@ export default function DamageSkins() {
     getFromStorage('fadeDuration', 2000)
   );
   
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useHydrated();
   const [damageLines, setDamageLines] = useState([]);
   const idRef = useRef(0);
   const [showSkinList, setShowSkinList] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  
-  // Mark when we're on the client
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const simulateDamage = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;

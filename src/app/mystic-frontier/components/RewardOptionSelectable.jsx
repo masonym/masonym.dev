@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { DEFAULT_REWARD } from './mysticFrontierUiConstants';
 
 export default function RewardOptionSelectable({ label, optionNum, option, onChange, knownItems, isSelected, onSelect }) {
@@ -10,12 +10,16 @@ export default function RewardOptionSelectable({ label, optionNum, option, onCha
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const inputRef = useRef(null);
 
-  useEffect(() => {
+  // Follow the reward when the parent changes it, adjusting during render
+  // rather than in an effect so the input never shows the stale value.
+  const [syncedReward, setSyncedReward] = useState(option.reward);
+  if (option.reward !== syncedReward) {
+    setSyncedReward(option.reward);
     if (option.reward) {
       setSearchTerm(option.reward);
       setHasBeenEdited(option.reward !== DEFAULT_REWARD);
     }
-  }, [option.reward]);
+  }
 
   const filteredItems = searchTerm && searchTerm !== DEFAULT_REWARD
     ? knownItems.filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()))

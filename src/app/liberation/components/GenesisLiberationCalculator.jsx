@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useHydrated } from "@/hooks/useHydrated";
 import Image from "next/image";
 import CustomDropdown from "./CustomDropdown";
 import ScheduledChangesModal from "./ScheduledChangesModal";
@@ -232,7 +233,11 @@ const GenesisLiberationCalculator = () => {
   const [scheduledChanges, setScheduledChanges] = useState([]);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
 
-  useEffect(() => {
+  // Restore saved inputs once, on the first client render.
+  const hydrated = useHydrated();
+  const [restored, setRestored] = useState(false);
+  if (hydrated && !restored) {
+    setRestored(true);
     try {
       const savedPresetsExpanded = localStorage.getItem(
         "genesisPresetsExpanded",
@@ -257,7 +262,7 @@ const GenesisLiberationCalculator = () => {
     } catch {
       // ignore storage errors
     }
-  }, []);
+  }
 
   // Persist scheduled changes
   const handleScheduledChangesUpdate = (next) => {

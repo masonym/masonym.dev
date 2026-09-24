@@ -66,10 +66,10 @@ export default function HexaStatCalculator() {
     const [mainStat, setMainStat] = useState(0);
     const [fragmentCost, setFragmentCost] = useState(0);
     const [fragmentCostDisplay, setFragmentCostDisplay] = useState('');
-    const [totalCost, setTotalCost] = useState({ fragments: 0, mesos: 0, resets: 0 });
     const [isSunnySunday, setIsSunnySunday] = useState(false);
-    const [simulationResults, setSimulationResults] = useState({ fragments: 0, resets: 0 });
-    const [isLoading, setIsLoading] = useState(false);
+    // Each result records the inputs it was simulated for, so "still running"
+    // is derived: the inputs have moved on and the result has not caught up.
+    const [simulation, setSimulation] = useState({ key: null, fragments: 0, resets: 0 });
 
     const handleStatChange = (newValue) => {
         if (newValue === '') {
@@ -107,26 +107,24 @@ export default function HexaStatCalculator() {
     };
 
     // Only run simulation when main stat or sunny sunday changes
+    const mainStatValue = mainStat === '' ? 0 : mainStat;
+    const simulationKey = `${mainStatValue}|${isSunnySunday}`;
+    const isLoading = mainStatValue !== 0 && simulation.key !== simulationKey;
+    const simulationResults = mainStatValue === 0 ? { fragments: 0, resets: 0 } : simulation;
+
     useEffect(() => {
-        const mainStatValue = mainStat === '' ? 0 : mainStat;
-
-        if (mainStatValue === 0) {
-            setSimulationResults({ fragments: 0, resets: 0 });
-            return;
-        }
-
-        setIsLoading(true);
+        if (mainStatValue === 0) return;
 
         // Create a new worker for each simulation
         const worker = new Worker(new URL('./simulationWorker.js', import.meta.url));
 
         worker.onmessage = (e) => {
             const { avgFragments, avgResets } = e.data;
-            setSimulationResults({
+            setSimulation({
+                key: simulationKey,
                 fragments: avgFragments,
                 resets: avgResets
             });
-            setIsLoading(false);
             worker.terminate();
         };
 
@@ -140,21 +138,17 @@ export default function HexaStatCalculator() {
 
         // Cleanup worker on unmount or when dependencies change
         return () => worker.terminate();
-    }, [mainStat, isSunnySunday]);
+    }, [mainStatValue, isSunnySunday, simulationKey]);
 
-    // Calculate total cost using cached simulation results
-    useEffect(() => {
-        const fragmentCostValue = fragmentCost === '' ? 0 : fragmentCost;
-        
-        const fragmentMesos = simulationResults.fragments * fragmentCostValue;
-        const resetMesos = simulationResults.resets * STAT_NODE_COSTS[statNode].reset;
-
-        setTotalCost({
-            fragments: simulationResults.fragments,
-            mesos: fragmentMesos + resetMesos,
-            resets: simulationResults.resets
-        });
-    }, [fragmentCost, statNode, simulationResults]);
+    // Total cost from the cached simulation results
+    const fragmentCostValue = fragmentCost === '' ? 0 : fragmentCost;
+    const totalCost = {
+        fragments: simulationResults.fragments,
+        mesos:
+            simulationResults.fragments * fragmentCostValue +
+            simulationResults.resets * STAT_NODE_COSTS[statNode].reset,
+        resets: simulationResults.resets
+    };
 
     // Format large numbers with B/T/Q suffix
     const formatLargeNumber = (num) => {

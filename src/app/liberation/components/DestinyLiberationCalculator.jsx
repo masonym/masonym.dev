@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useHydrated } from "@/hooks/useHydrated";
 import Image from "next/image";
 import CustomDropdown from "./CustomDropdown";
 import ScheduledChangesModal from "./ScheduledChangesModal";
@@ -161,7 +162,11 @@ const DestinyLiberationCalculator = () => {
   const [scheduledChanges, setScheduledChanges] = useState([]);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
 
-  useEffect(() => {
+  // Restore saved inputs once, on the first client render.
+  const hydrated = useHydrated();
+  const [restored, setRestored] = useState(false);
+  if (hydrated && !restored) {
+    setRestored(true);
     try {
       const saved = localStorage.getItem("destinyScheduledChanges");
       if (saved !== null) {
@@ -189,9 +194,7 @@ const DestinyLiberationCalculator = () => {
         setStartDate(JSON.parse(savedStartDate));
       }
 
-      const savedBossSelections = localStorage.getItem(
-        "destinyBossSelections",
-      );
+      const savedBossSelections = localStorage.getItem("destinyBossSelections");
       if (savedBossSelections !== null) {
         const parsed = JSON.parse(savedBossSelections);
         if (Array.isArray(parsed)) {
@@ -206,11 +209,13 @@ const DestinyLiberationCalculator = () => {
     } catch {
       // ignore storage errors
     }
-  }, []);
+  }
 
-  // Persist user inputs whenever they change
+  // Persist user inputs whenever they change. Gated on `restored`: the
+  // hydration pass runs its effects before the restore, and would otherwise
+  // save the defaults over it.
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (!restored) return;
     try {
       localStorage.setItem("destinyActivePart", activePart);
       localStorage.setItem("destinyCurrentQuest", JSON.stringify(currentQuest));
@@ -226,7 +231,14 @@ const DestinyLiberationCalculator = () => {
     } catch {
       // ignore storage errors
     }
-  }, [activePart, currentQuest, currentTraces, startDate, bossSelections]);
+  }, [
+    restored,
+    activePart,
+    currentQuest,
+    currentTraces,
+    startDate,
+    bossSelections,
+  ]);
 
   // Persist scheduled changes
   const handleScheduledChangesUpdate = (next) => {

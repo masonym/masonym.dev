@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Loader2, MapPin, Search } from "lucide-react";
 import {
   MAX_RESULTS,
@@ -65,12 +65,12 @@ export default function MapPicker({ currentMapId, onPick, onClose }) {
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  const withinLevels = useMemo(() => {
-    if (!minLv && !maxLv) return () => true;
-    return (m) =>
+  const withinLevels = useCallback(
+    (m) =>
       (!minLv || (m.maxLv ?? 0) >= minLv) &&
-      (!maxLv || (m.minLv ?? Infinity) <= maxLv);
-  }, [minLv, maxLv]);
+      (!maxLv || (m.minLv ?? Infinity) <= maxLv),
+    [minLv, maxLv],
+  );
 
   const areas = useMemo(() => {
     if (!catalog) return [];
@@ -97,10 +97,18 @@ export default function MapPicker({ currentMapId, onPick, onClose }) {
     return area ? area.maps : [];
   }, [catalog, query, street, areas, withinLevels]);
 
-  useEffect(() => {
+  // A new list starts at the top. The cursor resets during render so the first
+  // paint of the new list already highlights its first row.
+  const listKey = `${query}|${street}|${minLv}|${maxLv}`;
+  const [cursorListKey, setCursorListKey] = useState(listKey);
+  if (cursorListKey !== listKey) {
+    setCursorListKey(listKey);
     setCursor(0);
+  }
+
+  useEffect(() => {
     listRef.current?.scrollTo({ top: 0 });
-  }, [query, street, minLv, maxLv]);
+  }, [listKey]);
 
   const onListKey = (e) => {
     // The level dropdowns need their own arrow keys.

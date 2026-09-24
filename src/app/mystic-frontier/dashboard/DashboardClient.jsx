@@ -112,6 +112,49 @@ const apErrorBarsPlugin = {
 
 ChartJS.register(apErrorBarsPlugin);
 
+// Every expedition, tile and reward, paged past Supabase's 1000-row limit.
+async function fetchDashboardData() {
+  const normalize = (data) => {
+    if (Array.isArray(data)) return data;
+    if (data && typeof data === 'object') return Object.values(data);
+    return [];
+  };
+
+  const fetchAll = async (table) => {
+    const pageSize = 1000;
+    let from = 0;
+    let all = [];
+    while (true) {
+      const { data, error } = await supabase
+        .from(table)
+        .select('*')
+        .range(from, from + pageSize - 1);
+
+      if (error) throw error;
+      const page = normalize(data);
+      all = all.concat(page);
+      if (page.length < pageSize) break;
+      from += pageSize;
+    }
+    return all;
+  };
+
+  const [expeditions, tiles, allRewards] = await Promise.all([
+    fetchAll('expeditions'),
+    fetchAll('tiles'),
+    fetchAll('rewards'),
+  ]);
+
+  const rewards = allRewards.filter(r => {
+    const name = (r.item_name ?? '').trim().toLowerCase();
+    if (!name) return true;
+    if (name.includes('coupon')) return true;
+    return name !== 'frontier coins' && name !== 'frontier coin';
+  });
+
+  return { expeditions, tiles, rewards };
+}
+
 export default function DashboardClient() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
@@ -133,58 +176,15 @@ export default function DashboardClient() {
   const [viewMode, setViewMode] = useState('all'); // all | overlay | mine
 
   useEffect(() => {
-    loadAllData();
+    fetchDashboardData()
+      .then(({ expeditions, tiles, rewards }) => {
+        setExpeditions(expeditions);
+        setTiles(tiles);
+        setRewards(rewards);
+      })
+      .catch((err) => console.error('Error loading data:', err))
+      .finally(() => setLoading(false));
   }, []);
-
-  const loadAllData = async () => {
-    setLoading(true);
-    try {
-      const normalize = (data) => {
-        if (Array.isArray(data)) return data;
-        if (data && typeof data === 'object') return Object.values(data);
-        return [];
-      };
-
-      const fetchAll = async (table) => {
-        const pageSize = 1000;
-        let from = 0;
-        let all = [];
-        while (true) {
-          const { data, error } = await supabase
-            .from(table)
-            .select('*')
-            .range(from, from + pageSize - 1);
-
-          if (error) throw error;
-          const page = normalize(data);
-          all = all.concat(page);
-          if (page.length < pageSize) break;
-          from += pageSize;
-        }
-        return all;
-      };
-
-      const [allExpeditions, allTiles, allRewards] = await Promise.all([
-        fetchAll('expeditions'),
-        fetchAll('tiles'),
-        fetchAll('rewards'),
-      ]);
-
-      const filteredRewards = allRewards.filter(r => {
-        const name = (r.item_name ?? '').trim().toLowerCase();
-        if (!name) return true;
-        if (name.includes('coupon')) return true;
-        return name !== 'frontier coins' && name !== 'frontier coin';
-      });
-
-      setExpeditions(allExpeditions);
-      setTiles(allTiles);
-      setRewards(filteredRewards);
-    } catch (err) {
-      console.error('Error loading data:', err);
-    }
-    setLoading(false);
-  };
 
   // apply filters
   const filteredExpeditions = expeditions.filter(exp => {

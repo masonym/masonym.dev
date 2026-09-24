@@ -57,13 +57,15 @@ export default function GroupPicker({
 
   // browse
   const [search, setSearch] = useState("");
-  const [publicGroups, setPublicGroups] = useState([]);
-  const [browsing, setBrowsing] = useState(false);
+  // Results remember the search they answer, so "still searching" is derived
+  // rather than a flag the effect would have to set synchronously.
+  const [browseResult, setBrowseResult] = useState(null);
+  const publicGroups = browseResult?.groups ?? [];
+  const browsing = tab === "browse" && browseResult?.search !== search;
 
   useEffect(() => {
     if (tab !== "browse") return;
     let cancelled = false;
-    setBrowsing(true);
     const timer = setTimeout(async () => {
       const { data, error: rpcError } = await supabase.rpc(
         "burning_public_groups",
@@ -73,8 +75,7 @@ export default function GroupPicker({
       );
       if (cancelled) return;
       if (rpcError) setError(rpcError.message);
-      setPublicGroups(data || []);
-      setBrowsing(false);
+      setBrowseResult({ search, groups: data || [] });
     }, 250);
     return () => {
       cancelled = true;

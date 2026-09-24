@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useHydrated } from "@/hooks/useHydrated";
 import { classes } from "@/data/classes";
 import { InputGrid } from "../InputGrid/InputGrid";
 import Image from "next/image";
@@ -11,9 +12,42 @@ import { formatSkillToUnderscores } from "../../utils";
 import { calculateSkillCost } from "../CalcRoute/costCalc.utils";
 import ShineCalculator, { SHINE_CLASSES } from "../ShineCalculator/ShineCalculator";
 
+// A class's saved skill levels, or its starting levels if none are saved. Null
+// for an unknown class, which leaves the current levels alone.
+const readSkillLevels = (classKey) => {
+  const savedSkillLevels = localStorage.getItem(`skillLevels_${classKey}`);
+  if (savedSkillLevels) return JSON.parse(savedSkillLevels);
+
+  const classDetails = classes[classKey];
+  if (!classDetails) return null;
+
+  const initialLevels = {};
+  initialLevels[formatSkillToUnderscores(classDetails.originSkill)] = { level: 1, type: 'skill' };
+  if (classDetails.ascentSkill) {
+    initialLevels[formatSkillToUnderscores(classDetails.ascentSkill)] = { level: 0, type: 'skill' };
+  }
+  classDetails.masterySkills.forEach(skill => {
+    initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'mastery' };
+  });
+  classDetails.boostSkills.forEach(skill => {
+    initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'enhancement' };
+  });
+  if (classDetails.jobBranchSkills) {
+    classDetails.jobBranchSkills.forEach(skill => {
+      initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'jobBranch' };
+    });
+  }
+  classDetails.commonSkills.forEach(skill => {
+    initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'common' };
+  });
+  return initialLevels;
+};
+
 const ClassSelector = () => {
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useHydrated();
+  const [restored, setRestored] = useState(false);
   const [selectedClass, setSelectedClass] = useState("");
+  const [skillLevelsClass, setSkillLevelsClass] = useState("");
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -21,53 +55,20 @@ const ClassSelector = () => {
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  useEffect(() => {
-    setIsClient(true);
+  // Restore the last class once, on the client. Everything below renders only
+  // after this, so the children can read their own saved state directly.
+  if (isClient && !restored) {
+    setRestored(true);
     const savedClass = localStorage.getItem('selectedClass');
-    if (savedClass) {
-      setSelectedClass(savedClass);
-      loadSkillLevels(savedClass);
-    }
-  }, []);
+    if (savedClass) setSelectedClass(savedClass);
+  }
 
-  useEffect(() => {
-    if (isClient && selectedClass) {
-      localStorage.setItem('selectedClass', selectedClass);
-      loadSkillLevels(selectedClass);
-    }
-  }, [selectedClass, isClient]);
-
-  const loadSkillLevels = (classKey) => {
-    const savedSkillLevels = localStorage.getItem(`skillLevels_${classKey}`);
-    if (savedSkillLevels) {
-      setSkillLevels(JSON.parse(savedSkillLevels));
-    } else {
-      // Initialize with default levels if no saved data
-      const classDetails = classes[classKey];
-      if (classDetails) {
-        const initialLevels = {};
-        initialLevels[formatSkillToUnderscores(classDetails.originSkill)] = { level: 1, type: 'skill' };
-        if (classDetails.ascentSkill) {
-          initialLevels[formatSkillToUnderscores(classDetails.ascentSkill)] = { level: 0, type: 'skill' };
-        }
-        classDetails.masterySkills.forEach(skill => {
-          initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'mastery' };
-        });
-        classDetails.boostSkills.forEach(skill => {
-          initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'enhancement' };
-        });
-        if (classDetails.jobBranchSkills) {
-          classDetails.jobBranchSkills.forEach(skill => {
-            initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'jobBranch' };
-          });
-        }
-        classDetails.commonSkills.forEach(skill => {
-          initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'common' };
-        });
-        setSkillLevels(initialLevels);
-      }
-    }
-  };
+  // Load the class's skill levels whenever the class changes.
+  if (isClient && selectedClass && skillLevelsClass !== selectedClass) {
+    setSkillLevelsClass(selectedClass);
+    const levels = readSkillLevels(selectedClass);
+    if (levels) setSkillLevels(levels);
+  }
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);
@@ -77,6 +78,7 @@ const ClassSelector = () => {
 
   const handleItemClick = (className) => {
     setSelectedClass(className);
+    localStorage.setItem('selectedClass', className);
     setQuery(className);
     setIsOpen(false);
   };
@@ -119,7 +121,8 @@ const ClassSelector = () => {
 
   const resetSkillLevels = () => {
     localStorage.removeItem(`skillLevels_${selectedClass}`);
-    loadSkillLevels(selectedClass);
+    const levels = readSkillLevels(selectedClass);
+    if (levels) setSkillLevels(levels);
   };
 
   const updateSkillLevels = (newLevels, skillType) => {
