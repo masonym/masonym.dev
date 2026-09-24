@@ -508,3 +508,82 @@ export function resolveFlames(lines = [], ctx = {}) {
   }
   return out;
 }
+
+// ── Flat entry ───────────────────────────────────────────────────────────────
+
+/**
+ * The bonus stats that can be entered as flat numbers, read straight off the
+ * item.
+ *
+ * The in-game tooltip prints a stat as `STR: +150 (100 +30 +20)` - base, bonus
+ * (green), enhancement - so the bonus stat total is there to be copied, whereas
+ * which lines and tiers produced it is not shown anywhere. Entering the total is
+ * the natural way in; the tier grid stays for building a hypothetical roll.
+ *
+ * Only the lines that decide a comparison are offered: the four stats, attack,
+ * All Stat %, Max HP (Demon Avenger scales off it), and on a weapon Boss and
+ * Damage %. Everything else a flame can roll (DEF, speed, MP, jump) is noise in
+ * a damage comparison and still reachable through the tier grid.
+ */
+export const FLAT_FLAME_KEYS = [
+  "str",
+  "dex",
+  "int",
+  "luk",
+  "att",
+  "matt",
+  "allStatP",
+  "hp",
+  "boss",
+  "dmg",
+];
+
+/** Flat keys only a weapon can roll, matching FLAME_LINES' `on: 'weapon'`. */
+const WEAPON_ONLY_FLAT_KEYS = new Set(["boss", "dmg"]);
+
+/** The flat bonus stats that can be entered for `item`. */
+export function flatFlameKeysFor(item) {
+  const weapon = isWeaponSlot(item?.slot);
+  return FLAT_FLAME_KEYS.filter(
+    (key) => weapon || !WEAPON_ONLY_FLAT_KEYS.has(key),
+  );
+}
+
+/**
+ * How a config's bonus stats are entered: 'flat' totals or 'tier' lines.
+ *
+ * Configs saved before flat entry existed carry only `flames`, so a config with
+ * no mode that has tier lines keeps reading them; everything else is flat.
+ */
+export function flameMode(config) {
+  if (config?.flameMode === "flat" || config?.flameMode === "tier")
+    return config.flameMode;
+  return config?.flames?.length ? "tier" : "flat";
+}
+
+/**
+ * A flat bonus stat bag reduced to the keys `item` can take and whole, positive
+ * values. Checked rather than trusted: it comes from a text box and from
+ * storage, and a config carried onto another item can name boss damage on a hat.
+ */
+export function cleanFlatFlames(bag, item = null) {
+  const out = {};
+  const keys = item ? flatFlameKeysFor(item) : FLAT_FLAME_KEYS;
+  for (const key of keys) {
+    const value = Math.floor(Number(bag?.[key]));
+    if (Number.isFinite(value) && value > 0) out[key] = value;
+  }
+  return out;
+}
+
+/**
+ * The flat totals an item's tier lines come to, so switching from the tier grid
+ * to flat entry carries the roll across instead of starting empty. Lines with no
+ * flat field (DEF, speed, …) are dropped.
+ */
+export function flameLinesToFlat(item, config) {
+  return cleanFlatFlames(
+    resolveFlames(config?.flames ?? [], flameContext(item, config)),
+    item,
+  );
+}

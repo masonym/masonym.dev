@@ -36,13 +36,11 @@ const CostInline = ({ cost }) => (
 // space behind it or lose hover partway between a trigger and a panel.
 const CostTableSection = ({ skillType }) => {
   const costTable = getCostTable(skillType);
-  let total = { solErda: 0, frags: 0 };
-  const rows = costTable.map((entry, index) => {
-    const level = index + 1;
-    const cost = entry[level];
-    total = { solErda: total.solErda + cost.solErda, frags: total.frags + cost.frags };
-    return { level, cost };
-  });
+  const rows = costTable.map((entry, index) => ({ level: index + 1, cost: entry[index + 1] }));
+  const total = rows.reduce(
+    (sum, { cost }) => ({ solErda: sum.solErda + cost.solErda, frags: sum.frags + cost.frags }),
+    { solErda: 0, frags: 0 }
+  );
 
   return (
     <details className="group/table mb-3 rounded-lg border border-primary-dim">

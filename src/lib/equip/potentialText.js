@@ -187,6 +187,53 @@ export function potentialOptions(lines, levelIndex) {
   return out.map(({ id, label }) => ({ id, label }));
 }
 
+/**
+ * The potential stats worth offering, by slot.
+ *
+ * The full pool is dozens of lines per grade - DEF, MP, speed, drop rate, HP
+ * recovery - and almost nobody keeps them, so offering all of it buries the
+ * handful of lines a comparison is actually about. This is the community's
+ * usual shortlist:
+ *
+ *   weapon, secondary, emblem  ATT % / Magic ATT %, Boss Damage, Ignore DEF
+ *   gloves                     main stat, plus Critical Damage
+ *   hat                        main stat, plus Skill Cooldown
+ *   everything else            main stat
+ *
+ * "Main stat" is the four stat % lines, All Stat %, and Max HP % for Demon
+ * Avenger. Flat stat lines are left out: they are the low-grade versions of the
+ * same thing and never what a finished item carries.
+ *
+ * This is a default, not a rule of the game - the editor can still show the
+ * whole pool, and a line already on an item is always kept.
+ */
+const MAIN_STAT_KEYS = ["strP", "dexP", "intP", "lukP", "hpP"];
+const WEAPON_KEYS = ["attP", "mattP", "boss", "ied"];
+
+const WANTED_BY_SLOT = {
+  Wp: WEAPON_KEYS,
+  WpSi: WEAPON_KEYS,
+  Si: WEAPON_KEYS,
+  Em: WEAPON_KEYS,
+  Gv: [...MAIN_STAT_KEYS, "critDmg"],
+  Cp: [...MAIN_STAT_KEYS, "cooldown"],
+};
+
+/**
+ * True when a line is on the shortlist for this item.
+ *
+ * Every stat the line grants must be wanted, so All Stat % (which grants all
+ * four stat %s) qualifies and "Max HP % + Max MP %" does not.
+ */
+export function potentialIsWanted(line, item, levelIndex) {
+  const stats = potentialValueAt(line, levelIndex);
+  const keys = Object.keys(stats || {});
+  if (!keys.length) return false;
+
+  const wanted = WANTED_BY_SLOT[item?.slot] ?? MAIN_STAT_KEYS;
+  return keys.every((key) => wanted.includes(key));
+}
+
 /** One line's resolved text, for showing a potential that is already set. */
 export function potentialLabel(lineIndex, optionId, levelIndex) {
   const line = lineIndex.get(optionId);

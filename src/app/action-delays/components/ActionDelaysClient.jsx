@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useHydrated } from "@/hooks/useHydrated";
 import skillsDataV266 from "@/data/skill-delays/v266-skills.json";
 import skillsDataV267 from "@/data/skill-delays/v267-skills.json";
 import skillsDataV269 from "@/data/skill-delays/v269-skills.json";
@@ -1178,14 +1179,14 @@ export default function ActionDelaysClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [version, setVersion] = useState("v269");
   const [showSpotlight, setShowSpotlight] = useState(false);
+  const hydrated = useHydrated();
+  const [spotlightChecked, setSpotlightChecked] = useState(false);
 
-  // check localStorage on mount to see if user has seen the spotlight
-  useEffect(() => {
-    const hasSeen = localStorage.getItem(SPOTLIGHT_STORAGE_KEY);
-    if (!hasSeen) {
-      setShowSpotlight(true);
-    }
-  }, []);
+  // check localStorage once on the client to see if user has seen the spotlight
+  if (hydrated && !spotlightChecked) {
+    setSpotlightChecked(true);
+    if (!localStorage.getItem(SPOTLIGHT_STORAGE_KEY)) setShowSpotlight(true);
+  }
 
   const dismissSpotlight = () => {
     setShowSpotlight(false);

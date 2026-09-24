@@ -1,13 +1,17 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   FLAME_LINES,
   FLAME_TIERS,
   acceptsFlames,
+  cleanFlatFlames,
   flameContext,
   flameLineValue,
   flameLinesFor,
+  flameLinesToFlat,
+  flameMode,
+  flatFlameKeysFor,
   flameTierRange,
   isFlameAdvantaged,
   isWeaponSlot,
@@ -18,16 +22,21 @@ import {
   starForceGains,
   gainsStarForceAttack,
 } from "@/lib/equip/starforce";
-import { getClass } from "@/lib/equip/classes";
+import { getClass, statsFitClass } from "@/lib/equip/classes";
 import { hasPreset } from "@/lib/equip/specialItems";
 import {
   exceptionalGains,
   exceptionalSlots,
-  potentialAllowedOn,
-  potentialIslot,
+  potentialAllowedOnItem,
+  potentialLineGrades,
   potentialLevelIndex,
+  potentialValueAt,
 } from "@/lib/equip/engine";
-import { potentialLabel, potentialOptions } from "@/lib/equip/potentialText";
+import {
+  potentialIsWanted,
+  potentialLabel,
+  potentialOptions,
+} from "@/lib/equip/potentialText";
 import { STAT_META, formatStat } from "@/lib/equip/stats";
 
 const MAX_FLAME_LINES = 4;
@@ -39,6 +48,10 @@ const POT_GRADES = [
   { value: 2, label: "Epic" },
   { value: 1, label: "Rare" },
 ];
+
+const POT_GRADE_LABELS = Object.fromEntries(
+  POT_GRADES.map((g) => [g.value, g.label]),
+);
 
 /**
  * Editor for the selected slot: the item plus its star force, flames and
@@ -96,7 +109,12 @@ export default function SlotEditor({
           </div>
 
           {acceptsFlames(item) ? (
-            <FlameMatrix config={config} update={update} item={item} />
+            <BonusStats
+              config={config}
+              update={update}
+              item={item}
+              classKey={classKey}
+            />
           ) : (
             <Panel title="Bonus Stats">
               <p className="text-[11px] text-primary-bright/40">
@@ -117,10 +135,13 @@ export default function SlotEditor({
           <PotentialColumn
             lines={config?.potentials ?? []}
             onLines={(potentials) => update({ potentials })}
+            grade={config?.potentialGrade}
+            onGrade={(potentialGrade) => update({ potentialGrade })}
             preset={item.presetPotential}
             item={item}
             data={data}
             levelIndex={levelIndex}
+            classKey={classKey}
           />
         )}
       </div>
@@ -475,6 +496,170 @@ function ItemNotes({ item, cap, floor, classKey }) {
 }
 
 /**
+ * Bonus stats, entered either as the flat totals printed on the item or as tier
+ * lines on the grid.
+ *
+ * Flat is the default because it is what you can read: the tooltip shows each
+ * stat's bonus portion in green, but never which lines or tiers made it up. The
+ * grid stays for the other question - "what would a T6 main stat line be worth
+ * here?" - and for the lines flat entry does not offer.
+ */
+function BonusStats({ config, update, item, classKey }) {
+  const mode = flameMode(config);
+
+  // Moving to flat carries a tier roll across as its totals, so the item keeps
+  // its value; with no tier lines, whatever was typed before is kept instead.
+  // Moving to tiers leaves the flat numbers in the config for the way back.
+  const setMode = (next) => {
+    if (next === mode) return;
+    if (next === "tier") {
+      update({ flameMode: "tier" });
+      return;
+    }
+    update({
+      flameMode: "flat",
+      flameStats: config?.flames?.length
+        ? flameLinesToFlat(item, config)
+        : cleanFlatFlames(config?.flameStats, item),
+    });
+  };
+
+  const toggle = <FlameModeToggle mode={mode} onChange={setMode} />;
+
+  return mode === "flat" ? (
+    <FlatFlames
+      config={config}
+      update={update}
+      item={item}
+      classKey={classKey}
+      modeToggle={toggle}
+    />
+  ) : (
+    // Grid edits pin the mode: an old config is on tiers only by inference, and
+    // clearing its last line would otherwise flip the panel to flat under the
+    // cursor.
+    <FlameMatrix
+      config={config}
+      update={(patch) => update({ flameMode: "tier", ...patch })}
+      item={item}
+      classKey={classKey}
+      modeToggle={toggle}
+    />
+  );
+}
+
+function FlameModeToggle({ mode, onChange }) {
+  return (
+    <span className="flex gap-1">
+      {[
+        ["Flat", "flat"],
+        ["By tier", "tier"],
+      ].map(([label, value]) => (
+        <button
+          key={value}
+          type="button"
+          aria-pressed={mode === value}
+          onClick={() => onChange(value)}
+          className={`px-1.5 py-0.5 text-[11px] rounded border transition-colors ${
+            mode === value
+              ? "border-secondary bg-secondary/20 text-secondary font-semibold"
+              : "border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50"
+          }`}
+        >
+          {label}
+        </button>
+      ))}
+    </span>
+  );
+}
+
+const FLAT_LABELS = {
+  str: "STR",
+  dex: "DEX",
+  int: "INT",
+  luk: "LUK",
+  att: "ATT",
+  matt: "Magic ATT",
+  allStatP: "All Stat %",
+  hp: "Max HP",
+  boss: "Boss Damage %",
+  dmg: "Damage %",
+};
+
+/**
+ * Bonus stats as the totals the item shows.
+ *
+ * Narrowed to the stats the selected class uses (`statsFitClass`) - Max HP only
+ * matters to Demon Avenger, so it shows for warriors. A field that already holds
+ * a value is kept, so switching class cannot hide a number still being counted.
+ */
+function FlatFlames({ config, update, item, classKey, modeToggle }) {
+  const stats = config?.flameStats ?? {};
+  const entered = Object.keys(cleanFlatFlames(stats, item)).length;
+
+  const keys = flatFlameKeysFor(item).filter(
+    (key) => stats[key] || statsFitClass([key], classKey),
+  );
+
+  const setValue = (key, raw) => {
+    const value = raw === "" ? undefined : Math.max(0, Math.floor(Number(raw)));
+    const next = { ...stats };
+    if (value) next[key] = value;
+    else delete next[key];
+    update({ flameMode: "flat", flameStats: next });
+  };
+
+  return (
+    <Panel
+      title="Bonus Stats"
+      aside={
+        <span className="flex items-center gap-2 text-[11px] text-primary-bright/40">
+          {modeToggle}
+          {entered > 0 && (
+            <button
+              type="button"
+              onClick={() => update({ flameMode: "flat", flameStats: {} })}
+              className="text-primary-bright/50 hover:text-progress-red"
+            >
+              clear
+            </button>
+          )}
+        </span>
+      }
+    >
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-1.5">
+        {keys.map((key) => (
+          <label key={key} className="min-w-0">
+            <span
+              className={`block text-[10px] ${
+                stats[key] ? "text-secondary" : "text-primary-bright/50"
+              }`}
+            >
+              {FLAT_LABELS[key]}
+            </span>
+            <input
+              type="number"
+              inputMode="numeric"
+              min={0}
+              step={1}
+              placeholder="0"
+              value={stats[key] ?? ""}
+              onChange={(e) => setValue(key, e.target.value)}
+              className="w-full px-1.5 py-1 text-xs tabular-nums rounded border border-primary-dim bg-background-bright text-primary-bright placeholder:text-primary-bright/25 focus:outline-none focus:border-secondary"
+            />
+          </label>
+        ))}
+      </div>
+
+      <p className="mt-2 text-[10px] text-primary-bright/40">
+        Enter the green bonus value shown beside each stat in the item&apos;s
+        tooltip.
+      </p>
+    </Panel>
+  );
+}
+
+/**
  * Bonus stats as a stat × tier grid.
  *
  * A flame roll is two facts - which line, and what tier - and the pair of
@@ -487,26 +672,38 @@ function ItemNotes({ item, cap, floor, classKey }) {
  * are clickable. On a weapon that second rule is doing real work: the attack line
  * runs 1-5 on an ordinary weapon and 3-7 on a flame advantaged one, and the two
  * are worth different amounts at the tiers they share.
+ *
+ * Lines are also narrowed to the selected class, keeping any already taken. A
+ * dual-stat line must fit on both stats: STR + INT is a real roll on a warrior's
+ * hat, but offering it would put five of the six dual lines in front of every
+ * class. Flat entry is where an off-class line gets typed in.
  */
-function FlameMatrix({ config, update, item }) {
+function FlameMatrix({ config, update, item, classKey, modeToggle }) {
   const flames = config?.flames ?? [];
   const weapon = isWeaponSlot(item.slot);
 
   const ctx = useMemo(() => flameContext(item, config), [item, config]);
 
+  const tierOf = (line) => flames.find((f) => f.line === line)?.tier ?? 0;
+
   const rows = useMemo(
     () =>
       flameLinesFor(item, config)
+        .filter(
+          (line) =>
+            config?.flames?.some((f) => f.line === line) ||
+            Object.keys(FLAME_LINES[line].resolve(1, ctx)).every((key) =>
+              statsFitClass([key], classKey),
+            ),
+        )
         .map((line) => ({
           line,
           label: FLAME_LINES[line].label,
           cells: FLAME_TIERS.map((tier) => flameLineValue(line, tier, ctx)),
         }))
         .filter((row) => row.cells.some(Boolean)),
-    [item, config, ctx],
+    [item, config, ctx, classKey],
   );
-
-  const tierOf = (line) => flames.find((f) => f.line === line)?.tier ?? 0;
   const full = flames.length >= MAX_FLAME_LINES;
 
   const toggle = (line, tier) => {
@@ -545,6 +742,7 @@ function FlameMatrix({ config, update, item }) {
       title="Bonus Stats"
       aside={
         <span className="flex items-center gap-2 text-[11px] text-primary-bright/40">
+          {modeToggle}
           <span className="tabular-nums">
             {flames.length} / {MAX_FLAME_LINES} lines
           </span>
@@ -683,32 +881,96 @@ function AdvantageToggle({ item, ctx, onChange }) {
 /**
  * The item's three potential lines.
  *
- * Every grade is offered in one list rather than behind a grade filter, because
- * a real potential mixes them - a Unique item rolls one unique line and two epic
- * ones, which a filtered list could not represent.
+ * The item's grade decides what each line can be: the first line is always that
+ * grade, and the other two are that grade or the one below
+ * (`potentialLineGrades`). So each select lists only the grades its position can
+ * roll, and a Legendary item's third line cannot be set to an Epic one.
  *
  * The lines themselves are resolved to the values *this* item would get and
  * deduplicated; see potentialText.js for why both were needed.
+ *
+ * By default only the slot's shortlist is offered (`potentialIsWanted`), with
+ * the whole pool one click away. Both are narrowed to the selected class. A line
+ * already chosen stays in its select either way, so narrowing the list - or
+ * changing the grade or class - can never blank out part of a real item.
  */
-function PotentialColumn({ lines, onLines, preset, item, data, levelIndex }) {
+function PotentialColumn({
+  lines,
+  onLines,
+  grade,
+  onGrade,
+  preset,
+  item,
+  data,
+  levelIndex,
+  classKey,
+}) {
+  const [showAll, setShowAll] = useState(false);
+
   // A preset is only *shown* as fixed while the user has entered nothing. The
   // first override seeds the selects from it rather than starting blank.
   const showingPreset = Boolean(preset?.length) && lines.length === 0;
 
-  const byGrade = useMemo(() => {
-    const usable = data.potentials.filter(
+  // With no grade saved, the first line says what it is - which is how a
+  // loadout from before the grade existed, or a preset, keeps its grade.
+  const itemGrade = grade ?? data.lineIndex.get(lines[0]?.optionId)?.grade ?? 4;
+
+  // Every grade's options, filtered to what this item can roll and - unless
+  // everything was asked for - to the shortlist.
+  const optionsByGrade = useMemo(() => {
+    const usable = data.potentialPool.filter(
       (p) =>
-        p.kind === "regular" && potentialAllowedOn(p, potentialIslot(item)),
+        p.kind === "regular" &&
+        potentialAllowedOnItem(p, item) &&
+        statsFitClass(
+          Object.keys(potentialValueAt(p, levelIndex) || {}),
+          classKey,
+        ) &&
+        (showAll || potentialIsWanted(p, item, levelIndex)),
     );
 
-    return POT_GRADES.map((grade) => ({
-      ...grade,
-      options: potentialOptions(
-        usable.filter((p) => p.grade === grade.value),
-        levelIndex,
-      ),
-    })).filter((g) => g.options.length > 0);
-  }, [data.potentials, item, levelIndex]);
+    return new Map(
+      POT_GRADES.map((g) => [
+        g.value,
+        potentialOptions(
+          usable.filter((p) => p.grade === g.value),
+          levelIndex,
+        ),
+      ]),
+    );
+  }, [data, item, levelIndex, showAll, classKey]);
+
+  // The option groups for one select. A chosen line outside them - filtered
+  // out, a grade that position no longer allows, or a duplicate whose first
+  // copy is the one listed - is added back under its own id, or the select
+  // would show as empty while the line is still counted.
+  const groupsFor = (idx) => {
+    const groups = potentialLineGrades(itemGrade, idx).map((value) => ({
+      value,
+      label: POT_GRADE_LABELS[value],
+      options: optionsByGrade.get(value) ?? [],
+    }));
+
+    const id = lines[idx]?.optionId;
+    const listed = groups.some((g) => g.options.some((o) => o.id === id));
+    if (id && !listed) {
+      const value = data.lineIndex.get(id)?.grade;
+      const option = {
+        id,
+        label: potentialLabel(data.lineIndex, id, levelIndex),
+      };
+      const group = groups.find((g) => g.value === value);
+      if (group) group.options = [...group.options, option];
+      else
+        groups.push({
+          value,
+          label: POT_GRADE_LABELS[value] ?? "Other",
+          options: [option],
+        });
+    }
+
+    return groups.filter((g) => g.options.length > 0);
+  };
 
   // Indices are positions, so clearing the middle line must leave a hole rather
   // than pull the third line up into the select the user just emptied.
@@ -762,17 +1024,46 @@ function PotentialColumn({ lines, onLines, preset, item, data, levelIndex }) {
     <Panel
       title="Potential"
       aside={
-        chosen > 0 ? (
-          <button
-            type="button"
-            onClick={() => onLines([])}
-            className="text-[11px] text-primary-bright/50 hover:text-progress-red"
-          >
-            clear
-          </button>
-        ) : null
+        <span className="flex items-center gap-2 text-[11px]">
+          <label className="flex items-center gap-1 text-primary-bright/50 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={showAll}
+              onChange={(e) => setShowAll(e.target.checked)}
+              className="accent-[color:var(--secondary)]"
+            />
+            all lines
+          </label>
+          {chosen > 0 && (
+            <button
+              type="button"
+              onClick={() => onLines([])}
+              className="text-primary-bright/50 hover:text-progress-red"
+            >
+              clear
+            </button>
+          )}
+        </span>
       }
     >
+      <div className="mb-2 flex flex-wrap gap-1">
+        {POT_GRADES.map(({ value, label }) => (
+          <button
+            key={value}
+            type="button"
+            aria-pressed={itemGrade === value}
+            onClick={() => onGrade(value)}
+            className={`px-1.5 py-0.5 text-[11px] rounded border transition-colors ${
+              itemGrade === value
+                ? "border-secondary bg-secondary/20 text-secondary font-semibold"
+                : "border-primary-dim text-primary-bright/60 hover:text-primary-bright hover:border-secondary/50"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       <div className="space-y-1">
         {Array.from({ length: POTENTIAL_LINES }, (_, idx) => (
           <select
@@ -789,9 +1080,9 @@ function PotentialColumn({ lines, onLines, preset, item, data, levelIndex }) {
             }`}
           >
             <option value="">- line {idx + 1} -</option>
-            {byGrade.map((grade) => (
-              <optgroup key={grade.value} label={grade.label}>
-                {grade.options.map((option) => (
+            {groupsFor(idx).map((group) => (
+              <optgroup key={group.value} label={group.label}>
+                {group.options.map((option) => (
                   <option key={option.id} value={option.id}>
                     {option.label}
                   </option>

@@ -28,6 +28,7 @@ export default function GroupPicker({
   onSelect,
   onChanged,
   defaultIgn,
+  now,
 }) {
   const [tab, setTab] = useState(myGroups.length ? "mine" : "create");
   const [error, setError] = useState("");
@@ -290,7 +291,7 @@ export default function GroupPicker({
                       {group.member_count} member
                       {group.member_count === 1 ? "" : "s"} ·{" "}
                       {group.last_log_at
-                        ? `last log ${formatAge(Date.now() - new Date(group.last_log_at).getTime())}`
+                        ? `last log ${formatAge(now - new Date(group.last_log_at).getTime())}`
                         : "no logs yet"}
                     </p>
                   </div>

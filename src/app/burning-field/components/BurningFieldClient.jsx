@@ -91,13 +91,19 @@ export default function BurningFieldClient() {
     [pathname, router, searchParams],
   );
 
-  const loadMyGroups = useCallback(async () => {
-    if (!user) {
-      setMyGroups([]);
-      setLoadingGroups(false);
-      return;
-    }
-    setLoadingGroups(true);
+  // Signing in or out resets the group list here, during render, rather than
+  // in the fetch effect: a synchronous setState in an effect is a second render
+  // for nothing. The fetches below only set state once they have awaited.
+  const userId = user?.id ?? null;
+  const [groupsUserId, setGroupsUserId] = useState(userId);
+  if (groupsUserId !== userId) {
+    setGroupsUserId(userId);
+    setMyGroups([]);
+    setLoadingGroups(Boolean(userId));
+  }
+
+  const fetchMyGroups = useCallback(async () => {
+    if (!user) return;
     const { data, error: loadError } = await supabase
       .from("burning_group_members")
       .select("role, ign, group:burning_groups(*)")
@@ -115,17 +121,31 @@ export default function BurningFieldClient() {
   }, [user]);
 
   useEffect(() => {
-    loadMyGroups();
-  }, [loadMyGroups]);
+    fetchMyGroups();
+  }, [fetchMyGroups]);
 
-  const loadGroupData = useCallback(async (groupId) => {
-    if (!groupId) {
+  // For event handlers, where showing the spinner straight away is fine.
+  const loadMyGroups = useCallback(async () => {
+    if (!user) return;
+    setLoadingGroups(true);
+    await fetchMyGroups();
+  }, [user, fetchMyGroups]);
+
+  // Same split as the group list: leaving a group clears its board during
+  // render, and the effect only fetches.
+  const [boardGroupId, setBoardGroupId] = useState(groupIdFromUrl);
+  if (boardGroupId !== groupIdFromUrl) {
+    setBoardGroupId(groupIdFromUrl);
+    if (groupIdFromUrl) {
+      setLoadingLogs(true);
+    } else {
       setMembers([]);
       setLogs([]);
       setOccupants([]);
-      return;
     }
-    setLoadingLogs(true);
+  }
+
+  const fetchGroupData = useCallback(async (groupId) => {
     const since = new Date(
       Date.now() - LOG_WINDOW_HOURS * 60 * 60 * 1000,
     ).toISOString();
@@ -162,8 +182,16 @@ export default function BurningFieldClient() {
   }, []);
 
   useEffect(() => {
-    loadGroupData(groupIdFromUrl);
-  }, [groupIdFromUrl, loadGroupData]);
+    if (groupIdFromUrl) fetchGroupData(groupIdFromUrl);
+  }, [groupIdFromUrl, fetchGroupData]);
+
+  const loadGroupData = useCallback(
+    async (groupId) => {
+      setLoadingLogs(true);
+      await fetchGroupData(groupId);
+    },
+    [fetchGroupData],
+  );
 
   // Live updates so a scouting party sees each other's readings appear.
   useEffect(() => {
@@ -500,6 +528,7 @@ export default function BurningFieldClient() {
           onSelect={selectGroup}
           onChanged={loadMyGroups}
           defaultIgn={myGroups[0]?.myIgn || ""}
+          now={now}
         />
       ) : (
         <div className="space-y-4">

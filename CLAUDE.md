@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm run dev                   # dev server (Turbopack)
 npm run build                 # builds changelog JSON, then next build - the main verification step
-npm run lint                  # eslint via next lint
+npm run lint                  # eslint . (flat config in eslint.config.mjs)
 npm run build-equip-data      # regenerate public/equip-data/ from the WzDataExtractor dump
 npm run build-map-data        # regenerate public/map-data/ from the WzDataExtractor dump
 npm run verify-equip-tables   # data-integrity checks against public/equip-data/

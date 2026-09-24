@@ -8,7 +8,13 @@ import {
   HIDDEN_DIFF_GROUPS,
   formatStat,
 } from "@/lib/equip/stats";
-import { resolveItemBreakdown, setProgress } from "@/lib/equip/engine";
+import {
+  resolveItemBreakdown,
+  setProgress,
+  effectivePotentials,
+  potentialLevelIndex,
+} from "@/lib/equip/engine";
+import { describePotential } from "@/lib/equip/potentialText";
 import { starCap } from "@/lib/equip/starforce";
 
 // Source colors for the "+921 (382 + 264 + 275)" stat breakdown.
@@ -16,6 +22,14 @@ const SOURCE_COLORS = {
   base: "#ffffff",
   starforce: "#ffd75e",
   flame: "#00c896",
+};
+
+// Potential grade names and the colors the game prints them in.
+const POTENTIAL_GRADES = {
+  4: { label: "Legendary", color: "#a8e03c" },
+  3: { label: "Unique", color: "#ffcc00" },
+  2: { label: "Epic", color: "#b980ff" },
+  1: { label: "Rare", color: "#66ccff" },
 };
 
 /**
@@ -97,9 +111,32 @@ function Tooltip({ hover, lineIndex, setIndex, itemIndex, loadout }) {
     starforce: flattenStats(breakdown.starforce),
     flame: flattenStats(breakdown.flame),
   };
+  // Potential is deliberately left out of the stat rows - the game lists it in
+  // its own section below them, and so does this.
   const stats = flattenStats(
     sumStats(breakdown.base, breakdown.starforce, breakdown.flame),
   );
+
+  const potentialConfig = coveredBy ? {} : (config ?? {});
+  const levelIndex = potentialLevelIndex(
+    potentialConfig.effectiveLevel ?? shown.reqLevel,
+  );
+  const potentialLines = resolveLines(
+    effectivePotentials(shown, potentialConfig.potentials ?? []),
+    lineIndex,
+    levelIndex,
+  );
+  const bonusLines = resolveLines(
+    potentialConfig.bonusPotentials ?? [],
+    lineIndex,
+    levelIndex,
+  );
+  // The saved grade only describes lines the user entered; a preset carries its
+  // own grade on its lines.
+  const potentialGrade =
+    (potentialConfig.potentials?.some(Boolean) &&
+      potentialConfig.potentialGrade) ||
+    potentialLines[0]?.grade;
 
   const ordered = [
     ...TOOLTIP_ORDER.filter((k) => stats[k]),
@@ -223,6 +260,21 @@ function Tooltip({ hover, lineIndex, setIndex, itemIndex, loadout }) {
             <li className="text-[11px] text-white/40">No stats.</li>
           )}
         </ul>
+
+        {potentialLines.length > 0 && (
+          <PotentialSection
+            title="Potential"
+            grade={potentialGrade}
+            lines={potentialLines}
+          />
+        )}
+        {bonusLines.length > 0 && (
+          <PotentialSection
+            title="Bonus Potential"
+            grade={bonusLines[0].grade}
+            lines={bonusLines}
+          />
+        )}
       </Frame>
 
       {progress && <SetPanel progress={progress} flip={flip} />}
@@ -288,6 +340,77 @@ function Divider() {
         className="block"
       />
     </div>
+  );
+}
+
+/**
+ * Saved potential entries as the text the game prints for them.
+ *
+ * Entries are positional and can have holes - clearing the middle line leaves a
+ * null rather than moving the third one up - so those are skipped here.
+ */
+function resolveLines(entries, lineIndex, levelIndex) {
+  return entries
+    .map((entry) => {
+      const line = entry?.optionId ? lineIndex?.get(entry.optionId) : null;
+      if (!line) return null;
+      return {
+        id: entry.optionId,
+        grade: line.grade,
+        text: describePotential(line, entry.levelIndex ?? levelIndex),
+      };
+    })
+    .filter(Boolean);
+}
+
+/**
+ * A potential block under the stat rows, as the game draws it: a header naming
+ * the grade in that grade's color, then one bulleted row per line.
+ *
+ * Every line is printed, defensive ones included. The stat rows leave those out
+ * because they do not answer "should I equip this?", but a potential line is
+ * part of what the item *is* - a tooltip that skipped one would describe a
+ * different item.
+ */
+function PotentialSection({ title, grade, lines }) {
+  const { label, color } = POTENTIAL_GRADES[grade] ?? {
+    label: "",
+    color: "#ffffff",
+  };
+
+  return (
+    <>
+      <Divider />
+      <p
+        className="flex items-center gap-1.5 text-[11px] leading-4 mb-0.5"
+        style={{ color }}
+      >
+        <span
+          className="inline-flex items-center justify-center w-[13px] h-[13px] rounded-[3px] text-[9px] font-bold leading-none"
+          style={{ border: `1px solid ${color}`, color }}
+        >
+          {label.charAt(0)}
+        </span>
+        {title}
+        {label ? ` : ${label}` : ""}
+      </p>
+      <ul className="space-y-[1px] pb-0.5">
+        {lines.map((line, idx) => (
+          <li
+            key={`${line.id}-${idx}`}
+            className="flex items-center gap-1.5 text-[11px] leading-4 text-white/90"
+          >
+            <span
+              className="w-[5px] h-[5px] shrink-0"
+              style={{
+                background: POTENTIAL_GRADES[line.grade]?.color ?? color,
+              }}
+            />
+            {line.text}
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 

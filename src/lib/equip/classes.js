@@ -15,6 +15,11 @@
  * `subStat` is the branch's secondary stat, the one paired with the main stat on
  * a dual-stat flame line. It has no effect on filtering - it exists so preset
  * gear (Red Beryl) can be filled in with the bonus stats it actually ships with.
+ *
+ * `stats` is every class-specific stat some job in the branch scales off, and
+ * narrows the bonus stat and potential pickers (`statsFitClass`). It is wider
+ * than main + sub because a branch is several jobs: thieves take STR for Shadower
+ * and Dual Blade, and Max HP is on the warrior list for Demon Avenger.
  */
 export const CLASSES = [
   {
@@ -23,6 +28,7 @@ export const CLASSES = [
     mask: null,
     mainStat: null,
     subStat: null,
+    stats: null,
   },
   {
     key: "warrior",
@@ -30,6 +36,7 @@ export const CLASSES = [
     mask: 1,
     mainStat: "str",
     subStat: "dex",
+    stats: ["str", "dex", "att", "hp"],
   },
   {
     key: "magician",
@@ -37,10 +44,32 @@ export const CLASSES = [
     mask: 2,
     mainStat: "int",
     subStat: "luk",
+    stats: ["int", "luk", "matt"],
   },
-  { key: "bowman", label: "Bowman", mask: 4, mainStat: "dex", subStat: "str" },
-  { key: "thief", label: "Thief", mask: 8, mainStat: "luk", subStat: "dex" },
-  { key: "pirate", label: "Pirate", mask: 16, mainStat: "str", subStat: "dex" },
+  {
+    key: "bowman",
+    label: "Bowman",
+    mask: 4,
+    mainStat: "dex",
+    subStat: "str",
+    stats: ["dex", "str", "att"],
+  },
+  {
+    key: "thief",
+    label: "Thief",
+    mask: 8,
+    mainStat: "luk",
+    subStat: "dex",
+    stats: ["luk", "dex", "str", "att"],
+  },
+  {
+    key: "pirate",
+    label: "Pirate",
+    mask: 16,
+    mainStat: "str",
+    subStat: "dex",
+    stats: ["str", "dex", "att"],
+  },
 ];
 
 export const DEFAULT_CLASS = "all";
@@ -61,4 +90,49 @@ export function itemMatchesClass(item, classKey) {
   if (!reqJob) return true;
 
   return (reqJob & mask) !== 0;
+}
+
+/**
+ * Stats that only some branches care about, mapped to the base stat a class's
+ * `stats` names. Anything not listed here - All Stat %, boss, IED, crit, DEF,
+ * utility - is useful to, or at least rollable by, everyone and never filtered.
+ */
+const CLASS_STAT_BASE = {
+  str: "str",
+  strP: "str",
+  strPerLv: "str",
+  dex: "dex",
+  dexP: "dex",
+  dexPerLv: "dex",
+  int: "int",
+  intP: "int",
+  intPerLv: "int",
+  luk: "luk",
+  lukP: "luk",
+  lukPerLv: "luk",
+  att: "att",
+  attP: "att",
+  matt: "matt",
+  mattP: "matt",
+  hp: "hp",
+  hpP: "hp",
+  hpPerLv: "hp",
+};
+
+/**
+ * True when a line granting `keys` is worth offering to this class.
+ *
+ * One matching stat is enough, so a STR + INT flame still shows for a mage and
+ * All Stat % shows for everyone. A line with no class-specific stat always
+ * passes.
+ */
+export function statsFitClass(keys, classKey) {
+  const stats = getClass(classKey).stats;
+  if (!stats) return true;
+
+  const gated = keys.filter((key) => Object.hasOwn(CLASS_STAT_BASE, key));
+  return (
+    gated.length === 0 ||
+    gated.some((key) => stats.includes(CLASS_STAT_BASE[key]))
+  );
 }

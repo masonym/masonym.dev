@@ -12,7 +12,13 @@
 
 import { emptyStats, addInto, sumStats, diffStats } from "./stats.js";
 import { starForceGains, gainsStarForceAttack } from "./starforce.js";
-import { resolveFlames, acceptsFlames, flameContext } from "./flames.js";
+import {
+  resolveFlames,
+  acceptsFlames,
+  flameContext,
+  flameMode,
+  cleanFlatFlames,
+} from "./flames.js";
 
 /**
  * Equipment slots a character actually has, and how many of each.
@@ -162,6 +168,87 @@ export function potentialAllowedOn(line, islot) {
   return line.slots.includes(islot);
 }
 
+/** True when any tier of `line` grants `key`. */
+function lineGrants(line, key) {
+  return (line?.tiers ?? []).some((tier) => key in (tier.stats ?? {}));
+}
+
+/**
+ * True when `line` may roll on `item`.
+ *
+ * The WZ restricts lines by islot alone, and emblems share the secondary's
+ * islot (`Si`), so by the data an emblem can roll boss damage. In game it
+ * cannot - boss damage is weapon and secondary only - so it is taken out here.
+ */
+export function potentialAllowedOnItem(line, item) {
+  if (!potentialAllowedOn(line, potentialIslot(item))) return false;
+  if (item?.slot === "Em" && lineGrants(line, "boss")) return false;
+  return true;
+}
+
+/** Potential grades, highest first. */
+export const POTENTIAL_GRADES = [4, 3, 2, 1];
+
+/**
+ * The grades a potential line can be, by its position on an item of `grade`.
+ *
+ * The first line is always the item's own grade. The second and third each
+ * roll either that grade or the one below it - a Legendary item's lower lines
+ * are Legendary or Unique, never Epic. Rare is the lowest grade that rolls
+ * lines, so a Rare item's lower lines are Rare.
+ */
+export function potentialLineGrades(grade, index) {
+  if (index === 0 || grade <= 1) return [grade];
+  return [grade, grade - 1];
+}
+
+/**
+ * Potential lines made redundant by a longer copy of themselves, mapped to it.
+ *
+ * The WZ carries several lines twice: once with the tier table GMS uses, and
+ * once with the same table cut short. `DEX +#incDEXr%` is both 40042, which
+ * steps from 12% to 13% at item level 160, and 40047, which stops at 12%. The
+ * 160+ step is GMS; the short copies are left over from KMS. Both are real
+ * records, so nothing marks one as unused - the short copy is recognised by
+ * matching its twin on everything but the missing tail.
+ *
+ * Folded into the long copy rather than dropped, so a loadout saved against the
+ * short id still resolves - and to the value GMS actually grants.
+ */
+export function supersededPotentials(potentials = []) {
+  const twinKey = (line) =>
+    JSON.stringify([
+      line.kind,
+      line.grade,
+      String(line.desc ?? "").replace(/\s+/g, " "),
+      line.slots ?? null,
+      line.reqLevel ?? null,
+      line.optionType ?? null,
+    ]);
+  const sameTier = (a, b) =>
+    a.from === b.from && JSON.stringify(a.stats) === JSON.stringify(b.stats);
+
+  const groups = new Map();
+  for (const line of potentials) {
+    const key = twinKey(line);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(line);
+  }
+
+  const out = new Map();
+  for (const group of groups.values()) {
+    for (const short of group) {
+      const long = group.find(
+        (other) =>
+          other.tiers.length > short.tiers.length &&
+          short.tiers.every((tier, i) => sameTier(tier, other.tiers[i])),
+      );
+      if (long) out.set(short.id, long);
+    }
+  }
+  return out;
+}
+
 /** How many Exceptional Hammers this item can take. */
 export function exceptionalSlots(item) {
   return item?.exceptional ? (item.exceptionalSlots ?? 0) : 0;
@@ -189,11 +276,16 @@ export function exceptionalGains(item, count = 0) {
  * Resolves one configured item into stat blocks grouped by source.
  *
  * Modifier order matters and follows the game:
- *   1. base stats, scrolls / soul / exceptional (flat), and potential / bonus
- *      potential - everything that behaves like a fixed part of the item
+ *   1. base stats, scrolls / soul / exceptional (flat) - everything that
+ *      behaves like a fixed part of the item
  *   2. star force - for weapons below 15 stars the attack gain compounds over
  *      base + scroll attack, so scrolls must already be counted
  *   3. flames - attack flames scale off *base* attack only, not scrolled attack
+ *
+ * Potential and bonus potential are flat additions with no ordering of their
+ * own, and get their own block because the game keeps them out of the stat
+ * rows entirely: "ATT +921 (382 + 264 + 275)" is base + stars + flames, and
+ * the potential lines are listed underneath on their own.
  *
  * Kept separate (rather than summed) so callers like the item tooltip can show
  * where each point of a stat came from.
@@ -201,13 +293,14 @@ export function exceptionalGains(item, count = 0) {
  * @param {object} item      Record from items.json.
  * @param {object} config    User-entered modifiers for this item.
  * @param {Map}    lineIndex Map of optionId → potential line, from potentials.json.
- * @returns { base, starforce, flame } stat blocks.
+ * @returns { base, starforce, flame, potential } stat blocks.
  */
 export function resolveItemBreakdown(item, config = {}, lineIndex = new Map()) {
   const base = emptyStats();
   const starforce = emptyStats();
   const flame = emptyStats();
-  if (!item) return { base, starforce, flame };
+  const potential = emptyStats();
+  if (!item) return { base, starforce, flame, potential };
 
   const {
     stars = 0,
@@ -250,14 +343,19 @@ export function resolveItemBreakdown(item, config = {}, lineIndex = new Map()) {
     );
   }
 
-  // flames - scale off base attack, deliberately excluding scroll attack.
-  // Checked rather than trusted: a config can outlive the item it was entered
-  // against, and rings and secondaries take no bonus stats at all.
-  if (flames.length && acceptsFlames(item)) {
-    addInto(
-      flame,
-      resolveFlames(flames, { ...flameContext(item, config), level }),
-    );
+  // flames - either flat totals read off the item, or tier lines, which scale
+  // off base attack, deliberately excluding scroll attack. Checked rather than
+  // trusted: a config can outlive the item it was entered against, and rings and
+  // secondaries take no bonus stats at all.
+  if (acceptsFlames(item)) {
+    if (flameMode(config) === "flat") {
+      addInto(flame, cleanFlatFlames(config.flameStats, item));
+    } else if (flames.length) {
+      addInto(
+        flame,
+        resolveFlames(flames, { ...flameContext(item, config), level }),
+      );
+    }
   }
 
   // potential + bonus potential
@@ -270,20 +368,20 @@ export function resolveItemBreakdown(item, config = {}, lineIndex = new Map()) {
     const line = lineIndex.get(entry.optionId);
     if (!line) continue;
     const stats = potentialValueAt(line, entry.levelIndex ?? levelIndex);
-    if (stats) addInto(base, stats);
+    if (stats) addInto(potential, stats);
   }
 
-  return { base, starforce, flame };
+  return { base, starforce, flame, potential };
 }
 
 /** Resolves one configured item into a single summed stat block. */
 export function resolveItem(item, config = {}, lineIndex = new Map()) {
-  const { base, starforce, flame } = resolveItemBreakdown(
+  const { base, starforce, flame, potential } = resolveItemBreakdown(
     item,
     config,
     lineIndex,
   );
-  return sumStats(base, starforce, flame);
+  return sumStats(base, starforce, flame, potential);
 }
 
 /**
@@ -610,9 +708,16 @@ export function buildIndexes({ items = [], potentials = [], sets = [] }) {
   }
   for (const item of items) itemIndex.set(item.id, item);
 
+  // A short KMS copy of a line resolves as its GMS twin, and is not offered.
+  const superseded = supersededPotentials(potentials);
+  const lineIndex = new Map(
+    potentials.map((p) => [p.id, superseded.get(p.id) ?? p]),
+  );
+
   return {
     itemIndex,
-    lineIndex: new Map(potentials.map((p) => [p.id, p])),
+    lineIndex,
+    potentialPool: potentials.filter((p) => !superseded.has(p.id)),
     setIndex: new Map(sets.map((s) => [s.id, s])),
   };
 }

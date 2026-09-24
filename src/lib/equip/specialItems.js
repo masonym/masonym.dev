@@ -51,11 +51,15 @@ const RED_BERYL_IDS = new Set([
 function redBerylPreset(mainStat, subStat) {
   const dual = dualFlameLine(mainStat, subStat);
   return {
+    potentialGrade: 3,
     potentials: [
       { optionId: UNIQUE_MAIN_PCT[mainStat] },
       { optionId: EPIC_MAIN_PCT[mainStat] },
       { optionId: EPIC_MAIN_PCT[mainStat] },
     ],
+    // Stated as tier lines because that is what the item is known to roll; the
+    // mode is set so a slot previously on flat entry does not hide them.
+    flameMode: "tier",
     flames: [
       { line: mainStat, tier: 5 },
       ...(dual ? [{ line: dual, tier: 5 }] : []),

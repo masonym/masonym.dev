@@ -21,6 +21,8 @@ import {
   itemFitsSlot,
   exceptionalGains,
   exceptionalSlots,
+  potentialAllowedOnItem,
+  potentialLineGrades,
   LOADOUT_SLOTS,
   setProgress,
 } from "../lib/equip/engine.js";
@@ -32,6 +34,9 @@ import {
   flameLinesFor,
   isFlameAdvantaged,
   migrateFlameLines,
+  flameMode,
+  flameLinesToFlat,
+  cleanFlatFlames,
 } from "../lib/equip/flames.js";
 import {
   maxStars,
@@ -64,6 +69,7 @@ import {
   isInertPotential,
   potentialOptions,
   potentialTextIsComplete,
+  potentialIsWanted,
 } from "../lib/equip/potentialText.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -640,6 +646,186 @@ console.log("\n=== full item resolution ===");
   eq("22* adds 145 str, tier-7 flame adds 77", decked.str, 65 + 145 + 77);
   eq("tier-5 all-stat flame", decked.allStatP, 5);
   eq("legendary %STR potential at lvl 200", decked.strP, 13);
+}
+
+// ── Flat bonus stats ─────────────────────────────────────────────────────────
+console.log("\n=== flat bonus stats ===");
+{
+  const hat = data.itemIndex.get(1004808); // Arcane Umbra Knight Hat
+  const weapon = items.find((i) => i.slot === "Wp" && i.reqLevel >= 200);
+  const strOf = (config) =>
+    flattenStats(
+      resolveLoadout({ hat: { itemId: hat.id, ...config } }, data).stats,
+    );
+
+  eq(
+    "a config with only tier lines reads as tiers",
+    flameMode({ flames: [{ line: "str", tier: 7 }] }),
+    "tier",
+  );
+  eq("a new config reads as flat", flameMode({}), "flat");
+
+  const flat = strOf({ flameStats: { str: 77, allStatP: 5, boss: 14 } });
+  eq("flat STR is added as entered", flat.str, 65 + 77);
+  eq("flat All Stat % is added as entered", flat.allStatP, 5);
+  eq("boss damage is dropped off a non-weapon", flat.boss, undefined);
+
+  const tiered = strOf({
+    flames: [{ line: "str", tier: 7 }],
+    flameStats: { str: 999 },
+  });
+  eq("tier mode ignores leftover flat numbers", tiered.str, 65 + 77);
+  const flatOverTiers = strOf({
+    flameMode: "flat",
+    flames: [{ line: "str", tier: 7 }],
+    flameStats: { str: 10 },
+  });
+  eq("flat mode ignores leftover tier lines", flatOverTiers.str, 65 + 10);
+
+  eq(
+    "tier lines carry over to the same flat totals",
+    flameLinesToFlat(hat, {
+      flames: [
+        { line: "strDex", tier: 5 },
+        { line: "allStat", tier: 5 },
+        { line: "def", tier: 3 },
+      ],
+    }),
+    { str: 30, dex: 30, allStatP: 5 },
+  );
+  eq(
+    "junk input is cleaned",
+    cleanFlatFlames({ str: "12.7", dex: -4, int: "abc", luk: 0, speed: 5 }),
+    { str: 12 },
+  );
+  eq(
+    "boss and damage survive on a weapon",
+    cleanFlatFlames({ boss: 12, dmg: 5 }, weapon),
+    { boss: 12, dmg: 5 },
+  );
+}
+
+// ── Potential shortlist ──────────────────────────────────────────────────────
+console.log("\n=== potential shortlist ===");
+{
+  const bySlot = (slot) =>
+    items.find((i) => i.slot === slot && i.reqLevel >= 150);
+  const shortlist = (slot) => {
+    const item = bySlot(slot);
+    const li = potentialLevelIndex(item.reqLevel);
+    const usable = potentials.filter(
+      (p) =>
+        p.kind === "regular" && p.grade === 4 && potentialIsWanted(p, item, li),
+    );
+    return new Set(
+      potentialOptions(usable, li).map((o) => o.label.replace(/[\d.]+/g, "#")),
+    );
+  };
+
+  const weapon = shortlist("Wp");
+  eq("weapon offers ATT %", weapon.has("Attack Power +#%"), true);
+  eq("weapon offers boss", weapon.has("Boss Damage +#%"), true);
+  eq("weapon offers IED", weapon.has("Ignore Defense +#%"), true);
+  eq("weapon does not offer STR %", weapon.has("STR: +#%"), false);
+
+  const gloves = shortlist("Gv");
+  eq("gloves offer crit damage", gloves.has("Critical Damage +#%"), true);
+  eq("gloves offer STR %", gloves.has("STR: +#%"), true);
+  eq("gloves offer All Stats %", gloves.has("All Stats +#%"), true);
+
+  const hat = shortlist("Cp");
+  eq(
+    "hat offers cooldown",
+    [...hat].some((l) => l.startsWith("Skill Cooldowns")),
+    true,
+  );
+  eq("hat does not offer DEF %", hat.has("DEF +#%"), false);
+
+  const pendant = shortlist("Pe");
+  eq(
+    "pendant offers only stat lines",
+    [...pendant].every((l) => /STR|DEX|INT|LUK|All Stats|Max HP/.test(l)),
+    true,
+  );
+  eq("pendant offers LUK %", pendant.has("LUK: +#%"), true);
+}
+
+// ── Potential line rules ─────────────────────────────────────────────────────
+console.log("\n=== potential line rules ===");
+{
+  const emblem = items.find((i) => i.slot === "Em");
+  const secondary = items.find((i) => i.slot === "Si");
+  const boss = data.lineIndex.get(40603);
+  eq(
+    "emblems cannot roll boss damage",
+    potentialAllowedOnItem(boss, emblem),
+    false,
+  );
+  eq("secondaries can", potentialAllowedOnItem(boss, secondary), true);
+  eq(
+    "emblems can still roll IED",
+    potentialAllowedOnItem(data.lineIndex.get(40292), emblem),
+    true,
+  );
+
+  eq(
+    "a legendary item's first line is legendary",
+    potentialLineGrades(4, 0),
+    [4],
+  );
+  eq(
+    "its second line is legendary or unique",
+    potentialLineGrades(4, 1),
+    [4, 3],
+  );
+  eq(
+    "its third line is legendary or unique",
+    potentialLineGrades(4, 2),
+    [4, 3],
+  );
+  eq("a rare item's lines are all rare", potentialLineGrades(1, 2), [1]);
+
+  // The KMS copy of DEX % stops at 12%; GMS steps to 13% at item level 160.
+  eq(
+    "the short KMS DEX % line resolves as the GMS one",
+    data.lineIndex.get(40047).id,
+    40042,
+  );
+  eq(
+    "and is not offered",
+    data.potentialPool.some((p) => p.id === 40047),
+    false,
+  );
+  eq(
+    "the GMS line is offered",
+    data.potentialPool.some((p) => p.id === 40042),
+    true,
+  );
+  const hat = data.itemIndex.get(1004808);
+  const dexAt200 = flattenStats(
+    resolveLoadout(
+      { hat: { itemId: hat.id, potentials: [{ optionId: 40047 }] } },
+      data,
+    ).stats,
+  ).dexP;
+  eq("a saved KMS line grants the GMS 13% at level 200", dexAt200, 13);
+
+  const pendant = items.find((i) => i.slot === "Pe" && i.reqLevel >= 200);
+  const li = potentialLevelIndex(pendant.reqLevel);
+  const labels = potentialOptions(
+    data.potentialPool.filter(
+      (p) =>
+        p.kind === "regular" &&
+        p.grade === 4 &&
+        potentialIsWanted(p, pendant, li),
+    ),
+    li,
+  ).map((o) => o.label);
+  eq(
+    "a level 200 pendant's legendary stat lines are 13% only",
+    labels.filter((l) => /\+12%/.test(l)),
+    [],
+  );
 }
 
 // ── Item stats never leak between loadouts ───────────────────────────────────

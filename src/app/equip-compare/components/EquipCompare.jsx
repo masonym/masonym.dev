@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import { useHydrated } from "@/hooks/useHydrated";
 import { useEquipData } from "./useEquipData";
 import EquipWindow from "./EquipWindow";
 import SlotEditor from "./SlotEditor";
@@ -12,8 +13,10 @@ import {
   diffLoadouts,
   exceptionalSlots,
   occupiedSlots,
+  POTENTIAL_GRADES,
 } from "@/lib/equip/engine";
 import {
+  cleanFlatFlames,
   flameContext,
   flameLineValue,
   flameLinesFor,
@@ -46,8 +49,9 @@ const STATE_VERSION = 2;
  * would keep quietly changing attack flames with nothing on screen to explain it;
  * flame lines are checked against what the item can actually roll; and
  * `exceptional` went from a stat bag to a hammer count.
+ * Potential lines saved under a KMS duplicate are moved onto the GMS line.
  */
-function reconcileLoadout(loadout, itemIndex) {
+function reconcileLoadout(loadout, itemIndex, lineIndex) {
   const out = {};
 
   for (const [slotKey, config] of Object.entries(loadout || {})) {
@@ -73,6 +77,23 @@ function reconcileLoadout(loadout, itemIndex) {
         (f) => rollable.has(f.line) && flameLineValue(f.line, f.tier, ctx),
       );
     }
+    if (next.flameStats)
+      next.flameStats = cleanFlatFlames(next.flameStats, item);
+
+    // A line saved under a short KMS copy is moved onto its GMS twin, which is
+    // the one the editor lists (see supersededPotentials).
+    if (next.potentials?.length) {
+      next.potentials = next.potentials.map((entry) =>
+        entry?.optionId
+          ? {
+              ...entry,
+              optionId: lineIndex.get(entry.optionId)?.id ?? entry.optionId,
+            }
+          : entry,
+      );
+    }
+    if (!POTENTIAL_GRADES.includes(next.potentialGrade))
+      delete next.potentialGrade;
 
     const hammers = Number(next.exceptional);
     next.exceptional = Number.isFinite(hammers)
@@ -102,12 +123,14 @@ export default function EquipCompare() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [hover, setHover] = useState(null);
   const [flash, setFlash] = useState(null); // { side, slotKey, id }
-  const [hydrated, setHydrated] = useState(false);
+  const hydrated = useHydrated();
+  const [restored, setRestored] = useState(false);
   const [reconciled, setReconciled] = useState(false);
 
   // Only the user's configuration is persisted, never the dataset, so a data
   // rebuild can't leave stale stats behind.
-  useEffect(() => {
+  if (hydrated && !restored) {
+    setRestored(true);
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
@@ -122,22 +145,22 @@ export default function EquipCompare() {
     } catch {
       // Ignore malformed saved state.
     }
-    setHydrated(true);
-  }, []);
+  }
 
   // Restoring happens before the dataset arrives, so the saved loadouts can only
   // be checked against it once, here.
-  useEffect(() => {
-    if (!hydrated || reconciled || status !== "ready") return;
-    setLoadouts((prev) => ({
-      a: reconcileLoadout(prev.a, data.itemIndex),
-      b: reconcileLoadout(prev.b, data.itemIndex),
-    }));
+  if (restored && !reconciled && status === "ready") {
     setReconciled(true);
-  }, [hydrated, reconciled, status, data]);
+    setLoadouts((prev) => ({
+      a: reconcileLoadout(prev.a, data.itemIndex, data.lineIndex),
+      b: reconcileLoadout(prev.b, data.itemIndex, data.lineIndex),
+    }));
+  }
 
+  // Gated on `restored`, not `hydrated`: the hydration pass runs its effects
+  // before the restore, and would otherwise save the defaults over it.
   useEffect(() => {
-    if (!hydrated) return;
+    if (!restored) return;
     try {
       localStorage.setItem(
         STORAGE_KEY,
@@ -146,7 +169,7 @@ export default function EquipCompare() {
     } catch {
       // Storage may be unavailable (private mode, quota).
     }
-  }, [loadouts, classKey, filters, hydrated]);
+  }, [loadouts, classKey, filters, restored]);
 
   const setSlot = (side, slotKey, config) => {
     setLoadouts((prev) => {
@@ -331,11 +354,11 @@ export default function EquipCompare() {
       </div>
 
       <p className="text-center text-xs text-primary-bright/40 max-w-2xl mx-auto">
-        Pick your class to narrow the item lists, then click a slot to equip
-        something and set its stars, flames and potential. Every item is listed,
-        strongest first. Fill in what you have now, copy it across, then change
-        the pieces you are considering - or right-click a single slot to send
-        just that piece to the other window.
+        Pick your class to narrow the item lists and stat options, then click a
+        slot to equip something and set its stars, flames and potential. Every
+        item is listed, strongest first. Fill in what you have now, copy it
+        across, then change the pieces you are considering - or right-click a
+        single slot to send just that piece to the other window.
       </p>
 
       <div className="flex flex-wrap justify-center gap-6">
