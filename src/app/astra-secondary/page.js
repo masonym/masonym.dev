@@ -13,7 +13,7 @@ export default function Page() {
       <h1 className="text-3xl font-bold mb-4 text-center text-primary-bright">Astra Secondary Calculator</h1>
       <h4 className="text-md max-w-3xl mx-auto font-medium mb-6 text-center text-primary-bright/80">
         Track your progress through the three Astra Secondary missions. 
-        Plan your Fierce Battle Traces and Erion's Fragments acquisition from bosses and daily quests.
+        Plan your Fierce Battle Traces and Vestige of Erion acquisition from bosses and daily quests.
       </h4>
       <AstraSecondaryPageClient />
     </div>

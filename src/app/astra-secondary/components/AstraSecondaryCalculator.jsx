@@ -1485,8 +1485,8 @@ const AstraSecondaryCalculator = () => {
               }}
             />
             <p className="text-xs text-primary-bright/40 mt-2 text-center">
-              Interactive players: If you plan to buy tradable fragments, input
-              them here.{" "}
+              Interactive players: If you plan to buy tradable Erion Coupons,
+              input their Vestige value here.{" "}
             </p>
           </div>
 
@@ -1646,7 +1646,7 @@ const AstraSecondaryCalculator = () => {
                           <option key={diff.name} value={diff.name}>
                             {diff.name} ({diff.traces} traces
                             {diff.hasVoucher
-                              ? `, ${diff.voucherCount}×${diff.voucherValue} fragments`
+                              ? `, ${diff.voucherCount} coupons × ${diff.voucherValue} Vestiges`
                               : ""}
                             )
                           </option>
@@ -1780,7 +1780,7 @@ const AstraSecondaryCalculator = () => {
                                 selection.vouchersKept *
                                   selectedDifficulty.voucherValue,
                               ).toLocaleString()}{" "}
-                              frags/week kept
+                              Vestiges/week kept
                             </span>
                           )}
                         </span>
@@ -1799,7 +1799,7 @@ const AstraSecondaryCalculator = () => {
             </h2>
             <p className="text-sm text-primary-bright/70 mb-4">
               Select the highest level daily quest you complete. You receive
-              fragments equal to that quest's reward.
+              Vestiges equal to that quest's reward.
             </p>
 
             <div className="bg-background-bright border border-primary-dim p-4 rounded-xl">
@@ -1815,7 +1815,7 @@ const AstraSecondaryCalculator = () => {
                   >
                     {DAILY_QUESTS.map((quest) => (
                       <option key={quest.id} value={quest.id}>
-                        {quest.name} ({quest.fragments} fragments/day)
+                        {quest.name} ({quest.fragments} Vestiges/day)
                       </option>
                     ))}
                   </select>
@@ -1884,7 +1884,7 @@ const AstraSecondaryCalculator = () => {
                             )?.fragments || 0,
                       ).map((quest) => (
                         <option key={quest.id} value={quest.id}>
-                          {quest.name} ({quest.fragments} fragments/day)
+                          {quest.name} ({quest.fragments} Vestiges/day)
                         </option>
                       ))}
                     </select>
@@ -1915,13 +1915,13 @@ const AstraSecondaryCalculator = () => {
                         DAILY_QUESTS.find((q) => q.id === highestDailyQuest)
                           ?.fragments
                       }{" "}
-                      fragments) to{" "}
+                      Vestiges) to{" "}
                       {DAILY_QUESTS.find((q) => q.id === futureQuestId)?.name} (
                       {
                         DAILY_QUESTS.find((q) => q.id === futureQuestId)
                           ?.fragments
                       }{" "}
-                      fragments) on{" "}
+                      Vestiges) on{" "}
                       {new Date(
                         futureQuestDate + "T00:00:00.000Z",
                       ).toLocaleDateString("en-US", {
@@ -2119,7 +2119,7 @@ const AstraSecondaryCalculator = () => {
                         width={14}
                         height={14}
                       />
-                      <span className="text-primary-bright/70">Fragments:</span>
+                      <span className="text-primary-bright/70">Vestiges:</span>
                     </div>
                     <span className="text-primary-bright">
                       {result.mission.fragmentsRequired.toLocaleString()}
@@ -2283,7 +2283,7 @@ const AstraSecondaryCalculator = () => {
                           height={12}
                         />
                         <span className="text-xs text-secondary/80">
-                          +{boss.voucherFragmentsPerWeek} frags
+                          +{boss.voucherFragmentsPerWeek} Vestiges
                         </span>
                       </div>
                     )}
