@@ -1,0 +1,21 @@
+---
+slug: "2026-10-08-cash-shop"
+title: "Cash Shop: sale history restored"
+date: "2026-10-08T20:00:00.000Z"
+tool: "cash-shop"
+category: "fix"
+tags: ["cash-shop"]
+author: "mason"
+summary: "Fixed a bug that was deleting past sales, and restored the missing history"
+---
+
+## What Changed
+
+- Fixed a bug where an item coming back to the shop overwrote the record of its earlier sale, so past sales disappeared and "last seen" dates were wrong
+- Restored 710 missing past sales (August 2024 onwards) from archived game files
+- Corrected "last seen" dates that had been calculated without the deleted sales
+- A few sales that only ever appeared in hotfixes can't be recovered and may still be missing
+
+## Link
+
+- Check out the updated tool [/cash-shop](/cash-shop)

@@ -214,6 +214,12 @@ function AdvancedItemList() {
             ? "\u00A0"
             : "Last Updated: unknown"}
       </h4>
+      <p className="text-center text-sm italic text-primary-dim max-w-2xl mx-auto mb-4 px-4">
+        Note: a bug was overwriting older sales whenever an item returned to the
+        shop, so some past sales and &quot;last seen&quot; dates were missing.
+        It&apos;s fixed, and the lost history has been restored. A few sales
+        that only appeared in hotfixes may still be missing.
+      </p>
       <FilterControls
         filters={filters}
         viewMode={viewMode}
