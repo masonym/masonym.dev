@@ -210,9 +210,11 @@ function AdvancedItemList() {
       <h4 className="text-center text-xl my-5 mb-4 italic text-primary">
         {version && lastUpdated
           ? `Last Updated for ${version} (${lastUpdated})`
-          : loading
-            ? "\u00A0"
-            : "Last Updated: unknown"}
+          : lastUpdated
+            ? `Last Updated: ${lastUpdated}`
+            : loading
+              ? "\u00A0"
+              : "Last Updated: unknown"}
       </h4>
       <p className="text-center text-balance text-sm italic text-primary-dim max-w-2xl mx-auto mb-4 px-4">
         Note: a bug was overwriting older sales whenever an item returned to the

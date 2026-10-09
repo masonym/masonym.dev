@@ -70,7 +70,8 @@ const FilterControls = ({ filters, viewMode, onFilterChange, onViewModeChange })
 
     const setAllTime = () => {
         const end = new Date();
-        const start = new Date(2024, 0, 1);
+        // The earliest sale with dates in the game files (restored from old builds).
+        const start = new Date(2019, 7, 1);
         onFilterChange('dateRange', {
             start: formatDateForInput(start),
             end: formatDateForInput(end)
