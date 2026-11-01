@@ -216,13 +216,6 @@ function AdvancedItemList() {
               ? "\u00A0"
               : "Last Updated: unknown"}
       </h4>
-      <p className="text-center text-balance text-sm italic text-primary-dim max-w-2xl mx-auto mb-4 px-4">
-        Note: a bug was overwriting older sales whenever an item returned to the
-        shop that Nexon used the same sale ID for, so some past sales and
-        &quot;last seen&quot; dates were missing. It&apos;s fixed, and the lost
-        history has been restored. Sales that only appeared in hotfixes or were
-        server-side only may still be missing.
-      </p>
       <FilterControls
         filters={filters}
         viewMode={viewMode}
