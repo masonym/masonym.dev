@@ -938,4 +938,22 @@ export const masteryDesignation = {
             "HEXA Third Plum Blossom Sword: Riotous Heart",
         ],
     },
+    "Lethe": {
+        "firstMastery": [
+            "HEXA Assize",
+            "HEXA Edict: Fel Storm",
+        ],
+        "secondMastery": [
+            "HEXA Beckon: Vargr",
+            "HEXA Edict: Rampage",
+        ],
+        "thirdMastery": [
+            "HEXA Beckon: Dread Knight",
+            "HEXA Edict: Dread Advance",
+        ],
+        "fourthMastery": [
+            "HEXA Majeure",
+            "Oath Incarnate",
+        ],
+    },
 }

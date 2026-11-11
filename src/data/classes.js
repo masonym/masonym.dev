@@ -1198,4 +1198,26 @@ export const classes = {
     ],
     commonSkills: ["Sol Janus", "Sol Hecate"],
   },
+  Lethe: {
+    originSkill: "Dominus: Eye of Eternity",
+    ascentSkill: "Sovereign Everlasting",
+    masterySkills: [
+      "HEXA Assize",
+      "HEXA Edict: Fel Storm",
+      "HEXA Beckon: Vargr",
+      "HEXA Edict: Rampage",
+      "HEXA Beckon: Dread Knight",
+      "HEXA Edict: Dread Advance",
+      "HEXA Majeure",
+      "Oath Incarnate",
+    ],
+    boostSkills: [
+      "Dominus: Dread Onslaught Boost",
+      "Dominus: Pack United Boost",
+      "Dominus: Azrath Boost",
+      "Chains of Command Boost",
+    ],
+    jobBranchSkills: ["HEXA Demonic Wroth"],
+    commonSkills: ["Sol Janus", "Sol Hecate"],
+  },
 };
