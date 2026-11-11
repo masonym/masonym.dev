@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useMemo, useState, useEffect } from 'react';
-import { bossData } from '@/data/bossData';
+import { bossData, getHpPhases } from '@/data/bossData';
 import { bossNameToImage, formatLongformNumber } from '@/utils';
 import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 const calculateTotalHP = (phases) =>
@@ -134,14 +135,13 @@ const RequirementTooltip = ({ type, requirement }) => {
 const SeasonalBadge = ({ boss }) => {
     if (boss.category !== 'seasonal') return null;
     return (
-        <div className="flex flex-col gap-1 bg-background-bright rounded-lg px-3 py-2 text-xs text-center">
-            <span className="font-bold text-secondary uppercase tracking-wider">Challenger Season {boss.challengerSeason}</span>
-            <span className="text-primary-dim">Available from {new Date(boss.availableFrom + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+        <div className="bg-background-bright rounded-lg px-3 py-2 text-xs text-center">
+            <span className="font-bold text-secondary uppercase tracking-wider">Seasonal Boss</span>
         </div>
     );
 };
 
-const BossCard = ({ boss, serverType }) => {
+const BossCard = ({ boss, serverType, timer }) => {
     const getInitialDifficulty = () => {
         if (typeof window !== 'undefined') {
             const savedDifficulty = localStorage.getItem(`boss-difficulty-${boss.name}`);
@@ -161,6 +161,7 @@ const BossCard = ({ boss, serverType }) => {
     }, [activeDifficulty, boss.name]);
 
     const activeDiffData = boss.difficulties.find(d => d.name === activeDifficulty);
+    const hpPhases = activeDiffData ? getHpPhases(activeDiffData, timer) : [];
     const afRequirement = activeDiffData?.afRequirement || boss.afRequirement;
     const sacRequirement = activeDiffData?.sacRequirement || boss.sacRequirement;
     const requirementValue = afRequirement || sacRequirement;
@@ -202,11 +203,11 @@ const BossCard = ({ boss, serverType }) => {
                         <div className={`grid ${requirementValue ? 'grid-cols-3' : 'grid-cols-2'} gap-2 text-center`}>
                             <div className="bg-background-bright p-2 rounded-lg">
                                 <div className="font-bold text-primary text-xs">Level</div>
-                                <div>{activeDiffData.level || boss.level}</div>
+                                <div>{activeDiffData.level || boss.level || '?'}</div>
                             </div>
                             <div className="bg-background-bright p-2 rounded-lg">
                                 <div className="font-bold text-primary text-xs">PDR</div>
-                                <div>{activeDiffData.pdr || boss.pdr}</div>
+                                <div>{activeDiffData.pdr || boss.pdr || '?'}</div>
                             </div>
                             {requirementValue && (
                                 <div className="relative group bg-background-bright p-2 rounded-lg cursor-pointer">
@@ -225,7 +226,7 @@ const BossCard = ({ boss, serverType }) => {
                         </div>
 
                         <div className="bg-background-bright rounded-lg p-3">
-                            <HPBar hpPhases={activeDiffData.hpPhases} defaultLevel={activeDiffData.level || boss.level} defaultSac={activeDiffData?.sacRequirement ?? boss.sacRequirement} />
+                            <HPBar hpPhases={hpPhases} defaultLevel={activeDiffData.level || boss.level} defaultSac={activeDiffData?.sacRequirement ?? boss.sacRequirement} />
                             <div className="flex items-center text-xs justify-center gap-2 text-primary-bright mt-3">
                                 <Image
                                     src="/bossDifficulties/blue_dot.png"
@@ -235,7 +236,7 @@ const BossCard = ({ boss, serverType }) => {
                                     className="h-4 w-4"
                                 />
                                 <p className="text-primary-bright text-sm">
-                                    {formatLongformNumber(calculateHPThreshold(calculateTotalHP(activeDiffData.hpPhases), 5))}
+                                    {formatLongformNumber(calculateHPThreshold(calculateTotalHP(hpPhases), 5))}
                                 </p>
                             </div>
                         </div>
@@ -278,7 +279,7 @@ const HPBar = ({ hpPhases, defaultLevel, defaultSac }) => {
                         <div className="flex justify-between items-center text-xs text-primary-bright">
                             <span>{phase.note ? phase.note : `Phase ${i + 1}`}</span>
                             <div className="flex items-center gap-3">
-                                <span className="uppercase tracking-wide">LV: {phaseLevel}</span>
+                                {phaseLevel && <span className="uppercase tracking-wide">LV: {phaseLevel}</span>}
                                 {phaseSac !== undefined && (
                                     <span className="flex items-center gap-1" title={`SAC: ${phaseSac}`}>
                                         <HexIcon className="h-3.5 w-3.5 text-secondary" />
@@ -332,6 +333,12 @@ const SORT_OPTIONS = [
      { value: 'heroic', label: 'Heroic' },
      { value: 'interactive', label: 'Interactive' },
  ];
+
+const TIMER_OPTIONS = [
+    { value: 20, label: '20 min' },
+    { value: 30, label: '30 min' },
+];
+const DEFAULT_TIMER = 20;
 
 const DEFAULT_FILTERS = {
     categories: [],
@@ -410,6 +417,18 @@ const BossesPageClient = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filters, setFilters] = useState(loadFilters);
     const [serverType, setServerType] = useState('heroic');
+
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const timer = searchParams.get('timer') === '30' ? 30 : DEFAULT_TIMER;
+    const setTimer = (value) => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (value === DEFAULT_TIMER) params.delete('timer');
+        else params.set('timer', String(value));
+        const query = params.toString();
+        router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    };
 
     const updateFilter = (key, value) => {
         setFilters(prev => {
@@ -496,6 +515,12 @@ const BossesPageClient = () => {
                         value={serverType}
                         onChange={setServerType}
                     />
+                    <FilterPills
+                        label="Boss Timer"
+                        options={TIMER_OPTIONS}
+                        value={timer}
+                        onChange={setTimer}
+                    />
                 </div>
             </div>
 
@@ -506,7 +531,7 @@ const BossesPageClient = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {filteredBosses.map(boss => (
-                        <BossCard key={boss.name} boss={boss} serverType={serverType} />
+                        <BossCard key={boss.name} boss={boss} serverType={serverType} timer={timer} />
                     ))}
                 </div>
             )}

@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import BossesPageClient from './components/BossesPageClient';
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function BossesPage() {
-  return <BossesPageClient />;
+  return (
+    <Suspense>
+      <BossesPageClient />
+    </Suspense>
+  );
 }

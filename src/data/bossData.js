@@ -6,6 +6,23 @@ import { formatShortformNumber } from "@/utils";
 // actual gene/destiny/astra UI elements in `UI\_Canvas\UIWeaponQuest.img`
 // in KMS, boss icons are in `UI\_Canvas\UIBoss.img`
 
+// hpPhases hold the original 30-minute HP values.
+// hpReduction20Min is the approximate % HP reduction published for the bosses whose
+// time limit was cut from 30 to 20 minutes (from the patch notes). Only the total
+// reduction was published, so 20-min phase HP is estimated by scaling every phase by
+// (1 - hpReduction20Min / 100). A phase can also set segments20Min when its HP bar
+// is split differently in the 20-minute version (Will phase 1: 3 -> 2). See getHpPhases().
+export const getHpPhases = (difficulty, timer = 20) => {
+  const reduction = timer === 20 ? difficulty.hpReduction20Min : null;
+  if (!reduction) return difficulty.hpPhases;
+  const factor = 1 - reduction / 100;
+  return difficulty.hpPhases.map((phase) => ({
+    ...phase,
+    hp: phase.hp * factor,
+    segments: phase.segments20Min ?? phase.segments,
+  }));
+};
+
 export const bossData = [
   {
     name: "Zakum",
@@ -17,6 +34,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Chaos",
+        hpReduction20Min: 32.5,
         intensePowerCrystalValue: 16200000,
         hpPhases: [{ hp: formatShortformNumber("84B") }],
       },
@@ -32,6 +50,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Hard",
+        hpReduction20Min: 31.7,
         intensePowerCrystalValue: 19012500,
         hpPhases: [{ hp: formatShortformNumber("120B") }],
       },
@@ -40,7 +59,7 @@ export const bossData = [
   {
     name: "Hilla",
     category: "pre-lomien",
-    frequency: "weekly",
+    frequency: "daily",
     level: 190,
 
     pdr: "100%",
@@ -62,6 +81,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Chaos",
+        hpReduction20Min: 31.3,
         intensePowerCrystalValue: 26450000,
         hpPhases: [
           { hp: formatShortformNumber("378B") },
@@ -133,7 +153,7 @@ export const bossData = [
   {
     name: "Pink Bean",
     category: "pre-lomien",
-    frequency: "weekly",
+    frequency: "daily",
     level: 190,
 
     pdr: "100%",
@@ -148,16 +168,11 @@ export const bossData = [
   {
     name: "Cygnus",
     category: "pre-lomien",
-    frequency: "weekly",
+    frequency: "daily",
     level: 140,
 
     pdr: "100%",
     difficulties: [
-      {
-        name: "Easy",
-        intensePowerCrystalValue: 9112500,
-        hpPhases: [{ hp: formatShortformNumber("10.5B") }],
-      },
       {
         name: "Normal",
         intensePowerCrystalValue: 14450000,
@@ -232,6 +247,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 31.6,
         intensePowerCrystalValue: 32512500,
         hpPhases: [
           { hp: formatShortformNumber("470B") },
@@ -243,6 +259,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 31.6,
         intensePowerCrystalValue: 88935000,
         hpPhases: [
           { hp: formatShortformNumber("10T") },
@@ -254,6 +271,7 @@ export const bossData = [
       },
       {
         name: "Extreme",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 279500000,
         hpPhases: [
           { hp: formatShortformNumber("545T") },
@@ -274,6 +292,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 31.5,
         intensePowerCrystalValue: 33800000,
         hpPhases: [
           { hp: formatShortformNumber("840B") },
@@ -282,6 +301,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 31.5,
         intensePowerCrystalValue: 84375000,
         hpPhases: [
           { hp: formatShortformNumber("25.2T") },
@@ -299,11 +319,13 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 31.4,
         intensePowerCrystalValue: 46334700,
         hpPhases: [{ hp: formatShortformNumber("5T") }],
       },
       {
         name: "Chaos",
+        hpReduction20Min: 31.4,
         intensePowerCrystalValue: 120115625,
         hpPhases: [{ hp: formatShortformNumber("90T") }],
       },
@@ -318,6 +340,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Easy",
+        hpReduction20Min: 31.5,
         intensePowerCrystalValue: 47401875,
         hpPhases: [
           { hp: formatShortformNumber("6T") },
@@ -327,6 +350,7 @@ export const bossData = [
       },
       {
         name: "Normal",
+        hpReduction20Min: 31.5,
         intensePowerCrystalValue: 50765625,
         hpPhases: [
           { hp: formatShortformNumber("12T") },
@@ -336,6 +360,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 28.5,
         intensePowerCrystalValue: 100800000,
         hpPhases: [
           { hp: formatShortformNumber("50.8T") },
@@ -354,16 +379,19 @@ export const bossData = [
     difficulties: [
       {
         name: "Easy",
+        hpReduction20Min: 32.9,
         intensePowerCrystalValue: 49348950,
         hpPhases: [
           {
             hp: formatShortformNumber("2.8T"),
             segments: 3,
+            segments20Min: 2,
             note: "Phase 1: Blue Dimension",
           },
           {
             hp: formatShortformNumber("2.8T"),
             segments: 3,
+            segments20Min: 2,
             note: "Phase 1: Purple Dimension",
           },
           { hp: formatShortformNumber("4.2T"), segments: 2, note: "Phase 2" },
@@ -374,16 +402,19 @@ export const bossData = [
       },
       {
         name: "Normal",
+        hpReduction20Min: 32.9,
         intensePowerCrystalValue: 55815000,
         hpPhases: [
           {
             hp: formatShortformNumber("4.2T"),
             segments: 3,
+            segments20Min: 2,
             note: "Phase 1: Blue Dimension",
           },
           {
             hp: formatShortformNumber("4.2T"),
             segments: 3,
+            segments20Min: 2,
             note: "Phase 1: Purple Dimension",
           },
           { hp: formatShortformNumber("6.3T"), segments: 2, note: "Phase 2" },
@@ -394,16 +425,19 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 32.9,
         intensePowerCrystalValue: 124362000,
         hpPhases: [
           {
             hp: formatShortformNumber("21T"),
             segments: 3,
+            segments20Min: 2,
             note: "Phase 1: Blue Dimension",
           },
           {
             hp: formatShortformNumber("21T"),
             segments: 3,
+            segments20Min: 2,
             note: "Phase 1: Purple Dimension",
           },
           { hp: formatShortformNumber("31.5T"), segments: 2, note: "Phase 2" },
@@ -423,12 +457,14 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 32.3,
         intensePowerCrystalValue: 59535000,
         hpPhases: [{ hp: formatShortformNumber("25.5T") }],
         afRequirement: 730,
       },
       {
         name: "Chaos",
+        hpReduction20Min: 32.3,
         intensePowerCrystalValue: 112789000,
         hpPhases: [{ hp: formatShortformNumber("127.5T") }],
         afRequirement: 730,
@@ -444,12 +480,14 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 31.3,
         intensePowerCrystalValue: 63375000,
         hpPhases: [{ hp: formatShortformNumber("26T") }],
         afRequirement: 850,
       },
       {
         name: "Hard",
+        hpReduction20Min: 31.3,
         intensePowerCrystalValue: 133584000,
         hpPhases: [{ hp: formatShortformNumber("157.5T") }],
         afRequirement: 850,
@@ -465,12 +503,14 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 31.4,
         intensePowerCrystalValue: 116376000,
         hpPhases: [{ hp: formatShortformNumber("88T"), segments: 4 }],
         afRequirement: 820,
       },
       {
         name: "Hard",
+        hpReduction20Min: 31.4,
         intensePowerCrystalValue: 152421000,
         hpPhases: [{ hp: formatShortformNumber("176T"), segments: 4 }],
         afRequirement: 900,
@@ -485,6 +525,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 32.1,
         intensePowerCrystalValue: 177804375,
         hp: formatShortformNumber("208T"),
         hpPhases: [
@@ -496,6 +537,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 32.1,
         intensePowerCrystalValue: 219312000,
         hpPhases: [
           { hp: formatShortformNumber("126T"), sac: 150 },
@@ -506,6 +548,7 @@ export const bossData = [
       },
       {
         name: "Extreme",
+        hpReduction20Min: 32.1,
         intensePowerCrystalValue: 847000000,
         hpPhases: [
           { hp: formatShortformNumber("1.32Q"), level: 275, sac: 150 },
@@ -524,6 +567,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Easy",
+        hpReduction20Min: 33.2,
         intensePowerCrystalValue: 187500000,
         hpPhases: [
           { hp: formatShortformNumber("94.5T") },
@@ -534,6 +578,7 @@ export const bossData = [
       },
       {
         name: "Normal",
+        hpReduction20Min: 33.2,
         intensePowerCrystalValue: 260000000,
         hpPhases: [
           { hp: formatShortformNumber("336T"), sac: 250, level: 275 },
@@ -544,6 +589,7 @@ export const bossData = [
       },
       {
         name: "Chaos",
+        hpReduction20Min: 33.2,
         intensePowerCrystalValue: 520000000,
         hpPhases: [
           { hp: formatShortformNumber("1.06Q") },
@@ -554,6 +600,7 @@ export const bossData = [
       },
       {
         name: "Extreme",
+        hpReduction20Min: 33.2,
         intensePowerCrystalValue: 1040000000,
         hpPhases: [
           { hp: formatShortformNumber("5.97Q") },
@@ -574,6 +621,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Easy",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 197000000,
         hpPhases: [
           { hp: formatShortformNumber("171T") },
@@ -585,6 +633,7 @@ export const bossData = [
       },
       {
         name: "Normal",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 273000000,
         hpPhases: [
           { hp: formatShortformNumber("495T") },
@@ -596,6 +645,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 588000000,
         hpPhases: [
           { hp: formatShortformNumber("3.135Q") },
@@ -607,6 +657,7 @@ export const bossData = [
       },
       {
         name: "Extreme",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 1176000000,
         hpPhases: [
           { hp: formatShortformNumber("10.08Q") },
@@ -626,6 +677,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Easy",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 206250000,
         hpPhases: [
           {
@@ -646,6 +698,7 @@ export const bossData = [
       },
       {
         name: "Normal",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 301300000,
         hpPhases: [
           {
@@ -666,6 +719,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 598000000,
         hpPhases: [
           {
@@ -686,6 +740,7 @@ export const bossData = [
       },
       {
         name: "Extreme",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 1205200000,
         hpPhases: [
           {
@@ -716,6 +771,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 32,
         intensePowerCrystalValue: 290400000,
         sacRequirement: 400,
         hpPhases: [
@@ -726,6 +782,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 32,
         intensePowerCrystalValue: 798000000,
         sacRequirement: 550,
         hpPhases: [
@@ -745,6 +802,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 32.5,
         intensePowerCrystalValue: 420000000,
         hpPhases: [
           { hp: formatShortformNumber("1.94Q") },
@@ -756,6 +814,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 32.5,
         intensePowerCrystalValue: 749000000,
         hpPhases: [
           { hp: formatShortformNumber("3.78Q") },
@@ -778,6 +837,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 560000000,
         hpPhases: [
           { hp: formatShortformNumber("2.3798Q") },
@@ -787,6 +847,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 32.2,
         intensePowerCrystalValue: 840000000,
         hpPhases: [
           { hp: formatShortformNumber("5.3446Q") },
@@ -808,6 +869,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Normal",
+        hpReduction20Min: 32,
         intensePowerCrystalValue: 591_000_000,
         hpPhases: [
           { hp: formatShortformNumber("2.0532Q") },
@@ -817,6 +879,7 @@ export const bossData = [
       },
       {
         name: "Hard",
+        hpReduction20Min: 32,
         intensePowerCrystalValue: 1_205_200_000,
         hpPhases: [
           { hp: formatShortformNumber("9.88Q") },
@@ -832,8 +895,6 @@ export const bossData = [
     frequency: "weekly",
     pdr: "380%",
     maxPartySize: 1,
-    availableFrom: "2025-06-17",
-    challengerSeason: 3,
     difficulties: [
       {
         name: "Normal",
@@ -854,6 +915,30 @@ export const bossData = [
     ],
   },
   {
+    name: "Mayrin",
+    category: "seasonal",
+    frequency: "weekly",
+    pdr: "380%",
+    difficulties: [
+      {
+        name: "Normal",
+        hpPhases: [
+          { hp: formatShortformNumber("58.925T") },
+          { hp: formatShortformNumber("58.925T") },
+        ],
+        level: 270,
+      },
+      {
+        name: "Hard",
+        hpPhases: [
+          { hp: formatShortformNumber("290T") },
+          { hp: formatShortformNumber("290T") },
+        ],
+        level: 280,
+      },
+    ],
+  },
+  {
     name: "Black Mage",
     category: "lomien-arcane",
     frequency: "monthly",
@@ -861,6 +946,7 @@ export const bossData = [
     difficulties: [
       {
         name: "Hard",
+        hpReduction20Min: 64.9,
         intensePowerCrystalValue: 900000000,
         hpPhases: [
           { hp: formatShortformNumber("63T"), level: 265 },
@@ -873,6 +959,7 @@ export const bossData = [
       },
       {
         name: "Extreme",
+        hpReduction20Min: 32.3,
         intensePowerCrystalValue: 3600000000,
         hpPhases: [
           { hp: formatShortformNumber("1.18Q"), level: 275 },
