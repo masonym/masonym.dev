@@ -794,6 +794,43 @@ export const bossData = [
     ],
   },
   {
+    // KMS ver. 1.2.418 (Aug 2026). Released with a 20-minute timer, so there is
+    // no 30-minute HP and no hpReduction20Min. Crystal prices omitted until GMS
+    // release, since they differ from KMS.
+    name: "Bellona",
+    category: "grandis",
+    frequency: "weekly",
+    level: 280,
+    pdr: "380%",
+    maxPartySize: 3,
+    difficulties: [
+      {
+        name: "Easy",
+        sacRequirement: 400,
+        hpPhases: [
+          { hp: formatShortformNumber("316T") },
+          { hp: formatShortformNumber("463T") },
+        ],
+      },
+      {
+        name: "Normal",
+        sacRequirement: 450,
+        hpPhases: [
+          { hp: formatShortformNumber("1.652Q") },
+          { hp: formatShortformNumber("2.47Q") },
+        ],
+      },
+      {
+        name: "Hard",
+        sacRequirement: 550,
+        hpPhases: [
+          { hp: formatShortformNumber("5.564Q") },
+          { hp: formatShortformNumber("8.152Q") },
+        ],
+      },
+    ],
+  },
+  {
     name: "Limbo",
     category: "grandis",
     frequency: "weekly",
