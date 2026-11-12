@@ -171,11 +171,26 @@ function getFloorPenalty(frames, stage) {
 
 // preamble component explaining attack speed mechanics
 function Preamble() {
+  const [collapsed, setCollapsed] = useState(true);
+
   return (
     <div className="bg-primary-dark rounded-xl border border-primary-dim/30 p-6 mb-8">
-      <h2 className="text-2xl font-bold text-primary-bright mb-4">
-        About Attack Speed & Action Delays
-      </h2>
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        aria-expanded={!collapsed}
+        className="w-full flex items-center justify-between gap-4 mb-4 text-left group"
+      >
+        <h2 className="text-2xl font-bold text-primary-bright">
+          About Attack Speed & Action Delays
+        </h2>
+        <motion.span
+          animate={{ rotate: collapsed ? -90 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="text-secondary shrink-0"
+        >
+          ▼
+        </motion.span>
+      </button>
       <div className="text-primary space-y-4">
         <div className="bg-background-dim rounded-lg p-4">
           <h3 className="text-lg font-bold text-secondary mb-2">Purpose</h3>
@@ -194,354 +209,389 @@ function Preamble() {
             that's about it.
           </p>
         </div>
-        <p>
-          Every skill in MapleStory has an{" "}
-          <strong className="text-primary-bright">action delay</strong> - the
-          time you must wait after using a skill before you can act again. This
-          delay is determined by the skill's animation frames and your current
-          attack speed.
-        </p>
 
-        <div className="bg-background-dim rounded-lg p-4">
-          <h3 className="text-lg font-bold text-secondary mb-2">
-            Attack Speed: Two Naming Conventions
-          </h3>
-          <p className="mb-2">
-            Attack Speed often uses two opposite naming conventions, which can
-            be confusing:
+        {collapsed && (
+          <p className="text-sm">
+            The rest of this section explains how action delays and attack
+            speed work: the two attack speed naming conventions, the scaling
+            formula, the 30ms frame penalty, combo skills, when it matters,
+            how to read the skill cards, and references.{" "}
+            <button
+              onClick={() => setCollapsed(false)}
+              className="text-secondary font-bold underline hover:text-primary-bright"
+            >
+              Expand to read more
+            </button>
           </p>
-          <ul className="list-disc list-inside space-y-1 text-primary">
-            <li>
-              <strong className="text-primary-bright">Stage 1-10:</strong> The
-              in-game wording. Stage 10 is the <em>fastest</em>.
-            </li>
-            <li>
-              <strong className="text-primary-bright">AS0-AS9:</strong>{" "}
-              Historical player convention. AS0 is the <em>fastest</em> (AS = 10
-              - Stage).
-            </li>
-          </ul>
-          <p className="mt-2 text-primary text-sm">
-            This page uses both: "Stage" for calculations, "AS" for display.
-            Stage 10 = AS0 = fastest possible.
-          </p>
-        </div>
+        )}
 
-        <div className="bg-background-dim rounded-lg p-4">
-          <h3 className="text-lg font-bold text-secondary mb-2">
-            The Scaling Formula
-          </h3>
-          <p className="mb-2">
-            When you use a skill, each animation frame is scaled by your attack
-            speed:
-          </p>
-          <div className="bg-background rounded-lg p-3 font-mono text-sm text-center mb-2">
-            <span className="text-secondary">scaled frame</span> = frame ×{" "}
-            <span className="text-secondary">(20 - stage)</span> / 16
-          </div>
-          <p className="text-primary text-sm">
-            At Stage 4 (AS6, the "base" speed), the multiplier is exactly 1.0.
-            For this reason, Stage 4 (AS6) is considered the "base" speed.
-          </p>
-        </div>
-
-        <div className="bg-background-dim rounded-lg p-4">
-          <h3 className="text-lg font-bold text-secondary mb-2">
-            The 30ms Frame Rule/Penalty
-          </h3>
-          <p className="mb-2">
-            Each individual frame has a{" "}
-            <strong className="text-secondary">minimum duration of 30ms</strong>
-            . If a scaled frame would be less than 30ms, it gets rounded up to
-            30ms.
-          </p>
-          <p className="mb-2">
-            As a result of the multiplier at Stage 10 attack speed, this means{" "}
-            <strong className="text-secondary">any skill </strong> with a 30ms
-            frame as its <em>last</em> frame will benefit less from attack speed
-            than skills without, even if their total delays are identical.
-          </p>
-          <div className="bg-background rounded-lg p-3 text-sm mb-2">
-            <p className="text-primary mb-1">
-              <strong className="text-primary-bright">Example:</strong>
-            </p>
-            <p className="text-primary">
-              Skill A: 11 frames of 60ms each = 660ms total
-              <br />
-              Skill B: 10 frames of 60ms each and two frames of 30ms = 660ms
-              total
-            </p>
-            <p className="text-primary mt-2">
-              At AS0: Skill A → (660 * 0.625) = 412.5ms *<br />
-              At AS0: Skill B → (660 * 0.625) = 412.5ms, but the (30 * 0.625) =
-              18.75ms frames are rounded to 30ms, resulting in a final attack
-              speed of (600ms * 0.625) + (30ms + 30ms) = 435ms. **
-            </p>
-            <p className="text-primary mt-2 text-xs">
-              * This 412.5ms gets rounded up to 420ms. More on that up next.
-              <br />* This 435ms gets rounded up to 450ms. More on that up next.
-            </p>
-          </div>
-          <p className="mb-2">
-            Furthermore, the total sum of any skill's frames is rounded up to
-            the{" "}
-            <strong className="text-secondary">nearest multiple of 30ms</strong>
-            .
-          </p>
-          <p className="mb-2">
-            This means that despite the final values only being (412.5ms vs
-            435ms), the total delay is rounded up to 420ms and 450ms
-            respectively, turning a 22.5ms difference into a 30ms difference.
-          </p>
-          <p className="mb-2">
-            This difference can be amplified in other cases.
-          </p>
-          <div className="bg-background rounded-lg p-3 text-sm mb-2">
-            <p className="text-primary mb-1">
-              <strong className="text-primary-bright">Example:</strong>
-            </p>
-            <p className="text-primary">
-              Skill C: 420ms total delay at AS0
-              <br />
-              Skill D: 423.75ms total delay at AS0
-            </p>
-            <p className="text-primary mt-2">
-              Skill D will be rounded to 450ms, turning a 3.75ms difference into
-              a 30ms difference.
-            </p>
-          </div>
-          <p className="mb-2">
-            This can cause a small loss in attack speed for 1 frame to compound
-            into a larger one, but it also means that having{" "}
-            <em>more than one 30ms frame</em> does not compound the loss until a
-            certain point.
-          </p>
-          <p className="mt-2 text-sm">
-            In other words, having more than one 30ms frame does not compound
-            the loss until the total delay reaches the next multiple of 30ms.
-          </p>
-        </div>
-
-        <div className="bg-background-dim rounded-lg p-4 border border-yellow-500/30">
-          <h3 className="text-lg font-bold text-secondary mb-2">
-            Updated Assumption: Last Frame Only
-          </h3>
-          <p className="mb-2">
-            The initial version of this page lacked the following assumption:
-            This page operates under the assumption that the 30ms floor penalty{" "}
-            <strong className="text-secondary">
-              only applies when the last frame
-            </strong>{" "}
-            of a skill's animation is 30ms.
-          </p>
-          <p className="mb-2">
-            Skills with 30ms frames earlier in the animation (but not as the
-            final frame) do not appear to suffer from this penalty in practice.
-          </p>
-          <p className="text-primary text-sm">
-            <strong className="text-primary-bright">Note:</strong> This is
-            currently an assumption based on in-game testing and observation,
-            not confirmed game code. The behavior appears consistent with this
-            model, but may not be 100% accurate.
-          </p>
-        </div>
-
-        <div className="bg-background-dim rounded-lg p-4">
-          <div className="text-xs text-primary-dark bg-secondary rounded px-2 py-1 inline-block mb-2">
-            New Info - 2026-05-11
-          </div>
-          <h3 className="text-lg font-bold text-secondary mb-2">
-            Combo Skills and skipped Action Frames
-          </h3>
-          <p className="mb-2">
-            Some skills have an{" "}
-            <strong className="text-primary-bright">addAttack</strong> property
-            in the WZ data, meaning they can chain into another skill. When this
-            happens, the skill may use{" "}
-            <strong className="text-primary-bright">skipActionFrame</strong> to
-            cut off part of the original action delay.
-          </p>
-          <p className="mb-2">
-            For delay math,{" "}
-            <strong className="text-secondary">
-              skipActionFrame=N means the first N action frames are skipped from
-              the remaining delay
-            </strong>
-            . So if a skill has{" "}
-            <span className="font-mono text-primary-bright">
-              skipActionFrame=4
-            </span>
-            , this page removes frames 0, 1, 2, and 3, then recalculates the
-            delay from frame 4 onward.
-          </p>
-          <div className="bg-background rounded-lg p-3 text-sm mb-2">
-            <p className="text-primary mb-1">
-              <strong className="text-primary-bright">Example:</strong>
-            </p>
-            <p className="text-primary">
-              Frames:{" "}
-              <span className="font-mono text-primary-bright">
-                [90, 90, 90, 30, 60, 90, 90, 90, 30]
-              </span>
-              <br />
-              <span className="font-mono text-primary-bright">
-                skipActionFrame=4
-              </span>{" "}
-              removes{" "}
-              <span className="font-mono text-secondary">[90, 90, 90, 30]</span>
-              <br />
-              Combo frames used for delay:{" "}
-              <span className="font-mono text-green-400">
-                [60, 90, 90, 90, 30]
-              </span>
-            </p>
-          </div>
-          <p className="text-primary text-sm">
-            The visible animation appears to include one more frame than the
-            delay actually consumes. In other words, the animation renders
-            frames 0 through N, but the delay calculation only uses frames N+1
-            through the end. The actual delay consumed is frames 0 through N-1
-            worth of delay.
-          </p>
-        </div>
-
-        <div className="bg-background-dim rounded-lg p-4">
-          <h3 className="text-lg font-bold text-secondary mb-2">
-            When and Why This Matters
-          </h3>
-          <ul className="list-disc list-inside space-y-2 text-primary">
-            <li>
-              <strong className="text-primary-bright">
-                Increased prevalence in v.267.
-              </strong>{" "}
-              As a result of the recent balance changes, many more classes have
-              a 30ms frame in their main attacking skill than before. This issue
-              has always existed, but was less common. One longstanding example
-              is Kaiser's Gigas Wave.
-            </li>
-            <li>
-              <strong className="text-primary-bright">
-                The gains of attack speed are deceptively different between
-                classes.
-              </strong>{" "}
-              As explained previously, two skills with the same base delay can
-              have very different attack speed gains depending on how many 30ms
-              frames they have.
-            </li>
-            <li>
-              <strong className="text-primary-bright">
-                Unintentional balance differences.
-              </strong>{" "}
-              This is an unintended side-effect of the rounding system that is
-              generally not present as Stage 8 (AS2). If this issue affects your
-              class' main attacking skill, you're getting 7% fewer hits than a
-              class with the same base delay but no 30ms frames.
-            </li>
-            <li>
-              Obviously, the existence of Stage 10 Attack Speed has been an
-              unfair balance issue for many years, since it does not benefit
-              hurricane classes. Given that KMS does not consider these effects
-              when balancing, our version is even more out of balance.
-              <p className="text-primary text-sm ml-4 mt-2">
-                (not that nexon cares)
+        <AnimatePresence initial={false}>
+          {!collapsed && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden space-y-4"
+            >
+              <p>
+                Every skill in MapleStory has an{" "}
+                <strong className="text-primary-bright">action delay</strong> - the
+                time you must wait after using a skill before you can act again. This
+                delay is determined by the skill's animation frames and your current
+                attack speed.
               </p>
-            </li>
-            <li>
-              <strong className="text-primary-bright">
-                Where it matters less:
-              </strong>{" "}
-              While every class has at least one skill affected by this issue,
-              the effect is not as impactful on skills that are not cast as
-              often.
-            </li>
-          </ul>
-        </div>
 
-        <div className="bg-background-dim rounded-lg p-4">
-          <h3 className="text-lg font-bold text-secondary mb-2">
-            Reading the Skill Cards
-          </h3>
-          <ul className="list-disc list-inside space-y-1 text-primary">
-            <li>
-              <strong className="text-primary-bright">Base delay:</strong> Total
-              frame duration at Stage 6 (AS4)
-            </li>
-            <li>
-              <strong className="text-primary-bright">→ Fastest delay:</strong>{" "}
-              Total at Stage 10 (AS0). Yellow ⚠ indicates floor penalty.
-            </li>
-            <li>
-              <strong className="text-secondary">Yellow frames:</strong> These
-              hit the 30ms floor at AS0
-            </li>
-            <li>
-              <strong className="text-primary-bright">
-                Parenthetical value:
-              </strong>{" "}
-              What the delay <em>would</em> be without the floor
-            </li>
-            <li>
-              You can click on a stage to see the individual frame delays at
-              that stage
-            </li>
-          </ul>
-        </div>
+              <div className="bg-background-dim rounded-lg p-4">
+                <h3 className="text-lg font-bold text-secondary mb-2">
+                  Attack Speed: Two Naming Conventions
+                </h3>
+                <p className="mb-2">
+                  Attack Speed often uses two opposite naming conventions, which can
+                  be confusing:
+                </p>
+                <ul className="list-disc list-inside space-y-1 text-primary">
+                  <li>
+                    <strong className="text-primary-bright">Stage 1-10:</strong> The
+                    in-game wording. Stage 10 is the <em>fastest</em>.
+                  </li>
+                  <li>
+                    <strong className="text-primary-bright">AS0-AS9:</strong>{" "}
+                    Historical player convention. AS0 is the <em>fastest</em> (AS = 10
+                    - Stage).
+                  </li>
+                </ul>
+                <p className="mt-2 text-primary text-sm">
+                  This page uses both: "Stage" for calculations, "AS" for display.
+                  Stage 10 = AS0 = fastest possible.
+                </p>
+              </div>
 
-        {/* attributions section */}
-        <div className="bg-background-dim rounded-lg p-4">
-          <h3 className="text-lg font-bold text-secondary mb-2">
-            References & Attributions
-          </h3>
-          <ul className="list-disc list-inside space-y-2 text-primary mb-2">
-            <li>
-              Thank you to ForeverDuo (tabbycat) from the Zero discord for
-              bringing the concept of Link delays/skipped action frames to my
-              attention, with some helpful datapoints to help understand how
-              they work!
-            </li>
-            <li>
-              <a
-                href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary-bright underline"
-              >
-                Reddit post by /u/screeeeeeee investigating the attack
-                speed-to-delay discrepancy in Gigas Wave (2022)
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/i46paj0/?context=3"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary-bright underline"
-              >
-                Comment by /u/hailcrest in the above thread explaining the 30ms
-                floor effect
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://forums.maplestory.nexon.net/discussion/35795/certain-skills-not-working-properly-with-as10#latest"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary-bright underline"
-              >
-                Nexon forum post about skills not working properly with AS10
-              </a>
-            </li>
-            <li>
-              Credits to Jaepy for asking me to look into this in the first
-              place - this was fun to investigate and compile :)
-            </li>
-          </ul>
-        </div>
+              <div className="bg-background-dim rounded-lg p-4">
+                <h3 className="text-lg font-bold text-secondary mb-2">
+                  The Scaling Formula
+                </h3>
+                <p className="mb-2">
+                  When you use a skill, each animation frame is scaled by your attack
+                  speed:
+                </p>
+                <div className="bg-background rounded-lg p-3 font-mono text-sm text-center mb-2">
+                  <span className="text-secondary">scaled frame</span> = frame ×{" "}
+                  <span className="text-secondary">(20 - stage)</span> / 16
+                </div>
+                <p className="text-primary text-sm">
+                  At Stage 4 (AS6, the "base" speed), the multiplier is exactly 1.0.
+                  For this reason, Stage 4 (AS6) is considered the "base" speed.
+                </p>
+              </div>
 
-        <p className="text-primary text-sm">
-          If you notice any errors or have suggestions for improvement, please
-          let me know!
-        </p>
+              <div className="bg-background-dim rounded-lg p-4">
+                <h3 className="text-lg font-bold text-secondary mb-2">
+                  The 30ms Frame Rule/Penalty
+                </h3>
+                <p className="mb-2">
+                  Each individual frame has a{" "}
+                  <strong className="text-secondary">minimum duration of 30ms</strong>
+                  . If a scaled frame would be less than 30ms, it gets rounded up to
+                  30ms.
+                </p>
+                <p className="mb-2">
+                  As a result of the multiplier at Stage 10 attack speed, this means{" "}
+                  <strong className="text-secondary">any skill </strong> with a 30ms
+                  frame as its <em>last</em> frame will benefit less from attack speed
+                  than skills without, even if their total delays are identical.
+                </p>
+                <div className="bg-background rounded-lg p-3 text-sm mb-2">
+                  <p className="text-primary mb-1">
+                    <strong className="text-primary-bright">Example:</strong>
+                  </p>
+                  <p className="text-primary">
+                    Skill A: 11 frames of 60ms each = 660ms total
+                    <br />
+                    Skill B: 10 frames of 60ms each and two frames of 30ms = 660ms
+                    total
+                  </p>
+                  <p className="text-primary mt-2">
+                    At AS0: Skill A → (660 * 0.625) = 412.5ms *<br />
+                    At AS0: Skill B → (660 * 0.625) = 412.5ms, but the (30 * 0.625) =
+                    18.75ms frames are rounded to 30ms, resulting in a final attack
+                    speed of (600ms * 0.625) + (30ms + 30ms) = 435ms. **
+                  </p>
+                  <p className="text-primary mt-2 text-xs">
+                    * This 412.5ms gets rounded up to 420ms. More on that up next.
+                    <br />* This 435ms gets rounded up to 450ms. More on that up next.
+                  </p>
+                </div>
+                <p className="mb-2">
+                  Furthermore, the total sum of any skill's frames is rounded up to
+                  the{" "}
+                  <strong className="text-secondary">nearest multiple of 30ms</strong>
+                  .
+                </p>
+                <p className="mb-2">
+                  This means that despite the final values only being (412.5ms vs
+                  435ms), the total delay is rounded up to 420ms and 450ms
+                  respectively, turning a 22.5ms difference into a 30ms difference.
+                </p>
+                <p className="mb-2">
+                  This difference can be amplified in other cases.
+                </p>
+                <div className="bg-background rounded-lg p-3 text-sm mb-2">
+                  <p className="text-primary mb-1">
+                    <strong className="text-primary-bright">Example:</strong>
+                  </p>
+                  <p className="text-primary">
+                    Skill C: 420ms total delay at AS0
+                    <br />
+                    Skill D: 423.75ms total delay at AS0
+                  </p>
+                  <p className="text-primary mt-2">
+                    Skill D will be rounded to 450ms, turning a 3.75ms difference into
+                    a 30ms difference.
+                  </p>
+                </div>
+                <p className="mb-2">
+                  This can cause a small loss in attack speed for 1 frame to compound
+                  into a larger one, but it also means that having{" "}
+                  <em>more than one 30ms frame</em> does not compound the loss until a
+                  certain point.
+                </p>
+                <p className="mt-2 text-sm">
+                  In other words, having more than one 30ms frame does not compound
+                  the loss until the total delay reaches the next multiple of 30ms.
+                </p>
+              </div>
+
+              <div className="bg-background-dim rounded-lg p-4 border border-yellow-500/30">
+                <h3 className="text-lg font-bold text-secondary mb-2">
+                  Updated Assumption: Last Frame Only
+                </h3>
+                <p className="mb-2">
+                  The initial version of this page lacked the following assumption:
+                  This page operates under the assumption that the 30ms floor penalty{" "}
+                  <strong className="text-secondary">
+                    only applies when the last frame
+                  </strong>{" "}
+                  of a skill's animation is 30ms.
+                </p>
+                <p className="mb-2">
+                  Skills with 30ms frames earlier in the animation (but not as the
+                  final frame) do not appear to suffer from this penalty in practice.
+                </p>
+                <p className="text-primary text-sm">
+                  <strong className="text-primary-bright">Note:</strong> This is
+                  currently an assumption based on in-game testing and observation,
+                  not confirmed game code. The behavior appears consistent with this
+                  model, but may not be 100% accurate.
+                </p>
+              </div>
+
+              <div className="bg-background-dim rounded-lg p-4">
+                <div className="text-xs text-primary-dark bg-secondary rounded px-2 py-1 inline-block mb-2">
+                  New Info - 2026-05-11
+                </div>
+                <h3 className="text-lg font-bold text-secondary mb-2">
+                  Combo Skills and skipped Action Frames
+                </h3>
+                <p className="mb-2">
+                  Some skills have an{" "}
+                  <strong className="text-primary-bright">addAttack</strong> property
+                  in the WZ data, meaning they can chain into another skill. When this
+                  happens, the skill may use{" "}
+                  <strong className="text-primary-bright">skipActionFrame</strong> to
+                  cut off part of the original action delay.
+                </p>
+                <p className="mb-2">
+                  For delay math,{" "}
+                  <strong className="text-secondary">
+                    skipActionFrame=N means the first N action frames are skipped from
+                    the remaining delay
+                  </strong>
+                  . So if a skill has{" "}
+                  <span className="font-mono text-primary-bright">
+                    skipActionFrame=4
+                  </span>
+                  , this page removes frames 0, 1, 2, and 3, then recalculates the
+                  delay from frame 4 onward.
+                </p>
+                <div className="bg-background rounded-lg p-3 text-sm mb-2">
+                  <p className="text-primary mb-1">
+                    <strong className="text-primary-bright">Example:</strong>
+                  </p>
+                  <p className="text-primary">
+                    Frames:{" "}
+                    <span className="font-mono text-primary-bright">
+                      [90, 90, 90, 30, 60, 90, 90, 90, 30]
+                    </span>
+                    <br />
+                    <span className="font-mono text-primary-bright">
+                      skipActionFrame=4
+                    </span>{" "}
+                    removes{" "}
+                    <span className="font-mono text-secondary">[90, 90, 90, 30]</span>
+                    <br />
+                    Combo frames used for delay:{" "}
+                    <span className="font-mono text-green-400">
+                      [60, 90, 90, 90, 30]
+                    </span>
+                  </p>
+                </div>
+                <p className="text-primary text-sm">
+                  The visible animation appears to include one more frame than the
+                  delay actually consumes. In other words, the animation renders
+                  frames 0 through N, but the delay calculation only uses frames N+1
+                  through the end. The actual delay consumed is frames 0 through N-1
+                  worth of delay.
+                </p>
+              </div>
+
+              <div className="bg-background-dim rounded-lg p-4">
+                <h3 className="text-lg font-bold text-secondary mb-2">
+                  When and Why This Matters
+                </h3>
+                <ul className="list-disc list-inside space-y-2 text-primary">
+                  <li>
+                    <strong className="text-primary-bright">
+                      Increased prevalence in v.267.
+                    </strong>{" "}
+                    As a result of the recent balance changes, many more classes have
+                    a 30ms frame in their main attacking skill than before. This issue
+                    has always existed, but was less common. One longstanding example
+                    is Kaiser's Gigas Wave.
+                  </li>
+                  <li>
+                    <strong className="text-primary-bright">
+                      The gains of attack speed are deceptively different between
+                      classes.
+                    </strong>{" "}
+                    As explained previously, two skills with the same base delay can
+                    have very different attack speed gains depending on how many 30ms
+                    frames they have.
+                  </li>
+                  <li>
+                    <strong className="text-primary-bright">
+                      Unintentional balance differences.
+                    </strong>{" "}
+                    This is an unintended side-effect of the rounding system that is
+                    generally not present as Stage 8 (AS2). If this issue affects your
+                    class' main attacking skill, you're getting 7% fewer hits than a
+                    class with the same base delay but no 30ms frames.
+                  </li>
+                  <li>
+                    Obviously, the existence of Stage 10 Attack Speed has been an
+                    unfair balance issue for many years, since it does not benefit
+                    hurricane classes. Given that KMS does not consider these effects
+                    when balancing, our version is even more out of balance.
+                    <p className="text-primary text-sm ml-4 mt-2">
+                      (not that nexon cares)
+                    </p>
+                  </li>
+                  <li>
+                    <strong className="text-primary-bright">
+                      Where it matters less:
+                    </strong>{" "}
+                    While every class has at least one skill affected by this issue,
+                    the effect is not as impactful on skills that are not cast as
+                    often.
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-background-dim rounded-lg p-4">
+                <h3 className="text-lg font-bold text-secondary mb-2">
+                  Reading the Skill Cards
+                </h3>
+                <ul className="list-disc list-inside space-y-1 text-primary">
+                  <li>
+                    <strong className="text-primary-bright">Base delay:</strong> Total
+                    frame duration at Stage 6 (AS4)
+                  </li>
+                  <li>
+                    <strong className="text-primary-bright">→ Fastest delay:</strong>{" "}
+                    Total at Stage 10 (AS0). Yellow ⚠ indicates floor penalty.
+                  </li>
+                  <li>
+                    <strong className="text-secondary">Yellow frames:</strong> These
+                    hit the 30ms floor at AS0
+                  </li>
+                  <li>
+                    <strong className="text-primary-bright">
+                      Parenthetical value:
+                    </strong>{" "}
+                    What the delay <em>would</em> be without the floor
+                  </li>
+                  <li>
+                    You can click on a stage to see the individual frame delays at
+                    that stage
+                  </li>
+                </ul>
+              </div>
+
+              {/* attributions section */}
+              <div className="bg-background-dim rounded-lg p-4">
+                <h3 className="text-lg font-bold text-secondary mb-2">
+                  References & Attributions
+                </h3>
+                <ul className="list-disc list-inside space-y-2 text-primary mb-2">
+                  <li>
+                    Thank you to ForeverDuo (tabbycat) from the Zero discord for
+                    bringing the concept of Link delays/skipped action frames to my
+                    attention, with some helpful datapoints to help understand how
+                    they work!
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-bright underline"
+                    >
+                      Reddit post by /u/screeeeeeee investigating the attack
+                      speed-to-delay discrepancy in Gigas Wave (2022)
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.reddit.com/r/Maplestory/comments/u0ix7v/bug_or_feature_transformed_kaiser_attacks_slower/i46paj0/?context=3"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-bright underline"
+                    >
+                      Comment by /u/hailcrest in the above thread explaining the 30ms
+                      floor effect
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://forums.maplestory.nexon.net/discussion/35795/certain-skills-not-working-properly-with-as10#latest"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-bright underline"
+                    >
+                      Nexon forum post about skills not working properly with AS10
+                    </a>
+                  </li>
+                  <li>
+                    Credits to Jaepy for asking me to look into this in the first
+                    place - this was fun to investigate and compile :)
+                  </li>
+                </ul>
+              </div>
+
+              <p className="text-primary text-sm">
+                If you notice any errors or have suggestions for improvement, please
+                let me know!
+              </p>
+
+              <button
+                onClick={() => setCollapsed(true)}
+                className="text-secondary font-bold underline hover:text-primary-bright text-sm"
+              >
+                Collapse
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
