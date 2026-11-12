@@ -8720,7 +8720,7 @@
     "TypeName": "Human",
     "ElementCode": "D",
     "ElementName": "Dark",
-    "JumpOutlink": "Mob/_Canvas/8850011.img/stand/0",
+    "JumpOutlink": "Mob/_Canvas/8850011.img/info/thumbnail",
     "JumpImage": "familiars/jump/9960485.png",
     "Cards": [
       {
@@ -11882,7 +11882,7 @@
   {
     "FamiliarId": 9960728,
     "MobId": 9400310,
-    "MobName": "Tic (Easy)",
+    "MobName": "Office Drone",
     "Level": 156,
     "TypeId": 0,
     "TypeName": "Human",
@@ -11900,7 +11900,7 @@
   {
     "FamiliarId": 9960729,
     "MobId": 9400311,
-    "MobName": "Tac (Easy)",
+    "MobName": "Office Supervisor",
     "Level": 156,
     "TypeId": 0,
     "TypeName": "Human",
@@ -11918,7 +11918,7 @@
   {
     "FamiliarId": 9960730,
     "MobId": 9400312,
-    "MobName": "Toe (Easy)",
+    "MobName": "Infected Drone",
     "Level": 158,
     "TypeId": 0,
     "TypeName": "Human",
@@ -11936,7 +11936,7 @@
   {
     "FamiliarId": 9960731,
     "MobId": 9400313,
-    "MobName": "Tic (Medium)",
+    "MobName": "Infected Supervisor",
     "Level": 158,
     "TypeId": 0,
     "TypeName": "Human",
@@ -11954,7 +11954,7 @@
   {
     "FamiliarId": 9960732,
     "MobId": 9400314,
-    "MobName": "Tac (Medium)",
+    "MobName": "Delightful Drink",
     "Level": 157,
     "TypeId": 5,
     "TypeName": "Fairy",
@@ -11972,7 +11972,7 @@
   {
     "FamiliarId": 9960733,
     "MobId": 9400315,
-    "MobName": "Toe (Medium)",
+    "MobName": "Rejected Resume",
     "Level": 157,
     "TypeId": 6,
     "TypeName": "Devil",
@@ -11990,7 +11990,7 @@
   {
     "FamiliarId": 9960734,
     "MobId": 9400316,
-    "MobName": "Tic (Hard)",
+    "MobName": "Perilous Pigeon",
     "Level": 155,
     "TypeId": 1,
     "TypeName": "Beast",
@@ -12008,7 +12008,7 @@
   {
     "FamiliarId": 9960735,
     "MobId": 9400317,
-    "MobName": "Tac (Hard)",
+    "MobName": "Natology Merc",
     "Level": 160,
     "TypeId": 0,
     "TypeName": "Human",
@@ -16386,8 +16386,8 @@
     "Level": 170,
     "TypeId": 0,
     "TypeName": "Human",
-    "ElementCode": "p",
-    "ElementName": "Poison",
+    "ElementCode": "N",
+    "ElementName": "None",
     "JumpOutlink": "Mob/_Canvas/9400401.img/stand/0",
     "JumpImage": "familiars/jump/9961045.png",
     "Cards": [
@@ -20693,7 +20693,7 @@
   {
     "FamiliarId": 9961408,
     "MobId": 9601710,
-    "MobName": "Boss (Luska)",
+    "MobName": "Luska",
     "Level": 266,
     "TypeId": 0,
     "TypeName": "Human",
@@ -22091,6 +22091,276 @@
       {
         "ItemId": 2871784,
         "Icon": "familiars/cards/2871784.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961516,
+    "MobId": 8645481,
+    "MobName": "Patrol Securitron",
+    "Level": 295,
+    "TypeId": 8,
+    "TypeName": "Machine",
+    "ElementCode": "L",
+    "ElementName": "Lightning",
+    "JumpOutlink": "Mob/_Canvas/8645481.img/stand/0",
+    "JumpImage": "familiars/jump/9961516.png",
+    "Cards": [
+      {
+        "ItemId": 2881369,
+        "Icon": "familiars/cards/2881369.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961517,
+    "MobId": 8645482,
+    "MobName": "Strike Securitron",
+    "Level": 296,
+    "TypeId": 8,
+    "TypeName": "Machine",
+    "ElementCode": "L",
+    "ElementName": "Lightning",
+    "JumpOutlink": "Mob/_Canvas/8645482.img/stand/0",
+    "JumpImage": "familiars/jump/9961517.png",
+    "Cards": [
+      {
+        "ItemId": 2881370,
+        "Icon": "familiars/cards/2881370.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961518,
+    "MobId": 8645483,
+    "MobName": "Combatron N",
+    "Level": 297,
+    "TypeId": 8,
+    "TypeName": "Machine",
+    "ElementCode": "L",
+    "ElementName": "Lightning",
+    "JumpOutlink": "Mob/_Canvas/8645483.img/stand/0",
+    "JumpImage": "familiars/jump/9961518.png",
+    "Cards": [
+      {
+        "ItemId": 2881371,
+        "Icon": "familiars/cards/2881371.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961519,
+    "MobId": 8645484,
+    "MobName": "Combatron EX",
+    "Level": 298,
+    "TypeId": 8,
+    "TypeName": "Machine",
+    "ElementCode": "L",
+    "ElementName": "Lightning",
+    "JumpOutlink": "Mob/_Canvas/8645484.img/stand/0",
+    "JumpImage": "familiars/jump/9961519.png",
+    "Cards": [
+      {
+        "ItemId": 2881372,
+        "Icon": "familiars/cards/2881372.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961520,
+    "MobId": 8645485,
+    "MobName": "Kronos\u0027s Remnant",
+    "Level": 299,
+    "TypeId": 6,
+    "TypeName": "Devil",
+    "ElementCode": "F",
+    "ElementName": "Fire",
+    "JumpOutlink": "Mob/_Canvas/8645485.img/stand/0",
+    "JumpImage": "familiars/jump/9961520.png",
+    "Cards": [
+      {
+        "ItemId": 2881373,
+        "Icon": "familiars/cards/2881373.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961521,
+    "MobId": 8645486,
+    "MobName": "Kronos\u0027s Retribution",
+    "Level": 299,
+    "TypeId": 6,
+    "TypeName": "Devil",
+    "ElementCode": "F",
+    "ElementName": "Fire",
+    "JumpOutlink": "Mob/_Canvas/8645486.img/stand/0",
+    "JumpImage": "familiars/jump/9961521.png",
+    "Cards": [
+      {
+        "ItemId": 2881374,
+        "Icon": "familiars/cards/2881374.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961522,
+    "MobId": 9602786,
+    "MobName": "Training Orange Mushroom",
+    "Level": 270,
+    "TypeId": 2,
+    "TypeName": "Plant",
+    "ElementCode": "I",
+    "ElementName": "Ice",
+    "JumpOutlink": "Mob/_Canvas/9602786.img/stand/1",
+    "JumpImage": "familiars/jump/9961522.png",
+    "Cards": [
+      {
+        "ItemId": 2881381,
+        "Icon": "familiars/cards/2881381.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961523,
+    "MobId": 9602787,
+    "MobName": "Training Star Pixie",
+    "Level": 270,
+    "TypeId": 5,
+    "TypeName": "Fairy",
+    "ElementCode": "I",
+    "ElementName": "Ice",
+    "JumpOutlink": "Mob/_Canvas/9602787.img/stand/0",
+    "JumpImage": "familiars/jump/9961523.png",
+    "Cards": [
+      {
+        "ItemId": 2881382,
+        "Icon": "familiars/cards/2881382.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961524,
+    "MobId": 9602788,
+    "MobName": "Training Bellflower Root",
+    "Level": 270,
+    "TypeId": 2,
+    "TypeName": "Plant",
+    "ElementCode": "I",
+    "ElementName": "Ice",
+    "JumpOutlink": "Mob/_Canvas/9602788.img/stand/0",
+    "JumpImage": "familiars/jump/9961524.png",
+    "Cards": [
+      {
+        "ItemId": 2881383,
+        "Icon": "familiars/cards/2881383.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961525,
+    "MobId": 9602789,
+    "MobName": "Training Gallina",
+    "Level": 280,
+    "TypeId": 1,
+    "TypeName": "Beast",
+    "ElementCode": "D",
+    "ElementName": "Dark",
+    "JumpOutlink": "Mob/_Canvas/9602789.img/stand/0",
+    "JumpImage": "familiars/jump/9961525.png",
+    "Cards": [
+      {
+        "ItemId": 2881384,
+        "Icon": "familiars/cards/2881384.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961526,
+    "MobId": 9602790,
+    "MobName": "Training Anguished Spirit",
+    "Level": 280,
+    "TypeId": 5,
+    "TypeName": "Fairy",
+    "ElementCode": "D",
+    "ElementName": "Dark",
+    "JumpOutlink": "Mob/_Canvas/9602790.img/stand/0",
+    "JumpImage": "familiars/jump/9961526.png",
+    "Cards": [
+      {
+        "ItemId": 2881385,
+        "Icon": "familiars/cards/2881385.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961527,
+    "MobId": 9602791,
+    "MobName": "Training Aranya",
+    "Level": 280,
+    "TypeId": 4,
+    "TypeName": "Reptile",
+    "ElementCode": "D",
+    "ElementName": "Dark",
+    "JumpOutlink": "Mob/_Canvas/9602791.img/stand/0",
+    "JumpImage": "familiars/jump/9961527.png",
+    "Cards": [
+      {
+        "ItemId": 2881386,
+        "Icon": "familiars/cards/2881386.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961528,
+    "MobId": 9602792,
+    "MobName": "Training Flora Foot Soldier",
+    "Level": 290,
+    "TypeId": 0,
+    "TypeName": "Human",
+    "ElementCode": "L",
+    "ElementName": "Lightning",
+    "JumpOutlink": "Mob/_Canvas/9602792.img/stand/1",
+    "JumpImage": "familiars/jump/9961528.png",
+    "Cards": [
+      {
+        "ItemId": 2881387,
+        "Icon": "familiars/cards/2881387.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961529,
+    "MobId": 9602793,
+    "MobName": "Training Angler Electro Tester",
+    "Level": 290,
+    "TypeId": 8,
+    "TypeName": "Machine",
+    "ElementCode": "L",
+    "ElementName": "Lightning",
+    "JumpOutlink": "Mob/_Canvas/9602793.img/stand/0",
+    "JumpImage": "familiars/jump/9961529.png",
+    "Cards": [
+      {
+        "ItemId": 2881388,
+        "Icon": "familiars/cards/2881388.png"
+      }
+    ]
+  },
+  {
+    "FamiliarId": 9961530,
+    "MobId": 9602794,
+    "MobName": "Training Abyssal Hunter",
+    "Level": 290,
+    "TypeId": 1,
+    "TypeName": "Beast",
+    "ElementCode": "L",
+    "ElementName": "Lightning",
+    "JumpOutlink": "Mob/_Canvas/9602794.img/stand/0",
+    "JumpImage": "familiars/jump/9961530.png",
+    "Cards": [
+      {
+        "ItemId": 2881389,
+        "Icon": "familiars/cards/2881389.png"
       }
     ]
   },
