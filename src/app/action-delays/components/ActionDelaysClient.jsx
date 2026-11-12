@@ -7,6 +7,7 @@ import { useHydrated } from "@/hooks/useHydrated";
 import skillsDataV266 from "@/data/skill-delays/v266-skills.json";
 import skillsDataV267 from "@/data/skill-delays/v267-skills.json";
 import skillsDataV269 from "@/data/skill-delays/v269-skills.json";
+import skillsDataV272 from "@/data/skill-delays/v272-skills.json";
 import {
   CLASS_CATEGORIES,
   CATEGORY_ORDER,
@@ -1177,7 +1178,7 @@ function CategorySection({ category, classes }) {
 
 export default function ActionDelaysClient() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [version, setVersion] = useState("v269");
+  const [version, setVersion] = useState("v272");
   const [showSpotlight, setShowSpotlight] = useState(false);
   const hydrated = useHydrated();
   const [spotlightChecked, setSpotlightChecked] = useState(false);
@@ -1197,6 +1198,7 @@ export default function ActionDelaysClient() {
     v266: skillsDataV266,
     v267: skillsDataV267,
     v269: skillsDataV269,
+    v272: skillsDataV272,
   };
 
   const skillsData = versionMap[version];
@@ -1405,6 +1407,16 @@ export default function ActionDelaysClient() {
                 }`}
               >
                 v269
+              </button>
+              <button
+                onClick={() => setVersion("v272")}
+                className={`px-4 py-2 text-sm font-bold transition-colors ${
+                  version === "v272"
+                    ? "bg-secondary text-background"
+                    : "bg-primary-dark text-primary hover:text-primary-bright"
+                }`}
+              >
+                v272
               </button>
             </div>
           </div>

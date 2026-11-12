@@ -79,6 +79,7 @@ export const CLASS_CATEGORIES = {
   "Zero": "Other",
   "Beast Tamer (rip)": "Other",
   "Kinesis": "Other",
+  "Lethe": "Other",
 };
 
 // category display order
@@ -154,6 +155,7 @@ export const JOB_CODES = {
   "Erel Light": [18001, 18100, 18110, 18111, 18112, 18113, 18114],
   "Sia Astelle": [18000, 18200, 18210, 18211, 18212, 18213, 18214],
   "Iel": [18002, 18300, 18310, 18311, 18312, 18313, 18314],
+  "Lethe": [19000, 19200, 19210, 19211, 19212, 19213, 19214],
 };
 
 // 5th job common skill categories (40000-40005)
@@ -207,6 +209,7 @@ export const BEGINNER_JOB_CODES = new Set([
   18000,  // Sia Astelle
   18001,  // Erel Light
   18002,  // Iel
+  19000,  // Lethe
 ]);
 
 // manual skill ID to class mapping for 5th job skills
@@ -585,6 +588,13 @@ export const JOB_CODE_NAMES = {
   18312: "Iel(4)",
   18313: "Iel(5)",
   18314: "Iel(6)",
+  19000: "Lethe",
+  19200: "Lethe(1)",
+  19210: "Lethe(2)",
+  19211: "Lethe(3)",
+  19212: "Lethe(4)",
+  19213: "Lethe(5)",
+  19214: "Lethe(6)",
   40000: "5th",
   40001: "5th (Warrior)",
   40002: "5th (Magician)",
