@@ -128,6 +128,22 @@ const TRACES_BOSS_DATA = [
     ],
   },
   {
+    id: "bellona",
+    name: "Bellona",
+    maxPartySize: 3,
+    difficulties: [
+      { name: "Easy", traces: 25, hasVoucher: false },
+      { name: "Normal", traces: 80, hasVoucher: false },
+      {
+        name: "Hard",
+        traces: 240,
+        hasVoucher: true,
+        voucherCount: 3,
+        voucherValue: 30,
+      },
+    ],
+  },
+  {
     id: "limbo",
     name: "Limbo",
     maxPartySize: 3,
