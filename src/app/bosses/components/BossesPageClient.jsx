@@ -153,6 +153,10 @@ const BossCard = ({ boss, serverType, timer }) => {
     };
 
     const [activeDifficulty, setActiveDifficulty] = useState(getInitialDifficulty);
+    // Hide the banner if it fails to load (e.g. a new boss whose art isn't in the
+    // GMS client yet) rather than showing the browser's broken-image icon. The
+    // empty container keeps card heights aligned; the name is shown below anyway.
+    const [imageFailed, setImageFailed] = useState(false);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -178,12 +182,15 @@ const BossCard = ({ boss, serverType, timer }) => {
         >
             <div className="p-5 flex flex-col gap-4">
                 <div className="relative h-20 w-full mb-2">
-                    <Image
-                        src={`/bossImages/${bossNameToImage(boss.name.toLowerCase())}.png`}
-                        alt={boss.name}
-                        fill
-                        className="object-contain drop-shadow-lg text-center leading-[75px]"
-                    />
+                    {!imageFailed && (
+                        <Image
+                            src={`/bossImages/${bossNameToImage(boss.name.toLowerCase())}.png`}
+                            alt={boss.name}
+                            fill
+                            className="object-contain drop-shadow-lg text-center leading-[75px]"
+                            onError={() => setImageFailed(true)}
+                        />
+                    )}
                 </div>
                 <h3 className="text-center text-xl font-bold text-primary-bright -mt-2">{boss.name}</h3>
 

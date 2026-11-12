@@ -104,6 +104,17 @@ const BOSS_DATA = [
     ],
   },
   {
+    id: "bellona",
+    name: "Bellona",
+    maxPartySize: 3,
+    difficulties: [
+      { name: "None", traces: 0 },
+      { name: "Easy", traces: 8 },
+      { name: "Normal", traces: 100 },
+      { name: "Hard", traces: 420 },
+    ],
+  },
+  {
     id: "limbo",
     name: "Limbo",
     maxPartySize: 3,
