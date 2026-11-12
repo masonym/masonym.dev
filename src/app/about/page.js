@@ -1,16 +1,16 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import CharacterImage from './components/CharacterImage';
-import ContactForm from './components/ContactForm';
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import CharacterImage from "./components/CharacterImage";
+import ContactForm from "./components/ContactForm";
 
 const AboutPage = () => {
   return (
     <div className="flex flex-col items-center p-8">
+      {/* lol
       <h1 className="text-4xl font-bold mb-6">About Me</h1>
 
       <CharacterImage />
-
       <section className="mb-8 text-center max-w-2xl">
         <h2 className="text-2xl font-semibold mb-4">Hi, I'm Mason</h2>
         <p className="mb-4">
@@ -21,10 +21,13 @@ const AboutPage = () => {
         </p>
       </section>
 
+      */}
       <section className="mb-8 text-center max-w-2xl">
         <h2 className="text-2xl font-semibold mb-4">Support</h2>
         <p className="mb-4">
-          If you find the tools on this site useful to you, and wish to support the maintenance and future development of the website, you can do so at the links below:
+          If you find the tools on this site useful to you, and wish to support
+          the maintenance and future development of the website, you can do so
+          at the links below:
         </p>
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -40,8 +43,8 @@ const AboutPage = () => {
                   src="/images/kofi-logo.png"
                   alt="Ko-fi Logo"
                   fill
-                  style={{ objectFit: 'contain' }}
-                  className='p-4'
+                  style={{ objectFit: "contain" }}
+                  className="p-4"
                 />
               </Link>
             </div>
@@ -59,8 +62,8 @@ const AboutPage = () => {
                   src="/images/paypal-logo.svg"
                   alt="PayPal Logo"
                   fill
-                  style={{ objectFit: 'contain' }}
-                  className='p-4'
+                  style={{ objectFit: "contain" }}
+                  className="p-4"
                 />
               </Link>
             </div>
@@ -72,7 +75,8 @@ const AboutPage = () => {
       <section className="mb-8 text-center max-w-2xl flex flex-col items-center">
         <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
         <p className="">
-          If you notice an issue with the site, or have suggestions, questions, concerns, or otherwise; please feel free to send me a message below.
+          If you notice an issue with the site, or have suggestions, questions,
+          concerns, or otherwise; please feel free to send me a message below.
         </p>
         <ContactForm />
       </section>
@@ -81,3 +85,4 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
+
