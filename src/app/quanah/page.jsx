@@ -161,11 +161,9 @@ export default function QuanahPage() {
           <div className="rounded-lg border border-primary/15 bg-background-bright/30 p-4">
             <p className="font-semibold text-primary-bright mb-1">Fusion</p>
             <p>
-              Overclocked Fusion is the only fusion in the data: &quot;the
-              result of three unstable programs melding into one.&quot; The
-              recipe is not stored in the client. The three programs listed
-              right before it (Overheated Head, Creaking Limb, Broken Heart) are
-              the likely ingredients, but that is a guess.
+              Overclocked Fusion is the only fusion: &quot;the result of three
+              unstable programs melding into one.&quot; It is made from
+              Overheated Head, Creaking Limb and Broken Heart.
             </p>
           </div>
           {TIERS.map((tier) => {
