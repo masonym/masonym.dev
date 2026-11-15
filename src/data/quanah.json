@@ -1,0 +1,1954 @@
+{
+ "moduleDesc": "",
+ "modules": [
+  {
+   "id": "80013179",
+   "name": "Mapae Power Module",
+   "effect": "Active Skill Appearance Rate: +5–150%",
+   "maxLevel": 30,
+   "icon": "/quanah/skills/80013179.png"
+  },
+  {
+   "id": "80013182",
+   "name": "Mapae Power Module",
+   "effect": "Attack Power & Magic ATT: +18%",
+   "maxLevel": 1,
+   "icon": "/quanah/skills/80013182.png"
+  },
+  {
+   "id": "80013183",
+   "name": "Mapae Power Module",
+   "effect": "Skill Cooldown: -2 sec",
+   "maxLevel": 1,
+   "icon": "/quanah/skills/80013183.png"
+  },
+  {
+   "id": "80013184",
+   "name": "Mapae Power Module",
+   "effect": "Critical Damage: +12%",
+   "maxLevel": 1,
+   "icon": "/quanah/skills/80013184.png"
+  },
+  {
+   "id": "80013180",
+   "name": "Mapae Survival Module",
+   "effect": "Passive Skill Appearance Rate: +5–150%",
+   "maxLevel": 30,
+   "icon": "/quanah/skills/80013180.png"
+  },
+  {
+   "id": "80013185",
+   "name": "Mapae Survival Module",
+   "effect": "4% chance to become invincible for 7 sec when attacked, including bosses and the Battlesim",
+   "maxLevel": 1,
+   "icon": "/quanah/skills/80013185.png"
+  },
+  {
+   "id": "80013186",
+   "name": "Mapae Survival Module",
+   "effect": "10% chance to ignore damage when attacked, including bosses and the Battlesim",
+   "maxLevel": 1,
+   "icon": "/quanah/skills/80013186.png"
+  },
+  {
+   "id": "80013187",
+   "name": "Mapae Survival Module",
+   "effect": "10% chance to prevent HP from reaching 0",
+   "maxLevel": 1,
+   "icon": "/quanah/skills/80013187.png"
+  },
+  {
+   "id": "80013181",
+   "name": "Mapae Efficiency Module",
+   "effect": "Mesos Obtained: +30%",
+   "maxLevel": 1,
+   "icon": "/quanah/skills/80013181.png"
+  },
+  {
+   "id": "80013188",
+   "name": "Mapae Efficiency Module",
+   "effect": "Normal Enemy Damage: +5–150%",
+   "maxLevel": 30,
+   "icon": "/quanah/skills/80013188.png"
+  },
+  {
+   "id": "80013189",
+   "name": "Mapae Efficiency Module",
+   "effect": "EXP Obtained: +30%",
+   "maxLevel": 1,
+   "icon": "/quanah/skills/80013189.png"
+  },
+  {
+   "id": "80013190",
+   "name": "Mapae Efficiency Module",
+   "effect": "Item Drop Rate: +30%",
+   "maxLevel": 1,
+   "icon": "/quanah/skills/80013190.png"
+  }
+ ],
+ "dimensionSkills": [
+  {
+   "id": "80012966",
+   "name": "Inspector's Leap",
+   "desc": "Use the power of the mapae to double jump. Press the Up Arrow key at the same time to move upward.",
+   "text": "Jump a set distance.\nYou regenerate 1 Mapae Charge every 14–5 sec. (Can have up to 3 charges at once.)",
+   "maxLevel": 10,
+   "perClass": false,
+   "grade": 1,
+   "weight": 4,
+   "icon": "/quanah/skills/80012966.png"
+  },
+  {
+   "id": "80012967",
+   "name": "Inspector's Teleport",
+   "desc": "Gather a mass of psychokinetic energy with the mapae, then condense it to fold the space around you, teleporting you instantly from one point to another.",
+   "text": "Teleport horizontally 570 units or vertically 320 units.\nYou regenerate 1 Mapae Charge every ? seconds. (Can have up to 3 charges at once.)",
+   "maxLevel": 10,
+   "perClass": false,
+   "grade": 1,
+   "weight": 4,
+   "icon": "/quanah/skills/80012967.png"
+  },
+  {
+   "id": "80012968",
+   "name": "Inspector's Warp Bolt",
+   "desc": "Use the mapae to mark the spot where you are currently standing. Use the skill again to ride a magical bolt back to that spot instantly. Use the skill again while holding the Down Arrow key to replace your original marker.",
+   "text": "Places a marker that lasts 30–120 sec.\nUse the skill again to teleport to the marker's location. Teleport Cooldown: 2 sec.\nCooldown: 1 sec",
+   "maxLevel": 10,
+   "perClass": false,
+   "grade": 1,
+   "weight": 4,
+   "icon": "/quanah/skills/80012968.png"
+  },
+  {
+   "id": "80012984",
+   "name": "Inspector's Howling Gale",
+   "desc": "Summons 2 ferocious gusts to punish your enemies.\nThe gusts move by continuously targeting the boss with the highest Max HP within the area, and reduces speed when attacking the enemy.",
+   "text": "Consumes wind energy to summon gusts for 10 sec.\nMax Enemies Hit: 15, Gust Damage: {{d3}}%, Number of Attacks: 2 per gust summoned.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 1,
+   "weight": 4,
+   "icon": "/quanah/skills/80012984.png"
+  },
+  {
+   "id": "80012987",
+   "name": "Inspector's Throwing Star Barrage",
+   "desc": "Temporarily sends throwing stars out in four directions.",
+   "text": "Duration: 15 sec. Using an attacking skill during the duration throws throwing stars in 4 directions at once that attack up to 4 enemies for {{damage}}% damage.\nCan be activated up to 25 times. Excludes certain attacking skills.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 1,
+   "weight": 4,
+   "icon": "/quanah/skills/80012987.png"
+  },
+  {
+   "id": "80012993",
+   "name": "Inspector's Scroll: Tiger of Songyu",
+   "desc": "[Scroll Skill] Summons the guardian of Mt. Songyu, a giant tiger spirit. Every 3 seconds, the tiger gives out a mighty roar to shake heaven, earth, and your enemies.",
+   "text": "Duration: 26 sec, Max Enemies Hit: 12, Damage: {{damage}}%, Number of Attacks: {{attackCount}}\nInstead of using a normal attack, every 3 seconds a roar will activate to deal {{d2}}% damage 4 times.\nAll attacks have a 3 sec cooldown.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 1,
+   "weight": 4,
+   "icon": "/quanah/skills/80012993.png"
+  },
+  {
+   "id": "80012995",
+   "name": "Inspector's Twin Blades of Time",
+   "desc": "Attack together with a clone to demolish the enemy.",
+   "text": "Max Enemies Hit: 12\n[Beta Link]\n1st Hit: Deals {{d2}}% 8 times\n2nd Hit: Deals {{d3}}% damage 12 times\n3rd Hit: Deals {{d4}}% damage 13 times\n[Alpha Link]\n1st Hit: Deals {{d5}}% damage 8 times\n2nd Hit: Deals {{d6}}% damage 12 times,\n3rd Hit: Deals {{d7}}% damage 13 times\n[Joint Attack]: Triggers 3 explosions that deal {{d8}}% damage 15 times.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 1,
+   "weight": 4,
+   "icon": "/quanah/skills/80012995.png"
+  },
+  {
+   "id": "80013014",
+   "name": "Inspector's Irkalla's Wrath",
+   "desc": "Deal deadly consecutive attacks against your enemies, so they can experience the full wrath of the spirits.",
+   "text": "Duration: 4 sec, Max Enemies Hit: 10, Damage: {{damage}}%, Number of Consecutive Attacks: {{attackCount}}, Max Attacks: 25. The effect ends immediately once all attacks have been made.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 1,
+   "weight": 4,
+   "icon": "/quanah/skills/80013014.png"
+  },
+  {
+   "id": "80013175",
+   "name": "Inspector's Beast's Rage",
+   "desc": "Paeon ferociously combats the enemies of the forest, attacking consecutively without mercy.\nUnaffected by attack reflection.",
+   "text": "MP Cost: 1000. Summons Paeon in front of you. Paeon Activations: 25, Max Enemies Hit: 15, Damage: {{damage}}%, Number of Attacks: {{attackCount}}, Duration: 6 sec, Cooldown: 180 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 1,
+   "weight": 4,
+   "icon": "/quanah/skills/80013175.png"
+  },
+  {
+   "id": "80012969",
+   "name": "Inspector's HP Recovery",
+   "desc": "The mapae instantly recovers your HP.",
+   "text": "Instantly recover 10–100% of Max HP.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": false,
+   "grade": 2,
+   "weight": 4,
+   "icon": "/quanah/skills/80012969.png"
+  },
+  {
+   "id": "80012970",
+   "name": "Inspector's Thirst",
+   "desc": "Use the power of the mapae to sap life from enemies for a short time.",
+   "text": "Restores 1–10% of Max HP upon attack for 10 seconds.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": false,
+   "grade": 2,
+   "weight": 4,
+   "icon": "/quanah/skills/80012970.png"
+  },
+  {
+   "id": "80012971",
+   "name": "Inspector's Revenant",
+   "desc": "Use the power of the mapae to prevent your HP from dropping below 1 due to damage taken.",
+   "text": "Prevents HP from dropping below 1 for 2–11 seconds.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": false,
+   "grade": 2,
+   "weight": 4,
+   "icon": "/quanah/skills/80012971.png"
+  },
+  {
+   "id": "80012979",
+   "name": "Inspector's Cannon of Mass Destruction",
+   "desc": "Fires a gigantic rocket from your cannon.",
+   "text": "Periodically fire a giant rocket. Max Enemies Hit: 15, Damage: {{damage}}%, Number of Attacks: {{attackCount}}\nOnly up to 30 hits can occur against a single enemy.\nYou can prepare and use up to 2 rockets at a time.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 2,
+   "weight": 4,
+   "icon": "/quanah/skills/80012979.png"
+  },
+  {
+   "id": "80013003",
+   "name": "Inspector's Land's Connection",
+   "desc": "Call every type of land spirit in Mother Nature's existence to frolic together.",
+   "text": "Land spirits appear in the order of Mountain, River, Wind, and Sunlight, shocking enemies with {{damage}}% damage 3 time(s). Number of Attacks: {{attackCount}}, Max Enemies Hit: 10. Afterwards, explodes to deal {{d6}}% damage 15 times. Number of Attacks: 8, Max Enemies Hit: 10.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 2,
+   "weight": 4,
+   "icon": "/quanah/skills/80013003.png"
+  },
+  {
+   "id": "80013012",
+   "name": "Inspector's Spirit of Rage",
+   "desc": "Conjures a malevolent serpent of pure rage.",
+   "text": "Duration: 16 sec, Max Enemies Hit: 12, Damage: {{damage}}%, Number of Attacks: {{attackCount}}\nUpon disappearing, attacks again to deal {{selfDestruction}}% damage 15 times. Max Enemies Hit: 12.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 2,
+   "weight": 4,
+   "icon": "/quanah/skills/80013012.png"
+  },
+  {
+   "id": "80013018",
+   "name": "Inspector's Cosmos",
+   "desc": "Unleash a swirl of galaxies around you.",
+   "text": "Duration: 15 sec. Periodically deals {{damage}}% damage {{attackCount}} times. Max Enemies Hit: 12.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 2,
+   "weight": 4,
+   "icon": "/quanah/skills/80013018.png"
+  },
+  {
+   "id": "80013019",
+   "name": "Inspector's Abyssal Lightning",
+   "desc": "Immerse your surroundings in dark magic and call upon netherworld lightning. When Dark Shock is created, or an attacking skill is activated, netherworld lightning attacks the area.\nCreates a netherworld passage around the character periodically. Pressing a directional button will teleport you to the nearest passage in that direction, then close that passage. During your teleportation, Dark Shock manifests and attacks.",
+   "text": "Duration: 30 sec. Periodically creates 2 netherworld passages. The passages remain for 15 sec, and up to 6 can exist on the map.\nNetherworld Lightning: Max Enemies Hit: 8, Damage: {{d2}}%, Number of Attacks: 6, Cooldown: 0.48 sec\nCan be activated up to 50 times. Excludes certain attacking skills.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 2,
+   "weight": 4,
+   "icon": "/quanah/skills/80013019.png"
+  },
+  {
+   "id": "80013022",
+   "name": "Inspector's Wild Arrow Blast: Overdrive",
+   "desc": "Hold the skill key to fire off the best crossbow Resistance tech can offer. Upon hitting an enemy with this skill, the crossbow unleashes an extra explosion.",
+   "text": "Max Duration: 3.5 sec, Enemies Hit: 12, Damage: {{damage}}%, Number of Consecutive Attacks: {{attackCount}}\nWhen this skill lands, it fires an additional explosion that can attack up to 12 enemies with {{d2}}% damage 5 times.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 2,
+   "weight": 4,
+   "icon": "/quanah/skills/80013022.png"
+  },
+  {
+   "id": "80012972",
+   "name": "Inspector's Omega Blaster",
+   "desc": "Fire a powerful beam of energy.",
+   "text": "Duration: 3.5 sec, Max Enemies Hit: 15, Damage: {{damage}}%, Number of Consecutive Attacks: {{attackCount}}, Max Attack Count: 25. When the max attack count is reached, attacks 5 times to deal {{d2}}% damage with a reduced attack interval for 4.5 sec.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 3,
+   "weight": 4,
+   "icon": "/quanah/skills/80012972.png"
+  },
+  {
+   "id": "80012978",
+   "name": "Inspector's Elemental Radiance",
+   "desc": "Cast a magical ring to channel the power of the constellations.",
+   "text": "Duration: 12 sec, Max Enemies Hit: 12, Damage: {{damage}}%, Number of Continuous Attacks: {{attackCount}}\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 3,
+   "weight": 4,
+   "icon": "/quanah/skills/80012978.png"
+  },
+  {
+   "id": "80012980",
+   "name": "Inspector's Infinity Blade",
+   "desc": "Creates a space filled with countless aether swords. The command only works on nearby swords, and if you are separated the swords will return to attack.\nOnly pursues enemies when you are in combat.",
+   "text": "Invincible during casting and disarmament.\nCreates 8 aether swords that attacks {{attackCount}} times with {{damage}}% damage. Duration: 20 sec.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 3,
+   "weight": 4,
+   "icon": "/quanah/skills/80012980.png"
+  },
+  {
+   "id": "80012990",
+   "name": "Inspector's Inferno Sphere",
+   "desc": "Blaze through your enemies with the phoenix's symbol of infinite life and death.",
+   "text": "Duration: 8 sec, Max Enemies Hit: 12, Damage: {{damage}}%, Number of Continuous Attacks:{{attackCount}}, Max Attacks: 50\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 3,
+   "weight": 4,
+   "icon": "/quanah/skills/80012990.png"
+  },
+  {
+   "id": "80013017",
+   "name": "Inspector's Endlessly Starving Beast",
+   "desc": "Summon a ravenous beast from the Abyssal depths and command it to devour everything in its path.",
+   "text": "The Beast strikes 25 times in all. Max Enemies Hit: 12, Damage: {{damage}}%, Number of Attacks: {{attackCount}}\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 3,
+   "weight": 4,
+   "icon": "/quanah/skills/80013017.png"
+  },
+  {
+   "id": "80013031",
+   "name": "Inspector's Howling Fist",
+   "desc": "Strike with all the force of a raging leviathan.",
+   "text": "By collecting power, periodically attack up to 8 enemies, for {{damage}}% damage, {{attackCount}} time(s)\nThe strike will activate 20 shocks, attacking 15 enemies, for {{d2}}% damage, 14 time(s) per shock.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 3,
+   "weight": 4,
+   "icon": "/quanah/skills/80013031.png"
+  },
+  {
+   "id": "80012981",
+   "name": "Inspector's Hyper Finisher - Last Stand",
+   "desc": "Harness the unbreakable will of a hero to unleash 3 slashes enhanced with Maha's power.",
+   "text": "Max Enemies Hit: 12, Damage: {{damage}}%, Number of Attacks: {{attackCount}}, Slashes: 10\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 4,
+   "weight": 4,
+   "icon": "/quanah/skills/80012981.png"
+  },
+  {
+   "id": "80012989",
+   "name": "Inspector's Full Metal Barrage",
+   "desc": "Use all available Mech weapons to fire every single one of your bullets at once.",
+   "text": "Duration: 8.6 sec, Max Enemies Hit: 15, Damage: {{damage}}% Number of Consecutive Attacks: {{attackCount}}\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 4,
+   "weight": 4,
+   "icon": "/quanah/skills/80012989.png"
+  },
+  {
+   "id": "80012991",
+   "name": "Inspector's Split Shot",
+   "desc": "Magically enchants your arrows to explode as they approach the enemy, releasing countless more arrows.",
+   "text": "Duration: 30 sec. Landing an attacking skill during the duration makes arrows appear that attack up to 10 enemies to deal {{damage}}% {{attackCount}} times.\nCan be activated up to 50 times. Excludes certain attacking skills.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 4,
+   "weight": 4,
+   "icon": "/quanah/skills/80012991.png"
+  },
+  {
+   "id": "80013013",
+   "name": "Inspector's Elemental Fury",
+   "desc": "Unleash the fury of flame in the form of an enraged spirit.",
+   "text": "Duration: 3 sec, Max Enemies Hit: 12, Damage: {{damage}}%, Number of Continuous Attacks: {{attackCount}}\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 4,
+   "weight": 4,
+   "icon": "/quanah/skills/80013013.png"
+  },
+  {
+   "id": "80013015",
+   "name": "Inspector's Chain Arts: Void Strike",
+   "desc": "Thrash chains within the bound space.",
+   "text": "Duration: 30 sec. Creates giant chains that travel along an arbitrary path inflicting {{d2}}% damage 12 times to up to 10 enemies.\nChain Cooldown: 0.6 sec\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 4,
+   "weight": 4,
+   "icon": "/quanah/skills/80013015.png"
+  },
+  {
+   "id": "80013024",
+   "name": "Inspector's Luck of the Draw",
+   "desc": "Throws a flurry of cards, stopping to reveal the last one. Will luck be on your side? You are invincible while you draw the card after the attack stops.",
+   "text": "Can attack for up to 5 sec. Attack by periodically throwing multiple cards forward. Damage: {{damage}}%, Max Enemies Hit: 4, Number of Attacks: {{attackCount}}.\nWhen finished, draws a card to buff all party members for 30 sec.\nPriest - Recovers 2% Max HP/MP over time.\nTree of Life - All Damage Taken: -8%. Abnormal Status Resistance: +25\nHourglass - Active Cooldowns shortened by 16% (except skills that ignore cooldown resets).\nThree Swords - Final Damage +3%.\nLuck of the Draw - Gain all card buffs simultaneously.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 4,
+   "weight": 4,
+   "icon": "/quanah/skills/80013024.png"
+  },
+  {
+   "id": "80013176",
+   "name": "Inspector's Stellar XI - Sirius",
+   "desc": "Complete the Sirius fusion to summon Sirius as a wolf for a set duration.\nThe wolf deals damage to nearby enemies. When the fusion duration expires, the wolf will let out a howl that buffs you for a set duration.\nThe wolf is unaffected by attack reflection.",
+   "text": "MP Cost: 600, Summons Sirius as a wolf that deals {{damage}}% damage to up to 15 enemies {{attackCount}} times for 12 sec.\nIncreases Ignore Defense by 5–10% for 10 sec.\nCooldown: 180 sec.",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 4,
+   "weight": 4,
+   "icon": "/quanah/skills/80013176.png"
+  },
+  {
+   "id": "80012974",
+   "name": "Inspector's Superstar Spotlight",
+   "desc": "Sets up a series of mobile spotlights that empower superstars and damage enemies.",
+   "text": "Install 3 spotlights that shine on you 30 sec.\nWhile you are within the spotlight, you gain Status Resistance: +30, Final Damage: +5%\nEach spotlight deals {{damage}}% damage {{attackCount}} times against up to 15 enemies within its area.\nEach subsequent spotlight to hit the same enemy deals 75% less Final Damage.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 5,
+   "weight": 4,
+   "icon": "/quanah/skills/80012974.png"
+  },
+  {
+   "id": "80013009",
+   "name": "Inspector's Dragon Burst/Fatal Blitz",
+   "desc": "Channel your intrinsic power, then blast it forward. Then, move rapidly, dealing fatal consecutive blows to the front.",
+   "text": "[Dragon Burst]\nMax Enemies Hit: 12, Damage: {{damage}}%, Number of Consecutive Attacks: {{attackCount}}, Max Attacks: 15. The effect ends immediately once all attacks have been made.\n\n[Fatal Blitz]\nDuration: ? sec, Max Enemies Hit: 8, Damage: {{d2}}%, Number of Consecutive Attacks: 12, Max Attacks: 10. The effect ends immediately once all attacks have been made.\nCooldown: 240 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 5,
+   "weight": 4,
+   "icon": "/quanah/skills/80013009.png"
+  },
+  {
+   "id": "80013170",
+   "name": "Inspector's Wailing Heavens",
+   "desc": "Akatsuki Style Secret Technique. Instantly draw your blade, unleashing a strike brilliant enough to light up the night.",
+   "text": "MP Cost: 1000\nMax Enemies Hit: 15, Damage: {{damage}}%, Number of Attacks: {{attackCount}}, Slashes: 25, invincible for a short period\nCooldown: 180 sec.",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 5,
+   "weight": 4,
+   "icon": "/quanah/skills/80013170.png"
+  },
+  {
+   "id": "80013171",
+   "name": "Inspector's Hakumenkonmou Juubi",
+   "desc": "The strength of your bond with Haku temporarily awakens her as a transcendental spirit.\nShikigami summon duration doesn't decrease during her awakening, and Haku makes supporting attacks at set intervals.\nHaku's final blow is activated when the skill key is pressed again while the skill is active, or when its duration ends.",
+   "text": "MP Cost: 1000, Haku Awakening Duration: 15 sec., Max Enemies Hit: 12, Damage: {{damage}}%, Number of Attacks: {{attackCount}}, Light Shockwave Max Enemies Hit: 8, Damage: {{dummyStr2}}%, Number of Attacks: 6, Finishing Blow Max Enemies Hit: 14, Damage: {{dummyStr5}}%, Number of Attacks: 6, Light Shockwaves: 24\nCooldown: 180 sec.",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 5,
+   "weight": 4,
+   "icon": "/quanah/skills/80013171.png"
+  },
+  {
+   "id": "80013174",
+   "name": "Inspector's Soul Art: The Opened Gate",
+   "desc": "Throws open the gate of your soul, releasing the full power of Wu Shen to walk the battlefield once more. While Soul Art: The Opened Gate is active, all attacks are critical, Critical Damage increases, and Xuanshan Forms and Divine Arts are enhanced.",
+   "text": "MP Cost: 650, all attacks are critical for 20 sec, Critical Damage: +16–25%\nCooldown: 180 sec",
+   "maxLevel": 10,
+   "perClass": false,
+   "grade": 5,
+   "weight": 4,
+   "icon": "/quanah/skills/80013174.png"
+  },
+  {
+   "id": "80013178",
+   "name": "Inspector's Destruction of Roan",
+   "desc": "Releases an explosive flash that destroys darkness, dealing continuous damage to enemies in a wide range. While casting, you are immune to knockback and debilitating status conditions. Unaffected by attack reflection.",
+   "text": "MP Cost: 450, Max Key-down Duration: 3 sec\nMax Enemies Hit: 15, Damage: {{damage}}%, Number of Attacks: {{attackCount}}\nDamage taken while the skill key is held, including attacks that deal damage in proportion to Max HP: -40%\nCooldown: 180 sec",
+   "maxLevel": 10,
+   "perClass": true,
+   "grade": 5,
+   "weight": 4,
+   "icon": "/quanah/skills/80013178.png"
+  }
+ ],
+ "acumen": [
+  {
+   "label": "STR: +X",
+   "icon": "/quanah/skills/80013035.png",
+   "weight": 16,
+   "grades": [
+    "7–16",
+    "12–30",
+    "18–54",
+    "24–78",
+    "28–100"
+   ]
+  },
+  {
+   "label": "DEX: +X",
+   "icon": "/quanah/skills/80013040.png",
+   "weight": 16,
+   "grades": [
+    "7–16",
+    "12–30",
+    "18–54",
+    "24–78",
+    "28–100"
+   ]
+  },
+  {
+   "label": "INT: +X",
+   "icon": "/quanah/skills/80013045.png",
+   "weight": 16,
+   "grades": [
+    "7–16",
+    "12–30",
+    "18–54",
+    "24–78",
+    "28–100"
+   ]
+  },
+  {
+   "label": "LUK: +X",
+   "icon": "/quanah/skills/80013050.png",
+   "weight": 16,
+   "grades": [
+    "7–16",
+    "12–30",
+    "18–54",
+    "24–78",
+    "28–100"
+   ]
+  },
+  {
+   "label": "All Stats: +X",
+   "icon": "/quanah/skills/80013055.png",
+   "weight": 4,
+   "grades": [
+    "4–13",
+    "7–25",
+    "10–37",
+    "13–49",
+    "15–60"
+   ]
+  },
+  {
+   "label": "Max HP: +X",
+   "icon": "/quanah/skills/80013060.png",
+   "weight": 16,
+   "grades": [
+    "85–310",
+    "150–420",
+    "235–550",
+    "360–720",
+    "425–830"
+   ]
+  },
+  {
+   "label": "Attack Power: +X",
+   "icon": "/quanah/skills/80013065.png",
+   "weight": 8,
+   "grades": [
+    "7–16",
+    "13–22",
+    "24–60",
+    "38–92",
+    "46–118"
+   ]
+  },
+  {
+   "label": "Magic ATT: +X",
+   "icon": "/quanah/skills/80013070.png",
+   "weight": 8,
+   "grades": [
+    "7–16",
+    "13–22",
+    "24–60",
+    "38–92",
+    "46–118"
+   ]
+  },
+  {
+   "label": "STR: +X%",
+   "icon": "/quanah/skills/80013075.png",
+   "weight": 8,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "DEX: +X%",
+   "icon": "/quanah/skills/80013080.png",
+   "weight": 8,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "INT: +X%",
+   "icon": "/quanah/skills/80013085.png",
+   "weight": 8,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "LUK: +X%",
+   "icon": "/quanah/skills/80013090.png",
+   "weight": 8,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "All Stats: +X%",
+   "icon": "/quanah/skills/80013095.png",
+   "weight": 2,
+   "grades": [
+    "2–11",
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29"
+   ]
+  },
+  {
+   "label": "Max HP: +X%",
+   "icon": "/quanah/skills/80013100.png",
+   "weight": 8,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "Attack Power: +X%",
+   "icon": "/quanah/skills/80013105.png",
+   "weight": 8,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "Magic ATT: +X%",
+   "icon": "/quanah/skills/80013110.png",
+   "weight": 8,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "Critical Rate: +X%",
+   "icon": "/quanah/skills/80013115.png",
+   "weight": 12,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "Critical Damage: +X%",
+   "icon": "/quanah/skills/80013120.png",
+   "weight": 4,
+   "grades": [
+    "3–12",
+    "4–13",
+    "6–15",
+    "8–26",
+    "11–38"
+   ]
+  },
+  {
+   "label": "Damage: +X%",
+   "icon": "/quanah/skills/80013125.png",
+   "weight": 2,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "Ignore Defense: X%",
+   "icon": "/quanah/skills/80013130.png",
+   "weight": 2,
+   "grades": [
+    "6–15",
+    "17–35",
+    "33–60",
+    "39–75",
+    "45–90"
+   ]
+  },
+  {
+   "label": "Boss Damage: +X%",
+   "icon": "/quanah/skills/80013135.png",
+   "weight": 2,
+   "grades": [
+    "13–22",
+    "19–28",
+    "32–50",
+    "38–65",
+    "46–100"
+   ]
+  },
+  {
+   "label": "Buff Skill Duration: +X%",
+   "icon": "/quanah/skills/80013140.png",
+   "weight": 2,
+   "grades": [
+    "13–22",
+    "19–28",
+    "32–50",
+    "38–65",
+    "46–100"
+   ]
+  },
+  {
+   "label": "X% chance to ignore Y% damage when attacked, excluding bosses and the Battlesim",
+   "icon": "/quanah/skills/80013145.png",
+   "weight": 4,
+   "grades": [
+    "5 / 11–20",
+    "5 / 21–30",
+    "10 / 21–30",
+    "10 / 32–50",
+    "10 / 43–70"
+   ]
+  },
+  {
+   "label": "Reduces MP cost of all skills by X%",
+   "icon": "/quanah/skills/80013150.png",
+   "weight": 4,
+   "grades": [
+    "3–12",
+    "4–13",
+    "7–16",
+    "11–29",
+    "15–42"
+   ]
+  },
+  {
+   "label": "HP Recovery Items and Skills (Excluding the Battlesim): +X%",
+   "icon": "/quanah/skills/80013155.png",
+   "weight": 4,
+   "grades": [
+    "6–15",
+    "11–20",
+    "21–30",
+    "32–50",
+    "43–70"
+   ]
+  },
+  {
+   "label": "Mesos Obtained: +X%",
+   "icon": "/quanah/skills/80013160.png",
+   "weight": 2,
+   "grades": [
+    "4–13",
+    "7–25",
+    "13–40",
+    "19–55",
+    "25–70"
+   ]
+  },
+  {
+   "label": "Item Drop Rate: +X%",
+   "icon": "/quanah/skills/80013165.png",
+   "weight": 2,
+   "grades": [
+    "4–13",
+    "7–25",
+    "13–40",
+    "19–55",
+    "25–70"
+   ]
+  }
+ ],
+ "hologram": [
+  {
+   "id": "80013192",
+   "name": "[Hologram] Raging Blow",
+   "desc": "[Swordsmanship] Instantly slashes several times at multiple enemies in front of you.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Raging Blow Activation Chance: 70% when a direct skill attack lands (excluding the Black Hole skill)\n[Hologram] Raging Blow - Max Enemies Hit: 8, Damage: {{damage}}%, Number of Attacks: {{attackCount}}",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013192.png"
+  },
+  {
+   "id": "80013193",
+   "name": "[Hologram] Worldreaver",
+   "desc": "Unleashes a brutal slash.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Worldreaver Activation Chance: 35% when [Hologram] Raging Blow lands\n[Hologram] Worldreaver - Max Enemies Hit: 15, Damage: {{damage}}%, Number of Attacks: {{attackCount}}",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013193.png"
+  },
+  {
+   "id": "80013194",
+   "name": "[Hologram] Snipe",
+   "desc": "Fires a carefully-aimed shot that inflicts massive damage. Targets the enemy with the highest Max HP within range.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Snipe Activation Chance: 70% when a direct skill attack lands (excluding the Black Hole skill)\n[Hologram] Snipe - Max Enemies Hit: 2, Damage: {{damage}}%, Number of Attacks: {{attackCount}}",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013194.png"
+  },
+  {
+   "id": "80013195",
+   "name": "[Hologram] Ultimate Snipe",
+   "desc": "Pierces the enemy's vital points with the ultimate sniping skill. Targets the enemy with the highest Max HP within range first.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Ultimate Snipe Activation Chance: 35% when [Hologram] Snipe lands\n[Hologram] Ultimate Snipe - Max Enemies Hit: 1, Damage: {{damage}}%, Number of Attacks: {{attackCount}}",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013195.png"
+  },
+  {
+   "id": "80013196",
+   "name": "[Hologram] Chain Lightning",
+   "desc": "Attacks the target with a high-voltage attack that chains to nearby enemies, stunning them.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Chain Lightning Activation Chance: 70% when a direct skill attack lands (excluding the Black Hole skill)\n[Hologram] Chain Lightning - Max Enemies Hit: 7, Damage: {{damage}}%, Number of Attacks: {{attackCount}}",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013196.png"
+  },
+  {
+   "id": "80013197",
+   "name": "[Hologram] Bolt Barrage",
+   "desc": "Summons a wall of lightning that pulses forward, electrocuting enemies in its path.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Bolt Barrage Activation Chance: 35% when [Hologram] Chain Lightning lands\n[Hologram] Bolt Barrage - Max Enemies Hit: 200, Damage: {{damage}}%, Number of Attacks: 3, Lightning Bolts: 8. The lightning moves forward as it strikes.",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013197.png"
+  },
+  {
+   "id": "80013200",
+   "name": "[Hologram] Showdown",
+   "desc": "Attacks up to 6 enemies with knives.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Showdown Activation Chance: 70% when a direct skill attack lands (excluding the Black Hole skill)\n[Hologram] Showdown - Max Enemies Hit: 6, Damage: {{damage}}%, Number of Attacks: {{attackCount}}",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013200.png"
+  },
+  {
+   "id": "80013201",
+   "name": "[Hologram] Shurrikane",
+   "desc": "Throws a massive shuriken said to be used by the thieves of old.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Shurrikane Activation Chance: 35% when [Hologram] Showdown lands\n[Hologram] Shurrikane - Max Enemies Hit: 6, Damage: {{damage}}%, Number of Attacks: {{attackCount}}\nA huge shuriken flies forward, striking foes, and then spins in place, dealing additional damage for 2 sec before disappearing.",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013201.png"
+  },
+  {
+   "id": "80013202",
+   "name": "[Hologram] Cannon Barrage",
+   "desc": "Fires multiple cannonballs at once, focusing on enemies in your path. Targets the enemy with the highest Max HP within range.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Cannon Barrage Activation Chance: 70% when a direct skill attack lands (excluding the Black Hole skill)\n[Hologram] Cannon Barrage - Max Enemies Hit: 8, Damage: {{damage}}%, Number of Attacks: {{attackCount}}",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013202.png"
+  },
+  {
+   "id": "80013203",
+   "name": "[Hologram] Max Cannon Rainbow",
+   "desc": "Order the Cannoneer's reliable assistants to summon multiple cannons and mercilessly roast enemies ahead of you.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "[Hologram] Max Cannon Rainbow Activation Chance: 35% when [Hologram] Cannon Barrage lands\n[Hologram] Max Cannon Rainbow - Cannon Ball Summon Duration: 2 sec\nCannon ball attack periodically, Max Enemies Hit: 10, Damage: {{damage}}%, Number of Attacks: {{attackCount}}",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": "/quanah/skills/80013203.png"
+  },
+  {
+   "id": "80013207",
+   "name": "[Hologram] Registry",
+   "desc": "The tactical registry is always open. When you hit the enemy with a Hologram skill, it records and collates their biological data, placing the enemy in the [Hologram] Format state. If you hit an enemy in that state with the designated weapon, [Hologram] Defrag occurs, attacking with an explosion.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "When an enemy is attacked with a Hologram attack skill, inflicts it with [Hologram] Format\n[Hologram] Format Duration: 20 sec\n[Hologram] Format Damage: {{damage}}%, Max Enemies Hit: 15, Number of Attacks: 15. Enemies hit can't be inflicted with [Hologram] Format for 5 sec.\n[Passive Effect - Final Damage: +5–40%]",
+   "maxLevel": 8,
+   "perClass": true,
+   "icon": null
+  },
+  {
+   "id": "80013213",
+   "name": "[Hologram] Critical Damage Enhancement",
+   "desc": "Links the holographic simulation to your combat system. Deduces optimizations for attacks through combat data collected in real time.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "Critical Damage: +5–40%\n[Passive Effect - Final Damage: +1–5%]",
+   "maxLevel": 8,
+   "perClass": false,
+   "icon": "/quanah/skills/80013213.png"
+  },
+  {
+   "id": "80013214",
+   "name": "[Hologram] Damage Enhancement",
+   "desc": "Links the holographic simulation to your combat system. Deduces optimizations for attacks through combat data collected in real time.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "Damage: +5–40%\n[Passive Effect - Final Damage: +1–5%]",
+   "maxLevel": 8,
+   "perClass": false,
+   "icon": "/quanah/skills/80013214.png"
+  },
+  {
+   "id": "80013215",
+   "name": "[Hologram] Attack Power & Magic ATT Enhancement",
+   "desc": "Links the holographic simulation to your combat system. Deduces optimizations for attacks through combat data collected in real time.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "Attack Power: +5–40%, Magic ATT: +5–40%\n[Passive Effect - Final Damage: +1–5%]",
+   "maxLevel": 8,
+   "perClass": false,
+   "icon": "/quanah/skills/80013215.png"
+  },
+  {
+   "id": "80013216",
+   "name": "[Hologram] Boss Damage Increase Enhancement",
+   "desc": "Links the holographic simulation to your combat system. Deduces optimizations for attacks through combat data collected in real time.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "Boss Damage: +5–40%\n[Passive Effect - Final Damage: +1–5%]",
+   "maxLevel": 8,
+   "perClass": false,
+   "icon": "/quanah/skills/80013216.png"
+  },
+  {
+   "id": "80013217",
+   "name": "[Hologram] Ignore Defense Enhancement",
+   "desc": "Links the holographic simulation to your combat system. Deduces optimizations for attacks through combat data collected in real time.\n\nCan be stacked up to Lv. 3 as an equipment skill. A prismatic jewel will be required from Lv. 4 onwards.",
+   "text": "Ignore Defense: +5–40%\n[Passive Effect - Final Damage: +1–5%]",
+   "maxLevel": 8,
+   "perClass": false,
+   "icon": "/quanah/skills/80013217.png"
+  }
+ ],
+ "programs": [
+  {
+   "code": 1,
+   "name": "Modular Heart",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Reduces Damage Taken by 3/6/9/12%",
+   "flavour": "A secondary heart module that can be equipped in the Battlesim. Dissipates damage taken.",
+   "icon": "/quanah/skills/80013241.png",
+   "skillId": "80013241"
+  },
+  {
+   "code": 2,
+   "name": "Overclock Core",
+   "tooltipName": null,
+   "tier": 3,
+   "price": 60,
+   "effect": "Increases Final Damage by 8/10/12%\nIncreases Damage Taken by 5/10/15%",
+   "flavour": "A core that increases combat output beyond your calculated limits at the cost of your defensive capabilities.",
+   "icon": "/quanah/skills/80013242.png",
+   "skillId": "80013242"
+  },
+  {
+   "code": 3,
+   "name": "Synchronization Chip",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "Increases Final Damage by 4% per current sector (up to 10 sectors).",
+   "flavour": "The deeper you go, the higher your synchronization with the simulation. Searching for signal...",
+   "icon": "/quanah/skills/80013243.png",
+   "skillId": "80013243"
+  },
+  {
+   "code": 4,
+   "name": "Quality Assurance",
+   "tooltipName": null,
+   "tier": 3,
+   "price": 60,
+   "effect": "Increases Final Damage by 3% for every 10 sec you are not hit by an attack. Stacks up to 5 times.\nResets when hit.",
+   "flavour": "A training program that highlights flaws in your combat technique, but resets if you take damage.",
+   "icon": "/quanah/skills/80013244.png",
+   "skillId": "80013244"
+  },
+  {
+   "code": 5,
+   "name": "Data Compression",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Increases EXP Obtained by 10/20/30/40%",
+   "flavour": "A data management program that compresses and archives combat data for easy reference.",
+   "icon": "/quanah/skills/80013245.png",
+   "skillId": "80013245"
+  },
+  {
+   "code": 6,
+   "name": "Backspace",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "10/20/30% chance for skill cooldowns to reset immediately",
+   "flavour": "An incredibly powerful tool that can revert any mistake...except that it only works occasionally.",
+   "icon": "/quanah/skills/80013246.png",
+   "skillId": "80013246"
+  },
+  {
+   "code": 7,
+   "name": "Energy Drink",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Upon entering a floor, increases Attack Power & Magic ATT by 100% for 10 sec.",
+   "flavour": "The preferred beverage of those who need to supercharge their energy levels! WARNING: Should not be consumed by children, people who are pregnant, people over 30, people with bad stomachs, people who are sensitive to caffeine, people--",
+   "icon": "/quanah/skills/80013247.png",
+   "skillId": "80013247"
+  },
+  {
+   "code": 8,
+   "name": "Emergency Backup",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "If HP falls below 30%, instantly recovers 20/30/70% of max HP\nCooldown: 120 sec",
+   "flavour": "An emergency restoration program that rolls your body back to a previous version where it isn't about to be immediately destroyed. WARNING: Back Up Point Unknown.",
+   "icon": "/quanah/skills/80013248.png",
+   "skillId": "80013248"
+  },
+  {
+   "code": 9,
+   "name": "Inspector's Stamp",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Increases Bytes Obtained 30/50/100%",
+   "flavour": "The official stamp of an Inspector of Quanah, which entitles the bearer to greater reimbursements.",
+   "icon": "/quanah/skills/80013249.png",
+   "skillId": "80013249"
+  },
+  {
+   "code": 10,
+   "name": "Nest egg",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "Increases Final Damage by 3% for every 70 Bytes owned (up to 20 times).",
+   "flavour": "A mountain of wealth would never come back to Byte you...right?",
+   "icon": "/quanah/skills/80013250.png",
+   "skillId": "80013250"
+  },
+  {
+   "code": 11,
+   "name": "Buffer Overflow",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Earn 20/30/50 Bytes each time you obtain a different program.",
+   "flavour": "A mysterious program that disperses Bytes each time you download a new program. Best not to ask where the funds come from, though.",
+   "icon": "/quanah/skills/80013251.png",
+   "skillId": "80013251"
+  },
+  {
+   "code": 12,
+   "name": "Wild Pointer",
+   "tooltipName": null,
+   "tier": 3,
+   "price": 60,
+   "effect": "Immediately obtain 50 Bytes upon pick up.\nOnce owned, it will not appear again.",
+   "flavour": "A misplaced digital archive. Bereft of its owner, but not of its owner's funds.",
+   "icon": "/quanah/skills/80013252.png",
+   "skillId": "80013252"
+  },
+  {
+   "code": 13,
+   "name": "Dependency Injection",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Upon entering a floor, spend 50 Bytes to obtain one of the following:\n- Item Drop Rate +40%, EXP Obtained +10%\n- EXP Obtained +40%, Item Drop Rate +10%\nDoes not activate if you lack sufficient Bytes.",
+   "flavour": "A dart that gives you good luck if thrown with Bytes on the line. There's only one way to see where it lands.",
+   "icon": "/quanah/skills/80013253.png",
+   "skillId": "80013253"
+  },
+  {
+   "code": 14,
+   "name": "Memory Leak",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Increases Final Damage by 1% for every program owned (up to 20 times).\nDecreases 3% of max HP every 10 sec",
+   "flavour": "How many programs can you run before something goes wrong? Only one way to find out!",
+   "icon": "/quanah/skills/80013256.png",
+   "skillId": "80013256"
+  },
+  {
+   "code": 15,
+   "name": "Hard Reset",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "Upon obtaining, deletes all installed programs that you have at the time of obtaining\nIncreases Final Damage by 5% for each program deleted. (Re-activates upon obtaining it again.)",
+   "flavour": "Reverts everything to factory default. Just make sure to consider what you'd lose.",
+   "icon": "/quanah/skills/80013257.png",
+   "skillId": "80013257"
+  },
+  {
+   "code": 16,
+   "name": "Simulation W",
+   "tooltipName": "Type-W Projection",
+   "tier": 2,
+   "price": 120,
+   "effect": "When attacking an enemy with a Hologram skill, a projected warrior uses [Hologram] Worldreaver and activates [Hologram] Format. The [Hologram] Format from the projection can also activate [Hologram] Defrag.",
+   "flavour": "A holographic program that models and projects a hardlight warrior.",
+   "icon": "/quanah/skills/80013259.png",
+   "skillId": "80013259"
+  },
+  {
+   "code": 17,
+   "name": "Simulation M",
+   "tooltipName": "Type-M Projection",
+   "tier": 2,
+   "price": 120,
+   "effect": "When attacking an enemy with a Hologram skill, a projected magician uses [Hologram] Bolt Barrage and activates [Hologram] Format. The [Hologram] Format from the projection can also activate [Hologram] Defrag.",
+   "flavour": "A holographic program that models and projects a hardlight magician.",
+   "icon": "/quanah/skills/80013261.png",
+   "skillId": "80013261"
+  },
+  {
+   "code": 18,
+   "name": "Simulation B",
+   "tooltipName": "Type-B Projection",
+   "tier": 2,
+   "price": 120,
+   "effect": "When attacking an enemy with a Hologram skill, a projected Bowman uses [Hologram] Ultimate Snipe and activates [Hologram] Format. The [Hologram] Format from the projection can also activate [Hologram] Defrag.",
+   "flavour": "A holographic program that models and projects a hardlight Bowman.",
+   "icon": "/quanah/skills/80013265.png",
+   "skillId": "80013265"
+  },
+  {
+   "code": 19,
+   "name": "Simulation T",
+   "tooltipName": "Type-T Projection",
+   "tier": 2,
+   "price": 120,
+   "effect": "When attacking an enemy with a Hologram skill, a projected thief uses [Hologram] Shurrikane and activates [Hologram] Format. The [Hologram] Format from the projection can also activate [Hologram] Defrag.",
+   "flavour": "A holographic program that models and projects a hardlight thief.",
+   "icon": "/quanah/skills/80013267.png",
+   "skillId": "80013267"
+  },
+  {
+   "code": 20,
+   "name": "Simulation P",
+   "tooltipName": "Type-P Projection",
+   "tier": 2,
+   "price": 120,
+   "effect": "When attacking an enemy with a Hologram skill, a projected pirate uses [Hologram] Rolling Rainbow and activates [Hologram] Format. The [Hologram] Format from the projection can also activate [Hologram] Defrag.",
+   "flavour": "A holographic program that models and projects a hardlight pirate.",
+   "icon": "/quanah/skills/80013269.png",
+   "skillId": "80013269"
+  },
+  {
+   "code": 21,
+   "name": "VPN",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "[Hologram] Registry reattach time decreased by 1/2/3 sec",
+   "flavour": "Retransmits electronic signals through alternative routes. Useful for clandestine access.",
+   "icon": "/quanah/skills/80013272.png",
+   "skillId": "80013272"
+  },
+  {
+   "code": 22,
+   "name": "Simulation Enhancement: W",
+   "tooltipName": "Type-W Jailbreak",
+   "tier": 2,
+   "price": 120,
+   "effect": "Projected Warrior [Hologram] Worldreaver Damage Increased by 10/20/30%",
+   "flavour": "A hack that removes the force limiter placed on the projected warrior. WARNING: You are operating with NO safeguards!",
+   "icon": "/quanah/skills/80013273.png",
+   "skillId": "80013273"
+  },
+  {
+   "code": 23,
+   "name": "Simulation Enhancement: M",
+   "tooltipName": "Type-M Jailbreak",
+   "tier": 2,
+   "price": 120,
+   "effect": "Projected Magician [Hologram] Bolt Barrage Damage Increased by 10/20/30%",
+   "flavour": "A hack that removes the force limiter placed on the projected magician. WARNING: You are operating with NO safeguards!",
+   "icon": "/quanah/skills/80013274.png",
+   "skillId": "80013274"
+  },
+  {
+   "code": 24,
+   "name": "Simulation Enhancement: B",
+   "tooltipName": "Type-B Jailbreak",
+   "tier": 2,
+   "price": 120,
+   "effect": "Projected Bowman [Hologram] Ultimate Snipe Damage Increased by 10/20/30%",
+   "flavour": "A hack that removes the force limiter placed on the projected bowman. WARNING: You are operating with NO safeguards!",
+   "icon": "/quanah/skills/80013275.png",
+   "skillId": "80013275"
+  },
+  {
+   "code": 25,
+   "name": "Simulation Enhancement: T",
+   "tooltipName": "Type-T Jailbreak",
+   "tier": 2,
+   "price": 120,
+   "effect": "Projected Thief [Hologram] Shurrikane Damage Increased by 10/20/30%",
+   "flavour": "A hack that removes the force limiter placed on the projected thief. WARNING: You are operating with NO safeguards!",
+   "icon": "/quanah/skills/80013276.png",
+   "skillId": "80013276"
+  },
+  {
+   "code": 26,
+   "name": "Simulation Enhancement: P",
+   "tooltipName": "Type-P Jailbreak",
+   "tier": 2,
+   "price": 120,
+   "effect": "Projected Pirate [Hologram] Rolling Rainbow Damage Increased by 10/20/30%",
+   "flavour": "A hack that removes the force limiter placed on the projected pirate. WARNING: You are operating with NO safeguards!",
+   "icon": "/quanah/skills/80013277.png",
+   "skillId": "80013277"
+  },
+  {
+   "code": 27,
+   "name": "Strangler Fig Pattern",
+   "tooltipName": null,
+   "tier": 3,
+   "price": 60,
+   "effect": "Upon defeating monsters, recovers 5% of HP with a 20/40/60% chance",
+   "flavour": "If a toy is an effective weapon...is it really a toy?",
+   "icon": "/quanah/skills/80013279.png",
+   "skillId": "80013279"
+  },
+  {
+   "code": 28,
+   "name": "Entropy",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "Increases Final Damage by 50%\nUpon entering a floor, 30% chance to stack [Disorder] once\nUpon stacking [Disorder] 3 times, you will exit the dungeon automatically",
+   "flavour": "All systems tend naturally towards disorder. This program merely hastens the process.",
+   "icon": "/quanah/skills/80013280.png",
+   "skillId": "80013280"
+  },
+  {
+   "code": 29,
+   "name": "Black Box",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Immediately upon obtaining, you will receive 3 random programs, and have 2 of your owned programs removed at random. (Re-activates upon obtaining it again.)",
+   "flavour": "A nigh-indestructible data archive. What's inside? There's one way to find out...but it might cost you.",
+   "icon": "/quanah/skills/80013282.png",
+   "skillId": "80013282"
+  },
+  {
+   "code": 30,
+   "name": "Overheated Head",
+   "tooltipName": null,
+   "tier": 3,
+   "price": 60,
+   "effect": "Upon entering a floor, obtain 10 Bytes\n20% chance to remove 1 owned program (including yourself!)",
+   "flavour": "A computing device that performs endless calculations...even if sometimes it loses data through overheating.",
+   "icon": "/quanah/skills/80013283.png",
+   "skillId": "80013283"
+  },
+  {
+   "code": 31,
+   "name": "Creaking Limb",
+   "tooltipName": null,
+   "tier": 3,
+   "price": 60,
+   "effect": "Attack Power & Magic ATT: +20, Speed: -20",
+   "flavour": "Waiting for repair... Repair Schedule: Unknown. Waiting for repair... Repair Schedule: Unknown. Waiting for repair...",
+   "icon": "/quanah/skills/80013284.png",
+   "skillId": "80013284"
+  },
+  {
+   "code": 32,
+   "name": "Broken Heart",
+   "tooltipName": null,
+   "tier": 3,
+   "price": 60,
+   "effect": "Increases exclusive potion recovery by 30%\nDamage taken increased by 10%",
+   "flavour": "A heart that's been shattered and welded back together time and again. And yet, somehow it keeps on beating.",
+   "icon": "/quanah/skills/80013285.png",
+   "skillId": "80013285"
+  },
+  {
+   "code": 33,
+   "name": "Overclocked Fusion",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "Decreases Damage taken by 30%, increases Final Damage by 30%\nObtain 300 Bytes upon pick up",
+   "flavour": "The result of three unstable programs melding into one. Once fused, they cannot be separated again.",
+   "icon": "/quanah/skills/80013286.png",
+   "skillId": "80013286"
+  },
+  {
+   "code": 34,
+   "name": "Empty Bottle",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "Exclusive Potion Recovery: +90%",
+   "flavour": "A bog-standard empty bottle. It can be filled with anything! WARNING: Empty bottles should only be filled with things that can fit in empty bottles.",
+   "icon": "/quanah/skills/80013287.png",
+   "skillId": "80013287"
+  },
+  {
+   "code": 35,
+   "name": "Debuggy",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "Upon death, you are revived at 100% HP\nDebuggy disappears after it has been activated.",
+   "flavour": "A helpful program that catches and devours bugs. It can even use all of its power to consume errors! Debuggy disappears when full.",
+   "icon": "/quanah/skills/80013288.png",
+   "skillId": "80013288"
+  },
+  {
+   "code": 36,
+   "name": "Rubber Duck",
+   "tooltipName": null,
+   "tier": 3,
+   "price": 60,
+   "effect": "It has no effect whatsoever.",
+   "flavour": "After extensive analysis...this seems to be a Rubber Duck.",
+   "icon": "/quanah/skills/80013289.png",
+   "skillId": "80013289"
+  },
+  {
+   "code": 37,
+   "name": "Return Protocol",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "When used, allows you to immediately bypass the Break Map and exit the dungeon.\nAll rewards can be claimed. Disappears after use.",
+   "flavour": "A safety protocol that calls an immediate end to training. Consider it a...'strategic retreat.'",
+   "icon": "/quanah/skills/80013290.png",
+   "skillId": "80013290"
+  },
+  {
+   "code": 38,
+   "name": "Dummy Mapae",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Enemies hit are stunned for 5 sec\nCan by applied to 15 enemies, including bosses\nIs consumed upon use.",
+   "flavour": "Once activated, you have approximately 5 seconds until the enemy realizes that it's plastic.",
+   "icon": "/quanah/skills/80013292.png",
+   "skillId": "80013292"
+  },
+  {
+   "code": 39,
+   "name": "Garbage Collection",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Invincible for 10 sec\nIs consumed upon use.",
+   "flavour": "Recycling data... Please standby.",
+   "icon": "/quanah/skills/80013293.png",
+   "skillId": "80013293"
+  },
+  {
+   "code": 40,
+   "name": "Desynced Timer",
+   "tooltipName": null,
+   "tier": 2,
+   "price": 120,
+   "effect": "Resets cooldown of 5th Job skills and below.\nConsumes 1 each time it's used.",
+   "flavour": "A timer whose measurements are always a little off. Fortunately, it's always in your favor.",
+   "icon": "/quanah/skills/80013294.png",
+   "skillId": "80013294"
+  },
+  {
+   "code": 41,
+   "name": "Bug: Clogged Fan",
+   "tooltipName": null,
+   "tier": 3,
+   "price": 60,
+   "effect": "Final Damage: -5%",
+   "flavour": "Error - Error - Error\nAttack Data Contaminated - Cause: Fuzzball.\nNo matter how hard you hit it, it only lets out a small puff.",
+   "icon": "/quanah/skills/80013295.png",
+   "skillId": "80013295"
+  },
+  {
+   "code": 42,
+   "name": "Bug: Deadlock",
+   "tooltipName": "Bug: Glass Slippers",
+   "tier": 3,
+   "price": 60,
+   "effect": "Speed: -20",
+   "flavour": "Error - Error - Error\nMovement Data Crash - Cause: Glass Slippers.\nWhy don't they fit???",
+   "icon": "/quanah/skills/80013296.png",
+   "skillId": "80013296"
+  },
+  {
+   "code": 43,
+   "name": "Bug: Battery Drain",
+   "tooltipName": "Bug: Empty Battery",
+   "tier": 3,
+   "price": 60,
+   "effect": "EXP Obtained: -20%",
+   "flavour": "Error - Error - Error\nInsufficient Memory - Cause: Empty Battery.\nWhere did all your data go?",
+   "icon": "/quanah/skills/80013297.png",
+   "skillId": "80013297"
+  },
+  {
+   "code": 44,
+   "name": "Bug: Underflow",
+   "tooltipName": "Bug: Goose Egg",
+   "tier": 3,
+   "price": 60,
+   "effect": "Bytes Obtained: -20%",
+   "flavour": "Error - Error - Error\nData Leak - Cause: Goose Egg.\nSome geese lay golden eggs. Others just eat your Bytes!",
+   "icon": "/quanah/skills/80013298.png",
+   "skillId": "80013298"
+  },
+  {
+   "code": 45,
+   "name": "Bug: Off-By-One",
+   "tooltipName": "Bug: Blue Pill",
+   "tier": 3,
+   "price": 60,
+   "effect": "Decreases the number of available programs by 1",
+   "flavour": "Error - Error - Error\nData Corruption - Cause: Blue Pill.\nI'm choosing to believe there were two choices.",
+   "icon": "/quanah/skills/80013299.png",
+   "skillId": "80013299"
+  },
+  {
+   "code": 46,
+   "name": "One Coin",
+   "tooltipName": null,
+   "tier": 1,
+   "price": 240,
+   "effect": "Max HP fixed at 50%, but Final Damage increased by 30%.",
+   "flavour": "",
+   "icon": "/quanah/skills/80013281.png",
+   "skillId": "80013281"
+  }
+ ],
+ "shop": [
+  {
+   "itemId": "3802270",
+   "name": "Blue Potion",
+   "itemName": null,
+   "desc": "",
+   "price": 30,
+   "icon": null
+  },
+  {
+   "itemId": "2833794",
+   "name": "Quanah Crystal",
+   "itemName": "Quanah Crystal Mass",
+   "desc": "A mass of Quanah Crystals. Use to obtain Quanah Crystal x10.",
+   "price": 50,
+   "icon": "/quanah/items/2833794.png"
+  },
+  {
+   "itemId": "4009548",
+   "name": "Sol Erda Fragment",
+   "itemName": null,
+   "desc": "A faint magical fragment that was left over when Sol Erda was formed.\nIt's used in activating or enhancing 6th Job powers.",
+   "price": 80,
+   "icon": "/quanah/items/4009548.png"
+  },
+  {
+   "itemId": "2833467",
+   "name": "Red Jewel",
+   "itemName": null,
+   "desc": "A red gemstone that contains a mysterious power.\n\nDouble-click to get a Red Jewel.",
+   "price": 80,
+   "icon": "/quanah/items/2833467.png"
+  },
+  {
+   "itemId": "2833468",
+   "name": "Green Jewel",
+   "itemName": null,
+   "desc": "A green gemstone that contains a mysterious power.\n\nDouble-click to get a Green Jewel.",
+   "price": 80,
+   "icon": "/quanah/items/2833468.png"
+  },
+  {
+   "itemId": "2833469",
+   "name": "Blue Jewel",
+   "itemName": null,
+   "desc": "A blue gemstone that contains a mysterious power.\n\nDouble-click to get a Blue Jewel.",
+   "price": 80,
+   "icon": "/quanah/items/2833469.png"
+  },
+  {
+   "itemId": "2833470",
+   "name": "Purple Jewel",
+   "itemName": null,
+   "desc": "A purple gemstone that contains a mysterious power.\n\nDouble-click to get a Purple Jewel.",
+   "price": 80,
+   "icon": "/quanah/items/2833470.png"
+  },
+  {
+   "itemId": "2833471",
+   "name": "Gray Jewel",
+   "itemName": null,
+   "desc": "A gray gemstone that contains a mysterious power.\n\nDouble-click to get a Gray Jewel.",
+   "price": 80,
+   "icon": "/quanah/items/2833471.png"
+  },
+  {
+   "itemId": "2833472",
+   "name": "Prismatic Jewel",
+   "itemName": null,
+   "desc": "A radiant multicolored gemstone that contains a mysterious power.\n\nDouble-click to get a Prismatic Jewel.",
+   "price": 300,
+   "icon": "/quanah/items/2833472.png"
+  },
+  {
+   "itemId": "2833474",
+   "name": "Silver Entry Pass",
+   "itemName": null,
+   "desc": "This entry pass is required to defeat certain bosses. It has a silver sheen. Once used to challenge a boss, you can challenge that boss at the selected difficulty again for 1 hour.\nHowever, upon defeating the boss, this effect expires.",
+   "price": 500,
+   "icon": "/quanah/items/2833474.png"
+  },
+  {
+   "itemId": "2833663",
+   "name": "Mapae Fragment",
+   "itemName": null,
+   "desc": "A piece of a broken mapae. While it's rare that a mapae would break, it's worth saving, since parts can be used to make mapaes stronger.",
+   "price": 600,
+   "icon": "/quanah/items/2833663.png"
+  },
+  {
+   "itemId": "2833475",
+   "name": "Gold Entry Pass",
+   "itemName": null,
+   "desc": "This entry pass is required to defeat certain bosses. It has a golden sheen. Once used to challenge a boss, you can challenge that boss at the selected difficulty again for 1 hour.\nHowever, upon defeating the boss, this effect expires.",
+   "price": 1000,
+   "icon": "/quanah/items/2833475.png"
+  },
+  {
+   "itemId": "2833662",
+   "name": "Orb",
+   "itemName": null,
+   "desc": "A mysterious orb that can extract a powerful skill from a piece of equipment and imbue it in a different piece of equipment.\n\nDouble-click to extract the Equipment skill on the equipment and transfer it to another piece of equipment.",
+   "price": 1200,
+   "icon": "/quanah/items/2833662.png"
+  }
+ ],
+ "encounters": [
+  {
+   "title": "Mystery Trader",
+   "text": "A man appears as you are operating the console. It isn't clear if he's real or a hologram. He grabs the program screen.\n'What do you say to a little trade? I'll even give you a good deal. One of your programs for two of mine.'\nHe opens a trade request window. Somehow,, he's hidden the names of the programs--both his and yours.\n'No one can see the future. You'll know what you get if you agree,' he says.",
+   "choices": [
+    "Accept the trade request.",
+    "Keep your current program."
+   ]
+  },
+  {
+   "title": "Blood Altar",
+   "text": "The altar is old and worn, but has a clear indent in the shape of a hand.\nText is engraved in the surface: 'You stand before the BLOOD ALTAR. (Note: the Blood Altar is in compliance with all workplace safety regulations, and collects your HP in accordance with the advice of a healthcare professional.)'\nThere are ominous bloodstains all around the altar, but when you place your hand in the indent, you just feel a faint tingling, like an electrical signal.",
+   "choices": [
+    "Press your palm fully on the indent.",
+    "Take your hand away and step back."
+   ]
+  },
+  {
+   "title": "Fortune Teller",
+   "text": "The fortune teller clears the table, leaving one single card.\n'I can see in your future... A boss fight. Ah, I can tell you'd like to hear more, but I'm afraid that's against the rules. I can offer you a charm that will prove useful, at least.'\nShe lays out the charm, but as you reach to grab it, a Byte payment window pops up over it. Of course.",
+   "choices": [
+    "Pay the bytes for the charm.",
+    "Say you're fine without help."
+   ]
+  },
+  {
+   "title": "Campfire",
+   "text": "A campfire burns in an empty camp. The simulated warmth on your skin feels almost like the real thing.\nIt's obvious that this is intended as a place to rest. You start to settle down when you see something among the left-behind belongings...",
+   "choices": [
+    "Sit by the fire to warm up.",
+    "Rummage through the objects."
+   ]
+  },
+  {
+   "title": "Pickpocket",
+   "text": "Someone bumps into your side as you pass with an angry, 'Watch where you're going!'\nYou start to protest when you notice that your pocket feels lighter... The culprit has already made it a ways away, and starts to run as you look back.\nThe thief vaults a low wall, and you see lots of debris lined up conveniently in your path. The simulation doesn't seem to be on your side.",
+   "choices": [
+    "Vault the obstacles and give chase.",
+    "Check your byte balance and leave."
+   ]
+  },
+  {
+   "title": "Vending Machine",
+   "text": "All sorts of tempting equipment, items, and Bytes spill out of the open case of the vending machine. It's only after watching a pile of Bytes fall at the exact same location three times that you realize it's nothing more than a looping video.\nJust then, a message pops up on the screen. 'Win fabulous prizes and real EXP!'\nJust below that, in a notably smaller font, is a second message: 'Bytes spent are nonrefundable.'",
+   "choices": [
+    "Test your luck with a few bytes.",
+    "Bet a lot of bytes.",
+    "Keep moving."
+   ]
+  },
+  {
+   "title": "Tester",
+   "text": "Beyond a gap in the grid, you see a person. When you walk over to her, she stops tapping on her holographic screen and looks at you, eyes wide. 'Hey! How'd you get in here? Did I forget to close the wall again...?'\nYou sneak a glance at her screen and see a long list of programs and a button that says 'Activate All'. Noticing your gaze, she smiles.\n'It's for testing, of course. What, I'm supposed to start from nothing every single time?' After a moment of hesitation, she points it at you. 'Wanna give it a try? Just this once. And don't tell anyone where you saw me.'",
+   "choices": [
+    "Press the Activate All button.",
+    "Pretend you didn't see anything and leave."
+   ]
+  },
+  {
+   "title": "Abandoned Console",
+   "text": "A console is protruding awkwardly from one of the walls of the simulation. It seems like someone was downloading data and forgot to come back.\nYou can't help but think about how much easier this training would be if you had some of that data...",
+   "choices": [
+    "Access the console.",
+    "Leave, your conscience clear."
+   ]
+  },
+  {
+   "title": "Bug",
+   "text": "Bugs can sneak in anywhere and at any time.",
+   "choices": [
+    "Leave"
+   ]
+  },
+  {
+   "title": "Wellspring of Oblivion",
+   "text": "A wellspring of oblivion has arisen from a gap in the implementation. It's as clear as glass, but no matter how hard you peer into it, you can't see an end...\nIn Quanah, as elsewhere, the fresh start of forgetting can be a blessing... But it can also be a curse. While there are many things you may wish to wash away, you may find yourself repeating the past.",
+   "choices": [
+    "Drink the spring water",
+    "See your face reflected in the spring",
+    "Leave"
+   ]
+  },
+  {
+   "title": "The Call",
+   "text": "Through the gaps in the grid, just visible through the twisting recesses of dimensions, something calls out to you, as if promising to free you from this false world. All you have to do is answer...\n\nWill you accept the call?\n\nYou can withdraw all rewards you have earned so far, and claim them in the UI's Dungeon Inventory.\n\nUpon exiting, all programs and currency you've obtained will disappear.",
+   "choices": [
+    "Accept the call"
+   ]
+  }
+ ],
+ "modifiers": {
+  "main": [
+   {
+    "name": "Blood for Blood",
+    "positive": -1
+   },
+   {
+    "name": "Pursuer",
+    "positive": 0
+   },
+   {
+    "name": "Frenzy",
+    "positive": 0
+   },
+   {
+    "name": "Farewell Bomb",
+    "positive": 0
+   },
+   {
+    "name": "Vision Restriction",
+    "positive": 0
+   },
+   {
+    "name": "Divine Punishment",
+    "positive": 0
+   }
+  ],
+  "sub": [
+   {
+    "name": "Hamstring Enemies",
+    "positive": -1
+   },
+   {
+    "name": "Amplify Damage",
+    "positive": -1
+   },
+   {
+    "name": "QuickDraw",
+    "positive": -1
+   },
+   {
+    "name": "Swift Attack",
+    "positive": -1
+   },
+   {
+    "name": "Recovery Marble",
+    "positive": -1
+   },
+   {
+    "name": "Protective Shield",
+    "positive": -1
+   },
+   {
+    "name": "Malleable Hide",
+    "positive": 0
+   },
+   {
+    "name": "Potion Resistance",
+    "positive": 0
+   }
+  ]
+ },
+ "jobs": [
+  {
+   "id": "15112",
+   "name": "Adele"
+  },
+  {
+   "id": "6512",
+   "name": "Angelic Buster"
+  },
+  {
+   "id": "2112",
+   "name": "Aran"
+  },
+  {
+   "id": "212",
+   "name": "Arch Mage (Fire, Poison)"
+  },
+  {
+   "id": "222",
+   "name": "Arch Mage (Ice, Lightning)"
+  },
+  {
+   "id": "15512",
+   "name": "Ark"
+  },
+  {
+   "id": "3212",
+   "name": "Battle Mage"
+  },
+  {
+   "id": "232",
+   "name": "Bishop"
+  },
+  {
+   "id": "3712",
+   "name": "Blaster"
+  },
+  {
+   "id": "1212",
+   "name": "Blaze Wizard"
+  },
+  {
+   "id": "312",
+   "name": "Bowmaster"
+  },
+  {
+   "id": "512",
+   "name": "Buccaneer"
+  },
+  {
+   "id": "6412",
+   "name": "Cadena"
+  },
+  {
+   "id": "532",
+   "name": "Cannon Master"
+  },
+  {
+   "id": "522",
+   "name": "Corsair"
+  },
+  {
+   "id": "132",
+   "name": "Dark Knight"
+  },
+  {
+   "id": "1112",
+   "name": "Dawn Warrior"
+  },
+  {
+   "id": "3122",
+   "name": "Demon Avenger"
+  },
+  {
+   "id": "3112",
+   "name": "Demon Slayer"
+  },
+  {
+   "id": "434",
+   "name": "Dual Blade"
+  },
+  {
+   "id": "18112",
+   "name": "Erel"
+  },
+  {
+   "id": "2217",
+   "name": "Evan"
+  },
+  {
+   "id": "4112",
+   "name": "Hayato"
+  },
+  {
+   "id": "112",
+   "name": "Hero"
+  },
+  {
+   "id": "16412",
+   "name": "Hoyoung"
+  },
+  {
+   "id": "15212",
+   "name": "Illium"
+  },
+  {
+   "id": "19212",
+   "name": "Job 19212"
+  },
+  {
+   "id": "6312",
+   "name": "Kain"
+  },
+  {
+   "id": "6112",
+   "name": "Kaiser"
+  },
+  {
+   "id": "4212",
+   "name": "Kanna"
+  },
+  {
+   "id": "15412",
+   "name": "Khali"
+  },
+  {
+   "id": "14212",
+   "name": "Kinesis"
+  },
+  {
+   "id": "16212",
+   "name": "Lara"
+  },
+  {
+   "id": "2712",
+   "name": "Luminous"
+  },
+  {
+   "id": "17212",
+   "name": "Lynn"
+  },
+  {
+   "id": "322",
+   "name": "Marksman"
+  },
+  {
+   "id": "3512",
+   "name": "Mechanic"
+  },
+  {
+   "id": "2312",
+   "name": "Mercedes"
+  },
+  {
+   "id": "5112",
+   "name": "Mihile"
+  },
+  {
+   "id": "17512",
+   "name": "Mo Xuan"
+  },
+  {
+   "id": "412",
+   "name": "Night Lord"
+  },
+  {
+   "id": "1412",
+   "name": "Night Walker"
+  },
+  {
+   "id": "122",
+   "name": "Paladin"
+  },
+  {
+   "id": "332",
+   "name": "Pathfinder"
+  },
+  {
+   "id": "2412",
+   "name": "Phantom"
+  },
+  {
+   "id": "16112",
+   "name": "Ren"
+  },
+  {
+   "id": "2512",
+   "name": "Shade"
+  },
+  {
+   "id": "422",
+   "name": "Shadower"
+  },
+  {
+   "id": "18212",
+   "name": "Sia Astelle"
+  },
+  {
+   "id": "1512",
+   "name": "Thunder Breaker"
+  },
+  {
+   "id": "3312",
+   "name": "Wild Hunter"
+  },
+  {
+   "id": "1312",
+   "name": "Wind Archer"
+  },
+  {
+   "id": "3612",
+   "name": "Xenon"
+  },
+  {
+   "id": "10112",
+   "name": "Zero"
+  }
+ ]
+}
