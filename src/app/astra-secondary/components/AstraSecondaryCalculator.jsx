@@ -399,6 +399,42 @@ const configFingerprint = (config) =>
     bossSelections: normalizeBossSelections(config.bossSelections),
   });
 
+// One-click button row replacing a <select>. `options` is a list of
+// { value, label, sub?, title? }; `sub` is a small second line under the label.
+const SegmentedButtons = ({ options, value, onChange, ariaLabel, size = "md" }) => (
+  <div role="radiogroup" aria-label={ariaLabel} className="flex flex-wrap gap-1.5">
+    {options.map((opt) => {
+      const selected = opt.value === value;
+      return (
+        <button
+          key={String(opt.value)}
+          type="button"
+          role="radio"
+          aria-checked={selected}
+          title={opt.title}
+          onClick={() => onChange(opt.value)}
+          className={`rounded-md border transition-colors leading-tight ${
+            size === "sm" ? "min-w-[2.25rem] px-2 py-1 text-sm" : "px-3 py-1.5 text-sm"
+          } ${
+            selected
+              ? "bg-secondary/20 border-secondary text-secondary font-semibold"
+              : "bg-primary-dark border-primary-dim text-primary-bright hover:border-primary-bright/50"
+          }`}
+        >
+          <span className="block">{opt.label}</span>
+          {opt.sub && (
+            <span
+              className={`block text-[11px] ${selected ? "text-secondary/80" : "text-primary-bright/50"}`}
+            >
+              {opt.sub}
+            </span>
+          )}
+        </button>
+      );
+    })}
+  </div>
+);
+
 const AstraSecondaryCalculator = () => {
   // User input state
   const [currentMission, setCurrentMission] = useState(1);
@@ -711,19 +747,31 @@ const AstraSecondaryCalculator = () => {
     );
   };
 
-  // Nudge a boss's vouchersKept up/down by a fixed step, clamped to [0, max]
-  const adjustVouchersKept = (bossId, delta, max) => {
+  // Switching difficulty clamps coupons kept to the new difficulty's drop
+  // count, and clearing a boss ("None") also drops its cleared flag.
+  const handleDifficultyChange = (bossId, difficultyName) => {
+    const boss = TRACES_BOSS_DATA.find((b) => b.id === bossId);
+    const difficulty = boss?.difficulties.find((d) => d.name === difficultyName);
+    const maxKept = difficulty?.hasVoucher ? difficulty.voucherCount : 0;
     setBossSelections((prev) =>
-      prev.map((boss) =>
-        boss.id === bossId
+      prev.map((s) =>
+        s.id === bossId
           ? {
-              ...boss,
-              vouchersKept: round2(
-                Math.min(max, Math.max(0, (boss.vouchersKept || 0) + delta)),
-              ),
+              ...s,
+              selectedDifficulty: difficultyName,
+              vouchersKept: Math.min(s.vouchersKept || 0, maxKept),
+              clearedThisWeek:
+                difficultyName === "None" ? false : s.clearedThisWeek,
             }
-          : boss,
+          : s,
       ),
+    );
+  };
+
+  // Weekly reset helper: un-ticks "cleared this week" on every boss at once
+  const handleResetWeeklyClears = () => {
+    setBossSelections((prev) =>
+      prev.map((s) => (s.clearedThisWeek ? { ...s, clearedThisWeek: false } : s)),
     );
   };
 
@@ -1560,15 +1608,25 @@ const AstraSecondaryCalculator = () => {
         <div className="lg:col-span-7 space-y-6">
           {/* Boss Configuration */}
           <div>
-            <h2 className="text-2xl font-semibold text-primary-bright mb-4">
-              Boss Configuration
-            </h2>
+            <div className="flex items-baseline justify-between gap-3 mb-4">
+              <h2 className="text-2xl font-semibold text-primary-bright">
+                Boss Configuration
+              </h2>
+              {bossSelections.some((s) => s.clearedThisWeek) && (
+                <button
+                  type="button"
+                  onClick={handleResetWeeklyClears}
+                  className="text-sm text-primary-bright/70 hover:text-primary-bright underline underline-offset-2"
+                >
+                  Untick all &quot;cleared&quot;
+                </button>
+              )}
+            </div>
             <p className="text-sm text-primary-bright/70 mb-4">
-              Select difficulty, party size, and whether you cleared this week.
-              Traces are divided by party size. Vestige of Erion's Coupons drop
-              every kill - set how many you keep per week. You can add
-              fractional amount to imply averages (i.e. 1.5 = 3 every other
-              week).
+              Pick a difficulty, party size, and whether you cleared this week.
+              Traces are divided by party size. Vestige of Erion&apos;s Coupons
+              drop every kill - pick how many you keep per week, or type a
+              fractional amount for averages (i.e. 1.5 = 3 every other week).
             </p>
 
             {TRACES_BOSS_DATA.map((boss) => {
@@ -1576,230 +1634,173 @@ const AstraSecondaryCalculator = () => {
               const selectedDifficulty = boss.difficulties.find(
                 (d) => d.name === selection?.selectedDifficulty,
               );
+              const isActive = !!selectedDifficulty;
+              const partySize = selection?.partySize || 1;
+              const vouchersKept = selection?.vouchersKept ?? 0;
 
               return (
                 <div
                   key={boss.id}
-                  className="bg-background-bright border border-primary-dim p-4 rounded-xl mb-4"
+                  className={`bg-background-bright border p-3 sm:p-4 rounded-xl mb-3 transition-colors ${
+                    isActive ? "border-secondary/60" : "border-primary-dim"
+                  }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-3">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
                       <Image
-                        src={`/bossImages/largeIcons/${boss.id === "seren" ? "seren" : boss.id === "kalos" ? "kalos" : boss.id === "first_adversary" ? "first_adversary" : boss.id}.png`}
+                        src={`/bossImages/largeIcons/${boss.id}.png`}
                         alt={boss.name}
                         width={40}
                         height={40}
-                        className="rounded-md"
+                        className={`rounded-md shrink-0 ${isActive ? "" : "opacity-60 grayscale"}`}
                       />
-                      <h3 className="text-lg font-medium text-primary-bright">
-                        {boss.name}
-                      </h3>
-                    </div>
-
-                    {/* Cleared This Week Toggle */}
-                    <label
-                      className={`flex items-center gap-2 select-none ${
-                        selection?.selectedDifficulty === "None"
-                          ? "cursor-not-allowed opacity-50"
-                          : "cursor-pointer"
-                      }`}
-                    >
-                      <span className="text-primary-bright/80 text-sm hidden sm:inline">
-                        Cleared This Week
-                      </span>
-                      <div className="relative">
-                        <input
-                          type="checkbox"
-                          className="sr-only"
-                          checked={selection?.clearedThisWeek || false}
-                          onChange={(e) =>
-                            handleBossSelectionChange(
-                              boss.id,
-                              "clearedThisWeek",
-                              e.target.checked,
-                            )
-                          }
-                          disabled={selection?.selectedDifficulty === "None"}
-                        />
-                        <div
-                          className={`block w-10 h-6 rounded-full border border-primary-dim ${selection?.clearedThisWeek ? "bg-secondary" : "bg-primary-dark"}`}
-                        ></div>
-                        <div
-                          className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition ${selection?.clearedThisWeek ? "transform translate-x-full" : ""}`}
-                        ></div>
+                      <div className="min-w-0">
+                        <h3 className="text-lg font-medium text-primary-bright leading-tight">
+                          {boss.name}
+                        </h3>
+                        {isActive && (
+                          <div className="text-xs text-primary-bright/70">
+                            <span className="font-semibold text-secondary">
+                              {Math.floor(selectedDifficulty.traces / partySize)}
+                            </span>{" "}
+                            traces/week
+                            {selectedDifficulty.hasVoucher && vouchersKept > 0 && (
+                              <>
+                                {" · "}
+                                <span className="font-semibold text-secondary">
+                                  {round2(
+                                    vouchersKept * selectedDifficulty.voucherValue,
+                                  ).toLocaleString()}
+                                </span>{" "}
+                                Vestiges/week
+                              </>
+                            )}
+                          </div>
+                        )}
                       </div>
-                      <span className="text-primary-bright text-sm w-7">
-                        {selection?.clearedThisWeek ? "Yes" : "No"}
-                      </span>
-                    </label>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
-                    {/* Difficulty Selection */}
-                    <div
-                      className={
-                        selectedDifficulty?.hasVoucher
-                          ? "sm:col-span-6"
-                          : "sm:col-span-9"
-                      }
-                    >
-                      <label className="block text-primary-bright text-sm mb-1">
-                        Difficulty
-                      </label>
-                      <select
-                        className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
-                        value={selection?.selectedDifficulty || "None"}
-                        onChange={(e) =>
-                          handleBossSelectionChange(
-                            boss.id,
-                            "selectedDifficulty",
-                            e.target.value,
-                          )
-                        }
-                      >
-                        <option value="None">Not Clearing</option>
-                        {boss.difficulties.map((diff) => (
-                          <option key={diff.name} value={diff.name}>
-                            {diff.name} ({diff.traces} traces
-                            {diff.hasVoucher
-                              ? `, ${diff.voucherCount} coupons × ${diff.voucherValue} Vestiges`
-                              : ""}
-                            )
-                          </option>
-                        ))}
-                      </select>
                     </div>
 
-                    {/* Party Size */}
-                    <div
-                      className={
-                        selectedDifficulty?.hasVoucher
-                          ? "sm:col-span-2"
-                          : "sm:col-span-3"
-                      }
-                    >
-                      <label className="block text-primary-bright text-sm mb-1">
-                        Party
-                      </label>
-                      <select
-                        className="w-full p-2 bg-primary-dark text-primary-bright rounded border border-primary-dim"
-                        value={selection?.partySize || 1}
-                        onChange={(e) =>
-                          handleBossSelectionChange(
-                            boss.id,
-                            "partySize",
-                            Number(e.target.value),
-                          )
-                        }
-                      >
-                        {Array.from(
-                          { length: boss.maxPartySize || 6 },
-                          (_, i) => i + 1,
-                        ).map((size) => (
-                          <option key={size} value={size}>
-                            {size}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Tickets Kept */}
-                    {selectedDifficulty?.hasVoucher && (
-                      <div className="sm:col-span-4">
-                        <label className="block text-primary-bright text-sm mb-1">
-                          Erion Coupons Kept
-                        </label>
-                        <div className="flex items-stretch bg-primary-dark rounded border border-primary-dim overflow-hidden">
+                    {/* Cleared This Week Toggle - only meaningful once a difficulty is picked */}
+                    {isActive && (
+                      <label className="flex items-center gap-2 select-none cursor-pointer shrink-0">
+                        <span className="text-primary-bright/80 text-sm hidden sm:inline">
+                          Cleared this week
+                        </span>
+                        <span className="text-primary-bright/80 text-sm sm:hidden">
+                          Cleared
+                        </span>
+                        <div className="relative">
                           <input
-                            type="number"
-                            className="w-full min-w-0 p-2 bg-transparent text-primary-bright text-center font-semibold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                            value={selection?.vouchersKept ?? 0}
-                            min={0}
-                            max={selectedDifficulty.voucherCount}
-                            step={0.1}
+                            type="checkbox"
+                            className="sr-only"
+                            checked={selection?.clearedThisWeek || false}
                             onChange={(e) =>
                               handleBossSelectionChange(
                                 boss.id,
-                                "vouchersKept",
-                                Math.min(
-                                  selectedDifficulty.voucherCount,
-                                  Math.max(0, Number(e.target.value)),
-                                ),
+                                "clearedThisWeek",
+                                e.target.checked,
                               )
                             }
                           />
-                          <span className="flex items-center pr-2 text-primary-bright/50 whitespace-nowrap select-none">
-                            / {selectedDifficulty.voucherCount}
-                          </span>
-                          <div className="flex flex-col border-l border-primary-dim">
-                            <button
-                              type="button"
-                              aria-label="Increase coupons kept"
-                              onClick={() =>
-                                adjustVouchersKept(
-                                  boss.id,
-                                  0.5,
-                                  selectedDifficulty.voucherCount,
-                                )
-                              }
-                              className="flex-1 px-2 leading-none text-[10px] text-primary-bright/70 hover:text-primary-bright hover:bg-primary-dim/50"
-                            >
-                              ▲
-                            </button>
-                            <button
-                              type="button"
-                              aria-label="Decrease coupons kept"
-                              onClick={() =>
-                                adjustVouchersKept(
-                                  boss.id,
-                                  -0.5,
-                                  selectedDifficulty.voucherCount,
-                                )
-                              }
-                              className="flex-1 px-2 leading-none text-[10px] text-primary-bright/70 hover:text-primary-bright hover:bg-primary-dim/50 border-t border-primary-dim"
-                            >
-                              ▼
-                            </button>
-                          </div>
+                          <div
+                            className={`block w-10 h-6 rounded-full border border-primary-dim ${selection?.clearedThisWeek ? "bg-secondary" : "bg-primary-dark"}`}
+                          ></div>
+                          <div
+                            className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition ${selection?.clearedThisWeek ? "transform translate-x-full" : ""}`}
+                          ></div>
                         </div>
-                      </div>
+                      </label>
                     )}
                   </div>
 
-                  {selectedDifficulty && selectedDifficulty.name !== "None" && (
-                    <div className="mt-3 p-2 bg-primary-dark rounded-lg text-sm flex flex-wrap gap-x-4 gap-y-1">
-                      <span className="text-primary-bright/70">
-                        Traces:{" "}
-                        <span className="font-semibold text-secondary">
-                          {Math.floor(
-                            selectedDifficulty.traces /
-                              (selection?.partySize || 1),
+                  {/* Difficulty */}
+                  <SegmentedButtons
+                    ariaLabel={`${boss.name} difficulty`}
+                    value={selection?.selectedDifficulty || "None"}
+                    onChange={(v) => handleDifficultyChange(boss.id, v)}
+                    options={[
+                      { value: "None", label: "Skip", sub: "—" },
+                      ...boss.difficulties.map((diff) => ({
+                        value: diff.name,
+                        label: diff.name,
+                        sub: `${diff.traces} traces`,
+                        title: diff.hasVoucher
+                          ? `${diff.traces} traces, ${diff.voucherCount} coupons × ${diff.voucherValue} Vestiges`
+                          : `${diff.traces} traces`,
+                      })),
+                    ]}
+                  />
+
+                  {isActive && (
+                    <div className="mt-3 flex flex-wrap gap-x-6 gap-y-3">
+                      {/* Party Size */}
+                      <div>
+                        <div className="text-primary-bright/70 text-xs mb-1">
+                          Party size
+                        </div>
+                        <SegmentedButtons
+                          size="sm"
+                          ariaLabel={`${boss.name} party size`}
+                          value={partySize}
+                          onChange={(v) =>
+                            handleBossSelectionChange(boss.id, "partySize", v)
+                          }
+                          options={Array.from(
+                            { length: boss.maxPartySize || 6 },
+                            (_, i) => ({ value: i + 1, label: String(i + 1) }),
                           )}
-                          /week
-                        </span>
-                      </span>
+                        />
+                      </div>
+
+                      {/* Coupons Kept */}
                       {selectedDifficulty.hasVoucher && (
-                        <span className="text-primary-bright/70">
-                          Erion Coupons:{" "}
-                          <span className="font-semibold text-secondary">
-                            {selectedDifficulty.voucherCount} drops
-                          </span>
-                          <span className="text-primary-bright/50">
-                            {" "}
-                            × {selectedDifficulty.voucherValue} Vestige of Erion
-                            each
-                          </span>
-                          {(selection?.vouchersKept || 0) > 0 && (
-                            <span className="text-secondary font-semibold ml-1">
-                              →{" "}
-                              {round2(
-                                selection.vouchersKept *
-                                  selectedDifficulty.voucherValue,
-                              ).toLocaleString()}{" "}
-                              Vestiges/week kept
+                        <div>
+                          <div className="text-primary-bright/70 text-xs mb-1">
+                            Erion Coupons kept{" "}
+                            <span className="text-primary-bright/50">
+                              ({selectedDifficulty.voucherCount} drop ×{" "}
+                              {selectedDifficulty.voucherValue} Vestiges)
                             </span>
-                          )}
-                        </span>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <SegmentedButtons
+                              size="sm"
+                              ariaLabel={`${boss.name} coupons kept`}
+                              value={vouchersKept}
+                              onChange={(v) =>
+                                handleBossSelectionChange(boss.id, "vouchersKept", v)
+                              }
+                              options={Array.from(
+                                { length: selectedDifficulty.voucherCount + 1 },
+                                (_, i) => ({ value: i, label: String(i) }),
+                              )}
+                            />
+                            <input
+                              type="number"
+                              aria-label={`${boss.name} coupons kept (exact)`}
+                              title="Exact / averaged amount, e.g. 1.5"
+                              className={`w-16 px-2 py-1 text-sm text-center rounded-md border bg-primary-dark text-primary-bright ${
+                                Number.isInteger(vouchersKept)
+                                  ? "border-primary-dim"
+                                  : "border-secondary"
+                              }`}
+                              value={vouchersKept}
+                              min={0}
+                              max={selectedDifficulty.voucherCount}
+                              step={0.1}
+                              onChange={(e) =>
+                                handleBossSelectionChange(
+                                  boss.id,
+                                  "vouchersKept",
+                                  Math.min(
+                                    selectedDifficulty.voucherCount,
+                                    Math.max(0, Number(e.target.value)),
+                                  ),
+                                )
+                              }
+                            />
+                          </div>
+                        </div>
                       )}
                     </div>
                   )}
