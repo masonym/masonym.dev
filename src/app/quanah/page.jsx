@@ -423,8 +423,7 @@ export default function QuanahPage() {
           </div>
         </Section>
 
-        <Section id="mobs" title="Training Monsters">
-          <p>Battlesim training monsters</p>
+        <Section id="mobs" title="Proving Grounds Training Monsters">
           <Table
             head={[
               "Monster",
