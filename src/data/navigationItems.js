@@ -66,6 +66,17 @@ export const navigationItems = [
       // },
     ],
   },
+  {
+    title: "Seasonal",
+    items: [
+      {
+        // Quanah world crest, from UI/Login.img/CharSelect/selectedWorld/icon/40
+        name: "Quanah",
+        href: "/quanah",
+        image: "/images/quanah.png",
+      },
+    ],
+  },
   // {
   //     title: "Temporary",
   //     items: [

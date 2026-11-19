@@ -2,11 +2,18 @@ import { Suspense } from "react";
 import data from "@/data/quanah.json";
 import ClassSkills from "./components/ClassSkills";
 import Icon from "./components/Icon";
+import {
+  ChangedDot,
+  ChangesToggle,
+  DiffText,
+  DiffValue,
+  OnlyWithBefore,
+} from "./components/Changes";
 
 export const metadata = {
   title: "Quanah Info | mason's maple matrix",
   description:
-    "Quanah reference: Mapae Modules, dimension skills with per-class damage, Battlesim programs, the Byte shop, encounters and floor modifiers.",
+    "Quanah reference: Mapae Modules, dimension skills with per-class damage, Battlesim programs, the Byte shop, encounters, floor modifiers and Training monsters.",
 };
 
 const SECTIONS = [
@@ -17,6 +24,7 @@ const SECTIONS = [
   ["shop", "Byte Shop"],
   ["encounters", "Encounters"],
   ["modifiers", "Floor Modifiers"],
+  ["mobs", "Training Monsters"],
 ];
 
 const TIERS = [1, 2, 3];
@@ -38,8 +46,52 @@ function Note({ children }) {
   return <p className="text-sm text-primary-dim">{children}</p>;
 }
 
-const th = "text-left font-semibold px-3 py-2 text-primary-dim text-sm";
-const td = "px-3 py-2 align-top";
+// first cells get a wider left pad: the gutter for the changed dot
+const th =
+  "text-left font-semibold px-3 first:pl-5 py-2 text-primary-dim text-sm";
+const td = "relative px-3 first:pl-5 py-2 align-top";
+
+const formatDate = (iso) =>
+  new Date(iso).toLocaleDateString("en-US", {
+    timeZone: "UTC",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+// What the latest data update changed, with the toggle for old values.
+function ChangesBanner({ changes }) {
+  const when = changes.date ? formatDate(changes.date) : null;
+  return (
+    <div className="mb-10 rounded-lg border border-secondary/40 bg-background-bright/30 p-4 space-y-3">
+      <p className="font-semibold text-primary-bright">
+        {changes.source === "hotfix"
+          ? `Updated with the ${when} hotfix`
+          : "Updated with new client data"}
+      </p>
+      <p className="text-sm">
+        Entries that changed have a <ChangedDot /> next to their name. Old
+        values are struck through next to the new ones.
+      </p>
+      <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+        {SECTIONS.filter(([id]) => changes.counts[id]).map(([id, title]) => (
+          <li key={id}>
+            <a
+              href={`#${id}`}
+              className="text-primary hover:text-primary-bright underline decoration-primary/30"
+            >
+              {title}
+            </a>
+            <span className="text-primary-dim ml-1">
+              ({changes.counts[id]})
+            </span>
+          </li>
+        ))}
+      </ul>
+      <ChangesToggle />
+    </div>
+  );
+}
 
 function Table({ head, children }) {
   return (
@@ -61,17 +113,33 @@ function Table({ head, children }) {
 }
 
 export default function QuanahPage() {
-  const { modules, moduleDesc, acumen, programs, shop, encounters, modifiers } =
-    data;
+  const {
+    modules,
+    moduleDesc,
+    acumen,
+    programs,
+    shop,
+    encounters,
+    modifiers,
+    mobs,
+    changes,
+  } = data;
 
   return (
     <main className="min-h-screen px-6 py-10">
-      <article className="max-w-4xl mx-auto">
+      <article className="max-w-6xl mx-auto">
         <header className="mb-8 pb-6 border-b border-primary/20">
           <h1 className="text-4xl font-bold text-primary-bright mb-3">
             Quanah Info
           </h1>
         </header>
+
+        {changes && Object.keys(changes.counts).length > 0 && (
+          <>
+            <ChangesBanner changes={changes} />
+            <ChangesToggle floating />
+          </>
+        )}
 
         <nav className="mb-10 flex flex-wrap gap-2">
           {SECTIONS.map(([id, title]) => (
@@ -91,13 +159,18 @@ export default function QuanahPage() {
             {modules.map((m) => (
               <tr key={m.id}>
                 <td className={`${td} w-12`}>
+                  <ChangedDot entry={m} />
                   <Icon src={m.icon} alt={m.name} />
                 </td>
                 <td className={`${td} whitespace-nowrap`}>
                   {m.name.replace("Mapae ", "")}
                 </td>
-                <td className={td}>{m.effect}</td>
-                <td className={td}>{m.maxLevel}</td>
+                <td className={td}>
+                  <DiffText before={m.before?.effect} after={m.effect} />
+                </td>
+                <td className={td}>
+                  <DiffValue entry={m} field="maxLevel" />
+                </td>
               </tr>
             ))}
           </Table>
@@ -134,15 +207,27 @@ export default function QuanahPage() {
             {acumen.map((a) => (
               <tr key={a.label}>
                 <td className={`${td} w-12`}>
+                  <ChangedDot entry={a} />
                   <Icon src={a.icon} alt="" />
                 </td>
                 <td className={td}>{a.label}</td>
                 {a.grades.map((g, i) => (
                   <td key={i} className={`${td} whitespace-nowrap`}>
-                    {g}
+                    <DiffValue
+                      entry={{
+                        g,
+                        before:
+                          a.before?.grades && a.before.grades[i] !== g
+                            ? { g: a.before.grades[i] }
+                            : undefined,
+                      }}
+                      field="g"
+                    />
                   </td>
                 ))}
-                <td className={td}>{a.weight}</td>
+                <td className={td}>
+                  <DiffValue entry={a} field="weight" />
+                </td>
               </tr>
             ))}
           </Table>
@@ -178,20 +263,45 @@ export default function QuanahPage() {
                 </h3>
                 <ul className="divide-y divide-primary/10 rounded-lg border border-primary/15">
                   {list.map((p) => (
-                    <li key={p.code} className="flex gap-3 p-3">
+                    <li key={p.code} className="relative flex gap-3 p-3 pl-5">
+                      <ChangedDot entry={p} at="row" />
                       <Icon src={p.icon} alt={p.name} />
                       <div className="min-w-0">
                         <p className="font-semibold text-primary-bright">
-                          {p.name}
+                          <DiffText before={p.before?.name} after={p.name} />
                           {p.tooltipName && (
                             <span className="text-primary-dim font-normal text-sm ml-2">
                               ({p.tooltipName})
                             </span>
                           )}
                         </p>
-                        <p className="whitespace-pre-line">{p.effect}</p>
+                        <p className="whitespace-pre-line">
+                          <DiffText
+                            before={p.before?.effect}
+                            after={p.effect}
+                          />
+                        </p>
+                        {p.note && (
+                          <p className="text-sm text-primary-dim mt-1">
+                            Not in the tooltip:{" "}
+                            <span className="text-primary">
+                              {/* a note that didn't exist before diffs against "" so it shows as added */}
+                              <DiffText
+                                before={
+                                  p.before && "note" in p.before
+                                    ? (p.before.note ?? "")
+                                    : undefined
+                                }
+                                after={p.note}
+                              />
+                            </span>
+                          </p>
+                        )}
                         <p className="text-sm italic text-primary-dim mt-1">
-                          {p.flavour}
+                          <DiffText
+                            before={p.before?.flavour}
+                            after={p.flavour}
+                          />
                         </p>
                       </div>
                     </li>
@@ -211,11 +321,12 @@ export default function QuanahPage() {
             {shop.map((s) => (
               <tr key={s.itemId}>
                 <td className={`${td} w-12`}>
+                  <ChangedDot entry={s} />
                   <Icon src={s.icon} alt={s.name} />
                 </td>
                 <td className={td}>
                   <p className="font-semibold text-primary-bright">
-                    {s.name}
+                    <DiffText before={s.before?.name} after={s.name} />
                     {s.itemName && (
                       <span className="text-primary-dim font-normal text-sm ml-2">
                         ({s.itemName})
@@ -224,11 +335,13 @@ export default function QuanahPage() {
                   </p>
                   {s.desc && (
                     <p className="text-sm text-primary-dim whitespace-pre-line">
-                      {s.desc}
+                      <DiffText before={s.before?.desc} after={s.desc} />
                     </p>
                   )}
                 </td>
-                <td className={`${td} whitespace-nowrap`}>{s.price} Bytes</td>
+                <td className={`${td} whitespace-nowrap`}>
+                  <DiffValue entry={s} field="price" /> Bytes
+                </td>
               </tr>
             ))}
           </Table>
@@ -242,13 +355,14 @@ export default function QuanahPage() {
           {encounters.map((e) => (
             <div
               key={e.title}
-              className="rounded-lg border border-primary/15 p-4"
+              className="relative rounded-lg border border-primary/15 p-4 pl-5"
             >
+              <ChangedDot entry={e} at="card" />
               <h3 className="font-semibold text-primary-bright mb-2">
                 {e.title}
               </h3>
               <p className="whitespace-pre-line text-primary/80 text-sm">
-                {e.text}
+                <DiffText before={e.before?.text} after={e.text} />
               </p>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {e.choices.map((c) => (
@@ -260,6 +374,16 @@ export default function QuanahPage() {
                   </li>
                 ))}
               </ul>
+              {e.before?.choices && (
+                <OnlyWithBefore>
+                  <p className="mt-2 text-sm text-primary-dim">
+                    Previously:{" "}
+                    <del className="text-progress-red">
+                      {e.before.choices.join(", ")}
+                    </del>
+                  </p>
+                </OnlyWithBefore>
+              )}
             </div>
           ))}
         </Section>
@@ -297,6 +421,53 @@ export default function QuanahPage() {
               </div>
             ))}
           </div>
+        </Section>
+
+        <Section id="mobs" title="Training Monsters">
+          <p>Battlesim training monsters</p>
+          <Table
+            head={[
+              "Monster",
+              "Level",
+              "Max HP",
+              "EXP",
+              "Inspector EXP",
+              "Touch dmg",
+              "Attack dmg",
+            ]}
+          >
+            {mobs.map((m) => (
+              <tr key={m.id}>
+                <td className={`${td} whitespace-nowrap`}>
+                  <ChangedDot entry={m} />
+                  {m.name.replace("Training ", "")}
+                </td>
+                <td className={td}>
+                  <DiffValue entry={m} field="level" />
+                </td>
+                <td className={`${td} whitespace-nowrap`}>
+                  <DiffValue entry={m} field="maxHP" kind="compact" />
+                </td>
+                <td className={`${td} whitespace-nowrap`}>
+                  <DiffValue entry={m} field="exp" kind="number" />
+                </td>
+                <td className={td}>
+                  <DiffValue entry={m} field="quanahExp" />
+                </td>
+                <td className={`${td} whitespace-nowrap`}>
+                  <DiffValue entry={m} field="touchDamR" kind="percent" />
+                </td>
+                <td className={`${td} whitespace-nowrap`}>
+                  <DiffValue entry={m} field="attackDamR" kind="percent" />
+                </td>
+              </tr>
+            ))}
+          </Table>
+          <Note>
+            Touch and attack damage are fixed damage, as a percentage of your
+            Max HP. A dash means the monster has none and hits for normal
+            damage.
+          </Note>
         </Section>
       </article>
     </main>
