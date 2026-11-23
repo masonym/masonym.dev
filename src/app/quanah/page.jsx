@@ -534,9 +534,7 @@ export default function QuanahPage() {
             <Section id="modifiers" title="Floor Modifiers">
               <Note>
                 Hover or tap a modifier for what it does, from its tooltip on
-                the Battlesim HUD. The client flags each one positive or
-                negative, and the HUD has a blue and a red backing for the
-                icons; the groups and colours here follow that flag.
+                the Battlesim HUD.
               </Note>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
