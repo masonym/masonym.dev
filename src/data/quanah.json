@@ -1730,6 +1730,457 @@
    "icon": "/quanah/items/2833662.png"
   }
  ],
+ "jewels": {
+  "jewels": [
+   {
+    "id": "4009626",
+    "name": "Red Jewel",
+    "type": "color",
+    "icon": "/quanah/items/4009626.png",
+    "lines": [
+     "010000",
+     "010001",
+     "010004",
+     "010005",
+     "010006"
+    ]
+   },
+   {
+    "id": "4009627",
+    "name": "Green Jewel",
+    "type": "color",
+    "icon": "/quanah/items/4009627.png",
+    "lines": [
+     "010000",
+     "010001",
+     "010004",
+     "010005",
+     "010006"
+    ]
+   },
+   {
+    "id": "4009628",
+    "name": "Blue Jewel",
+    "type": "color",
+    "icon": "/quanah/items/4009628.png",
+    "lines": [
+     "010002",
+     "010003",
+     "010004",
+     "010005",
+     "010007"
+    ]
+   },
+   {
+    "id": "4009629",
+    "name": "Purple Jewel",
+    "type": "color",
+    "icon": "/quanah/items/4009629.png",
+    "lines": [
+     "010001",
+     "010003",
+     "010004",
+     "010005",
+     "010006"
+    ]
+   },
+   {
+    "id": "4009630",
+    "name": "Gray Jewel",
+    "type": "color",
+    "icon": "/quanah/items/4009630.png",
+    "lines": [
+     "010000",
+     "010001",
+     "010004",
+     "010005",
+     "010006"
+    ]
+   },
+   {
+    "id": "4009631",
+    "name": "Prismatic Jewel",
+    "type": "multi",
+    "icon": "/quanah/items/4009631.png",
+    "lines": [
+     "010000",
+     "010001",
+     "010002",
+     "010003",
+     "010004",
+     "010005",
+     "010006",
+     "010007",
+     "020000",
+     "020001",
+     "020002",
+     "020003",
+     "020004",
+     "020005",
+     "020006",
+     "020007",
+     "020008",
+     "020009",
+     "020010",
+     "020011",
+     "020012"
+    ]
+   }
+  ],
+  "lines": [
+   {
+    "code": "010000",
+    "kind": "stat",
+    "label": "STR",
+    "values": [
+     50,
+     100,
+     150,
+     200,
+     300
+    ],
+    "skill": null,
+    "skillName": null,
+    "icon": null
+   },
+   {
+    "code": "010001",
+    "kind": "stat",
+    "label": "DEX",
+    "values": [
+     50,
+     100,
+     150,
+     200,
+     300
+    ],
+    "skill": null,
+    "skillName": null,
+    "icon": null
+   },
+   {
+    "code": "010002",
+    "kind": "stat",
+    "label": "INT",
+    "values": [
+     50,
+     100,
+     150,
+     200,
+     300
+    ],
+    "skill": null,
+    "skillName": null,
+    "icon": null
+   },
+   {
+    "code": "010003",
+    "kind": "stat",
+    "label": "LUK",
+    "values": [
+     50,
+     100,
+     150,
+     200,
+     300
+    ],
+    "skill": null,
+    "skillName": null,
+    "icon": null
+   },
+   {
+    "code": "010004",
+    "kind": "stat",
+    "label": "Max HP",
+    "values": [
+     1000,
+     2000,
+     3000,
+     4000,
+     6000
+    ],
+    "skill": null,
+    "skillName": null,
+    "icon": null
+   },
+   {
+    "code": "010005",
+    "kind": "stat",
+    "label": "Max MP",
+    "values": [
+     1000,
+     2000,
+     3000,
+     4000,
+     6000
+    ],
+    "skill": null,
+    "skillName": null,
+    "icon": null
+   },
+   {
+    "code": "010006",
+    "kind": "stat",
+    "label": "Attack Power",
+    "values": [
+     10,
+     20,
+     30,
+     40,
+     60
+    ],
+    "skill": null,
+    "skillName": null,
+    "icon": null
+   },
+   {
+    "code": "010007",
+    "kind": "stat",
+    "label": "Magic ATT",
+    "values": [
+     10,
+     20,
+     30,
+     40,
+     60
+    ],
+    "skill": null,
+    "skillName": null,
+    "icon": null
+   },
+   {
+    "code": "020000",
+    "kind": "skill",
+    "label": "[Hologram] Registry Skill Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013207",
+    "skillName": "[Hologram] Registry",
+    "icon": "/quanah/skills/80013207.png"
+   },
+   {
+    "code": "020001",
+    "kind": "skill",
+    "label": "[Hologram] Warrior Attack Skill Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013192",
+    "skillName": "[Hologram] Raging Blow",
+    "icon": "/quanah/skills/80013192.png"
+   },
+   {
+    "code": "020002",
+    "kind": "skill",
+    "label": "[Hologram] Bowman Attack Skill Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013194",
+    "skillName": "[Hologram] Snipe",
+    "icon": "/quanah/skills/80013194.png"
+   },
+   {
+    "code": "020003",
+    "kind": "skill",
+    "label": "[Hologram] Magician Attack Skill Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013196",
+    "skillName": "[Hologram] Chain Lightning",
+    "icon": "/quanah/skills/80013196.png"
+   },
+   {
+    "code": "020004",
+    "kind": "skill",
+    "label": "[Hologram] Thief Attack Skill Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013200",
+    "skillName": "[Hologram] Showdown",
+    "icon": "/quanah/skills/80013200.png"
+   },
+   {
+    "code": "020005",
+    "kind": "skill",
+    "label": "[Hologram] Pirate Attack Skill Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013202",
+    "skillName": "[Hologram] Cannon Barrage",
+    "icon": "/quanah/skills/80013202.png"
+   },
+   {
+    "code": "020006",
+    "kind": "skill",
+    "label": "White Hole Skill Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013204",
+    "skillName": "White Hole",
+    "icon": "/quanah/skills/80013204.png"
+   },
+   {
+    "code": "020007",
+    "kind": "skill",
+    "label": "Dimensional Leap Skill Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013206",
+    "skillName": "Dimensional Leap",
+    "icon": "/quanah/skills/80013206.png"
+   },
+   {
+    "code": "020008",
+    "kind": "skill",
+    "label": "[Hologram] Critical Damage Enhancement Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013213",
+    "skillName": "[Hologram] Critical Damage Enhancement",
+    "icon": "/quanah/skills/80013213.png"
+   },
+   {
+    "code": "020009",
+    "kind": "skill",
+    "label": "[Hologram] Damage Enhancement Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013214",
+    "skillName": "[Hologram] Damage Enhancement",
+    "icon": "/quanah/skills/80013214.png"
+   },
+   {
+    "code": "020010",
+    "kind": "skill",
+    "label": "[Hologram] Attack Power & Magic ATT Enhancement Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013215",
+    "skillName": "[Hologram] Attack Power & Magic ATT Enhancement",
+    "icon": "/quanah/skills/80013215.png"
+   },
+   {
+    "code": "020011",
+    "kind": "skill",
+    "label": "[Hologram] Boss Damage Enhancement Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013216",
+    "skillName": "[Hologram] Boss Damage Increase Enhancement",
+    "icon": "/quanah/skills/80013216.png"
+   },
+   {
+    "code": "020012",
+    "kind": "skill",
+    "label": "[Hologram] Ignore Defense Enhancement Level",
+    "values": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "skill": "80013217",
+    "skillName": "[Hologram] Ignore Defense Enhancement",
+    "icon": "/quanah/skills/80013217.png"
+   }
+  ],
+  "enhance": {
+   "color": {
+    "maxLevel": 5,
+    "cost": {
+     "2": 5,
+     "3": 9,
+     "4": 18,
+     "5": 33
+    }
+   },
+   "multi": {
+    "maxLevel": 5,
+    "cost": {
+     "2": 2,
+     "3": 3,
+     "4": 4,
+     "5": 6
+    }
+   }
+  },
+  "dismantle": {
+   "baseCost": 500,
+   "recoveryRate": 25,
+   "powderMax": 30000,
+   "typeCoef": {
+    "color": 1,
+    "multi": 6
+   },
+   "equipBonus": {
+    "1": 100
+   }
+  },
+  "exchange": {
+   "color": 500,
+   "multi": 3000
+  }
+ },
  "encounters": [
   {
    "title": "Mystery Trader",

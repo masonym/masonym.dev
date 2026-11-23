@@ -6,6 +6,8 @@ import GameText from "./components/GameText";
 import Icon from "./components/Icon";
 import ModifierIcon from "./components/ModifierIcon";
 import SectionBrowser, { SectionMenu } from "./components/SectionBrowser";
+import Tip from "./components/Tip";
+import { dismantleDust, enhanceSteps } from "@/lib/quanah/jewels";
 import {
   ChangedDot,
   ChangesToggle,
@@ -17,7 +19,7 @@ import {
 export const metadata = {
   title: "Quanah Info | mason's maple matrix",
   description:
-    "Quanah reference: Mapae Modules, dimensional and Hologram skills with per-class damage, Battlesim programs, the Byte shop, encounters, floor modifiers, Battlesim monsters and Training monsters.",
+    "Quanah reference: Mapae Modules, dimensional and Hologram skills with per-class damage, Battlesim programs, the Byte shop, Jewels, encounters, floor modifiers, Battlesim monsters and Training monsters.",
 };
 
 // the modifier on the Floor Modifiers tile, shown on its HUD backing
@@ -53,6 +55,7 @@ const SECTIONS = [
     icon: "/quanah/skills/80013286.png",
   },
   { id: "shop", title: "Byte Shop", icon: "/quanah/items/2833794.png" },
+  { id: "jewels", title: "Jewels", icon: "/quanah/items/4009631.png" },
   // the portal that leads to an encounter
   {
     id: "encounters",
@@ -283,7 +286,8 @@ export default function QuanahPage() {
   const hasChanges = changes && Object.keys(changes.counts).length > 0;
   const intro = hasChanges ? <ChangesBanner changes={changes} /> : null;
   const sections = SECTIONS.filter(
-    (s) => s.id !== "battlesim" || battlesim,
+    (s) =>
+      (s.id !== "battlesim" || battlesim) && (s.id !== "jewels" || data.jewels),
   ).map((s) => ({ ...s, changed: changes?.counts[s.id] ?? 0 }));
 
   return (
@@ -479,6 +483,8 @@ export default function QuanahPage() {
                 ))}
               </Table>
             </Section>
+
+            {data.jewels && <JewelsSection jewels={data.jewels} />}
 
             <Section id="encounters" title="Encounters">
               <Note>
@@ -802,6 +808,177 @@ function BattlesimSection({ battlesim }) {
         Touch and attack damage are fixed damage, as a percentage of your Max
         HP. A dash means none. Attack damage lists each attack.
       </Note>
+    </Section>
+  );
+}
+
+const fmt = (n) => n.toLocaleString("en-US");
+// "[Hologram] Warrior Attack Skill Level" -> "Warrior"; the other lines name their skill
+const classOf = (l) => l.label.match(/(\w+) Attack Skill/)?.[1];
+
+function JewelsSection({ jewels: j }) {
+  const stats = j.lines.filter((l) => l.kind === "stat");
+  const skills = j.lines.filter((l) => l.kind === "skill");
+  const levels = stats[0]?.values.map((_, i) => i + 1) ?? [];
+  const prismatic = j.jewels.find((x) => x.type === "multi");
+  const color = enhanceSteps(j.enhance.color);
+  const multi = enhanceSteps(j.enhance.multi);
+  return (
+    <Section id="jewels" title="Jewels">
+      <p>
+        Each piece of gear has 1 to 3 jewel slots, at most one of them
+        Prismatic. Each jewel rolls 2 lines from its pool, and the values grow
+        with its level.
+      </p>
+
+      <div className="overflow-x-auto rounded-lg border border-primary/15">
+        <table className="w-full text-sm">
+          <thead className="bg-background-bright/40">
+            <tr>
+              <th className={th}>Line</th>
+              {j.jewels.map((x) => (
+                <th key={x.id} className={`${th} text-center`}>
+                  <span title={x.name} className="inline-flex">
+                    <Icon src={x.icon} alt={x.name} />
+                  </span>
+                </th>
+              ))}
+              {levels.map((l) => (
+                <th key={l} className={th}>
+                  Lv. {l}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-primary/10">
+            {stats.map((l) => (
+              <tr key={l.code}>
+                <td className={`${td} whitespace-nowrap`}>
+                  <ChangedDot entry={l} />
+                  {l.label}
+                </td>
+                {j.jewels.map((x) => (
+                  <td key={x.id} className={`${td} text-center`}>
+                    {x.lines.includes(l.code) ? (
+                      <span className="text-primary-bright" aria-label="Yes">
+                        ✓
+                      </span>
+                    ) : (
+                      <span className="text-primary-dim/50" aria-label="No">
+                        –
+                      </span>
+                    )}
+                  </td>
+                ))}
+                {l.values.map((v, i) => (
+                  <td key={i} className={`${td} whitespace-nowrap`}>
+                    +{fmt(v)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 className="text-lg font-semibold text-primary-bright mt-6 flex items-center gap-2">
+        <Icon src={prismatic?.icon} alt="" />
+        Prismatic skill lines
+        <Tip>
+          Skills can reach Lv. 3 from equipment. Going past that needs a
+          Prismatic Jewel, and a Prismatic Jewel will only add to the skill
+          level if it is already Lv. 3.
+        </Tip>
+      </h3>
+      <p>
+        Prismatic can also roll a skill level line: +
+        {skills[0]?.values.join(" / +")} levels at jewel Lv.{" "}
+        {levels.join(" / ")}.
+      </p>
+      <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
+        {skills.map((l) => (
+          <li
+            key={l.code}
+            className="relative flex items-center gap-2 rounded-lg border border-primary/15 p-2 pl-5"
+          >
+            <ChangedDot entry={l} at="row" />
+            <Icon src={l.icon} alt="" />
+            <span>
+              {l.skillName ?? l.label}
+              {classOf(l) && (
+                <span className="block text-xs text-primary-dim">
+                  {classOf(l)} attack skill
+                </span>
+              )}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="grid md:grid-cols-2 gap-4 mt-6">
+        <div>
+          <h3 className="text-lg font-semibold text-primary-bright mb-2">
+            Enhancing
+            <Tip>
+              Requires copies of the same jewel. The total counts from Lv. 1.
+            </Tip>
+          </h3>
+          <Table head={["Level", "Colour jewel", "Prismatic"]}>
+            {color.map((c, i) => (
+              <tr key={c.level}>
+                <td className={td}>
+                  Lv. {c.level - 1} → {c.level}
+                </td>
+                {[c, multi[i]].map((s, k) => (
+                  <td key={k} className={`${td} whitespace-nowrap`}>
+                    {s ? (
+                      <>
+                        {s.copies}
+                        <span className="text-primary-dim ml-2">
+                          ({s.total} total)
+                        </span>
+                      </>
+                    ) : (
+                      "–"
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </Table>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-primary-bright mb-2">
+            Dust
+            <Tip>You can hold up to {fmt(j.dismantle.powderMax)} dust.</Tip>
+          </h3>
+          <Table head={["", "Dismantle gives", "Exchange costs"]}>
+            {[
+              [
+                "Colour jewel",
+                dismantleDust(j.dismantle, "color"),
+                j.exchange.color,
+              ],
+              [
+                "Prismatic Jewel",
+                dismantleDust(j.dismantle, "multi"),
+                j.exchange.multi,
+              ],
+              ...Object.values(j.dismantle.equipBonus).map((v) => [
+                "Equipment",
+                v,
+                null,
+              ]),
+            ].map(([name, give, cost]) => (
+              <tr key={name}>
+                <td className={td}>{name}</td>
+                <td className={td}>{fmt(give)}</td>
+                <td className={td}>{cost == null ? "–" : fmt(cost)}</td>
+              </tr>
+            ))}
+          </Table>
+        </div>
+      </div>
     </Section>
   );
 }
