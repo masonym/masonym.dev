@@ -1,7 +1,10 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import data from "@/data/quanah.json";
 import ClassSkills from "./components/ClassSkills";
 import Icon from "./components/Icon";
+import ModifierIcon from "./components/ModifierIcon";
+import SectionBrowser, { SectionMenu } from "./components/SectionBrowser";
 import {
   ChangedDot,
   ChangesToggle,
@@ -13,21 +16,115 @@ import {
 export const metadata = {
   title: "Quanah Info | mason's maple matrix",
   description:
-    "Quanah reference: Mapae Modules, dimension skills with per-class damage, Battlesim programs, the Byte shop, encounters, floor modifiers and Training monsters.",
+    "Quanah reference: Mapae Modules, dimensional and Hologram skills with per-class damage, Battlesim programs, the Byte shop, encounters, floor modifiers, Battlesim monsters and Training monsters.",
 };
 
+// the modifier on the Floor Modifiers tile, shown on its HUD backing
+const tileModifier =
+  data.modifiers.sub.find((m) => m.name === "Amplify Damage") ??
+  data.modifiers.sub[0];
+const backingFor = (m) =>
+  m.positive === -1 ? data.ui?.positive : data.ui?.negative;
+
+// The menu tiles, in order (the number keys follow it). `icon` is a path under public/; leave
+// it out for an empty placeholder. `sprite` marks a large sprite, scaled down smoothly rather
+// than scaled up pixelated like the 32px icons. `backing` puts the icon on a modifier backing.
 const SECTIONS = [
-  ["modules", "Mapae Modules"],
-  ["skills", "Dimension Skills"],
-  ["acumen", "Inspector Acumen"],
-  ["programs", "Battlesim Programs"],
-  ["shop", "Byte Shop"],
-  ["encounters", "Encounters"],
-  ["modifiers", "Floor Modifiers"],
-  ["mobs", "Training Monsters"],
+  {
+    id: "modules",
+    title: "Mapae Modules",
+    icon: "/quanah/skills/80013179.png",
+  },
+  {
+    id: "skills",
+    title: "Skills",
+    sub: "Dimensional and Hologram",
+    icon: "/quanah/skills/80013018.png",
+  },
+  {
+    id: "acumen",
+    title: "Inspector Acumen",
+    icon: "/quanah/skills/80013035.png",
+  },
+  {
+    id: "programs",
+    title: "Battlesim Programs",
+    icon: "/quanah/skills/80013286.png",
+  },
+  { id: "shop", title: "Byte Shop", icon: "/quanah/items/2833794.png" },
+  // the portal that leads to an encounter
+  {
+    id: "encounters",
+    title: "Encounters",
+    icon: data.ui?.encounterPortal,
+    sprite: true,
+  },
+  {
+    id: "modifiers",
+    title: "Floor Modifiers",
+    icon: tileModifier?.icon,
+    backing: tileModifier && backingFor(tileModifier),
+  },
+  {
+    id: "battlesim",
+    title: "Battlesim Monsters",
+    icon: "/quanah/mobs/9602880.png",
+    sprite: true,
+  },
+  {
+    id: "mobs",
+    title: "Training Monsters",
+    icon: "/quanah/mobs/9602786.png",
+    sprite: true,
+  },
 ];
 
 const TIERS = [1, 2, 3];
+
+// Bugs are tagged as level 3 programs in the data, but they never show up in the program
+// shop: they only come from Encounters (the blue portal maps), so they get their own group.
+const isBug = (p) => p.name.startsWith("Bug:");
+
+function ProgramRow({ p }) {
+  return (
+    <li className="relative flex gap-3 p-3 pl-5">
+      <ChangedDot entry={p} at="row" />
+      <Icon src={p.icon} alt={p.name} />
+      <div className="min-w-0">
+        <p className="font-semibold text-primary-bright">
+          <DiffText before={p.before?.name} after={p.name} />
+          {p.tooltipName && (
+            <span className="text-primary-dim font-normal text-sm ml-2">
+              ({p.tooltipName})
+            </span>
+          )}
+        </p>
+        <p className="whitespace-pre-line">
+          <DiffText before={p.before?.effect} after={p.effect} />
+        </p>
+        {p.note && (
+          <p className="text-sm text-primary-dim mt-1">
+            Not in the tooltip:{" "}
+            <span className="text-primary">
+              {/* a note that didn't exist before diffs against "" so it shows as added */}
+              <DiffText
+                before={
+                  p.before && "note" in p.before
+                    ? (p.before.note ?? "")
+                    : undefined
+                }
+                after={p.note}
+              />
+            </span>
+          </p>
+        )}
+        <p className="text-sm italic text-primary-dim mt-1">
+          <DiffText before={p.before?.flavour} after={p.flavour} />
+        </p>
+      </div>
+    </li>
+  );
+}
 
 function Section({ id, title, children }) {
   return (
@@ -70,26 +167,46 @@ function ChangesBanner({ changes }) {
           : "Updated with new client data"}
       </p>
       <p className="text-sm">
-        Entries that changed have a <ChangedDot /> next to their name. Old
-        values are struck through next to the new ones.
+        Entries that changed have a <ChangedDot /> next to their name, and the
+        sections they are in show how many. Old values are struck through next
+        to the new ones.
       </p>
-      <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
-        {SECTIONS.filter(([id]) => changes.counts[id]).map(([id, title]) => (
-          <li key={id}>
-            <a
-              href={`#${id}`}
-              className="text-primary hover:text-primary-bright underline decoration-primary/30"
-            >
-              {title}
-            </a>
-            <span className="text-primary-dim ml-1">
-              ({changes.counts[id]})
-            </span>
-          </li>
-        ))}
-      </ul>
       <ChangesToggle />
     </div>
+  );
+}
+
+// "Simulated Xerxes" -> "Xerxes"; the one boss just called "Simulated Monster" goes by its sprite
+const simName = (m) =>
+  m.name === "Simulated Monster"
+    ? (m.looksLike ?? m.name)
+    : m.name.replace(/^Simulated /, "");
+
+function MobName({ m, sub }) {
+  return (
+    <span className="inline-flex items-center gap-2">
+      <Icon src={m.icon} alt="" />
+      <span>
+        {simName(m)}
+        {sub && <span className="block text-xs text-primary-dim">{sub}</span>}
+      </span>
+    </span>
+  );
+}
+
+function DamageCells({ m }) {
+  return (
+    <>
+      <td className={`${td} whitespace-nowrap`}>
+        <DiffValue entry={m} field="maxHP" kind="compact" />
+      </td>
+      <td className={`${td} whitespace-nowrap`}>
+        <DiffValue entry={m} field="touchDamR" kind="percent" />
+      </td>
+      <td className={`${td} whitespace-nowrap`}>
+        <DiffValue entry={m} field="attackDamR" kind="percent" />
+      </td>
+    </>
   );
 }
 
@@ -122,8 +239,15 @@ export default function QuanahPage() {
     encounters,
     modifiers,
     mobs,
+    battlesim,
     changes,
   } = data;
+
+  const hasChanges = changes && Object.keys(changes.counts).length > 0;
+  const intro = hasChanges ? <ChangesBanner changes={changes} /> : null;
+  const sections = SECTIONS.filter(
+    (s) => s.id !== "battlesim" || battlesim,
+  ).map((s) => ({ ...s, changed: changes?.counts[s.id] ?? 0 }));
 
   return (
     <main className="min-h-screen px-6 py-10">
@@ -132,343 +256,523 @@ export default function QuanahPage() {
           <h1 className="text-4xl font-bold text-primary-bright mb-3">
             Quanah Info
           </h1>
+          <Link
+            href="/quanah/calculators"
+            className="text-sm text-primary-dim hover:text-primary-bright underline"
+          >
+            Quanah Calculators
+          </Link>
         </header>
 
-        {changes && Object.keys(changes.counts).length > 0 && (
-          <>
-            <ChangesBanner changes={changes} />
-            <ChangesToggle floating />
-          </>
-        )}
-
-        <nav className="mb-10 flex flex-wrap gap-2">
-          {SECTIONS.map(([id, title]) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              className="px-3 py-1 rounded-full border border-primary/20 text-sm text-primary hover:text-primary-bright hover:border-primary-bright/40 transition-colors"
-            >
-              {title}
-            </a>
-          ))}
-        </nav>
-
-        <Section id="modules" title="Mapae Modules">
-          <p className="italic text-primary/80">{moduleDesc}</p>
-          <Table head={["", "Module", "Effect", "Max Lv."]}>
-            {modules.map((m) => (
-              <tr key={m.id}>
-                <td className={`${td} w-12`}>
-                  <ChangedDot entry={m} />
-                  <Icon src={m.icon} alt={m.name} />
-                </td>
-                <td className={`${td} whitespace-nowrap`}>
-                  {m.name.replace("Mapae ", "")}
-                </td>
-                <td className={td}>
-                  <DiffText before={m.before?.effect} after={m.effect} />
-                </td>
-                <td className={td}>
-                  <DiffValue entry={m} field="maxLevel" />
-                </td>
-              </tr>
-            ))}
-          </Table>
-        </Section>
-
-        <Section id="skills" title="Dimension Skills">
-          <p>Damage on these skills is different for every class.</p>
-          <Suspense fallback={<Note>Loading skills...</Note>}>
-            <ClassSkills
-              jobs={data.jobs}
-              dimensionSkills={data.dimensionSkills}
-              hologram={data.hologram}
-            />
-          </Suspense>
-        </Section>
-
-        <Section id="acumen" title="Inspector Acumen">
-          <p>
-            Passive dimension skills. Each stat comes in five grades, and every
-            one has 10 levels. The same for all classes.
-          </p>
-          <Table
-            head={[
-              "",
-              "Effect",
-              "Grade 1",
-              "Grade 2",
-              "Grade 3",
-              "Grade 4",
-              "Grade 5",
-              "Weight",
-            ]}
+        <Suspense fallback={<SectionMenu sections={sections} intro={intro} />}>
+          <SectionBrowser
+            sections={sections}
+            intro={intro}
+            // the banner has its own toggle, so this only shows inside a section
+            toggle={hasChanges && <ChangesToggle floating />}
           >
-            {acumen.map((a) => (
-              <tr key={a.label}>
-                <td className={`${td} w-12`}>
-                  <ChangedDot entry={a} />
-                  <Icon src={a.icon} alt="" />
-                </td>
-                <td className={td}>{a.label}</td>
-                {a.grades.map((g, i) => (
-                  <td key={i} className={`${td} whitespace-nowrap`}>
-                    <DiffValue
-                      entry={{
-                        g,
-                        before:
-                          a.before?.grades && a.before.grades[i] !== g
-                            ? { g: a.before.grades[i] }
-                            : undefined,
-                      }}
-                      field="g"
-                    />
-                  </td>
+            <Section id="modules" title="Mapae Modules">
+              <p className="italic text-primary/80">{moduleDesc}</p>
+              <Table head={["", "Module", "Effect", "Max Lv."]}>
+                {modules.map((m) => (
+                  <tr key={m.id}>
+                    <td className={`${td} w-12`}>
+                      <ChangedDot entry={m} />
+                      <Icon src={m.icon} alt={m.name} />
+                    </td>
+                    <td className={`${td} whitespace-nowrap`}>
+                      {m.name.replace("Mapae ", "")}
+                    </td>
+                    <td className={td}>
+                      <DiffText before={m.before?.effect} after={m.effect} />
+                    </td>
+                    <td className={td}>
+                      <DiffValue entry={m} field="maxLevel" />
+                    </td>
+                  </tr>
                 ))}
-                <td className={td}>
-                  <DiffValue entry={a} field="weight" />
-                </td>
-              </tr>
-            ))}
-          </Table>
-          <Note>
-            Weight is the raw appearance weight from the data. Active skills all
-            have a weight of 4, so a higher number here means that passive shows
-            up more often.
-          </Note>
-        </Section>
+              </Table>
+            </Section>
 
-        <Section id="programs" title="Battlesim Programs">
-          <p>
-            The 46 programs available in Infinite Dungeon: Battlesim. Values
-            written as 3/6/9 are per stack.
-          </p>
-          <div className="rounded-lg border border-primary/15 bg-background-bright/30 p-4">
-            <p className="font-semibold text-primary-bright mb-1">Fusion</p>
-            <p>
-              Overclocked Fusion is the only fusion: &quot;the result of three
-              unstable programs melding into one.&quot; It is made from
-              Overheated Head, Creaking Limb and Broken Heart.
-            </p>
-          </div>
-          {TIERS.map((tier) => {
-            const list = programs.filter((p) => p.tier === tier);
-            return (
-              <div key={tier}>
+            <Section id="skills" title="Skills">
+              <p>Damage on these skills is different for every class.</p>
+              <Suspense fallback={<Note>Loading skills...</Note>}>
+                <ClassSkills
+                  jobs={data.jobs}
+                  dimensionSkills={data.dimensionSkills}
+                  hologram={data.hologram}
+                />
+              </Suspense>
+            </Section>
+
+            <Section id="acumen" title="Inspector Acumen">
+              <p>
+                Passive dimensional skills. Each stat comes in five grades, and
+                every one has 10 levels. The same for all classes.
+              </p>
+              <Table
+                head={[
+                  "",
+                  "Effect",
+                  "Grade 1",
+                  "Grade 2",
+                  "Grade 3",
+                  "Grade 4",
+                  "Grade 5",
+                  "Weight",
+                ]}
+              >
+                {acumen.map((a) => (
+                  <tr key={a.label}>
+                    <td className={`${td} w-12`}>
+                      <ChangedDot entry={a} />
+                      <Icon src={a.icon} alt="" />
+                    </td>
+                    <td className={td}>{a.label}</td>
+                    {a.grades.map((g, i) => (
+                      <td key={i} className={`${td} whitespace-nowrap`}>
+                        <DiffValue
+                          entry={{
+                            g,
+                            before:
+                              a.before?.grades && a.before.grades[i] !== g
+                                ? { g: a.before.grades[i] }
+                                : undefined,
+                          }}
+                          field="g"
+                        />
+                      </td>
+                    ))}
+                    <td className={td}>
+                      <DiffValue entry={a} field="weight" />
+                    </td>
+                  </tr>
+                ))}
+              </Table>
+              <Note>
+                Weight is the raw appearance weight from the data. Active skills
+                all have a weight of 4, so a higher number here means that
+                passive shows up more often.
+              </Note>
+            </Section>
+
+            <Section id="programs" title="Battlesim Programs">
+              <p>
+                The 46 programs (including 5 Bugs) available in Infinite
+                Dungeon: Battlesim. Values written as 3/6/9 are per level.
+              </p>
+              <div className="rounded-lg border border-primary/15 bg-background-bright/30 p-4">
+                <p className="font-semibold text-primary-bright mb-1">Fusion</p>
+                <p>
+                  Overclocked Fusion is the only fusion: &quot;the result of
+                  three unstable programs melding into one.&quot; It is made
+                  from Overheated Head, Creaking Limb and Broken Heart.
+                </p>
+              </div>
+              {TIERS.map((tier) => {
+                const list = programs.filter(
+                  (p) => p.tier === tier && !isBug(p),
+                );
+                return (
+                  <div key={tier}>
+                    <h3 className="text-lg font-semibold text-primary-bright mt-6 mb-2">
+                      Level {tier}
+                      <span className="text-primary-dim font-normal text-sm ml-2">
+                        {list[0].price} Bytes
+                      </span>
+                    </h3>
+                    <ul className="divide-y divide-primary/10 rounded-lg border border-primary/15">
+                      {list.map((p) => (
+                        <ProgramRow key={p.code} p={p} />
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+              <div>
                 <h3 className="text-lg font-semibold text-primary-bright mt-6 mb-2">
-                  Level {tier}
+                  Bugs
                   <span className="text-primary-dim font-normal text-sm ml-2">
-                    {list[0].price} Bytes
+                    Encounters only
                   </span>
                 </h3>
+                <p className="mb-2">
+                  Bugs are not sold in the program shop. You can only pick them
+                  up from Encounters (the blue portal maps).
+                </p>
                 <ul className="divide-y divide-primary/10 rounded-lg border border-primary/15">
-                  {list.map((p) => (
-                    <li key={p.code} className="relative flex gap-3 p-3 pl-5">
-                      <ChangedDot entry={p} at="row" />
-                      <Icon src={p.icon} alt={p.name} />
-                      <div className="min-w-0">
-                        <p className="font-semibold text-primary-bright">
-                          <DiffText before={p.before?.name} after={p.name} />
-                          {p.tooltipName && (
-                            <span className="text-primary-dim font-normal text-sm ml-2">
-                              ({p.tooltipName})
-                            </span>
-                          )}
-                        </p>
-                        <p className="whitespace-pre-line">
-                          <DiffText
-                            before={p.before?.effect}
-                            after={p.effect}
-                          />
-                        </p>
-                        {p.note && (
-                          <p className="text-sm text-primary-dim mt-1">
-                            Not in the tooltip:{" "}
-                            <span className="text-primary">
-                              {/* a note that didn't exist before diffs against "" so it shows as added */}
-                              <DiffText
-                                before={
-                                  p.before && "note" in p.before
-                                    ? (p.before.note ?? "")
-                                    : undefined
-                                }
-                                after={p.note}
-                              />
-                            </span>
-                          </p>
-                        )}
-                        <p className="text-sm italic text-primary-dim mt-1">
-                          <DiffText
-                            before={p.before?.flavour}
-                            after={p.flavour}
-                          />
-                        </p>
-                      </div>
-                    </li>
+                  {programs.filter(isBug).map((p) => (
+                    <ProgramRow key={p.code} p={p} />
                   ))}
                 </ul>
               </div>
-            );
-          })}
-          <Note>
-            A name in brackets is what the skill tooltip calls the same program;
-            the two tables in the client disagree.
-          </Note>
-        </Section>
+              <Note>
+                A name in brackets is what the skill tooltip calls the same
+                program.
+              </Note>
+            </Section>
 
-        <Section id="shop" title="Byte Shop">
-          <Table head={["", "Item", "Price"]}>
-            {shop.map((s) => (
-              <tr key={s.itemId}>
-                <td className={`${td} w-12`}>
-                  <ChangedDot entry={s} />
-                  <Icon src={s.icon} alt={s.name} />
-                </td>
-                <td className={td}>
-                  <p className="font-semibold text-primary-bright">
-                    <DiffText before={s.before?.name} after={s.name} />
-                    {s.itemName && (
-                      <span className="text-primary-dim font-normal text-sm ml-2">
-                        ({s.itemName})
-                      </span>
-                    )}
-                  </p>
-                  {s.desc && (
-                    <p className="text-sm text-primary-dim whitespace-pre-line">
-                      <DiffText before={s.before?.desc} after={s.desc} />
-                    </p>
-                  )}
-                </td>
-                <td className={`${td} whitespace-nowrap`}>
-                  <DiffValue entry={s} field="price" /> Bytes
-                </td>
-              </tr>
-            ))}
-          </Table>
-        </Section>
-
-        <Section id="encounters" title="Encounters">
-          <Note>
-            The client only has the text and the choices, not the outcomes.
-            Which choices belong to which encounter is matched up by order.
-          </Note>
-          {encounters.map((e) => (
-            <div
-              key={e.title}
-              className="relative rounded-lg border border-primary/15 p-4 pl-5"
-            >
-              <ChangedDot entry={e} at="card" />
-              <h3 className="font-semibold text-primary-bright mb-2">
-                {e.title}
-              </h3>
-              <p className="whitespace-pre-line text-primary/80 text-sm">
-                <DiffText before={e.before?.text} after={e.text} />
-              </p>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {e.choices.map((c) => (
-                  <li
-                    key={c}
-                    className="px-3 py-1 rounded border border-primary/20 bg-background-bright/30 text-sm"
-                  >
-                    {c}
-                  </li>
+            <Section id="shop" title="Byte Shop">
+              <Table head={["", "Item", "Price"]}>
+                {shop.map((s) => (
+                  <tr key={s.itemId}>
+                    <td className={`${td} w-12`}>
+                      <ChangedDot entry={s} />
+                      <Icon src={s.icon} alt={s.name} />
+                    </td>
+                    <td className={td}>
+                      <p className="font-semibold text-primary-bright">
+                        <DiffText before={s.before?.name} after={s.name} />
+                        {s.itemName && (
+                          <span className="text-primary-dim font-normal text-sm ml-2">
+                            ({s.itemName})
+                          </span>
+                        )}
+                      </p>
+                      {s.desc && (
+                        <p className="text-sm text-primary-dim whitespace-pre-line">
+                          <DiffText before={s.before?.desc} after={s.desc} />
+                        </p>
+                      )}
+                    </td>
+                    <td className={`${td} whitespace-nowrap`}>
+                      <DiffValue entry={s} field="price" /> Bytes
+                    </td>
+                  </tr>
                 ))}
-              </ul>
-              {e.before?.choices && (
-                <OnlyWithBefore>
-                  <p className="mt-2 text-sm text-primary-dim">
-                    Previously:{" "}
-                    <del className="text-progress-red">
-                      {e.before.choices.join(", ")}
-                    </del>
-                  </p>
-                </OnlyWithBefore>
-              )}
-            </div>
-          ))}
-        </Section>
+              </Table>
+            </Section>
 
-        <Section id="modifiers" title="Floor Modifiers">
-          <Note>
-            Only the names are in the client, plus an unexplained flag that
-            splits each list in two. The groups below follow that flag.
-          </Note>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {[
-              ["Main", modifiers.main],
-              ["Sub", modifiers.sub],
-            ].map(([label, list]) => (
-              <div
-                key={label}
-                className="rounded-lg border border-primary/15 p-4"
-              >
-                <h3 className="font-semibold text-primary-bright mb-2">
-                  {label}
-                </h3>
-                {[-1, 0].map((flag) => (
-                  <div key={flag} className="mb-2 last:mb-0">
-                    <p className="text-xs uppercase tracking-wider text-primary-dim">
-                      Flag {flag}
-                    </p>
-                    <p>
-                      {list
-                        .filter((m) => m.positive === flag)
-                        .map((m) => m.name)
-                        .join(", ")}
-                    </p>
+            <Section id="encounters" title="Encounters">
+              <Note>
+                The client only has the text and the choices, not the outcomes.
+                Which choices belong to which encounter is matched up by order.
+              </Note>
+              {encounters.map((e) => (
+                <div
+                  key={e.title}
+                  className="relative rounded-lg border border-primary/15 p-4 pl-5"
+                >
+                  <ChangedDot entry={e} at="card" />
+                  <h3 className="font-semibold text-primary-bright mb-2">
+                    {e.title}
+                  </h3>
+                  <p className="whitespace-pre-line text-primary/80 text-sm">
+                    <DiffText before={e.before?.text} after={e.text} />
+                  </p>
+                  <ul className="mt-3 flex flex-wrap gap-2">
+                    {e.choices.map((c) => (
+                      <li
+                        key={c}
+                        className="px-3 py-1 rounded border border-primary/20 bg-background-bright/30 text-sm"
+                      >
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                  {e.before?.choices && (
+                    <OnlyWithBefore>
+                      <p className="mt-2 text-sm text-primary-dim">
+                        Previously:{" "}
+                        <del className="text-progress-red">
+                          {e.before.choices.join(", ")}
+                        </del>
+                      </p>
+                    </OnlyWithBefore>
+                  )}
+                </div>
+              ))}
+            </Section>
+
+            <Section id="modifiers" title="Floor Modifiers">
+              <Note>
+                Only the names and icons are in the client, not what each one
+                does. The client flags each one positive or negative, and the
+                Battlesim HUD has a blue and a red backing for the icons; the
+                groups and colours here follow that flag.
+              </Note>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {[
+                  ["Main", modifiers.main],
+                  ["Sub", modifiers.sub],
+                ].map(([label, list]) => (
+                  <div
+                    key={label}
+                    className="rounded-lg border border-primary/15 p-4"
+                  >
+                    <h3 className="font-semibold text-primary-bright mb-2">
+                      {label}
+                    </h3>
+                    {[
+                      [-1, "Positive"],
+                      [0, "Negative"],
+                    ].map(([flag, name]) => (
+                      <div key={flag} className="mb-3 last:mb-0">
+                        <p className="text-xs uppercase tracking-wider text-primary-dim mb-1">
+                          {name}
+                        </p>
+                        <ul className="grid grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] gap-2">
+                          {list
+                            .filter((m) => m.positive === flag)
+                            .map((m) => (
+                              <li
+                                key={m.name}
+                                className="flex items-center gap-2"
+                              >
+                                <ModifierIcon
+                                  icon={m.icon}
+                                  backing={backingFor(m)}
+                                />
+                                {m.name}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
-            ))}
-          </div>
-        </Section>
+            </Section>
 
-        <Section id="mobs" title="Proving Grounds Training Monsters">
+            {battlesim && <BattlesimSection battlesim={battlesim} />}
+
+            <Section id="mobs" title="Proving Grounds Training Monsters">
+              <Table
+                head={[
+                  "Monster",
+                  "Level",
+                  "Max HP",
+                  "EXP",
+                  "Inspector EXP",
+                  "Touch dmg",
+                  "Attack dmg",
+                ]}
+              >
+                {mobs.map((m) => (
+                  <tr key={m.id}>
+                    <td className={`${td} whitespace-nowrap`}>
+                      <ChangedDot entry={m} />
+                      <span className="inline-flex items-center gap-2">
+                        <Icon src={m.icon} alt="" />
+                        {m.name.replace("Training ", "")}
+                      </span>
+                    </td>
+                    <td className={td}>
+                      <DiffValue entry={m} field="level" />
+                    </td>
+                    <td className={`${td} whitespace-nowrap`}>
+                      <DiffValue entry={m} field="maxHP" kind="compact" />
+                    </td>
+                    <td className={`${td} whitespace-nowrap`}>
+                      <DiffValue entry={m} field="exp" kind="number" />
+                    </td>
+                    <td className={td}>
+                      <DiffValue entry={m} field="quanahExp" />
+                    </td>
+                    <td className={`${td} whitespace-nowrap`}>
+                      <DiffValue entry={m} field="touchDamR" kind="percent" />
+                    </td>
+                    <td className={`${td} whitespace-nowrap`}>
+                      <DiffValue entry={m} field="attackDamR" kind="percent" />
+                    </td>
+                  </tr>
+                ))}
+              </Table>
+              <Note>
+                Touch and attack damage are fixed damage, as a percentage of
+                your Max HP. A dash means the monster has none and hits for
+                normal damage.
+              </Note>
+            </Section>
+          </SectionBrowser>
+        </Suspense>
+      </article>
+    </main>
+  );
+}
+
+function BattlesimSection({ battlesim }) {
+  const { regions, bosses, pool, other, placeholder } = battlesim;
+  const bossById = Object.fromEntries(bosses.map((b) => [b.id, b]));
+  const floorOf = Object.fromEntries(
+    regions.flatMap((r) =>
+      r.floors.flatMap((f) =>
+        f.bosses.map((id) => [id, `${r.region} ${f.floors[0]}`]),
+      ),
+    ),
+  );
+  // "Floors 1–4, 6–9": the random floors, with runs of consecutive numbers as ranges
+  const randomFloors = (r) =>
+    r.floors
+      .filter((f) => f.random)
+      .flatMap((f) => f.floors)
+      .sort((a, b) => a - b)
+      .reduce((runs, n) => {
+        const last = runs.at(-1);
+        if (last && last[1] === n - 1) last[1] = n;
+        else runs.push([n, n]);
+        return runs;
+      }, [])
+      .map(([a, b]) => (a === b ? `${a}` : `${a}–${b}`))
+      .join(", ");
+  return (
+    <Section id="battlesim" title="Battlesim Monsters">
+      <p>
+        The Battlesim&apos;s monsters are level 260 copies of existing monsters,
+        using their sprites. On normal floors the client only places a
+        placeholder
+        {placeholder &&
+          ` (a level ${placeholder.level}, ${placeholder.maxHP} HP Simulated Monster that looks like a ${placeholder.looksLike})`}
+        {", "}which gets replaced by a monster from the pool below. Which one
+        you get isn&apos;t in the client. Boss floors place their boss directly.
+        Each sector is 10 floors: monsters on 1–4 and 6–9, a miniboss on 5 and
+        the boss on 10.
+      </p>
+
+      <h3 className="text-lg font-semibold text-primary-bright mt-6">Floors</h3>
+      <Table head={["Region", "Random monsters", "Boss floors"]}>
+        {regions.map((r) => (
+          <tr key={r.region}>
+            <td className={`${td} whitespace-nowrap`}>{r.region}</td>
+            <td className={`${td} whitespace-nowrap`}>
+              Floors {randomFloors(r)}
+            </td>
+            <td className={td}>
+              <div className="flex flex-wrap gap-x-6 gap-y-2">
+                {r.floors
+                  .filter((f) => !f.random)
+                  .map((f) => (
+                    <span
+                      key={f.map}
+                      className="inline-flex items-center gap-2"
+                    >
+                      <span className="text-primary-dim">{f.floors[0]}:</span>
+                      {/* one per name: extra copies of a boss share its name */}
+                      {f.bosses
+                        .map((id) => bossById[id])
+                        .filter(
+                          (b, i, list) =>
+                            list.findIndex((x) => simName(x) === simName(b)) ===
+                            i,
+                        )
+                        .map((b) => (
+                          <MobName key={b.id} m={b} />
+                        ))}
+                    </span>
+                  ))}
+              </div>
+            </td>
+          </tr>
+        ))}
+      </Table>
+
+      <h3 className="text-lg font-semibold text-primary-bright mt-6">Bosses</h3>
+      <Table head={["Boss", "Floor", "Max HP", "Touch dmg", "Attack dmg"]}>
+        {bosses.map((b) => (
+          <tr key={b.id}>
+            <td className={`${td} whitespace-nowrap`}>
+              <ChangedDot entry={b} />
+              <MobName m={b} sub={b.id} />
+            </td>
+            <td className={`${td} whitespace-nowrap`}>{floorOf[b.id]}</td>
+            <DamageCells m={b} />
+          </tr>
+        ))}
+      </Table>
+      <Note>
+        Some boss floors place extra copies of a boss under another ID, and some
+        of those have no sprite, attack or fixed damage of their own.
+      </Note>
+
+      <h3 className="text-lg font-semibold text-primary-bright mt-6">
+        Monster pool
+      </h3>
+      <p>
+        {pool.length} different monsters, ordered by the level of the monster
+        they're based off of in the real world. Monsters that only differ in
+        speed or EXP are shown once; the last column counts them. All HP values
+        are placeholders.
+      </p>
+      <details className="rounded-lg border border-primary/15">
+        <summary className="cursor-pointer px-4 py-2 text-primary hover:text-primary-bright">
+          Show all {pool.length}
+        </summary>
+        <div className="p-2">
           <Table
-            head={[
-              "Monster",
-              "Level",
-              "Max HP",
-              "EXP",
-              "Inspector EXP",
-              "Touch dmg",
-              "Attack dmg",
-            ]}
+            head={["Looks like", "Max HP", "Touch dmg", "Attack dmg", "Copies"]}
           >
-            {mobs.map((m) => (
-              <tr key={m.id}>
-                <td className={`${td} whitespace-nowrap`}>
-                  <ChangedDot entry={m} />
-                  {m.name.replace("Training ", "")}
-                </td>
+            {pool.map((g) => (
+              <tr key={g.key}>
                 <td className={td}>
-                  <DiffValue entry={m} field="level" />
+                  <ChangedDot entry={g} />
+                  <span className="inline-flex items-center gap-2">
+                    <Icon src={g.icon} alt="" />
+                    <span>
+                      {g.looksLike ?? "Its own sprite"}
+                      {g.looksLikeLevel != null && (
+                        <span className="text-primary-dim text-xs ml-2">
+                          Lv. {g.looksLikeLevel}
+                        </span>
+                      )}
+                      {g.bombOnDeath && (
+                        <span className="block text-xs text-primary-dim">
+                          Leaves a bomb when it dies
+                        </span>
+                      )}
+                    </span>
+                  </span>
                 </td>
-                <td className={`${td} whitespace-nowrap`}>
-                  <DiffValue entry={m} field="maxHP" kind="compact" />
-                </td>
-                <td className={`${td} whitespace-nowrap`}>
-                  <DiffValue entry={m} field="exp" kind="number" />
-                </td>
-                <td className={td}>
-                  <DiffValue entry={m} field="quanahExp" />
-                </td>
-                <td className={`${td} whitespace-nowrap`}>
-                  <DiffValue entry={m} field="touchDamR" kind="percent" />
-                </td>
-                <td className={`${td} whitespace-nowrap`}>
-                  <DiffValue entry={m} field="attackDamR" kind="percent" />
+                <DamageCells m={g} />
+                <td className={td} title={g.ids.join(", ")}>
+                  {g.ids.length}
                 </td>
               </tr>
             ))}
           </Table>
-          <Note>
-            Touch and attack damage are fixed damage, as a percentage of your
-            Max HP. A dash means the monster has none and hits for normal
-            damage.
-          </Note>
-        </Section>
-      </article>
-    </main>
+        </div>
+      </details>
+
+      <h3 className="text-lg font-semibold text-primary-bright mt-6">Other</h3>
+      <p>
+        Simulated monsters that don't get placed on floor load. They are spawned by floor modifiers, bosses or the monsters above.
+      </p>
+      <Table
+        head={[
+          "Monster",
+          "Level",
+          "Max HP",
+          "Touch dmg",
+          "Attack dmg",
+          "Notes",
+        ]}
+      >
+        {other.map((m) => (
+          <tr key={m.id}>
+            <td className={`${td} whitespace-nowrap`}>
+              <ChangedDot entry={m} />
+              <span className="inline-flex items-center gap-2">
+                <Icon src={m.icon} alt="" />
+                <span>
+                  {m.name}
+                  <span className="block text-xs text-primary-dim">
+                    {m.id}
+                    {m.looksLike && `, looks like ${m.looksLike}`}
+                  </span>
+                </span>
+              </span>
+            </td>
+            <td className={td}>
+              <DiffValue entry={m} field="level" />
+            </td>
+            <DamageCells m={m} />
+            <td className={`${td} text-sm`}>{m.notes.join(", ")}</td>
+          </tr>
+        ))}
+      </Table>
+      <Note>
+        Touch and attack damage are fixed damage, as a percentage of your Max
+        HP. A dash means none. Attack damage lists each attack.
+      </Note>
+    </Section>
   );
 }

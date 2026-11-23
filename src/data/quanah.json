@@ -1,4 +1,9 @@
 {
+ "ui": {
+  "positive": "/quanah/ui/fieldEffect-positive.png",
+  "negative": "/quanah/ui/fieldEffect-negative.png",
+  "encounterPortal": "/quanah/ui/portal-5.png"
+ },
  "moduleDesc": "",
  "modules": [
   {
@@ -1008,7 +1013,7 @@
    "text": "When an enemy is attacked with a Hologram attack skill, inflicts it with [Hologram] Format\n[Hologram] Format Duration: 20 sec\n[Hologram] Format Damage: {{damage}}%, Max Enemies Hit: 15, Number of Attacks: 15. Enemies hit can't be inflicted with [Hologram] Format for 5 sec.\n[Passive Effect - Final Damage: +5–40%]",
    "maxLevel": 8,
    "perClass": true,
-   "icon": null
+   "icon": "/quanah/skills/80013207.png"
   },
   {
    "id": "80013213",
@@ -1819,61 +1824,75 @@
   "main": [
    {
     "name": "Blood for Blood",
-    "positive": -1
+    "positive": -1,
+    "icon": "/quanah/ui/fieldEffect-main1.png"
    },
    {
     "name": "Pursuer",
-    "positive": 0
+    "positive": 0,
+    "icon": "/quanah/ui/fieldEffect-main2.png"
    },
    {
     "name": "Frenzy",
-    "positive": 0
+    "positive": 0,
+    "icon": "/quanah/ui/fieldEffect-main3.png"
    },
    {
     "name": "Farewell Bomb",
-    "positive": 0
+    "positive": 0,
+    "icon": "/quanah/ui/fieldEffect-main4.png"
    },
    {
     "name": "Vision Restriction",
-    "positive": 0
+    "positive": 0,
+    "icon": "/quanah/ui/fieldEffect-main5.png"
    },
    {
     "name": "Divine Punishment",
-    "positive": 0
+    "positive": 0,
+    "icon": "/quanah/ui/fieldEffect-main6.png"
    }
   ],
   "sub": [
    {
     "name": "Hamstring Enemies",
-    "positive": -1
+    "positive": -1,
+    "icon": "/quanah/ui/fieldEffect-sub1.png"
    },
    {
     "name": "Amplify Damage",
-    "positive": -1
+    "positive": -1,
+    "icon": "/quanah/ui/fieldEffect-sub2.png"
    },
    {
     "name": "QuickDraw",
-    "positive": -1
+    "positive": -1,
+    "icon": "/quanah/ui/fieldEffect-sub3.png"
    },
    {
     "name": "Swift Attack",
-    "positive": -1
+    "positive": -1,
+    "icon": "/quanah/ui/fieldEffect-sub4.png"
    },
    {
     "name": "Recovery Marble",
-    "positive": -1
+    "positive": -1,
+    "icon": "/quanah/ui/fieldEffect-sub5.png"
    },
    {
     "name": "Protective Shield",
-    "positive": -1
+    "positive": -1,
+    "icon": "/quanah/ui/fieldEffect-sub6.png"
    },
    {
     "name": "Malleable Hide",
-    "positive": 0
+    "positive": 0,
+    "icon": "/quanah/ui/fieldEffect-sub7.png"
    },
    {
     "name": "Potion Resistance",
-    "positive": 0
+    "positive": 0,
+    "icon": "/quanah/ui/fieldEffect-sub8.png"
    }
   ]
  },
@@ -1881,6 +1900,7 @@
   {
    "id": "9602786",
    "name": "Training Orange Mushroom",
+   "icon": "/quanah/mobs/9602786.png",
    "level": 270,
    "maxHP": 7463516580,
    "exp": 2543025,
@@ -1894,6 +1914,7 @@
   {
    "id": "9602787",
    "name": "Training Star Pixie",
+   "icon": "/quanah/mobs/9602787.png",
    "level": 270,
    "maxHP": 22390529740,
    "exp": 3814538,
@@ -1907,6 +1928,7 @@
   {
    "id": "9602788",
    "name": "Training Bellflower Root",
+   "icon": "/quanah/mobs/9602788.png",
    "level": 270,
    "maxHP": 38034949320,
    "exp": 4996187,
@@ -1920,6 +1942,7 @@
   {
    "id": "9602789",
    "name": "Training Gallina",
+   "icon": "/quanah/mobs/9602789.png",
    "level": 280,
    "maxHP": 182567756736,
    "exp": 8582579,
@@ -1936,6 +1959,7 @@
   {
    "id": "9602790",
    "name": "Training Anguished Spirit",
+   "icon": "/quanah/mobs/9602790.png",
    "level": 280,
    "maxHP": 270163672224,
    "exp": 11159003,
@@ -1952,6 +1976,7 @@
   {
    "id": "9602791",
    "name": "Training Aranya",
+   "icon": "/quanah/mobs/9602791.png",
    "level": 280,
    "maxHP": 370127464464,
    "exp": 12873851,
@@ -1968,6 +1993,7 @@
   {
    "id": "9602792",
    "name": "Training Flora Foot Soldier",
+   "icon": "/quanah/mobs/9602792.png",
    "level": 290,
    "maxHP": 678019546360,
    "exp": 14922083,
@@ -1984,6 +2010,7 @@
   {
    "id": "9602793",
    "name": "Training Angler Electro Tester",
+   "icon": "/quanah/mobs/9602793.png",
    "level": 290,
    "maxHP": 881425410268,
    "exp": 17483337,
@@ -2000,6 +2027,7 @@
   {
    "id": "9602794",
    "name": "Training Abyssal Hunter",
+   "icon": "/quanah/mobs/9602794.png",
    "level": 290,
    "maxHP": 1073622197739,
    "exp": 19623486,
@@ -2232,9 +2260,2269 @@
    "name": "Zero"
   }
  ],
+ "battlesim": {
+  "regions": [
+   {
+    "region": "Victoria Island",
+    "floors": [
+     {
+      "map": "693109000",
+      "floors": [
+       1,
+       6
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693109500",
+      "floors": [
+       2,
+       7
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693110000",
+      "floors": [
+       3,
+       8
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693110500",
+      "floors": [
+       4,
+       9
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693111000",
+      "floors": [
+       5
+      ],
+      "random": false,
+      "bosses": [
+       "9602878"
+      ]
+     },
+     {
+      "map": "693111500",
+      "floors": [
+       10
+      ],
+      "random": false,
+      "bosses": [
+       "9602879",
+       "9602939"
+      ]
+     }
+    ]
+   },
+   {
+    "region": "El Nath",
+    "floors": [
+     {
+      "map": "693112000",
+      "floors": [
+       1,
+       6
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693112500",
+      "floors": [
+       2,
+       7
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693113000",
+      "floors": [
+       3,
+       8
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693113500",
+      "floors": [
+       4,
+       9
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693114000",
+      "floors": [
+       5
+      ],
+      "random": false,
+      "bosses": [
+       "9602880"
+      ]
+     },
+     {
+      "map": "693114500",
+      "floors": [
+       10
+      ],
+      "random": false,
+      "bosses": [
+       "9602881"
+      ]
+     }
+    ]
+   },
+   {
+    "region": "Ludus Lake",
+    "floors": [
+     {
+      "map": "693115000",
+      "floors": [
+       1,
+       6
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693115500",
+      "floors": [
+       2,
+       7
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693116000",
+      "floors": [
+       3,
+       8
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693116500",
+      "floors": [
+       4,
+       9
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693117000",
+      "floors": [
+       5
+      ],
+      "random": false,
+      "bosses": [
+       "9602882",
+       "9602883"
+      ]
+     },
+     {
+      "map": "693117500",
+      "floors": [
+       10
+      ],
+      "random": false,
+      "bosses": [
+       "9602884",
+       "9602885",
+       "9602949",
+       "9602948"
+      ]
+     }
+    ]
+   },
+   {
+    "region": "Arcane River",
+    "floors": [
+     {
+      "map": "693118000",
+      "floors": [
+       1,
+       6
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693118500",
+      "floors": [
+       2,
+       7
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693119000",
+      "floors": [
+       3,
+       8
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693119500",
+      "floors": [
+       4,
+       9
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693120000",
+      "floors": [
+       5
+      ],
+      "random": false,
+      "bosses": [
+       "9602886"
+      ]
+     },
+     {
+      "map": "693120500",
+      "floors": [
+       10
+      ],
+      "random": false,
+      "bosses": [
+       "9602887"
+      ]
+     }
+    ]
+   },
+   {
+    "region": "Grandis",
+    "floors": [
+     {
+      "map": "693121000",
+      "floors": [
+       1,
+       6
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693121500",
+      "floors": [
+       2,
+       7
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693122000",
+      "floors": [
+       3,
+       8
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693122500",
+      "floors": [
+       4,
+       9
+      ],
+      "random": true,
+      "bosses": []
+     },
+     {
+      "map": "693123000",
+      "floors": [
+       5
+      ],
+      "random": false,
+      "bosses": [
+       "9602888"
+      ]
+     },
+     {
+      "map": "693123500",
+      "floors": [
+       10
+      ],
+      "random": false,
+      "bosses": [
+       "9602889"
+      ]
+     }
+    ]
+   }
+  ],
+  "bosses": [
+   {
+    "id": "9602878",
+    "name": "Simulated Mushmom",
+    "level": 260,
+    "maxHP": 494655000,
+    "touchDamR": 5,
+    "attackDamR": "12",
+    "looksLike": "Mushmom",
+    "looksLikeLevel": 18,
+    "icon": "/quanah/mobs/9602878.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602879",
+    "name": "Simulated Snack Bar",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": 5,
+    "attackDamR": "10 / 15 / 20",
+    "looksLike": "Snack Bar",
+    "looksLikeLevel": 85,
+    "icon": "/quanah/mobs/9602879.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602939",
+    "name": "Simulated Snack Bar",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": null,
+    "looksLikeLevel": null,
+    "icon": null,
+    "revive": [],
+    "invincible": true,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602880",
+    "name": "Simulated Xerxes",
+    "level": 260,
+    "maxHP": 494655000,
+    "touchDamR": 5,
+    "attackDamR": "5 / 5 / 5 / 5",
+    "looksLike": "Xerxes",
+    "looksLikeLevel": 83,
+    "icon": "/quanah/mobs/9602880.png",
+    "revive": [
+     "6160004"
+    ],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602881",
+    "name": "Simulated Snow Witch",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": 5,
+    "attackDamR": "5 / 20 / 5",
+    "looksLike": "Snow Witch",
+    "looksLikeLevel": 82,
+    "icon": "/quanah/mobs/9602881.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602882",
+    "name": "Simulated Targa",
+    "level": 260,
+    "maxHP": 246960000,
+    "touchDamR": 5,
+    "attackDamR": "5 / 5 / 5 / 5",
+    "looksLike": "Targa",
+    "looksLikeLevel": 125,
+    "icon": "/quanah/mobs/9602882.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602883",
+    "name": "Simulated Scarboss",
+    "level": 260,
+    "maxHP": 246960000,
+    "touchDamR": 5,
+    "attackDamR": "5 / 5 / 5 / 5",
+    "looksLike": "Scarboss",
+    "looksLikeLevel": 125,
+    "icon": "/quanah/mobs/9602883.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602884",
+    "name": "Simulated Black Robosaucer",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": 5,
+    "attackDamR": "5",
+    "looksLike": "Black Robosaucer",
+    "looksLikeLevel": 179,
+    "icon": "/quanah/mobs/9602884.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602885",
+    "name": "Simulated White Robosaucer",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": 5,
+    "attackDamR": "5",
+    "looksLike": "White Robosaucer",
+    "looksLikeLevel": 178,
+    "icon": "/quanah/mobs/9602885.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602949",
+    "name": "Simulated Black Robosaucer",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": null,
+    "attackDamR": "20",
+    "looksLike": null,
+    "looksLikeLevel": null,
+    "icon": null,
+    "revive": [],
+    "invincible": true,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602948",
+    "name": "Simulated White Robosaucer",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": null,
+    "looksLikeLevel": null,
+    "icon": null,
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602886",
+    "name": "Simulated Spirit of Harmony",
+    "level": 260,
+    "maxHP": 494655000,
+    "touchDamR": null,
+    "attackDamR": "5 / 5",
+    "looksLike": "Corrupt Spirit of Harmony",
+    "looksLikeLevel": 240,
+    "icon": "/quanah/mobs/9602886.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602887",
+    "name": "Simulated Singularity Maker",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": null,
+    "attackDamR": "20 / 10",
+    "looksLike": "Singularity Maker",
+    "looksLikeLevel": 210,
+    "icon": "/quanah/mobs/9602887.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602888",
+    "name": "Simulated Monster",
+    "level": 260,
+    "maxHP": 494655000,
+    "touchDamR": null,
+    "attackDamR": "25 / 4",
+    "looksLike": "Flaming Great Spirit",
+    "looksLikeLevel": 100,
+    "icon": "/quanah/mobs/9602888.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false
+   },
+   {
+    "id": "9602889",
+    "name": "Simulated Soul of Darkness",
+    "level": 260,
+    "maxHP": 271200000,
+    "touchDamR": null,
+    "attackDamR": "4 / 10",
+    "looksLike": "Soul of Darkness",
+    "looksLikeLevel": 100,
+    "icon": "/quanah/mobs/9602889.png",
+    "revive": [
+     "9602892"
+    ],
+    "invincible": false,
+    "selfDestruct": false
+   }
+  ],
+  "pool": [
+   {
+    "key": "Guided Artillery 1|7500000|5|8|",
+    "ids": [
+     "9602846"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Guided Artillery 1",
+    "looksLikeLevel": 1,
+    "icon": "/quanah/mobs/9602846.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Guided Artillery 1|7500000|5|40|",
+    "ids": [
+     "9603037"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Guided Artillery 1",
+    "looksLikeLevel": 1,
+    "icon": "/quanah/mobs/9603037.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Pig|7500000|5||",
+    "ids": [
+     "9602807",
+     "9602977"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Pig",
+    "looksLikeLevel": 7,
+    "icon": "/quanah/mobs/9602807.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ribbon Pig|7500000|5||",
+    "ids": [
+     "9602810",
+     "9602978"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Ribbon Pig",
+    "looksLikeLevel": 10,
+    "icon": "/quanah/mobs/9602810.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Orange Mushroom|7500000|5||",
+    "ids": [
+     "9602818",
+     "9602975"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Orange Mushroom",
+    "looksLikeLevel": 10,
+    "icon": "/quanah/mobs/9602818.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Orange Mushroom|7500000|5||9602968",
+    "ids": [
+     "9602963"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Orange Mushroom",
+    "looksLikeLevel": 10,
+    "icon": "/quanah/mobs/9602963.png",
+    "bombOnDeath": true
+   },
+   {
+    "key": "Cynical Orange Mushroom|7500000|5||",
+    "ids": [
+     "9602815",
+     "9602980"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Cynical Orange Mushroom",
+    "looksLikeLevel": 11,
+    "icon": "/quanah/mobs/9602815.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Horny Mushroom|7500000|5||",
+    "ids": [
+     "9602812",
+     "9602979"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Horny Mushroom",
+    "looksLikeLevel": 12,
+    "icon": "/quanah/mobs/9602812.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Pepe Rolling A Snowball|7500000|5|8|",
+    "ids": [
+     "9602822"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Pepe Rolling A Snowball",
+    "looksLikeLevel": 14,
+    "icon": "/quanah/mobs/9602822.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Stone Golem|7500000|5||",
+    "ids": [
+     "9602814",
+     "9603011"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Stone Golem",
+    "looksLikeLevel": 15,
+    "icon": "/quanah/mobs/9602814.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Lupin|7500000|5|8|",
+    "ids": [
+     "9602808",
+     "9602809",
+     "9602982"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Lupin",
+    "looksLikeLevel": 23,
+    "icon": "/quanah/mobs/9602808.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Lupin|7500000|5|40|",
+    "ids": [
+     "9603029"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Lupin",
+    "looksLikeLevel": 23,
+    "icon": "/quanah/mobs/9603029.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Malady|7500000|10||",
+    "ids": [
+     "9602969"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 10,
+    "attackDamR": null,
+    "looksLike": "Malady",
+    "looksLikeLevel": 24,
+    "icon": "/quanah/mobs/9602969.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Stumpy|15000000|10|20 / 20|",
+    "ids": [
+     "9602953",
+     "9603048"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20 / 20",
+    "looksLike": "Stumpy",
+    "looksLikeLevel": 25,
+    "icon": "/quanah/mobs/9602953.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Surgeon Eye|7500000|5||",
+    "ids": [
+     "9602813",
+     "9603013"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Surgeon Eye",
+    "looksLikeLevel": 29,
+    "icon": "/quanah/mobs/9602813.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Faust|15000000|10|20|",
+    "ids": [
+     "9602954",
+     "9603049"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20",
+    "looksLike": "Faust",
+    "looksLikeLevel": 33,
+    "icon": "/quanah/mobs/9602954.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ghost Pixie|7500000|5|8|",
+    "ids": [
+     "9602821"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Ghost Pixie",
+    "looksLikeLevel": 48,
+    "icon": "/quanah/mobs/9602821.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ghost Pixie|7500000|5|40|",
+    "ids": [
+     "9603034"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Ghost Pixie",
+    "looksLikeLevel": 48,
+    "icon": "/quanah/mobs/9603034.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Wild Boar|7500000|5||",
+    "ids": [
+     "9602817",
+     "9603012"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Wild Boar",
+    "looksLikeLevel": 55,
+    "icon": "/quanah/mobs/9602817.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ice Drake|7500000|5|8|",
+    "ids": [
+     "9602816"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Ice Drake",
+    "looksLikeLevel": 68,
+    "icon": "/quanah/mobs/9602816.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ice Drake|7500000|5|40|",
+    "ids": [
+     "9603030"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Ice Drake",
+    "looksLikeLevel": 68,
+    "icon": "/quanah/mobs/9603030.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Dark Drake|7500000|5|8|",
+    "ids": [
+     "9602806"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Dark Drake",
+    "looksLikeLevel": 69,
+    "icon": "/quanah/mobs/9602806.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Dark Drake|7500000|5|40|",
+    "ids": [
+     "9603031"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Dark Drake",
+    "looksLikeLevel": 69,
+    "icon": "/quanah/mobs/9603031.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Lunar Pixie|7500000|5|8|",
+    "ids": [
+     "9602824",
+     "9602989"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Lunar Pixie",
+    "looksLikeLevel": 74,
+    "icon": "/quanah/mobs/9602824.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Star Pixie|7500000|5|8|",
+    "ids": [
+     "9602825",
+     "9602988"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Star Pixie",
+    "looksLikeLevel": 74,
+    "icon": "/quanah/mobs/9602825.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Rabbit|7500000|5|8|",
+    "ids": [
+     "9602828",
+     "9602987"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Rabbit",
+    "looksLikeLevel": 75,
+    "icon": "/quanah/mobs/9602828.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Mecateon|7500000|5|8|",
+    "ids": [
+     "9602840",
+     "9602991"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Mecateon",
+    "looksLikeLevel": 75,
+    "icon": "/quanah/mobs/9602840.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Eliza|15000000|10|20|",
+    "ids": [
+     "9602955",
+     "9603050"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20",
+    "looksLike": "Eliza",
+    "looksLikeLevel": 75,
+    "icon": "/quanah/mobs/9602955.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Barnard Gray|7500000|5|8|",
+    "ids": [
+     "9602841",
+     "9602993"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Barnard Gray",
+    "looksLikeLevel": 77,
+    "icon": "/quanah/mobs/9602841.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Jr. Yeti|7500000|5||",
+    "ids": [
+     "9602829",
+     "9602983"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Jr. Yeti",
+    "looksLikeLevel": 78,
+    "icon": "/quanah/mobs/9602829.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Jr. Yeti|7500000|5||6300001",
+    "ids": [
+     "9602830",
+     "9602984"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Jr. Yeti",
+    "looksLikeLevel": 78,
+    "icon": "/quanah/mobs/9602830.png",
+    "bombOnDeath": true
+   },
+   {
+    "key": "Jr. Yeti|7500000|5||9602968",
+    "ids": [
+     "9602964"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Jr. Yeti",
+    "looksLikeLevel": 78,
+    "icon": "/quanah/mobs/9602964.png",
+    "bombOnDeath": true
+   },
+   {
+    "key": "Zeta Gray|7500000|10|8|",
+    "ids": [
+     "9602971"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 10,
+    "attackDamR": "8",
+    "looksLike": "Zeta Gray",
+    "looksLikeLevel": 78,
+    "icon": "/quanah/mobs/9602971.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Dark Pepe|7500000|5||",
+    "ids": [
+     "9602823",
+     "9603016"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Dark Pepe",
+    "looksLikeLevel": 79,
+    "icon": "/quanah/mobs/9602823.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Chief Gray|7500000|5|8|",
+    "ids": [
+     "9602845",
+     "9602992"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Chief Gray",
+    "looksLikeLevel": 80,
+    "icon": "/quanah/mobs/9602845.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "White Fang|7500000|5|8|",
+    "ids": [
+     "9602834",
+     "9602985"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "White Fang",
+    "looksLikeLevel": 81,
+    "icon": "/quanah/mobs/9602834.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Zeno|7500000|5|8|",
+    "ids": [
+     "9602847",
+     "9602994"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Zeno",
+    "looksLikeLevel": 82,
+    "icon": "/quanah/mobs/9602847.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ratz|7500000|5||",
+    "ids": [
+     "9602838",
+     "9603019"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Ratz",
+    "looksLikeLevel": 93,
+    "icon": "/quanah/mobs/9602838.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Black Ratz|7500000|5||",
+    "ids": [
+     "9602843",
+     "9603020"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Black Ratz",
+    "looksLikeLevel": 93,
+    "icon": "/quanah/mobs/9602843.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Black Ratz|7500000|5||9602968",
+    "ids": [
+     "9602965"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Black Ratz",
+    "looksLikeLevel": 93,
+    "icon": "/quanah/mobs/9602965.png",
+    "bombOnDeath": true
+   },
+   {
+    "key": "King Bloctopus|7500000|5|8|",
+    "ids": [
+     "9602848",
+     "9602996",
+     "9603065"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "King Bloctopus",
+    "looksLikeLevel": 96,
+    "icon": "/quanah/mobs/9602848.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "King Bloctopus|7500000|5|40|",
+    "ids": [
+     "9603039"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "King Bloctopus",
+    "looksLikeLevel": 96,
+    "icon": "/quanah/mobs/9603039.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Rombot|7500000|5|8|",
+    "ids": [
+     "9602839",
+     "9603018"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Rombot",
+    "looksLikeLevel": 98,
+    "icon": "/quanah/mobs/9602839.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Rombot|15000000|10|20|",
+    "ids": [
+     "9602957",
+     "9603052"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20",
+    "looksLike": "Rombot",
+    "looksLikeLevel": 98,
+    "icon": "/quanah/mobs/9602957.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Monster Gull|7500000|5|8|",
+    "ids": [
+     "9602865",
+     "9603028"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Monster Gull",
+    "looksLikeLevel": 100,
+    "icon": "/quanah/mobs/9602865.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ebonstar Archer|7500000|5|8 / 8|",
+    "ids": [
+     "9602876"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8 / 8",
+    "looksLike": "Ebonstar Archer",
+    "looksLikeLevel": 100,
+    "icon": "/quanah/mobs/9602876.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ebonstar Foot Soldier|7500000|5|8|",
+    "ids": [
+     "9602877",
+     "9603003"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Ebonstar Foot Soldier",
+    "looksLikeLevel": 100,
+    "icon": "/quanah/mobs/9602877.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ebonstar Archer|7500000|5|40 / 40|",
+    "ids": [
+     "9603047"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40 / 40",
+    "looksLike": "Ebonstar Archer",
+    "looksLikeLevel": 100,
+    "icon": "/quanah/mobs/9603047.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Buffoon|7500000|5|8|",
+    "ids": [
+     "9602842",
+     "9602990"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Buffoon",
+    "looksLikeLevel": 116,
+    "icon": "/quanah/mobs/9602842.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Yeti|7500000|5|8|",
+    "ids": [
+     "9602826",
+     "9603015"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Yeti",
+    "looksLikeLevel": 117,
+    "icon": "/quanah/mobs/9602826.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Grim Phantom Watch|7500000|5|8|",
+    "ids": [
+     "9602835",
+     "9602995"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Grim Phantom Watch",
+    "looksLikeLevel": 120,
+    "icon": "/quanah/mobs/9602835.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Gatekeeper|7500000|5|8 / 8|",
+    "ids": [
+     "9602837",
+     "9603017"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8 / 8",
+    "looksLike": "Gatekeeper",
+    "looksLikeLevel": 120,
+    "icon": "/quanah/mobs/9602837.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Werewolf|7500000|5|8|",
+    "ids": [
+     "9602827",
+     "9603014"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Werewolf",
+    "looksLikeLevel": 122,
+    "icon": "/quanah/mobs/9602827.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Flyeye|7500000|10||",
+    "ids": [
+     "9602970"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 10,
+    "attackDamR": null,
+    "looksLike": "Flyeye",
+    "looksLikeLevel": 122,
+    "icon": "/quanah/mobs/9602970.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Nyalmo|15000000|10|20|",
+    "ids": [
+     "9602956",
+     "9603051"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20",
+    "looksLike": "Nyalmo",
+    "looksLikeLevel": 122,
+    "icon": "/quanah/mobs/9602956.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Thanatos|15000000|10|20|",
+    "ids": [
+     "9602958",
+     "9603053"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20",
+    "looksLike": "Thanatos",
+    "looksLikeLevel": 122,
+    "icon": "/quanah/mobs/9602958.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Jellybus|7500000|5|8|",
+    "ids": [
+     "9602849",
+     "9603021"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Jellybus",
+    "looksLikeLevel": 123,
+    "icon": "/quanah/mobs/9602849.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Coolie Zombie|7500000|5|8 / 8|",
+    "ids": [
+     "9602831"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8 / 8",
+    "looksLike": "Coolie Zombie",
+    "looksLikeLevel": 124,
+    "icon": "/quanah/mobs/9602831.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Coolie Zombie|7500000|5|40 / 40|",
+    "ids": [
+     "9603033"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40 / 40",
+    "looksLike": "Coolie Zombie",
+    "looksLikeLevel": 124,
+    "icon": "/quanah/mobs/9603033.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Bain|7500000|5|8|",
+    "ids": [
+     "9602832"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Bain",
+    "looksLikeLevel": 136,
+    "icon": "/quanah/mobs/9602832.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Bain|7500000|5|40|",
+    "ids": [
+     "9603035"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Bain",
+    "looksLikeLevel": 136,
+    "icon": "/quanah/mobs/9603035.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Mutant Slime|7500000|5|8|",
+    "ids": [
+     "9602811",
+     "9602981"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Mutant Slime",
+    "looksLikeLevel": 166,
+    "icon": "/quanah/mobs/9602811.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "MT-09|7500000|5|8|",
+    "ids": [
+     "9602836"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "MT-09",
+    "looksLikeLevel": 177,
+    "icon": "/quanah/mobs/9602836.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "MT-09|7500000|5|40|",
+    "ids": [
+     "9603038"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "MT-09",
+    "looksLikeLevel": 177,
+    "icon": "/quanah/mobs/9603038.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Wipe-O-Matic|7500000|5||",
+    "ids": [
+     "9602844"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Wipe-O-Matic",
+    "looksLikeLevel": 179,
+    "icon": "/quanah/mobs/9602844.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Wipe-O-Matic|7500000|||",
+    "ids": [
+     "9603040"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": "Wipe-O-Matic",
+    "looksLikeLevel": 179,
+    "icon": "/quanah/mobs/9603040.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Uncanny Taurospear|7500000|5|8 / 8|",
+    "ids": [
+     "9602819"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8 / 8",
+    "looksLike": "Uncanny Taurospear",
+    "looksLikeLevel": 190,
+    "icon": "/quanah/mobs/9602819.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Uncanny Taurospear|7500000|5|40 / 40|",
+    "ids": [
+     "9603032"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40 / 40",
+    "looksLike": "Uncanny Taurospear",
+    "looksLikeLevel": 190,
+    "icon": "/quanah/mobs/9603032.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Seed of Life|7500000|5||",
+    "ids": [
+     "9602854"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Seed of Life",
+    "looksLikeLevel": 200,
+    "icon": "/quanah/mobs/9602854.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Seeker T-Drone Model B|7500000|10|8|",
+    "ids": [
+     "9602972"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 10,
+    "attackDamR": "8",
+    "looksLike": "Seeker T-Drone Model B",
+    "looksLikeLevel": 206,
+    "icon": "/quanah/mobs/9602972.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Lantern Erda|7500000|5|8|",
+    "ids": [
+     "9602857"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Lantern Erda",
+    "looksLikeLevel": 208,
+    "icon": "/quanah/mobs/9602857.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Lantern Erda|7500000|5|40|",
+    "ids": [
+     "9603044"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Lantern Erda",
+    "looksLikeLevel": 208,
+    "icon": "/quanah/mobs/9603044.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Exterminator T-Drone Model B|7500000|5|8|",
+    "ids": [
+     "9602855"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Exterminator T-Drone Model B",
+    "looksLikeLevel": 209,
+    "icon": "/quanah/mobs/9602855.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Exterminator T-Drone Model B|7500000|5|40|",
+    "ids": [
+     "9603041"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Exterminator T-Drone Model B",
+    "looksLikeLevel": 209,
+    "icon": "/quanah/mobs/9603041.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Pinedeer|7500000|5|8|",
+    "ids": [
+     "9602861",
+     "9603025"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Pinedeer",
+    "looksLikeLevel": 210,
+    "icon": "/quanah/mobs/9602861.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Gallus|7500000|5|8|",
+    "ids": [
+     "9602850",
+     "9602997"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Gallus",
+    "looksLikeLevel": 222,
+    "icon": "/quanah/mobs/9602850.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Gallus|7500000|5|8|9602968",
+    "ids": [
+     "9602966"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Gallus",
+    "looksLikeLevel": 222,
+    "icon": "/quanah/mobs/9602966.png",
+    "bombOnDeath": true
+   },
+   {
+    "key": "Red Dancing Shoes|7500000|5|8 / 8|",
+    "ids": [
+     "9602853",
+     "9602998"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8 / 8",
+    "looksLike": "Red Dancing Shoes",
+    "looksLikeLevel": 225,
+    "icon": "/quanah/mobs/9602853.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Dreamkeeper|15000000|10|20|",
+    "ids": [
+     "9602959",
+     "9603054"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20",
+    "looksLike": "Dreamkeeper",
+    "looksLikeLevel": 226,
+    "icon": "/quanah/mobs/9602959.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Toxic Spirit|7500000|5|8|",
+    "ids": [
+     "9602851"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Toxic Spirit",
+    "looksLikeLevel": 235,
+    "icon": "/quanah/mobs/9602851.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Toxic Spirit|7500000|5|40|",
+    "ids": [
+     "9603043"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Toxic Spirit",
+    "looksLikeLevel": 235,
+    "icon": "/quanah/mobs/9603043.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Nameless Cat|7500000|5|8|",
+    "ids": [
+     "9602859",
+     "9603024"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Nameless Cat",
+    "looksLikeLevel": 237,
+    "icon": "/quanah/mobs/9602859.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Befuddled Spirit|7500000|5|8 / 8|",
+    "ids": [
+     "9602863",
+     "9603002",
+     "9603066"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8 / 8",
+    "looksLike": "Befuddled Spirit",
+    "looksLikeLevel": 237,
+    "icon": "/quanah/mobs/9602863.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Befuddled Spirit|7500000|5|40 / 40|",
+    "ids": [
+     "9603042"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40 / 40",
+    "looksLike": "Befuddled Spirit",
+    "looksLikeLevel": 237,
+    "icon": "/quanah/mobs/9603042.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Blue Shadow|7500000|5|8|",
+    "ids": [
+     "9602862",
+     "9603001"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Blue Shadow",
+    "looksLikeLevel": 239,
+    "icon": "/quanah/mobs/9602862.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Red Shadow|7500000|5|8|",
+    "ids": [
+     "9602852",
+     "9603000"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Red Shadow",
+    "looksLikeLevel": 240,
+    "icon": "/quanah/mobs/9602852.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Big Experiment Gone Wrong|7500000|5|8|",
+    "ids": [
+     "9602856",
+     "9603022"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Big Experiment Gone Wrong",
+    "looksLikeLevel": 241,
+    "icon": "/quanah/mobs/9602856.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Thralled Warhammer Knight|7500000|5|8|",
+    "ids": [
+     "9602858",
+     "9603023"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Thralled Warhammer Knight",
+    "looksLikeLevel": 243,
+    "icon": "/quanah/mobs/9602858.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Silent Assassin|7500000|5|8|",
+    "ids": [
+     "9602860",
+     "9602999"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Silent Assassin",
+    "looksLikeLevel": 259,
+    "icon": "/quanah/mobs/9602860.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Blackheart Negative|15000000|10|20|",
+    "ids": [
+     "9602960",
+     "9603055"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20",
+    "looksLike": "Blackheart Negative",
+    "looksLikeLevel": 259,
+    "icon": "/quanah/mobs/9602960.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Chief Monster Gull|7500000|10||",
+    "ids": [
+     "9602973"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 10,
+    "attackDamR": null,
+    "looksLike": "Chief Monster Gull",
+    "looksLikeLevel": 260,
+    "icon": "/quanah/mobs/9602973.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Simulated Monster|7500000|5|8|",
+    "ids": [
+     "9602986"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Simulated Monster",
+    "looksLikeLevel": 260,
+    "icon": "/quanah/mobs/9602986.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Senyabot Alpha|7500000|5|8|",
+    "ids": [
+     "9602867"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Senyabot Alpha",
+    "looksLikeLevel": 265,
+    "icon": "/quanah/mobs/9602867.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Senyabot Alpha|7500000|5|40|",
+    "ids": [
+     "9603046"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Senyabot Alpha",
+    "looksLikeLevel": 265,
+    "icon": "/quanah/mobs/9603046.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Training Orange Mushroom|7500000|5||",
+    "ids": [
+     "9602820",
+     "9602976"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": null,
+    "looksLike": "Training Orange Mushroom",
+    "looksLikeLevel": 270,
+    "icon": "/quanah/mobs/9602820.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Training Star Pixie|7500000|5|8|",
+    "ids": [
+     "9602833"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Training Star Pixie",
+    "looksLikeLevel": 270,
+    "icon": "/quanah/mobs/9602833.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Training Star Pixie|7500000|5|40|",
+    "ids": [
+     "9603036"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "Training Star Pixie",
+    "looksLikeLevel": 270,
+    "icon": "/quanah/mobs/9603036.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Enhanced Diamond Guardian|15000000|10|20|",
+    "ids": [
+     "9602961",
+     "9603056"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20",
+    "looksLike": "Enhanced Diamond Guardian",
+    "looksLikeLevel": 270,
+    "icon": "/quanah/mobs/9602961.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Guard Agate|7500000|5|8|",
+    "ids": [
+     "9602864",
+     "9603008"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Guard Agate",
+    "looksLikeLevel": 272,
+    "icon": "/quanah/mobs/9602864.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ink-Shaded Butterfly|7500000|5|8|",
+    "ids": [
+     "9602866",
+     "9603005"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Ink-Shaded Butterfly",
+    "looksLikeLevel": 275,
+    "icon": "/quanah/mobs/9602866.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Ink-Shaded Butterfly|7500000|5|8|9602968",
+    "ids": [
+     "9602967"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Ink-Shaded Butterfly",
+    "looksLikeLevel": 275,
+    "icon": "/quanah/mobs/9602967.png",
+    "bombOnDeath": true
+   },
+   {
+    "key": "High Flora Foot Soldier|7500000|5|8|",
+    "ids": [
+     "9602874",
+     "9603004"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "High Flora Foot Soldier",
+    "looksLikeLevel": 280,
+    "icon": "/quanah/mobs/9602874.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "High Flora Armored Soldier|7500000|5|8|",
+    "ids": [
+     "9602873"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "High Flora Armored Soldier",
+    "looksLikeLevel": 282,
+    "icon": "/quanah/mobs/9602873.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "High Flora Armored Soldier|7500000|5|40|",
+    "ids": [
+     "9603045"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "40",
+    "looksLike": "High Flora Armored Soldier",
+    "looksLikeLevel": 282,
+    "icon": "/quanah/mobs/9603045.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "High Flora Longswordsman|7500000|5|8|",
+    "ids": [
+     "9602875",
+     "9603007"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "High Flora Longswordsman",
+    "looksLikeLevel": 283,
+    "icon": "/quanah/mobs/9602875.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Frozen Flora Magician|7500000|5|8|",
+    "ids": [
+     "9602868",
+     "9603010"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Frozen Flora Magician",
+    "looksLikeLevel": 284,
+    "icon": "/quanah/mobs/9602868.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Frozen Flora Foot Soldier|7500000|5|8|",
+    "ids": [
+     "9602869",
+     "9603006"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Frozen Flora Foot Soldier",
+    "looksLikeLevel": 284,
+    "icon": "/quanah/mobs/9602869.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Despairing Guard|7500000|5|8|",
+    "ids": [
+     "9602870",
+     "9603026"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Despairing Guard",
+    "looksLikeLevel": 285,
+    "icon": "/quanah/mobs/9602870.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Monstrous Shadow Bird|15000000|10|20|",
+    "ids": [
+     "9602962",
+     "9603057"
+    ],
+    "maxHP": 15000000,
+    "touchDamR": 10,
+    "attackDamR": "20",
+    "looksLike": "Monstrous Shadow Bird",
+    "looksLikeLevel": 286,
+    "icon": "/quanah/mobs/9602962.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Shadowy Black Panther|7500000|5|8|",
+    "ids": [
+     "9602871",
+     "9603009"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Shadowy Black Panther",
+    "looksLikeLevel": 288,
+    "icon": "/quanah/mobs/9602871.png",
+    "bombOnDeath": false
+   },
+   {
+    "key": "Judge of Storms|7500000|5|8|",
+    "ids": [
+     "9602872",
+     "9603027"
+    ],
+    "maxHP": 7500000,
+    "touchDamR": 5,
+    "attackDamR": "8",
+    "looksLike": "Judge of Storms",
+    "looksLikeLevel": 292,
+    "icon": "/quanah/mobs/9602872.png",
+    "bombOnDeath": false
+   }
+  ],
+  "other": [
+   {
+    "id": "9602891",
+    "name": "Simulated Snack Bar",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": 5,
+    "attackDamR": "5",
+    "looksLike": "Unknown Snack Bar",
+    "looksLikeLevel": 85,
+    "icon": "/quanah/mobs/9602891.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   },
+   {
+    "id": "9602940",
+    "name": "Simulated Monster",
+    "level": 260,
+    "maxHP": 1000000,
+    "touchDamR": null,
+    "attackDamR": "10",
+    "looksLike": "Self-destructive Blue",
+    "looksLikeLevel": 105,
+    "icon": "/quanah/mobs/9602940.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": true,
+    "notes": [
+     "Self-destructs"
+    ]
+   },
+   {
+    "id": "9602945",
+    "name": "Simulated Black Robosaucer",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": "Black Robosaucer",
+    "looksLikeLevel": 179,
+    "icon": "/quanah/mobs/9602945.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   },
+   {
+    "id": "9602946",
+    "name": "Simulated White Robosaucer",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": "White Robosaucer",
+    "looksLikeLevel": 178,
+    "icon": "/quanah/mobs/9602946.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   },
+   {
+    "id": "9602947",
+    "name": "Simulated Black Robosaucer",
+    "level": 260,
+    "maxHP": 2100000000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": "Black Robosaucer",
+    "looksLikeLevel": 179,
+    "icon": "/quanah/mobs/9602947.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   },
+   {
+    "id": "9602950",
+    "name": "Simulated Black Robosaucer",
+    "level": 260,
+    "maxHP": 740300000,
+    "touchDamR": null,
+    "attackDamR": "5",
+    "looksLike": null,
+    "looksLikeLevel": null,
+    "icon": "/quanah/mobs/9602950.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   },
+   {
+    "id": "9602968",
+    "name": "Simulated Monster",
+    "level": 10,
+    "maxHP": 10,
+    "touchDamR": 5,
+    "attackDamR": "10",
+    "looksLike": "Pachu",
+    "looksLikeLevel": 66,
+    "icon": "/quanah/mobs/9602968.png",
+    "revive": [],
+    "invincible": true,
+    "selfDestruct": true,
+    "notes": [
+     "Invincible",
+     "Self-destructs",
+     "Spawns when some pool monsters die (5 of them)"
+    ]
+   },
+   {
+    "id": "9602974",
+    "name": "Simulated Monster",
+    "level": 100,
+    "maxHP": 150000000,
+    "touchDamR": 5,
+    "attackDamR": "10 / 10 / 10",
+    "looksLike": "Apostle's Lightning",
+    "looksLikeLevel": 100,
+    "icon": null,
+    "revive": [],
+    "invincible": true,
+    "selfDestruct": false,
+    "notes": [
+     "Invincible"
+    ]
+   },
+   {
+    "id": "9603107",
+    "name": "Simulated Box",
+    "level": 260,
+    "maxHP": 100000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": "Chaos Pierre",
+    "looksLikeLevel": 190,
+    "icon": "/quanah/mobs/9603107.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   },
+   {
+    "id": "9603108",
+    "name": "Simulated Box",
+    "level": 260,
+    "maxHP": 100000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": "Chaos Pierre",
+    "looksLikeLevel": 190,
+    "icon": "/quanah/mobs/9603108.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   },
+   {
+    "id": "9603109",
+    "name": "Simulated Box",
+    "level": 260,
+    "maxHP": 100000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": "Chaos Pierre",
+    "looksLikeLevel": 190,
+    "icon": "/quanah/mobs/9603109.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   },
+   {
+    "id": "9603110",
+    "name": "Simulated Box",
+    "level": 260,
+    "maxHP": 100000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": "Chaos Pierre",
+    "looksLikeLevel": 190,
+    "icon": "/quanah/mobs/9603110.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   },
+   {
+    "id": "9603111",
+    "name": "Simulated Box",
+    "level": 260,
+    "maxHP": 100000,
+    "touchDamR": null,
+    "attackDamR": null,
+    "looksLike": "Chaos Pierre",
+    "looksLikeLevel": 190,
+    "icon": "/quanah/mobs/9603111.png",
+    "revive": [],
+    "invincible": false,
+    "selfDestruct": false,
+    "notes": []
+   }
+  ],
+  "placeholder": {
+   "id": "9602890",
+   "name": "Simulated Monster",
+   "level": 1,
+   "maxHP": 15,
+   "touchDamR": null,
+   "attackDamR": null,
+   "looksLike": "Snail",
+   "looksLikeLevel": 1,
+   "icon": "/quanah/mobs/9602890.png",
+   "revive": [],
+   "invincible": false,
+   "selfDestruct": false
+  }
+ },
  "changes": {
   "source": "hotfix",
-  "date": "2026-11-19T20:07:46.1670000Z",
+  "date": "2026-11-19T20:07:46.0000000Z",
   "counts": {
    "programs": 3,
    "mobs": 9,

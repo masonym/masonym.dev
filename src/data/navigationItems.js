@@ -75,6 +75,12 @@ export const navigationItems = [
         href: "/quanah",
         image: "/images/quanah.png",
       },
+      {
+        // Dimensional grade 5 badge, from UI/_Canvas/UIWindowGL.img/DimensionSkillMission/tier
+        name: "Quanah Calculators",
+        href: "/quanah/calculators",
+        image: "/quanah/ui/mapae-grade5.png",
+      },
     ],
   },
   // {
