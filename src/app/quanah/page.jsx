@@ -207,7 +207,7 @@ function ChangesBanner({ changes }) {
     <div className="mb-10 rounded-lg border border-secondary/40 bg-background-bright/30 p-4 space-y-3">
       <p className="font-semibold text-primary-bright">
         {changes.source === "hotfix"
-          ? `Updated with the ${when} hotfix`
+          ? `Updated with the ${when} maintenance`
           : "Updated with new client data"}
       </p>
       <p className="text-sm">
