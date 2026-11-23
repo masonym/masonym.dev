@@ -1,12 +1,14 @@
 // Quanah Dimensional Missions, from the client:
 // UI/UIWindowGL.img/DimensionSkillMission/missionListViewer:1/missionList (str, point, category,
-// type), dumped from the GMS v272 client on 2026-11-23. The same 110 quest IDs are the
+// type), dumped from the GMS v272 client on 2026-11-23 with WzDataExtractor/WzDump (its README has
+// the exact commands). The same 110 quest IDs are the
 // Etc/GMSSeasonalWorldInfo.img Quest list's "[Dimensional Mission]" quests (69197-69306).
 //
 // `type` is the client's mission type: "round" missions reset when you die, "permanent" ones
-// don't. The Level, Battlesim and Star Force missions are ladders (each one checks a value is
-// at least N, see QuestData/<id>.img/Check/0/infoex), so reaching a rung completes every rung
-// below it. Boss missions are independent.
+// don't. The Level and Battlesim missions are ladders (each one checks a value is at least N, see
+// QuestData/<id>.img/Check/0/infoex), so reaching a rung completes every rung below it. Star Force
+// missions each check their own flag and are independent. A solo boss clear also completes the
+// easier difficulties of that boss.
 //
 // `image` is the boss's file under public/bossImages/ (the client's "Seren (Extreme)" and
 // "Kalos (Extreme)" are Chosen Seren and Kalos the Guardian).

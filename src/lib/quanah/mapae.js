@@ -68,18 +68,21 @@ export const MODULES = [
 
 export const MAX_MODULE_POINTS = MODULES.length * MODULE_MAX_LEVEL;
 
-const LADDERS = ["level", "battlesim", "starforce"];
+const LADDERS = ["level", "battlesim"];
 export const ladder = (category) =>
   MISSIONS.filter((m) => m.category === category);
-export const BOSSES = MISSIONS.filter((m) => m.category === "boss");
+export const STAR_FORCE = ladder("starforce");
+export const BOSSES = ladder("boss");
 
-// Progress is kept as how far up each ladder you are (0 = none, n = the first n rungs done) plus
-// the set of boss mission IDs done. `extraScore` is score from outside the mission list (trading
-// a Dimensional Skill Coupon for score, deleting skills), treated as resetting on death.
+// Progress is kept as how far up the Level and Battlesim ladders you are (0 = none, n = the first
+// n rungs done), plus the sets of Star Force and boss mission IDs done. Star Force missions are
+// each their own flag (QuestData/<id>.img/Check/0/infoex: exVariable s5, s8, ... = 1), so reaching
+// a high star doesn't complete the lower ones. `extraScore` is score from outside the mission list
+// (trading a Dimensional Skill Coupon for score, deleting skills), treated as resetting on death.
 export const emptyProgress = () => ({
   level: 0,
   battlesim: 0,
-  starforce: 0,
+  starforce: new Set(),
   bosses: new Set(),
   extraScore: 0,
 });
@@ -87,8 +90,29 @@ export const emptyProgress = () => ({
 export function completedMissions(progress) {
   const done = [];
   for (const cat of LADDERS) done.push(...ladder(cat).slice(0, progress[cat]));
+  done.push(...STAR_FORCE.filter((m) => progress.starforce.has(m.id)));
   done.push(...BOSSES.filter((m) => progress.bosses.has(m.id)));
   return done;
+}
+
+// Clearing a boss solo also completes that boss's missions on every easier difficulty, so marking
+// one marks the easier ones and unmarking one unmarks the harder ones. "Seren (Extreme)" and
+// "Kalos (Extreme)" count as Chosen Seren and Kalos the Guardian (same `image`).
+const DIFFICULTY_RANK = { Easy: 0, Normal: 1, Hard: 2, Chaos: 3, Extreme: 4 };
+
+export function toggleBoss(bosses, id) {
+  const m = BOSSES.find((b) => b.id === id);
+  const next = new Set(bosses);
+  const rank = DIFFICULTY_RANK[m.difficulty];
+  const same = BOSSES.filter((b) => b.image === m.image);
+  if (bosses.has(id)) {
+    for (const b of same)
+      if (DIFFICULTY_RANK[b.difficulty] >= rank) next.delete(b.id);
+  } else {
+    for (const b of same)
+      if (DIFFICULTY_RANK[b.difficulty] <= rank) next.add(b.id);
+  }
+  return next;
 }
 
 export function missionScore(progress) {
@@ -126,7 +150,7 @@ export function die(progress, bankedPoints) {
   return {
     progress: {
       ...emptyProgress(),
-      starforce: progress.starforce,
+      starforce: new Set(progress.starforce),
       bosses: new Set(progress.bosses),
     },
     bankedPoints: Math.max(bankedPoints, count),

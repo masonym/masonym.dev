@@ -289,8 +289,8 @@ export default function QuanahPage() {
   return (
     <main className="min-h-screen px-6 py-10">
       <article className="max-w-6xl mx-auto">
-        <header className="mb-8 pb-6 border-b border-primary/20">
-          <h1 className="text-4xl font-bold text-primary-bright mb-3">
+        <header className="mb-8 pb-6 border-b border-primary/20 flex flex-wrap items-baseline gap-x-6 gap-y-2">
+          <h1 className="text-4xl font-bold text-primary-bright">
             Quanah Info
           </h1>
           <Link

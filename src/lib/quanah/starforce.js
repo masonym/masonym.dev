@@ -4,12 +4,14 @@
 //
 // - Sunny Sunday's 30% destruction reduction applies (to 21★, like the meso version).
 // - Its 30% cost reduction does NOT apply to crystals or fragments.
-// - Quanah gear can't be equipped at 23★ or higher (UI/GL_QuanahBurning.img notice), so 22★ is
-//   the useful cap, but the Star Force missions go to 30★, so targets up to 30 are allowed.
+// - Equipment goes to 30★. Quanah's own gear can be starred past 22★ and still equipped; the
+//   "23-star or higher equipment cannot be equipped" rule (UI/GL_QuanahBurning.img notice) is for
+//   items that leap back to regular worlds afterwards (pitched boss gear, Eternal, ...).
+// - The Inspector's Mapae is capped at 22★ (observed in game).
 //
-// The per-attempt cost is not in the client or the hotfix Data.wz (it is server side). The
-// defaults below are community-reported (Altord/QuanahWorldUtilities, Nov 2026) and the page lets
-// you overwrite every one of them.
+// The per-attempt cost is not in the client or the hotfix Data.wz (it is server side). The crystal
+// formula below is fitted to costs read off the enhancement window in game (Nov 2026), and the
+// page lets you overwrite every cost.
 import {
   evaluateStrategy,
   getEnhanceModeInfo,
@@ -18,20 +20,46 @@ import {
 } from "../../app/star-force/utils.js";
 
 export const MAX_STAR = 30;
-export const EQUIP_CAP = 22;
+export const EQUIP_CAP = 22; // the most a leap-out item can have and still be equipped in Quanah
+export const MAPAE_MAX_STAR = 22;
 
-// Quanah Crystals per attempt, by current star.
-export function defaultCrystalCost(star) {
-  if (star < 15) return 25;
-  if (star < 20) return 50;
-  if (star === 20) return 60;
-  if (star === 21) return 70;
-  return 90;
+// Quanah Crystals per attempt, by current star and item level.
+//
+// From 15★: round(level³ × (star+1)^2.7 / 200,000,000). This is the meso formula's shape
+// (src/app/star-force/utils.js calculateMesoCost) with one divisor for every star instead of the
+// meso table's per-star divisors. It reproduces all 15 observed costs (level 160: 16->17 = 43,
+// 18 = 58, 19 = 67, 21 = 86; level 200: 17 = 98, 18 = 113, 19 = 130, 20 = 149, 21 = 169,
+// 24 = 238). The level is rounded down to a multiple of 10 like the meso formula; only levels 160
+// and 200 have been checked, so that part is an assumption.
+//
+// Below 15★ the formula is far too low (level 160 12->13 would be 21, but costs 30). The observed
+// costs there are flat tiers: 10 for 0-4★, 20 for 5-9★, 30 for 10-14★ (level 160: 3 = 10,
+// 7 = 20, 8 = 20, 12 = 30, 14 = 30). Only seen on a level 160 item; whether they change with
+// level is unknown. At low levels this makes 15★ cheaper than 14★ (level 140: 24 vs 30), which
+// may mean the tiers or formula differ there.
+export const crystalLevel = (level) => Math.floor(level / 10) * 10;
+
+export function defaultCrystalCost(star, level) {
+  if (star < 15) return 10 * (Math.floor(star / 5) + 1);
+  return Math.round((crystalLevel(level) ** 3 * (star + 1) ** 2.7) / 2e8);
 }
 
-// Mapae Fragments per attempt. Not reported anywhere yet: 1 is a placeholder so the page still
-// shows expected attempts until someone enters the real numbers.
-export const defaultFragmentCost = () => 1;
+// Mapae Fragments per attempt on the Inspector's Mapae (1182311, a level 160 badge).
+//
+// From 15★: round(level³ × (star+1)^2.7 / 2,000,000,000), the crystal formula with a divisor ten
+// times larger. It reproduces every observed cost (15->16 = 4, 17 = 5, 18 = 6, 19 = 7, 20 = 8,
+// 21 = 9) and gives 4 for 16->17, which wasn't read. Below 15★ is a guess: the crystal tiers
+// divided by ten (1 / 2 / 3).
+export const MAPAE_LEVEL = 160;
+
+export function defaultFragmentCost(star, level = MAPAE_LEVEL) {
+  if (star < 15) return Math.floor(star / 5) + 1;
+  return Math.round((crystalLevel(level) ** 3 * (star + 1) ** 2.7) / 2e9);
+}
+
+// Restoring a destroyed Mapae costs 100 Quanah Crystals (observed in game), paid in a different
+// currency from the fragments, so it's reported separately.
+export const MAPAE_RESTORE_CRYSTALS = 100;
 
 export const ITEMS = {
   equip: {
@@ -40,6 +68,7 @@ export const ITEMS = {
     currency: "Quanah Crystals",
     short: "crystals",
     icon: "/quanah/items/2833794.png",
+    maxStar: MAX_STAR,
     defaultCost: defaultCrystalCost,
   },
   mapae: {
@@ -49,13 +78,20 @@ export const ITEMS = {
     short: "fragments",
     icon: "/quanah/items/2833663.png",
     itemIcon: "/quanah/items/1182311.png",
+    maxStar: MAPAE_MAX_STAR,
     defaultCost: defaultFragmentCost,
+    restoreCrystals: MAPAE_RESTORE_CRYSTALS,
   },
 };
 
 // Per-star table in the shape src/app/star-force/utils.js's solver and simulator take.
 // `costs[star]` overrides the item's default cost; `boomReduction` is Sunny Sunday's -30%.
-export function buildQuanahTable({ item, costs = {}, boomReduction = false }) {
+export function buildQuanahTable({
+  item,
+  level = 200,
+  costs = {},
+  boomReduction = false,
+}) {
   const table = new Array(MAX_STAR + 1);
   for (let star = 0; star <= MAX_STAR; star++) {
     const info = getEnhanceModeInfo(star, 1);
@@ -69,7 +105,7 @@ export function buildQuanahTable({ item, costs = {}, boomReduction = false }) {
       pSuccess: info.success,
       pCumNoChange: info.success + pMaintain,
       pBoom,
-      cost: costs[star] ?? item.defaultCost(star),
+      cost: costs[star] ?? item.defaultCost(star, level),
       successStars: 1,
       // getRecoveredStars falls back to 12 for stars that can't boom, which would point past
       // the end of a short (e.g. one-star) solve
@@ -79,9 +115,9 @@ export function buildQuanahTable({ item, costs = {}, boomReduction = false }) {
   return table;
 }
 
-// Expected cost (in the item's currency, with each boom also costing `boomCost`), attempts and
-// booms from `from` to `to`, exactly from the Markov chain.
-export function expected(table, from, to, boomCost = 0) {
+// Expected cost (in the item's currency), attempts and booms from `from` to `to`, exactly from the
+// Markov chain.
+export function expected(table, from, to) {
   const cost = evaluateStrategy(table, from, to);
   const attempts = evaluateStrategy(
     table.map((e) => ({ ...e, cost: 1 })),
@@ -89,7 +125,7 @@ export function expected(table, from, to, boomCost = 0) {
     to,
   );
   return {
-    cost: cost.expectedCost + cost.expectedBooms * boomCost,
+    cost: cost.expectedCost,
     attempts: attempts.expectedCost,
     booms: cost.expectedBooms,
   };
@@ -99,12 +135,12 @@ const pick = (sorted, p) =>
   sorted[Math.min(sorted.length - 1, Math.floor(p * (sorted.length - 1)))];
 
 // Monte Carlo spread of the total cost: the median and the unlucky tail.
-export function simulate(table, from, to, boomCost = 0, runs = 10000) {
+export function simulate(table, from, to, runs = 10000) {
   const costs = new Float64Array(runs);
   const booms = new Float64Array(runs);
   for (let i = 0; i < runs; i++) {
     const r = simulateStarForceFast(table, from, to);
-    costs[i] = r.totalCost + r.booms * boomCost;
+    costs[i] = r.totalCost;
     booms[i] = r.booms;
   }
   costs.sort();

@@ -9,6 +9,7 @@ import {
 import {
   BOSSES,
   MAX_MODULE_POINTS,
+  STAR_FORCE,
   MILESTONES,
   MODULES,
   MODULE_MAX_LEVEL,
@@ -18,26 +19,27 @@ import {
   missionScore,
   moduleEffects,
   modulePoints,
+  toggleBoss,
 } from "@/lib/quanah/mapae";
 import useParamState from "./useParamState";
 import Icon from "../../components/Icon";
 
 const KEYS = ["mlv", "mbs", "msf", "mb", "mx", "mbank", "mod"];
-const LADDER_KEY = { level: "mlv", battlesim: "mbs", starforce: "msf" };
+const LADDER_KEY = { level: "mlv", battlesim: "mbs" };
 
 const fmt = (n) => Math.round(n).toLocaleString("en-US");
 const clampInt = (v, lo, hi) =>
   Math.min(hi, Math.max(lo, Number.parseInt(v, 10) || 0));
 
-// Boss missions done, as a bitmask over BOSSES in base 36.
-const encodeBosses = (set) => {
+// A set of mission IDs, as a bitmask over `list` (STAR_FORCE or BOSSES) in base 36.
+const encodeSet = (list, set) => {
   let mask = 0n;
-  BOSSES.forEach((b, i) => {
-    if (set.has(b.id)) mask |= 1n << BigInt(i);
+  list.forEach((m, i) => {
+    if (set.has(m.id)) mask |= 1n << BigInt(i);
   });
   return mask ? mask.toString(36) : null;
 };
-const decodeBosses = (s) => {
+const decodeSet = (list, s) => {
   const set = new Set();
   if (!s) return set;
   let mask = 0n;
@@ -46,8 +48,8 @@ const decodeBosses = (s) => {
     if (Number.isNaN(d)) return set;
     mask = mask * 36n + BigInt(d);
   }
-  BOSSES.forEach((b, i) => {
-    if (mask & (1n << BigInt(i))) set.add(b.id);
+  list.forEach((m, i) => {
+    if (mask & (1n << BigInt(i))) set.add(m.id);
   });
   return set;
 };
@@ -65,9 +67,7 @@ function TypeTag({ type }) {
           : "border-progress-green text-progress-green"
       }`}
       title={
-        type === "round"
-          ? "Resets when you die"
-          : "Stays done when you die"
+        type === "round" ? "Resets when you die" : "Stays done when you die"
       }
     >
       {type === "round" ? "Round" : "Permanent"}
@@ -108,7 +108,15 @@ function GradeBar({ score }) {
   );
 }
 
-function Summary({ progress, banked, setBanked, onDie, onUndo, canUndo, onClear }) {
+function Summary({
+  progress,
+  banked,
+  setBanked,
+  onDie,
+  onUndo,
+  canUndo,
+  onClear,
+}) {
   const s = missionScore(progress);
   const g = gradeInfo(s.score);
   const points = modulePoints(progress, banked);
@@ -142,7 +150,9 @@ function Summary({ progress, banked, setBanked, onDie, onUndo, canUndo, onClear 
                 {g.nextGrade < 5 && (
                   <>
                     {" · "}
-                    <span className="text-primary-bright">{fmt(g.toMax)}</span>{" "}
+                    <span className="text-primary-bright">
+                      {fmt(g.toMax)}
+                    </span>{" "}
                     to Grade 5
                   </>
                 )}
@@ -169,8 +179,8 @@ function Summary({ progress, banked, setBanked, onDie, onUndo, canUndo, onClear 
         {nextTen && (
           <p className="text-sm">
             <span className="text-primary-bright">{nextTen - s.count}</span>{" "}
-            more {nextTen - s.count === 1 ? "mission" : "missions"} this run
-            for {nextTen} points
+            more {nextTen - s.count === 1 ? "mission" : "missions"} this run for{" "}
+            {nextTen} points
           </p>
         )}
         <label className="flex flex-wrap items-center gap-2 text-sm">
@@ -210,9 +220,13 @@ function Summary({ progress, banked, setBanked, onDie, onUndo, canUndo, onClear 
   );
 }
 
-function LadderCard({ category, done, onSet }) {
+// A grid of mission chips. Ladders pass `done` (how many rungs) and `onSet`; independent
+// missions pass `doneSet` and `onToggle`.
+function MissionGrid({ category, done, onSet, doneSet, onToggle }) {
   const rungs = ladder(category.id);
-  const pts = rungs.slice(0, done).reduce((a, m) => a + m.points, 0);
+  const isOn = (m, i) => (doneSet ? doneSet.has(m.id) : i < done);
+  const count = rungs.filter(isOn).length;
+  const pts = rungs.filter(isOn).reduce((a, m) => a + m.points, 0);
   const all = rungs.reduce((a, m) => a + m.points, 0);
   return (
     <div className={card}>
@@ -221,18 +235,22 @@ function LadderCard({ category, done, onSet }) {
         <h3 className="font-semibold text-primary-bright">{category.title}</h3>
         <TypeTag type={rungs[0].type} />
         <span className="ml-auto text-sm text-primary-dim">
-          {done}/{rungs.length} · {fmt(pts)} / {fmt(all)} pts
+          {count}/{rungs.length} · {fmt(pts)} / {fmt(all)} pts
         </span>
       </div>
       <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
         {rungs.map((m, i) => {
-          const on = i < done;
+          const on = isOn(m, i);
           return (
             <button
               key={m.id}
               type="button"
-              // clicking the top rung that's done steps back one
-              onClick={() => onSet(done === i + 1 ? i : i + 1)}
+              onClick={() =>
+                doneSet
+                  ? onToggle(m.id)
+                  : // clicking the top rung that's done steps back one
+                    onSet(done === i + 1 ? i : i + 1)
+              }
               aria-pressed={on}
               title={m.name}
               className={`rounded-md border px-2 py-1.5 text-left transition-colors ${
@@ -265,16 +283,15 @@ function BossCard({ bosses, onToggle, onSetAll }) {
     <div className={card}>
       <div className="flex flex-wrap items-center gap-3 mb-3">
         <Icon src={category.icon} alt="" />
-        <h3 className="font-semibold text-primary-bright">
-          {category.title}
-        </h3>
+        <h3 className="font-semibold text-primary-bright">{category.title}</h3>
         <TypeTag type="permanent" />
         <span className="ml-auto text-sm text-primary-dim">
           {done.length}/{BOSSES.length} · {fmt(pts)} / {fmt(all)} pts
         </span>
       </div>
       <p className="text-sm text-primary-dim mb-3">
-        Defeat the boss by yourself, outside a party.{" "}
+        Defeat the boss by yourself, outside a party. A clear also completes the
+        easier difficulties of that boss.{" "}
         <button
           type="button"
           className="underline hover:text-primary-bright"
@@ -416,8 +433,8 @@ export default function MissionCalculator() {
   const progress = {
     level: clampInt(get("mlv"), 0, ladder("level").length),
     battlesim: clampInt(get("mbs"), 0, ladder("battlesim").length),
-    starforce: clampInt(get("msf"), 0, ladder("starforce").length),
-    bosses: decodeBosses(get("mb")),
+    starforce: decodeSet(STAR_FORCE, get("msf")),
+    bosses: decodeSet(BOSSES, get("mb")),
     extraScore: clampInt(get("mx"), 0, 1e6),
   };
   const banked = clampInt(get("mbank"), 0, 110);
@@ -434,8 +451,8 @@ export default function MissionCalculator() {
   const writeProgress = (p) => ({
     mlv: p.level,
     mbs: p.battlesim,
-    msf: p.starforce,
-    mb: encodeBosses(p.bosses),
+    msf: encodeSet(STAR_FORCE, p.starforce),
+    mb: encodeSet(BOSSES, p.bosses),
     mx: p.extraScore,
   });
 
@@ -477,30 +494,41 @@ export default function MissionCalculator() {
           Missions done
         </h3>
         <p className="text-sm text-primary-dim">
-          Level, Battlesim and Star Force missions are ladders: pick the highest
-          one you have reached and everything below it counts too.
+          For Inspector Level and Battlesim missions: pick the highest one you
+          have reached and everything below it counts. Star Force missions are
+          each ticked on their own.
         </p>
         <div className="grid xl:grid-cols-3 gap-4">
-          {MISSION_CATEGORIES.filter((c) => c.id !== "boss").map((c) => (
-            <LadderCard
+          {MISSION_CATEGORIES.filter((c) => c.id in LADDER_KEY).map((c) => (
+            <MissionGrid
               key={c.id}
               category={c}
               done={progress[c.id]}
               onSet={(n) => write({ [LADDER_KEY[c.id]]: n })}
             />
           ))}
+          <MissionGrid
+            category={MISSION_CATEGORIES.find((c) => c.id === "starforce")}
+            doneSet={progress.starforce}
+            onToggle={(id) => {
+              const next = new Set(progress.starforce);
+              if (next.has(id)) next.delete(id);
+              else next.add(id);
+              write({ msf: encodeSet(STAR_FORCE, next) });
+            }}
+          />
         </div>
         <BossCard
           bosses={progress.bosses}
-          onToggle={(id) => {
-            const next = new Set(progress.bosses);
-            if (next.has(id)) next.delete(id);
-            else next.add(id);
-            write({ mb: encodeBosses(next) });
-          }}
+          onToggle={(id) =>
+            write({ mb: encodeSet(BOSSES, toggleBoss(progress.bosses, id)) })
+          }
           onSetAll={(on) =>
             write({
-              mb: encodeBosses(on ? new Set(BOSSES.map((b) => b.id)) : new Set()),
+              mb: encodeSet(
+                BOSSES,
+                on ? new Set(BOSSES.map((b) => b.id)) : new Set(),
+              ),
             })
           }
         />
@@ -570,10 +598,6 @@ export default function MissionCalculator() {
             />
           ))}
         </div>
-        <p className="text-xs text-primary-dim">
-          Which perk unlocks at which level is from quanah.wiki; the client only
-          has the perk values.
-        </p>
       </div>
     </div>
   );
