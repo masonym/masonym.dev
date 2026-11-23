@@ -7,7 +7,11 @@ import Icon from "./components/Icon";
 import ModifierIcon from "./components/ModifierIcon";
 import SectionBrowser, { SectionMenu } from "./components/SectionBrowser";
 import Tip from "./components/Tip";
-import { dismantleDust, enhanceSteps } from "@/lib/quanah/jewels";
+import {
+  copiesByLevel,
+  dismantleDust,
+  enhanceSteps,
+} from "@/lib/quanah/jewels";
 import {
   ChangedDot,
   ChangesToggle,
@@ -826,7 +830,7 @@ function JewelsSection({ jewels: j }) {
   return (
     <Section id="jewels" title="Jewels">
       <p>
-        Each piece of gear has 1 to 3 jewel slots, at most one of them
+        Each dropped equip has 1 to 3 jewel slots, at most one of them
         Prismatic. Each jewel rolls 2 lines from its pool, and the values grow
         with its level.
       </p>
@@ -950,32 +954,42 @@ function JewelsSection({ jewels: j }) {
         <div>
           <h3 className="text-lg font-semibold text-primary-bright mb-2">
             Dust
-            <Tip>You can hold up to {fmt(j.dismantle.powderMax)} dust.</Tip>
+            <Tip>
+              When dismantling equips with jewels socketed, it gives dust for
+              every copy in it, plus {fmt(j.dismantle.equipBonus[1])}. You can
+              hold up to {fmt(j.dismantle.powderMax)} dust.
+            </Tip>
           </h3>
-          <Table head={["", "Dismantle gives", "Exchange costs"]}>
+          <Table head={["Dismantle", "Colour jewel", "Prismatic"]}>
             {[
               [
-                "Colour jewel",
-                dismantleDust(j.dismantle, "color"),
-                j.exchange.color,
+                "Loose jewel (Lv. 1)",
+                (type) => dismantleDust(j.dismantle, type),
               ],
-              [
-                "Prismatic Jewel",
-                dismantleDust(j.dismantle, "multi"),
-                j.exchange.multi,
-              ],
-              ...Object.values(j.dismantle.equipBonus).map((v) => [
-                "Equipment",
-                v,
-                null,
+              ...copiesByLevel(j.enhance.color).map(({ level }, i) => [
+                `On equipment, Lv. ${level}`,
+                (type) => {
+                  const copies = copiesByLevel(j.enhance[type])[i]?.copies;
+                  return copies == null
+                    ? null
+                    : dismantleDust(j.dismantle, type, copies, true);
+                },
               ]),
-            ].map(([name, give, cost]) => (
-              <tr key={name}>
-                <td className={td}>{name}</td>
-                <td className={td}>{fmt(give)}</td>
-                <td className={td}>{cost == null ? "–" : fmt(cost)}</td>
+            ].map(([label, dust]) => (
+              <tr key={label}>
+                <td className={`${td} whitespace-nowrap`}>{label}</td>
+                {["color", "multi"].map((type) => (
+                  <td key={type} className={td}>
+                    {dust(type) == null ? "–" : fmt(dust(type))}
+                  </td>
+                ))}
               </tr>
             ))}
+            <tr>
+              <td className={td}>Exchange cost</td>
+              <td className={td}>{fmt(j.exchange.color)}</td>
+              <td className={td}>{fmt(j.exchange.multi)}</td>
+            </tr>
           </Table>
         </div>
       </div>
