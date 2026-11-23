@@ -793,10 +793,7 @@ function BattlesimSection({ battlesim }) {
                 <Icon src={m.icon} alt="" />
                 <span>
                   {m.name}
-                  <span className="block text-xs text-primary-dim">
-                    {m.id}
-                    {m.looksLike && `, looks like ${m.looksLike}`}
-                  </span>
+                  <span className="block text-xs text-primary-dim">{m.id}</span>
                 </span>
               </span>
             </td>
