@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import data from "@/data/quanah.json";
 import ClassSkills from "./components/ClassSkills";
+import GameText from "./components/GameText";
 import Icon from "./components/Icon";
 import ModifierIcon from "./components/ModifierIcon";
 import SectionBrowser, { SectionMenu } from "./components/SectionBrowser";
@@ -141,6 +142,42 @@ function Section({ id, title, children }) {
 
 function Note({ children }) {
   return <p className="text-sm text-primary-dim">{children}</p>;
+}
+
+// A floor modifier with its HUD tooltip as a hover card. Pure CSS, so it stays a server
+// component; the item is focusable so the card also opens on tap and keyboard focus.
+function ModifierItem({ modifier: m }) {
+  const descId = `modifier-${m.icon?.match(/fieldEffect-(\w+)\.png/)?.[1] ?? m.name}`;
+  return (
+    <li
+      className="group relative flex items-center gap-2 rounded-md outline-none focus-visible:ring-1 focus-visible:ring-primary-dim"
+      tabIndex={m.desc ? 0 : undefined}
+      aria-describedby={m.desc ? descId : undefined}
+    >
+      <ModifierIcon icon={m.icon} backing={backingFor(m)} />
+      <span
+        className={
+          m.desc
+            ? "underline decoration-dotted decoration-primary-dim underline-offset-4"
+            : undefined
+        }
+      >
+        {m.name}
+      </span>
+      {m.desc && (
+        <div
+          id={descId}
+          role="tooltip"
+          className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 transition-opacity absolute left-0 top-full mt-1 z-20 w-64 max-w-[calc(100vw-2rem)] rounded-lg border border-primary-dim bg-background-bright p-3 text-sm shadow-lg pointer-events-none"
+        >
+          <p className="font-semibold text-primary-bright">{m.name}</p>
+          <div className="mt-1 text-primary">
+            <GameText text={m.desc} />
+          </div>
+        </div>
+      )}
+    </li>
+  );
 }
 
 // first cells get a wider left pad: the gutter for the changed dot
@@ -486,10 +523,10 @@ export default function QuanahPage() {
 
             <Section id="modifiers" title="Floor Modifiers">
               <Note>
-                Only the names and icons are in the client, not what each one
-                does. The client flags each one positive or negative, and the
-                Battlesim HUD has a blue and a red backing for the icons; the
-                groups and colours here follow that flag.
+                Hover or tap a modifier for what it does, from its tooltip on
+                the Battlesim HUD. The client flags each one positive or
+                negative, and the HUD has a blue and a red backing for the
+                icons; the groups and colours here follow that flag.
               </Note>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
@@ -515,16 +552,7 @@ export default function QuanahPage() {
                           {list
                             .filter((m) => m.positive === flag)
                             .map((m) => (
-                              <li
-                                key={m.name}
-                                className="flex items-center gap-2"
-                              >
-                                <ModifierIcon
-                                  icon={m.icon}
-                                  backing={backingFor(m)}
-                                />
-                                {m.name}
-                              </li>
+                              <ModifierItem key={m.name} modifier={m} />
                             ))}
                         </ul>
                       </div>
@@ -734,7 +762,8 @@ function BattlesimSection({ battlesim }) {
 
       <h3 className="text-lg font-semibold text-primary-bright mt-6">Other</h3>
       <p>
-        Simulated monsters that don't get placed on floor load. They are spawned by floor modifiers, bosses or the monsters above.
+        Simulated monsters that don't get placed on floor load. They are spawned
+        by floor modifiers, bosses or the monsters above.
       </p>
       <Table
         head={[

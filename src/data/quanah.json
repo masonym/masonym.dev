@@ -1825,74 +1825,89 @@
    {
     "name": "Blood for Blood",
     "positive": -1,
-    "icon": "/quanah/ui/fieldEffect-main1.png"
+    "icon": "/quanah/ui/fieldEffect-main1.png",
+    "desc": "#c+20% damage taken# when your HP is 50% or higher\n#c+20% damage dealt# when your HP is 50% or lower"
    },
    {
     "name": "Pursuer",
     "positive": 0,
-    "icon": "/quanah/ui/fieldEffect-main2.png"
+    "icon": "/quanah/ui/fieldEffect-main2.png",
+    "desc": "#cTracking enemies# appear.",
+    "tooltipName": "Chaser"
    },
    {
     "name": "Frenzy",
     "positive": 0,
-    "icon": "/quanah/ui/fieldEffect-main3.png"
+    "icon": "/quanah/ui/fieldEffect-main3.png",
+    "desc": "Increases enemy #cSpeed#."
    },
    {
     "name": "Farewell Bomb",
     "positive": 0,
-    "icon": "/quanah/ui/fieldEffect-main4.png"
+    "icon": "/quanah/ui/fieldEffect-main4.png",
+    "desc": "Some enemies leave behind a #cbomb# after dying."
    },
    {
     "name": "Vision Restriction",
     "positive": 0,
-    "icon": "/quanah/ui/fieldEffect-main5.png"
+    "icon": "/quanah/ui/fieldEffect-main5.png",
+    "desc": "Darkness #climits vision#."
    },
    {
     "name": "Divine Punishment",
     "positive": 0,
-    "icon": "/quanah/ui/fieldEffect-main6.png"
+    "icon": "/quanah/ui/fieldEffect-main6.png",
+    "desc": "#cLightning# strikes to attack."
    }
   ],
   "sub": [
    {
     "name": "Hamstring Enemies",
     "positive": -1,
-    "icon": "/quanah/ui/fieldEffect-sub1.png"
+    "icon": "/quanah/ui/fieldEffect-sub1.png",
+    "desc": "Decreases enemy HP #c20%#."
    },
    {
     "name": "Amplify Damage",
     "positive": -1,
-    "icon": "/quanah/ui/fieldEffect-sub2.png"
+    "icon": "/quanah/ui/fieldEffect-sub2.png",
+    "desc": "Increases your Final Damage by #c10%#."
    },
    {
     "name": "QuickDraw",
     "positive": -1,
-    "icon": "/quanah/ui/fieldEffect-sub3.png"
+    "icon": "/quanah/ui/fieldEffect-sub3.png",
+    "desc": "Reduces your cooldowns by #c5%#."
    },
    {
     "name": "Swift Attack",
     "positive": -1,
-    "icon": "/quanah/ui/fieldEffect-sub4.png"
+    "icon": "/quanah/ui/fieldEffect-sub4.png",
+    "desc": "Increases your Attack Speed by #c1 level#."
    },
    {
     "name": "Recovery Marble",
     "positive": -1,
-    "icon": "/quanah/ui/fieldEffect-sub5.png"
+    "icon": "/quanah/ui/fieldEffect-sub5.png",
+    "desc": "Every time you defeat 3 enemies, a marble is dropped that #crestores 10% of your HP#."
    },
    {
     "name": "Protective Shield",
     "positive": -1,
-    "icon": "/quanah/ui/fieldEffect-sub6.png"
+    "icon": "/quanah/ui/fieldEffect-sub6.png",
+    "desc": "Upon entering a stage, grants a #cshield equal to 50% of your Max HP#."
    },
    {
     "name": "Malleable Hide",
     "positive": 0,
-    "icon": "/quanah/ui/fieldEffect-sub7.png"
+    "icon": "/quanah/ui/fieldEffect-sub7.png",
+    "desc": "Increases damage taken by #c10%#."
    },
    {
     "name": "Potion Resistance",
     "positive": 0,
-    "icon": "/quanah/ui/fieldEffect-sub8.png"
+    "icon": "/quanah/ui/fieldEffect-sub8.png",
+    "desc": "Decreases the healing of exclusive potions by #c50%#."
    }
   ]
  },
