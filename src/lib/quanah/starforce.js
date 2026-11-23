@@ -4,6 +4,10 @@
 //
 // - Sunny Sunday's 30% destruction reduction applies (to 21★, like the meso version).
 // - Its 30% cost reduction does NOT apply to crystals or fragments.
+// - Enhancement Modes (15★-21★) work as in the meso version: the same success / destroy rates per
+//   mode (ENHANCE_MODE in src/app/star-force/utils.js) and the same cost multipliers, applied to
+//   the crystal or fragment cost and rounded down (e.g. Mode 2 at 16★, ×1.5, on a 43-crystal
+//   attempt is floor(64.5) = 64).
 // - Equipment goes to 30★. Quanah's own gear can be starred past 22★ and still equipped; the
 //   "23-star or higher equipment cannot be equipped" rule (UI/GL_QuanahBurning.img notice) is for
 //   items that leap back to regular worlds afterwards (pitched boss gear, Eternal, ...).
@@ -13,11 +17,18 @@
 // formula below is fitted to costs read off the enhancement window in game (Nov 2026), and the
 // page lets you overwrite every cost.
 import {
+  ENHANCE_MODE,
+  ENHANCE_MODE_STARS,
+  enhanceFrontier,
   evaluateStrategy,
   getEnhanceModeInfo,
   getRecoveredStars,
+  optimizeModesOverActions,
   simulateStarForceFast,
 } from "../../app/star-force/utils.js";
+
+export { ENHANCE_MODE_STARS };
+export const MODES = [1, 2, 3, 4];
 
 export const MAX_STAR = 30;
 export const EQUIP_CAP = 22; // the most a leap-out item can have and still be equipped in Quanah
@@ -85,16 +96,21 @@ export const ITEMS = {
 };
 
 // Per-star table in the shape src/app/star-force/utils.js's solver and simulator take.
-// `costs[star]` overrides the item's default cost; `boomReduction` is Sunny Sunday's -30%.
+// `costs[star]` overrides the item's default (Mode 1) cost; `modes[star]` is the Enhancement Mode
+// (1-4) for 15★-21★, which multiplies that cost (rounded down) and changes the rates;
+// `boomReduction` is Sunny Sunday's -30%, applied after the mode like the meso version.
 export function buildQuanahTable({
   item,
   level = 200,
   costs = {},
+  modes = {},
   boomReduction = false,
 }) {
   const table = new Array(MAX_STAR + 1);
   for (let star = 0; star <= MAX_STAR; star++) {
-    const info = getEnhanceModeInfo(star, 1);
+    const mode = ENHANCE_MODE[star] ? modes[star] || 1 : 1;
+    const info = getEnhanceModeInfo(star, mode);
+    const baseCost = costs[star] ?? item.defaultCost(star, level);
     let pBoom = info.boom;
     let pMaintain = info.maintain;
     if (boomReduction && star <= 21 && pBoom > 0) {
@@ -105,7 +121,10 @@ export function buildQuanahTable({
       pSuccess: info.success,
       pCumNoChange: info.success + pMaintain,
       pBoom,
-      cost: costs[star] ?? item.defaultCost(star, level),
+      cost: Math.floor(baseCost * info.mult),
+      baseCost,
+      mode,
+      mult: info.mult,
       successStars: 1,
       // getRecoveredStars falls back to 12 for stars that can't boom, which would point past
       // the end of a short (e.g. one-star) solve
@@ -129,6 +148,40 @@ export function expected(table, from, to) {
     attempts: attempts.expectedCost,
     booms: cost.expectedBooms,
   };
+}
+
+// Enhancement Mode strategies: every mode selection that is an efficient trade between expected
+// cost (in the item's currency) and expected booms, cheapest first, each with the [spareFrom,
+// spareTo) range of what a boom is worth to you, in that currency, for it to be the best pick.
+// The same search as the meso page (enhanceFrontier in src/app/star-force/utils.js).
+//
+// The first point is the cheapest on average once the climb back after a boom is counted, so it
+// is the right pick whenever a boom costs nothing else: restoring Quanah equipment is free, and
+// items like the Inspector's Mapae or Libae gear have spares to hand. The Mapae's 100-crystal
+// restore is in another currency and is left out of the search.
+export function modeFrontier({ item, level, costs, boomReduction, from, to }) {
+  const allIn = (m) => Object.fromEntries(ENHANCE_MODE_STARS.map((s) => [s, m]));
+  const tables = MODES.map((m) =>
+    buildQuanahTable({ item, level, costs, boomReduction, modes: allIn(m) }),
+  );
+  const actions = [];
+  for (let s = 0; s < to; s++) {
+    const options = ENHANCE_MODE_STARS.includes(s) ? tables : tables.slice(0, 1);
+    actions.push(
+      options.map((t) => ({ ...t[s], pMaintain: t[s].pCumNoChange - t[s].pSuccess })),
+    );
+  }
+  return enhanceFrontier({
+    startingStar: from,
+    targetStar: to,
+    optimize: (lambda) => optimizeModesOverActions(actions, from, to, lambda).modes,
+    evaluate: (modes) =>
+      evaluateStrategy(
+        buildQuanahTable({ item, level, costs, boomReduction, modes }),
+        from,
+        to,
+      ),
+  });
 }
 
 const pick = (sorted, p) =>

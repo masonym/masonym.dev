@@ -384,25 +384,16 @@ export function evaluateStrategy(table, startingStar, targetStar) {
 // This is value iteration on the enhancement Markov decision process:
 //   V(s) = min over modes of (cost + pS*V(next) + pB*(spareCost + V(recover))) / (1 - pMaintain)
 // Ties prefer the lower (cheaper-listed) mode.
-export function optimizeEnhanceModes({
-  level,
+//
+// `actions[s]` lists the attempt for each mode at star s (one entry where there is no choice), each
+// with pSuccess, pMaintain, pBoom, cost, successStars and recoverStar. Shared with the Quanah
+// calculator, which builds the same lists in crystals (src/lib/quanah/starforce.js).
+export function optimizeModesOverActions(
+  actions,
   startingStar,
   targetStar,
-  eventTypes = [],
-  mvpType = "none",
   spareCost = 0,
-}) {
-  // Precompute the attempt entry for every star/mode pair below target.
-  const actions = new Array(targetStar);
-  for (let s = 0; s < targetStar; s++) {
-    const modeCount = ENHANCE_MODE[s] ? 4 : 1;
-    const list = new Array(modeCount);
-    for (let m = 1; m <= modeCount; m++) {
-      list[m - 1] = computeAttempt(level, s, m, { eventTypes, mvpType });
-    }
-    actions[s] = list;
-  }
-
+) {
   const V = new Float64Array(targetStar + 1);
   const policy = new Array(targetStar).fill(1);
 
@@ -440,6 +431,28 @@ export function optimizeEnhanceModes({
   return { modes, expectedTotal: V[startingStar] };
 }
 
+export function optimizeEnhanceModes({
+  level,
+  startingStar,
+  targetStar,
+  eventTypes = [],
+  mvpType = "none",
+  spareCost = 0,
+}) {
+  // Precompute the attempt entry for every star/mode pair below target.
+  const actions = new Array(targetStar);
+  for (let s = 0; s < targetStar; s++) {
+    const modeCount = ENHANCE_MODE[s] ? 4 : 1;
+    const list = new Array(modeCount);
+    for (let m = 1; m <= modeCount; m++) {
+      list[m - 1] = computeAttempt(level, s, m, { eventTypes, mvpType });
+    }
+    actions[s] = list;
+  }
+
+  return optimizeModesOverActions(actions, startingStar, targetStar, spareCost);
+}
+
 // The Pareto frontier of Enhancement Mode strategies: every mode selection
 // that is an efficient trade between expected meso cost and expected booms,
 // cheapest-meso first. Each point carries [spareFrom, spareTo) - the range of
@@ -459,24 +472,36 @@ export function computeEnhanceFrontier({
   eventTypes = [],
   mvpType = "none",
 }) {
+  const ctx = { level, startingStar, targetStar, eventTypes, mvpType };
+  return enhanceFrontier({
+    startingStar,
+    targetStar,
+    optimize: (lambda) =>
+      optimizeEnhanceModes({ ...ctx, spareCost: lambda }).modes,
+    evaluate: (modes) =>
+      evaluateStrategy(
+        buildStarTable({ level, enhanceModes: modes, eventTypes, mvpType }),
+        startingStar,
+        targetStar,
+      ),
+  });
+}
+
+// The frontier search itself, for any currency: `optimize(λ)` returns the best modes when a boom
+// is charged λ, `evaluate(modes)` their { expectedCost, expectedBooms }.
+export function enhanceFrontier({
+  startingStar,
+  targetStar,
+  optimize,
+  evaluate,
+}) {
   if (startingStar >= targetStar) return [];
 
-  const ctx = { level, startingStar, targetStar, eventTypes, mvpType };
   const keyOf = (modes) => ENHANCE_MODE_STARS.map((s) => modes[s]).join("");
 
   const optimizeAt = (lambda) => {
-    const { modes } = optimizeEnhanceModes({ ...ctx, spareCost: lambda });
-    const table = buildStarTable({
-      level,
-      enhanceModes: modes,
-      eventTypes,
-      mvpType,
-    });
-    const { expectedCost, expectedBooms } = evaluateStrategy(
-      table,
-      startingStar,
-      targetStar,
-    );
+    const modes = optimize(lambda);
+    const { expectedCost, expectedBooms } = evaluate(modes);
     return { modes, key: keyOf(modes), expectedCost, expectedBooms };
   };
 

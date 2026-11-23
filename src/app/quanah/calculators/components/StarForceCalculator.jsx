@@ -2,20 +2,37 @@
 
 import { useMemo } from "react";
 import {
+  ENHANCE_MODE_STARS,
   EQUIP_CAP,
   ITEMS,
   MAPAE_LEVEL,
   MAX_STAR,
+  MODES,
   buildQuanahTable,
   expected,
+  modeFrontier,
   simulate,
 } from "@/lib/quanah/starforce";
+import { getEnhanceModeInfo } from "@/app/star-force/utils";
 import useParamState from "./useParamState";
 import Icon from "../../components/Icon";
 import Tip from "../../components/Tip";
 
-const KEYS = ["sfi", "sfl", "sff", "sft", "sfb", "sfce", "sfcm", "fqc", "fmf"];
+const KEYS = [
+  "sfi",
+  "sfl",
+  "sff",
+  "sft",
+  "sfb",
+  "sfce",
+  "sfcm",
+  "sfme",
+  "sfmm",
+  "fqc",
+  "fmf",
+];
 const COST_KEY = { equip: "sfce", mapae: "sfcm" };
+const MODE_KEY = { equip: "sfme", mapae: "sfmm" };
 
 const DEFAULT_LEVEL = 200;
 const LEVEL_PICKS = [140, 150, 160, 200, 250];
@@ -63,6 +80,23 @@ const encodeCosts = (costs) =>
     .map(([k, v]) => `${k}:${v}`)
     .join(",") || null;
 
+// Enhancement Modes as one digit per star from 15★ to 21★ ("1123444"); all Mode 1 is no param.
+const decodeModes = (s) => {
+  const out = {};
+  ENHANCE_MODE_STARS.forEach((star, i) => {
+    const m = Number(s?.[i]);
+    out[star] = MODES.includes(m) ? m : 1;
+  });
+  return out;
+};
+const encodeModes = (modes) => {
+  const str = ENHANCE_MODE_STARS.map((star) => modes[star] || 1).join("");
+  return /^1+$/.test(str) ? null : str;
+};
+
+// At most this many suggested strategies are listed; a 0 -> 22 climb has a dozen or more.
+const MAX_STRATEGY_ROWS = 6;
+
 const card = "rounded-lg border border-primary/15 bg-background-bright/30 p-4";
 const input =
   "w-20 px-2 py-1 rounded border border-primary/20 bg-background text-primary-bright";
@@ -99,10 +133,13 @@ export default function StarForceCalculator() {
   const restoreEach = item.restoreCrystals ?? 0;
   const costParam = get(COST_KEY[itemId]);
   const costs = useMemo(() => decodeCosts(costParam), [costParam]);
+  const modeParam = get(MODE_KEY[itemId]);
+  const modes = useMemo(() => decodeModes(modeParam), [modeParam]);
+  const setModes = (next) => set({ [MODE_KEY[itemId]]: encodeModes(next) });
 
   const table = useMemo(
-    () => buildQuanahTable({ item, level, costs, boomReduction }),
-    [item, level, costs, boomReduction],
+    () => buildQuanahTable({ item, level, costs, modes, boomReduction }),
+    [item, level, costs, modes, boomReduction],
   );
   const exp = useMemo(() => expected(table, from, to), [table, from, to]);
   const restoreCrystals = exp.booms * restoreEach;
@@ -118,6 +155,42 @@ export default function StarForceCalculator() {
     const runs = Math.min(10000, Math.floor(SIM_BUDGET / exp.attempts));
     return runs >= 500 ? { ...simulate(table, from, to, runs), runs } : null;
   }, [table, from, to, exp.attempts]);
+
+  // Efficient mode strategies, cheapest first. Only when the climb can attempt a 15-21★ star
+  // (from 22★ up a boom still drops you to 17★, so it's `to`, not `from`, that decides).
+  const frontier = useMemo(
+    () =>
+      to > ENHANCE_MODE_STARS[0]
+        ? modeFrontier({ item, level, costs, boomReduction, from, to })
+        : null,
+    [item, level, costs, boomReduction, from, to],
+  );
+  const cheapest = frontier?.[0];
+  // stars whose mode the climb can use
+  const usedModeStars = ENHANCE_MODE_STARS.filter((s) => s < to);
+  const sameModes = (a) => usedModeStars.every((s) => a[s] === modes[s]);
+  // Long frontiers are thinned to the cheapest, the safest, the one in use and the ones that
+  // win over the widest (log-scale) range of boom values.
+  const strategyRows = useMemo(() => {
+    if (!frontier || frontier.length <= MAX_STRATEGY_ROWS) return frontier;
+    const keep = new Set([0, frontier.length - 1]);
+    const active = frontier.findIndex((p) =>
+      usedModeStars.every((s) => p.modes[s] === modes[s]),
+    );
+    if (active >= 0) keep.add(active);
+    frontier
+      .map((p, i) => ({
+        i,
+        width: Math.log10(p.spareTo / Math.max(p.spareFrom, 1)),
+      }))
+      .filter(({ i }) => !keep.has(i))
+      .sort((a, b) => b.width - a.width)
+      .slice(0, MAX_STRATEGY_ROWS - keep.size)
+      .forEach(({ i }) => keep.add(i));
+    return [...keep].sort((a, b) => a - b).map((i) => frontier[i]);
+    // usedModeStars follows from `to`
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [frontier, modes, to]);
 
   const rows = useMemo(
     () =>
@@ -262,6 +335,87 @@ export default function StarForceCalculator() {
             />
           </label>
         </div>
+        <div className="text-sm space-y-1.5">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span className="text-primary-dim">
+              Enhancement Mode
+              <Tip>
+                Same multipliers as regular star forcing with meso. Hover a mode
+                for its rates.
+              </Tip>
+            </span>
+            <span className="flex items-center gap-1 text-xs text-primary-dim">
+              Set all:
+              {MODES.map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() =>
+                    setModes(
+                      Object.fromEntries(ENHANCE_MODE_STARS.map((s) => [s, m])),
+                    )
+                  }
+                  className="px-1.5 py-0.5 rounded border border-primary/15 hover:text-primary-bright"
+                >
+                  {m}
+                </button>
+              ))}
+              {cheapest && (
+                <button
+                  type="button"
+                  onClick={() => setModes(cheapest.modes)}
+                  title={`The fewest ${item.short} on average, counting the climb back after a boom`}
+                  className={`ml-1 px-1.5 py-0.5 rounded border hover:text-primary-bright ${
+                    sameModes(cheapest.modes)
+                      ? "border-secondary text-primary-bright"
+                      : "border-primary/15"
+                  }`}
+                >
+                  Cheapest
+                </button>
+              )}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-x-4 gap-y-2">
+            {ENHANCE_MODE_STARS.map((star) => {
+              // a star at or past the target is never attempted; ones below the current star
+              // still are, after a boom
+              const used = star < to;
+              return (
+                <div
+                  key={star}
+                  className={`flex items-center gap-1.5 ${used ? "" : "opacity-40"}`}
+                >
+                  <span className="text-primary-dim">{star}★</span>
+                  <div className="inline-flex rounded border border-primary/20 overflow-hidden">
+                    {MODES.map((m) => {
+                      const info = getEnhanceModeInfo(star, m);
+                      const selected = modes[star] === m;
+                      return (
+                        <button
+                          key={m}
+                          type="button"
+                          disabled={!used}
+                          onClick={() => setModes({ ...modes, [star]: m })}
+                          aria-pressed={selected}
+                          aria-label={`${star} stars, Mode ${m}`}
+                          title={`Mode ${m}: ${pct(info.success)} success · ${pct(info.boom)} destroy · ×${info.mult} cost`}
+                          className={`w-6 py-0.5 text-xs transition-colors ${
+                            selected
+                              ? "bg-secondary/25 text-primary-bright"
+                              : "text-primary-dim hover:text-primary-bright"
+                          } ${used ? "" : "cursor-not-allowed"}`}
+                        >
+                          {m}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         {to > EQUIP_CAP && (
           <p className="text-sm text-progress-orange">
             Quanah gear can be starred past 22★, but items you will leap back to
@@ -328,6 +482,102 @@ export default function StarForceCalculator() {
         />
       </div>
 
+      {strategyRows && strategyRows.length > 0 && (
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold text-primary-bright">
+            Suggested modes
+          </h3>
+          <p className="text-sm text-primary-dim">
+            If spares are easy to acquire, like on the Inspector&apos;s Mapae or
+            Libae equips, take the cheapest.
+          </p>
+          <div className="grid gap-1.5">
+            {strategyRows.map((p) => {
+              const i = frontier.indexOf(p);
+              const first = i === 0;
+              const last = i === frontier.length - 1;
+              const active = sameModes(p.modes);
+              const title =
+                frontier.length === 1
+                  ? "Cheapest and safest"
+                  : first
+                    ? "Cheapest"
+                    : last
+                      ? p.expectedBooms < 1e-9
+                        ? "No booms"
+                        : "Fewest booms"
+                      : "Balanced";
+              const when =
+                frontier.length === 1
+                  ? "Best whatever a boom costs you"
+                  : first
+                    ? `Best with easy spares, or while a boom is worth under ${fmt(p.spareTo)} ${item.short}`
+                    : last
+                      ? `Best when a boom is worth over ${fmt(p.spareFrom)} ${item.short}`
+                      : `Best when a boom is worth ${fmt(p.spareFrom)}-${fmt(p.spareTo)} ${item.short}`;
+              return (
+                <button
+                  key={p.key}
+                  type="button"
+                  onClick={() => setModes(p.modes)}
+                  aria-pressed={active}
+                  className={`flex flex-wrap items-center justify-between gap-x-4 gap-y-1 rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
+                    active
+                      ? "border-secondary bg-secondary/10"
+                      : "border-primary/15 bg-background-bright/30 hover:border-primary/40"
+                  }`}
+                >
+                  <span className="min-w-0">
+                    <span className="block font-semibold text-primary-bright">
+                      {title}
+                      {active && (
+                        <span className="ml-2 text-xs font-normal text-secondary">
+                          in use
+                        </span>
+                      )}
+                    </span>
+                    <span className="block text-xs text-primary-dim">
+                      {when}
+                    </span>
+                  </span>
+                  <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                    <span className="flex gap-1 text-xs" aria-label="Modes">
+                      {usedModeStars.map((s) => (
+                        <span
+                          key={s}
+                          className={`rounded px-1 ${
+                            p.modes[s] > 1
+                              ? "bg-secondary/20 text-primary-bright"
+                              : "text-primary-dim"
+                          }`}
+                          title={`${s}★: Mode ${p.modes[s]}`}
+                        >
+                          {s}★ {p.modes[s]}
+                        </span>
+                      ))}
+                    </span>
+                    <span className="text-right whitespace-nowrap">
+                      <span className="text-primary-bright">
+                        {fmt(p.expectedCost)} {item.short}
+                      </span>
+                      <span className="text-progress-red ml-2">
+                        {p.expectedBooms.toFixed(2)} booms
+                      </span>
+                      {restoreEach > 0 && (
+                        <span className="block text-xs text-primary-dim">
+                          + {fmt(p.expectedBooms * restoreEach)} crystals to
+                          restore
+                        </span>
+                      )}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="space-y-2">
         <div className="flex flex-wrap items-baseline gap-x-4">
           <h3 className="text-lg font-semibold text-primary-bright">
@@ -381,6 +631,12 @@ export default function StarForceCalculator() {
                     {h === "Avg to next ★" && (
                       <Tip below>Includes climbing back after a boom.</Tip>
                     )}
+                    {h.startsWith("Cost") && (
+                      <Tip below>
+                        The Mode 1 cost. A higher Enhancement Mode multiplies
+                        it, rounded down.
+                      </Tip>
+                    )}
                   </th>
                 ))}
               </tr>
@@ -397,7 +653,7 @@ export default function StarForceCalculator() {
                   >
                     {pct(r.pBoom)}
                   </td>
-                  <td className="px-3 py-1.5">
+                  <td className="px-3 py-1.5 whitespace-nowrap">
                     <input
                       type="number"
                       min={0}
@@ -410,6 +666,11 @@ export default function StarForceCalculator() {
                       }`}
                       aria-label={`Cost at ${r.star} stars`}
                     />
+                    {r.mode > 1 && (
+                      <span className="ml-2 text-primary-dim">
+                        Mode {r.mode}: ×{r.mult} = {fmt(r.cost)}
+                      </span>
+                    )}
                   </td>
                   <td className="px-3 py-1.5 whitespace-nowrap">
                     {fmt(r.step.cost)}
