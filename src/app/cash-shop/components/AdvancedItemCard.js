@@ -4,9 +4,7 @@ import AdvancedItemCardHover from './AdvancedItemCardHover';
 import { formatNumber } from '@/utils';
 import background from '../assets/productBg.png';
 
-const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images";
-
-const AdvancedItemCard = ({ item, isOpen, onItemClick, isTouchDevice }) => {
+const AdvancedItemCard = ({ item, shop, isOpen, onItemClick, isTouchDevice }) => {
     const [isHovering, setIsHovering] = useState(false);
     const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
     const hoverCardRef = useRef(null);
@@ -66,7 +64,7 @@ const AdvancedItemCard = ({ item, isOpen, onItemClick, isTouchDevice }) => {
                 style={{ backgroundImage: `url(${background.src})` }}
             >
                 <Image
-                    src={`${CLOUDFRONT_URL}/${item.itemID}.png`}
+                    src={`${shop.imageUrl}/${item.itemID}.png`}
                     alt={item.name}
                     width={50}
                     height={50}
@@ -93,6 +91,7 @@ const AdvancedItemCard = ({ item, isOpen, onItemClick, isTouchDevice }) => {
             {(isHovering || (isTouchDevice && isOpen)) && (
                 <AdvancedItemCardHover
                     item={item}
+                    shop={shop}
                     position={hoverPosition}
                     isTouchDevice={isTouchDevice}
                     hoverCardRef={hoverCardRef}

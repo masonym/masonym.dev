@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FilterControls = ({ filters, viewMode, onFilterChange, onViewModeChange }) => {
+const FilterControls = ({ shop, filters, viewMode, onFilterChange, onViewModeChange }) => {
     const [quickSelectOpen, setQuickSelectOpen] = useState(false);
 
     const formatDateForInput = (date) => {
@@ -70,8 +70,7 @@ const FilterControls = ({ filters, viewMode, onFilterChange, onViewModeChange })
 
     const setAllTime = () => {
         const end = new Date();
-        // The earliest sale with dates in the game files (restored from old builds).
-        const start = new Date(2019, 7, 1);
+        const start = shop.historyStart;
         onFilterChange('dateRange', {
             start: formatDateForInput(start),
             end: formatDateForInput(end)
@@ -86,6 +85,8 @@ const FilterControls = ({ filters, viewMode, onFilterChange, onViewModeChange })
         
         for (let i = 0; i < 6; i++) {
             const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            if (lastDay < shop.historyStart) break;
             result.push({
                 label: `${months[date.getMonth()]} ${date.getFullYear()}`,
                 offset: i
@@ -96,7 +97,8 @@ const FilterControls = ({ filters, viewMode, onFilterChange, onViewModeChange })
 
     const getRecentYears = () => {
         const currentYear = new Date().getFullYear();
-        return [currentYear, currentYear - 1, currentYear - 2];
+        return [currentYear, currentYear - 1, currentYear - 2]
+            .filter((year) => year >= shop.historyStart.getFullYear());
     };
 
     return (
@@ -235,31 +237,33 @@ const FilterControls = ({ filters, viewMode, onFilterChange, onViewModeChange })
             )}
 
             {/* world filter buttons */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 w-full">
-                {[
-                    { text: 'All Worlds', filter: '' },
-                    { text: 'Interactive Worlds', filter: 'intWorlds' },
-                    { text: 'Heroic Worlds', filter: 'heroWorlds' }
-                ].map((button) => (
-                    <button
-                        key={button.filter}
-                        className={`
-                            h-12 w-full font-bold py-2 px-3 border-2 border-[#d2b48c] rounded-full 
-                            text-[#2e4d2e] transition-all duration-300 text-center 
-                            flex items-center justify-center text-sm
-                            hover:scale-105
-                            ${
-                                filters.worldFilter === button.filter
-                                    ? 'bg-[#5a8859] text-white border-[#4a7749] shadow-md'
-                                    : 'bg-[#8abf88] hover:bg-[#6fa96d]'
-                            }
-                        `}
-                        onClick={() => onFilterChange('worldFilter', button.filter)}
-                    >
-                        {button.text}
-                    </button>
-                ))}
-            </div>
+            {shop.hasWorlds && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 w-full">
+                    {[
+                        { text: 'All Worlds', filter: '' },
+                        { text: 'Interactive Worlds', filter: 'intWorlds' },
+                        { text: 'Heroic Worlds', filter: 'heroWorlds' }
+                    ].map((button) => (
+                        <button
+                            key={button.filter}
+                            className={`
+                                h-12 w-full font-bold py-2 px-3 border-2 border-[#d2b48c] rounded-full 
+                                text-[#2e4d2e] transition-all duration-300 text-center 
+                                flex items-center justify-center text-sm
+                                hover:scale-105
+                                ${
+                                    filters.worldFilter === button.filter
+                                        ? 'bg-[#5a8859] text-white border-[#4a7749] shadow-md'
+                                        : 'bg-[#8abf88] hover:bg-[#6fa96d]'
+                                }
+                            `}
+                            onClick={() => onFilterChange('worldFilter', button.filter)}
+                        >
+                            {button.text}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             {/* search bar */}
             <div className="w-full">

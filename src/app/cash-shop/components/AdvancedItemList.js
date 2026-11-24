@@ -5,6 +5,8 @@ import axios from "axios";
 import FilterControls from "./FilterControls";
 import { formatDate } from "@/utils";
 import AdvancedItemCard from "./AdvancedItemCard";
+import ShopSwitcher from "./ShopSwitcher";
+import { SHOPS } from "../shops";
 import Image from "next/image";
 import noItemsImage from "../assets/noItem_mini.png";
 
@@ -27,7 +29,8 @@ const HERO_WORLDS = [45, 46, 52, 54, 70];
 const API_URL =
   "https://yaiphhwge8.execute-api.us-west-2.amazonaws.com/prod/query-items-by-date";
 
-function AdvancedItemList() {
+function AdvancedItemList({ shopId = "gms" }) {
+  const shop = SHOPS[shopId];
   const [items, setItems] = useState({});
   const [categorizedItems, setCategorizedItems] = useState({});
   const [viewMode, setViewMode] = useState("upcoming");
@@ -120,7 +123,9 @@ function AdvancedItemList() {
   const fetchItems = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(API_URL, { params: getApiParams() });
+      const { data } = await axios.get(API_URL, {
+        params: { ...shop.apiParams, ...getApiParams() },
+      });
       const itemList = Array.isArray(data) ? data : (data.items ?? []);
       if (!Array.isArray(data)) {
         setVersion(data.version ?? null);
@@ -133,7 +138,7 @@ function AdvancedItemList() {
     } finally {
       setLoading(false);
     }
-  }, [getApiParams, categorizeAndSortItems]);
+  }, [getApiParams, categorizeAndSortItems, shop]);
 
   useEffect(() => {
     fetchItems();
@@ -204,8 +209,9 @@ function AdvancedItemList() {
       className="flex flex-col min-h-dvh h-auto pb-20 bg-cs-bg"
       style={{ backgroundAttachment: "fixed" }}
     >
-      <h1 className="text-center text-3xl mb-0 mt-16 text-primary-bright font-bold">
-        Cash Shop Sales
+      <ShopSwitcher activeShopId={shop.id} />
+      <h1 className="text-center text-3xl mb-0 text-primary-bright font-bold">
+        {shop.title}
       </h1>
       <h4 className="text-center text-xl my-5 mb-4 italic text-primary">
         {version && lastUpdated
@@ -217,6 +223,7 @@ function AdvancedItemList() {
               : "Last Updated: unknown"}
       </h4>
       <FilterControls
+        shop={shop}
         filters={filters}
         viewMode={viewMode}
         onFilterChange={updateFilter}
@@ -259,6 +266,7 @@ function AdvancedItemList() {
                         key={key}
                         itemKey={key}
                         item={item}
+                        shop={shop}
                         isOpen={openItemId === item}
                         onItemClick={() => handleItemClick(item)}
                         isTouchDevice={isTouchDevice}

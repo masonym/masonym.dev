@@ -75,7 +75,8 @@ Four distinct sources - pick the right one:
    files.
 3. **Remote live data** - AWS API Gateway (`yaiphhwge8.execute-api.us-west-2.amazonaws.com`)
    in front of the `query-items-by-date` Lambda, plus assets on CloudFront
-   (`dkxt2zgwekugu.cloudfront.net`). Used by the cash shop tool. The Lambda serves from an S3
+   (`dkxt2zgwekugu.cloudfront.net`). Used by the cash shop tool, for both GMS and Classic World
+   (`?shop=classic`, icons under `images-classic/`; see `src/app/cash-shop/shops.js`). The Lambda serves from an S3
    snapshot of the `MapleStoryItems` DynamoDB table, including the version / last-updated text the
    page shows; its source and the pipeline that publishes the snapshot live in the separate
    `maple-cs-parser` repo (`lambda/`, `history/README.md`). `src/app/api/` holds only two thin edge

@@ -3,9 +3,7 @@ import { convertNewlinesToBreaks, magicText } from '@/utils';
 import itemBase from '../assets/itemBase.png';
 import Image from 'next/image';
 
-const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images";
-
-const AdvancedPackageContents = ({ contents }) => {
+const AdvancedPackageContents = ({ contents, shop }) => {
     if (!contents || !Array.isArray(contents)) return null;
 
     return (
@@ -32,7 +30,7 @@ const AdvancedPackageContents = ({ contents }) => {
                                         />
                                         <div className="absolute inset-0 flex items-center justify-center">
                                             <Image
-                                                src={`${CLOUDFRONT_URL}/${itemDetails.itemID}.png`}
+                                                src={`${shop.imageUrl}/${itemDetails.itemID}.png`}
                                                 alt={itemDetails.name}
                                                 fill
                                                 sizes='(max-width: 64px)'

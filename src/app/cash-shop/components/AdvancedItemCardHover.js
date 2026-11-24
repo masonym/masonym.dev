@@ -4,9 +4,7 @@ import { formatPriceDisplay, convertNewlinesToBreaks, formatSaleTimesDate, calcu
 import AdvancedPackageContents from './AdvancedPackageContents';
 import itemBase from '../assets/itemBase.png';
 
-const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net/images";
-
-const AdvancedItemCardHover = ({ itemKey, item, position, isTouchDevice, hoverCardRef, onClose }) => {
+const AdvancedItemCardHover = ({ itemKey, item, shop, position, isTouchDevice, hoverCardRef, onClose }) => {
     const hoverCardStyle = isTouchDevice ? "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-h-[90vh] z-[1000]" : "absolute z-[1000] pointer-events-none max-w-[35%] lg:max-w-[50%] min-w-[25%]";
     const hoverCardPosition = isTouchDevice ? {} : { left: `${position.x}px`, top: `${position.y}px` };
 
@@ -44,7 +42,7 @@ const AdvancedItemCardHover = ({ itemKey, item, position, isTouchDevice, hoverCa
                     />
                     <div className="absolute inset-0 flex items-center justify-center">
                         <Image
-                            src={`${CLOUDFRONT_URL}/${item.itemID}.png`}
+                            src={`${shop.imageUrl}/${item.itemID}.png`}
                             alt={item.name}
                             fill
                             sizes='(max-width: 64px)'
@@ -54,7 +52,7 @@ const AdvancedItemCardHover = ({ itemKey, item, position, isTouchDevice, hoverCa
                 </div>
                 <p className="ml-4 flex-1 text-sm text-white">{convertNewlinesToBreaks(item.description)}</p>
             </div>
-            <AdvancedPackageContents contents={item.packageContents} />
+            <AdvancedPackageContents contents={item.packageContents} shop={shop} />
             <hr className="border-t-2 border-dotted border-gray-200 my-[2.5%]" />
             {formatPurchaseLimit(item.limit) && <p className="text-white mb-2">
                 {formatPurchaseLimit(item.limit)}
@@ -62,9 +60,9 @@ const AdvancedItemCardHover = ({ itemKey, item, position, isTouchDevice, hoverCa
             <p className="text-white">
                 {formatPriceDisplay(item.originalPrice, item.price, item.sn_id, item.discount)}
             </p>
-            <p className="text-white mt-2.5">
+            {shop.hasWorlds && <p className="text-white mt-2.5">
                 {worldNumbersToString(item.gameWorld)}
-            </p>
+            </p>}
         </div>
     );
 };
