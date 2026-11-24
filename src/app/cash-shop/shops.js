@@ -5,7 +5,7 @@ const CLOUDFRONT_URL = "https://dkxt2zgwekugu.cloudfront.net";
 export const SHOPS = {
   gms: {
     id: "gms",
-    name: "MapleStory",
+    name: "GMS",
     title: "Cash Shop Sales",
     href: "/cash-shop",
     apiParams: {},
