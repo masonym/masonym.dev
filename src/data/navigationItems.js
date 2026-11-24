@@ -64,6 +64,12 @@ export const navigationItems = [
         href: "/action-delays",
         image: "/images/green-pot.png",
       },
+      {
+        // Sol Janus: Dawn skill icon (500001002)
+        name: "Summon Zones",
+        href: "/summon-zones",
+        image: "/images/sol-janus-dawn.png",
+      },
       // {
       //   // Drop a 64px icon at /images/burning-field.png to give this a tile image.
       //   name: "Burning Field",
