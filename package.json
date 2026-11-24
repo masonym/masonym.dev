@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "build-equip-data": "node src/scripts/build-equip-data.mjs",
     "build-map-data": "node src/scripts/build-map-data.mjs",
+    "build-fieldsplit-data": "node src/scripts/build-fieldsplit-data.mjs",
     "verify-equip-tables": "node --experimental-detect-module src/scripts/verify-equip-tables.mjs",
     "verify-equip-engine": "node --experimental-detect-module src/scripts/verify-equip-engine.mjs"
   },
