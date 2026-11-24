@@ -44,13 +44,16 @@ export const DAWN_BOXES = [
 ];
 
 /**
- * Sol Janus: Dusk (500001001), common/lt and rb. Not a summon: it attacks around your character
+ * Sol Janus: Dusk (500001001), common/lt2 and rb2. Not a summon: it attacks around your character
  * (the skill has no summon node; its Primal Crystals are SecondAtoms), so it can't be hidden and
  * moves with you. People farm with it instead of three Dawn rings for the range; the two can't be
- * active together, so Dawn rings are set aside while Dusk is in use. The skill also has a larger
- * lt2/rb2 (1000 each side, 1000 up, 800 down).
+ * active together, so Dawn rings are set aside while Dusk is in use.
+ *
+ * Unconfirmed in game: the skill also has a smaller lt/rb (600 each side, 600 up, 400 down), and
+ * nothing in the WZ says which box picks targets. lt2/rb2 is what maplemaps.net uses. See
+ * docs/fieldsplit-data.md for the test.
  */
-export const DUSK_BOX = { l: -600, t: -600, r: 600, b: 400 };
+export const DUSK_BOX = { l: -1000, t: -1000, r: 1000, b: 800 };
 
 /** Whether this entry is a placed summon (and so can be hidden), not your character. */
 export const isPlaced = (s) => !KINDS[s.kind].self;

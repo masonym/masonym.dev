@@ -73,9 +73,14 @@ they loot.
 - **Sol Janus: Dusk** (500001001) is a checkbox, not a marker: it attacks around your character
   (the skill has no `summon` node; its Primal Crystals are SecondAtoms), so it never pauses. It
   can't be active alongside Dawn, so ticking it sets the Dawn rings aside (kept in the URL, shown
-  again when unticked). People use it instead of three Dawn rings for the range, so its `common/lt`/`rb` box (600 each side, 600
-  up, 400 down) is drawn around the character. The skill also has a bigger `lt2`/`rb2` (1000 each
-  side, 1000 up, 800 down).
+  again when unticked). People use it instead of three Dawn rings for the range, so its `common/lt2`/`rb2` box (1000 each
+  side, 1000 up, 800 down) is drawn around the character. **Which box is the range is unconfirmed.**
+  The skill also has a smaller `lt`/`rb` (600 each side, 600 up, 400 down), and nothing in the WZ
+  says which one picks targets; maplemaps.net uses `lt2`/`rb2` (its July 2024 changelog says it
+  corrected Dusk to the larger size). Each crystal (`Etc/SecondAtom.img` 57) also has its own ±300
+  box, probably its target search, so `lt`/`rb` alone could still reach about 900 sideways. To test:
+  attack something close with a monster 900-1000 to your side; crystals hitting it confirm
+  `lt2`/`rb2`.
 - **Colours:** the background is "if you stand here": green where every summon is active, amber
   where it depends on which way you came in, red where one is paused. It's what shows the loot
   route and the band trap. Once your character is placed, each summon also gets a ring for its
