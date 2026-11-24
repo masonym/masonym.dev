@@ -71,6 +71,7 @@ export const navigationItems = [
         name: "Summon Zones",
         href: "/summon-zones",
         image: "/images/sol-janus-dawn.png",
+        label: "New!",
       },
       // {
       //   // Drop a 64px icon at /images/burning-field.png to give this a tile image.
