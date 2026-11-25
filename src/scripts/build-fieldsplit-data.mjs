@@ -162,9 +162,11 @@ for (const m of fs.maps) {
 }
 
 const mobs = {};
+const hitboxes = {};
 for (const id of [...usedMobs].sort((a, b) => a - b)) {
   const e = catalogue.mobs[String(id)];
   if (e) mobs[id] = e; // [name, level]
+  if (fs.hitboxes[id]) hitboxes[id] = fs.hitboxes[id]; // [l, t, r, b] from its feet, facing left
 }
 
 // Rebuild the minimap folder from scratch so maps that stopped qualifying don't linger.
@@ -181,6 +183,7 @@ const out = {
   largeSplitSafe: LARGE_SPLIT_SAFE,
   largeSplitUnsettled: LARGE_SPLIT_UNSETTLED,
   mobs,
+  hitboxes,
   maps,
 };
 const outPath = join(OUT_DIR, "fieldsplit.json");
@@ -190,5 +193,5 @@ const kb = Math.round(JSON.stringify(out).length / 1024);
 console.log(
   `wrote ${outPath}: ${maps.length} maps (${maps.filter((m) => m.canHide).length} can hide a cell, ` +
     `${maps.filter((m) => m.largeSplit != null).length} largeSplit), ${minimaps.length} minimaps, ` +
-    `${Object.keys(mobs).length} monsters, ${kb} KB; skipped ${dropped}`,
+    `${Object.keys(mobs).length} monsters (${Object.keys(hitboxes).length} with a hitbox), ${kb} KB; skipped ${dropped}`,
 );

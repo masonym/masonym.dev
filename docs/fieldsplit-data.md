@@ -81,6 +81,14 @@ they loot.
   box, probably its target search, so `lt`/`rb` alone could still reach about 900 sideways. To test:
   attack something close with a monster 900-1000 to your side; crystals hitting it confirm
   `lt2`/`rb2`.
+- **Spawns in range:** a spawn counts when an attack range overlaps the monster's *hitbox* there,
+  not just its feet. Hitboxes are the `lt`/`rb` of the monster's first standing frame. They're drawn
+  facing left and mirror when the monster turns, so off-centre ones are trimmed to the part covered
+  either way (`bodyBox`); counting either facing instead would add about 4% more hits. Monsters
+  are taken to be at their spawn point; they wander from there. That any
+  overlap is enough (rather than, say, the hitbox's centre) is an assumption: it **hasn't been
+  checked in game** for Dawn. To test: put Dawn 1 where a tall monster's hitbox pokes into the
+  bottom or side of its range but its feet are outside, and see if it's hit.
 - **Colours:** the background is "if you stand here": green where every summon is active, amber
   where it depends on which way you came in, red where one is paused. It's what shows the loot
   route and the band trap. Once your character is placed, each summon also gets a ring for its
@@ -120,6 +128,8 @@ that can hide a summon.
   "largeSplitSafe": [2, 3, 4, 5],          // largeSplit values tested and found never to hide
   "largeSplitUnsettled": [],               // maps on those values too big for the tests to settle
   "mobs": { "8641013": ["Joyful Erda", 209] },  // id -> [name, level]
+  // id -> [l, t, r, b] from the monster's feet, facing left; missing for the two ally mobs (Belle, Brighton)
+  "hitboxes": { "8641013": [-49, -189, 40, 0] },
   "maps": [
     {
       "id": 450001260,

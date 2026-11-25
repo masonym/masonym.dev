@@ -7,6 +7,7 @@ import {
   KINDS,
   MAX_SUMMONS,
   approachFrom,
+  bodyBox,
   coveredSpawns,
   isPlaced,
   labels as summonLabels,
@@ -40,6 +41,7 @@ export default function MapDetail({ map, data, summons: saved, onSummons, dusk, 
   const nonStandard = map.largeSplit != null;
   const [showGrid, setShowGrid] = useState(!nonStandard);
   const [showSpawns, setShowSpawns] = useState(true);
+  const [showHitboxes, setShowHitboxes] = useState(true);
   const [kind, setKind] = useState("dawn");
   const [hover, setHover] = useState(null);
   // while dragging a marker, the layout lives here and goes to the URL on release
@@ -68,7 +70,11 @@ export default function MapDetail({ map, data, summons: saved, onSummons, dusk, 
 
   const names = useMemo(() => summonLabels(summons), [summons]);
   const boxes = useMemo(() => rangeBoxes(summons, { dusk }), [summons, dusk]);
-  const covered = useMemo(() => coveredSpawns(summons, boxes, map.spawnPts), [summons, boxes, map]);
+  const bodies = useMemo(() => map.mobs.map((id) => bodyBox(data.hitboxes[id])), [map, data]);
+  const covered = useMemo(
+    () => coveredSpawns(summons, boxes, map.spawnPts, bodies),
+    [summons, boxes, map, bodies],
+  );
   const anyPlaced = summons.some(isPlaced);
   // each placed summon's state from where your character idles
   const standing = me && hides && anyPlaced ? statusesAt(g, summons, me.x, me.y) : null;
@@ -134,6 +140,9 @@ export default function MapDetail({ map, data, summons: saved, onSummons, dusk, 
         <Toggle checked={showSpawns} onChange={setShowSpawns}>
           Monster spawns
         </Toggle>
+        <Toggle checked={showHitboxes} onChange={setShowHitboxes}>
+          Monster hitboxes
+        </Toggle>
       </div>
 
       <Viewer
@@ -142,6 +151,8 @@ export default function MapDetail({ map, data, summons: saved, onSummons, dusk, 
         gridOn={showGrid}
         hides={hides}
         showSpawns={showSpawns}
+        showHitboxes={showHitboxes}
+        bodies={bodies}
         safe={safe}
         summons={summons}
         names={names}
@@ -155,7 +166,7 @@ export default function MapDetail({ map, data, summons: saved, onSummons, dusk, 
 
       <Readout g={g} gridOn={showGrid} hides={hides} hover={hover} summons={summons} names={names} />
       <LootNotes g={g} map={map} summons={summons} names={names} boxes={boxes} covered={covered} plan={plan} spacing={spacing} />
-      <Legend gridOn={showGrid} hides={hides} summons={summons} boxes={boxes} safe={!!safe} />
+      <Legend gridOn={showGrid} hides={hides} showHitboxes={showHitboxes} summons={summons} boxes={boxes} safe={!!safe} />
 
       <div className="text-sm text-primary">
         <h3 className="mb-1 font-bold text-primary-bright">Monsters</h3>
@@ -321,7 +332,7 @@ function Toggle({ checked, onChange, children }) {
  * The game's minimap with an SVG overlay in map units: minimap pixel = (map coord + center) /
  * 2^mag, so a viewBox of (-centerX, -centerY, width, height) lines the two up.
  */
-function Viewer({ map, g, gridOn, hides, showSpawns, safe, summons, names, boxes, standing, covered, onClick, drag, onHover }) {
+function Viewer({ map, g, gridOn, hides, showSpawns, showHitboxes, bodies, safe, summons, names, boxes, standing, covered, onClick, drag, onHover }) {
   const svgRef = useRef(null);
   const dragging = useRef(null); // { i, moved }
   const justDragged = useRef(false);
@@ -473,6 +484,28 @@ function Viewer({ map, g, gridOn, hides, showSpawns, safe, summons, names, boxes
           );
         })}
 
+        {/* what a range has to overlap to hit the monster; the dot is only where its feet are */}
+        {showHitboxes &&
+          map.spawnPts.map(([x, y, m], i) => {
+            const body = bodies[m];
+            const out = anyRange && !covered.has(i);
+            return (
+              <rect
+                key={`hitbox${i}`}
+                x={x + body.l}
+                y={y + body.t}
+                width={body.r - body.l}
+                height={body.b - body.t}
+                fill={out ? "none" : tint(SPAWN, 0.18)}
+                stroke={out ? "white" : SPAWN}
+                strokeOpacity={out ? 0.6 : 1}
+                strokeWidth={1}
+                vectorEffect="non-scaling-stroke"
+                className="pointer-events-none"
+              />
+            );
+          })}
+
         {showSpawns &&
           map.spawnPts.map(([x, y], i) => {
             const mine = anyRange && !covered.has(i);
@@ -578,7 +611,7 @@ function Readout({ g, gridOn, hides, hover, summons, names }) {
   return <p className="min-h-[1.5rem] text-sm text-primary">{text}</p>;
 }
 
-function Legend({ gridOn, hides, summons, boxes, safe }) {
+function Legend({ gridOn, hides, showHitboxes, summons, boxes, safe }) {
   const items = [];
   if (gridOn) {
     items.push(
@@ -602,6 +635,12 @@ function Legend({ gridOn, hides, summons, boxes, safe }) {
     );
   } else {
     items.push({ swatch: <Dot color={SPAWN} />, label: "Monster spawn" });
+  }
+  if (showHitboxes) {
+    items.push({
+      swatch: <span className="inline-block w-3 h-4" style={{ background: tint(SPAWN, 0.18), border: `1px solid ${SPAWN}` }} />,
+      label: "Monster hitbox",
+    });
   }
   if (gridOn && hides && summons.some(isPlaced)) {
     items.push(

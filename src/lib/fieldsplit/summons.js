@@ -83,15 +83,39 @@ export function labels(summons) {
   });
 }
 
-export function inRange(s, box, x, y) {
-  return !!box && x >= s.x + box.l && x <= s.x + box.r && y >= s.y + box.t && y <= s.y + box.b;
+const NO_HITBOX = { l: 0, t: 0, r: 0, b: 0 };
+
+/**
+ * The part of a monster's hitbox it covers whichever way it faces, relative to its feet. `box` is
+ * [l, t, r, b] as the monster's sprite is drawn, facing left; facing right mirrors it, and nothing
+ * says which way a monster will face, so only the overlap of the two counts as hit.
+ * Without a box (ally NPCs) it's just the feet.
+ */
+export function bodyBox(box) {
+  if (!box) return NO_HITBOX;
+  const [l, t, r, b] = box;
+  return { l: Math.max(l, -r), t, r: Math.min(r, -l), b };
 }
 
-/** Indices of the spawn points inside any entry's range (boxes from rangeBoxes). */
-export function coveredSpawns(summons, boxes, spawnPts) {
+/** Whether an attack range around `s` overlaps the body of a monster standing at (x, y). */
+export function hits(s, range, x, y, body) {
+  return (
+    !!range &&
+    x + body.r > s.x + range.l &&
+    x + body.l < s.x + range.r &&
+    y + body.b > s.y + range.t &&
+    y + body.t < s.y + range.b
+  );
+}
+
+/**
+ * Indices of the spawn points where a monster is hit by any entry's range (boxes from rangeBoxes).
+ * `bodies` are the map's monsters' body boxes, by the spawn point's monster index.
+ */
+export function coveredSpawns(summons, boxes, spawnPts, bodies) {
   const out = new Set();
-  spawnPts.forEach(([x, y], i) => {
-    if (summons.some((s, k) => inRange(s, boxes[k], x, y))) out.add(i);
+  spawnPts.forEach(([x, y, m], i) => {
+    if (summons.some((s, k) => hits(s, boxes[k], x, y, bodies[m]))) out.add(i);
   });
   return out;
 }
