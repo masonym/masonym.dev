@@ -826,6 +826,21 @@ const ShineCalculator = ({ selectedClass }) => {
     setGoalLevels({});
   };
 
+  // Maxes every board stone, so prerequisites are satisfied by definition. SHINE
+  // stones are left as they are: their expected costs would swamp the total.
+  const maxAllGoals = () => {
+    setGoalLevels((previous) => {
+      const updated = { ...previous };
+      character.nodes.forEach((node) => {
+        if (node.sector === "SHINE") return;
+        const stone = stoneMap.get(node.stoneId);
+        if (stone) updated[node.nodeIndex] = stone.maxLevel;
+      });
+      return updated;
+    });
+    setGoalDraft(null);
+  };
+
   const allNodes = character.nodes;
   const resolvedGoalLevels = allNodes.reduce((resolved, node) => {
     const currentLevel = nodeLevels[node.nodeIndex] || 0;
@@ -974,6 +989,14 @@ const ShineCalculator = ({ selectedClass }) => {
           <h2 className="text-[32px] text-primary-bright">
             {selectedClass} Erda Link Calculator
           </h2>
+          <button
+            type="button"
+            onClick={maxAllGoals}
+            title="Set every stone's goal level to its max, except SHINE stones"
+            className="rounded border border-primary-dim bg-primary-dark px-3 py-1 text-sm text-primary transition hover:bg-primary-dim"
+          >
+            Max All Goals
+          </button>
           <button
             type="button"
             onClick={resetBuild}
