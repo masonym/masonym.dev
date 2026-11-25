@@ -1,27 +1,26 @@
 'use client';
 
 import { useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
+// Counts one page view per path. The query string is deliberately not a dependency: many tools
+// keep tab and filter state there, and each change would count as another view. GA's own "page
+// changes based on browser history events" must stay off in the stream's enhanced measurement
+// settings, or it counts those changes anyway.
 export default function GaPageView({ measurementId }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const searchString = searchParams?.toString?.() || '';
 
   useEffect(() => {
     if (!measurementId) return;
-    if (typeof window === 'undefined') return;
     if (typeof window.gtag !== 'function') return;
-
-    const pagePath = searchString ? `${pathname}?${searchString}` : pathname;
 
     window.gtag('event', 'page_view', {
       page_location: window.location.href,
-      page_path: pagePath,
+      page_path: pathname + window.location.search,
       page_title: document.title,
       send_to: measurementId,
     });
-  }, [measurementId, pathname, searchString]);
+  }, [measurementId, pathname]);
 
   return null;
 }
