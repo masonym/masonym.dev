@@ -15,10 +15,11 @@ import { cellOf, edges, possibleCells, visibility } from "./grid.js";
  * summons. `box` is the attack range relative to the marker, from Skill/50000.img in Data/Packs:
  * - you: your character (`self`: it's what sees the summons, and is never hidden itself). With
  *   Sol Janus: Dusk in use it carries Dusk's range (DUSK_BOX).
- * - dawn: Sol Janus: Dawn. Each ring is its own skill, and each one is smaller than the last: the
- *   1st ring is 500001002, the 2nd 500001003, the 3rd 500001004, ranges in DAWN_BOXES. Relative to
- *   where the ring sits (where you stood, or in the air if cast mid-jump). Rings must be 300-2500
- *   apart (common/s and common/range, confirmed in game); up to 3 at max level (common/w2).
+ * - dawn: Sol Janus: Dawn. All the rings shrink each time you place another one, so their range
+ *   depends on how many are down, not on cast order (confirmed in game): 500001002 with one ring,
+ *   500001003 with two, 500001004 with three, ranges in DAWN_BOXES. Relative to where the ring sits
+ *   (where you stood, or in the air if cast mid-jump). Rings must be 300-2500 apart (common/s and
+ *   common/range, confirmed in game); up to 3 at max level (common/w2).
  * - other: any other placed summon; no range drawn.
  */
 export const KINDS = {
@@ -36,7 +37,10 @@ export const KINDS = {
 export const KIND_BY_KEY = Object.fromEntries(Object.entries(KINDS).map(([k, v]) => [v.key, k]));
 export const MAX_SUMMONS = 8;
 
-/** Dawn ring ranges in cast order: summon/attack1/info/range of 500001002, 500001003, 500001004. */
+/**
+ * The range of every Dawn ring with 1, 2 and 3 rings down: summon/attack1/info/range of 500001002,
+ * 500001003, 500001004.
+ */
 export const DAWN_BOXES = [
   { l: -280, t: -415, r: 280, b: 145 },
   { l: -255, t: -390, r: 255, b: 120 },
@@ -59,13 +63,13 @@ export const DUSK_BOX = { l: -1000, t: -1000, r: 1000, b: 800 };
 export const isPlaced = (s) => !KINDS[s.kind].self;
 
 /**
- * The attack range of each entry, or null: Dawn rings by cast order (the first Dawn in the list is
- * the first ring), Dusk around your character when `dusk` is set.
+ * The attack range of each entry, or null: Dawn rings all share the range for how many of them are
+ * placed, Dusk goes around your character when `dusk` is set.
  */
 export function rangeBoxes(summons, { dusk = false } = {}) {
-  let ring = 0;
+  const rings = summons.filter((s) => s.kind === "dawn").length;
   return summons.map((s) => {
-    if (s.kind === "dawn") return DAWN_BOXES[Math.min(ring++, DAWN_BOXES.length - 1)];
+    if (s.kind === "dawn") return DAWN_BOXES[Math.min(rings, DAWN_BOXES.length) - 1];
     if (s.kind === "you" && dusk) return DUSK_BOX;
     return null;
   });

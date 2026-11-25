@@ -64,9 +64,10 @@ they loot.
   which side to walk in from (`approachFrom`).
 - **Kinds** (`KINDS`), with attack ranges from `Skill/50000.img` in `Data/Packs` (read with WzDump):
   - **Your character:** sees the summons; never hidden itself.
-  - **Sol Janus: Dawn**: each ring is its own skill, each smaller than the last
-    (`summon/attack1/info/range`, each side / up / down): 1st ring 500001002, 280/415/145; 2nd
-    500001003, 255/390/120; 3rd 500001004, 235/370/100. The first Dawn placed is the first ring.
+  - **Sol Janus: Dawn**: all the rings shrink each time another is placed (confirmed in game), so
+    every ring has the range for how many are down (`summon/attack1/info/range`, each side / up /
+    down): one ring 500001002, 280/415/145; two 500001003, 255/390/120; three 500001004,
+    235/370/100. Removing a ring on the page sizes the rest back up.
     Up to 3 rings, 300–2500 apart (`common/s`, `common/range`, confirmed in game); the page warns
     when two rings break that.
   - **Other summon:** no range, just a position.
@@ -87,7 +88,7 @@ they loot.
   either way (`bodyBox`); counting either facing instead would add about 4% more hits. Monsters
   are taken to be at their spawn point; they wander from there. That any
   overlap is enough (rather than, say, the hitbox's centre) is an assumption: it **hasn't been
-  checked in game** for Dawn. To test: put Dawn 1 where a tall monster's hitbox pokes into the
+  checked in game** for Dawn. To test: put a single Dawn where a tall monster's hitbox pokes into the
   bottom or side of its range but its feet are outside, and see if it's hit.
 - **Colours:** the background is "if you stand here": green where every summon is active, amber
   where it depends on which way you came in, red where one is paused. It's what shows the loot

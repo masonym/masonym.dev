@@ -55,7 +55,7 @@ export default function MapDetail({ map, data, summons: saved, onSummons, dusk, 
     return { summons: idx.map((i) => all[i]), playIdx: idx, setAside: all.filter((s) => !inPlay(s)) };
   }, [all, dusk]);
   // set-aside entries are all Dawn rings, and there are no Dawn rings in play while they're aside,
-  // so putting them first keeps the rings' cast order
+  // so putting them first keeps the rings' numbering
   const setSummons = (next) => onSummons([...setAside, ...next]);
   const me = summons.find((s) => s.kind === "you");
   const toggleDusk = (v) => {
