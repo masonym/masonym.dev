@@ -820,10 +820,14 @@ const ShineCalculator = ({ selectedClass }) => {
     }
   };
 
-  const resetBuild = () => {
-    localStorage.removeItem(`${STORAGE_PREFIX}_${selectedClass}`);
+  const resetCurrentLevels = () => {
     setNodeLevels(defaultNodeLevels);
+    setCurrentDraft(null);
+  };
+
+  const resetGoalLevels = () => {
     setGoalLevels({});
+    setGoalDraft(null);
   };
 
   // Maxes every board stone, so prerequisites are satisfied by definition. SHINE
@@ -985,7 +989,7 @@ const ShineCalculator = ({ selectedClass }) => {
   return (
     <div className="flex w-full max-w-[1800px] flex-col gap-6 px-2 py-4">
       <div className="flex flex-col items-center gap-3 text-center">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3">
           <h2 className="text-[32px] text-primary-bright">
             {selectedClass} Erda Link Calculator
           </h2>
@@ -999,10 +1003,17 @@ const ShineCalculator = ({ selectedClass }) => {
           </button>
           <button
             type="button"
-            onClick={resetBuild}
+            onClick={resetCurrentLevels}
             className="rounded border border-primary-dim bg-primary-dark px-3 py-1 text-sm text-primary transition hover:bg-primary-dim"
           >
-            Reset
+            Reset Current Levels
+          </button>
+          <button
+            type="button"
+            onClick={resetGoalLevels}
+            className="rounded border border-primary-dim bg-primary-dark px-3 py-1 text-sm text-primary transition hover:bg-primary-dim"
+          >
+            Reset Goal Levels
           </button>
         </div>
         <p className="max-w-3xl text-sm text-primary">

@@ -3,55 +3,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useHydrated } from "@/hooks/useHydrated";
 import { classes } from "@/data/classes";
-import { InputGrid } from "../InputGrid/InputGrid";
-import Image from "next/image";
-import sol_erda_fragment from "../../assets/sol_erda_fragment.png";
-import sol_erda from '../../assets/sol_erda.png';
-import CalcRoute from "../CalcRoute/CalcRoute";
-import { formatSkillToUnderscores } from "../../utils";
-import { calculateSkillCost } from "../CalcRoute/costCalc.utils";
+import HexaSkillCalculator from "../HexaSkillCalculator/HexaSkillCalculator";
 import ShineCalculator, { SHINE_CLASSES } from "../ShineCalculator/ShineCalculator";
-
-// A class's saved skill levels, or its starting levels if none are saved. Null
-// for an unknown class, which leaves the current levels alone.
-const readSkillLevels = (classKey) => {
-  const savedSkillLevels = localStorage.getItem(`skillLevels_${classKey}`);
-  if (savedSkillLevels) return JSON.parse(savedSkillLevels);
-
-  const classDetails = classes[classKey];
-  if (!classDetails) return null;
-
-  const initialLevels = {};
-  initialLevels[formatSkillToUnderscores(classDetails.originSkill)] = { level: 1, type: 'skill' };
-  if (classDetails.ascentSkill) {
-    initialLevels[formatSkillToUnderscores(classDetails.ascentSkill)] = { level: 0, type: 'skill' };
-  }
-  classDetails.masterySkills.forEach(skill => {
-    initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'mastery' };
-  });
-  classDetails.boostSkills.forEach(skill => {
-    initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'enhancement' };
-  });
-  if (classDetails.jobBranchSkills) {
-    classDetails.jobBranchSkills.forEach(skill => {
-      initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'jobBranch' };
-    });
-  }
-  classDetails.commonSkills.forEach(skill => {
-    initialLevels[formatSkillToUnderscores(skill)] = { level: 0, type: 'common' };
-  });
-  return initialLevels;
-};
 
 const ClassSelector = () => {
   const isClient = useHydrated();
   const [restored, setRestored] = useState(false);
   const [selectedClass, setSelectedClass] = useState("");
-  const [skillLevelsClass, setSkillLevelsClass] = useState("");
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [skillLevels, setSkillLevels] = useState({});
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
 
@@ -61,13 +22,6 @@ const ClassSelector = () => {
     setRestored(true);
     const savedClass = localStorage.getItem('selectedClass');
     if (savedClass) setSelectedClass(savedClass);
-  }
-
-  // Load the class's skill levels whenever the class changes.
-  if (isClient && selectedClass && skillLevelsClass !== selectedClass) {
-    setSkillLevelsClass(selectedClass);
-    const levels = readSkillLevels(selectedClass);
-    if (levels) setSkillLevels(levels);
   }
 
   const handleInputChange = (event) => {
@@ -119,48 +73,6 @@ const ClassSelector = () => {
     };
   }, []);
 
-  const resetSkillLevels = () => {
-    localStorage.removeItem(`skillLevels_${selectedClass}`);
-    const levels = readSkillLevels(selectedClass);
-    if (levels) setSkillLevels(levels);
-  };
-
-  const updateSkillLevels = (newLevels, skillType) => {
-    setSkillLevels(prevLevels => {
-      const updatedLevels = {
-        ...prevLevels,
-        ...Object.keys(newLevels).reduce((acc, skillName) => {
-          acc[skillName] = {
-            level: newLevels[skillName],
-            type: skillType
-          };
-          return acc;
-        }, {})
-      };
-
-      if (isClient) {
-        localStorage.setItem(`skillLevels_${selectedClass}`, JSON.stringify(updatedLevels));
-      }
-      return updatedLevels;
-    });
-  };
-
-  const calculateTotalCost = (costType) => {
-    const classDetails = classes[selectedClass];
-    const originSkillKey = formatSkillToUnderscores(classDetails?.originSkill);
-
-    const total = Object.entries(skillLevels).reduce((sum, [skillName, { level, type }]) => {
-      const isOriginSkill = skillName === originSkillKey;
-      const skillType = isOriginSkill ? 'origin' : (type === 'origin' ? 'skill' : type);
-      return sum + calculateSkillCost({ level, type: skillType }, costType);
-    }, 0);
-
-    return total.toLocaleString();
-  };
-
-  const calculateTotalSolErda = () => calculateTotalCost('solErda');
-  const calculateTotalFrags = () => calculateTotalCost('frags');
-
   if (!isClient) {
     return null;
   }
@@ -195,47 +107,17 @@ const ClassSelector = () => {
           </ul>
         )}
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex w-full flex-col items-center">
         {selectedClass && classes[selectedClass] && (
           <>
             {SHINE_CLASSES.has(selectedClass) ? (
               <ShineCalculator selectedClass={selectedClass} />
             ) : (
-              <>
-                <InputGrid
-                  classKey={selectedClass}
-                  classDetails={classes[selectedClass]}
-                  skillLevels={skillLevels}
-                  updateSkillLevels={updateSkillLevels}
-                  resetSkillLevels={resetSkillLevels}
-                />
-                <h2 className="mb-4 text-[32px] text-center p-4 pb-2 text-primary-bright border-b-2 border-b-primary-bright">Materials Spent:</h2>
-                <div className="flex flex-row justify-between items-center w-fit gap-[50px]">
-                  <div className="flex flex-col items-center">
-                    <Image
-                      src={sol_erda}
-                      width={64}
-                      height={64}
-                      alt={"Sol Erda Energy"}
-                    />
-                    <h3>{calculateTotalSolErda()}</h3>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <Image
-                      src={sol_erda_fragment}
-                      width={64}
-                      height={64}
-                      alt={"Sol Erda Fragment"}
-                    />
-                    <h3>{calculateTotalFrags()}</h3>
-                  </div>
-                </div>
-                <CalcRoute
-                  selectedClass={selectedClass}
-                  classDetails={classes[selectedClass]}
-                  skillLevels={skillLevels}
-                />
-              </>
+              <HexaSkillCalculator
+                key={selectedClass}
+                classKey={selectedClass}
+                classDetails={classes[selectedClass]}
+              />
             )}
           </>
         )}

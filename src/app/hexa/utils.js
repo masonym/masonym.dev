@@ -15,16 +15,6 @@ export const formatSkillPath = (skillName) => {
     return words.join('_');
 }
 
-export const formatSkillName = (skillPath) => {
-    let words = skillPath.split('_')
-
-    return words.join(' ');
-}
-
-export const formatSkillToUnderscores = (skillName) => {
-    return skillName.replace(/ /g, '_');
-}
-
 export const formatMasterySkills = (skills) => {
     if (Array.isArray(skills)) {
         return skills.join('\n');
