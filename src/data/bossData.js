@@ -887,7 +887,7 @@ export const bossData = [
         hpReduction20Min: 32.2,
         intensePowerCrystalValue: 840000000,
         hpPhases: [
-          { hp: formatShortformNumber("5.3446Q") },
+          { hp: formatShortformNumber("5.1528Q") },
           { hp: formatShortformNumber("5.6858Q") },
           { hp: formatShortformNumber("9.309Q") },
         ],
