@@ -879,7 +879,7 @@ export const bossData = [
         hpPhases: [
           { hp: formatShortformNumber("2.3798Q") },
           { hp: formatShortformNumber("2.5317Q") },
-          { hp: formatShortformNumber("4.1454Q") },
+          { hp: formatShortformNumber("2.2929Q") },
         ],
       },
       {
@@ -890,6 +890,15 @@ export const bossData = [
           { hp: formatShortformNumber("5.1528Q") },
           { hp: formatShortformNumber("5.6858Q") },
           { hp: formatShortformNumber("9.309Q") },
+        ],
+      },
+      {
+        name: "Extreme",
+        sacRequirement: 830,
+        hpPhases: [
+          { hp: formatShortformNumber("15.4Q") },
+          { hp: formatShortformNumber("16.5Q") },
+          { hp: formatShortformNumber("22Q") },
         ],
       },
     ],
